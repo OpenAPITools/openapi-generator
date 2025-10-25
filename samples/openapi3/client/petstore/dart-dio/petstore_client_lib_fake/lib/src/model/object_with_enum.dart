@@ -7,54 +7,46 @@ import 'package:openapi/src/model/test_enum.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'test_item.g.dart';
+part 'object_with_enum.g.dart';
 
-/// TestItem
+/// ObjectWithEnum
 ///
 /// Properties:
-/// * [test] 
-/// * [testEmum] 
+/// * [attribute] 
 @BuiltValue()
-abstract class TestItem implements Built<TestItem, TestItemBuilder> {
-  @BuiltValueField(wireName: r'test')
-  int get test;
+abstract class ObjectWithEnum implements Built<ObjectWithEnum, ObjectWithEnumBuilder> {
+  @BuiltValueField(wireName: r'attribute')
+  TestEnum? get attribute;
+  // enum attributeEnum {  ,  value_one,  value_two,  };
 
-  @BuiltValueField(wireName: r'testEmum')
-  TestEnum? get testEmum;
-  // enum testEmumEnum {  ,  1,  2,  };
+  ObjectWithEnum._();
 
-  TestItem._();
-
-  factory TestItem([void updates(TestItemBuilder b)]) = _$TestItem;
+  factory ObjectWithEnum([void updates(ObjectWithEnumBuilder b)]) = _$ObjectWithEnum;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(TestItemBuilder b) => b;
+  static void _defaults(ObjectWithEnumBuilder b) => b
+      ..attribute = TestEnum.empty;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<TestItem> get serializer => _$TestItemSerializer();
+  static Serializer<ObjectWithEnum> get serializer => _$ObjectWithEnumSerializer();
 }
 
-class _$TestItemSerializer implements PrimitiveSerializer<TestItem> {
+class _$ObjectWithEnumSerializer implements PrimitiveSerializer<ObjectWithEnum> {
   @override
-  final Iterable<Type> types = const [TestItem, _$TestItem];
+  final Iterable<Type> types = const [ObjectWithEnum, _$ObjectWithEnum];
 
   @override
-  final String wireName = r'TestItem';
+  final String wireName = r'ObjectWithEnum';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    TestItem object, {
+    ObjectWithEnum object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'test';
-    yield serializers.serialize(
-      object.test,
-      specifiedType: const FullType(int),
-    );
-    if (object.testEmum != null) {
-      yield r'testEmum';
+    if (object.attribute != null) {
+      yield r'attribute';
       yield serializers.serialize(
-        object.testEmum,
+        object.attribute,
         specifiedType: const FullType(TestEnum),
       );
     }
@@ -63,7 +55,7 @@ class _$TestItemSerializer implements PrimitiveSerializer<TestItem> {
   @override
   Object serialize(
     Serializers serializers,
-    TestItem object, {
+    ObjectWithEnum object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -74,26 +66,19 @@ class _$TestItemSerializer implements PrimitiveSerializer<TestItem> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required TestItemBuilder result,
+    required ObjectWithEnumBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'test':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(int),
-          ) as int;
-          result.test = valueDes;
-          break;
-        case r'testEmum':
+        case r'attribute':
           final valueDes = serializers.deserialize(
             value,
             specifiedType: const FullType(TestEnum),
           ) as TestEnum;
-          result.testEmum = valueDes;
+          result.attribute = valueDes;
           break;
         default:
           unhandled.add(key);
@@ -104,12 +89,12 @@ class _$TestItemSerializer implements PrimitiveSerializer<TestItem> {
   }
 
   @override
-  TestItem deserialize(
+  ObjectWithEnum deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = TestItemBuilder();
+    final result = ObjectWithEnumBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

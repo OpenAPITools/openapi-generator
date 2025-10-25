@@ -3759,22 +3759,22 @@ public class SpringCodegenTest {
                 .withType("JsonNullable<@Size(max = 1) String>")
                 .toType()
                 .assertProperty("intMinMaxNullable")
-                .withType("JsonNullable<@Min(1) @Max(10) Integer>")
+                .withType("JsonNullable<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMinNullable")
-                .withType("JsonNullable<@Min(1) Integer>")
+                .withType("JsonNullable<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMaxNullable")
-                .withType("JsonNullable<@Max(10) Integer>")
+                .withType("JsonNullable<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMaxNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMinNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMaxNullable")
-                .withType("JsonNullable<@DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefaultNullable")
                 .withType("JsonNullable<@Size(max = 1) String>")
@@ -3863,12 +3863,12 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(value = 1) @Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(value = 1) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(value = \"1\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(value = \"10\") BigDecimal>");
 
     }
 
@@ -3937,22 +3937,22 @@ public class SpringCodegenTest {
                 .withType("Optional<@jakarta.validation.constraints.Email String>")
                 .toType()
                 .assertProperty("intMinMax")
-                .withType("Optional<@Min(1) @Max(10) Integer>")
+                .withType("Optional<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMin")
-                .withType("Optional<@Min(1) Integer>")
+                .withType("Optional<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMax")
-                .withType("Optional<@Max(10) Integer>")
+                .withType("Optional<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMax")
-                .withType("Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("Optional<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMin")
-                .withType("Optional<@DecimalMin(\"1\") BigDecimal>")
+                .withType("Optional<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMax")
-                .withType("Optional<@DecimalMax(\"10\") BigDecimal>")
+                .withType("Optional<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefault")
                 .withType("Optional<@Size(max = 1) String>")
@@ -3975,22 +3975,22 @@ public class SpringCodegenTest {
                 .withType("JsonNullable<@Size(max = 1) String>")
                 .toType()
                 .assertProperty("intMinMaxNullable")
-                .withType("JsonNullable<@Min(1) @Max(10) Integer>")
+                .withType("JsonNullable<@Min(value = 1) @Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("intMinNullable")
-                .withType("JsonNullable<@Min(1) Integer>")
+                .withType("JsonNullable<@Min(value = 1) Integer>")
                 .toType()
                 .assertProperty("intMaxNullable")
-                .withType("JsonNullable<@Max(10) Integer>")
+                .withType("JsonNullable<@Max(value = 10) Integer>")
                 .toType()
                 .assertProperty("numberMinMaxNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMinNullable")
-                .withType("JsonNullable<@DecimalMin(\"1\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMin(value = \"1\") BigDecimal>")
                 .toType()
                 .assertProperty("numberMaxNullable")
-                .withType("JsonNullable<@DecimalMax(\"10\") BigDecimal>")
+                .withType("JsonNullable<@DecimalMax(value = \"10\") BigDecimal>")
                 .toType()
                 .assertProperty("stringDefaultNullable")
                 .withType("JsonNullable<@Size(max = 1) String>")
@@ -4066,12 +4066,12 @@ public class SpringCodegenTest {
         assertOptionalMethod(javaFileAssert, String.class, "stringMinLength", "Optional<@Size(min = 1) String>");
         assertOptionalMethod(javaFileAssert, String.class, "stringMaxLength", "Optional<@Size(max = 1) String>");
         assertOptionalMethod(javaFileAssert, String.class, "stringEmail", "Optional<@jakarta.validation.constraints.Email String>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMinMax", "Optional<@Min(1) @Max(10) Integer>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMin", "Optional<@Min(1) Integer>");
-        assertOptionalMethod(javaFileAssert, Integer.class, "intMax", "Optional<@Max(10) Integer>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(\"1\") BigDecimal>");
-        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(\"10\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMinMax", "Optional<@Min(value = 1) @Max(value = 10) Integer>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMin", "Optional<@Min(value = 1) Integer>");
+        assertOptionalMethod(javaFileAssert, Integer.class, "intMax", "Optional<@Max(value = 10) Integer>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(value = \"1\") BigDecimal>");
+        assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(value = \"10\") BigDecimal>");
         assertOptionalMethod(javaFileAssert, "Zebra", "zebra", "Optional<Zebra>");
 
         assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
@@ -4079,12 +4079,12 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
-        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(value = 1) @Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(value = 1) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(value = 10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(value = \"1\") @DecimalMax(value = \"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(value = \"1\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(value = \"10\") BigDecimal>");
 
     }
 
@@ -4812,7 +4812,7 @@ public class SpringCodegenTest {
         //            super(responseType, requestId, success, pageInfo);
         //        }
         JavaFileAssert.assertThat(output.get("Object4.java"))
-                .assertConstructor("Type1", "String", "String", "Boolean")
+                .assertConstructor("String", "String", "Boolean", "Type1")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
@@ -5758,7 +5758,319 @@ public class SpringCodegenTest {
 
                 .assertMethod("getNones")
                 .assertMethodAnnotations()
-                .containsWithNameAndDoesContainAttributes("RequestMapping", List.of("version"));
+                .containsWithNameAndDoesNotContainAttributes("RequestMapping", List.of("version"));
+    }
+
+    @Test
+    public void testXSizeMessage_length() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("lengthTest")
+                .assertParameter("word")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 characters\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientId")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 characters\""
+                ));
+        JavaFileAssert.assertThat(files.get("LengthTest.java"))
+                .assertMethod("getField1")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 characters\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField3")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 characters\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField4")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField5")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField6")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"));
+    }
+
+    @Test
+    public void testXSizeMessage_size() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("sizeTest")
+                .assertParameter("values")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 elements\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("tokens")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientIds")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 elements\""
+                ));
+        JavaFileAssert.assertThat(files.get("SizeTest.java"))
+                .assertMethod("getField1")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 elements\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField3")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Size", ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 elements\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField4")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField5")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField6")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Size", List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_decimal() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("minmaxNumberTest")
+                .assertParameter("number")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DecimalMin", ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("DecimalMax", ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DecimalMin", ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("DecimalMax", ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("DecimalMin", ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("DecimalMax", ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ));
+        JavaFileAssert.assertThat(files.get("NumberTest.java"))
+                .assertMethod("getField1")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("DecimalMin", ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("DecimalMax", ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("DecimalMin", List.of("message"))
+                .containsWithNameAndDoesNotContainAttributes("DecimalMax", List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_integer() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("minmaxIntegerTest")
+                .assertParameter("number")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ));
+        JavaFileAssert.assertThat(files.get("IntegerTest.java"))
+                .assertMethod("getField1")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Min", List.of("message"))
+                .containsWithNameAndDoesNotContainAttributes("Max", List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_long() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml", SPRING_BOOT);
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("minmaxLongTest")
+                .assertParameter("number")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ));
+        JavaFileAssert.assertThat(files.get("LongTest.java"))
+                .assertMethod("getField1")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Min", ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .containsWithNameAndAttributes("Max", ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndDoesNotContainAttributes("Min", List.of("message"))
+                .containsWithNameAndDoesNotContainAttributes("Max", List.of("message"));
     }
 
     @Test

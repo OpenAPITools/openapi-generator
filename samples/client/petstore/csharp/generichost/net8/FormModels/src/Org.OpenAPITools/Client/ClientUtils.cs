@@ -157,8 +157,8 @@ namespace Org.OpenAPITools.Client
                     : "false";
             if (obj is ChildCatAllOfPetType childCatAllOfPetType)
                 return ChildCatAllOfPetTypeValueConverter.ToJsonValue(childCatAllOfPetType);
-            if (obj is CopyActivity.SchemaEnum copyActivitySchemaEnum)
-                return CopyActivity.SchemaEnumToJsonValue(copyActivitySchemaEnum);
+            if (obj is CopyActivityAllOfSchema copyActivityAllOfSchema)
+                return CopyActivityAllOfSchemaValueConverter.ToJsonValue(copyActivityAllOfSchema);
             if (obj is EnumArraysArrayEnumInner enumArraysArrayEnumInner)
                 return EnumArraysArrayEnumInnerValueConverter.ToJsonValue(enumArraysArrayEnumInner);
             if (obj is EnumArraysJustSymbol enumArraysJustSymbol)

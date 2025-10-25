@@ -59,7 +59,8 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:

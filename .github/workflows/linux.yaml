@@ -27,6 +27,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          cache: gradle
 
       - uses: actions/cache@v4
         with:
@@ -61,7 +62,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -95,8 +96,9 @@ jobs:
         with:
           java-version: 11
           maven-version: 3.8.8
+          cache: gradle
       - name: Download build artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: artifact
       - name: Run Ensures Script

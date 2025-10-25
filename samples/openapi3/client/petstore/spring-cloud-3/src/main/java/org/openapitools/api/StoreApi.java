@@ -125,7 +125,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<Order> getOrderById(
-        @NotNull @Min(1L) @Max(5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
+        @NotNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     );
 
 

@@ -38,7 +38,7 @@ export interface {{classname}}Interface {
     /**
      * {{summary}}
      * {{notes}}
-     * @endpoint {{httpMethod}} {{{path}}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
      {{^useSingleRequestParameter}}
      {{#allParams}}* @param {{paramName}} {{description}}
      {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters

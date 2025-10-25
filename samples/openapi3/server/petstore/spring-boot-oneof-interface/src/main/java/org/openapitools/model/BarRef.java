@@ -39,16 +39,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
 
-  public BarRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public BarRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
-
   public BarRef href(String href) {
     super.href(href);
     return this;
@@ -71,6 +61,16 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public BarRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override

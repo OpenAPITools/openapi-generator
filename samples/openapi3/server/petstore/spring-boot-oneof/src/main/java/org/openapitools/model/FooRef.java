@@ -61,16 +61,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   }
 
 
-  public FooRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public FooRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
-
   public FooRef href(String href) {
     super.href(href);
     return this;
@@ -93,6 +83,16 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   public FooRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public FooRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public FooRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override
@@ -159,18 +159,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
     
     @Override
-    public FooRef.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    @Override
-    public FooRef.Builder atReferredType(String atReferredType) {
-      this.instance.atReferredType(atReferredType);
-      return this;
-    }
-    
-    @Override
     public FooRef.Builder href(String href) {
       this.instance.href(href);
       return this;
@@ -197,6 +185,18 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     @Override
     public FooRef.Builder atType(String atType) {
       this.instance.atType(atType);
+      return this;
+    }
+    
+    @Override
+    public FooRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    @Override
+    public FooRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
       return this;
     }
     

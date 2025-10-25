@@ -39,16 +39,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
 
-  public BarRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public BarRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
-
   public BarRef href(String href) {
     super.href(href);
     return this;
@@ -71,6 +61,16 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public BarRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override
@@ -128,18 +128,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     }
 
     @Override
-    public BarRef.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    @Override
-    public BarRef.Builder atReferredType(String atReferredType) {
-      this.instance.atReferredType(atReferredType);
-      return this;
-    }
-    
-    @Override
     public BarRef.Builder href(String href) {
       this.instance.href(href);
       return this;
@@ -166,6 +154,18 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     @Override
     public BarRef.Builder atType(String atType) {
       this.instance.atType(atType);
+      return this;
+    }
+    
+    @Override
+    public BarRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    @Override
+    public BarRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
       return this;
     }
     

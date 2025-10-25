@@ -1,5 +1,6 @@
 package org.openapitools.codegen.kotlin.spring;
 
+import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -17,6 +18,7 @@ import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
+import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -790,7 +792,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(
                 Paths.get(files.get("AddApi.kt").getAbsolutePath()),
-                "@Min(2)"
+                "@Min(value=2)"
         );
     }
 
@@ -1413,6 +1415,358 @@ public class KotlinSpringServerCodegenTest {
             assertThat(file).isNotNull();
             stringEnumAssertFunction.accept(file.toPath());
         });
+    }
+
+    @Test
+    public void testXSizeMessage_length() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
+        KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
+                .assertClass("TestApiController")
+                .assertMethod("lengthTest")
+                .assertParameter("word")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 characters\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientId")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 characters\""
+                ));
+        KotlinFileAssert.assertThat(files.get("LengthTest.kt"))
+                .assertClass("LengthTest")
+                .assertPrimaryConstructorParameter("field1")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 characters\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field2")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field3")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 characters\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field4")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field5")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field6")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"));
+    }
+
+    @Test
+    public void testXSizeMessage_size() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
+        KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
+                .assertClass("TestApiController")
+                .assertMethod("sizeTest")
+                .assertParameter("values")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 elements\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("tokens")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientIds")
+                .assertParameterAnnotation("Size")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 elements\""
+                ));
+        KotlinFileAssert.assertThat(files.get("SizeTest.kt"))
+                .assertClass("SizeTest")
+                .assertPrimaryConstructorParameter("field1")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "max", "10",
+                        "message", "\"Must be max 10 elements\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field2")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "1",
+                        "message", "\"Must not be empty\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field3")
+                .assertParameterAnnotation("Size", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "min", "3",
+                        "max", "5",
+                        "message", "\"Must be between 3 and 5 elements\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field4")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field5")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field6")
+                .assertParameterAnnotation("Size", "get")
+                .hasNotAttributes(List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_decimal() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
+        KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
+                .assertClass("TestApiController")
+                .assertMethod("minmaxNumberTest")
+                .assertParameter("number")
+                .assertParameterAnnotation("DecimalMin")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotation("DecimalMin")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotation("DecimalMin")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("DecimalMax")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ));
+        KotlinFileAssert.assertThat(files.get("NumberTest.kt"))
+                .assertClass("NumberTest")
+                .assertPrimaryConstructorParameter("field1")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"0.1\"",
+                        "message", "\"Must be positive\""
+                ))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "\"99.9\"",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field2")
+                .assertParameterAnnotation("DecimalMin", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("DecimalMax", "get")
+                .hasNotAttributes(List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_integer() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
+        KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
+                .assertClass("TestApiController")
+                .assertMethod("minmaxIntegerTest")
+                .assertParameter("number")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ));
+        KotlinFileAssert.assertThat(files.get("IntegerTest.kt"))
+                .assertClass("IntegerTest")
+                .assertPrimaryConstructorParameter("field1")
+                .assertParameterAnnotation("Min", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "1",
+                        "message", "\"Must be positive\""
+                ))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("Max", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value", "99",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field2")
+                .assertParameterAnnotation("Min", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("Max", "get")
+                .hasNotAttributes(List.of("message"));
+    }
+
+    @Test
+    public void testXMinimumMessageAndXMaximumMessage_long() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
+        KotlinFileAssert.assertThat(files.get("TestApiController.kt"))
+                .assertClass("TestApiController")
+                .assertMethod("minmaxLongTest")
+                .assertParameter("number")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("clientNumber")
+                .assertParameterAnnotation("Min")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .toParameter()
+                .assertParameterAnnotation("Max")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ));
+        KotlinFileAssert.assertThat(files.get("LongTest.kt"))
+                .assertClass("LongTest")
+                .assertPrimaryConstructorParameter("field1")
+                .assertParameterAnnotation("Min", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "1L",
+                        "message", "\"Must be positive\""
+                ))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("Max", "get")
+                .hasAttributes(ImmutableMap.of(
+                        "value",  "99L",
+                        "message", "\"Must be less than 100\""
+                ))
+                .toPrimaryConstructorParameter()
+                .toClass()
+                .assertPrimaryConstructorParameter("field2")
+                .assertParameterAnnotation("Min", "get")
+                .hasNotAttributes(List.of("message"))
+                .toPrimaryConstructorParameter()
+                .assertParameterAnnotation("Max", "get")
+                .hasNotAttributes(List.of("message"));
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {

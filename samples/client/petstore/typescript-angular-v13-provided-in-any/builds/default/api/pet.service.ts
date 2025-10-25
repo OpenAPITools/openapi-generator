@@ -104,7 +104,7 @@ export class PetService extends BaseService {
 
     /**
      * Deletes a pet
-     * @endpoint delete /pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}
+     * @endpoint delete /pet/{petId}
      * @param petId Pet id to delete
      * @param apiKey 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -292,7 +292,7 @@ export class PetService extends BaseService {
     /**
      * Find pet by ID
      * Returns a single pet
-     * @endpoint get /pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}
+     * @endpoint get /pet/{petId}
      * @param petId ID of pet to return
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -413,7 +413,7 @@ export class PetService extends BaseService {
 
     /**
      * Updates a pet in the store with form data
-     * @endpoint post /pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}
+     * @endpoint post /pet/{petId}
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
@@ -492,7 +492,7 @@ export class PetService extends BaseService {
 
     /**
      * uploads an image
-     * @endpoint post /pet/${this.configuration.encodeParam({name: "petId", value: petId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/uploadImage
+     * @endpoint post /pet/{petId}/uploadImage
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
