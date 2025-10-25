@@ -1,0 +1,4 @@
+inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeDeprecated.yaml
+inputRules:
+  REMOVE_FILTER: 'deprecated ; unused'

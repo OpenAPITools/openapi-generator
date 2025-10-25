@@ -1,0 +1,5 @@
+inputSpec: src/test/resources/openapi_normalizer/custom_remove_filter.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/custom_remove_filter_response.yaml
+inputRules:
+  NORMALIZER_CLASS: org.openapitools.codegen.OpenAPINormalizerTest$CustomRemoveFilter
+  REMOVE_FILTER: 'unused'

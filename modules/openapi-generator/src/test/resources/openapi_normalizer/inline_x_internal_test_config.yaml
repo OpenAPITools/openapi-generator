@@ -1,0 +1,4 @@
+inputSpec: src/test/resources/openapi_normalizer/inline_x_internal_test.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/inline_x_internal_test_removed.yaml
+inputRules:
+  REMOVE_FILTER: 'internal: properties'
