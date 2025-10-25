@@ -1283,6 +1283,10 @@ public class OpenAPINormalizerTest {
         URL path = getClass().getClassLoader().getResource("openapi_normalizer");
         File[] files = new File(path.getFile())
                 .listFiles(file -> file.getName().endsWith("_config.yaml"));
+
+        if (files == null || files.length == 0) {
+            throw new AssertionError("No test configs found in openapi_normalizer directory.");
+        }
         return Arrays.stream(files)
                 .map(file -> new Object[]{"src/test/resources/openapi_normalizer/" +file.getName()})
                 .toArray(Object[][]::new);

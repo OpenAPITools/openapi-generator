@@ -2255,8 +2255,6 @@ public class OpenAPINormalizer {
             } catch (RuntimeException e) {
                 String message = String.format(Locale.ROOT, "FILTER rule [%s] `. Error: %s",
                         filters, e.getMessage());
-                // throw an exception. This is a breaking change compared to pre 7.16.0
-                // Workaround: fix the syntax!
                 throw new IllegalArgumentException(message);
             }
         }
@@ -2266,11 +2264,6 @@ public class OpenAPINormalizer {
         }
 
         private void doParse() {
-            if ("true".equals(filters)) {
-                allTrue();
-                return;
-            }
-
             for (String filter : filters.split(";")) {
                 filter = filter.trim();
                 String[] filterStrs = filter.split(":");
@@ -2344,20 +2337,6 @@ public class OpenAPINormalizer {
 
         protected void parseFails(String filterName, String filterValue) {
             throw new IllegalArgumentException("filter not supported :[" + filterName + ":" + filterValue + "]");
-        }
-
-        private void allTrue() {
-            hasFilter = true;
-
-            internalOperations = true;
-            internalSchemas = true;
-            internalProperties = true;
-            internalParameters = true;
-
-            unusedSchemas = true;
-            unusedParameters = true;
-            unusedTags = true;
-            unusedRequestBodies = true;
         }
 
         protected boolean matchTag(Operation operation, int index, String tag) {
