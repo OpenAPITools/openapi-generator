@@ -41,11 +41,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
     }
 
   @Override
+  {{#jackson}}
   @JsonValue
+  {{/jackson}}
   public String toString() {
     return String.valueOf(value);
   }
 
+  {{#jackson}}
   @JsonCreator
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
     for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
@@ -55,4 +58,5 @@ import com.fasterxml.jackson.annotation.JsonValue;
     }
     {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
+  {{/jackson}}
 }

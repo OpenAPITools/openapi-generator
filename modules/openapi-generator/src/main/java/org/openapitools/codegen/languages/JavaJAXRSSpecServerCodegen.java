@@ -187,18 +187,21 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
-                .doNotOverwrite());
+
+        if (!interfaceOnly) {
+            supportingFiles.add(new SupportingFile("RestResourceRoot.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestResourceRoot.java")
+                    .doNotOverwrite());
+
+            supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+                    .doNotOverwrite());
+        }
 
         if (generatePom) {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                     .doNotOverwrite());
         }
-
-        supportingFiles.add(new SupportingFile("RestApplication.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
-                .doNotOverwrite());
 
         if (StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');
@@ -276,6 +279,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (!jackson) {
             codegenModel.imports.remove("JsonValue");
             codegenModel.imports.remove("JsonProperty");
+            codegenModel.imports.remove("JsonTypeName");
         }
         return codegenModel;
     }

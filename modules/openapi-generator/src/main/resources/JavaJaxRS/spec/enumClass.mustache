@@ -20,7 +20,9 @@
     }
 
     @Override
+    {{#jackson}}
     @JsonValue
+    {{/jackson}}
     public String toString() {
         return String.valueOf(value);
     }
@@ -40,6 +42,7 @@
         {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected string value '" + s + "'");{{/isNullable}}
     }
 
+    {{#jackson}}
     @JsonCreator
     public static {{datatypeWithEnum}} fromValue({{dataType}} value) {
         for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
@@ -49,4 +52,5 @@
         }
         {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
     }
+    {{/jackson}}
 }
