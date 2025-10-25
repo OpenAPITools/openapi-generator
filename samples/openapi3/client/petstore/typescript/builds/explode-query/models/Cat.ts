@@ -20,12 +20,13 @@ export class Cat extends Animal {
 
     static override readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "declawed",
             "baseName": "declawed",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static override getAttributeTypeMap() {

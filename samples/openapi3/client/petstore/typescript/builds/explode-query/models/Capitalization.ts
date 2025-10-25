@@ -27,42 +27,48 @@ export class Capitalization {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "smallCamel",
             "baseName": "smallCamel",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "capitalCamel",
             "baseName": "CapitalCamel",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "smallSnake",
             "baseName": "small_Snake",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "capitalSnake",
             "baseName": "Capital_Snake",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "sCAETHFlowPoints",
             "baseName": "SCA_ETH_Flow_Points",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "ATT_NAME",
             "baseName": "ATT_NAME",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

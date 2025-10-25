@@ -20,12 +20,13 @@ export class OuterObjectWithEnumProperty {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "value",
             "baseName": "value",
             "type": "OuterEnumInteger",
-            "format": ""
+            "format": "",
+            "required": true
         }    ];
 
     static getAttributeTypeMap() {

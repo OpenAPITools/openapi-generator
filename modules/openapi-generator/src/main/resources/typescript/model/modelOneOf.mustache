@@ -1,11 +1,3 @@
-{{#hasImports}}
-import {
-    {{#imports}}
-    {{{.}}}{{importFileExtension}},
-    {{/imports}}
-} from './';
-
-{{/hasImports}}
 /**
  * @type {{classname}}
  * Type
@@ -37,4 +29,16 @@ export class {{classname}}Class {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
+
+    private static readonly arrayOfTypes: Array<{{#oneOf}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}> = [{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}];
+
+    /**
+     * Determines which oneOf schema matches the provided data.
+     *
+     * @param data - The data object to match against oneOf schemas
+     * @returns The name of the matching type, or undefined if no unique match is found
+     */
+    public static findMatchingType(data: any): string | undefined {
+        return findMatchingType(data, this.arrayOfTypes);
+    }
 }

@@ -25,30 +25,34 @@ export class Name {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "name",
             "baseName": "name",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": true
         },
         {
             "name": "snakeCase",
             "baseName": "snake_case",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         },
         {
             "name": "property",
             "baseName": "property",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "_123number",
             "baseName": "123Number",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

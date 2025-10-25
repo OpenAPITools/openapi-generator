@@ -31,24 +31,27 @@ export class DataQuery extends Query {
 
     static override readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "suffix",
             "baseName": "suffix",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "text",
             "baseName": "text",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "date",
             "baseName": "date",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         }    ];
 
     static override getAttributeTypeMap() {

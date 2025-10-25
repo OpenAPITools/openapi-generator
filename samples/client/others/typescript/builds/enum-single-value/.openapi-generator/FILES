@@ -13,6 +13,7 @@ middleware.ts
 models/ObjectSerializer.ts
 models/SingleValueEnum30.ts
 models/SingleValueEnum31.ts
+models/TypeMatcher.ts
 models/all.ts
 package.json
 rxjsStub.ts

@@ -40,102 +40,118 @@ export class FormatTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "integer",
             "baseName": "integer",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "int32",
             "baseName": "int32",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         },
         {
             "name": "int64",
             "baseName": "int64",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "number",
             "baseName": "number",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "_float",
             "baseName": "float",
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "required": false
         },
         {
             "name": "_double",
             "baseName": "double",
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "required": false
         },
         {
             "name": "decimal",
             "baseName": "decimal",
             "type": "string",
-            "format": "number"
+            "format": "number",
+            "required": false
         },
         {
             "name": "string",
             "baseName": "string",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "_byte",
             "baseName": "byte",
             "type": "string",
-            "format": "byte"
+            "format": "byte",
+            "required": true
         },
         {
             "name": "binary",
             "baseName": "binary",
             "type": "HttpFile",
-            "format": "binary"
+            "format": "binary",
+            "required": false
         },
         {
             "name": "date",
             "baseName": "date",
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "required": true
         },
         {
             "name": "dateTime",
             "baseName": "dateTime",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         },
         {
             "name": "uuid",
             "baseName": "uuid",
             "type": "string",
-            "format": "uuid"
+            "format": "uuid",
+            "required": false
         },
         {
             "name": "password",
             "baseName": "password",
             "type": "string",
-            "format": "password"
+            "format": "password",
+            "required": true
         },
         {
             "name": "patternWithDigits",
             "baseName": "pattern_with_digits",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "patternWithDigitsAndDelimiter",
             "baseName": "pattern_with_digits_and_delimiter",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

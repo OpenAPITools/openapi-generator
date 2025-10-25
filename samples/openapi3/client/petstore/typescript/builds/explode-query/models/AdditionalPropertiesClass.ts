@@ -20,18 +20,20 @@ export class AdditionalPropertiesClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "mapProperty",
             "baseName": "map_property",
             "type": "{ [key: string]: string; }",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "mapOfMapProperty",
             "baseName": "map_of_map_property",
             "type": "{ [key: string]: { [key: string]: string; }; }",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

@@ -21,6 +21,7 @@ models/ObjectSerializer.ts
 models/Order.ts
 models/Pet.ts
 models/Tag.ts
+models/TypeMatcher.ts
 models/User.ts
 models/all.ts
 rxjsStub.ts

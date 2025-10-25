@@ -23,30 +23,34 @@ export class ObjectWithDeprecatedFields {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
             "name": "uuid",
             "baseName": "uuid",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "id",
             "baseName": "id",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "deprecatedRef",
             "baseName": "deprecatedRef",
             "type": "DeprecatedObject",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "bars",
             "baseName": "bars",
             "type": "Array<string>",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

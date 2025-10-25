@@ -12,6 +12,7 @@ index.ts
 middleware.ts
 models/ObjectSerializer.ts
 models/SomeObject.ts
+models/TypeMatcher.ts
 models/WithNullableType.ts
 models/all.ts
 package.json

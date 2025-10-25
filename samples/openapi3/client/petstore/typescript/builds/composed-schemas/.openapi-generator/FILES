@@ -20,6 +20,7 @@ models/PetByAge.ts
 models/PetByType.ts
 models/PetsFilteredPatchRequest.ts
 models/PetsPatchRequest.ts
+models/TypeMatcher.ts
 models/all.ts
 package.json
 rxjsStub.ts
