@@ -11,8 +11,8 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetRepoInfoResponse {
-    /// OK
-    Status200_OK(String),
+    /// OK (application/json)
+    Status200_OK_Json(String),
 }
 
 /// InfoRepo

@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Test API with Complex Event Stream
+  version: 1.0.0
+paths:
+  /events:
+    get:
+      summary: Event stream with complex data type
+      responses:
+        '200':
+          description: Success response with complex event stream
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  timestamp:
+                    type: string
+                    format: date-time
+                  event_type:
+                    type: string
+                    enum: [user_action, system_event, error]
+                  data:
+                    type: object
+                    properties:
+                      user_id:
+                        type: integer
+                      action:
+                        type: string
+                      metadata:
+                        type: object
+                        additionalProperties: true
+                  severity:
+                    type: string
+                    enum: [low, medium, high, critical]
+                required: [id, timestamp, event_type, data]
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

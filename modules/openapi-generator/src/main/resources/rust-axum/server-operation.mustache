@@ -289,7 +289,9 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
   let resp = match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                apis::{{classFilename}}::{{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+{{#vendorExtensions}}
+{{#x-response-content-types}}
+                                                apis::{{classFilename}}::{{{operationId}}}Response::{{{x-variant-name}}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -317,6 +319,24 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{/headers}}
 {{/dataType}}
                                                 => {
+{{#dataType}}
+{{#x-serializer-event-stream}}
+                                                  // Convert TryStream to SSE stream
+                                                  use futures::StreamExt;
+                                                  use axum::response::IntoResponse;
+                                                  let sse_stream = body.map(|result| {
+                                                      match result {
+                                                          Ok(data) => {
+                                                              // Convert data to SSE Event
+                                                              Ok(axum::response::sse::Event::default().json_data(data)?)
+                                                          },
+                                                          Err(e) => Err(e)
+                                                      }
+                                                  });
+                                                  let body_response = axum::response::Sse::new(sse_stream).into_response();
+                                                  return Ok(body_response);
+{{/x-serializer-event-stream}}
+{{^x-serializer-event-stream}}
 {{#headers}}
   {{^required}}
                                                     if let Some({{{name}}}) = {{{name}}} {
@@ -348,60 +368,84 @@ let result = api_impl.as_ref().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendo
 {{^range}}
                                                   let mut response = response.status({{{code}}});
 {{/range}}
-{{#produces}}
-{{#-first}}
-{{#dataType}}
-{{#vendorExtensions}}
                                                   {
                                                     let mut response_headers = response.headers_mut().unwrap();
                                                     response_headers.insert(
                                                         CONTENT_TYPE,
-                                                        HeaderValue::from_static("{{{x-mime-type}}}"));
+                                                        HeaderValue::from_static("{{{x-output-mime-type}}}"));
                                                   }
-
-{{/vendorExtensions}}
-{{/dataType}}
-{{/-first}}
-{{/produces}}
-{{#dataType}}
-{{#vendorExtensions}}
-{{#x-produces-json}}
+{{#x-serializer-json}}
   {{^allowBlockingResponseSerialize}}
+                                                  let body_clone = body.clone();
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
                                                   let body_content =
   {{/allowBlockingResponseSerialize}}
-                                                      serde_json::to_vec(&body).map_err(|e| {
+                                                      serde_json::to_vec(&{{^allowBlockingResponseSerialize}}body_clone{{/allowBlockingResponseSerialize}}{{#allowBlockingResponseSerialize}}body{{/allowBlockingResponseSerialize}}).map_err(|e| {
                                                         error!(error = ?e);
                                                         StatusCode::INTERNAL_SERVER_ERROR
                                                       }){{^allowBlockingResponseSerialize}}).await.unwrap(){{/allowBlockingResponseSerialize}}?;
-{{/x-produces-json}}
-{{#x-produces-form-urlencoded}}
+{{/x-serializer-json}}
+{{#x-serializer-form}}
   {{^allowBlockingResponseSerialize}}
+                                                  let body_clone = body.clone();
                                                   let body_content =  tokio::task::spawn_blocking(move ||
   {{/allowBlockingResponseSerialize}}
   {{#allowBlockingResponseSerialize}}
                                                   let body_content =
   {{/allowBlockingResponseSerialize}}
-                                                      serde_html_form::to_string(body).map_err(|e| {
+                                                      serde_html_form::to_string({{^allowBlockingResponseSerialize}}body_clone{{/allowBlockingResponseSerialize}}{{#allowBlockingResponseSerialize}}body{{/allowBlockingResponseSerialize}}).map_err(|e| {
                                                         error!(error = ?e);
                                                         StatusCode::INTERNAL_SERVER_ERROR
                                                       }){{^allowBlockingResponseSerialize}}).await.unwrap(){{/allowBlockingResponseSerialize}}?;
-{{/x-produces-form-urlencoded}}
-{{#x-produces-bytes}}
-                                                  let body_content = body.0;
-{{/x-produces-bytes}}
-{{#x-produces-plain-text}}
+{{/x-serializer-form}}
+{{#x-serializer-plain}}
                                                   let body_content = body;
-{{/x-produces-plain-text}}
-{{/vendorExtensions}}
+{{/x-serializer-plain}}
+{{#x-serializer-bytes}}
+                                                  let body_content = body.0;
+{{/x-serializer-bytes}}
                                                   response.body(Body::from(body_content))
+{{/x-serializer-event-stream}}
 {{/dataType}}
 {{^dataType}}
+{{#headers}}
+  {{^required}}
+                                                    if let Some({{{name}}}) = {{{name}}} {
+  {{/required}}
+                                                    let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling {{name}} header - {e}"))).map_err(|e| { error!(error = ?e); StatusCode::INTERNAL_SERVER_ERROR });
+                                                        }
+                                                    };
+
+
+                                                    {
+                                                      let mut response_headers = response.headers_mut().unwrap();
+                                                      response_headers.insert(
+                                                          HeaderName::from_static("{{{nameInLowerCase}}}"),
+                                                          {{name}}
+                                                      );
+                                                    }
+  {{^required}}
+                                                    }
+  {{/required}}
+{{/headers}}
+{{#range}}
+                                                  response.status::<u16>(body.code.parse().unwrap());  // {{{code}}}
+{{/range}}
+{{^range}}
+                                                  let mut response = response.status({{{code}}});
+{{/range}}
                                                   response.body(Body::empty())
 {{/dataType}}
                                                 },
+{{/x-response-content-types}}
+{{/vendorExtensions}}
 {{/responses}}
                                             },
                                             Err({{#ownedRequest}}_{{/ownedRequest}}why) => {

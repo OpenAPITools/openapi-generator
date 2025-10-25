@@ -82,6 +82,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private static final String textXmlMimeType = "text/xml";
     private static final String formUrlEncodedMimeType = "application/x-www-form-urlencoded";
     private static final String jsonMimeType = "application/json";
+    private static final String eventStreamMimeType = "text/event-stream";
+
     // RFC 7386 support
     private static final String mergePatchJsonMimeType = "application/merge-patch+json";
     // RFC 7807 Support
@@ -451,12 +453,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return "*/*".equals(mimetype);
     }
 
+    private boolean isMimetypeEventStream(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith(eventStreamMimeType);
+    }
+
     boolean isMimetypePlain(String mimetype) {
         return !(isMimetypeUnknown(mimetype) ||
                 isMimetypeJson(mimetype) ||
                 isMimetypeWwwFormUrlEncoded(mimetype) ||
                 isMimetypeMultipartFormData(mimetype) ||
-                isMimetypeMultipartRelated(mimetype));
+                isMimetypeMultipartRelated(mimetype) ||
+                isMimetypeEventStream(mimetype));
     }
 
     @Override
@@ -497,18 +504,10 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         // simply lists all the types, and then we add the correct imports to
         // the generated library.
         Set<String> producesInfo = getProducesInfo(openAPI, operation);
-        boolean producesPlainText = false;
-        boolean producesFormUrlEncoded = false;
         if (producesInfo != null && !producesInfo.isEmpty()) {
             List<Map<String, String>> produces = new ArrayList<>(producesInfo.size());
 
             for (String mimeType : producesInfo) {
-                if (isMimetypeWwwFormUrlEncoded(mimeType)) {
-                    producesFormUrlEncoded = true;
-                } else if (isMimetypePlain(mimeType)) {
-                    producesPlainText = true;
-                }
-
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", mimeType);
 
@@ -532,10 +531,9 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             original = ModelUtils.getReferencedApiResponse(openAPI, original);
 
             // Create a unique responseID for this response, if one is not already specified with the "x-response-id" extension
+            // The x-response-id may have an appended suffix when multiple content types are present.
             if (!rsp.vendorExtensions.containsKey("x-response-id")) {
                 String[] words = rsp.message.split("[^A-Za-z ]");
-
-                // build responseId from both status code and description
                 String responseId = "Status" + rsp.code + (
                         ((words.length != 0) && (!words[0].trim().isEmpty())) ?
                                 "_" + camelize(words[0].replace(" ", "_")) : ""
@@ -543,79 +541,114 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 rsp.vendorExtensions.put("x-response-id", responseId);
             }
 
-            if (rsp.dataType != null) {
-                // Get the mimetype which is produced by this response. Note
-                // that although in general responses produces a set of
-                // different mimetypes currently we only support 1 per
-                // response.
-                String firstProduces = null;
+            List<String> producesTypes = new ArrayList<>();
 
-                if (original.getContent() != null) {
-                    firstProduces = original.getContent().keySet().stream().findFirst().orElse(null);
+            if (original.getContent() != null) {
+                producesTypes.addAll(original.getContent().keySet());
+            }
+
+            List<Map<String, Object>> responseContentTypes = new ArrayList<>();
+
+            // If there are no content types (no body), create a single variant without content
+            if (producesTypes.isEmpty()) {
+                Map<String, Object> contentTypeInfo = new HashMap<>();
+                
+                // Use the response-id directly as the variant name for responses without content
+                if (rsp.vendorExtensions.containsKey("x-response-id")) {
+                    String baseId = (String) rsp.vendorExtensions.get("x-response-id");
+                    contentTypeInfo.put("x-variant-name", baseId);
                 }
+                
+                responseContentTypes.add(contentTypeInfo);
+            } else {
+                // Process each content type
+                for (String contentType : producesTypes) {
+                    Map<String, Object> contentTypeInfo = new HashMap<>();
+                    contentTypeInfo.put("mediaType", contentType);
 
-                // The output mime type. This allows us to do sensible fallback
-                // to JSON rather than using only the default operation
-                // mimetype.
-                String outputMime;
-
-                if (firstProduces == null) {
-                    if (producesFormUrlEncoded) {
-                        outputMime = formUrlEncodedMimeType;
-                    } else if (producesPlainText) {
-                        if (bytesType.equals(rsp.dataType)) {
-                            outputMime = octetMimeType;
-                        } else {
-                            outputMime = plainTextMimeType;
-                        }
-                    } else {
-                        outputMime = jsonMimeType;
-                    }
-                } else {
-                    if (isMimetypeWwwFormUrlEncoded(firstProduces)) {
-                        producesFormUrlEncoded = true;
-                        producesPlainText = false;
-                    } else if (isMimetypePlain(firstProduces)) {
-                        producesFormUrlEncoded = false;
-                        producesPlainText = true;
-                    } else {
-                        producesFormUrlEncoded = false;
-                        producesPlainText = false;
-                    }
-
-                    outputMime = firstProduces;
+                    String outputMime = contentType;
 
                     // As we don't support XML, fallback to plain text
                     if (isMimetypeXml(outputMime)) {
                         outputMime = plainTextMimeType;
                     }
-                }
 
-                rsp.vendorExtensions.put("x-mime-type", outputMime);
+                    contentTypeInfo.put("x-output-mime-type", outputMime);
 
-                if (producesFormUrlEncoded) {
-                    rsp.vendorExtensions.put("x-produces-form-urlencoded", true);
-                } else if (producesPlainText) {
-                    // Plain text means that there is not structured data in
-                    // this response. So it'll either be a UTF-8 encoded string
-                    // 'plainText' or some generic 'bytes'.
-                    //
-                    // Note that we don't yet distinguish between string/binary
-                    // and string/bytes - that is we don't auto-detect whether
-                    // base64 encoding should be done. They both look like
-                    // 'producesBytes'.
-                    if (bytesType.equals(rsp.dataType)) {
-                        rsp.vendorExtensions.put("x-produces-bytes", true);
+                    // Special handling for json, form, and event stream types
+                    if (isMimetypeJson(contentType)) {
+                        contentTypeInfo.put("x-content-suffix", "Json");
+                        contentTypeInfo.put("x-serializer-json", true);
+                    } else if (isMimetypeWwwFormUrlEncoded(contentType)) {
+                        contentTypeInfo.put("x-content-suffix", "FormUrlEncoded");
+                        contentTypeInfo.put("x-serializer-form", true);
+                    } else if (isMimetypeEventStream(contentType)) {
+                        contentTypeInfo.put("x-content-suffix", "EventStream");
+                        contentTypeInfo.put("x-serializer-event-stream", true);
                     } else {
-                        rsp.vendorExtensions.put("x-produces-plain-text", true);
+                        // Everything else is plain-text
+                        contentTypeInfo.put("x-content-suffix", "PlainText");
+                        // Note: serializer flags will be set after determining the actual body type
                     }
-                } else {
-                    rsp.vendorExtensions.put("x-produces-json", true);
-                    if (isObjectType(rsp.dataType)) {
-                        rsp.dataType = objectType;
+
+                    // Group together the x-response-id and x-content-suffix created above in order to produce
+                    // an enum variant name like StatusXXX_CamelizedDescription_Suffix
+                    if (rsp.vendorExtensions.containsKey("x-response-id") && contentTypeInfo.containsKey("x-content-suffix")) {
+                        String baseId = (String) rsp.vendorExtensions.get("x-response-id");
+                        String suffix = (String) contentTypeInfo.get("x-content-suffix");
+                        contentTypeInfo.put("x-variant-name", baseId + "_" + suffix);
                     }
+
+                    if (rsp.dataType != null || isMimetypeEventStream(contentType)) {
+                        String bodyType;
+                        if (contentTypeInfo.get("x-output-mime-type").equals(jsonMimeType)) {
+                            bodyType = rsp.dataType;
+                        } else if (contentTypeInfo.get("x-output-mime-type").equals(formUrlEncodedMimeType)) {
+                            bodyType = stringType;
+                        } else if (contentTypeInfo.get("x-output-mime-type").equals(plainTextMimeType)) {
+                            bodyType = bytesType.equals(rsp.dataType) ? bytesType : stringType;
+                        } else if (contentTypeInfo.get("x-output-mime-type").equals(octetMimeType)) {
+                            // For octet-stream, always use ByteArray
+                            bodyType = bytesType;
+                        } else if (contentTypeInfo.get("x-output-mime-type").equals(eventStreamMimeType)) {
+                            Schema<?> ctSchema = Optional.ofNullable(original.getContent())
+                                    .map(c -> c.get(contentType))
+                                    .map(io.swagger.v3.oas.models.media.MediaType::getSchema)
+                                    .orElse(null);
+                            if (ctSchema != null) {
+                                String resolvedType = getTypeDeclaration(ctSchema);
+                                bodyType = "std::pin::Pin<Box<dyn futures::Stream<Item = Result<" + resolvedType + ", Box<dyn std::error::Error + Send + Sync + 'static>>> + Send + 'static>>";
+                            } else {
+                                // Fall back on string streaming
+                                bodyType = "std::pin::Pin<Box<dyn futures::Stream<Item = Result<" + stringType + ", Box<dyn std::error::Error + Send + Sync + 'static>>> + Send + 'static>>";
+                            }
+
+                            // Inform downstream logic that there is a stream enum variant - this will result in a custom debug implementation
+                            // for the enum along with stream handling in the server operation.
+                            rsp.vendorExtensions.put("x-has-event-stream-content", true);
+                        } else {
+                            bodyType = stringType;
+                        }
+                        contentTypeInfo.put("x-body-type", bodyType);
+                        contentTypeInfo.put("dataType", bodyType); // Also set dataType for template conditionals
+                        
+                        // Set serializer flags based on the actual body type for plain-text/octet-stream
+                        if (!contentTypeInfo.containsKey("x-serializer-json") &&
+                            !contentTypeInfo.containsKey("x-serializer-form") &&
+                            !contentTypeInfo.containsKey("x-serializer-event-stream")) {
+                            if (bytesType.equals(bodyType)) {
+                                contentTypeInfo.put("x-serializer-bytes", true);
+                            } else {
+                                contentTypeInfo.put("x-serializer-plain", true);
+                            }
+                        }
+                    }
+
+                    responseContentTypes.add(contentTypeInfo);
                 }
             }
+
+            rsp.vendorExtensions.put("x-response-content-types", responseContentTypes);
 
             for (CodegenProperty header : rsp.headers) {
                 if (uuidType.equals(header.dataType)) {
@@ -952,6 +985,19 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                         this.havingBasicAuthMethods = true;
                 }
             }
+        }
+
+        boolean hasEventStreamContent = false;
+        if (op.responses != null) {
+            for (CodegenResponse response : op.responses) {
+                if (Boolean.TRUE.equals(response.vendorExtensions.get("x-has-event-stream-content"))) {
+                    hasEventStreamContent = true;
+                    break;
+                }
+            }
+        }
+        if (hasEventStreamContent) {
+            op.vendorExtensions.put("x-has-event-stream-content", true);
         }
 
         return hasAuthMethod;

@@ -11,8 +11,8 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FooResponse {
-    /// Re-serialize and echo the request data
-    Status200_Re(models::Message),
+    /// Re-serialize and echo the request data (application/json)
+    Status200_Re_Json(models::Message),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
