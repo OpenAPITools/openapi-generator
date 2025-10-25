@@ -597,8 +597,11 @@ public class OpenAPINormalizer {
 
             // normalize PathItem common parameters
             normalizeParameters(pathsEntry.getKey(), path, null, path.getParameters());
-            if (path.getParameters() != null && path.getParameters().isEmpty()) {
-                path.setParameters(null);
+            if (removeFilter.hasFilter()) {
+                // for backward compatibility, keep empty parameters if not removeFilter
+                if (path.getParameters() != null && path.getParameters().isEmpty()) {
+                    path.setParameters(null);
+                }
             }
 
             if (removeFilter.hasFilter()) {
@@ -613,8 +616,11 @@ public class OpenAPINormalizer {
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(pathsEntry.getKey(), path, operation, operation.getParameters());
-                if (operation.getParameters() != null && operation.getParameters().isEmpty()) {
-                    operation.setParameters(null);
+                if (removeFilter.hasFilter()) {
+                    // just for backward compatibility
+                    if (operation.getParameters() != null && operation.getParameters().isEmpty()) {
+                        operation.setParameters(null);
+                    }
                 }
                 normalizeResponses(operation);
             }
