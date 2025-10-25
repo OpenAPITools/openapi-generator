@@ -56,7 +56,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   @Valid
 {{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
 {{#vendorExtensions.x-field-extra-annotation}}
-{{{vendorExtensions.x-field-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}

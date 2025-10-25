@@ -49,7 +49,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   {{#jsonb}}{{^isDiscriminator}}@JsonbProperty("{{baseName}}"){{/isDiscriminator}}{{#isDiscriminator}}{{#jsonbPolymorphism}}@JsonbTransient{{/jsonbPolymorphism}}{{^jsonbPolymorphism}}@JsonbProperty("{{baseName}}"){{/jsonbPolymorphism}}{{/isDiscriminator}}{{/jsonb}}
   {{/withXml}}
 {{#vendorExtensions.x-field-extra-annotation}}
-{{{vendorExtensions.x-field-extra-annotation}}}
+{{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
 {{#isContainer}}
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
