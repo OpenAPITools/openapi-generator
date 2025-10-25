@@ -418,4 +418,24 @@ public class GoClientCodegenTest {
 
         TestUtils.assertFileContains(Paths.get(output + "/model_pet.go"), "tags>tag");
     }
+
+    @Test
+    public void testArrayDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/issue_21077.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path apiPath = Paths.get(output + "/api_default.go");
+        String defaultArrayString = "var defaultValue []interface{} = []interface{}{\"test1\", \"test2\", 1}";
+        String defaultValueString = "var defaultValue string = \"test3\"";
+        TestUtils.assertFileContains(apiPath, defaultArrayString);
+        TestUtils.assertFileContains(apiPath, defaultValueString);
+    }
 }
