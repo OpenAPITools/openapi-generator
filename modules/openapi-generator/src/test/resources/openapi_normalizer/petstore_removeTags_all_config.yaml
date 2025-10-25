@@ -1,0 +1,4 @@
+inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeTags_all.yaml
+inputRules:
+  REMOVE_FILTER: 'unused: tags ; tags'

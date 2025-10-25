@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -23,9 +25,15 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import lombok.Data;
+import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.opentest4j.AssertionFailedError;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -1264,6 +1272,69 @@ public class OpenAPINormalizerTest {
             }
             schema.setRequired(null);
             return super.normalizeSchema(schema, visitedSchemas);
+        }
+    }
+
+    /**
+     * get a list of all files matching openapi_normalizer/*_config.yaml.
+     */
+    @DataProvider(name="testConfigs")
+    public Object[][] getTestConfigs() {
+        URL path = getClass().getClassLoader().getResource("openapi_normalizer");
+        File[] files = new File(path.getFile())
+                .listFiles(file -> file.getName().endsWith("_config.yaml"));
+        return Arrays.stream(files)
+                .map(file -> new Object[]{"src/test/resources/openapi_normalizer/" +file.getName()})
+                .toArray(Object[][]::new);
+    }
+
+    @Test(dataProvider = "testConfigs")
+    public void executeAllTests(String specPath) {
+        OpenapiNormalizerTestConfig config = OpenapiNormalizerTestConfig.fromFile(specPath);
+        OpenAPI openAPI = TestUtils.parseSpec(config.inputSpec);
+        OpenAPINormalizer openAPINormalizer = OpenAPINormalizer.createNormalizer(openAPI, config.inputRules);
+        openAPINormalizer.normalize();
+        String expected = SerializerUtils.toYamlString(TestUtils.parseSpec(config.normalizedSpec));
+        String after = SerializerUtils.toYamlString(openAPI);
+        if (!expected.equals(after)) {
+            throw new AssertionFailedError("Unexpected normalized result for\n" + config, expected, after);
+        }
+    }
+
+    /**
+     * Custom remove filter used by custom_remove_filter_config.yaml
+     */
+    public static class CustomRemoveFilter extends OpenAPINormalizer {
+        public CustomRemoveFilter(OpenAPI openAPI, Map<String, String> inputRules) {
+            super(openAPI, inputRules);
+        }
+
+        @Override
+        protected RemoveFilter createRemoveFilter(String filter) {
+            return new RemoveFilter(filter) {
+                protected boolean matchOperation(String path, PathItem.HttpMethod method, Operation operation) {
+                    return operation.getExtensions() != null && "admin".equals(operation.getExtensions().get("x-role"));
+                }
+            };
+        }
+    }
+
+    /**
+     * Normalizer configuration in yaml files.
+     */
+    @Data
+    static class OpenapiNormalizerTestConfig {
+        Map<String, String> inputRules;
+        String inputSpec;
+        String normalizedSpec;
+
+        static OpenapiNormalizerTestConfig fromFile(String specPath) {
+            ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+            try (InputStream inputStream = new FileInputStream(new File(specPath))) {
+                return  objectMapper.readValue(inputStream, OpenapiNormalizerTestConfig.class);
+            } catch (IOException e) {
+                throw new RuntimeException("Unable to read from " + specPath, e);
+            }
         }
     }
 
