@@ -32,7 +32,7 @@ export interface Animal {
      * @type {string}
      * @memberof Animal
      */
-    color?: string;
+    color?: string | undefined;
 }
 
 /**
