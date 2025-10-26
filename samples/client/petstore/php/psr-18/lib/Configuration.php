@@ -124,6 +124,20 @@ class Configuration
     protected $tempFolderPath;
 
     /**
+     * Path to a certificate file, for mTLS
+     *
+     * @var string
+     */
+    protected $certFile;
+
+    /**
+     * Path to a key file, for mTLS
+     *
+     * @var string
+     */
+    protected $keyFile;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -395,6 +409,49 @@ class Configuration
     {
         return $this->tempFolderPath;
     }
+
+    /**
+     * Sets the certificate file path, for mTLS
+     *
+     * @return $this
+     */
+     public function setCertFile($certFile)
+     {
+        $this->certFile = $certFile;
+        return $this;
+     }
+
+    /**
+     * Gets the certificate file path, for mTLS
+     *
+     * @return string Certificate file path
+     */
+    public function getCertFile()
+    {
+        return $this->certFile;
+    }
+
+    /**
+     * Sets the certificate key path, for mTLS
+     *
+     * @return $this
+     */
+     public function setKeyFile($keyFile)
+     {
+        $this->keyFile = $keyFile;
+        return $this;
+     }
+
+    /**
+     * Gets the certificate key path, for mTLS
+     *
+     * @return string Certificate key path
+     */
+    public function getKeyFile()
+    {
+        return $this->keyFile;
+    }
+    
 
     /**
      * Gets the default configuration instance
