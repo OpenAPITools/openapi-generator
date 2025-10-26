@@ -51,8 +51,8 @@ public interface StoreApi {
         description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
         tags = { "store" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Order not found")
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -115,8 +115,8 @@ public interface StoreApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            @ApiResponse(responseCode = "404", description = "Order not found")
+            @ApiResponse(responseCode = "400", description = "Invalid ID supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -146,7 +146,7 @@ public interface StoreApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Order.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid Order")
+            @ApiResponse(responseCode = "400", description = "Invalid Order", content = @Content)
         }
     )
     @RequestMapping(
