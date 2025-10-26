@@ -1,5 +1,5 @@
 inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeUnused.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeUnused_normalized.yaml
 inputRules:
   FILTER: 'tag: pet'
   REMOVE_FILTER: 'internal ; unused'

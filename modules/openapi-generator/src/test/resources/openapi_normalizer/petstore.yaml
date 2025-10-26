@@ -67,6 +67,7 @@ paths:
           x-internal: true
           schema:
             type: integer
+        - $ref: '#/components/parameters/offset'
         - name: status
           in: query
           description: Status values that need to be considered for filter

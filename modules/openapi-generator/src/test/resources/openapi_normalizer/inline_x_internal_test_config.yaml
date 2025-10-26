@@ -1,4 +1,5 @@
+# remove the elements having x-internal: true
 inputSpec: src/test/resources/openapi_normalizer/inline_x_internal_test.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/inline_x_internal_test_removed.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/inline_x_internal_test_normalized.yaml
 inputRules:
   REMOVE_FILTER: 'internal: properties'

@@ -1,4 +1,5 @@
+# remove the elements having deprecated: true
 inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeDeprecated.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeDeprecated_normalized.yaml
 inputRules:
   REMOVE_FILTER: 'deprecated ; unused'

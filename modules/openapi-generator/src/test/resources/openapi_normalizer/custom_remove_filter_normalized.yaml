@@ -24,7 +24,19 @@ paths:
               schema:
                 $ref: "#/components/schemas/Pet"
           description: successful operation
+    put:
+      requestBody:
+        $ref: "#/components/requestBodies/Pet"
+      x-role: superuser
 components:
+  requestBodies:
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Pet"
+      description: Pet object that needs to be added to the store
+      required: true
   schemas:
     Category:
       description: A category for a pet
@@ -33,7 +45,6 @@ components:
           format: int64
           type: integer
         name:
-          pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
       type: object
@@ -56,24 +67,12 @@ components:
         category:
           $ref: "#/components/schemas/Category"
         name:
-          example: doggie
           type: string
-        photoUrls:
-          items:
-            type: string
-          type: array
         tags:
           items:
             $ref: "#/components/schemas/Tag"
           type: array
-        status:
-          deprecated: true
-          description: pet status in the store
-          enum:
-            - available
-            - pending
-            - sold
-          type: string
+          x-role: admin
       required:
         - name
         - photoUrls

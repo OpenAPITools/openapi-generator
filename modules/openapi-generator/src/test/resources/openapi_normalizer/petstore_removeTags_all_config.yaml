@@ -1,4 +1,5 @@
+# remove all the tags
 inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeTags_all.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeTags_normalized.yaml
 inputRules:
-  REMOVE_FILTER: 'unused: tags ; tags'
+  REMOVE_FILTER: 'unused: tags ; removeTags'

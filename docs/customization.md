@@ -724,19 +724,26 @@ The `REMOVE_FILTER` parameter allows the removal of elements in an openAPI docum
 ### Available REMOVE_FILTER filters
 
 - **`internal`**  
-  When specified as `internal` or set to `internal:true`, all operations, schemas, properties and parameters marked with x-internal: true are removed from the document. Optionally set individual options like in `internal:operations|schemas|properties|parameters`
+  When specified as `internal` or set to `internal:true`, all operations, schemas, properties and parameters marked with `x-internal: true` are removed from the document. Optionally set individual options like in `internal:operations|schemas|properties|parameters`
 
 - **`deprecated`**  
-  When specified as `deprecated` or set to `deprecated:true`, all operations, schemas, properties and parameters marked with deprecated: true are removed.
+  When specified as `deprecated` or set to `deprecated:true`, all operations, schemas, properties and parameters marked with `deprecated: true` are removed.
 
-- **`tags`**   
-  When specified as `tags` or set to `tags:true`, all tags are removed.
-  When set to `tags:store|user` all tags whose name is store or user are removed.
-  When set to `tags:keepOnlyFirstTag` perform the KEEP_ONLY_FIRST_TAG_IN_OPERATION normalization
+- **`removeTags`**   
+  When specified as `removeTags` or set to `removeTags:true`, all tags are removed from the operations.
+  When set to `removeTags:store|user` all tags whose name is `store` or `user` are removed.
+  When set to `removeTags:keepOnlyFirstTag` perform the KEEP_ONLY_FIRST_TAG_IN_OPERATION normalization
 
-- **`vendorExtensions`**  
-  When specified as `vendorExtensions` or set to `vendorExtensions:true`, remove all vendorExtensions (including x-internal).
-  When set to `vendorExtensions:x-role|x-groups`, remove all `x-role` and `x-groups` vendorExtensions. When set to `vendorExtensions:x-internal`, perform the equivalent of REMOVE_X_INTERNAL normalization.
+- **`removeVendorExtensions`**  
+  When specified as `removeVendorExtensions` or set to `removeVendorExtensions:true`, remove all vendorExtensions (including x-internal).
+  When set to `removeVendorExtensions:x-role|x-groups`, remove all `x-role` and `x-groups` vendorExtensions. When set to `removeVendorExtensions:x-internal`, perform the REMOVE_X_INTERNAL normalization.
+
+- **`x-`**  
+  When specified as `x-role`, remove operations, schemas, properties and parameters having a vendor extension `x-role`.
+  When set to `x-role:admin|superuser`, remove operations, schemas, properties and parameters marked with vendorExtension `x-role:admin` or `x-role:superuser`.
+
+- **`tags`**  
+  When set as `tags:user|store`, remove operations marked with tags: user or store.
 
 - **`unused`**  
   When specified as `unused` or set to `unused:true`, remove all unused schemas, tags, requestBodies, responses and parameters.

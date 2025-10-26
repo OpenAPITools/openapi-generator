@@ -50,6 +50,7 @@ paths:
             type: integer
           style: form
           x-internal: true
+        - $ref: "#/components/parameters/offset"
         - deprecated: true
           description: Status values that need to be considered for filter
           explode: false

@@ -1,5 +1,6 @@
-inputSpec: src/test/resources/openapi_normalizer/custom_remove_filter.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/custom_remove_filter_response.yaml
+# test custom remove filter
+inputSpec: src/test/resources/openapi_normalizer/petstore_with_roles.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/custom_remove_filter_normalized.yaml
 inputRules:
   NORMALIZER_CLASS: org.openapitools.codegen.OpenAPINormalizerTest$CustomRemoveFilter
   REMOVE_FILTER: 'unused'

@@ -37,6 +37,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+    put:
+      x-role: superuser
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
 components:
   responses:
     Order:
@@ -81,19 +85,6 @@ components:
         petId:
           type: integer
           format: int64
-        quantity:
-          type: integer
-          format: int32
-        shipDate:
-          type: string
-          format: date-time
-        status:
-          type: string
-          description: Order Status
-          enum:
-            - placed
-            - approved
-            - delivered
         complete:
           type: boolean
           default: false
@@ -107,7 +98,6 @@ components:
           format: int64
         name:
           type: string
-          pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
     User:
       title: a User
       description: A User who is purchasing from the pet store
@@ -122,16 +112,6 @@ components:
           type: string
         lastName:
           type: string
-        email:
-          type: string
-        password:
-          type: string
-        phone:
-          type: string
-        userStatus:
-          type: integer
-          format: int32
-          description: User Status
     Tag:
       title: Pet Tag
       description: A tag for a pet
@@ -157,23 +137,11 @@ components:
           $ref: '#/components/schemas/Category'
         name:
           type: string
-          example: doggie
-        photoUrls:
-          type: array
-          items:
-            type: string
         tags:
+          x-role: admin
           type: array
           items:
             $ref: '#/components/schemas/Tag'
-        status:
-          type: string
-          description: pet status in the store
-          deprecated: true
-          enum:
-            - available
-            - pending
-            - sold
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource

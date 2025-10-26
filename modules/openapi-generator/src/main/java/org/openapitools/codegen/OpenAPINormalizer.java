@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.models.Response;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
@@ -542,7 +541,7 @@ public class OpenAPINormalizer {
                     .flatMap(List::stream)
                     .collect(Collectors.toSet());
             if (openAPI.getTags() != null) {
-                openAPI.getTags().removeIf(tag -> removeFilter.matchTag(tag, usedTags));
+                openAPI.getTags().removeIf(tag -> removeFilter.matchTagToRemove(tag, usedTags));
                 if (openAPI.getTags().isEmpty()) {
                     openAPI.setTags(null);
                 }
@@ -703,6 +702,9 @@ public class OpenAPINormalizer {
         if (removeFilter.hasFilter()) {
             for (Iterator<Parameter> it = parameters.iterator(); it.hasNext(); ) {
                 Parameter parameter = it.next();
+                if (parameter.get$ref() != null) {
+                    parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+                }
                 if (operation == null && removeFilter.matchParameter(path, pathItem, parameter)) {
                     it.remove();
                 } else if (removeFilter.matchParameter(path, pathItem, operation, parameter)) {
@@ -829,7 +831,7 @@ public class OpenAPINormalizer {
                 if (removeFilter.hasFilter && schema.getExtensions() != null && schema.getExtensions().size() > 0) {
                     Set<String> extensionKeysToRemove = ((Map<String, Object>)schema.getExtensions())
                             .entrySet().stream()
-                            .filter(entry -> removeFilter.matchVendorExtension(schema, entry.getKey(), entry.getValue()))
+                            .filter(entry -> removeFilter.matchVendorExtensionToRemove(schema, entry.getKey(), entry.getValue()))
                             .map(Map.Entry::getKey)
                             .collect(Collectors.toSet());
                     extensionKeysToRemove.forEach(key -> schema.getExtensions().remove(key));
@@ -1084,7 +1086,7 @@ public class OpenAPINormalizer {
         if (removeFilter.hasFilter()) {
             Set<String> extensionKeysToRemove = extensions
                     .entrySet().stream()
-                    .filter(entry -> removeFilter.matchVendorExtension(property, entry.getKey(), entry.getValue()))
+                    .filter(entry -> removeFilter.matchVendorExtensionToRemove(property, entry.getKey(), entry.getValue()))
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toSet());
             extensions.keySet().removeIf(key -> extensionKeysToRemove.contains(key));
@@ -1094,7 +1096,7 @@ public class OpenAPINormalizer {
     protected void processRemoveVendorExtensions(Operation operation) {
         if (operation.getExtensions() != null) {
             Set<String> extensionKeysToRemove = operation.getExtensions().entrySet().stream()
-                    .filter(entry -> removeFilter.matchVendorExtension(operation, entry.getKey(), entry.getValue()))
+                    .filter(entry -> removeFilter.matchVendorExtensionToRemove(operation, entry.getKey(), entry.getValue()))
                     .map(Map.Entry::getKey)
                     .collect(Collectors.toSet());
             operation.getExtensions().keySet().removeIf(key -> extensionKeysToRemove.contains(key));
@@ -1361,7 +1363,7 @@ public class OpenAPINormalizer {
             List<String> tags = operation.getTags();
             Set<String> names = new HashSet<>();
             for (int i=0; i < tags.size(); i++) {
-                if (removeFilter.matchTag(operation, i, tags.get(i))) {
+                if (removeFilter.matchTagToRemove(operation, i, tags.get(i))) {
                     names.add(tags.get(i));
                 }
             }
@@ -2217,11 +2219,11 @@ public class OpenAPINormalizer {
     }
 
     public static class RemoveFilter {
+        private final static Set<String> ANYSET = new HashSet<>();
         private final String filters;
         private boolean hasFilter;
 
         boolean removeXInternal;
-        boolean removeAllVendorExtensions;
         Set<String> removeExtensions = Collections.emptySet();
 
         boolean internalOperations;
@@ -2236,9 +2238,10 @@ public class OpenAPINormalizer {
         boolean unusedResponses;
 
         boolean keepOnlyFirstTagInOperation;
-        boolean removeAllTags;
+        Set<String> removeTags = Collections.emptySet();
+        boolean deprecated;
         Set<String> tags = Collections.emptySet();
-        private boolean deprecated;
+        Map<String, Set<String>> vendorExtensions = new HashMap<>();
 
         RemoveFilter() {
             this.filters = null;
@@ -2314,24 +2317,32 @@ public class OpenAPINormalizer {
                     }
                 } else if (REMOVE_X_INTERNAL.equals(filterKey)) {
                     removeXInternal = isTrue;
-                } else if ("vendorExtensions".equals(filterKey)) {
+                } else if ("removeVendorExtensions".equals(filterKey)) {
                     if (isBoolean) {
                         removeXInternal = isTrue;
-                        removeAllVendorExtensions = isTrue;
+                        removeExtensions = ANYSET;
                     } else {
                         removeExtensions = set;
                     }
                 } else if (KEEP_ONLY_FIRST_TAG_IN_OPERATION.equals(filterKey)) {
                     keepOnlyFirstTagInOperation = isTrue;
-                } else if ("tags".equals(filterKey)) {
+                } else if ("removeTags".equals(filterKey)) {
                     if ("keepOnlyFirstTag".equals(filterValue)) {
                         keepOnlyFirstTagInOperation = true;
                     } else {
                         if (isBoolean) {
-                            removeAllTags = isTrue;
+                            removeTags = getAnySet(isTrue);
                         } else {
-                            tags = set;
+                            removeTags = set;
                         }
+                    }
+                } else if ("tags".equals(filterKey)) {
+                    tags = set;
+                } else if (filterKey.startsWith("x-")) {
+                    if (isBoolean) {
+                        vendorExtensions.put(filterKey, getAnySet(isTrue));
+                    } else {
+                        vendorExtensions.put(filterKey, set);
                     }
                 } else {
                     parse(filterKey, filterValue);
@@ -2339,32 +2350,80 @@ public class OpenAPINormalizer {
             }
         }
 
+
+        /**
+         * Parse unknown filter.
+         * <p>>
+         * Override this method to add custom parsing logic.
+         * Default is to fail.
+         *
+         * @param filterName name of the filter
+         * @param filterValue value of the filter
+         */
         protected void parse(String filterName, String filterValue) {
             parseFails(filterName, filterValue);
         }
 
+        /**
+         * Fails the parsing with an IllegalArgumentException.
+         */
         protected void parseFails(String filterName, String filterValue) {
             throw new IllegalArgumentException("filter not supported :[" + filterName + ":" + filterValue + "]");
         }
 
-        protected boolean matchTag(Operation operation, int index, String tag) {
-            if (removeAllTags) {
+        /**
+         * Evaluate if a tag match the filters.
+         *
+         * @param operation owner of the tag
+         * @param index 0 indexed index in the tag list
+         * @param tagvalue vendorExtension value
+         *
+         * @return true if the vendorExtension needs to be removed
+         */
+        protected boolean matchTagToRemove(Operation operation, int index, String tag) {
+            if (removeTags == ANYSET) {
                 return true;
             }
             if (keepOnlyFirstTagInOperation) {
                 return index > 0;
             }
-            return tags.contains(tag);
+            return removeTags.contains(tag);
         }
 
-        protected boolean matchVendorExtension(Schema schema, String key, Object value) {
-            return matchVendorExtension(key);
+        /**
+         * Evaluate if a vendorExtension match the filters.
+         *
+         * @param schema owner of the vendorExtension
+         * @param key vendorExtension key
+         * @param value vendorExtension value
+         *
+         * @return true if the vendorExtension needs to be removed
+         */
+        protected boolean matchVendorExtensionToRemove(Schema schema, String key, Object value) {
+            return matchVendorExtensionToRemove(key);
         }
 
-        protected boolean matchVendorExtension(Operation operation, String key, Object value) {
-            return matchVendorExtension(key);
+        /**
+         * Evaluate if a vendorExtension match the filters.
+         *
+         * @param operation owner of the vendorExtension
+         * @param key vendorExtension key
+         * @param value vendorExtension value
+         *
+         * @return true if the vendorExtension needs to be removed
+         */
+        protected boolean matchVendorExtensionToRemove(Operation operation, String key, Object value) {
+            return matchVendorExtensionToRemove(key);
         }
 
+        /**
+         * Evaluate if an operation matchs the filters.
+         *
+         * @param path endpoint
+         * @param method parent of the property (get, post, put, etc)
+         * @param operation operation to evaluate
+         * @return true if the operation needs to be removed
+         */
         protected boolean matchOperation(String path, PathItem.HttpMethod method, Operation operation) {
             if (internalOperations && isInternal(operation.getExtensions())) {
                 return true;
@@ -2372,9 +2431,30 @@ public class OpenAPINormalizer {
             if (deprecated && Boolean.TRUE.equals(operation.getDeprecated())) {
                 return true;
             }
-            return false;
+
+            return matchExtension(operation.getExtensions()) || (operation.getTags() != null && matchTag(operation.getTags()));
         }
 
+        /**
+         * Evaluate if the operation with tags need to be removed.
+         *
+         * @param operationTags tags of the operation
+         * @return true if the operation needs to be removed
+         */
+        private boolean matchTag(List<String> operationTags) {
+            if (this.tags.isEmpty()) {
+                return false;
+            }
+            return this.tags.stream().anyMatch(operationTags::contains);
+        }
+
+        /**
+         * Evaluate if a property matchs the filters.
+         *
+         * @param schema parent of the property
+         * @param property
+         * @return true if the property needs to be removed
+         */
         protected boolean matchInlineProperties(Schema schema, Schema property) {
             if (internalProperties && isInternal(property.getExtensions())) {
                 return true;
@@ -2382,9 +2462,15 @@ public class OpenAPINormalizer {
             if (deprecated && Boolean.TRUE.equals(property.getDeprecated())) {
                 return true;
             }
-            return false;
+            return matchExtension(property.getExtensions());
         }
 
+        /**
+         * Evaluate if a schema matchs the filters.
+         *
+         * @param schema
+         * @return true if the schema needs to be removed
+         */
         protected boolean matchSchema(Schema schema) {
             if (internalSchemas && isInternal(schema.getExtensions())) {
                 return true;
@@ -2392,23 +2478,47 @@ public class OpenAPINormalizer {
             if (deprecated && Boolean.TRUE.equals(schema.getDeprecated())) {
                 return true;
             }
-            return false;
+            return matchExtension(schema.getExtensions());
         }
 
-        protected boolean matchTag(Tag tag, Set<String> usedTags) {
+        /**
+         * Evaluate if the tag matchs the filters.
+         *
+         * @param tag
+         * @param usedTags the names of the tags used by the document
+         * @return true if the parameter needs to be removed
+         */
+        protected boolean matchTagToRemove(Tag tag, Set<String> usedTags) {
             return unusedTags && !usedTags.contains(tag.getName());
         }
 
+        /**
+         * Evaluate if the parameter matchs the filters.
+         *
+         * @param path path of the endpoint
+         * @param pathItem path item of the endpoint
+         * @param parameter parameter of the endpoint
+         * @return true if the parameter needs to be removed
+         */
         protected boolean matchParameter(String path, PathItem pathItem, Parameter parameter) {
             return matchParameter(parameter);
         }
 
+        /**
+         * Evaluate if the parameter matchs the filters.
+         *
+         * @param path path of the endpoint
+         * @param pathItem path item of the endpoint
+         * @param operation operation of the endpoint
+         * @param parameter parameter of the endpoint
+         * @return true if the parameter needs to be removed
+         */
         protected boolean matchParameter(String path, PathItem pathItem, Operation operation, Parameter parameter) {
             return matchParameter(parameter);
         }
 
-        protected boolean matchVendorExtension(String key) {
-            if (removeAllVendorExtensions) {
+        protected boolean matchVendorExtensionToRemove(String key) {
+            if (removeExtensions == ANYSET) {
                 return true;
             }
             // remove x-internal if needed
@@ -2419,6 +2529,12 @@ public class OpenAPINormalizer {
             return removeExtensions.contains(key);
         }
 
+        /**
+         * Evaluate if the parameter matchs the filters.
+         *
+         * @param parameter
+         * @return true if the parameter needs to be removed
+         */
         protected boolean matchParameter(Parameter parameter) {
             if (internalParameters && isInternal(parameter.getExtensions())) {
                 return true;
@@ -2426,7 +2542,32 @@ public class OpenAPINormalizer {
             if (deprecated && Boolean.TRUE.equals(parameter.getDeprecated())) {
                 return true;
             }
-            return false;
+
+            return matchExtension(parameter.getExtensions());
+        }
+
+        private boolean matchExtension(Map<String, Object> extensions) {
+            if (extensions == null || extensions.isEmpty() || vendorExtensions.isEmpty()) {
+                return false;
+            }
+            return extensions.entrySet()
+                    .stream()
+                    .anyMatch(this::matchExtension);
+        }
+
+        protected boolean matchExtension(Map.Entry<String, Object> entry) {
+            Set<String> set = vendorExtensions.get(entry.getKey());
+            if (set == null) {
+                return false;
+            }
+            if (set == ANYSET) {
+                return true;
+            }
+            return set.contains(entry.getValue());
+        }
+
+        private Set<String> getAnySet(boolean isTrue) {
+            return isTrue ? ANYSET : Collections.emptySet();
         }
     }
 

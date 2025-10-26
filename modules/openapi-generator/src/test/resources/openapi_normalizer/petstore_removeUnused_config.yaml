@@ -1,5 +1,6 @@
+# test a combination of FILTER and REMOVE_FILTER
 inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
-normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeUnused.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_removeUnused_normalized.yaml
 inputRules:
   FILTER: 'tag: pet'
-  REMOVE_FILTER: 'internal ; unused ; vendorExtensions: x-internal'
+  REMOVE_FILTER: 'internal ; unused ; removeVendorExtensions: x-internal'
