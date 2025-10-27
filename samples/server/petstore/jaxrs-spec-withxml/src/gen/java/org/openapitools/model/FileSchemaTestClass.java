@@ -102,7 +102,7 @@ public class FileSchemaTestClass  implements Serializable {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -127,7 +127,7 @@ public class FileSchemaTestClass  implements Serializable {
     sb.append("class FileSchemaTestClass {\n");
     
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
-sb.append("    files: ").append(toIndentedString(files)).append("\n");
+    sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
   }

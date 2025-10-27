@@ -241,7 +241,7 @@ public enum InnerEnum {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -268,9 +268,9 @@ public enum InnerEnum {
     sb.append("class MapTest {\n");
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
-sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
-sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
+    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

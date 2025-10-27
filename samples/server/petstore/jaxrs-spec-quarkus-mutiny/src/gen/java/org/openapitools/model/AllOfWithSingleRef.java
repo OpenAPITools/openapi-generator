@@ -66,7 +66,7 @@ public class AllOfWithSingleRef  implements Serializable {
     this.singleRefType = singleRefType;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -91,7 +91,7 @@ public class AllOfWithSingleRef  implements Serializable {
     sb.append("class AllOfWithSingleRef {\n");
     
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
-sb.append("    singleRefType: ").append(toIndentedString(singleRefType)).append("\n");
+    sb.append("    singleRefType: ").append(toIndentedString(singleRefType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -139,7 +139,7 @@ public enum TypeEnum {
     this.nullableProperty = nullableProperty;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -164,7 +164,7 @@ public enum TypeEnum {
     sb.append("class ParentWithNullable {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-sb.append("    nullableProperty: ").append(toIndentedString(nullableProperty)).append("\n");
+    sb.append("    nullableProperty: ").append(toIndentedString(nullableProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }

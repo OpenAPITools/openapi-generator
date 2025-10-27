@@ -43,7 +43,7 @@ public class SpecialModelName  implements Serializable {
     this.$specialPropertyName = $specialPropertyName;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

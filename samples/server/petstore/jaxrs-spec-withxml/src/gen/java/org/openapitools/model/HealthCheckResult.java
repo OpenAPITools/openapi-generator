@@ -63,7 +63,7 @@ public class HealthCheckResult  implements Serializable {
     this.nullableMessage = nullableMessage;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

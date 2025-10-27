@@ -62,7 +62,7 @@ public class FooGetDefaultResponse  implements Serializable {
     this.string = string;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

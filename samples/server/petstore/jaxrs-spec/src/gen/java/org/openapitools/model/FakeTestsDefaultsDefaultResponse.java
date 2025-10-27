@@ -206,7 +206,7 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
     this.integerEnumInline = integerEnumInline;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -233,9 +233,9 @@ public class FakeTestsDefaultsDefaultResponse  implements Serializable {
     sb.append("class FakeTestsDefaultsDefaultResponse {\n");
     
     sb.append("    stringEnum: ").append(toIndentedString(stringEnum)).append("\n");
-sb.append("    integerEnum: ").append(toIndentedString(integerEnum)).append("\n");
-sb.append("    stringEnumInline: ").append(toIndentedString(stringEnumInline)).append("\n");
-sb.append("    integerEnumInline: ").append(toIndentedString(integerEnumInline)).append("\n");
+    sb.append("    integerEnum: ").append(toIndentedString(integerEnum)).append("\n");
+    sb.append("    stringEnumInline: ").append(toIndentedString(stringEnumInline)).append("\n");
+    sb.append("    integerEnumInline: ").append(toIndentedString(integerEnumInline)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -52,7 +52,7 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     this.value = value;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

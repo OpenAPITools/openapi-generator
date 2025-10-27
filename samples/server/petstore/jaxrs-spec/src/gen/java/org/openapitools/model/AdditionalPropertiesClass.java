@@ -101,7 +101,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -126,7 +126,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     sb.append("class AdditionalPropertiesClass {\n");
     
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
-sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
+    sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -55,7 +55,7 @@ public class Cat extends Animal implements Serializable {
     this.declawed = declawed;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

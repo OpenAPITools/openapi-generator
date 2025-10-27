@@ -49,7 +49,7 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     this.otherProperty = otherProperty;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

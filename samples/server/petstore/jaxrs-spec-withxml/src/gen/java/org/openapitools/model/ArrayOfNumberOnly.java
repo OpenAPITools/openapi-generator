@@ -80,7 +80,7 @@ public class ArrayOfNumberOnly  implements Serializable {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

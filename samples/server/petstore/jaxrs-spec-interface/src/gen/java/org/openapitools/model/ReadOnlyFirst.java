@@ -62,7 +62,7 @@ public class ReadOnlyFirst  implements Serializable {
     this.baz = baz;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -87,7 +87,7 @@ public class ReadOnlyFirst  implements Serializable {
     sb.append("class ReadOnlyFirst {\n");
     
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
-sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
+    sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");
     return sb.toString();
   }

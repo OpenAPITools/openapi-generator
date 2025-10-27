@@ -247,7 +247,7 @@ public class Pet  implements Serializable {
     this.status = status;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -276,11 +276,11 @@ public class Pet  implements Serializable {
     sb.append("class Pet {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-sb.append("    category: ").append(toIndentedString(category)).append("\n");
-sb.append("    name: ").append(toIndentedString(name)).append("\n");
-sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    category: ").append(toIndentedString(category)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
+    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

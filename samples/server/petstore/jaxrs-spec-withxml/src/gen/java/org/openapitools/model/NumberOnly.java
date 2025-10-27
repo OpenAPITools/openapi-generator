@@ -61,7 +61,7 @@ public class NumberOnly  implements Serializable {
     this.justNumber = justNumber;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

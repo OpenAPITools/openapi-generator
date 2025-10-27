@@ -102,7 +102,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -127,7 +127,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     sb.append("class FakeBigDecimalMap200Response {\n");
     
     sb.append("    someId: ").append(toIndentedString(someId)).append("\n");
-sb.append("    someMap: ").append(toIndentedString(someMap)).append("\n");
+    sb.append("    someMap: ").append(toIndentedString(someMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

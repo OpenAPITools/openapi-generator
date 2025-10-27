@@ -102,7 +102,7 @@ public class BigCat extends Cat implements Serializable {
     this.kind = kind;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

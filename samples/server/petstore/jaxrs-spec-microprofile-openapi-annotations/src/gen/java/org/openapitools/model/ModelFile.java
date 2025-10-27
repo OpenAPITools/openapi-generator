@@ -48,7 +48,7 @@ public class ModelFile  implements Serializable {
     this.sourceURI = sourceURI;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

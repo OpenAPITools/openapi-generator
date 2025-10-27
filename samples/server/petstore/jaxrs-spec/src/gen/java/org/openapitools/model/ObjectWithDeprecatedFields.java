@@ -130,7 +130,7 @@ public class ObjectWithDeprecatedFields  implements Serializable {
 
     return this;
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -157,9 +157,9 @@ public class ObjectWithDeprecatedFields  implements Serializable {
     sb.append("class ObjectWithDeprecatedFields {\n");
     
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-sb.append("    id: ").append(toIndentedString(id)).append("\n");
-sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
-sb.append("    bars: ").append(toIndentedString(bars)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    deprecatedRef: ").append(toIndentedString(deprecatedRef)).append("\n");
+    sb.append("    bars: ").append(toIndentedString(bars)).append("\n");
     sb.append("}");
     return sb.toString();
   }

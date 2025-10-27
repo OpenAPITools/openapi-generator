@@ -72,7 +72,7 @@ public class Category  implements Serializable {
     this.name = name;
   }
 
-  
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -97,7 +97,7 @@ public class Category  implements Serializable {
     sb.append("class Category {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }
