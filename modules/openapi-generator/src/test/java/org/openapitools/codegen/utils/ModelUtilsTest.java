@@ -624,6 +624,47 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void isNullTypeSchemaTestWith31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/null_schema_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("IntegerRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfAnyType");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+
+        schema = openAPI.getComponents().getSchemas().get("Parent");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // the dummy property is a ref to integer
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getProperties().get("dummy")));
+
+        schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        // first element (getAnyOf().get(0)) is a string. no need to test
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(1)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(2)));
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getAnyOf().get(3)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+
+        schema = openAPI.getComponents().getSchemas().get("OneOfMultiRef");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(0)));
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, (Schema) schema.getOneOf().get(1)));
+
+        schema = openAPI.getComponents().getSchemas().get("JustDescription");
+        assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+    }
+
+    @Test
     public void isUnsupportedSchemaTest() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
         Map<String, String> options = new HashMap<>();

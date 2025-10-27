@@ -67,9 +67,14 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   {{#gson}}
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
+  {{^isDiscriminator}}
   {{>nullable_var_annotations}}{{! prevent indent}}
+  {{/isDiscriminator}}
+  {{#isDiscriminator}}
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
+  {{/isDiscriminator}}
   {{#vendorExtensions.x-field-extra-annotation}}
-  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}

@@ -1751,8 +1751,9 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	if r.enumQueryString != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "form", "")
 	} else {
-		var defaultValue string = "-efg"
-		r.enumQueryString = &defaultValue
+        var defaultValue string = "-efg"
+        parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", defaultValue, "form", "")
+        r.enumQueryString = &defaultValue
 	}
 	if r.enumQueryInteger != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "form", "")

@@ -34,7 +34,9 @@ jobs:
           - "3.13"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
+          - samples/openapi3/client/petstore/python-httpx
           - samples/openapi3/client/petstore/python
+          - samples/openapi3/client/petstore/python-lazyImports
     services:
       petstore-api:
         image: swaggerapi/petstore

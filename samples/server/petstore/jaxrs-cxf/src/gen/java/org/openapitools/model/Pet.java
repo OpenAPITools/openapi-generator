@@ -21,20 +21,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Pet  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private Category category;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+
   private String name;
 
   @ApiModelProperty(required = true, value = "")
+
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<@Valid Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
@@ -69,10 +76,11 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     }
 }
 
-  @ApiModelProperty(value = "pet status in the store")
  /**
-   * pet status in the store
-  **/
+  * pet status in the store
+  */
+  @ApiModelProperty(value = "pet status in the store")
+
   private StatusEnum status;
  /**
    * Get id

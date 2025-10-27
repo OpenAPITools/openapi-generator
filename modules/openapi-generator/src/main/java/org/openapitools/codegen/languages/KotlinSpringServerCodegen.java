@@ -881,6 +881,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override
+                            public void setIsVoid(Boolean isVoid) {
+                                resp.isVoid = isVoid;
+                            }
+
+                            @Override
                             public void setReturnType(final String returnType) {
                                 resp.dataType = returnType;
                             }
@@ -904,6 +909,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
 
                 doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+                    @Override
+                    public void setIsVoid(Boolean isVoid) {
+                        operation.isVoid = isVoid;
+                    }
 
                     @Override
                     public void setReturnType(final String returnType) {
@@ -1003,6 +1012,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
+        extensions.add(VendorExtension.X_SIZE_MESSAGE);
+        extensions.add(VendorExtension.X_MINIMUM_MESSAGE);
+        extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
+        extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         return extensions;
     }
 

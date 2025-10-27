@@ -71,6 +71,7 @@ export function AbstractUserDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         if (json['type'] === 'remote-authenticated') {
             return RemoteAuthenticatedUserDtoFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         

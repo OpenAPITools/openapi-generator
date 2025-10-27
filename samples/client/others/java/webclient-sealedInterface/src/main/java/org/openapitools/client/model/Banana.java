@@ -34,14 +34,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Banana.JSON_PROPERTY_LENGTH,
   Banana.JSON_PROPERTY_FRUIT_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public final class Banana implements Fruit {
   public static final String JSON_PROPERTY_LENGTH = "length";
   @javax.annotation.Nonnull
   private Integer length;
 
   public static final String JSON_PROPERTY_FRUIT_TYPE = "fruitType";
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   private FruitType fruitType;
 
   public Banana() {

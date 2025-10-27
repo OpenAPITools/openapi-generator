@@ -17,12 +17,12 @@ import FormData from 'form-data'
 {{/withNodeImports}}
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction{{#withAWSV4Signature}}, setAWS4SignatureInterceptor{{/withAWSV4Signature}} } from '{{apiRelativeToRoot}}common{{importFileExtension}}';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '{{apiRelativeToRoot}}base{{importFileExtension}}';
 {{#imports}}
 // @ts-ignore
-import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{importFileExtension}}';
+import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}{{#importFileExtension}}/index{{importFileExtension}}{{/importFileExtension}}';
 {{/imports}}
 {{/withSeparateModelsAndApi}}
 {{^withSeparateModelsAndApi}}
@@ -71,6 +71,10 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{#authMethods}}
             // authentication {{name}} required
             {{#isApiKey}}
+            {{#withAWSV4Signature}}
+            // aws v4 signature authentication required
+            await setAWS4SignatureInterceptor(globalAxios, configuration)
+            {{/withAWSV4Signature}}
             {{#isKeyInHeader}}
             await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", configuration)
             {{/isKeyInHeader}}

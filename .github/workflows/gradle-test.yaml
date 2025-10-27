@@ -37,6 +37,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 11
+          cache: gradle
       # Cache Gradle Dependencies
       - name: Setup Gradle Dependencies Cache
         uses: actions/cache@v4

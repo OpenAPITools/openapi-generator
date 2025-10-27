@@ -22,7 +22,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.visitor.*;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -40,7 +40,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.meta.features.SecurityFeature;
@@ -49,7 +48,6 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -1791,11 +1789,71 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(33);
+        assertThat(files).hasSize(48);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content().contains("public class Child extends Person {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
                 .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefs.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefs {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsAndRefAsParentInAllOfNormalizationIsTrue() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addOpenapiNormalizer("REF_AS_PARENT_IN_ALLOF", "true")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        // The class does not extend a parent since the REF_AS_PARENT_IN_ALLOF normalizer will assign it two parents
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild extends AnotherPerson {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsButOnlyOneIsMarkedAsParent() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent extends PersonAExplicitParent {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
                 .content().contains("public class AnotherChild {");
     }
@@ -3152,6 +3210,43 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRestTemplateWithDefaultUserAgent() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/java/petstore.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"OpenAPI-Generator/1.0.0/java\");");
+    }
+
+    @Test
+    public void testRestTemplateWithCustomUserAgent() {
+
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setValidateSpec(false)
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setHttpUserAgent("MyAwesomeCustomService/0.0.1")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));;
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"MyAwesomeCustomService/0.0.1\");");
+    }
+
+    @Test
     public void testRestClientWithGeneratedOAuthTokenSuppliers() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/java/oauth.yaml",
@@ -3194,6 +3289,7 @@ public class JavaClientCodegenTest {
                 "import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;"
         );
     }
+
 
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
@@ -3440,6 +3536,64 @@ public class JavaClientCodegenTest {
                 //reading the body into a string, then checking if it is blank.
                 "String responseBody = new String(localVarResponse.body().readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
+        );
+    }
+
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflicts() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "none");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
+    @Test
+    public void annotationLibraryGeneratesCorrectImports() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "swagger2");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
 
@@ -3885,5 +4039,22 @@ public class JavaClientCodegenTest {
             }
         }
         assertTrue(speciesSeen);
+    }
+
+    @Test
+    public void testOneOfClassWithAnnotation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithAnnotation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
 }

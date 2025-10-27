@@ -21,6 +21,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
@@ -41,7 +42,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -59,6 +60,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
@@ -79,7 +81,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -97,7 +99,7 @@ jobs:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -136,7 +138,7 @@ jobs:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target

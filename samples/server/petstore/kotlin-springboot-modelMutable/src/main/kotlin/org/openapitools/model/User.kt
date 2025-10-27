@@ -51,7 +51,7 @@ data class User(
 
     @Schema(example = "null", description = "User Status")
     @get:JsonProperty("userStatus") var userStatus: kotlin.Int? = null
-    ) : Serializable{
+) : Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

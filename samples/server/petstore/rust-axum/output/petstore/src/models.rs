@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -177,7 +184,7 @@ pub struct ApiResponse {
     #[serde(rename = "type")]
     #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub r#type: Option<String>,
+    pub r_type: Option<String>,
 
     #[serde(rename = "message")]
     #[validate(custom(function = "check_xss_string"))]
@@ -190,7 +197,7 @@ impl ApiResponse {
     pub fn new() -> ApiResponse {
         ApiResponse {
             code: None,
-            r#type: None,
+            r_type: None,
             message: None,
         }
     }
@@ -205,9 +212,9 @@ impl std::fmt::Display for ApiResponse {
             self.code
                 .as_ref()
                 .map(|code| ["code".to_string(), code.to_string()].join(",")),
-            self.r#type
+            self.r_type
                 .as_ref()
-                .map(|r#type| ["type".to_string(), r#type.to_string()].join(",")),
+                .map(|r_type| ["type".to_string(), r_type.to_string()].join(",")),
             self.message
                 .as_ref()
                 .map(|message| ["message".to_string(), message.to_string()].join(",")),
@@ -233,7 +240,7 @@ impl std::str::FromStr for ApiResponse {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub code: Vec<i32>,
-            pub r#type: Vec<String>,
+            pub r_type: Vec<String>,
             pub message: Vec<String>,
         }
 
@@ -261,7 +268,7 @@ impl std::str::FromStr for ApiResponse {
                         <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r#type.push(
+                    "type" => intermediate_rep.r_type.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
@@ -283,7 +290,7 @@ impl std::str::FromStr for ApiResponse {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(ApiResponse {
             code: intermediate_rep.code.into_iter().next(),
-            r#type: intermediate_rep.r#type.into_iter().next(),
+            r_type: intermediate_rep.r_type.into_iter().next(),
             message: intermediate_rep.message.into_iter().next(),
         })
     }
@@ -1491,7 +1498,9 @@ impl std::str::FromStr for User {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing User".to_string());
+                    return std::result::Result::Err(
+                        "Missing value while parsing User".to_string(),
+                    );
                 }
             };
 

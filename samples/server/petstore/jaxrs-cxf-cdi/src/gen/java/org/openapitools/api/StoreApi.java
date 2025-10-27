@@ -25,10 +25,10 @@ import javax.validation.Valid;
 @Path("/store")
 @RequestScoped
 
-@Api(description = "the store API")
+@Api
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 
 public class StoreApi  {
 

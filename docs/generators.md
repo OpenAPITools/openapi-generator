@@ -3,6 +3,7 @@ id: generators
 title: Generators List
 ---
 
+[main] INFO  o.o.c.l.PythonFastAPIServerCodegen - Skipping sorting of path operations, order matters, let the developer decide via their specification file.
 The following generators are available:
 
 ## CLIENT generators
@@ -106,6 +107,7 @@ The following generators are available:
 * [haskell](generators/haskell.md)  
 * [haskell-yesod (beta)](generators/haskell-yesod.md)  
 * [java-camel](generators/java-camel.md)  
+* [java-dubbo (beta)](generators/java-dubbo.md)  
 * [java-helidon-server (beta)](generators/java-helidon-server.md)  
 * [java-inflector](generators/java-inflector.md)  
 * [java-micronaut-server (beta)](generators/java-micronaut-server.md)  
@@ -150,7 +152,7 @@ The following generators are available:
 * [scala-cask](generators/scala-cask.md)  
 * [scala-finch](generators/scala-finch.md)  
 * [scala-http4s-server](generators/scala-http4s-server.md)  
-* [scala-lagom-server](generators/scala-lagom-server.md)  
+* [scala-lagom-server-deprecated (deprecated)](generators/scala-lagom-server-deprecated.md)  
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
 * [spring](generators/spring.md)  

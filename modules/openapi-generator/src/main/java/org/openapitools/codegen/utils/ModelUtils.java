@@ -56,6 +56,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class ModelUtils {
@@ -1716,7 +1717,7 @@ public class ModelUtils {
             return false;
         }
 
-        Object xParent = schema.getExtensions().get("x-parent");
+        Object xParent = schema.getExtensions().get(X_PARENT);
         if (xParent == null) {
             return false;
         } else if (xParent instanceof Boolean) {
@@ -2176,6 +2177,22 @@ public class ModelUtils {
             }
         } else {
             return schema.getType();
+        }
+    }
+
+    /**
+     * Set schema type.
+     * For 3.1 spec, set as types, for 3.0, type
+     *
+     * @param schema the schema
+     * @return schema type
+     */
+    public static void setType(Schema schema, String type) {
+        if (schema instanceof JsonSchema) {
+            schema.setTypes(null);
+            schema.addType(type);
+        } else {
+            schema.setType(type);
         }
     }
 

@@ -23,10 +23,10 @@ import javax.validation.Valid;
 @Path("/test/upload")
 @RequestScoped
 
-@Api(description = "the test API")
+@Api
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 
 public class TestApi  {
 

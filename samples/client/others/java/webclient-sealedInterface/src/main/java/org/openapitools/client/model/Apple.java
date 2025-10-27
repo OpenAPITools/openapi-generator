@@ -34,14 +34,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Apple.JSON_PROPERTY_SEEDS,
   Apple.JSON_PROPERTY_FRUIT_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public final class Apple implements Fruit {
   public static final String JSON_PROPERTY_SEEDS = "seeds";
   @javax.annotation.Nonnull
   private Integer seeds;
 
   public static final String JSON_PROPERTY_FRUIT_TYPE = "fruitType";
-  @javax.annotation.Nonnull
+  // The discriminator does not have Nullability-annotation since it is added during serialization by the @JsonTypeName annotation
   private FruitType fruitType;
 
   public Apple() {

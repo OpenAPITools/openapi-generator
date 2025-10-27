@@ -20,14 +20,14 @@ var _ MappedNullable = &Pet{}
 
 // Pet A pet for sale in the pet store
 type Pet struct {
-	Id *int64 `json:"id,omitempty"`
-	Category *Category `json:"category,omitempty"`
-	Name string `json:"name"`
-	PhotoUrls []string `json:"photoUrls"`
-	Tags []Tag `json:"tags,omitempty"`
+	Id *int64 `json:"id,omitempty" xml:"id"`
+	Category *Category `json:"category,omitempty" xml:"category"`
+	Name string `json:"name" xml:"name"`
+	PhotoUrls []string `json:"photoUrls" xml:"photoUrls>photoUrl"`
+	Tags []Tag `json:"tags,omitempty" xml:"tags>tag"`
 	// pet status in the store
 	// Deprecated
-	Status *string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty" xml:"status"`
 	AdditionalProperties map[string]interface{}
 }
 

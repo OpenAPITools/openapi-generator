@@ -27,6 +27,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          cache: gradle
 
       - uses: actions/cache@v4
         with:
@@ -44,12 +45,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v5
         with:
           gradle-version: '8.14.3'
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.18.0
+        uses: s4u/setup-maven-action@v1.19.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -61,7 +62,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -91,12 +92,13 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v5
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.18.0
+        uses: s4u/setup-maven-action@v1.19.0
         with:
           java-version: 11
           maven-version: 3.8.8
+          cache: gradle
       - name: Download build artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: artifact
       - name: Run Ensures Script

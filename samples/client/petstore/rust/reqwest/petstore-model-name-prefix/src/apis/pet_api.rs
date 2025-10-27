@@ -224,6 +224,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
 }
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+#[deprecated]
 pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<models::FooPet>, Error<FindPetsByTagsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_tags = tags;

@@ -15,95 +15,129 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class XmlItem  {
   
   @ApiModelProperty(example = "string", value = "")
+
   private String attributeString;
 
   @ApiModelProperty(example = "1.234", value = "")
+
   @Valid
+
   private BigDecimal attributeNumber;
 
   @ApiModelProperty(example = "-2", value = "")
+
   private Integer attributeInteger;
 
   @ApiModelProperty(example = "true", value = "")
+
   private Boolean attributeBoolean;
 
   @ApiModelProperty(value = "")
+
   private List<Integer> wrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
+
   private String nameString;
 
   @ApiModelProperty(example = "1.234", value = "")
+
   @Valid
+
   private BigDecimal nameNumber;
 
   @ApiModelProperty(example = "-2", value = "")
+
   private Integer nameInteger;
 
   @ApiModelProperty(example = "true", value = "")
+
   private Boolean nameBoolean;
 
   @ApiModelProperty(value = "")
+
   private List<Integer> nameArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
+
   private String prefixString;
 
   @ApiModelProperty(example = "1.234", value = "")
+
   @Valid
+
   private BigDecimal prefixNumber;
 
   @ApiModelProperty(example = "-2", value = "")
+
   private Integer prefixInteger;
 
   @ApiModelProperty(example = "true", value = "")
+
   private Boolean prefixBoolean;
 
   @ApiModelProperty(value = "")
+
   private List<Integer> prefixArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
+
   private String namespaceString;
 
   @ApiModelProperty(example = "1.234", value = "")
+
   @Valid
+
   private BigDecimal namespaceNumber;
 
   @ApiModelProperty(example = "-2", value = "")
+
   private Integer namespaceInteger;
 
   @ApiModelProperty(example = "true", value = "")
+
   private Boolean namespaceBoolean;
 
   @ApiModelProperty(value = "")
+
   private List<Integer> namespaceArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
+
   private String prefixNsString;
 
   @ApiModelProperty(example = "1.234", value = "")
+
   @Valid
+
   private BigDecimal prefixNsNumber;
 
   @ApiModelProperty(example = "-2", value = "")
+
   private Integer prefixNsInteger;
 
   @ApiModelProperty(example = "true", value = "")
+
   private Boolean prefixNsBoolean;
 
   @ApiModelProperty(value = "")
+
   private List<Integer> prefixNsArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
  /**
    * Get attributeString

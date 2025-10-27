@@ -6,4 +6,4 @@ additionalProperties:
   enumClassPrefix: "true"
   packageName: petstore
   disallowAdditionalPropertiesIfNotPresent: false
-  withXml: false
+  withXml: true

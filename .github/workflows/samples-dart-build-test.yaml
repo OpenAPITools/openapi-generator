@@ -4,20 +4,24 @@ on:
   push:
     branches:
     paths:
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
   pull_request:
     paths:
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
-      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
       - samples/openapi3/client/petstore/dart-dio/binary_response/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
 
 jobs:
   test:
@@ -27,12 +31,14 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         sdk: ["3.9.0"]
         sample:
-          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
+          #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
-          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
+          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
+          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
           - samples/openapi3/client/petstore/dart-dio/oneof/
           - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
           - samples/openapi3/client/petstore/dart-dio/binary_response/
+          - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/
     steps:
       - uses: actions/checkout@v5
 
