@@ -652,7 +652,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
-        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
+        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && parameter.isNullable && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
         }
     }

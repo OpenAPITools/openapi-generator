@@ -276,17 +276,17 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public {{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+        public {{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
         {
             {{#allParams}}
-            {{#required}}
+            {{^nullable}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
-            if ({{paramName}} == null)
-                throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+            if ({{^required}}{{paramName}}.IsSet && {{/required}}{{paramName}}{{^required}}.Value{{/required}} == null)
+                throw new {{packageName}}.Client.ApiException(400, "Null non nullable parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
             {{/vendorExtensions.x-csharp-value-type}}
-            {{/required}}
+            {{/nullable}}
             {{/allParams}}
             {{packageName}}.Client.RequestOptions localVarRequestOptions = new {{packageName}}.Client.RequestOptions();
 
@@ -314,9 +314,9 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
-                localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+                localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // path parameter
             }
             {{/required}}
             {{/pathParams}}
@@ -335,21 +335,21 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isDeepObject}}
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
                 {{#isDeepObject}}
                     {{#items.vars}}
-                if ({{paramName}}.{{name}} != null)
+                if ({{paramName}}.Value.{{name}} != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value.{{name}}));
                 }
                     {{/items.vars}}
                 {{^items}}
-                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}.Value));
                 {{/items}}
                 {{/isDeepObject}}
                 {{^isDeepObject}}
-                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value));
                 {{/isDeepObject}}
             }
             {{/required}}
@@ -359,9 +359,9 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // header parameter
             }
             {{/required}}
             {{/headerParams}}
@@ -374,12 +374,12 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isFile}}
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
                 {{#isFile}}
                 {{/isFile}}
                 {{^isFile}}
-                localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+                localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // form parameter
                 {{/isFile}}
             }
             {{/required}}
@@ -508,17 +508,17 @@ namespace {{packageName}}.{{apiPackage}}
         {{#isDeprecated}}
         [Obsolete]
         {{/isDeprecated}}
-        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync({{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}System.Threading.CancellationToken cancellationToken = default)
         {
             {{#allParams}}
-            {{#required}}
+            {{^nullable}}
             {{^vendorExtensions.x-csharp-value-type}}
             // verify the required parameter '{{paramName}}' is set
-            if ({{paramName}} == null)
-                throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+            if ({{^required}}{{paramName}}.IsSet && {{/required}}{{paramName}}{{^required}}.Value{{/required}} == null)
+                throw new {{packageName}}.Client.ApiException(400, "Null non nullable parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
             {{/vendorExtensions.x-csharp-value-type}}
-            {{/required}}
+            {{/nullable}}
             {{/allParams}}
 
             {{packageName}}.Client.RequestOptions localVarRequestOptions = new {{packageName}}.Client.RequestOptions();
@@ -548,9 +548,9 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
-                localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
+                localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // path parameter
             }
             {{/required}}
             {{/pathParams}}
@@ -559,9 +559,9 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value));
             }
             {{/required}}
             {{/queryParams}}
@@ -570,9 +570,9 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // header parameter
             }
             {{/required}}
             {{/headerParams}}
@@ -585,12 +585,12 @@ namespace {{packageName}}.{{apiPackage}}
             {{/isFile}}
             {{/required}}
             {{^required}}
-            if ({{paramName}} != null)
+            if ({{paramName}}.IsSet)
             {
                 {{#isFile}}
                 {{/isFile}}
                 {{^isFile}}
-                localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // form parameter
+                localVarRequestOptions.FormParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // form parameter
                 {{/isFile}}
             }
             {{/required}}
