@@ -94,3 +94,8 @@ components:
           type: string
       required:
         - discriminatorField
+    VariousOneOf:
+      oneOf:
+        - type: string
+        - type: integer
+        - type: boolean

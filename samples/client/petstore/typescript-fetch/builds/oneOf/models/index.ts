@@ -7,3 +7,4 @@ export * from './TestArrayResponse';
 export * from './TestB';
 export * from './TestDiscriminatorResponse';
 export * from './TestResponse';
+export * from './VariousOneOf';
