@@ -30,7 +30,7 @@ export class {{classname}}Class {
     static readonly mapping: {[index: string]: string} | undefined = undefined;
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
-    private static readonly arrayOfTypes: Array<{{#oneOf}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}> = [{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}];
+    private static readonly arrayOfTypes: Array<{{#oneOfModels}}typeof {{{.}}}{{^-last}} | {{/-last}}{{/oneOfModels}}> = [{{#oneOfModels}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOfModels}}];
 
     /**
      * Determines which oneOf schema matches the provided data.

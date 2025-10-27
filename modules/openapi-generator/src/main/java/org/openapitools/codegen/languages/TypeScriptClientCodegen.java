@@ -50,6 +50,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -363,11 +364,21 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel codegenModel = super.fromModel(name, schema);
+        return new ExtendedCodegenModel(codegenModel);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // process enum in models
         List<ModelMap> models = postProcessModelsEnum(objs).getModels();
         for (ModelMap mo : models) {
-            CodegenModel cm = mo.getModel();
+            CodegenModel model = mo.getModel();
+            // Convert to ExtendedCodegenModel if it's not already one (e.g., in tests)
+            ExtendedCodegenModel cm = model instanceof ExtendedCodegenModel
+                ? (ExtendedCodegenModel) model
+                : new ExtendedCodegenModel(model);
             cm.imports = new TreeSet<>(cm.imports);
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
@@ -383,15 +394,37 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
                     }
                 }
             }
+
+            List<CodegenProperty> oneOfsList = Optional.ofNullable(cm.getComposedSchemas())
+                    .map(CodegenComposedSchemas::getOneOf)
+                    .orElse(Collections.emptyList());
+
+            // create a set of any non-primitive, non-array types used in the oneOf schemas which will
+            // need to be imported.
+            cm.oneOfModels = oneOfsList.stream()
+                    .filter(cp -> !cp.getIsPrimitiveType() && !cp.getIsArray())
+                    .map(CodegenProperty::getBaseType)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(TreeSet::new));
+
+            // create a set of any complex, inner types used by arrays in the oneOf schema (e.g. if
+            // the oneOf uses Array<Foo>, Foo needs to be imported).
+            cm.oneOfArrays = oneOfsList.stream()
+                    .filter(CodegenProperty::getIsArray)
+                    .map(CodegenProperty::getComplexType)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toCollection(TreeSet::new));
+
+            // create a set of primitive types used in the oneOf schemas for the deserialization process.
+            cm.oneOfPrimitives = oneOfsList.stream()
+                    .filter(CodegenProperty::getIsPrimitiveType)
+                    .collect(Collectors.toCollection(HashSet::new));
+
             if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<>();
-                for (String im : cm.imports) {
-                    if (cm.oneOf.contains(im)) {
-                        oneOfRefs.add(im);
-                    }
-                }
-                cm.imports = oneOfRefs;
+                cm.imports = cm.imports.stream()
+                        .filter(im -> cm.oneOfModels.contains(im) || cm.oneOfArrays.contains(im))
+                        .collect(Collectors.toCollection(TreeSet::new));
             }
         }
         for (ModelMap mo : models) {
@@ -1118,5 +1151,112 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
      */
     protected String[] splitComposedTypes(String type) {
         return type.replace(" ", "").split("[|&<>]");
+    }
+
+    public class ExtendedCodegenModel extends CodegenModel {
+        // oneOfModels contains a list of non-primitive, non-array types referenced in oneOf schemas that need to be
+        // imported.
+        // oneOfArrays contains a list of complex inner types used in arrays within oneOf schemas (e.g. if
+        // oneOf uses Array<Foo>, Foo needs to be imported).
+        // oneOfPrimitives contains a list of primitive types used in oneOf schemas for the deserialization process.
+        @Getter @Setter
+        public Set<String> oneOfModels = new TreeSet<>();
+        @Getter @Setter
+        public Set<String> oneOfArrays = new TreeSet<>();
+        @Getter @Setter
+        public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
+
+        public ExtendedCodegenModel(CodegenModel cm) {
+            super();
+
+            this.parent = cm.parent;
+            this.parentSchema = cm.parentSchema;
+            this.interfaces = cm.interfaces;
+            this.allParents = cm.allParents;
+            this.parentModel = cm.parentModel;
+            this.interfaceModels = cm.interfaceModels;
+            this.children = cm.children;
+            this.anyOf = cm.anyOf;
+            this.oneOf = cm.oneOf;
+            this.allOf = cm.allOf;
+            this.permits = cm.permits;
+            this.name = cm.name;
+            this.schemaName = cm.schemaName;
+            this.classname = cm.classname;
+            this.title = cm.title;
+            this.description = cm.description;
+            this.classVarName = cm.classVarName;
+            this.modelJson = cm.modelJson;
+            this.dataType = cm.dataType;
+            this.xmlPrefix = cm.xmlPrefix;
+            this.xmlNamespace = cm.xmlNamespace;
+            this.xmlName = cm.xmlName;
+            this.classFilename = cm.classFilename;
+            this.unescapedDescription = cm.unescapedDescription;
+            this.discriminator = cm.discriminator;
+            this.defaultValue = cm.defaultValue;
+            this.arrayModelType = cm.arrayModelType;
+            this.isAlias = cm.isAlias;
+            this.isString = cm.isString;
+            this.isInteger = cm.isInteger;
+            this.isLong = cm.isLong;
+            this.isNumber = cm.isNumber;
+            this.isNumeric = cm.isNumeric;
+            this.isFloat = cm.isFloat;
+            this.isDouble = cm.isDouble;
+            this.isDate = cm.isDate;
+            this.isDateTime = cm.isDateTime;
+            this.vars = cm.vars;
+            this.allVars = cm.allVars;
+            this.requiredVars = cm.requiredVars;
+            this.optionalVars = cm.optionalVars;
+            this.hasReadOnly = cm.hasReadOnly;
+            this.readOnlyVars = cm.readOnlyVars;
+            this.readWriteVars = cm.readWriteVars;
+            this.parentVars = cm.parentVars;
+            this.parentRequiredVars = cm.parentRequiredVars;
+            this.nonNullableVars = cm.nonNullableVars;
+            this.allowableValues = cm.allowableValues;
+            this.mandatory = cm.mandatory;
+            this.allMandatory = cm.allMandatory;
+            this.imports = cm.imports;
+            this.hasVars = cm.hasVars;
+            this.emptyVars = cm.emptyVars;
+            this.hasMoreModels = cm.hasMoreModels;
+            this.hasEnums = cm.hasEnums;
+            this.isEnum = cm.isEnum;
+            this.hasValidation = cm.hasValidation;
+            this.isNullable = cm.isNullable;
+            this.hasRequired = cm.hasRequired;
+            this.hasOptional = cm.hasOptional;
+            this.isArray = cm.isArray;
+            this.hasChildren = cm.hasChildren;
+            this.isMap = cm.isMap;
+            this.isDeprecated = cm.isDeprecated;
+            this.hasOnlyReadOnly = cm.hasOnlyReadOnly;
+            this.externalDocumentation = cm.externalDocumentation;
+
+            this.vendorExtensions = cm.vendorExtensions;
+            this.additionalPropertiesType = cm.additionalPropertiesType;
+            this.isAdditionalPropertiesTrue = cm.isAdditionalPropertiesTrue;
+            this.setMaxProperties(cm.getMaxProperties());
+            this.setMinProperties(cm.getMinProperties());
+            this.setUniqueItems(cm.getUniqueItems());
+            this.setMaxItems(cm.getMaxItems());
+            this.setMinItems(cm.getMinItems());
+            this.setMaxLength(cm.getMaxLength());
+            this.setMinLength(cm.getMinLength());
+            this.setExclusiveMinimum(cm.getExclusiveMinimum());
+            this.setExclusiveMaximum(cm.getExclusiveMaximum());
+            this.setMinimum(cm.getMinimum());
+            this.setMaximum(cm.getMaximum());
+            this.setPattern(cm.getPattern());
+            this.setMultipleOf(cm.getMultipleOf());
+            this.setItems(cm.getItems());
+            this.setAdditionalProperties(cm.getAdditionalProperties());
+            this.setIsModel(cm.getIsModel());
+            this.setComposedSchemas(cm.getComposedSchemas());
+        }
+
     }
 }

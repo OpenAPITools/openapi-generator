@@ -30,7 +30,7 @@ export class PetsPatchRequestClass {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog | typeof any> = [Cat, Dog, any];
+    private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog> = [Cat, Dog];
 
     /**
      * Determines which oneOf schema matches the provided data.

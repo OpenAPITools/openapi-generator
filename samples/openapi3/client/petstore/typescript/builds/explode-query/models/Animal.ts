@@ -18,10 +18,7 @@ export class Animal {
 
     static readonly discriminator: string | undefined = "className";
 
-    static readonly mapping: {[index: string]: string} | undefined = {
-        "CAT": "Cat",
-        "DOG": "Dog",
-    };
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
         {
