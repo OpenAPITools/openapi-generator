@@ -244,7 +244,7 @@ namespace Org.OpenAPITools.Client
         public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
         {
             if (accepts.Length == 0)
-                return null;
+                    return Enumerable.Empty<MediaTypeWithQualityHeaderValue>();
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                     return new [] { MediaTypeWithQualityHeaderValue.Parse("application/json") };

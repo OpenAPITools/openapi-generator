@@ -324,7 +324,12 @@ using System.Net.Http.Headers;
         public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
         {
             if (accepts.Length == 0)
-                return null;
+                {{#net80OrLater}}
+                    return [];
+                {{/net80OrLater}}
+                {{^net80OrLater}}
+                    return Enumerable.Empty<MediaTypeWithQualityHeaderValue>();
+                {{/net80OrLater}}
 
             if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
                 {{#net80OrLater}}
