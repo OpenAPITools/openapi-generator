@@ -75,7 +75,6 @@ public class ModelFile  implements Serializable {
     
     sb.append("    sourceURI: ").append(toIndentedString(sourceURI)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

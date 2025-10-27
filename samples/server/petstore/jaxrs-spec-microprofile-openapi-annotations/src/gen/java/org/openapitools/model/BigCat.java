@@ -128,7 +128,6 @@ public class BigCat extends Cat implements Serializable {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    kind: ").append(toIndentedString(kind)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

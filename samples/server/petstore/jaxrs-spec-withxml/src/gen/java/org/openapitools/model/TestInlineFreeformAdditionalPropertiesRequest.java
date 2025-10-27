@@ -122,7 +122,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest  implements Serializa
     sb.append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
     
     sb.append("    someProperty: ").append(toIndentedString(someProperty)).append("\n");
-    sb.append("}");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();

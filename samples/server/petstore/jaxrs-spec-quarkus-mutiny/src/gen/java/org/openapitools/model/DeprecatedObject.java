@@ -69,7 +69,6 @@ public class DeprecatedObject  implements Serializable {
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

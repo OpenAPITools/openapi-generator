@@ -73,7 +73,6 @@ public class ChildWithNullable extends ParentWithNullable implements Serializabl
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    otherProperty: ").append(toIndentedString(otherProperty)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

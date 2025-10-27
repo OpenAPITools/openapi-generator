@@ -141,8 +141,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     sb.append("class AdditionalPropertiesClass {\n");
     
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
-    sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
-    sb.append("}");
+sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }

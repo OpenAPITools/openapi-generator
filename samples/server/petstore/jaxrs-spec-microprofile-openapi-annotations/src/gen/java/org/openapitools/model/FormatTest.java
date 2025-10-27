@@ -384,20 +384,19 @@ public class FormatTest  implements Serializable {
     sb.append("class FormatTest {\n");
     
     sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
-    sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
-    sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
-    sb.append("    number: ").append(toIndentedString(number)).append("\n");
-    sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
-    sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
-    sb.append("    string: ").append(toIndentedString(string)).append("\n");
-    sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
-    sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
-    sb.append("    date: ").append(toIndentedString(date)).append("\n");
-    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
-    sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append("*").append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
-    sb.append("}");
+sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
+sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
+sb.append("    number: ").append(toIndentedString(number)).append("\n");
+sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
+sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+sb.append("    string: ").append(toIndentedString(string)).append("\n");
+sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
+sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
+sb.append("    date: ").append(toIndentedString(date)).append("\n");
+sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
+sb.append("    password: ").append("*").append("\n");
+sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();
   }

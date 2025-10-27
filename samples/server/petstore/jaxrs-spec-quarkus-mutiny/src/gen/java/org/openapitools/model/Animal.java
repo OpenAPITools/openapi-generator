@@ -105,8 +105,7 @@ public class Animal  implements Serializable {
     sb.append("class Animal {\n");
     
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
-    sb.append("    color: ").append(toIndentedString(color)).append("\n");
-    sb.append("}");
+sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");
     return sb.toString();
   }

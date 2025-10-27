@@ -88,8 +88,7 @@ public class HasOnlyReadOnly  implements Serializable {
     sb.append("class HasOnlyReadOnly {\n");
     
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
-    sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
-    sb.append("}");
+sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

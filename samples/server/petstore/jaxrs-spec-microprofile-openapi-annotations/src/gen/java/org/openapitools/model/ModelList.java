@@ -70,7 +70,6 @@ public class ModelList  implements Serializable {
     
     sb.append("    _123list: ").append(toIndentedString(_123list)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

@@ -74,7 +74,6 @@ public class HealthCheckResult  implements Serializable {
     
     sb.append("    nullableMessage: ").append(toIndentedString(nullableMessage)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

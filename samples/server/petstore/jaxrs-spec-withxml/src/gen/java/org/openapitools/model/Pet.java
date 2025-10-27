@@ -299,12 +299,11 @@ public enum StatusEnum {
     sb.append("class Pet {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("}");
+sb.append("    category: ").append(toIndentedString(category)).append("\n");
+sb.append("    name: ").append(toIndentedString(name)).append("\n");
+sb.append("    photoUrls: ").append(toIndentedString(photoUrls)).append("\n");
+sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
+sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }

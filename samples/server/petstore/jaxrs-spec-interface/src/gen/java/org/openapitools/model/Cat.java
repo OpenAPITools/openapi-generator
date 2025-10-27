@@ -78,7 +78,6 @@ public class Cat extends Animal implements Serializable {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

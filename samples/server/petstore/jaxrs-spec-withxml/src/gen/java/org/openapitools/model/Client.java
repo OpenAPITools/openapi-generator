@@ -85,7 +85,6 @@ public class Client  implements Serializable {
     
     sb.append("    client: ").append(toIndentedString(client)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

@@ -164,8 +164,7 @@ public enum TypeEnum {
     sb.append("class ParentWithNullable {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    nullableProperty: ").append(toIndentedString(nullableProperty)).append("\n");
-    sb.append("}");
+sb.append("    nullableProperty: ").append(toIndentedString(nullableProperty)).append("\n");
     sb.append("}");
     return sb.toString();
   }

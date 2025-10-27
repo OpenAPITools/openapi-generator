@@ -70,7 +70,6 @@ public class SpecialModelName  implements Serializable {
     
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

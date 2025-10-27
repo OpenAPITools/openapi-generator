@@ -127,8 +127,7 @@ public class FakeBigDecimalMap200Response  implements Serializable {
     sb.append("class FakeBigDecimalMap200Response {\n");
     
     sb.append("    someId: ").append(toIndentedString(someId)).append("\n");
-    sb.append("    someMap: ").append(toIndentedString(someMap)).append("\n");
-    sb.append("}");
+sb.append("    someMap: ").append(toIndentedString(someMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

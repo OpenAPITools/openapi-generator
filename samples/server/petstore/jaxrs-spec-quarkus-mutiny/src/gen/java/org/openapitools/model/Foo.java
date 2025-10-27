@@ -69,7 +69,6 @@ public class Foo  implements Serializable {
     
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

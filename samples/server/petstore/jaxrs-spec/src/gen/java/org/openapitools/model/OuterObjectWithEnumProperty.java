@@ -79,7 +79,6 @@ public class OuterObjectWithEnumProperty  implements Serializable {
     
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

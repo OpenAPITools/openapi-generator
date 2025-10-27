@@ -229,12 +229,11 @@ public class Order  implements Serializable {
     sb.append("class Order {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
-    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
-    sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
-    sb.append("}");
+sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
+sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+sb.append("    status: ").append(toIndentedString(status)).append("\n");
+sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
     sb.append("}");
     return sb.toString();
   }

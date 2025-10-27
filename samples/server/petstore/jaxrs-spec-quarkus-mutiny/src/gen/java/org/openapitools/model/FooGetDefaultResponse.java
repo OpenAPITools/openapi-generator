@@ -71,7 +71,6 @@ public class FooGetDefaultResponse  implements Serializable {
     
     sb.append("    string: ").append(toIndentedString(string)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

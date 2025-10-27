@@ -110,8 +110,7 @@ public class FileSchemaTestClass  implements Serializable {
     sb.append("class FileSchemaTestClass {\n");
     
     sb.append("    _file: ").append(toIndentedString(_file)).append("\n");
-    sb.append("    files: ").append(toIndentedString(files)).append("\n");
-    sb.append("}");
+sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");
     return sb.toString();
   }

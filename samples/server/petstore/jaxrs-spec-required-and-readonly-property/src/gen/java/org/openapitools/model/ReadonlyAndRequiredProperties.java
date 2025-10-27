@@ -145,10 +145,9 @@ public class ReadonlyAndRequiredProperties  implements Serializable {
     sb.append("class ReadonlyAndRequiredProperties {\n");
     
     sb.append("    requiredYesReadonlyYes: ").append(toIndentedString(requiredYesReadonlyYes)).append("\n");
-    sb.append("    requiredYesReadonlyNo: ").append(toIndentedString(requiredYesReadonlyNo)).append("\n");
-    sb.append("    requiredNoReadonlyYes: ").append(toIndentedString(requiredNoReadonlyYes)).append("\n");
-    sb.append("    requiredNoReadonlyNo: ").append(toIndentedString(requiredNoReadonlyNo)).append("\n");
-    sb.append("}");
+sb.append("    requiredYesReadonlyNo: ").append(toIndentedString(requiredYesReadonlyNo)).append("\n");
+sb.append("    requiredNoReadonlyYes: ").append(toIndentedString(requiredNoReadonlyYes)).append("\n");
+sb.append("    requiredNoReadonlyNo: ").append(toIndentedString(requiredNoReadonlyNo)).append("\n");
     sb.append("}");
     return sb.toString();
   }

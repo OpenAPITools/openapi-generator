@@ -105,7 +105,6 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
     
     sb.append("    arrayArrayNumber: ").append(toIndentedString(arrayArrayNumber)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

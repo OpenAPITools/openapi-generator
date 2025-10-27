@@ -425,14 +425,13 @@ public class EnumTest  implements Serializable {
     sb.append("class EnumTest {\n");
     
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
-    sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
-    sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
-    sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
-    sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
-    sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
-    sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
-    sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
-    sb.append("}");
+sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
+sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");
+sb.append("    enumNumber: ").append(toIndentedString(enumNumber)).append("\n");
+sb.append("    outerEnum: ").append(toIndentedString(outerEnum)).append("\n");
+sb.append("    outerEnumInteger: ").append(toIndentedString(outerEnumInteger)).append("\n");
+sb.append("    outerEnumDefaultValue: ").append(toIndentedString(outerEnumDefaultValue)).append("\n");
+sb.append("    outerEnumIntegerDefaultValue: ").append(toIndentedString(outerEnumIntegerDefaultValue)).append("\n");
     sb.append("}");
     return sb.toString();
   }

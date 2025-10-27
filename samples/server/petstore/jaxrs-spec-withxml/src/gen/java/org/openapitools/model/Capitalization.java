@@ -200,12 +200,11 @@ public class Capitalization  implements Serializable {
     sb.append("class Capitalization {\n");
     
     sb.append("    smallCamel: ").append(toIndentedString(smallCamel)).append("\n");
-    sb.append("    capitalCamel: ").append(toIndentedString(capitalCamel)).append("\n");
-    sb.append("    smallSnake: ").append(toIndentedString(smallSnake)).append("\n");
-    sb.append("    capitalSnake: ").append(toIndentedString(capitalSnake)).append("\n");
-    sb.append("    scAETHFlowPoints: ").append(toIndentedString(scAETHFlowPoints)).append("\n");
-    sb.append("    ATT_NAME: ").append(toIndentedString(ATT_NAME)).append("\n");
-    sb.append("}");
+sb.append("    capitalCamel: ").append(toIndentedString(capitalCamel)).append("\n");
+sb.append("    smallSnake: ").append(toIndentedString(smallSnake)).append("\n");
+sb.append("    capitalSnake: ").append(toIndentedString(capitalSnake)).append("\n");
+sb.append("    scAETHFlowPoints: ").append(toIndentedString(scAETHFlowPoints)).append("\n");
+sb.append("    ATT_NAME: ").append(toIndentedString(ATT_NAME)).append("\n");
     sb.append("}");
     return sb.toString();
   }

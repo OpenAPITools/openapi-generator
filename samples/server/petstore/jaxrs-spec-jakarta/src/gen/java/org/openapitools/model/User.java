@@ -225,14 +225,13 @@ public class User  implements Serializable {
     sb.append("class User {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    username: ").append(toIndentedString(username)).append("\n");
-    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
-    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
-    sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
-    sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
-    sb.append("}");
+sb.append("    username: ").append(toIndentedString(username)).append("\n");
+sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
+sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+sb.append("    email: ").append(toIndentedString(email)).append("\n");
+sb.append("    password: ").append(toIndentedString(password)).append("\n");
+sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

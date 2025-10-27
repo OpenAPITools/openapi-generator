@@ -193,11 +193,10 @@ public class TypeHolderDefault  implements Serializable {
     sb.append("class TypeHolderDefault {\n");
     
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
-    sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
-    sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
-    sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
-    sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
-    sb.append("}");
+sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
+sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
+sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
     sb.append("}");
     return sb.toString();
   }

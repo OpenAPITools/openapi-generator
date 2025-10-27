@@ -69,7 +69,6 @@ public class ClassModel  implements Serializable {
     
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

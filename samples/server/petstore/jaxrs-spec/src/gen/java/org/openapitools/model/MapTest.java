@@ -249,10 +249,9 @@ public class MapTest  implements Serializable {
     sb.append("class MapTest {\n");
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
-    sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
-    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
-    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
-    sb.append("}");
+sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

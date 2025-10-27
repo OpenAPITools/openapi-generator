@@ -200,8 +200,7 @@ public class EnumArrays  implements Serializable {
     sb.append("class EnumArrays {\n");
     
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
-    sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
-    sb.append("}");
+sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");
     return sb.toString();
   }

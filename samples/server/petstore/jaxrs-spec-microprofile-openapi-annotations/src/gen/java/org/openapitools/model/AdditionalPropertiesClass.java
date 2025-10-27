@@ -420,17 +420,16 @@ public class AdditionalPropertiesClass  implements Serializable {
     sb.append("class AdditionalPropertiesClass {\n");
     
     sb.append("    mapString: ").append(toIndentedString(mapString)).append("\n");
-    sb.append("    mapNumber: ").append(toIndentedString(mapNumber)).append("\n");
-    sb.append("    mapInteger: ").append(toIndentedString(mapInteger)).append("\n");
-    sb.append("    mapBoolean: ").append(toIndentedString(mapBoolean)).append("\n");
-    sb.append("    mapArrayInteger: ").append(toIndentedString(mapArrayInteger)).append("\n");
-    sb.append("    mapArrayAnytype: ").append(toIndentedString(mapArrayAnytype)).append("\n");
-    sb.append("    mapMapString: ").append(toIndentedString(mapMapString)).append("\n");
-    sb.append("    mapMapAnytype: ").append(toIndentedString(mapMapAnytype)).append("\n");
-    sb.append("    anytype1: ").append(toIndentedString(anytype1)).append("\n");
-    sb.append("    anytype2: ").append(toIndentedString(anytype2)).append("\n");
-    sb.append("    anytype3: ").append(toIndentedString(anytype3)).append("\n");
-    sb.append("}");
+sb.append("    mapNumber: ").append(toIndentedString(mapNumber)).append("\n");
+sb.append("    mapInteger: ").append(toIndentedString(mapInteger)).append("\n");
+sb.append("    mapBoolean: ").append(toIndentedString(mapBoolean)).append("\n");
+sb.append("    mapArrayInteger: ").append(toIndentedString(mapArrayInteger)).append("\n");
+sb.append("    mapArrayAnytype: ").append(toIndentedString(mapArrayAnytype)).append("\n");
+sb.append("    mapMapString: ").append(toIndentedString(mapMapString)).append("\n");
+sb.append("    mapMapAnytype: ").append(toIndentedString(mapMapAnytype)).append("\n");
+sb.append("    anytype1: ").append(toIndentedString(anytype1)).append("\n");
+sb.append("    anytype2: ").append(toIndentedString(anytype2)).append("\n");
+sb.append("    anytype3: ").append(toIndentedString(anytype3)).append("\n");
     sb.append("}");
     return sb.toString();
   }

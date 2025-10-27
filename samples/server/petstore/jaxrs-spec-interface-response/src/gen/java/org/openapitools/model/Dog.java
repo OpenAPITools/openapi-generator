@@ -78,7 +78,6 @@ public class Dog extends Animal implements Serializable {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    breed: ").append(toIndentedString(breed)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

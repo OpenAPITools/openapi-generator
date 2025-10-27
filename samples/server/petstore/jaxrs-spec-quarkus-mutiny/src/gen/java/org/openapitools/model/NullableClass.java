@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("NullableClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class NullableClass  implements Serializable {
   private Integer integerProp;
   private BigDecimal numberProp;
@@ -441,18 +441,17 @@ public class NullableClass  implements Serializable {
     sb.append("class NullableClass {\n");
     
     sb.append("    integerProp: ").append(toIndentedString(integerProp)).append("\n");
-    sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
-    sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");
-    sb.append("    stringProp: ").append(toIndentedString(stringProp)).append("\n");
-    sb.append("    dateProp: ").append(toIndentedString(dateProp)).append("\n");
-    sb.append("    datetimeProp: ").append(toIndentedString(datetimeProp)).append("\n");
-    sb.append("    arrayNullableProp: ").append(toIndentedString(arrayNullableProp)).append("\n");
-    sb.append("    arrayAndItemsNullableProp: ").append(toIndentedString(arrayAndItemsNullableProp)).append("\n");
-    sb.append("    arrayItemsNullable: ").append(toIndentedString(arrayItemsNullable)).append("\n");
-    sb.append("    objectNullableProp: ").append(toIndentedString(objectNullableProp)).append("\n");
-    sb.append("    objectAndItemsNullableProp: ").append(toIndentedString(objectAndItemsNullableProp)).append("\n");
-    sb.append("    objectItemsNullable: ").append(toIndentedString(objectItemsNullable)).append("\n");
-    sb.append("}");
+sb.append("    numberProp: ").append(toIndentedString(numberProp)).append("\n");
+sb.append("    booleanProp: ").append(toIndentedString(booleanProp)).append("\n");
+sb.append("    stringProp: ").append(toIndentedString(stringProp)).append("\n");
+sb.append("    dateProp: ").append(toIndentedString(dateProp)).append("\n");
+sb.append("    datetimeProp: ").append(toIndentedString(datetimeProp)).append("\n");
+sb.append("    arrayNullableProp: ").append(toIndentedString(arrayNullableProp)).append("\n");
+sb.append("    arrayAndItemsNullableProp: ").append(toIndentedString(arrayAndItemsNullableProp)).append("\n");
+sb.append("    arrayItemsNullable: ").append(toIndentedString(arrayItemsNullable)).append("\n");
+sb.append("    objectNullableProp: ").append(toIndentedString(objectNullableProp)).append("\n");
+sb.append("    objectAndItemsNullableProp: ").append(toIndentedString(objectAndItemsNullableProp)).append("\n");
+sb.append("    objectItemsNullable: ").append(toIndentedString(objectItemsNullable)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();

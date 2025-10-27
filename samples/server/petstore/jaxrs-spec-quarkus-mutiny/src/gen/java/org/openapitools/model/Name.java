@@ -143,10 +143,9 @@ public class Name  implements Serializable {
     sb.append("class Name {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
-    sb.append("    property: ").append(toIndentedString(property)).append("\n");
-    sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
-    sb.append("}");
+sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
+sb.append("    property: ").append(toIndentedString(property)).append("\n");
+sb.append("    _123number: ").append(toIndentedString(_123number)).append("\n");
     sb.append("}");
     return sb.toString();
   }

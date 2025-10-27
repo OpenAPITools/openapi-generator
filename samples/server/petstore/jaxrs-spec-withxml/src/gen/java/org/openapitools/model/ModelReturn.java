@@ -88,7 +88,6 @@ public class ModelReturn  implements Serializable {
     
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
     sb.append("}");
-    sb.append("}");
     return sb.toString();
   }
 

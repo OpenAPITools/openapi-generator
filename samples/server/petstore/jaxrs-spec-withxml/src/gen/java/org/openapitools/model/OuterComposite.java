@@ -131,9 +131,8 @@ public class OuterComposite  implements Serializable {
     sb.append("class OuterComposite {\n");
     
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
-    sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
-    sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
-    sb.append("}");
+sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
+sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");
     sb.append("}");
     return sb.toString();
   }

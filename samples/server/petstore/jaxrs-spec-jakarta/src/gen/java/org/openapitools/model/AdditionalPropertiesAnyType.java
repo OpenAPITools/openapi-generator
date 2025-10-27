@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("AdditionalPropertiesAnyType")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
 public class AdditionalPropertiesAnyType  implements Serializable {
   private String name;
 
@@ -107,7 +107,6 @@ public class AdditionalPropertiesAnyType  implements Serializable {
     sb.append("class AdditionalPropertiesAnyType {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("}");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
