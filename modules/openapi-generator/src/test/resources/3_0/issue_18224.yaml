@@ -64,3 +64,6 @@ components:
         field3:
           type: string
           pattern: "\\w"
+          x-field-extra-annotation:
+            - '@com.test.MyAnnotation'
+            - '@com.test.MyAnnotation2'
