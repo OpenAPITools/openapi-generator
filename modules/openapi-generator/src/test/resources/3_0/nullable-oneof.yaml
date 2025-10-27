@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: API
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Recipe:
+      type: object
+      properties:
+        category:
+          description: This should become nullable
+          oneOf:
+            - $ref: '#/components/schemas/Category'
+            - type: 'null'
+
+    CategoryInline:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+        - type: 'null'
