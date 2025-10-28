@@ -13,6 +13,7 @@ Generator version: 7.17.0-SNAPSHOT
 # Common files
 require 'dynamic_servers/api_client'
 require 'dynamic_servers/api_error'
+require 'dynamic_servers/api_model_base'
 require 'dynamic_servers/version'
 require 'dynamic_servers/configuration'
 

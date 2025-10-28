@@ -34,6 +34,7 @@ lib/openapi_client/api/path_api.rb
 lib/openapi_client/api/query_api.rb
 lib/openapi_client/api_client.rb
 lib/openapi_client/api_error.rb
+lib/openapi_client/api_model_base.rb
 lib/openapi_client/configuration.rb
 lib/openapi_client/models/bird.rb
 lib/openapi_client/models/category.rb
