@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -42,31 +44,43 @@ import org.openapitools.client.JSON;
   Order.JSON_PROPERTY_COMPLETE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Order")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Order")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
+  @XmlElement(name = "id")
   @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
+  @XmlElement(name = "petId")
   @javax.annotation.Nullable
   private Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
+  @XmlElement(name = "quantity")
   @javax.annotation.Nullable
   private Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
+  @XmlElement(name = "shipDate")
   @javax.annotation.Nullable
   private OffsetDateTime shipDate;
 
   /**
    * Order Status
    */
+  @XmlType(name="StatusEnum")
+  @XmlEnum(String.class)
   public enum StatusEnum {
+    @XmlEnumValue("placed")
     PLACED(String.valueOf("placed")),
     
+    @XmlEnumValue("approved")
     APPROVED(String.valueOf("approved")),
     
+    @XmlEnumValue("delivered")
     DELIVERED(String.valueOf("delivered"));
 
     private String value;
@@ -97,10 +111,12 @@ public class Order {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @XmlElement(name = "status")
   @javax.annotation.Nullable
   private StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
+  @XmlElement(name = "complete")
   @javax.annotation.Nullable
   private Boolean complete = false;
 
@@ -119,6 +135,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
 
   public Long getId() {
     return id;
@@ -127,6 +144,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "id")
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
@@ -144,6 +162,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "petId")
 
   public Long getPetId() {
     return petId;
@@ -152,6 +171,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_PET_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "petId")
   public void setPetId(@javax.annotation.Nullable Long petId) {
     this.petId = petId;
   }
@@ -169,6 +189,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "quantity")
 
   public Integer getQuantity() {
     return quantity;
@@ -177,6 +198,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_QUANTITY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "quantity")
   public void setQuantity(@javax.annotation.Nullable Integer quantity) {
     this.quantity = quantity;
   }
@@ -194,6 +216,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shipDate")
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -202,6 +225,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_SHIP_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "shipDate")
   public void setShipDate(@javax.annotation.Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
@@ -219,6 +243,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
 
   public StatusEnum getStatus() {
     return status;
@@ -227,6 +252,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
     this.status = status;
   }
@@ -244,6 +270,7 @@ public class Order {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "complete")
 
   public Boolean getComplete() {
     return complete;
@@ -252,6 +279,7 @@ public class Order {
 
   @JsonProperty(value = JSON_PROPERTY_COMPLETE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "complete")
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }

@@ -119,6 +119,14 @@ ext {
     {{#useReflectionEqualsHashCode}}
     commons_lang3_version = "3.17.0"
     {{/useReflectionEqualsHashCode}}
+    {{#withXml}}
+    {{#useJakartaEe}}
+    jaxb_version = "4.0.6"
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    jaxb_version = "2.3.9"
+    {{/useJakartaEe}}
+    {{/withXml}}
 }
 
 dependencies {
@@ -132,6 +140,13 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    {{#withXml}}
+    implementation "org.glassfish.jersey.media:jersey-media-jaxb:$jersey_version"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_databind_version"
+    if (JavaVersion.current().isJava11Compatible()) {
+        implementation "org.glassfish.jaxb:jaxb-runtime:$jaxb_version"
+    }
+    {{/withXml}}
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}

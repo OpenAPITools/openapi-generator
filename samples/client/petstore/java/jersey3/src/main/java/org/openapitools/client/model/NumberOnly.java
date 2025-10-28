@@ -27,6 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -39,8 +41,12 @@ import org.openapitools.client.JSON;
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "NumberOnly")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "NumberOnly")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
+  @XmlElement(name = "JustNumber")
   @jakarta.annotation.Nullable
   private BigDecimal justNumber;
 
@@ -61,6 +67,7 @@ public class NumberOnly {
 
   @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "JustNumber")
 
   public BigDecimal getJustNumber() {
     return justNumber;
@@ -69,6 +76,7 @@ public class NumberOnly {
 
   @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "JustNumber")
   public void setJustNumber(@jakarta.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }

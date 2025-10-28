@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -39,8 +41,12 @@ import org.openapitools.client.JSON;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ArrayOfNumberOnly")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ArrayOfNumberOnly")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
+  @XmlElement(name = "ArrayNumber")
   @javax.annotation.Nullable
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
@@ -67,6 +73,8 @@ public class ArrayOfNumberOnly {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
@@ -75,6 +83,8 @@ public class ArrayOfNumberOnly {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "ArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayNumber(@javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }

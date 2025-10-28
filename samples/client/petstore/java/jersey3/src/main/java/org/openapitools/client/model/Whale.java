@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -41,16 +43,22 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("whale")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Whale")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Whale")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
+  @XmlElement(name = "hasBaleen")
   @jakarta.annotation.Nullable
   private Boolean hasBaleen;
 
   public static final String JSON_PROPERTY_HAS_TEETH = "hasTeeth";
+  @XmlElement(name = "hasTeeth")
   @jakarta.annotation.Nullable
   private Boolean hasTeeth;
 
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @XmlElement(name = "className")
   @jakarta.annotation.Nonnull
   private String className;
 
@@ -70,6 +78,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "hasBaleen")
 
   public Boolean getHasBaleen() {
     return hasBaleen;
@@ -78,6 +87,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "hasBaleen")
   public void setHasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
@@ -96,6 +106,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "hasTeeth")
 
   public Boolean getHasTeeth() {
     return hasTeeth;
@@ -104,6 +115,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "hasTeeth")
   public void setHasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
@@ -123,6 +135,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
 
   public String getClassName() {
     return className;
@@ -131,6 +144,7 @@ public class Whale {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
   public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }

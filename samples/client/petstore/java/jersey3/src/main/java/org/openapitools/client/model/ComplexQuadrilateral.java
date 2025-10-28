@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -43,12 +45,17 @@ import org.openapitools.client.JSON;
   ComplexQuadrilateral.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ComplexQuadrilateral")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ComplexQuadrilateral")
 public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @XmlElement(name = "shapeType")
   @jakarta.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
+  @XmlElement(name = "quadrilateralType")
   @jakarta.annotation.Nonnull
   private String quadrilateralType;
 
@@ -69,6 +76,7 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "shapeType")
 
   public String getShapeType() {
     return shapeType;
@@ -77,6 +85,7 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "shapeType")
   public void setShapeType(@jakarta.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
@@ -96,6 +105,7 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "quadrilateralType")
 
   public String getQuadrilateralType() {
     return quadrilateralType;
@@ -104,6 +114,7 @@ public class ComplexQuadrilateral {
 
   @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "quadrilateralType")
   public void setQuadrilateralType(@jakarta.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
   }

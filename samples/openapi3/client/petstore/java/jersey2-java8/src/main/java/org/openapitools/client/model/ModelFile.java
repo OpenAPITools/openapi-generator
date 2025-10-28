@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -37,8 +39,12 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("File")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ModelFile")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ModelFile")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
+  @XmlElement(name = "sourceURI")
   @javax.annotation.Nullable
   private String sourceURI;
 
@@ -57,6 +63,7 @@ public class ModelFile {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "sourceURI")
 
   public String getSourceURI() {
     return sourceURI;
@@ -65,6 +72,7 @@ public class ModelFile {
 
   @JsonProperty(value = JSON_PROPERTY_SOURCE_U_R_I, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "sourceURI")
   public void setSourceURI(@javax.annotation.Nullable String sourceURI) {
     this.sourceURI = sourceURI;
   }

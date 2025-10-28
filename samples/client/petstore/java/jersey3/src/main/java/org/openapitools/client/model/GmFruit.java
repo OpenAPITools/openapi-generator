@@ -29,6 +29,8 @@ import java.util.Arrays;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -58,6 +60,9 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "GmFruit")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "GmFruit")
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 @JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {

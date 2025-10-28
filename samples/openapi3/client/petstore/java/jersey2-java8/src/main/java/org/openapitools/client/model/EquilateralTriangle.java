@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -41,12 +43,17 @@ import org.openapitools.client.JSON;
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "EquilateralTriangle")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "EquilateralTriangle")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
+  @XmlElement(name = "shapeType")
   @javax.annotation.Nonnull
   private String shapeType;
 
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
+  @XmlElement(name = "triangleType")
   @javax.annotation.Nonnull
   private String triangleType;
 
@@ -65,6 +72,7 @@ public class EquilateralTriangle {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "shapeType")
 
   public String getShapeType() {
     return shapeType;
@@ -73,6 +81,7 @@ public class EquilateralTriangle {
 
   @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "shapeType")
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
   }
@@ -90,6 +99,7 @@ public class EquilateralTriangle {
   @javax.annotation.Nonnull
   @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "triangleType")
 
   public String getTriangleType() {
     return triangleType;
@@ -98,6 +108,7 @@ public class EquilateralTriangle {
 
   @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "triangleType")
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
   }

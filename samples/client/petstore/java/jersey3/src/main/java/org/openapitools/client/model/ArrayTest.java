@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -43,16 +45,22 @@ import org.openapitools.client.JSON;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "ArrayTest")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "ArrayTest")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
+  @XmlElement(name = "array_of_string")
   @jakarta.annotation.Nullable
   private List<String> arrayOfString = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
+  @XmlElement(name = "array_array_of_integer")
   @jakarta.annotation.Nullable
   private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
+  @XmlElement(name = "array_array_of_model")
   @jakarta.annotation.Nullable
   private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
@@ -80,6 +88,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -88,6 +98,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayOfString(@jakarta.annotation.Nullable List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
@@ -115,6 +127,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -123,6 +137,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfInteger(@jakarta.annotation.Nullable List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
@@ -150,6 +166,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_model")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
@@ -158,6 +176,8 @@ public class ArrayTest {
 
   @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_array_of_model")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayArrayOfModel(@jakarta.annotation.Nullable List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }

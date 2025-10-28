@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -52,12 +54,17 @@ import org.openapitools.client.JSON;
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
 })
 
+@XmlRootElement(name = "Animal")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Animal")
 public class Animal {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
+  @XmlElement(name = "className")
   @jakarta.annotation.Nonnull
   private String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
+  @XmlElement(name = "color")
   @jakarta.annotation.Nullable
   private String color = "red";
 
@@ -78,6 +85,7 @@ public class Animal {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
 
   public String getClassName() {
     return className;
@@ -86,6 +94,7 @@ public class Animal {
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @JacksonXmlProperty(localName = "className")
   public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;
   }
@@ -104,6 +113,7 @@ public class Animal {
 
   @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "color")
 
   public String getColor() {
     return color;
@@ -112,6 +122,7 @@ public class Animal {
 
   @JsonProperty(value = JSON_PROPERTY_COLOR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "color")
   public void setColor(@jakarta.annotation.Nullable String color) {
     this.color = color;
   }

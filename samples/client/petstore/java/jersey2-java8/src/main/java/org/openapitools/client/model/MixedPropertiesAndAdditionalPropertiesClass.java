@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import javax.xml.bind.annotation.*;
 import org.openapitools.client.JSON;
 
 
@@ -41,16 +43,22 @@ import org.openapitools.client.JSON;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "MixedPropertiesAndAdditionalPropertiesClass")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "MixedPropertiesAndAdditionalPropertiesClass")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
+  @XmlElement(name = "uuid")
   @javax.annotation.Nullable
   private UUID uuid;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
+  @XmlElement(name = "dateTime")
   @javax.annotation.Nullable
   private OffsetDateTime dateTime;
 
   public static final String JSON_PROPERTY_MAP = "map";
+  @XmlElement(name = "map")
   @javax.annotation.Nullable
   private Map<String, Animal> map = new HashMap<>();
 
@@ -69,6 +77,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
 
   public UUID getUuid() {
     return uuid;
@@ -77,6 +86,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "uuid")
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
   }
@@ -94,6 +104,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
 
   public OffsetDateTime getDateTime() {
     return dateTime;
@@ -102,6 +113,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "dateTime")
   public void setDateTime(@javax.annotation.Nullable OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
@@ -127,6 +139,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Animal> getMap() {
     return map;
@@ -135,6 +149,8 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }

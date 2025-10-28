@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
@@ -40,12 +42,17 @@ import org.openapitools.client.JSON;
 })
 @JsonTypeName("apple")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@XmlRootElement(name = "Apple")
+@XmlAccessorType(XmlAccessType.FIELD)
+@JacksonXmlRootElement(localName = "Apple")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
+  @XmlElement(name = "cultivar")
   @jakarta.annotation.Nullable
   private String cultivar;
 
   public static final String JSON_PROPERTY_ORIGIN = "origin";
+  @XmlElement(name = "origin")
   @jakarta.annotation.Nullable
   private String origin;
 
@@ -65,6 +72,7 @@ public class Apple {
  @Pattern(regexp="^[a-zA-Z\\s]*$")
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "cultivar")
 
   public String getCultivar() {
     return cultivar;
@@ -73,6 +81,7 @@ public class Apple {
 
   @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "cultivar")
   public void setCultivar(@jakarta.annotation.Nullable String cultivar) {
     this.cultivar = cultivar;
   }
@@ -91,6 +100,7 @@ public class Apple {
  @Pattern(regexp="/^[A-Z\\s]*$/i")
   @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "origin")
 
   public String getOrigin() {
     return origin;
@@ -99,6 +109,7 @@ public class Apple {
 
   @JsonProperty(value = JSON_PROPERTY_ORIGIN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "origin")
   public void setOrigin(@jakarta.annotation.Nullable String origin) {
     this.origin = origin;
   }
