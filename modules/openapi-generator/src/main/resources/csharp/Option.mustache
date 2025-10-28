@@ -42,15 +42,15 @@ namespace {{packageName}}.{{clientPackage}}
         public override bool CanConvert(Type objectType)
             => objectType.IsGenericType && objectType.GetGenericTypeDefinition() == typeof(Option<>);
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object{{nrt?}} value, JsonSerializer serializer)
         {
-            Type innerType = value?.GetType().GetGenericArguments()[0] ?? typeof(object);
+            Type innerType = value{{nrt?}}.GetType().GetGenericArguments()[0] ?? typeof(object);
             var converterType = typeof(OptionConverter<>).MakeGenericType(innerType);
             var converter = (JsonConverter)Activator.CreateInstance(converterType);
             converter.WriteJson(writer, value, serializer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object{{nrt?}} existingValue, JsonSerializer serializer)
         {
             Type innerType = objectType.GetGenericArguments()[0];
             var converterType = typeof(OptionConverter<>).MakeGenericType(innerType);
