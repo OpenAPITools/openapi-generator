@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -35,6 +36,26 @@ public class OpenAPINormalizerTest {
     private static final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     private static final String X_PARENT = "x-parent";
     private static final String X_INTERNAL = "x-internal";
+
+    @Test
+    public void testOpenAPINormalizerOtherThanObjectWithProperties()
+    {
+        // to test the rule REF_AS_PARENT_IN_ALLOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_21680_array_with_properties.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("errors");
+        assertNotNull(schema);
+        assertNotNull(schema.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("errors");
+        assertNotNull(schema2);
+        assertNull(schema2.getProperties());
+    }
 
     @Test
     public void testOpenAPINormalizerRefAsParentInAllOf() {

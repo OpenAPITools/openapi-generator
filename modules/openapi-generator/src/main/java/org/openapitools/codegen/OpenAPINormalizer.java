@@ -124,6 +124,9 @@ public class OpenAPINormalizer {
     // the allOf contains a new schema containing the properties in the top level
     final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
 
+    // when set to true, remove the "properties" of a schema with type other than "object"
+    final String REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT = "REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT";
+
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
     final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
@@ -206,6 +209,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
+        ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -701,6 +705,8 @@ public class OpenAPINormalizer {
         }
 
         markSchemaAsVisited(schema, visitedSchemas);
+
+        processNormalizeOtherThanObjectWithProperties(schema);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
@@ -1961,6 +1967,23 @@ public class OpenAPINormalizer {
         private boolean hasMethod(String method) {
             return methodFilters.contains(method);
         }
+    }
 
+    /**
+     * When set to true, remove "properties" attribute on schema other than "object"
+     * since it should be ignored and may result in odd generated code
+     *
+     * @param schema         Schema
+     * @return Schema
+     */
+    protected void processNormalizeOtherThanObjectWithProperties(Schema schema) {
+        if (getRule(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT)) {
+            // Check object models / any type models / composed models for properties,
+            // if the schema has a type defined that is not "object" it should not define
+            // any properties
+            if (schema.getType() != null && !"object".equals(schema.getType())) {
+                schema.setProperties(null);
+            }
+        }
     }
 }
