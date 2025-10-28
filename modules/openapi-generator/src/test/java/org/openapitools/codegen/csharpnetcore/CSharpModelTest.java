@@ -208,13 +208,13 @@ public class CSharpModelTest {
                 .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
-                .addProperties("name", new StringSchema().nullable(false))
+                .addProperties("name", new StringSchema().nullable(true))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
+        codegen.additionalProperties().put(CodegenConstants.DOTNET_FRAMEWORK, "netstandard2.0");
         codegen.processOpts();
-        codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, false);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
