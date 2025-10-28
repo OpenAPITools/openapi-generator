@@ -51,13 +51,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |responseAs|Optionally use libraries to manage response.  Currently AsyncAwait, Combine, Result, RxSwift, ObjcBlock, PromiseKit are available.| |null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|swiftPackagePath|Set a custom source path instead of Sources/{{projectName}}.| |null|
+|swiftPackagePath|Set a custom source path instead of Sources\{{projectName}}.| |null|
 |swiftUseApiNamespace|Flag to make all the API classes inner-class of {{projectName}}API| |null|
 |useBacktickEscapes|Escape reserved words using backticks (default: false)| |false|
 |useClasses|Use final classes for models instead of structs (default: false)| |false|
 |useCustomDateWithoutTime|Uses a custom type to decode and encode dates without time information to support OpenAPIs date format (default: false)| |false|
 |useParameterConvertible|Make models conform to ParameterConvertible protocol (default: true)| |true|
-|useSPMFileStructure|Use SPM file structure and set the source path to Sources/{{projectName}} (default: true).| |null|
+|useSPMFileStructure|Use SPM file structure and set the source path to Sources\{{projectName}} (default: true).| |null|
 |validatable|Make validation rules and validator for model properties (default: true)| |true|
 
 ## IMPORT MAPPING
