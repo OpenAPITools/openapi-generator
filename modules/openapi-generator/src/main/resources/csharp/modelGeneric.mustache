@@ -161,10 +161,10 @@
             {{^required}}
             {{#defaultValue}}
             {{^conditionalSerialization}}
-            this.{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}}.Value : new Option({{#isString}}@{{/isString}}{{{defaultValue}}});
+            this.{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
-            this._{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}}.Value : new Option({{#isString}}@{{/isString}}{{{defaultValue}}});
+            this._{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
