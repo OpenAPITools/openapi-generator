@@ -610,7 +610,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
+            if (!type.endsWith("?") && isSupportNullable() && ModelUtils.isNullable(p) && (nullReferenceTypesFlag || this.getNullableTypes().contains(type))) {
                 return type + "?";
             } else {
                 return type;
@@ -651,10 +651,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
-
-        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && parameter.isNullable && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
-            parameter.dataType = parameter.dataType + "?";
-        }
     }
 
     public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {

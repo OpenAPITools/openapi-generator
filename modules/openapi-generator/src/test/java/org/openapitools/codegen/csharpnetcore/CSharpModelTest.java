@@ -208,12 +208,13 @@ public class CSharpModelTest {
                 .addProperties("id",  new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT).nullable(false))
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
-                .addProperties("name", new StringSchema().nullable(true))
+                .addProperties("name", new StringSchema().nullable(false))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         codegen.processOpts();
+        codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, false);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -293,10 +294,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "name");
-        Assert.assertEquals(property3.dataType, "string");
+        Assert.assertEquals(property3.dataType, "string?");
         Assert.assertEquals(property3.name, "Name");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "string");
+        Assert.assertEquals(property3.baseType, "string?");
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isPrimitiveType);
     }
@@ -411,7 +412,7 @@ public class CSharpModelTest {
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "string?");
         Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isPrimitiveType);
+        Assert.assertTrue(property3.isPrimitiveType);
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "subObject");

@@ -49,7 +49,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; set; }
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{>NullConditionalProperty}}{{/complexType}}{{^required}}>{{/required}} {{name}} { get; set; }
         {{#isReadOnly}}
 
         /// <summary>
@@ -68,7 +68,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; set; }
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{>NullConditionalProperty}}{{/complexType}}{{^required}}>{{/required}} {{name}} { get; set; }
 
 
         /// <summary>
@@ -86,7 +86,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}}
+        public {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{>NullConditionalProperty}}{{/complexType}}{{^required}}>{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -95,7 +95,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{>NullConditionalProperty}}{{^required}}>{{/required}} _{{name}};
+        private {{^required}}Option<{{/required}}{{{complexType}}}{{^complexType}}{{{datatypeWithEnum}}}{{>NullConditionalProperty}}{{/complexType}}{{^required}}>{{/required}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>
@@ -220,7 +220,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
         {{#isReadOnly}}
         /// <summary>
@@ -242,7 +242,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; private set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}} { get; private set; }
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -261,7 +261,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}}
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -270,7 +270,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} _{{name}};
+        private {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>
