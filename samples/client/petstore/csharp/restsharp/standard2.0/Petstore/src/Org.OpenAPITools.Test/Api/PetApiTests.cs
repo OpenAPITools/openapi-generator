@@ -131,7 +131,7 @@ namespace Org.OpenAPITools.Test
             foreach (Pet pet in listPet) // Loop through List with foreach.
             {
                 Assert.IsType<Pet>(pet);
-                Assert.Equal("available", pet.Tags[0].Name);
+                Assert.Equal("available", pet.Tags.Value[0].Name);
             }
         }
 
@@ -162,18 +162,18 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Pet>(response);
 
             Assert.Equal("Csharp test", response.Name);
-            Assert.Equal(Pet.StatusEnum.Available, response.Status);
+            Assert.Equal(Pet.StatusEnum.Available, response.Status.Value);
 
-            Assert.IsType<List<Tag>>(response.Tags);
-            Assert.Equal(petId, response.Tags[0].Id);
-            Assert.Equal("csharp sample tag name1", response.Tags[0].Name);
+            Assert.IsType<List<Tag>>(response.Tags.Value);
+            Assert.Equal(petId, response.Tags.Value[0].Id.Value);
+            Assert.Equal("csharp sample tag name1", response.Tags.Value[0].Name.Value);
 
             Assert.IsType<List<String>>(response.PhotoUrls);
             Assert.Equal("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsType<Category>(response.Category);
-            Assert.Equal(56, response.Category.Id);
-            Assert.Equal("sample category name2", response.Category.Name);
+            Assert.IsType<Category>(response.Category.Value);
+            Assert.Equal(56, response.Category.Value.Id.Value);
+            Assert.Equal("sample category name2", response.Category.Value.Name);
         }
 
         /// <summary>
@@ -188,18 +188,18 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Pet>(response);
 
             Assert.Equal("Csharp test", response.Name);
-            Assert.Equal(Pet.StatusEnum.Available, response.Status);
+            Assert.Equal(Pet.StatusEnum.Available, response.Status.Value);
 
-            Assert.IsType<List<Tag>>(response.Tags);
-            Assert.Equal(petId, response.Tags[0].Id);
-            Assert.Equal("csharp sample tag name1", response.Tags[0].Name);
+            Assert.IsType<List<Tag>>(response.Tags.Value);
+            Assert.Equal(petId, response.Tags.Value[0].Id.Value);
+            Assert.Equal("csharp sample tag name1", response.Tags.Value[0].Name.Value);
 
             Assert.IsType<List<String>>(response.PhotoUrls);
             Assert.Equal("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsType<Category>(response.Category);
-            Assert.Equal(56, response.Category.Id);
-            Assert.Equal("sample category name2", response.Category.Name);
+            Assert.IsType<Category>(response.Category.Value);
+            Assert.Equal(56, response.Category.Value.Id.Value);
+            Assert.Equal("sample category name2", response.Category.Value.Name);
         }
 
         /* a simple test for binary response. no longer in use.
@@ -232,18 +232,18 @@ namespace Org.OpenAPITools.Test
             Assert.IsType<Pet>(response);
 
             Assert.Equal("Csharp test", response.Name);
-            Assert.Equal(Pet.StatusEnum.Available, response.Status);
+            Assert.Equal(Pet.StatusEnum.Available, response.Status.Value);
 
-            Assert.IsType<List<Tag>>(response.Tags);
-            Assert.Equal(petId, response.Tags[0].Id);
-            Assert.Equal("csharp sample tag name1", response.Tags[0].Name);
+            Assert.IsType<List<Tag>>(response.Tags.Value);
+            Assert.Equal(petId, response.Tags.Value[0].Id.Value);
+            Assert.Equal("csharp sample tag name1", response.Tags.Value[0].Name.Value);
 
             Assert.IsType<List<String>>(response.PhotoUrls);
             Assert.Equal("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsType<Category>(response.Category);
-            Assert.Equal(56, response.Category.Id);
-            Assert.Equal("sample category name2", response.Category.Name);
+            Assert.IsType<Category>(response.Category.Value);
+            Assert.Equal(56, response.Category.Value.Id.Value);
+            Assert.Equal("sample category name2", response.Category.Value.Name);
         }
 
         /// <summary>
@@ -270,14 +270,14 @@ namespace Org.OpenAPITools.Test
 
             Pet response = petApi.GetPetById(petId);
             Assert.IsType<Pet>(response);
-            Assert.IsType<Category>(response.Category);
-            Assert.IsType<List<Tag>>(response.Tags);
+            Assert.IsType<Category>(response.Category.Value);
+            Assert.IsType<List<Tag>>(response.Tags.Value);
 
             Assert.Equal("new form name", response.Name);
-            Assert.Equal(Pet.StatusEnum.Pending, response.Status);
+            Assert.Equal(Pet.StatusEnum.Pending, response.Status.Value);
 
-            Assert.Equal(petId, response.Tags[0].Id);
-            Assert.Equal(56, response.Category.Id);
+            Assert.Equal(petId, response.Tags.Value[0].Id.Value);
+            Assert.Equal(56, response.Category.Value.Id.Value);
 
             // test optional parameter
             petApi.UpdatePetWithForm(petId, "new form name2");
