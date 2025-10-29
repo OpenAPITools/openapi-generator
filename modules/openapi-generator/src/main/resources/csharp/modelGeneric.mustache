@@ -186,10 +186,7 @@
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
             this._{{name}} = {{>CamelCaseSanitizedParamName}};
-            if (this.{{name}}.IsSet)
-            {
-                this._flag{{name}} = true;
-            }
+            this._flag{{name}} = true;
             {{/conditionalSerialization}}
             {{/required}}
             {{/isReadOnly}}
