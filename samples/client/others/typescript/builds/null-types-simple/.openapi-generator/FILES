@@ -10,6 +10,7 @@ http/http.ts
 http/isomorphic-fetch.ts
 index.ts
 middleware.ts
+models/ModelTypes.ts
 models/ObjectSerializer.ts
 models/SomeObject.ts
 models/TypeMatcher.ts

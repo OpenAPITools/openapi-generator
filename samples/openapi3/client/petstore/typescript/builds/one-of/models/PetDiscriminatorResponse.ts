@@ -28,7 +28,10 @@ export type PetDiscriminatorResponse = Cat | Dog;
 export class PetDiscriminatorResponseClass {
     static readonly discriminator: string | undefined = "petType";
 
-    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    static readonly mapping: {[index: string]: string} | undefined = {
+        "cat": "Cat",
+        "dog": "Dog",
+    };
 
     private static readonly arrayOfTypes: Array<typeof Cat | typeof Dog> = [Cat, Dog];
 

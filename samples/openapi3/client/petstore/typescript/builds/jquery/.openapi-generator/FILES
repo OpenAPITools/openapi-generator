@@ -18,6 +18,7 @@ index.ts
 middleware.ts
 models/ApiResponse.ts
 models/Category.ts
+models/ModelTypes.ts
 models/ObjectSerializer.ts
 models/Order.ts
 models/Pet.ts

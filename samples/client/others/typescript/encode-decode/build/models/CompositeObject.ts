@@ -11,6 +11,7 @@
  */
 
 import { ComplexObject } from '../models/ComplexObject';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class CompositeObject {
@@ -20,7 +21,7 @@ export class CompositeObject {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "optionalNullableInnerObject",
             "baseName": "optional_nullable_inner_object",

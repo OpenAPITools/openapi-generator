@@ -176,6 +176,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         setModelPackage("models");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         supportingFiles.add(new SupportingFile("model" + File.separator + "TypeMatcher.mustache", "models", "TypeMatcher.ts"));
+        supportingFiles.add(new SupportingFile("model" + File.separator + "ModelTypes.mustache", "models", "ModelTypes.ts"));
 
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
@@ -1193,7 +1194,6 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             this.xmlName = cm.xmlName;
             this.classFilename = cm.classFilename;
             this.unescapedDescription = cm.unescapedDescription;
-            this.discriminator = cm.discriminator;
             this.defaultValue = cm.defaultValue;
             this.arrayModelType = cm.arrayModelType;
             this.isAlias = cm.isAlias;
@@ -1256,6 +1256,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
             this.setComposedSchemas(cm.getComposedSchemas());
+            this.setDiscriminator(cm.getDiscriminator());
         }
 
     }

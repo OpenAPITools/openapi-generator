@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class Animal {
@@ -18,9 +19,12 @@ export class Animal {
 
     static readonly discriminator: string | undefined = "className";
 
-    static readonly mapping: {[index: string]: string} | undefined = undefined;
+    static readonly mapping: {[index: string]: string} | undefined = {
+        "CAT": "Cat",
+        "DOG": "Dog",
+    };
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "className",
             "baseName": "class_name",

@@ -15,6 +15,7 @@ middleware.ts
 models/Cat.ts
 models/Dog.ts
 models/FilePostRequest.ts
+models/ModelTypes.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts
 models/PetByType.ts

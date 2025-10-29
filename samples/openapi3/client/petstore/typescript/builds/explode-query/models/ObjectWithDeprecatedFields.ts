@@ -11,6 +11,7 @@
  */
 
 import { DeprecatedObject } from '../models/DeprecatedObject';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class ObjectWithDeprecatedFields {
@@ -23,7 +24,7 @@ export class ObjectWithDeprecatedFields {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "uuid",
             "baseName": "uuid",

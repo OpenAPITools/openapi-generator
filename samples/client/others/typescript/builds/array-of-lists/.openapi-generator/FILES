@@ -14,6 +14,7 @@ index.ts
 middleware.ts
 models/List.ts
 models/ListPaged.ts
+models/ModelTypes.ts
 models/ObjectSerializer.ts
 models/TypeMatcher.ts
 models/all.ts

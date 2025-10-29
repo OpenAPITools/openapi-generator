@@ -11,6 +11,7 @@
  */
 
 import { Animal } from '../models/Animal';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class Cat extends Animal {
@@ -20,7 +21,7 @@ export class Cat extends Animal {
 
     static override readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static override readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "declawed",
             "baseName": "declawed",

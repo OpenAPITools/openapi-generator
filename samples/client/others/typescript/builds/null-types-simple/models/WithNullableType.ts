@@ -11,6 +11,7 @@
  */
 
 import { SomeObject } from '../models/SomeObject';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class WithNullableType {
@@ -22,7 +23,7 @@ export class WithNullableType {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "arrayDataOrNull",
             "baseName": "arrayDataOrNull",

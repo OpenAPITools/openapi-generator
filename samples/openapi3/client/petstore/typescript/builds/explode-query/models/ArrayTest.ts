@@ -11,6 +11,7 @@
  */
 
 import { ReadOnlyFirst } from '../models/ReadOnlyFirst';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class ArrayTest {
@@ -22,7 +23,7 @@ export class ArrayTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "arrayOfString",
             "baseName": "array_of_string",

@@ -14,6 +14,7 @@ import { OuterEnum } from '../models/OuterEnum';
 import { OuterEnumDefaultValue } from '../models/OuterEnumDefaultValue';
 import { OuterEnumInteger } from '../models/OuterEnumInteger';
 import { OuterEnumIntegerDefaultValue } from '../models/OuterEnumIntegerDefaultValue';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class EnumTest {
@@ -30,7 +31,7 @@ export class EnumTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "enumString",
             "baseName": "enum_string",

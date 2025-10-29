@@ -53,6 +53,7 @@ models/MapTest.ts
 models/MixedPropertiesAndAdditionalPropertiesClass.ts
 models/Model200Response.ts
 models/ModelFile.ts
+models/ModelTypes.ts
 models/Name.ts
 models/NullableClass.ts
 models/NumberOnly.ts

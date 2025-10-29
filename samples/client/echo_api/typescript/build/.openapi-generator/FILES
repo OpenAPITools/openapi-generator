@@ -26,6 +26,7 @@ models/Bird.ts
 models/Category.ts
 models/DataQuery.ts
 models/DefaultValue.ts
+models/ModelTypes.ts
 models/NumberPropertiesOnly.ts
 models/ObjectSerializer.ts
 models/Pet.ts

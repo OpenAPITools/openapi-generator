@@ -1,3 +1,5 @@
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
+
 /**
  * Validates if data contains all required attributes from the attributeTypeMap.
  *
@@ -5,7 +7,7 @@
  * @param attributeTypeMap - Array of attribute metadata including required flag
  * @returns true if all required attributes are present in data, false otherwise
  */
-export function instanceOfType(data: any, attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string, required: boolean}>): boolean {
+export function instanceOfType(data: any, attributeTypeMap: Array<AttributeTypeMapEntry>): boolean {
     for (const attribute of attributeTypeMap) {
         if (attribute.required) {
             // Check both that the property exists AND that it's not undefined.
