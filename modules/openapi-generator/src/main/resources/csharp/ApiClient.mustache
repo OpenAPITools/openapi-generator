@@ -30,6 +30,7 @@ using Polly;
 using {{packageName}}.Client.Auth;
 {{/hasOAuthMethods}}
 using {{packageName}}.{{modelPackage}};
+using {{packageName}}.{{clientPackage}};
 
 namespace {{packageName}}.Client
 {
@@ -49,7 +50,8 @@ namespace {{packageName}}.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            }{{^useGenericHost}},
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }{{/useGenericHost}}
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -184,7 +186,8 @@ namespace {{packageName}}.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            }{{^useGenericHost}},
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }{{/useGenericHost}}
         };
 
         /// <summary>
