@@ -442,15 +442,21 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // Cleanup possible duplicates. Currently, readWriteVars can contain the same property twice. May or may not be isolated to C#.
-        if (codegenModel != null && codegenModel.readWriteVars != null && codegenModel.readWriteVars.size() > 1) {
-            int length = codegenModel.readWriteVars.size() - 1;
-            for (int i = length; i > (length / 2); i--) {
-                final CodegenProperty codegenProperty = codegenModel.readWriteVars.get(i);
-                // If the property at current index is found earlier in the list, remove this last instance.
-                if (codegenModel.readWriteVars.indexOf(codegenProperty) < i) {
-                    codegenModel.readWriteVars.remove(i);
+        if (codegenModel != null && codegenModel.readWriteVars != null) {
+            // Cleanup possible duplicates. Currently, readWriteVars can contain the same property twice. May or may not be isolated to C#.
+            if (codegenModel.readWriteVars.size() > 1) {
+                int length = codegenModel.readWriteVars.size() - 1;
+                for (int i = length; i > (length / 2); i--) {
+                    final CodegenProperty codegenProperty = codegenModel.readWriteVars.get(i);
+                    // If the property at current index is found earlier in the list, remove this last instance.
+                    if (codegenModel.readWriteVars.indexOf(codegenProperty) < i) {
+                        codegenModel.readWriteVars.remove(i);
+                    }
                 }
+            }
+
+            for (CodegenProperty prop : codegenModel.readWriteVars) {
+                postProcessModelProperty(codegenModel, prop);
             }
         }
 
