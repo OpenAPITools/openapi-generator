@@ -274,10 +274,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.dataType, "long?");
+        Assert.assertEquals(property1.dataType, "long");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
-        Assert.assertEquals(property1.baseType, "long?");
+        Assert.assertEquals(property1.baseType, "long");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 
@@ -294,10 +294,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "name");
-        Assert.assertEquals(property3.dataType, "string?");
+        Assert.assertEquals(property3.dataType, "string");
         Assert.assertEquals(property3.name, "Name");
         Assert.assertNull(property3.defaultValue);
-        Assert.assertEquals(property3.baseType, "string?");
+        Assert.assertEquals(property3.baseType, "string");
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isPrimitiveType);
     }
