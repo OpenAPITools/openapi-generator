@@ -1,18 +1,15 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{#tsImports}}
 import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
-{{#oneOf}}
-    {{#-first}}
-import { findMatchingType } from '../models/TypeMatcher{{importFileExtension}}';
-    {{/-first}}
-{{/oneOf}}
-{{^oneOf}}
 import { AttributeTypeMapEntry } from '../models/ModelTypes{{importFileExtension}}';
 import { HttpFile } from '../http/http{{importFileExtension}}';
-{{/oneOf}}
 
 {{#description}}
 /**
@@ -20,10 +17,6 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 */
 {{/description}}
 {{^isEnum}}
-{{#oneOf}}
-{{#-first}}{{>model/modelOneOf}}{{/-first}}
-{{/oneOf}}
-{{^oneOf}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -106,7 +99,6 @@ export enum {{classname}}{{enumName}} {
 {{/vars}}
 
 {{/hasEnums}}
-{{/oneOf}}
 {{/isEnum}}
 {{#isEnum}}
 export enum {{classname}} {
@@ -117,5 +109,6 @@ export enum {{classname}} {
     {{/allowableValues}}
 }
 {{/isEnum}}
+{{/oneOf}}
 {{/model}}
 {{/models}}
