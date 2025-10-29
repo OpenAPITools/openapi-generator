@@ -1,11 +1,13 @@
 package org.openapitools.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("AdditionalPropertiesInteger")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
-public class AdditionalPropertiesInteger extends HashMap<String, Integer> implements Serializable {
+public class AdditionalPropertiesInteger  implements Serializable {
   private String name;
 
   public AdditionalPropertiesInteger() {
@@ -42,6 +44,43 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
     this.name = name;
   }
 
+    /**
+    * A container for additional, undeclared properties.
+    * This is a holder for any undeclared properties as specified with
+    * the 'additionalProperties' keyword in the OAS document.
+    */
+    private Map<String, Integer> additionalProperties;
+
+    /**
+    * Set the additional (undeclared) property with the specified name and value.
+    * If the property does not already exist, create it otherwise replace it.
+    */
+    @JsonAnySetter
+    public AdditionalPropertiesInteger putAdditionalProperty(String key, Integer value) {
+        if (this.additionalProperties == null) {
+            this.additionalProperties = new HashMap<String, Integer>();
+        }
+        this.additionalProperties.put(key, value);
+        return this;
+    }
+
+    /**
+    * Return the additional (undeclared) property.
+    */
+    @JsonAnyGetter
+    public Map<String, Integer> getAdditionalProperties() {
+        return additionalProperties;
+    }
+
+    /**
+    * Return the additional (undeclared) property with the specified name.
+    */
+    public Integer getAdditionalProperty(String key) {
+        if (this.additionalProperties == null) {
+            return null;
+        }
+        return this.additionalProperties.get(key);
+    }
 
   @Override
   public boolean equals(Object o) {
@@ -52,21 +91,21 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> implem
       return false;
     }
     AdditionalPropertiesInteger additionalPropertiesInteger = (AdditionalPropertiesInteger) o;
-    return Objects.equals(this.name, additionalPropertiesInteger.name) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesInteger.name) && Objects.equals(this.additionalProperties, additionalPropertiesInteger.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesInteger {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
