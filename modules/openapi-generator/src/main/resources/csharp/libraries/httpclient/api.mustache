@@ -650,7 +650,7 @@ namespace {{packageName}}.{{apiPackage}}
             localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
             {{/required}}
             {{^required}}
-            if ({{paramName}}IsSet)
+            if ({{paramName}}.IsSet)
             {
                 localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}}.Value)); // header parameter
             }
