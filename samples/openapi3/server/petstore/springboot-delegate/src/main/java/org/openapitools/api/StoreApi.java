@@ -64,6 +64,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Void> deleteOrder(
         @NotNull @Parameter(name = "order_id", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("order_id") String orderId
+
     ) {
         return getDelegate().deleteOrder(orderId);
     }
@@ -133,6 +134,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Order> getOrderById(
         @NotNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
+
     ) {
         return getDelegate().getOrderById(orderId);
     }
@@ -168,6 +170,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
+
     ) {
         return getDelegate().placeOrder(order);
     }

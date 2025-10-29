@@ -37,6 +37,7 @@ public interface UserApi {
     )
     void createUser(
          @RequestBody UserDto userDto
+
     );
 
 
@@ -56,6 +57,7 @@ public interface UserApi {
     )
     void createUsersWithArrayInput(
          @RequestBody List<UserDto> userDto
+
     );
 
 
@@ -75,6 +77,7 @@ public interface UserApi {
     )
     void createUsersWithListInput(
          @RequestBody List<UserDto> userDto
+
     );
 
 
@@ -94,6 +97,7 @@ public interface UserApi {
     )
     void deleteUser(
          @PathVariable("username") String username
+
     );
 
 
@@ -114,6 +118,7 @@ public interface UserApi {
     )
     UserDto getUserByName(
          @PathVariable("username") String username
+
     );
 
 
@@ -133,8 +138,10 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     String loginUser(
-         @RequestParam(value = "username", required = true) String username,
+         @RequestParam(value = "username", required = true) String username
+,
          @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -172,8 +179,10 @@ public interface UserApi {
         contentType = "application/json"
     )
     void updateUser(
-         @PathVariable("username") String username,
+         @PathVariable("username") String username
+,
          @RequestBody UserDto userDto
+
     );
 
 }

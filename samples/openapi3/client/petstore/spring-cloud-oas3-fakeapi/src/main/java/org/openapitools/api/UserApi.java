@@ -60,6 +60,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUser(
         @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
+
     );
 
 
@@ -87,6 +88,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithArrayInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+
     );
 
 
@@ -114,6 +116,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithListInput(
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+
     );
 
 
@@ -142,6 +145,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> deleteUser(
         @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+
     );
 
 
@@ -176,6 +180,7 @@ public interface UserApi {
     )
     ResponseEntity<User> getUserByName(
         @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+
     );
 
 
@@ -208,8 +213,10 @@ public interface UserApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<String> loginUser(
-        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username
+,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -264,8 +271,10 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> updateUser(
-        @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+,
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
+
     );
 
 }

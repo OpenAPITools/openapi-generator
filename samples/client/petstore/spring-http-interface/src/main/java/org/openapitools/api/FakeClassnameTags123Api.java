@@ -35,6 +35,7 @@ public interface FakeClassnameTags123Api {
     )
     ResponseEntity<ClientDto> testClassname(
          @RequestBody ClientDto clientDto
+
     );
 
 }
