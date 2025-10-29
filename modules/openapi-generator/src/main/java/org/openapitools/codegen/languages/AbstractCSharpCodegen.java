@@ -44,6 +44,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.languages.CSharpClientCodegen.GENERICHOST;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -1159,23 +1161,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        if (operation.returnProperty == null || operation.returnProperty.items == null) {
+            return;
+        }
 
-        Arrays.stream(nestedTypes).forEach(nestedType -> {
-            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
-                String nestedReturnType = operation.returnProperty.items.dataType;
-                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        String dataType = operation.returnProperty.items.dataType;
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (operation.returnProperty.items.isNullable && (this.nullReferenceTypesFlag || operation.returnProperty.items.isEnum || getValueTypes().contains(dataType)) && !dataType.endsWith("?")) {
+                dataType += "?";
+            }
+        }
+
+        for (String nestedType : nestedTypes) {
+            if (operation.returnType.contains("<" + nestedType + ">")) {
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + dataType + ">");
                 operation.returnProperty.dataType = operation.returnType;
                 operation.returnProperty.datatypeWithEnum = operation.returnType;
             }
 
-            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
-                String nestedReturnType = operation.returnProperty.items.dataType;
-                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+            if (operation.returnType.contains(", " + nestedType + ">")) {
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + dataType + ">");
                 operation.returnProperty.dataType = operation.returnType;
                 operation.returnProperty.datatypeWithEnum = operation.returnType;
             }
-        });
+        }
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
@@ -1435,6 +1445,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema<?> items = ModelUtils.getSchemaItems(arr);
         String nestedType = getTypeDeclaration(items);
+
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (ModelUtils.isNullable(items) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(items) || getValueTypes().contains(nestedType)) && !nestedType.endsWith("?")) {
+                nestedType += "?";
+            }
+        }
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");
         return instantiationType.toString();
@@ -1455,7 +1471,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
+            String typeDeclaration = getTypeDeclaration(inner);
+            if (!GENERICHOST.equals(getLibrary())) {
+                if (ModelUtils.isNullable(inner) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(inner) || getValueTypes().contains(typeDeclaration)) && !typeDeclaration.endsWith("?")) {
+                    typeDeclaration += "?";
+                }
+            }
+            return getSchemaType(p) + "<string, " + typeDeclaration + ">";
         }
         return super.getTypeDeclaration(p);
     }

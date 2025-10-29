@@ -604,23 +604,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public String getNullableType(Schema p, String type) {
-        if (GENERICHOST.equals(getLibrary())) {
-            return super.getNullableType(p, type);
-        }
-
-        if (languageSpecificPrimitives.contains(type)) {
-            if (!type.endsWith("?") && isSupportNullable() && ModelUtils.isNullable(p) && (nullReferenceTypesFlag || this.getNullableTypes().contains(type))) {
-                return type + "?";
-            } else {
-                return type;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -1528,9 +1511,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
             }
+            if (!GENERICHOST.equals(getLibrary())) {
+                if (ModelUtils.isNullable(additionalProperties) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(additionalProperties) || getValueTypes().contains(inner)) && !inner.endsWith("?")) {
+                    inner += "?";
+                }
+            }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            String inner = getSchemaType(ModelUtils.getSchemaItems(schema));
+            Schema<?> schemaItems = ModelUtils.getSchemaItems(schema);
+            String inner = getSchemaType(schemaItems);
+            if (!GENERICHOST.equals(getLibrary())) {
+                if (ModelUtils.isNullable(schemaItems) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(schemaItems) || getValueTypes().contains(inner)) && !inner.endsWith("?")) {
+                    inner += "?";
+                }
+            }
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;

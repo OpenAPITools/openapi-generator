@@ -136,7 +136,7 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default{{/defaultValue}}{{/required}}{{^required}}default{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default{{/defaultValue}}{{/required}}{{^required}}default{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{! Push all sanity tests on top }}
             {{#vars}}
@@ -161,10 +161,10 @@
             {{^required}}
             {{#defaultValue}}
             {{^conditionalSerialization}}
-            this.{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
+            this.{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalParameter}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
             {{/conditionalSerialization}}
             {{#conditionalSerialization}}
-            this._{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
+            this._{{name}} = {{>CamelCaseSanitizedParamName}}.IsSet ? {{>CamelCaseSanitizedParamName}} : new Option<{{{datatypeWithEnum}}}{{>NullConditionalParameter}}>({{#isString}}@{{/isString}}{{{defaultValue}}});
             {{/conditionalSerialization}}
             {{/defaultValue}}
             {{^defaultValue}}
@@ -220,7 +220,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
 
         {{#isReadOnly}}
         /// <summary>
@@ -242,7 +242,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}} { get; private set; }
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}} { get; private set; }
 
         /// <summary>
         /// Returns false as {{name}} should not be serialized given that it's read-only.
@@ -261,7 +261,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}}
+        public {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{name}}
         {
             get{ return _{{name}};}
             set
@@ -270,7 +270,7 @@
                 _flag{{name}} = true;
             }
         }
-        private {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}} _{{name}};
+        private {{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} _{{name}};
         private bool _flag{{name}};
 
         /// <summary>
