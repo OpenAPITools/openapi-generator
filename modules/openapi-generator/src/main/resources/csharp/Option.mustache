@@ -54,7 +54,7 @@ namespace {{packageName}}.{{clientPackage}}
         {
             Type innerType = objectType.GetGenericArguments()[0];
             var converterType = typeof(OptionConverter<>).MakeGenericType(innerType);
-            var converter = (JsonConverter)Activator.CreateInstance(converterType)!;
+            var converter = (JsonConverter)Activator.CreateInstance(converterType){{nrt!}};
             return converter.ReadJson(reader, objectType, existingValue, serializer);
         }
     }
