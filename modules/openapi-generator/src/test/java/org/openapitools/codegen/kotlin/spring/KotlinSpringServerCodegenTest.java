@@ -1065,6 +1065,73 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateModelWithRequiredFalseWithDefaults() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path dogPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                dogPath,
+                "@get:JsonProperty(\"category\", required = false)",
+                "override val category: Category? = null", // without default (fallback) value is nullable
+                "@get:JsonProperty(\"nonRequiredWithDefaultList\", required = false)",
+                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf()", // elsewhere with default (fallback) value is not nullable
+                "@get:JsonProperty(\"nonRequiredWithDefaultSet\", required = false)",
+                "override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf()",
+                "@get:JsonProperty(\"nonRequiredWithDefaultString\", required = false)",
+                "override val nonRequiredWithDefaultString: kotlin.String = \"defaultValue\"",
+                "@get:JsonProperty(\"nonRequiredWithDefaultInt\", required = false)",
+                "override val nonRequiredWithDefaultInt: java.math.BigDecimal = java.math.BigDecimal(\"15\")",
+                "@get:JsonProperty(\"nonRequiredWithDefaultLong\", required = false)",
+                "override val nonRequiredWithDefaultLong: java.math.BigDecimal = java.math.BigDecimal(\"15\")",
+                "@get:JsonProperty(\"nonRequiredWithDefaultFloat\", required = false)",
+                "override val nonRequiredWithDefaultFloat: kotlin.Float = 15.45f",
+                "@get:JsonProperty(\"nonRequiredWithDefaultDouble\", required = false)",
+                "override val nonRequiredWithDefaultDouble: kotlin.Double = 15.45",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnum\", required = false)",
+                "override val nonRequiredWithDefaultEnum: Dog.NonRequiredWithDefaultEnum = NonRequiredWithDefaultEnum.THIS",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnumList\", required = false)",
+                "override val nonRequiredWithDefaultEnumList: kotlin.collections.List<Dog.NonRequiredWithDefaultEnumList> = arrayListOf(NonRequiredWithDefaultEnumList.THESE,NonRequiredWithDefaultEnumList.THOSE)",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnumSet\", required = false)",
+                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<Dog.NonRequiredWithDefaultEnumSet> = setOf(NonRequiredWithDefaultEnumSet.THEM,NonRequiredWithDefaultEnumSet.THOSE)"
+        );
+
+        Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(
+                petPath,
+                "override val category: Category?", // without default (fallback) value is nullable
+                "val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>", // elsewhere with default (fallback) value is not nullable
+                "val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>",
+                "val nonRequiredWithDefaultString: kotlin.String",
+                "val nonRequiredWithDefaultInt: java.math.BigDecimal",
+                "val nonRequiredWithDefaultLong: java.math.BigDecimal",
+                "val nonRequiredWithDefaultFloat: kotlin.Float",
+                "val nonRequiredWithDefaultDouble: kotlin.Double",
+                "val nonRequiredWithDefaultEnum: Pet.NonRequiredWithDefaultEnum",
+                "val nonRequiredWithDefaultEnumList: Pet.NonRequiredWithDefaultEnumList",
+                "val nonRequiredWithDefaultEnumSet: Pet.NonRequiredWithDefaultEnumSet"
+        );
+    }
+
+    @Test
     public void reactiveWithoutFlow() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();

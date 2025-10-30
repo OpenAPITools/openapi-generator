@@ -546,6 +546,16 @@ components:
           format: int64
           required: false
           default: 15
+        nonRequiredWithDefaultFloat:
+          type: number
+          format: float
+          required: false
+          default: 15.45
+        nonRequiredWithDefaultDouble:
+          type: number
+          format: double
+          required: false
+          default: 15.45
         nonRequiredWithDefaultEnum:
           type: string
           enum:
@@ -562,7 +572,7 @@ components:
               - THOSE
               - THEM
           required: false
-          default: [THESE, THOSE]
+          default: [ THESE, THOSE ]
         nonRequiredWithDefaultEnumSet:
           type: array
           uniqueItems: true
@@ -573,7 +583,7 @@ components:
               - THOSE
               - THEM
           required: false
-          default: [THEM, THOSE]
+          default: [ THEM, THOSE ]
         photoUrls:
           type: array
           items:
