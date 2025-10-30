@@ -12,9 +12,9 @@
 }}{{#vendorExtensions.x-field-extra-annotation}}
     {{{.}}}{{!
 }}{{/vendorExtensions.x-field-extra-annotation}}
-    @get:JsonProperty("{{{baseName}}}", required = false){{!
-}}{{#isInherited}}
-    override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{!
+    @get:JsonProperty("{{{baseName}}}", required = false)
+    {{#isInherited}}{{!
+}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{!
 }}{{#isEnum}}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{!
 }}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{!
 }}{{^defaultValue}}? = null{{/defaultValue}}{{!
