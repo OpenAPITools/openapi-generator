@@ -16,14 +16,14 @@
 
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>minimal.update.test</groupId>
-    <artifactId>minimal-update-test</artifactId>
+    <groupId>config.file.test</groupId>
+    <artifactId>available</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>OpenAPI Generator Minimal Update Test</name>
+    <name>ConfigFile</name>
     <url>https://openapi-generator.tech/</url>
     <build>
-        <finalName>minimal-update-test</finalName>
+        <finalName>configuration file test</finalName>
         <plugins>
             <plugin>
                 <groupId>org.openapitools</groupId>
