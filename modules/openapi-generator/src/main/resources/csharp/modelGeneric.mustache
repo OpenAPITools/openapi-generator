@@ -136,7 +136,7 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default{{/defaultValue}}{{/required}}{{^required}}default{{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}){{/defaultValue}}{{/required}}{{^required}}default({{{datatypeWithEnum}}}){{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{! Push all sanity tests on top }}
             {{#vars}}
