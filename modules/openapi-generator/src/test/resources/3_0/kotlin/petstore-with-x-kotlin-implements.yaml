@@ -523,6 +523,62 @@ components:
           $ref: '#/components/schemas/Category'
         name:
           type: string
+        nonRequiredWithDefaultList:
+          type: array
+          required: false
+          default: [ ]
+        nonRequiredWithDefaultSet:
+          type: array
+          uniqueItems: true
+          required: false
+          default: [ ]
+        nonRequiredWithDefaultString:
+          type: string
+          required: false
+          default: defaultValue
+        nonRequiredWithDefaultInt:
+          type: number
+          format: int32
+          required: false
+          default: 15
+        nonRequiredWithDefaultLong:
+          type: number
+          format: int64
+          required: false
+          default: 15
+        nonRequiredWithDefaultFloat:
+          type: number
+          format: float
+          required: false
+          default: 15.45
+        requiredWithDefaultList:
+          type: array
+          required: true
+          default: [ ]
+        requiredWithDefaultSet:
+          type: array
+          uniqueItems: true
+          required: true
+          default: [ ]
+        requiredWithDefaultString:
+          type: string
+          required: true
+          default: defaultValue
+        requiredWithDefaultInt:
+          type: number
+          format: int32
+          required: true
+          default: 15
+        requiredWithDefaultLong:
+          type: number
+          format: int64
+          required: true
+          default: 15
+        requiredWithDefaultFloat:
+          type: number
+          format: float
+          required: true
+          default: 15.45
         photoUrls:
           type: array
           items:
