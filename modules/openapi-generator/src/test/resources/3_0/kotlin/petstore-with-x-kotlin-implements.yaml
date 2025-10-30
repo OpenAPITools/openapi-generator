@@ -527,13 +527,13 @@ components:
           type: array
           items:
             type: string
-          default: [ ]
+          default: [ "just some default string", "another default string" ]
         nonRequiredWithDefaultSet:
           type: array
           items:
                 type: string
           uniqueItems: true
-          default: [ ]
+          default: [ "more strings", "look, it's a string!" ]
         nonRequiredWithDefaultString:
           type: string
           default: defaultValue

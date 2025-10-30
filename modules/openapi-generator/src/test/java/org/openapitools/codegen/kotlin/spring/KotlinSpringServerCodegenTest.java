@@ -1093,9 +1093,9 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"category\", required = false)",
                 "override val category: Category? = null", // without default (fallback) value is nullable
                 "@get:JsonProperty(\"nonRequiredWithDefaultList\", required = false)",
-                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf()", // elsewhere with default (fallback) value is not nullable
+                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf(\"just some default string\",\"another default string\"),", // elsewhere with default (fallback) value is not nullable
                 "@get:JsonProperty(\"nonRequiredWithDefaultSet\", required = false)",
-                "override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf()",
+                "override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf(\"more strings\",\"look, it's a string!\")",
                 "@get:JsonProperty(\"nonRequiredWithDefaultString\", required = false)",
                 "override val nonRequiredWithDefaultString: kotlin.String = \"defaultValue\"",
                 "@get:JsonProperty(\"nonRequiredWithDefaultInt\", required = false)",
