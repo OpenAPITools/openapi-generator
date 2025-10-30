@@ -166,8 +166,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         // TODO: Either include fully qualified names here or handle in DefaultCodegen via lastIndexOf(".") search
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList(
-//                        "String?",
-//                        "string?",
                         "String",
                         "string",
                         "bool?",
