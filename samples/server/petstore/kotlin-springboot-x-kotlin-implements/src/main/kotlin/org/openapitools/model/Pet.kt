@@ -29,6 +29,16 @@ import javax.validation.Valid
  * @param petType 
  * @param id 
  * @param category 
+ * @param nonRequiredWithDefaultList 
+ * @param nonRequiredWithDefaultSet 
+ * @param nonRequiredWithDefaultString 
+ * @param nonRequiredWithDefaultInt 
+ * @param nonRequiredWithDefaultLong 
+ * @param nonRequiredWithDefaultFloat 
+ * @param nonRequiredWithDefaultDouble 
+ * @param nonRequiredWithDefaultEnum 
+ * @param nonRequiredWithDefaultEnumList 
+ * @param nonRequiredWithDefaultEnumSet 
  * @param tags 
  * @param color 
  */
@@ -43,27 +53,116 @@ import javax.validation.Valid
 )
 
 interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
-        
-        override val name: kotlin.String
 
-        
-        val photoUrls: kotlin.collections.List<kotlin.String>
+    override val name: kotlin.String
 
-        
-        val petType: kotlin.String
 
-        
-        val id: kotlin.Long? 
+    val photoUrls: kotlin.collections.List<kotlin.String>
 
-        
-        override val category: Category? 
 
-        
-        val tags: kotlin.collections.List<Tag>? 
+    val petType: kotlin.String
 
-        
-        val color: Color? 
 
+    val id: kotlin.Long?
+
+
+    override val category: Category?
+
+
+    val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>
+
+
+    val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>
+
+
+    val nonRequiredWithDefaultString: kotlin.String
+
+
+    val nonRequiredWithDefaultInt: java.math.BigDecimal
+
+
+    val nonRequiredWithDefaultLong: java.math.BigDecimal
+
+
+    val nonRequiredWithDefaultFloat: kotlin.Float
+
+
+    val nonRequiredWithDefaultDouble: kotlin.Double
+
+
+    val nonRequiredWithDefaultEnum: Pet.NonRequiredWithDefaultEnum
+
+
+    val nonRequiredWithDefaultEnumList: Pet.NonRequiredWithDefaultEnumList
+
+
+    val nonRequiredWithDefaultEnumSet: Pet.NonRequiredWithDefaultEnumSet
+
+
+    val tags: kotlin.collections.List<Tag>?
+
+
+    val color: Color?
+
+
+    /**
+    * 
+    * Values: THIS,THAT
+    */
+    enum class NonRequiredWithDefaultEnum(@get:JsonValue val value: kotlin.String) {
+
+        THIS("THIS"),
+        THAT("THAT");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnum {
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
+            }
+        }
+    }
+
+    /**
+    * 
+    * Values: THESE,THOSE,THEM
+    */
+    enum class NonRequiredWithDefaultEnumList(@get:JsonValue val value: kotlin.String) {
+
+        THESE("THESE"),
+        THOSE("THOSE"),
+        THEM("THEM");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnumList {
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
+            }
+        }
+    }
+
+    /**
+    * 
+    * Values: THESE,THOSE,THEM
+    */
+    enum class NonRequiredWithDefaultEnumSet(@get:JsonValue val value: kotlin.String) {
+
+        THESE("THESE"),
+        THOSE("THOSE"),
+        THEM("THEM");
+
+        companion object {
+            @JvmStatic
+            @JsonCreator
+            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnumSet {
+                return values().firstOrNull{it -> it.value == value}
+                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
+            }
+        }
+    }
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

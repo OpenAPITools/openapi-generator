@@ -26,23 +26,29 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Apa(
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("bepa", required = true) val bepa: java.math.BigDecimal = java.math.BigDecimal("0"),
+    @get:JsonProperty("bepa", required = true)
+    val bepa: java.math.BigDecimal = java.math.BigDecimal("0"),
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("cepa", required = true) val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
+    @get:JsonProperty("cepa", required = true)
+    val cepa: java.math.BigDecimal = java.math.BigDecimal("6.28318"),
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("depa") val depa: java.math.BigDecimal? = java.math.BigDecimal("71"),
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("depa", required = false)
+    val depa: java.math.BigDecimal = java.math.BigDecimal("71"),
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("epa") val epa: java.math.BigDecimal? = java.math.BigDecimal("-71"),
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("epa", required = false)
+    val epa: java.math.BigDecimal = java.math.BigDecimal("-71"),
 
-    @Schema(example = "null", description = "")
+    @Schema(example = "null", required = false, description = "")
     @Deprecated(message = "")
-    @get:JsonProperty("fepa") val fepa: java.math.BigDecimal? = java.math.BigDecimal("100"),
+    @get:JsonProperty("fepa", required = false)
+    val fepa: java.math.BigDecimal = java.math.BigDecimal("100"),
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("gepa") val gepa: java.math.BigDecimal? = null
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("gepa", required = false)
+    val gepa: java.math.BigDecimal? = null
 ) {
 
 }

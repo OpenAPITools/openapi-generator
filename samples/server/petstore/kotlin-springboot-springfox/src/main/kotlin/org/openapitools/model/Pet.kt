@@ -31,24 +31,30 @@ import io.swagger.annotations.ApiModelProperty
 data class Pet(
 
     @ApiModelProperty(example = "doggie", required = true, value = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true)
+    val name: kotlin.String,
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true)
+    val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
-
-    @field:Valid
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("category") val category: Category? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
     @field:Valid
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("category", required = false)
+    val category: Category? = null,
 
-    @ApiModelProperty(example = "null", value = "pet status in the store")
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @field:Valid
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("tags", required = false)
+    val tags: kotlin.collections.List<Tag>? = null,
+
+    @ApiModelProperty(example = "null", required = false, value = "pet status in the store")
+    @get:JsonProperty("status", required = false)
+    val status: Pet.Status? = null
 ) : Serializable {
 
     /**

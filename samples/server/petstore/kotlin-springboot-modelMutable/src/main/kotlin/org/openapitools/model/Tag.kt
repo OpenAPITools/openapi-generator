@@ -22,11 +22,13 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Tag(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") var id: kotlin.Long? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("id", required = false)
+    var id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("name") var name: kotlin.String? = null
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("name", required = false)
+    var name: kotlin.String? = null
 ) : Serializable {
 
     companion object {
