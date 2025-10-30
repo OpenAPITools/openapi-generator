@@ -18,6 +18,9 @@ part 'auth/api_key_auth.dart';
 part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
+{{#useOptional}}
+part 'optional.dart';
+{{/useOptional}}
 
 {{#apiInfo}}{{#apis}}part 'api/{{{classFilename}}}.dart';
 {{/apis}}{{/apiInfo}}

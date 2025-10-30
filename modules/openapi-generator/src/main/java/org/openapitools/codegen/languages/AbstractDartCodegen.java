@@ -1,9 +1,12 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.Sets;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
@@ -45,6 +48,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     public static final String PUB_REPOSITORY = "pubRepository";
     public static final String PUB_PUBLISH_TO = "pubPublishTo";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    public static final String USE_OPTIONAL = "useOptional";
+    public static final String PATCH_ONLY = "patchOnly";
 
     @Setter protected String pubLibrary = "openapi.api";
     @Setter protected String pubName = "openapi";
@@ -56,8 +61,12 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     @Setter protected String pubRepository = null;
     @Setter protected String pubPublishTo = null;
     @Setter protected boolean useEnumExtension = false;
+    @Setter protected boolean useOptional = false;
+    @Setter protected boolean patchOnly = false;
     @Setter protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
+
+    protected Set<String> patchRequestSchemas = new HashSet<>();
     protected String apiDocPath = "doc/";
     protected String modelDocPath = "doc/";
     protected String apiTestPath = "test" + File.separator;
@@ -195,6 +204,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         addOption(PUB_REPOSITORY, "Repository in generated pubspec", pubRepository);
         addOption(PUB_PUBLISH_TO, "Publish_to in generated pubspec", pubPublishTo);
         addOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums", String.valueOf(useEnumExtension));
+        addOption(USE_OPTIONAL, "Use Optional<T> to distinguish absent, null, and present for optional fields (Dart 3+)", String.valueOf(useOptional));
+        addOption(PATCH_ONLY, "Only apply Optional<T> to PATCH operation request bodies (requires useOptional=true)", String.valueOf(patchOnly));
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
     }
 
@@ -299,6 +310,24 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         } else {
             // Not set, use to be passed to template.
             additionalProperties.put(USE_ENUM_EXTENSION, useEnumExtension);
+        }
+
+        if (additionalProperties.containsKey(USE_OPTIONAL)) {
+            this.setUseOptional(convertPropertyToBooleanAndWriteBack(USE_OPTIONAL));
+        } else {
+            additionalProperties.put(USE_OPTIONAL, useOptional);
+        }
+
+        if (additionalProperties.containsKey(PATCH_ONLY)) {
+            this.setPatchOnly(convertPropertyToBooleanAndWriteBack(PATCH_ONLY));
+        } else {
+            additionalProperties.put(PATCH_ONLY, patchOnly);
+        }
+
+        if (patchOnly && !useOptional) {
+            LOGGER.warn("patchOnly=true requires useOptional=true. Setting useOptional=true.");
+            this.setUseOptional(true);
+            additionalProperties.put(USE_OPTIONAL, true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
@@ -545,6 +574,35 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+
+        if (patchOnly && openAPI.getPaths() != null) {
+            openAPI.getPaths().forEach((path, pathItem) -> {
+                if (pathItem.getPatch() != null) {
+                    Operation patchOp = pathItem.getPatch();
+                    if (patchOp.getRequestBody() != null) {
+                        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, patchOp.getRequestBody());
+                        if (requestBody != null && requestBody.getContent() != null) {
+                            requestBody.getContent().forEach((mediaType, content) -> {
+                                if (content.getSchema() != null) {
+                                    String ref = content.getSchema().get$ref();
+                                    if (ref != null) {
+                                        String schemaName = ModelUtils.getSimpleRef(ref);
+                                        String modelName = toModelName(schemaName);
+                                        patchRequestSchemas.add(modelName);
+                                        LOGGER.info("Identified '{}' as PATCH request schema (will use Optional<T>)", modelName);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         if (openAPIType == null) {
@@ -558,7 +616,49 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return postProcessModelsEnum(objs);
+        objs = postProcessModelsEnum(objs);
+
+        if (useOptional) {
+            for (ModelMap modelMap : objs.getModels()) {
+                CodegenModel model = modelMap.getModel();
+
+                boolean shouldUseOptional;
+
+                if (patchOnly) {
+                    shouldUseOptional = patchRequestSchemas.contains(model.classname);
+                } else {
+                    Boolean schemaUseOptional = (Boolean) model.vendorExtensions.get("x-use-optional");
+                    shouldUseOptional = schemaUseOptional != null && schemaUseOptional;
+                }
+
+                if (shouldUseOptional) {
+                    for (CodegenProperty prop : model.vars) {
+                        if (!prop.required && !prop.dataType.startsWith("Optional<")) {
+                            wrapPropertyWithOptional(prop);
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    private void wrapPropertyWithOptional(CodegenProperty property) {
+        property.vendorExtensions.put("x-unwrapped-datatype", property.dataType);
+        property.vendorExtensions.put("x-is-optional", true);
+        property.vendorExtensions.put("x-original-is-number", property.isNumber);
+        property.vendorExtensions.put("x-original-is-integer", property.isInteger);
+
+        boolean hasNullableSuffix = property.dataType.endsWith("?");
+        String baseType = hasNullableSuffix ? property.dataType.substring(0, property.dataType.length() - 1) : property.dataType;
+        property.dataType = "Optional<" + baseType + "?" + ">";
+
+        if (property.datatypeWithEnum != null && !property.datatypeWithEnum.startsWith("Optional<")) {
+            hasNullableSuffix = property.datatypeWithEnum.endsWith("?");
+            baseType = hasNullableSuffix ? property.datatypeWithEnum.substring(0, property.datatypeWithEnum.length() - 1) : property.datatypeWithEnum;
+            property.datatypeWithEnum = "Optional<" + baseType + "?" + ">";
+        }
     }
 
     @Override
@@ -624,6 +724,19 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     }
 
     @Override
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
+        final CodegenParameter param = super.fromParameter(parameter, imports);
+
+        if (useOptional && param.dataType != null && param.dataType.startsWith("Optional<")) {
+            param.dataType = param.dataType.substring("Optional<".length(), param.dataType.length() - 1);
+            param.vendorExtensions.remove("x-is-optional");
+            param.vendorExtensions.remove("x-unwrapped-datatype");
+        }
+
+        return param;
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         final CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         for (CodegenResponse r : op.responses) {
@@ -659,6 +772,21 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation op : ops) {
+                if (patchOnly && "PATCH".equalsIgnoreCase(op.httpMethod)) {
+                    if (op.bodyParam != null && op.bodyParam.dataType != null) {
+                        String modelName = getString(op);
+                        patchRequestSchemas.add(modelName);
+                        LOGGER.debug("Marked schema '{}' for Optional wrapping (PATCH request body)", modelName);
+                    }
+                }
+
+                if (useOptional) {
+                    unwrapOptionalFromParameters(op.pathParams);
+                    unwrapOptionalFromParameters(op.queryParams);
+                    unwrapOptionalFromParameters(op.headerParams);
+                    unwrapOptionalFromParameters(op.formParams);
+                }
+
                 if (op.hasConsumes) {
                     if (!op.formParams.isEmpty() || op.isMultipart) {
                         // DefaultCodegen only sets this if the first consumes mediaType
@@ -678,6 +806,29 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return objs;
+    }
+
+    private static String getString(CodegenOperation op) {
+        String modelName = op.bodyParam.dataType;
+        if (modelName.startsWith("List<") || modelName.startsWith("Map<")) {
+            int start = modelName.indexOf('<') + 1;
+            int end = modelName.lastIndexOf('>');
+            if (start > 0 && end > start) {
+                modelName = modelName.substring(start, end);
+            }
+        }
+        modelName = modelName.replace("?", "");
+        return modelName;
+    }
+
+    private void unwrapOptionalFromParameters(List<CodegenParameter> params) {
+        if (params == null) return;
+        for (CodegenParameter param : params) {
+            if (param.dataType != null && param.dataType.startsWith("Optional<")) {
+                param.dataType = param.dataType.substring("Optional<".length(), param.dataType.length() - 1);
+                param.vendorExtensions.remove("x-is-optional");
+            }
+        }
     }
 
     private List<Map<String, String>> prioritizeContentTypes(List<Map<String, String>> consumes) {
