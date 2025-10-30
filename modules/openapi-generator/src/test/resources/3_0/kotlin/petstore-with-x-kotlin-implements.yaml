@@ -546,39 +546,34 @@ components:
           format: int64
           required: false
           default: 15
-        nonRequiredWithDefaultFloat:
-          type: number
-          format: float
+        nonRequiredWithDefaultEnum:
+          type: string
+          enum:
+            - THIS
+            - THAT
           required: false
-          default: 15.45
-        requiredWithDefaultList:
+          default: THIS
+        nonRequiredWithDefaultEnumList:
           type: array
-          required: true
-          default: [ ]
-        requiredWithDefaultSet:
+          items:
+            type: string
+            enum:
+              - THESE
+              - THOSE
+              - THEM
+          required: false
+          default: [THESE, THOSE]
+        nonRequiredWithDefaultEnumSet:
           type: array
           uniqueItems: true
-          required: true
-          default: [ ]
-        requiredWithDefaultString:
-          type: string
-          required: true
-          default: defaultValue
-        requiredWithDefaultInt:
-          type: number
-          format: int32
-          required: true
-          default: 15
-        requiredWithDefaultLong:
-          type: number
-          format: int64
-          required: true
-          default: 15
-        requiredWithDefaultFloat:
-          type: number
-          format: float
-          required: true
-          default: 15.45
+          items:
+            type: string
+            enum:
+              - THESE
+              - THOSE
+              - THEM
+          required: false
+          default: [THEM, THOSE]
         photoUrls:
           type: array
           items:
