@@ -1,0 +1,3 @@
+inputSpec: petstore-on-classpath.yaml
+generatorName: spring
+output: ./target/generated-sources/minimal-update<

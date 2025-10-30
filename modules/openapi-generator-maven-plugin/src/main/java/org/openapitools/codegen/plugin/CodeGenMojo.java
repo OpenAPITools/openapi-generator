@@ -51,6 +51,7 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -194,6 +195,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "configurationFile", property = "openapi.generator.maven.plugin.configurationFile")
     private String configurationFile;
+
+    /**
+     * Skip the execution if the source file is older than the output folder.
+     */
+    @Parameter(name = "skipIfConfigurationFileMissing", property = "codegen.skipIfConfigurationFileMissing", defaultValue = "false")
+    private Boolean skipIfConfigurationFileMissing;
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -563,6 +570,25 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (Boolean.TRUE.equals(skipIfConfigurationFileMissing) && isNotEmpty(configurationFile)) {
+            if (!new File(configurationFile).exists()) {
+                getLog().info("Code generation is skipped because configuration file [" + configurationFile + "] is missing");
+                return;
+            }
+        }
+
+        // attempt to read from config file
+        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
+
+        // if a config file wasn't specified, or we were unable to read it
+        if (configurator == null) {
+            configurator = new CodegenConfigurator();
+        } else {
+            // retrieve mandatory fields from the configurationFile if not defined in the pom.xml
+            this.generatorName = fromConfigurator(configurator, "generatorName", String.class, generatorName);
+            this.inputSpec = fromConfigurator(configurator, "inputSpec", String.class, inputSpec);
+        }
+
         if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
             LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
             throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
@@ -636,14 +662,6 @@ public class CodeGenMojo extends AbstractMojo {
                 } catch (IOException e) {
                     LOGGER.warn("Failed to clean up output directory {}", output, e);
                 }
-            }
-
-            // attempt to read from config file
-            CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
-
-            // if a config file wasn't specified, or we were unable to read it
-            if (configurator == null) {
-                configurator = new CodegenConfigurator();
             }
 
             configurator.setVerbose(verbose);
@@ -1029,6 +1047,30 @@ public class CodeGenMojo extends AbstractMojo {
             getLog().error(e);
             throw new MojoExecutionException(
                     "Code generation failed. See above for the full exception.");
+        }
+    }
+
+    /**
+     * Access private fields of the CodegenConfigurator class.
+     *
+     * @param configurator the CodegenConfigurator
+     * @param fieldName name of the field
+     * @param clazz type of the field
+     * @param defaultValue default if configuration.fieldName is null
+     * @return the value of configuration.fieldName if defaultValue is null
+     */
+    private <T> T fromConfigurator(CodegenConfigurator configurator, String fieldName, Class<T> clazz, T defaultValue) {
+        if (defaultValue != null) {
+            // keep backward compatibilty, the value in the pom.xml has precedence over the value in the config file.
+            return defaultValue;
+        }
+        try {
+            Field field = CodegenConfigurator.class.getDeclaredField(fieldName);
+            field.setAccessible(true);
+            T value = (T)field.get(configurator);
+            return value == null? defaultValue : value;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to read " + fieldName + " from configuration file.", e);
         }
     }
 
