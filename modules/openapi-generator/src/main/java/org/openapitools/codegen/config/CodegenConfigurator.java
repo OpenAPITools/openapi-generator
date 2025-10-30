@@ -811,4 +811,12 @@ public class CodegenConfigurator {
 
         return input.openAPI((OpenAPI) context.getSpecDocument());
     }
+
+    public String getGeneratorName() {
+        return generatorName;
+    }
+
+    public String getInputSpec() {
+        return inputSpec;
+    }
 }

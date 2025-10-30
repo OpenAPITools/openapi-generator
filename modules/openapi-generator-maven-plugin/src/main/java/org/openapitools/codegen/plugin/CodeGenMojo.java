@@ -585,8 +585,8 @@ public class CodeGenMojo extends AbstractMojo {
             configurator = new CodegenConfigurator();
         } else {
             // retrieve mandatory fields from the configurationFile if not defined in the pom.xml
-            this.generatorName = fromConfigurator(configurator, "generatorName", String.class, generatorName);
-            this.inputSpec = fromConfigurator(configurator, "inputSpec", String.class, inputSpec);
+            this.generatorName = fromConfigurator(configurator.getGeneratorName(),  generatorName);
+            this.inputSpec = fromConfigurator(configurator.getInputSpec(), inputSpec);
         }
 
         if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
@@ -1051,27 +1051,16 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Access private fields of the CodegenConfigurator class.
+     * Use the configurator value is not defined in the pom.xml
      *
-     * @param configurator the CodegenConfigurator
-     * @param fieldName name of the field
-     * @param clazz type of the field
-     * @param defaultValue default if configuration.fieldName is null
-     * @return the value of configuration.fieldName if defaultValue is null
+     * @param defaultValue default value taking precedence
      */
-    private <T> T fromConfigurator(CodegenConfigurator configurator, String fieldName, Class<T> clazz, T defaultValue) {
+    private <T> T fromConfigurator(T value, T defaultValue) {
         if (defaultValue != null) {
             // keep backward compatibilty, the value in the pom.xml has precedence over the value in the config file.
             return defaultValue;
         }
-        try {
-            Field field = CodegenConfigurator.class.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            T value = (T)field.get(configurator);
-            return value == null? defaultValue : value;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to read " + fieldName + " from configuration file.", e);
-        }
+        return value;
     }
 
     /**
