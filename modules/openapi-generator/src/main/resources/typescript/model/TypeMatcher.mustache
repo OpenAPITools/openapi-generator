@@ -9,15 +9,8 @@ import { AttributeTypeMapEntry } from '../models/ModelTypes{{importFileExtension
  */
 export function instanceOfType(data: any, attributeTypeMap: Array<AttributeTypeMapEntry>): boolean {
     for (const attribute of attributeTypeMap) {
-        if (attribute.required) {
-            // Check both that the property exists AND that it's not undefined.
-            // This is important because `data[attribute.baseName] === undefined` alone
-            // would be true for both missing properties and properties explicitly set to undefined,
-            // while `!(attribute.baseName in data)` distinguishes between these cases.
-            // For proper OpenAPI validation, required fields must actually be present in the data.
-            if (!(attribute.baseName in data) || data[attribute.baseName] === undefined) {
-                return false;
-            }
+        if (attribute.required && data[attribute.baseName] === undefined) {
+            return false;
         }
     }
 
