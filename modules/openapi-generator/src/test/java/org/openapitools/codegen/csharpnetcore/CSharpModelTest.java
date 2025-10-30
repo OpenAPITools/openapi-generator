@@ -412,7 +412,7 @@ public class CSharpModelTest {
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "string?");
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isPrimitiveType);
+        Assert.assertFalse(property3.isPrimitiveType);
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "subObject");
