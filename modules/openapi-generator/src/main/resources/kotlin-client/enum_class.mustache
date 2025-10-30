@@ -39,6 +39,9 @@ import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 {{/multiplatform}}
 
 /**
@@ -46,7 +49,7 @@ import kotlinx.serialization.*
  *
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{^multiplatform}}
 {{#moshi}}
 @JsonClass(generateAdapter = false)
@@ -71,7 +74,9 @@ import kotlinx.serialization.*
     {{/kotlinx_serialization}}
     {{/multiplatform}}
     {{#multiplatform}}
+    {{#isString}}
     @SerialName(value = {{#lambda.doublequote}}{{{value}}}{{/lambda.doublequote}})
+    {{/isString}}
     {{/multiplatform}}
     {{#isArray}}
     {{#isList}}
@@ -147,3 +152,18 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 }
 {{/isString}}{{/enumUnknownDefaultCase}}
 {{/kotlinx_serialization}}
+{{#multiplatform}}{{^isString}}
+internal object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor = {{dataType}}.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+        return {{classname}}.values().firstOrNull { it.value == value }
+            ?: throw IllegalArgumentException("Unknown enum value: $value")
+    }
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+    }
+}
+{{/isString}}{{/multiplatform}}
