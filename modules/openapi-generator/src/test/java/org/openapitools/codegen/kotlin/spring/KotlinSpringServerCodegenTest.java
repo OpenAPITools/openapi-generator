@@ -1107,11 +1107,11 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"nonRequiredWithDefaultDouble\", required = false)",
                 "override val nonRequiredWithDefaultDouble: kotlin.Double = 15.45",
                 "@get:JsonProperty(\"nonRequiredWithDefaultEnum\", required = false)",
-                "override val nonRequiredWithDefaultEnum: Dog.NonRequiredWithDefaultEnum = NonRequiredWithDefaultEnum.THIS",
+                "override val nonRequiredWithDefaultEnum: SomeEnum = SomeEnum.ENUMVALUE1",
                 "@get:JsonProperty(\"nonRequiredWithDefaultEnumList\", required = false)",
-                "override val nonRequiredWithDefaultEnumList: kotlin.collections.List<Dog.NonRequiredWithDefaultEnumList> = arrayListOf(NonRequiredWithDefaultEnumList.THESE,NonRequiredWithDefaultEnumList.THOSE)",
+                "override val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum> = arrayListOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)",
                 "@get:JsonProperty(\"nonRequiredWithDefaultEnumSet\", required = false)",
-                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<Dog.NonRequiredWithDefaultEnumSet> = setOf(NonRequiredWithDefaultEnumSet.THEM,NonRequiredWithDefaultEnumSet.THOSE)"
+                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)"
         );
 
         Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
@@ -1125,9 +1125,9 @@ public class KotlinSpringServerCodegenTest {
                 "val nonRequiredWithDefaultLong: java.math.BigDecimal",
                 "val nonRequiredWithDefaultFloat: kotlin.Float",
                 "val nonRequiredWithDefaultDouble: kotlin.Double",
-                "val nonRequiredWithDefaultEnum: Pet.NonRequiredWithDefaultEnum",
-                "val nonRequiredWithDefaultEnumList: Pet.NonRequiredWithDefaultEnumList",
-                "val nonRequiredWithDefaultEnumSet: Pet.NonRequiredWithDefaultEnumSet"
+                "val nonRequiredWithDefaultEnum: SomeEnum",
+                "val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>",
+                "val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>"
         );
     }
 

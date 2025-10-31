@@ -554,30 +554,18 @@ components:
           format: double
           default: 15.45
         nonRequiredWithDefaultEnum:
-          type: string
-          enum:
-            - THIS
-            - THAT
-          default: THIS
+          $ref: '#/components/schemas/SomeEnum'
         nonRequiredWithDefaultEnumList:
           type: array
           items:
-            type: string
-            enum:
-              - THESE
-              - THOSE
-              - THEM
-          default: [ THESE, THOSE ]
+            $ref: '#/components/schemas/SomeEnum'
+          default: [ ENUMVALUE3, ENUMVALUE1 ]
         nonRequiredWithDefaultEnumSet:
           type: array
           uniqueItems: true
           items:
-            type: string
-            enum:
-              - THESE
-              - THOSE
-              - THEM
-          default: [ THEM, THOSE ]
+            $ref: '#/components/schemas/SomeEnum'
+          default: [ ENUMVALUE3, ENUMVALUE1 ]
         photoUrls:
           type: array
           items:
@@ -635,6 +623,13 @@ components:
           format: int64
         name:
           type: string
+    SomeEnum:
+      type: string
+      enum:
+        - ENUMVALUE1
+        - ENUMVALUE2
+        - ENUMVALUE3
+      default: ENUMVALUE1
     Color:
       x-kotlin-implements: [ com.some.pack.WithDefaultMethods ]
       type: string

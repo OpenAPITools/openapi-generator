@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Pet
+import org.openapitools.model.SomeEnum
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -70,14 +71,17 @@ data class Cat(
     @get:JsonProperty("nonRequiredWithDefaultDouble", required = false)
     override val nonRequiredWithDefaultDouble: kotlin.Double = 15.45,
 
+    @field:Valid
     @get:JsonProperty("nonRequiredWithDefaultEnum", required = false)
-    override val nonRequiredWithDefaultEnum: Cat.NonRequiredWithDefaultEnum = NonRequiredWithDefaultEnum.THIS,
+    override val nonRequiredWithDefaultEnum: SomeEnum = SomeEnum.ENUMVALUE1,
 
+    @field:Valid
     @get:JsonProperty("nonRequiredWithDefaultEnumList", required = false)
-    override val nonRequiredWithDefaultEnumList: kotlin.collections.List<Cat.NonRequiredWithDefaultEnumList> = arrayListOf(NonRequiredWithDefaultEnumList.THESE,NonRequiredWithDefaultEnumList.THOSE),
+    override val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum> = arrayListOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1),
 
+    @field:Valid
     @get:JsonProperty("nonRequiredWithDefaultEnumSet", required = false)
-    override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<Cat.NonRequiredWithDefaultEnumSet> = setOf(NonRequiredWithDefaultEnumSet.THEM,NonRequiredWithDefaultEnumSet.THOSE),
+    override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1),
 
     @field:Valid
     @get:JsonProperty("tags", required = false)

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
+import org.openapitools.model.SomeEnum
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -90,13 +91,13 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
     val nonRequiredWithDefaultDouble: kotlin.Double
 
 
-    val nonRequiredWithDefaultEnum: Pet.NonRequiredWithDefaultEnum
+    val nonRequiredWithDefaultEnum: SomeEnum
 
 
-    val nonRequiredWithDefaultEnumList: Pet.NonRequiredWithDefaultEnumList
+    val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>
 
 
-    val nonRequiredWithDefaultEnumSet: Pet.NonRequiredWithDefaultEnumSet
+    val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
 
 
     val tags: kotlin.collections.List<Tag>?
@@ -104,65 +105,6 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
 
     val color: Color?
 
-
-    /**
-    * 
-    * Values: THIS,THAT
-    */
-    enum class NonRequiredWithDefaultEnum(@get:JsonValue val value: kotlin.String) {
-
-        THIS("THIS"),
-        THAT("THAT");
-
-        companion object {
-            @JvmStatic
-            @JsonCreator
-            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnum {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
-            }
-        }
-    }
-
-    /**
-    * 
-    * Values: THESE,THOSE,THEM
-    */
-    enum class NonRequiredWithDefaultEnumList(@get:JsonValue val value: kotlin.String) {
-
-        THESE("THESE"),
-        THOSE("THOSE"),
-        THEM("THEM");
-
-        companion object {
-            @JvmStatic
-            @JsonCreator
-            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnumList {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
-            }
-        }
-    }
-
-    /**
-    * 
-    * Values: THESE,THOSE,THEM
-    */
-    enum class NonRequiredWithDefaultEnumSet(@get:JsonValue val value: kotlin.String) {
-
-        THESE("THESE"),
-        THOSE("THOSE"),
-        THEM("THEM");
-
-        companion object {
-            @JvmStatic
-            @JsonCreator
-            fun forValue(value: kotlin.String): NonRequiredWithDefaultEnumSet {
-                return values().firstOrNull{it -> it.value == value}
-                    ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Pet'")
-            }
-        }
-    }
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1
