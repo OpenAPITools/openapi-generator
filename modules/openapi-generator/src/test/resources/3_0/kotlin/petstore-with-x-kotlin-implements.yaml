@@ -566,6 +566,62 @@ components:
           items:
             $ref: '#/components/schemas/SomeEnum'
           default: [ ENUMVALUE3, ENUMVALUE1 ]
+        nonRequiredWithDefaultNullList:
+          type: array
+          items:
+            type: string
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullSet:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullString:
+          type: string
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullInt:
+          type: number
+          format: int32
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullLong:
+          type: number
+          format: int64
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullFloat:
+          type: number
+          format: float
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullDouble:
+          type: number
+          format: double
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullEnum:
+          $ref: '#/components/schemas/SomeNullableEnum'
+        nonRequiredWithDefaultNullEnumList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SomeEnum'
+          nullable: true
+          default: null
+        nonRequiredWithDefaultNullEnumSet:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/SomeEnum'
+          nullable: true
+          default: null
+        nonRequiredNullableWithDefaultString:
+          type: string
+          nullable: true
+          default: "someString"
         photoUrls:
           type: array
           items:
@@ -630,6 +686,14 @@ components:
         - ENUMVALUE2
         - ENUMVALUE3
       default: ENUMVALUE1
+    SomeNullableEnum:
+      type: string
+      enum:
+        - ENUMVALUE1
+        - ENUMVALUE2
+        - ENUMVALUE3
+      nullable: true
+      default: null
     Color:
       x-kotlin-implements: [ com.some.pack.WithDefaultMethods ]
       type: string

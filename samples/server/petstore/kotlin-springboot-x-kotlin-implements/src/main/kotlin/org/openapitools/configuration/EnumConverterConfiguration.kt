@@ -2,6 +2,7 @@ package org.openapitools.configuration
 
 import org.openapitools.model.Color
 import org.openapitools.model.SomeEnum
+import org.openapitools.model.SomeNullableEnum
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -27,6 +28,12 @@ class EnumConverterConfiguration {
     fun someEnumConverter(): Converter<kotlin.String, SomeEnum> {
         return object: Converter<kotlin.String, SomeEnum> {
             override fun convert(source: kotlin.String): SomeEnum = SomeEnum.forValue(source)
+        }
+    }
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.someNullableEnumConverter"])
+    fun someNullableEnumConverter(): Converter<kotlin.String, SomeNullableEnum> {
+        return object: Converter<kotlin.String, SomeNullableEnum> {
+            override fun convert(source: kotlin.String): SomeNullableEnum = SomeNullableEnum.forValue(source)
         }
     }
 

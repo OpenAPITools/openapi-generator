@@ -20,5 +20,6 @@ src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
 src/main/kotlin/org/openapitools/model/SomeEnum.kt
+src/main/kotlin/org/openapitools/model/SomeNullableEnum.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.SomeEnum
+import org.openapitools.model.SomeNullableEnum
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -40,6 +41,17 @@ import javax.validation.Valid
  * @param nonRequiredWithDefaultEnum 
  * @param nonRequiredWithDefaultEnumList 
  * @param nonRequiredWithDefaultEnumSet 
+ * @param nonRequiredWithDefaultNullList 
+ * @param nonRequiredWithDefaultNullSet 
+ * @param nonRequiredWithDefaultNullString 
+ * @param nonRequiredWithDefaultNullInt 
+ * @param nonRequiredWithDefaultNullLong 
+ * @param nonRequiredWithDefaultNullFloat 
+ * @param nonRequiredWithDefaultNullDouble 
+ * @param nonRequiredWithDefaultNullEnum 
+ * @param nonRequiredWithDefaultNullEnumList 
+ * @param nonRequiredWithDefaultNullEnumSet 
+ * @param nonRequiredNullableWithDefaultString 
  * @param tags 
  * @param color 
  */
@@ -98,6 +110,39 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
 
 
     val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
+
+
+    val nonRequiredWithDefaultNullList: kotlin.collections.List<kotlin.String>?
+
+
+    val nonRequiredWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
+
+
+    val nonRequiredWithDefaultNullString: kotlin.String?
+
+
+    val nonRequiredWithDefaultNullInt: java.math.BigDecimal?
+
+
+    val nonRequiredWithDefaultNullLong: java.math.BigDecimal?
+
+
+    val nonRequiredWithDefaultNullFloat: kotlin.Float?
+
+
+    val nonRequiredWithDefaultNullDouble: kotlin.Double?
+
+
+    val nonRequiredWithDefaultNullEnum: SomeNullableEnum?
+
+
+    val nonRequiredWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
+
+
+    val nonRequiredWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
+
+
+    val nonRequiredNullableWithDefaultString: kotlin.String
 
 
     val tags: kotlin.collections.List<Tag>?
