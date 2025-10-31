@@ -1,10 +1,12 @@
 {{>header}}
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element{{#useFreezed}}, invalid_annotation_target{{/useFreezed}}
 {{#models}}
     {{#model}}
+    {{^useFreezed}}
         {{#imports}}
 import '{{.}}';
         {{/imports}}
+    {{/useFreezed}}
 {{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
     {{/model}}
 {{/models}}

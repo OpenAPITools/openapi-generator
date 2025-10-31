@@ -1,0 +1,12 @@
+@freezed
+class {{classname}} with _${{classname}} {
+const {{classname}}._();
+
+const factory {{classname}}({
+{{#vars}}
+    {{#description}}
+        /// {{{.}}}
+    {{/description}}
+    @JsonKey(name: r'{{baseName}}') {{>serialization/freezed/variable_type}} {{name}},
+{{/vars}}
+}) = _{{classname}};
