@@ -7,6 +7,18 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
+  /v1/person:
+    get:
+      operationId: list
+      responses:
+        '200':
+          description: OK
+  /v2/person:
+    get:
+      operationId: list
+      responses:
+        '200':
+          description: OK
   /person/display/{personId}:
     get:
       tags:
@@ -47,6 +59,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Person"
     put:
+      x-role: admin
       tags:
         - person
       parameters:

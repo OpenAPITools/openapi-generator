@@ -538,6 +538,7 @@ OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectl
 
 - SIMPLIFY_ONEOF_ANYOF 
 - SIMPLIFY_BOOLEAN_ENUM
+- REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
 
 (One can use `DISABLE_ALL=true` to disable all the rules)
 
@@ -643,9 +644,16 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer NORMALIZER_CLASS=org.openapitools.codegen.OpenAPINormalizerTest$RemoveRequiredNormalizer
 ```
 
+- `REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT`: When set to true, remove the "properties" of a schema with type other than "object".
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/required-properties.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT=true
+```
+
 - `FILTER`
 
-The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated.
+The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
 
 ### Available Filters
 
@@ -658,6 +666,9 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 - **`tag`**  
   When set to `tag:person|basic`, operations **not** tagged with `person` or `basic` will be marked as internal (`x-internal: true`), and will not be generated.
 
+- **`path`**  
+  When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
+
 ### Example Usage
 
 ```sh
@@ -665,7 +676,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
   -g java \
   -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -o /tmp/java-okhttp/ \
-  --openapi-normalizer FILTER="operationId:addPet|getPetById"
+  --openapi-normalizer FILTER="operationId:addPet|getPetById ; tag:store"
 ```
 
 - `SET_CONTAINER_TO_NULLABLE`: When set to `array|set|map` (or just `array`) for example, it will set `nullable` in array, set and map to true.

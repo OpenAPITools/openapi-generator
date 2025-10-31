@@ -648,7 +648,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     private void postProcessPolymorphism(final List<ModelMap> allModels) {
-        final HashMap<String, List<String>> discriminatorsForModel = new HashMap<>();
+        final HashMap<String, List<CodegenDiscriminator>> discriminatorsForModel = new HashMap<>();
 
         for (final ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
@@ -656,15 +656,17 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             final CodegenComposedSchemas cs = cm.getComposedSchemas();
             if (cs != null) {
                 final List<CodegenProperty> csOneOf = cs.getOneOf();
+                CodegenDiscriminator discriminator = cm.getDiscriminator();
+
                 if (csOneOf != null) {
-                    processPolymorphismDataType(csOneOf);
+                    processPolymorphismDataType(csOneOf, discriminator);
                     cs.setOneOf(csOneOf);
                     cm.setComposedSchemas(cs);
                 }
 
                 final List<CodegenProperty> csAnyOf = cs.getAnyOf();
                 if (csAnyOf != null) {
-                    processPolymorphismDataType(csAnyOf);
+                    processPolymorphismDataType(csAnyOf, discriminator);
                     cs.setAnyOf(csAnyOf);
                     cm.setComposedSchemas(cs);
                 }
@@ -672,14 +674,14 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
             if (cm.discriminator != null) {
                 for (final String model : cm.oneOf) {
-                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
-                    discriminators.add(cm.discriminator.getPropertyName());
+                    final List<CodegenDiscriminator> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator);
                     discriminatorsForModel.put(model, discriminators);
                 }
 
                 for (final String model : cm.anyOf) {
-                    final List<String> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
-                    discriminators.add(cm.discriminator.getPropertyName());
+                    final List<CodegenDiscriminator> discriminators = discriminatorsForModel.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator);
                     discriminatorsForModel.put(model, discriminators);
                 }
             }
@@ -689,11 +691,11 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            final List<String> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getSchemaName());
             if (discriminators != null) {
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
                 if (!discriminating(discriminators, cm)) {
-                    final String discriminator = discriminators.get(0);
+                    final CodegenDiscriminator discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
 
@@ -710,17 +712,18 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     property.isDiscriminator = true;
 
                     // Attributes based on the discriminator value
-                    property.baseName = discriminator;
-                    property.name = discriminator;
-                    property.nameInCamelCase = camelize(discriminator);
+                    property.baseName = discriminator.getPropertyBaseName();
+                    property.name = discriminator.getPropertyName();
+                    property.nameInCamelCase = camelize(discriminator.getPropertyName());
                     property.nameInPascalCase = property.nameInCamelCase.substring(0, 1).toUpperCase(Locale.ROOT) + property.nameInCamelCase.substring(1);
-                    property.nameInSnakeCase = underscore(discriminator).toUpperCase(Locale.ROOT);
+                    property.nameInSnakeCase = underscore(discriminator.getPropertyName()).toUpperCase(Locale.ROOT);
                     property.getter = String.format(Locale.ROOT, "get%s", property.nameInPascalCase);
                     property.setter = String.format(Locale.ROOT, "set%s", property.nameInPascalCase);
                     property.defaultValueWithParam = String.format(Locale.ROOT, " = data.%s;", property.name);
 
                     // Attributes based on the model name
                     property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
+                    property.discriminatorValue = getDiscriminatorValue(cm.getClassname(), discriminator);
                     property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
 
                     cm.vars.add(property);
@@ -743,14 +746,27 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private static boolean discriminating(final List<String> discriminatorsForModel, final CodegenModel cm) {
+    private static String getDiscriminatorValue(String modelName, CodegenDiscriminator discriminator) {
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return modelName;
+        }
+        return discriminator
+                .getMappedModels()
+                .stream()
+                .filter(m -> m.getModelName().equals(modelName) && m.getMappingName() != null)
+                .map(CodegenDiscriminator.MappedModel::getMappingName)
+                .findFirst()
+                .orElse(modelName);
+    }
+
+    private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
         resetDiscriminatorProperty(cm);
 
         // Discriminator will be presented as enum tag -> One and only one tag is allowed
         int countString = 0;
         int countNonString = 0;
         for (final CodegenProperty var : cm.vars) {
-            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator) || var.name.equals(discriminator))) {
+            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
                 if (var.isString) {
                     var.isDiscriminator = true;
                     ++countString;
@@ -773,7 +789,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
     }
 
-    private static void processPolymorphismDataType(final List<CodegenProperty> cp) {
+    private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {
         final HashSet<String> dedupDataTypeWithEnum = new HashSet<>();
         final HashMap<String, Integer> dedupDataType = new HashMap<>();
 
@@ -783,6 +799,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             // Mainly needed for primitive types.
             model.datatypeWithEnum = camelize(model.dataType.replaceAll("(?:\\w+::)+(\\w+)", "$1")
                     .replace("<", "Of").replace(">", "")).replace(" ", "").replace(",", "");
+            model.discriminatorValue = getDiscriminatorValue(model.datatypeWithEnum, discriminator);
             if (!dedupDataTypeWithEnum.add(model.datatypeWithEnum)) {
                 model.datatypeWithEnum += ++idx;
             }

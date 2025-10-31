@@ -2832,17 +2832,20 @@ components:
     CopyActivity:
       allOf:
       - $ref: "#/components/schemas/EntityBase"
-      properties:
-        $schema:
-          enum:
-          - ScopeActivity
-          type: string
-        copyActivitytt:
-          type: string
-      required:
-      - $schema
-      - copyActivitytt
+      - properties:
+          $schema:
+            enum:
+            - ScopeActivity
+            type: string
+          copyActivitytt:
+            type: string
+        required:
+        - $schema
+        - copyActivitytt
+        type: object
+        example: null
       type: object
+      example: null
     EntityBase:
       discriminator:
         mapping:
@@ -2881,10 +2884,13 @@ components:
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"
-      properties:
-        code:
-          $ref: "#/components/schemas/TestResultCode"
+      - properties:
+          code:
+            $ref: "#/components/schemas/TestResultCode"
+        type: object
+        example: null
       type: object
+      example: null
     TestResultCode:
       description: Result code
       enum:

@@ -2651,17 +2651,18 @@ components:
     CopyActivity:
       allOf:
       - $ref: "#/components/schemas/EntityBase"
-      properties:
-        $schema:
-          enum:
-          - ScopeActivity
-          type: string
-        copyActivitytt:
-          type: string
-      required:
-      - $schema
-      - copyActivitytt
+      - properties:
+          $schema:
+            $ref: "#/components/schemas/CopyActivity_allOf__schema"
+          copyActivitytt:
+            type: string
+        required:
+        - $schema
+        - copyActivitytt
+        type: object
+        example: null
       type: object
+      example: null
     EntityBase:
       discriminator:
         mapping:
@@ -2700,10 +2701,13 @@ components:
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"
-      properties:
-        code:
-          $ref: "#/components/schemas/TestResultCode"
+      - properties:
+          code:
+            $ref: "#/components/schemas/TestResultCode"
+        type: object
+        example: null
       type: object
+      example: null
     TestResultCode:
       description: Result code
       enum:
@@ -3054,6 +3058,10 @@ components:
       enum:
       - Descendant1
       - Descendant2
+      type: string
+    CopyActivity_allOf__schema:
+      enum:
+      - ScopeActivity
       type: string
   securitySchemes:
     petstore_auth:

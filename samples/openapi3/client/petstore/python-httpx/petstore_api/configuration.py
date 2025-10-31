@@ -170,6 +170,8 @@ class Configuration:
     :param retries: Number of retries for API requests.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
+    :param cert_file: the path to a client certificate file, for mTLS.
+    :param key_file: the path to a client key file, for mTLS. 
 
     :Example:
 
@@ -267,6 +269,8 @@ conf = petstore_api.Configuration(
         ssl_ca_cert: Optional[str]=None,
         retries: Optional[int] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
+        cert_file: Optional[str]=None,
+        key_file: Optional[str]=None,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -353,10 +357,10 @@ conf = petstore_api.Configuration(
         """Set this to verify the peer using PEM (str) or DER (bytes)
            certificate data.
         """
-        self.cert_file = None
+        self.cert_file = cert_file
         """client certificate file
         """
-        self.key_file = None
+        self.key_file = key_file
         """client key file
         """
         self.assert_hostname = None
