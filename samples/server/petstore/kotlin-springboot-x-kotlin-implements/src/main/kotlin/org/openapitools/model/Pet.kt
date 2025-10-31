@@ -114,72 +114,72 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
 
 
     val nonRequiredWithDefaultEnum: SomeEnum
+
+
     val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>
+
+
     val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
+
+
     val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?
+
+
     val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
+
+
     val nonRequiredNullableWithDefaultNullString: kotlin.String?
+
+
     val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?
+
+
     val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?
+
+
     val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?
+
+
     val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?
+
+
     val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?
+
+
     val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
+
+
     val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
+
+
     val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?
+
+
     val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?
+
+
     val nonRequiredNullableWithDefaultNonNullString: kotlin.String?
+
+
     val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?
+
+
     val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?
+
+
     val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?
+
+
     val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?
+
+
     val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?
+
+
     val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?
+
+
     val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     val tags: kotlin.collections.List<Tag>?

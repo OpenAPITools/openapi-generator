@@ -44,7 +44,7 @@ data class Apa(
     @Schema(example = "null", required = false, description = "")
     @Deprecated(message = "")
     @get:JsonProperty("fepa", required = false)
-    val fepa: java.math.BigDecimal = java.math.BigDecimal("100"),
+    val fepa: java.math.BigDecimal? = java.math.BigDecimal("100"),
 
     @Schema(example = "null", required = false, description = "")
     @get:JsonProperty("gepa", required = false)
