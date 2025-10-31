@@ -17,5 +17,6 @@
     {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{!
 }}{{#isEnum}}{{classname}}.{{nameInPascalCase}}{{/isEnum}}{{!
 }}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{!
-}}{{^defaultValue}}?{{/defaultValue}}{{!
+}}{{#isNullable}}?{{/isNullable}}{{!
+}}{{^isNullable}}{{^defaultValue}}?{{/defaultValue}}{{/isNullable}}{{!
 }}{{^discriminator}} = {{{defaultValue}}}{{^defaultValue}}null{{/defaultValue}}{{/discriminator}}

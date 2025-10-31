@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.SomeEnum
-import org.openapitools.model.SomeNullableEnum
+import org.openapitools.model.SomeNullableEnumWithNonNullDefault
+import org.openapitools.model.SomeNullableEnumWithNullDefault
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -41,17 +42,26 @@ import javax.validation.Valid
  * @param nonRequiredWithDefaultEnum 
  * @param nonRequiredWithDefaultEnumList 
  * @param nonRequiredWithDefaultEnumSet 
- * @param nonRequiredWithDefaultNullList 
- * @param nonRequiredWithDefaultNullSet 
- * @param nonRequiredWithDefaultNullString 
- * @param nonRequiredWithDefaultNullInt 
- * @param nonRequiredWithDefaultNullLong 
- * @param nonRequiredWithDefaultNullFloat 
- * @param nonRequiredWithDefaultNullDouble 
- * @param nonRequiredWithDefaultNullEnum 
- * @param nonRequiredWithDefaultNullEnumList 
- * @param nonRequiredWithDefaultNullEnumSet 
- * @param nonRequiredNullableWithDefaultString 
+ * @param nonRequiredNullableWithDefaultNullList 
+ * @param nonRequiredNullableWithDefaultNullSet 
+ * @param nonRequiredNullableWithDefaultNullString 
+ * @param nonRequiredNullableWithDefaultNullInt 
+ * @param nonRequiredNullableWithDefaultNullLong 
+ * @param nonRequiredNullableWithDefaultNullFloat 
+ * @param nonRequiredNullableWithDefaultNullDouble 
+ * @param nonRequiredNullableWithDefaultNullEnum 
+ * @param nonRequiredNullableWithDefaultNullEnumList 
+ * @param nonRequiredNullableWithDefaultNullEnumSet 
+ * @param nonRequiredNullableWithDefaultNonNullList 
+ * @param nonRequiredNullableWithDefaultNonNullSet 
+ * @param nonRequiredNullableWithDefaultNonNullString 
+ * @param nonRequiredNullableWithDefaultNonNullInt 
+ * @param nonRequiredNullableWithDefaultNonNullLong 
+ * @param nonRequiredNullableWithDefaultNonNullFloat 
+ * @param nonRequiredNullableWithDefaultNonNullDouble 
+ * @param nonRequiredNullableWithDefaultNonNullEnum 
+ * @param nonRequiredNullableWithDefaultNonNullEnumList 
+ * @param nonRequiredNullableWithDefaultNonNullEnumSet 
  * @param tags 
  * @param color 
  */
@@ -104,45 +114,72 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
 
 
     val nonRequiredWithDefaultEnum: SomeEnum
-
-
     val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>
-
-
     val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
+    val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?
+    val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
+    val nonRequiredNullableWithDefaultNullString: kotlin.String?
+    val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?
+    val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?
+    val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?
+    val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?
+    val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?
+    val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
+    val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
+    val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?
+    val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?
+    val nonRequiredNullableWithDefaultNonNullString: kotlin.String?
+    val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?
+    val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?
+    val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?
+    val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?
+    val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?
+    val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?
+    val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?
 
 
-    val nonRequiredWithDefaultNullList: kotlin.collections.List<kotlin.String>?
 
 
-    val nonRequiredWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
 
 
-    val nonRequiredWithDefaultNullString: kotlin.String?
 
 
-    val nonRequiredWithDefaultNullInt: java.math.BigDecimal?
 
 
-    val nonRequiredWithDefaultNullLong: java.math.BigDecimal?
 
 
-    val nonRequiredWithDefaultNullFloat: kotlin.Float?
 
 
-    val nonRequiredWithDefaultNullDouble: kotlin.Double?
 
 
-    val nonRequiredWithDefaultNullEnum: SomeNullableEnum?
 
 
-    val nonRequiredWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
 
 
-    val nonRequiredWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
 
 
-    val nonRequiredNullableWithDefaultString: kotlin.String
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     val tags: kotlin.collections.List<Tag>?

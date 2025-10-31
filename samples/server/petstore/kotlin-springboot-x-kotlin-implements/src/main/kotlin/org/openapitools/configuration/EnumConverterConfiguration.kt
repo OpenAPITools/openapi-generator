@@ -2,7 +2,8 @@ package org.openapitools.configuration
 
 import org.openapitools.model.Color
 import org.openapitools.model.SomeEnum
-import org.openapitools.model.SomeNullableEnum
+import org.openapitools.model.SomeNullableEnumWithNonNullDefault
+import org.openapitools.model.SomeNullableEnumWithNullDefault
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,10 +31,16 @@ class EnumConverterConfiguration {
             override fun convert(source: kotlin.String): SomeEnum = SomeEnum.forValue(source)
         }
     }
-    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.someNullableEnumConverter"])
-    fun someNullableEnumConverter(): Converter<kotlin.String, SomeNullableEnum> {
-        return object: Converter<kotlin.String, SomeNullableEnum> {
-            override fun convert(source: kotlin.String): SomeNullableEnum = SomeNullableEnum.forValue(source)
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.someNullableEnumWithNonNullDefaultConverter"])
+    fun someNullableEnumWithNonNullDefaultConverter(): Converter<kotlin.String, SomeNullableEnumWithNonNullDefault> {
+        return object: Converter<kotlin.String, SomeNullableEnumWithNonNullDefault> {
+            override fun convert(source: kotlin.String): SomeNullableEnumWithNonNullDefault = SomeNullableEnumWithNonNullDefault.forValue(source)
+        }
+    }
+    @Bean(name = ["org.openapitools.configuration.EnumConverterConfiguration.someNullableEnumWithNullDefaultConverter"])
+    fun someNullableEnumWithNullDefaultConverter(): Converter<kotlin.String, SomeNullableEnumWithNullDefault> {
+        return object: Converter<kotlin.String, SomeNullableEnumWithNullDefault> {
+            override fun convert(source: kotlin.String): SomeNullableEnumWithNullDefault = SomeNullableEnumWithNullDefault.forValue(source)
         }
     }
 

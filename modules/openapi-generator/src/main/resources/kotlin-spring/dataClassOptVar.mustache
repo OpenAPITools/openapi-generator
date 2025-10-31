@@ -18,7 +18,7 @@
 }}{{#isEnum}}{{#isArray}}{{baseType}}<{{/isArray}}{{classname}}.{{{nameInPascalCase}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{!
 }}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{!
 }}{{^defaultValue}}? = null{{/defaultValue}}{{!
-}}{{#defaultValue}} = {{!
+}}{{#defaultValue}}{{#isNullable}}?{{/isNullable}} = {{!
   }}{{^isNumber}}{{{defaultValue}}}{{/isNumber}}{{!
   }}{{#isNumber}}{{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{!
 }}{{/defaultValue}}

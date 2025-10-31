@@ -566,62 +566,111 @@ components:
           items:
             $ref: '#/components/schemas/SomeEnum'
           default: [ ENUMVALUE3, ENUMVALUE1 ]
-        nonRequiredWithDefaultNullList:
+        nonRequiredNullableWithDefaultNullList:
           type: array
           items:
             type: string
           nullable: true
           default: null
-        nonRequiredWithDefaultNullSet:
+        nonRequiredNullableWithDefaultNullSet:
           type: array
           items:
             type: string
           uniqueItems: true
           nullable: true
           default: null
-        nonRequiredWithDefaultNullString:
+        nonRequiredNullableWithDefaultNullString:
           type: string
           nullable: true
           default: null
-        nonRequiredWithDefaultNullInt:
+        nonRequiredNullableWithDefaultNullInt:
           type: number
           format: int32
           nullable: true
           default: null
-        nonRequiredWithDefaultNullLong:
+        nonRequiredNullableWithDefaultNullLong:
           type: number
           format: int64
           nullable: true
           default: null
-        nonRequiredWithDefaultNullFloat:
+        nonRequiredNullableWithDefaultNullFloat:
           type: number
           format: float
           nullable: true
           default: null
-        nonRequiredWithDefaultNullDouble:
+        nonRequiredNullableWithDefaultNullDouble:
           type: number
           format: double
           nullable: true
           default: null
-        nonRequiredWithDefaultNullEnum:
-          $ref: '#/components/schemas/SomeNullableEnum'
-        nonRequiredWithDefaultNullEnumList:
+        nonRequiredNullableWithDefaultNullEnum:
+          $ref: '#/components/schemas/SomeNullableEnumWithNullDefault'
+        nonRequiredNullableWithDefaultNullEnumList:
           type: array
           items:
             $ref: '#/components/schemas/SomeEnum'
           nullable: true
           default: null
-        nonRequiredWithDefaultNullEnumSet:
+        nonRequiredNullableWithDefaultNullEnumSet:
           type: array
           uniqueItems: true
           items:
             $ref: '#/components/schemas/SomeEnum'
           nullable: true
           default: null
-        nonRequiredNullableWithDefaultString:
+          ###---####
+        nonRequiredNullableWithDefaultNonNullList:
+          type: array
+          items:
+            type: string
+          nullable: true
+          default: ["some string", "another string"]
+        nonRequiredNullableWithDefaultNonNullSet:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+          nullable: true
+          default: ["some string", "another string"]
+        nonRequiredNullableWithDefaultNonNullString:
           type: string
           nullable: true
-          default: "someString"
+          default: "some string"
+        nonRequiredNullableWithDefaultNonNullInt:
+          type: number
+          format: int32
+          nullable: true
+          default: 42
+        nonRequiredNullableWithDefaultNonNullLong:
+          type: number
+          format: int64
+          nullable: true
+          default: 42
+        nonRequiredNullableWithDefaultNonNullFloat:
+          type: number
+          format: float
+          nullable: true
+          default: 15.45
+        nonRequiredNullableWithDefaultNonNullDouble:
+          type: number
+          format: double
+          nullable: true
+          default: 15.45
+        nonRequiredNullableWithDefaultNonNullEnum:
+          $ref: '#/components/schemas/SomeNullableEnumWithNonNullDefault'
+        nonRequiredNullableWithDefaultNonNullEnumList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SomeEnum'
+          nullable: true
+          default: [ ENUMVALUE1 ]
+        nonRequiredNullableWithDefaultNonNullEnumSet:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/SomeEnum'
+          nullable: true
+          default: [ ENUMVALUE1 ]
         photoUrls:
           type: array
           items:
@@ -686,7 +735,7 @@ components:
         - ENUMVALUE2
         - ENUMVALUE3
       default: ENUMVALUE1
-    SomeNullableEnum:
+    SomeNullableEnumWithNullDefault:
       type: string
       enum:
         - ENUMVALUE1
@@ -694,6 +743,14 @@ components:
         - ENUMVALUE3
       nullable: true
       default: null
+    SomeNullableEnumWithNonNullDefault:
+      type: string
+      enum:
+        - ENUMVALUE1
+        - ENUMVALUE2
+        - ENUMVALUE3
+      nullable: true
+      default: ENUMVALUE1
     Color:
       x-kotlin-implements: [ com.some.pack.WithDefaultMethods ]
       type: string

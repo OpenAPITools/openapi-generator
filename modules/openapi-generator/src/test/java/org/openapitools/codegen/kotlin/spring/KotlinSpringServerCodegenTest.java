@@ -6,9 +6,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -34,10 +31,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -372,7 +372,6 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
     }
 
-
     @Test
     public void testNullableMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -439,7 +438,6 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ArrayWithNullableItemsModel.kt"), "List<kotlin.String?>");
     }
-
 
     @Test
     public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
@@ -693,12 +691,12 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
                 "description = \"\"\"# Multi-line descriptions\n"
-                        + "\n"
-                        + "This is an example of a multi-line description.\n"
-                        + "\n"
-                        + "It:\n"
-                        + "- has multiple lines\n"
-                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                + "\n"
+                + "This is an example of a multi-line description.\n"
+                + "\n"
+                + "It:\n"
+                + "- has multiple lines\n"
+                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
         );
     }
 
@@ -817,10 +815,10 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/inner_enum.yaml",
-            new HashMap<>(),
-            new HashMap<>(),
-            configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                "src/test/resources/3_0/inner_enum.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
         );
 
         File enumConverterFile = files.get("EnumConverterConfiguration.kt");
@@ -863,7 +861,6 @@ public class KotlinSpringServerCodegenTest {
 
         Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
         assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
-
 
         Path serviceFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiService.kt");
         assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
@@ -994,6 +991,7 @@ public class KotlinSpringServerCodegenTest {
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
+
     @Test
     public void generateSerializableModelWithXimplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1090,10 +1088,12 @@ public class KotlinSpringServerCodegenTest {
         Path dogPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
         assertFileContains(
                 dogPath,
+                // [not required, not nullable, no default ] => value is nullable
                 "@get:JsonProperty(\"category\", required = false)",
-                "override val category: Category? = null", // without default (fallback) value is nullable
+                "override val category: Category? = null",
+                // [not required, not nullable, yes default ] => value is not nullable to disallow explicit passing of null
                 "@get:JsonProperty(\"nonRequiredWithDefaultList\", required = false)",
-                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf(\"just some default string\",\"another default string\"),", // elsewhere with default (fallback) value is not nullable
+                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf(\"just some default string\",\"another default string\"),",
                 "@get:JsonProperty(\"nonRequiredWithDefaultSet\", required = false)",
                 "override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf(\"more strings\",\"look, it's a string!\")",
                 "@get:JsonProperty(\"nonRequiredWithDefaultString\", required = false)",
@@ -1111,14 +1111,58 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"nonRequiredWithDefaultEnumList\", required = false)",
                 "override val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum> = arrayListOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)",
                 "@get:JsonProperty(\"nonRequiredWithDefaultEnumSet\", required = false)",
-                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)"
+                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)",
+                // [not required, yes nullable, yes default [null] ] => value is nullable to allow explicit passing of null
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullString\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullString: kotlin.String? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullInt\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullLong\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullFloat\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullFloat: kotlin.Float? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullDouble\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullDouble: kotlin.Double? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnum\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnumList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnumSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullList\", required = false)",
+                // [not required, yes nullable, yes default [non null] ] => value is nullable to allow explicit passing of null
+                "override val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>? = arrayListOf(\"some string\",\"another string\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>? = setOf(\"some string\",\"another string\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullString\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullString: kotlin.String? = \"some string\"",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullInt\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal? = java.math.BigDecimal(\"42\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullLong\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal? = java.math.BigDecimal(\"42\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullFloat\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float? = 15.45f",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullDouble\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double? = 15.45",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnum\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault? = SomeNullableEnumWithNonNullDefault.ENUMVALUE1",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnumList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>? = arrayListOf(SomeEnum.ENUMVALUE1)",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnumSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>? = setOf(SomeEnum.ENUMVALUE1)"
         );
 
         Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
                 petPath,
-                "override val category: Category?", // without default (fallback) value is nullable
-                "val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>", // elsewhere with default (fallback) value is not nullable
+                // [not required, not nullable, no default ] => value is nullable
+                "override val category: Category?",
+                // [not required, not nullable, yes default ] => value is not nullable to disallow explicit passing of null
+                "val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>",
                 "val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>",
                 "val nonRequiredWithDefaultString: kotlin.String",
                 "val nonRequiredWithDefaultInt: java.math.BigDecimal",
@@ -1127,7 +1171,29 @@ public class KotlinSpringServerCodegenTest {
                 "val nonRequiredWithDefaultDouble: kotlin.Double",
                 "val nonRequiredWithDefaultEnum: SomeEnum",
                 "val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>",
-                "val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>"
+                "val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>",
+                // [not required, yes nullable, yes default [null] ] => value is nullable to allow explicit passing of null
+                "val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNullString: kotlin.String?",
+                "val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?",
+                "val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?",
+                "val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?",
+                "val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?",
+                "val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?",
+                // [not required, yes nullable, yes default [non null] ] => value is nullable to allow explicit passing of null
+                "val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNonNullString: kotlin.String?",
+                "val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?",
+                "val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?",
+                "val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?",
+                "val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?",
+                "val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?"
         );
     }
 
@@ -1413,43 +1479,43 @@ public class KotlinSpringServerCodegenTest {
 
     @DataProvider
     public Object[][] issue17997DocumentationProviders() {
-        return new Object[][]{
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
-                        "@PathVariable"
-                    ),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
-                        "@PathVariable"
-                    )
-            },
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
-                        "@PathVariable"
-                    ),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
-                        "@PathVariable"
-                    )
-            }
+        return new Object[][] {
+                { DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                                        "@PathVariable"
+                                ),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                                        "@PathVariable"
+                                )
+                },
+                { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                                        "@PathVariable"
+                                ),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                                        "@PathVariable"
+                                )
+                }
         };
     }
 
     @Test(dataProvider = "issue17997DocumentationProviders")
     public void testDocumentationAnnotationInPathParams_Issue17997(
-        String documentProvider,
-        Consumer<Path> intEnumAssertFunction,
-        Consumer<Path> stringEnumAssertFunction
+            String documentProvider,
+            Consumer<Path> intEnumAssertFunction,
+            Consumer<Path> stringEnumAssertFunction
     ) throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
@@ -1460,14 +1526,14 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/issue_6762.yaml",
-            additionalProperties,
-            generatorPropertyDefaults
+                "src/test/resources/3_0/issue_6762.yaml",
+                additionalProperties,
+                generatorPropertyDefaults
         );
 
         Stream.of(
-            "ZebrasApiController.kt",
-            "GiraffesApiController.kt"
+                "ZebrasApiController.kt",
+                "GiraffesApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1475,8 +1541,8 @@ public class KotlinSpringServerCodegenTest {
         });
 
         Stream.of(
-            "BearsApiController.kt",
-            "CamelsApiController.kt"
+                "BearsApiController.kt",
+                "CamelsApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1775,13 +1841,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("number")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -1789,13 +1855,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("token")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -1803,13 +1869,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("clientNumber")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ));
         KotlinFileAssert.assertThat(files.get("LongTest.kt"))
@@ -1817,13 +1883,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertPrimaryConstructorParameter("field1")
                 .assertParameterAnnotation("Min", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("Max", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toPrimaryConstructorParameter()
@@ -1845,9 +1911,9 @@ public class KotlinSpringServerCodegenTest {
     }
 
     private Map<String, File> generateFromContract(
-        String url,
-        Map<String, Object> additionalProperties,
-        Map<String, String> generatorPropertyDefaults
+            String url,
+            Map<String, Object> additionalProperties,
+            Map<String, String> generatorPropertyDefaults
     ) throws IOException {
         return generateFromContract(url, additionalProperties, generatorPropertyDefaults, codegen -> {
         });
@@ -1859,22 +1925,22 @@ public class KotlinSpringServerCodegenTest {
      * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
      */
     private Map<String, File> generateFromContract(
-        String url,
-        Map<String, Object> additionalProperties,
-        Map<String, String> generatorPropertyDefaults,
-        Consumer<CodegenConfigurator> consumer
+            String url,
+            Map<String, Object> additionalProperties,
+            Map<String, String> generatorPropertyDefaults,
+            Consumer<CodegenConfigurator> consumer
     ) throws IOException {
 
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("kotlin-spring")
-            .setAdditionalProperties(additionalProperties)
-            .setValidateSpec(false)
-            .setInputSpec(url)
-            .setLibrary(SPRING_BOOT)
-            .setOutputDir(output.getAbsolutePath());
+                .setGeneratorName("kotlin-spring")
+                .setAdditionalProperties(additionalProperties)
+                .setValidateSpec(false)
+                .setInputSpec(url)
+                .setLibrary(SPRING_BOOT)
+                .setOutputDir(output.getAbsolutePath());
 
         consumer.accept(configurator);
 
@@ -1884,6 +1950,6 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
 
         return generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 }

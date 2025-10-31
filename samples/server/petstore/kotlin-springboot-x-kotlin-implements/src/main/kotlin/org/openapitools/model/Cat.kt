@@ -9,7 +9,8 @@ import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Pet
 import org.openapitools.model.SomeEnum
-import org.openapitools.model.SomeNullableEnum
+import org.openapitools.model.SomeNullableEnumWithNonNullDefault
+import org.openapitools.model.SomeNullableEnumWithNullDefault
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -83,42 +84,72 @@ data class Cat(
     @field:Valid
     @get:JsonProperty("nonRequiredWithDefaultEnumSet", required = false)
     override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullList", required = false)
+    override val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullSet", required = false)
+    override val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullString", required = false)
+    override val nonRequiredNullableWithDefaultNullString: kotlin.String? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullInt", required = false)
+    override val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullLong", required = false)
+    override val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullFloat", required = false)
+    override val nonRequiredNullableWithDefaultNullFloat: kotlin.Float? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullDouble", required = false)
+    override val nonRequiredNullableWithDefaultNullDouble: kotlin.Double? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullEnum", required = false)
+    override val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullEnumList", required = false)
+    override val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNullEnumSet", required = false)
+    override val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>? = null,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullList", required = false)
+    override val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>? = arrayListOf("some string","another string"),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullSet", required = false)
+    override val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>? = setOf("some string","another string"),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullString", required = false)
+    override val nonRequiredNullableWithDefaultNonNullString: kotlin.String? = "some string",
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullInt", required = false)
+    override val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal? = java.math.BigDecimal("42"),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullLong", required = false)
+    override val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal? = java.math.BigDecimal("42"),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullFloat", required = false)
+    override val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float? = 15.45f,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullDouble", required = false)
+    override val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double? = 15.45,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullEnum", required = false)
+    override val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault? = SomeNullableEnumWithNonNullDefault.ENUMVALUE1,
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullEnumList", required = false)
+    override val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>? = arrayListOf(SomeEnum.ENUMVALUE1),
+    @get:JsonProperty("nonRequiredNullableWithDefaultNonNullEnumSet", required = false)
+    override val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>? = setOf(SomeEnum.ENUMVALUE1),
 
-    @get:JsonProperty("nonRequiredWithDefaultNullList", required = false)
-    override val nonRequiredWithDefaultNullList: kotlin.collections.List<kotlin.String>? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullSet", required = false)
-    override val nonRequiredWithDefaultNullSet: kotlin.collections.Set<kotlin.String>? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullString", required = false)
-    override val nonRequiredWithDefaultNullString: kotlin.String? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullInt", required = false)
-    override val nonRequiredWithDefaultNullInt: java.math.BigDecimal? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullLong", required = false)
-    override val nonRequiredWithDefaultNullLong: java.math.BigDecimal? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullFloat", required = false)
-    override val nonRequiredWithDefaultNullFloat: kotlin.Float? = null,
 
-    @get:JsonProperty("nonRequiredWithDefaultNullDouble", required = false)
-    override val nonRequiredWithDefaultNullDouble: kotlin.Double? = null,
 
     @field:Valid
-    @get:JsonProperty("nonRequiredWithDefaultNullEnum", required = false)
-    override val nonRequiredWithDefaultNullEnum: SomeNullableEnum? = null,
 
     @field:Valid
-    @get:JsonProperty("nonRequiredWithDefaultNullEnumList", required = false)
-    override val nonRequiredWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>? = null,
 
     @field:Valid
-    @get:JsonProperty("nonRequiredWithDefaultNullEnumSet", required = false)
-    override val nonRequiredWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>? = null,
 
-    @get:JsonProperty("nonRequiredNullableWithDefaultString", required = false)
-    override val nonRequiredNullableWithDefaultString: kotlin.String = "someString",
+
+
+
+
+
+
+
+    @field:Valid
+
+    @field:Valid
+
+    @field:Valid
 
     @field:Valid
     @get:JsonProperty("tags", required = false)
