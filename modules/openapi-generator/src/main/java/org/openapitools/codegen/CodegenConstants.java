@@ -156,6 +156,9 @@ public class CodegenConstants {
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 
+//    public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
+//    public static final String INCLUDE_HTTP_REQUEST_CONTEXT_DESC = "Include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods";
+
     public static final String USE_DATETIME_FOR_DATE = "useDateTimeForDate";
     public static final String USE_DATETIME_FOR_DATE_DESC = "Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)";
 
