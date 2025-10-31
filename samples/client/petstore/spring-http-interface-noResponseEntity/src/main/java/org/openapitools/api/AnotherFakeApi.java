@@ -36,6 +36,7 @@ public interface AnotherFakeApi {
     )
     ClientDto call123testSpecialTags(
          @RequestBody ClientDto clientDto
+
     );
 
 }
