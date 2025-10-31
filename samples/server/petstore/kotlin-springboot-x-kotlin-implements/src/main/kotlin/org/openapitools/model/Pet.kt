@@ -10,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
+import org.openapitools.model.SomeEnum
+import org.openapitools.model.SomeNullableEnumWithNonNullDefault
+import org.openapitools.model.SomeNullableEnumWithNullDefault
 import org.openapitools.model.Tag
 import java.io.Serializable
 import javax.validation.constraints.DecimalMax
@@ -29,6 +32,36 @@ import javax.validation.Valid
  * @param petType 
  * @param id 
  * @param category 
+ * @param nonRequiredWithDefaultList 
+ * @param nonRequiredWithDefaultSet 
+ * @param nonRequiredWithDefaultString 
+ * @param nonRequiredWithDefaultInt 
+ * @param nonRequiredWithDefaultLong 
+ * @param nonRequiredWithDefaultFloat 
+ * @param nonRequiredWithDefaultDouble 
+ * @param nonRequiredWithDefaultEnum 
+ * @param nonRequiredWithDefaultEnumList 
+ * @param nonRequiredWithDefaultEnumSet 
+ * @param nonRequiredNullableWithDefaultNullList 
+ * @param nonRequiredNullableWithDefaultNullSet 
+ * @param nonRequiredNullableWithDefaultNullString 
+ * @param nonRequiredNullableWithDefaultNullInt 
+ * @param nonRequiredNullableWithDefaultNullLong 
+ * @param nonRequiredNullableWithDefaultNullFloat 
+ * @param nonRequiredNullableWithDefaultNullDouble 
+ * @param nonRequiredNullableWithDefaultNullEnum 
+ * @param nonRequiredNullableWithDefaultNullEnumList 
+ * @param nonRequiredNullableWithDefaultNullEnumSet 
+ * @param nonRequiredNullableWithDefaultNonNullList 
+ * @param nonRequiredNullableWithDefaultNonNullSet 
+ * @param nonRequiredNullableWithDefaultNonNullString 
+ * @param nonRequiredNullableWithDefaultNonNullInt 
+ * @param nonRequiredNullableWithDefaultNonNullLong 
+ * @param nonRequiredNullableWithDefaultNonNullFloat 
+ * @param nonRequiredNullableWithDefaultNonNullDouble 
+ * @param nonRequiredNullableWithDefaultNonNullEnum 
+ * @param nonRequiredNullableWithDefaultNonNullEnumList 
+ * @param nonRequiredNullableWithDefaultNonNullEnumSet 
  * @param tags 
  * @param color 
  */
@@ -43,26 +76,116 @@ import javax.validation.Valid
 )
 
 interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
-        
-        override val name: kotlin.String
 
-        
-        val photoUrls: kotlin.collections.List<kotlin.String>
+    override val name: kotlin.String
 
-        
-        val petType: kotlin.String
 
-        
-        val id: kotlin.Long? 
+    val photoUrls: kotlin.collections.List<kotlin.String>
 
-        
-        override val category: Category? 
 
-        
-        val tags: kotlin.collections.List<Tag>? 
+    val petType: kotlin.String
 
-        
-        val color: Color? 
+
+    val id: kotlin.Long?
+
+
+    override val category: Category?
+
+
+    val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>
+
+
+    val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>
+
+
+    val nonRequiredWithDefaultString: kotlin.String
+
+
+    val nonRequiredWithDefaultInt: java.math.BigDecimal
+
+
+    val nonRequiredWithDefaultLong: java.math.BigDecimal
+
+
+    val nonRequiredWithDefaultFloat: kotlin.Float
+
+
+    val nonRequiredWithDefaultDouble: kotlin.Double
+
+
+    val nonRequiredWithDefaultEnum: SomeEnum
+
+
+    val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>
+
+
+    val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
+
+
+    val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?
+
+
+    val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
+
+
+    val nonRequiredNullableWithDefaultNullString: kotlin.String?
+
+
+    val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?
+
+
+    val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?
+
+
+    val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?
+
+
+    val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?
+
+
+    val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?
+
+
+    val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
+
+
+    val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
+
+
+    val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?
+
+
+    val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?
+
+
+    val nonRequiredNullableWithDefaultNonNullString: kotlin.String?
+
+
+    val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?
+
+
+    val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?
+
+
+    val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?
+
+
+    val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?
+
+
+    val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?
+
+
+    val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?
+
+
+    val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?
+
+
+    val tags: kotlin.collections.List<Tag>?
+
+
+    val color: Color?
 
 
     companion object {

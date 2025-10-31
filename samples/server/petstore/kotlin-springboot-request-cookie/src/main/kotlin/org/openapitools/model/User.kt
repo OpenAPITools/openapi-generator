@@ -27,29 +27,37 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class User(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("username") val username: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("username", required = false)
+    val username: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("firstName", required = false)
+    val firstName: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("lastName", required = false)
+    val lastName: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("email") val email: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("email", required = false)
+    val email: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("password") val password: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("password", required = false)
+    val password: kotlin.String? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("phone") val phone: kotlin.String? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("phone", required = false)
+    val phone: kotlin.String? = null,
 
-    @Schema(example = "null", description = "User Status")
-    @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @Schema(example = "null", required = false, description = "User Status")
+    @get:JsonProperty("userStatus", required = false)
+    val userStatus: kotlin.Int? = null
 ) {
 
 }

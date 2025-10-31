@@ -21,9 +21,11 @@ import javax.validation.Valid
  */
 data class Category(
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @get:JsonProperty("name", required = false)
+    val name: kotlin.String? = null
 ) : Serializable {
 
     companion object {

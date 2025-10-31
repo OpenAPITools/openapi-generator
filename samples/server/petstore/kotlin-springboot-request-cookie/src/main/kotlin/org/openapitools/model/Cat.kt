@@ -22,13 +22,16 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Cat(
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("className", required = true) override val className: kotlin.String,
+    @get:JsonProperty("className", required = true)
+    override val className: kotlin.String,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("declawed") val declawed: kotlin.Boolean? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("declawed", required = false)
+    val declawed: kotlin.Boolean? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("color") override val color: kotlin.String? = "red"
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("color", required = false)
+    override val color: kotlin.String = "red"
 ) : Animal {
 
 }
