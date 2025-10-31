@@ -37,7 +37,7 @@ interface StoreApi {
             method = [RequestMethod.DELETE],
             value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit>
+    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
@@ -45,7 +45,7 @@ interface StoreApi {
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>
+    fun getInventory(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Map<String, kotlin.Int>>
 
 
     @RequestMapping(
@@ -53,7 +53,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"],
             produces = ["application/json"]
     )
-    fun getOrderById(@Min(value=1) @Max(value=5)  @PathVariable("orderId") orderId: kotlin.Int): ResponseEntity<Order>
+    fun getOrderById(@Min(value=1) @Max(value=5)  @PathVariable("orderId") orderId: kotlin.Int, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
 
 
     @RequestMapping(
@@ -62,5 +62,5 @@ interface StoreApi {
             produces = ["application/json"],
             consumes = ["application/json"]
     )
-    fun placeOrder( @Valid @RequestBody order: Order): ResponseEntity<Order>
+    fun placeOrder( @Valid @RequestBody order: Order, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
 }
