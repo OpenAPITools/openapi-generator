@@ -50,10 +50,10 @@ data class Cat(
     override val category: Category? = null,
 
     @get:JsonProperty("nonRequiredWithDefaultList", required = false)
-    override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf(),
+    override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf("just some default string","another default string"),
 
     @get:JsonProperty("nonRequiredWithDefaultSet", required = false)
-    override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf(),
+    override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf("more strings","look, it's a string!"),
 
     @get:JsonProperty("nonRequiredWithDefaultString", required = false)
     override val nonRequiredWithDefaultString: kotlin.String = "defaultValue",
