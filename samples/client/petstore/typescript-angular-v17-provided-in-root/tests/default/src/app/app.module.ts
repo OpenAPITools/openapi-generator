@@ -20,9 +20,6 @@ export function getApiConfig () {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     HttpClientModule,
