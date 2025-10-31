@@ -6,6 +6,9 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -31,13 +34,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -372,6 +372,7 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
     }
 
+
     @Test
     public void testNullableMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -438,6 +439,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ArrayWithNullableItemsModel.kt"), "List<kotlin.String?>");
     }
+
 
     @Test
     public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
@@ -691,12 +693,12 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
                 "description = \"\"\"# Multi-line descriptions\n"
-                + "\n"
-                + "This is an example of a multi-line description.\n"
-                + "\n"
-                + "It:\n"
-                + "- has multiple lines\n"
-                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                        + "\n"
+                        + "This is an example of a multi-line description.\n"
+                        + "\n"
+                        + "It:\n"
+                        + "- has multiple lines\n"
+                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
         );
     }
 
@@ -815,10 +817,10 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/inner_enum.yaml",
-                new HashMap<>(),
-                new HashMap<>(),
-                configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+            "src/test/resources/3_0/inner_enum.yaml",
+            new HashMap<>(),
+            new HashMap<>(),
+            configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
         );
 
         File enumConverterFile = files.get("EnumConverterConfiguration.kt");
@@ -861,6 +863,7 @@ public class KotlinSpringServerCodegenTest {
 
         Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
         assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
+
 
         Path serviceFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiService.kt");
         assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
@@ -991,7 +994,6 @@ public class KotlinSpringServerCodegenTest {
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
-
     @Test
     public void generateSerializableModelWithXimplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1479,43 +1481,43 @@ public class KotlinSpringServerCodegenTest {
 
     @DataProvider
     public Object[][] issue17997DocumentationProviders() {
-        return new Object[][] {
-                { DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
-                                        "@PathVariable"
-                                ),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
-                                        "@PathVariable"
-                                )
-                },
-                { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
-                                        "@PathVariable"
-                                ),
-                        (Consumer<Path>) outputPath ->
-                                assertFileContains(
-                                        outputPath,
-                                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
-                                        "@PathVariable"
-                                )
-                }
+        return new Object[][]{
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                        "@PathVariable"
+                    )
+            },
+            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                        "@PathVariable"
+                    ),
+                (Consumer<Path>) outputPath ->
+                    assertFileContains(
+                        outputPath,
+                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                        "@PathVariable"
+                    )
+            }
         };
     }
 
     @Test(dataProvider = "issue17997DocumentationProviders")
     public void testDocumentationAnnotationInPathParams_Issue17997(
-            String documentProvider,
-            Consumer<Path> intEnumAssertFunction,
-            Consumer<Path> stringEnumAssertFunction
+        String documentProvider,
+        Consumer<Path> intEnumAssertFunction,
+        Consumer<Path> stringEnumAssertFunction
     ) throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
@@ -1526,14 +1528,14 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generateFromContract(
-                "src/test/resources/3_0/issue_6762.yaml",
-                additionalProperties,
-                generatorPropertyDefaults
+            "src/test/resources/3_0/issue_6762.yaml",
+            additionalProperties,
+            generatorPropertyDefaults
         );
 
         Stream.of(
-                "ZebrasApiController.kt",
-                "GiraffesApiController.kt"
+            "ZebrasApiController.kt",
+            "GiraffesApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1541,8 +1543,8 @@ public class KotlinSpringServerCodegenTest {
         });
 
         Stream.of(
-                "BearsApiController.kt",
-                "CamelsApiController.kt"
+            "BearsApiController.kt",
+            "CamelsApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1841,13 +1843,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("number")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "1L",
+                        "value",  "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "99L",
+                        "value",  "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -1855,13 +1857,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("token")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "1L",
+                        "value",  "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "99L",
+                        "value",  "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -1869,13 +1871,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("clientNumber")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "1L",
+                        "value",  "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "99L",
+                        "value",  "99L",
                         "message", "\"Must be less than 100\""
                 ));
         KotlinFileAssert.assertThat(files.get("LongTest.kt"))
@@ -1883,13 +1885,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertPrimaryConstructorParameter("field1")
                 .assertParameterAnnotation("Min", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "1L",
+                        "value",  "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("Max", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value", "99L",
+                        "value",  "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toPrimaryConstructorParameter()
@@ -1911,9 +1913,9 @@ public class KotlinSpringServerCodegenTest {
     }
 
     private Map<String, File> generateFromContract(
-            String url,
-            Map<String, Object> additionalProperties,
-            Map<String, String> generatorPropertyDefaults
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults
     ) throws IOException {
         return generateFromContract(url, additionalProperties, generatorPropertyDefaults, codegen -> {
         });
@@ -1925,22 +1927,22 @@ public class KotlinSpringServerCodegenTest {
      * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
      */
     private Map<String, File> generateFromContract(
-            String url,
-            Map<String, Object> additionalProperties,
-            Map<String, String> generatorPropertyDefaults,
-            Consumer<CodegenConfigurator> consumer
+        String url,
+        Map<String, Object> additionalProperties,
+        Map<String, String> generatorPropertyDefaults,
+        Consumer<CodegenConfigurator> consumer
     ) throws IOException {
 
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("kotlin-spring")
-                .setAdditionalProperties(additionalProperties)
-                .setValidateSpec(false)
-                .setInputSpec(url)
-                .setLibrary(SPRING_BOOT)
-                .setOutputDir(output.getAbsolutePath());
+            .setGeneratorName("kotlin-spring")
+            .setAdditionalProperties(additionalProperties)
+            .setValidateSpec(false)
+            .setInputSpec(url)
+            .setLibrary(SPRING_BOOT)
+            .setOutputDir(output.getAbsolutePath());
 
         consumer.accept(configurator);
 
@@ -1950,6 +1952,6 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+            .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 }
