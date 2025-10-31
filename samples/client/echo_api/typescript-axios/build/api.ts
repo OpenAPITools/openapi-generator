@@ -24,26 +24,26 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 export interface Bird {
-    'size'?: string;
-    'color'?: string;
+    'size'?: string | undefined;
+    'color'?: string | undefined;
 }
 export interface Category {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 export interface DataQuery extends Query {
     /**
      * test suffix
      */
-    'suffix'?: string;
+    'suffix'?: string | undefined;
     /**
      * Some text containing white spaces
      */
-    'text'?: string;
+    'text'?: string | undefined;
     /**
      * A date
      */
-    'date'?: string;
+    'date'?: string | undefined;
 }
 
 
@@ -51,14 +51,14 @@ export interface DataQuery extends Query {
  * to test the default value of properties
  */
 export interface DefaultValue {
-    'array_string_enum_ref_default'?: Array<StringEnumRef>;
-    'array_string_enum_default'?: Array<DefaultValueArrayStringEnumDefaultEnum>;
-    'array_string_default'?: Array<string>;
-    'array_integer_default'?: Array<number>;
-    'array_string'?: Array<string>;
-    'array_string_nullable'?: Array<string> | null;
-    'array_string_extension_nullable'?: Array<string> | null;
-    'string_nullable'?: string | null;
+    'array_string_enum_ref_default'?: Array<StringEnumRef> | undefined;
+    'array_string_enum_default'?: Array<DefaultValueArrayStringEnumDefaultEnum> | undefined;
+    'array_string_default'?: Array<string> | undefined;
+    'array_integer_default'?: Array<number> | undefined;
+    'array_string'?: Array<string> | undefined;
+    'array_string_nullable'?: Array<string> | null | undefined;
+    'array_string_extension_nullable'?: Array<string> | null | undefined;
+    'string_nullable'?: string | null | undefined;
 }
 
 export const DefaultValueArrayStringEnumDefaultEnum = {
@@ -70,20 +70,20 @@ export const DefaultValueArrayStringEnumDefaultEnum = {
 export type DefaultValueArrayStringEnumDefaultEnum = typeof DefaultValueArrayStringEnumDefaultEnum[keyof typeof DefaultValueArrayStringEnumDefaultEnum];
 
 export interface NumberPropertiesOnly {
-    'number'?: number;
-    'float'?: number;
-    'double'?: number;
+    'number'?: number | undefined;
+    'float'?: number | undefined;
+    'double'?: number | undefined;
 }
 export interface Pet {
-    'id'?: number;
+    'id'?: number | undefined;
     'name': string;
-    'category'?: Category;
+    'category'?: Category | undefined;
     'photoUrls': Array<string>;
-    'tags'?: Array<Tag>;
+    'tags'?: Array<Tag> | undefined;
     /**
      * pet status in the store
      */
-    'status'?: PetStatusEnum;
+    'status'?: PetStatusEnum | undefined;
 }
 
 export const PetStatusEnum = {
@@ -98,8 +98,8 @@ export interface Query {
     /**
      * Query
      */
-    'id'?: number;
-    'outcomes'?: Array<QueryOutcomesEnum>;
+    'id'?: number | undefined;
+    'outcomes'?: Array<QueryOutcomesEnum> | undefined;
 }
 
 export const QueryOutcomesEnum = {
@@ -121,20 +121,20 @@ export type StringEnumRef = typeof StringEnumRef[keyof typeof StringEnumRef];
 
 
 export interface Tag {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 export interface TestFormObjectMultipartRequestMarker {
-    'name'?: string;
+    'name'?: string | undefined;
 }
 export interface TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
-    'size'?: string;
-    'color'?: string;
-    'id'?: number;
-    'name'?: string;
+    'size'?: string | undefined;
+    'color'?: string | undefined;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 export interface TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
-    'values'?: Array<string>;
+    'values'?: Array<string> | undefined;
 }
 
 /**

@@ -32,7 +32,7 @@ export interface FooGetDefaultResponse {
      * @type {Foo}
      * @memberof FooGetDefaultResponse
      */
-    string?: Foo;
+    string?: Foo | undefined;
 }
 
 /**

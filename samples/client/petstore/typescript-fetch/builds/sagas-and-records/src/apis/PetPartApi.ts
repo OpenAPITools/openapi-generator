@@ -34,8 +34,8 @@ export interface GetMatchingPartsRequest {
     _long: boolean;
     smooth: boolean;
     _short: boolean;
-    name?: string;
-    connectedPart?: string;
+    name?: string | undefined;
+    connectedPart?: string | undefined;
 }
 
 /**

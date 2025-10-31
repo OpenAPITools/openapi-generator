@@ -24,15 +24,15 @@ import type { Tag } from './tag';
  * A pet for sale in the pet store
  */
 export interface Pet {
-    'id'?: number;
-    'category'?: Category;
+    'id'?: number | undefined;
+    'category'?: Category | undefined;
     'name': string;
     'photoUrls': Array<string>;
-    'tags'?: Array<Tag>;
+    'tags'?: Array<Tag> | undefined;
     /**
      * pet status in the store
      */
-    'status'?: PetStatusEnum;
+    'status'?: PetStatusEnum | undefined;
 }
 
 export const PetStatusEnum = {

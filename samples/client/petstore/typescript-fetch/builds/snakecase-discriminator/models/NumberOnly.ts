@@ -24,7 +24,7 @@ export interface NumberOnly {
      * @type {number}
      * @memberof NumberOnly
      */
-    justNumber?: number;
+    justNumber?: number | undefined;
 }
 
 /**

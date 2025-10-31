@@ -24,19 +24,19 @@ export interface ModelApiResponse {
      * @type {number}
      * @memberof ModelApiResponse
      */
-    code?: number;
+    code?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof ModelApiResponse
      */
-    type?: string;
+    type?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof ModelApiResponse
      */
-    message?: string;
+    message?: string | undefined;
 }
 
 /**

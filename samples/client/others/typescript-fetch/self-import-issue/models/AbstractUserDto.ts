@@ -34,19 +34,19 @@ export interface AbstractUserDto {
      * @type {string}
      * @memberof AbstractUserDto
      */
-    username?: string;
+    username?: string | undefined;
     /**
      * 
      * @type {BranchDto}
      * @memberof AbstractUserDto
      */
-    branch?: BranchDto;
+    branch?: BranchDto | undefined;
     /**
      * 
      * @type {string}
      * @memberof AbstractUserDto
      */
-    type?: string;
+    type?: string | undefined;
 }
 
 /**
