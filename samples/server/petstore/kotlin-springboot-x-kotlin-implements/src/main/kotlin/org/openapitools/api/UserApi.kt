@@ -38,7 +38,7 @@ interface UserApi {
             value = ["/user"],
             consumes = ["application/json"]
     )
-    fun createUser( @Valid @RequestBody user: User): ResponseEntity<Unit>
+    fun createUser( @Valid @RequestBody user: User, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
@@ -46,7 +46,7 @@ interface UserApi {
             value = ["/user/createWithArray"],
             consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
@@ -54,14 +54,14 @@ interface UserApi {
             value = ["/user/createWithList"],
             consumes = ["application/json"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String): ResponseEntity<Unit>
+    fun deleteUser( @PathVariable("username") username: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
@@ -69,7 +69,7 @@ interface UserApi {
             value = ["/user/{username}"],
             produces = ["application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User>
+    fun getUserByName( @PathVariable("username") username: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<User>
 
 
     @RequestMapping(
@@ -77,14 +77,14 @@ interface UserApi {
             value = ["/user/login"],
             produces = ["application/json"]
     )
-    fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String>
+    fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<kotlin.String>
 
 
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/logout"]
     )
-    fun logoutUser(): ResponseEntity<Unit>
+    fun logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
 
     @RequestMapping(
@@ -92,5 +92,5 @@ interface UserApi {
             value = ["/user/{username}"],
             consumes = ["application/json"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User): ResponseEntity<Unit>
+    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 }

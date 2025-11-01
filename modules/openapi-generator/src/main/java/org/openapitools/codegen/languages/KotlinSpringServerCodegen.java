@@ -86,6 +86,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
@@ -127,6 +128,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean serviceImplementation = false;
     @Getter @Setter
     private boolean reactive = false;
+    @Setter private boolean includeHttpRequestContext = false;
     @Getter @Setter
     private boolean useFlowForArrayReturnType = true;
     @Setter private boolean interfaceOnly = false;
@@ -220,6 +222,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
+        addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -563,6 +566,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
+            this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
         }
         if (isUseSpringBoot3()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {

@@ -6,9 +6,10 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
   documentationProvider: none
   annotationLibrary: none
-  useSwaggerUI: "false"
-  serviceImplementation: "false"
-  skipDefaultInterface: "true"
-  interfaceOnly: "true"
-  serializableModel: "true"
-  beanValidations: "true"
+  useSwaggerUI: false
+  serviceImplementation: false
+  skipDefaultInterface: true
+  interfaceOnly: true
+  serializableModel: true
+  beanValidations: true
+  includeHttpRequestContext: true

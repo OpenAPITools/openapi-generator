@@ -1064,6 +1064,170 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    private Path generateApiSources(
+            boolean includeHttpRequestContext,
+            boolean reactive,
+            String annotationLibrary
+    ) throws Exception {
+        File outputDir = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        String outputPath = outputDir.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(outputDir.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, includeHttpRequestContext);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, reactive);
+        codegen.additionalProperties().put("documentationProvider", "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, annotationLibrary);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        return Paths.get(outputPath);
+    }
+
+    private void verifyGeneratedControllersContain(
+            Path projectRoot,
+            String[] expectedPetControllerSnippets,
+            String[] expectedUserControllerSnippets
+    ) {
+        Path petController = projectRoot.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(petController, expectedPetControllerSnippets);
+
+        Path userController = projectRoot.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(userController, expectedUserControllerSnippets);
+    }
+
+    @Test
+    public void reactiveWithHttpRequestContextSwagger2() throws Exception {
+        Path root = generateApiSources(true, true, "swagger2");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,",
+                        "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                },
+                new String[]{
+                        "logoutUser(@Parameter(hidden = true)"
+                }
+        );
+    }
+
+    @Test
+    public void reactiveWithHttpRequestContextSwagger1() throws Exception {
+        Path root = generateApiSources(true, true, "swagger1");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,",
+                        "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                },
+                new String[]{
+                        "logoutUser(@ApiParam(hidden = true)"
+                }
+        );
+    }
+
+    @Test
+    public void reactiveWithHttpRequestContextNone() throws Exception {
+        Path root = generateApiSources(true, true, "none");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
+                        "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"
+                },
+                new String[]{
+                        "logoutUser(exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>"
+                }
+        );
+    }
+
+    @Test
+    public void reactiveWithoutHttpRequestContextNone() throws Exception {
+        Path root = generateApiSources(false, true, "none");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                        "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"
+                },
+                new String[]{
+                        "logoutUser(): ResponseEntity<Unit>"
+                }
+        );
+    }
+
+    @Test
+    public void nonReactiveWithHttpRequestContextSwagger2() throws Exception {
+        Path root = generateApiSources(true, false, "swagger2");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,",
+                        "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                },
+                new String[]{
+                        "logoutUser(@Parameter(hidden = true)"
+                }
+        );
+    }
+
+    @Test
+    public void nonReactiveWithHttpRequestContextSwagger1() throws Exception {
+        Path root = generateApiSources(true, false, "swagger1");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,",
+                        "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                },
+                new String[]{
+                        "logoutUser(@ApiParam(hidden = true)"
+                }
+        );
+    }
+
+    @Test
+    public void nonReactiveWithHttpRequestContextNone() throws Exception {
+        Path root = generateApiSources(true, false, "none");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
+                        "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"
+                },
+                new String[]{
+                        "logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"
+                }
+        );
+    }
+
+    @Test
+    public void nonReactiveWithoutHttpRequestContextNone() throws Exception {
+        Path root = generateApiSources(false, false, "none");
+        verifyGeneratedControllersContain(
+                root,
+                new String[]{
+                        "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                        "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"
+                },
+                new String[]{
+                        "logoutUser(): ResponseEntity<Unit>"
+                }
+        );
+    }
+
     @Test
     public void reactiveWithoutFlow() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
