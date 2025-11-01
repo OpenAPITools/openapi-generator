@@ -529,6 +529,32 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
     }
 
+    @Test(description = "add override on reference specialisation")
+    public void polymorphicReferenceOverrides() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+//        File output = Paths.get("/Users/sylvain_maillard/workspaces/openapi-generator/modules/openapi-generator/target/test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_1/issue_22216.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 36);
+
+        final Path carFile = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/Car.kt");
+        final Path vehicleFile = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/Vehicle.kt");
+        // file should contain override keyword for inherited properties ref
+        TestUtils.assertFileContains(carFile, "override val requiredProperty: kotlin.String,");
+        TestUtils.assertFileContains(carFile, "override val optionalProperty: kotlin.String? = null");
+        // file should not contain override keyword for own properties
+        TestUtils.assertFileNotContains(carFile, "override val color: kotlin.String? = null");
+    }
+
     @Test(description = "generate polymorphic kotlinx_serialization model")
     public void polymorphicKotlinxSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
