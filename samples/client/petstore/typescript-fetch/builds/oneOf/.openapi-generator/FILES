@@ -8,6 +8,7 @@ docs/TestArrayResponse.md
 docs/TestB.md
 docs/TestDiscriminatorResponse.md
 docs/TestResponse.md
+docs/VariousOneOf.md
 index.ts
 models/OptionOne.ts
 models/OptionTwo.ts
@@ -16,5 +17,6 @@ models/TestArrayResponse.ts
 models/TestB.ts
 models/TestDiscriminatorResponse.ts
 models/TestResponse.ts
+models/VariousOneOf.ts
 models/index.ts
 runtime.ts
