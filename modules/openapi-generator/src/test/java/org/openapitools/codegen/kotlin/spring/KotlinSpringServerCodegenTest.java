@@ -1028,6 +1028,326 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateApiWithHttpRequestContextReactiveAnnotationSwagger2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
+                "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(@Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithHttpRequestContextReactiveAnnotationSwagger1() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
+                "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithHttpRequestContextReactiveAnnotationNone() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
+                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithoutHttpRequestContextReactiveAnnotationNone() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, true);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithHttpRequestContextNonReactiveAnnotationSwagger2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
+                "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(@Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithHttpRequestContextNonReactiveAnnotationSwagger1() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
+                "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithHttpRequestContextNonReactiveAnnotationNone() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
+                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
+    public void generateApiWithoutHttpRequestContextNonReactiveAnnotationNone() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "none");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path petControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiController.kt");
+        assertFileContains(
+                petControllerPath,
+                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"
+        );
+
+        Path userControllerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApiController.kt");
+        assertFileContains(
+                userControllerPath,
+                "logoutUser(): ResponseEntity<Unit>"
+        );
+    }
+
+    @Test
     public void generateNonSerializableModelWithXimplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
