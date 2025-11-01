@@ -11,7 +11,7 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum EndpointGetResponse {
-    /// OK.
+    /// OK. ()
     Status200_OK,
 }
 

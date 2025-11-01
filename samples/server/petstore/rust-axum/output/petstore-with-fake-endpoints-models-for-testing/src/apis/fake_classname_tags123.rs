@@ -11,8 +11,8 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestClassnameResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(models::Client),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::Client),
 }
 
 /// FakeClassnameTags123

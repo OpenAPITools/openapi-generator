@@ -11,7 +11,7 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Call123exampleResponse {
-    /// success
+    /// success ()
     Status200_Success,
 }
 
@@ -19,39 +19,39 @@ pub enum Call123exampleResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FakeOuterBooleanSerializeResponse {
-    /// Output boolean
-    Status200_OutputBoolean(bool),
+    /// Output boolean (*/*)
+    Status200_OutputBoolean_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FakeOuterCompositeSerializeResponse {
-    /// Output composite
-    Status200_OutputComposite(models::OuterComposite),
+    /// Output composite (*/*)
+    Status200_OutputComposite_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FakeOuterNumberSerializeResponse {
-    /// Output number
-    Status200_OutputNumber(f64),
+    /// Output number (*/*)
+    Status200_OutputNumber_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FakeOuterStringSerializeResponse {
-    /// Output string
-    Status200_OutputString(String),
+    /// Output string (*/*)
+    Status200_OutputString_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FakeResponseWithNumericalDescriptionResponse {
-    /// 1234
+    /// 1234 ()
     Status200,
 }
 
@@ -59,7 +59,7 @@ pub enum FakeResponseWithNumericalDescriptionResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum HyphenParamResponse {
-    /// Success
+    /// Success ()
     Status200_Success,
 }
 
@@ -67,7 +67,7 @@ pub enum HyphenParamResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestBodyWithQueryParamsResponse {
-    /// Success
+    /// Success ()
     Status200_Success,
 }
 
@@ -75,17 +75,17 @@ pub enum TestBodyWithQueryParamsResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestClientModelResponse {
-    /// successful operation
-    Status200_SuccessfulOperation(models::Client),
+    /// successful operation (application/json)
+    Status200_SuccessfulOperation_Json(models::Client),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestEndpointParametersResponse {
-    /// Invalid username supplied
+    /// Invalid username supplied ()
     Status400_InvalidUsernameSupplied,
-    /// User not found
+    /// User not found ()
     Status404_UserNotFound,
 }
 
@@ -93,9 +93,9 @@ pub enum TestEndpointParametersResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestEnumParametersResponse {
-    /// Invalid request
+    /// Invalid request ()
     Status400_InvalidRequest,
-    /// Not found
+    /// Not found ()
     Status404_NotFound,
 }
 
@@ -103,7 +103,7 @@ pub enum TestEnumParametersResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestInlineAdditionalPropertiesResponse {
-    /// successful operation
+    /// successful operation ()
     Status200_SuccessfulOperation,
 }
 
@@ -111,7 +111,7 @@ pub enum TestInlineAdditionalPropertiesResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum TestJsonFormDataResponse {
-    /// successful operation
+    /// successful operation ()
     Status200_SuccessfulOperation,
 }
 

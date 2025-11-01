@@ -107,16 +107,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::UsersPostResponse::Status201_AddedRowToTable(body) => {
+            apis::default::UsersPostResponse::Status201_AddedRowToTable_Json(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
