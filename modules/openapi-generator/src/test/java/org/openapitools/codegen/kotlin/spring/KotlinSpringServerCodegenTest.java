@@ -1027,6 +1027,42 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test
+    public void generateNonSerializableModelWithXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.pack.Fetchable {"
+        );
+        assertFileNotContains(
+                path,
+                "import java.io.Serializable",
+                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
 
     private Path generateApiSources(
             boolean includeHttpRequestContext,
@@ -1189,43 +1225,6 @@ public class KotlinSpringServerCodegenTest {
                 new String[]{
                         "logoutUser(): ResponseEntity<Unit>"
                 }
-        );
-    }
-
-    @Test
-    public void generateNonSerializableModelWithXimplements() throws Exception {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        ClientOptInput input = new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
-                .config(codegen);
-        DefaultGenerator generator = new DefaultGenerator();
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
-
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
-        assertFileContains(
-                path,
-                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
-                ") : Pet, com.some.pack.Fetchable {"
-        );
-        assertFileNotContains(
-                path,
-                "import java.io.Serializable",
-                ") : Pet, Serializable,  com.some.pack.Fetchable {",
-                ") : Pet, Serializable {",
-                "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
 
