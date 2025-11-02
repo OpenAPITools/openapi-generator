@@ -6,11 +6,13 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import io.swagger.v3.oas.annotations.*
-import io.swagger.v3.oas.annotations.enums.*
-import io.swagger.v3.oas.annotations.media.*
-import io.swagger.v3.oas.annotations.responses.*
-import io.swagger.v3.oas.annotations.security.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
+import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -35,74 +37,67 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
+@Api(value = "store", description = "The store API")
 interface StoreApi {
 
-    @Operation(
-        tags = ["store",],
-        summary = "Delete purchase order by ID",
-        operationId = "deleteOrder",
-        description = """""",
-        responses = [
-            ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            ApiResponse(responseCode = "404", description = "Order not found")
-        ]
-    )
+
+    @ApiOperation(
+        value = "Delete purchase order by ID",
+        nickname = "deleteOrder",
+        notes = "")
+    @ApiResponses(
+        value = [ApiResponse(code = 400, message = "Invalid ID supplied"), ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder(@Parameter(description = "", required = true) @PathVariable("orderId") orderId: kotlin.String, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun deleteOrder(@ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.String, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-    @Operation(
-        tags = ["store",],
-        summary = "Returns pet inventories by status",
-        operationId = "getInventory",
-        description = """""",
-        responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.collections.Map::class))])
-        ],
-        security = [ SecurityRequirement(name = "api_key") ]
-    )
+
+    @ApiOperation(
+        value = "Returns pet inventories by status",
+        nickname = "getInventory",
+        notes = "",
+        response = kotlin.Int::class,
+        responseContainer = "Map",
+        authorizations = [Authorization(value = "api_key")])
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
-    fun getInventory(@Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Map<String, kotlin.Int>>
+    fun getInventory(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Map<String, kotlin.Int>>
 
-    @Operation(
-        tags = ["store",],
-        summary = "Find purchase order by ID",
-        operationId = "getOrderById",
-        description = """""",
-        responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Order::class))]),
-            ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
-            ApiResponse(responseCode = "404", description = "Order not found")
-        ]
-    )
+
+    @ApiOperation(
+        value = "Find purchase order by ID",
+        nickname = "getOrderById",
+        notes = "",
+        response = Order::class)
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class), ApiResponse(code = 400, message = "Invalid ID supplied"), ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/store/order/{orderId}"],
             produces = ["application/json"]
     )
-    fun getOrderById(@Min(value=1) @Max(value=5) @Parameter(description = "", required = true) @PathVariable("orderId") orderId: kotlin.Int, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
+    fun getOrderById(@Min(value=1) @Max(value=5) @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.Int, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
 
-    @Operation(
-        tags = ["store",],
-        summary = "Place an order for a pet",
-        operationId = "placeOrder",
-        description = """""",
-        responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Order::class))]),
-            ApiResponse(responseCode = "400", description = "Invalid Order")
-        ]
-    )
+
+    @ApiOperation(
+        value = "Place an order for a pet",
+        nickname = "placeOrder",
+        notes = "",
+        response = Order::class)
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class), ApiResponse(code = 400, message = "Invalid Order")])
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/store/order"],
             produces = ["application/json"],
             consumes = ["application/json"]
     )
-    fun placeOrder(@Parameter(description = "", required = true) @Valid @RequestBody order: Order, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
+    fun placeOrder(@ApiParam(value = "", required = true) @Valid @RequestBody order: Order, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Order>
 }

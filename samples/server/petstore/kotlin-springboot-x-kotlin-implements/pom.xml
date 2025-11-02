@@ -6,6 +6,7 @@
     <name>openapi-spring</name>
     <version>1.0.0</version>
     <properties>
+        <swagger-annotations.version>1.6.6</swagger-annotations.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <javax-annotation.version>1.3.2</javax-annotation.version>
         <kotlin-test-junit5.version>1.6.21</kotlin-test-junit5.version>
@@ -86,11 +87,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--SpringDoc dependencies -->
+
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-            <version>${springdoc-openapi.version}</version>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
         </dependency>
 
         <!-- @Nullable annotation -->

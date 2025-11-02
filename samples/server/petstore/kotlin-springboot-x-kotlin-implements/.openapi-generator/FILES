@@ -6,7 +6,6 @@ gradlew
 gradlew.bat
 pom.xml
 settings.gradle
-src/main/kotlin/org/openapitools/SpringDocConfiguration.kt
 src/main/kotlin/org/openapitools/api/ApiUtil.kt
 src/main/kotlin/org/openapitools/api/Exceptions.kt
 src/main/kotlin/org/openapitools/api/PetApi.kt
