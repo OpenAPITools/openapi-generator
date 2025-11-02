@@ -10,7 +10,7 @@
     <sourceDirectory>src/main/java</sourceDirectory>
     <plugins>
       <plugin>
-        <groupId>org.jboss.jandex</groupId>
+        <groupId>io.smallrye</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
         <version>${jandex.maven.plugin.version}</version>
         <executions>
@@ -90,11 +90,7 @@
         <scope>test</scope>
     </dependency>
 
-    <dependency>
-        <groupId>org.apache.cxf</groupId>
-        <artifactId>cxf-rt-rs-extension-providers</artifactId>
-        <version>${cxf.rt.rs.extension.providers.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>jakarta.json.bind</groupId>
       <artifactId>jakarta.json.bind-api</artifactId>
@@ -171,7 +167,7 @@
     <jaxb.core.version>3.0.2</jaxb.core.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
     <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
-    <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
+    <jandex.maven.plugin.version>3.2.7</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
   </properties>
