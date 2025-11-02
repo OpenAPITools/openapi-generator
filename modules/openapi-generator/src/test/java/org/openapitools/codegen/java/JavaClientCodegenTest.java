@@ -4057,4 +4057,37 @@ public class JavaClientCodegenTest {
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
+
+    @Test
+    public void testApiComponentNamedLocale() {
+      final Map<String, Object> properties = new HashMap<>();
+      properties.put("additionalModelTypeAnnotations",
+          "@SuppressWarnings(\"all\") @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)");
+      properties.put("enumUnknownDefaultCase", "true");
+      properties.put("java8", "true");
+      properties.put("dateLibrary", "java8");
+      properties.put("failOnUnknownProperties", "false");
+      properties.put("sortModelPropertiesByRequiredFlag", "false");
+      properties.put("sortParamsByRequiredFlag", "false");
+      properties.put("skipSortingOperations", "true");
+      properties.put("generateClientAsBean", "false");
+      properties.put("useJakartaEe", "true");
+      properties.put("generateModelTests", "false");
+      properties.put("generateApiTests", "false");
+      properties.put("skipOverwrite", "false");
+      properties.put("removeOperationIdPrefix", "false");
+      properties.put("skipValidateSpec", "false");
+      properties.put("strictSpec", "true");
+
+      final Map<String, File> files = generateFromContract(
+          "src/test/resources/3_0/java/locale.yaml", RESTTEMPLATE, properties, configurator -> {
+            configurator.setVerbose(true);
+          });
+
+      JavaFileAssert.assertThat(files.get("Locale.java")).isNormalClass()
+          .hasNoImports("java.util.Locale");
+      JavaFileAssert.assertThat(files.get("GetProductLocalizationsResult.java")).isNormalClass()
+          .assertProperty("requestedLocales")
+          .withType("List<org.openapitools.client.model.Locale>");
+    }
 }
