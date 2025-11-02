@@ -107,7 +107,7 @@ interface {{classname}} {
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
         {{/isDelegate}}
     }{{/skipDefaultApiInterface}}
 {{/operation}}
