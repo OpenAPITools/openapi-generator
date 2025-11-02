@@ -5317,6 +5317,29 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testRequestBodyFormParamsDefaultValue() {
+        final var tempDir = TestUtils.newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_0/spring/formParams_defaultValue.yaml")
+                .setGeneratorName("spring")
+                .setOutputDir(tempDir.toString());
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(tempDir.resolve("src/main/java/org/openapitools/api/SomeApi.java"))
+                .assertMethod("someDummyEndpoint", "String", "String")
+                .assertParameter("productId")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam",
+                        Map.of("value", "\"product_id\"", "required", "true"))
+                .toParameter().toMethod()
+                .assertParameter("locale")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam",
+                        Map.of("value", "\"locale\"", "required", "false", "defaultValue", "\"en_US\""));
+    }
+
+    @Test
     public void shouldAnnotateNonRequiredFieldsAsNullable() throws IOException {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
