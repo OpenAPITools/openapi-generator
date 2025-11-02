@@ -26,6 +26,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |equalityCheckMethod|Specify equality check method. Takes effect only in case if serializationLibrary is json_serializable.|<dl><dt>**default**</dt><dd>[DEFAULT] Built in hash code generation method</dd><dt>**equatable**</dt><dd>Uses equatable library for equality checking</dd></dl>|default|
 |finalProperties|Whether properties are marked as final when using Json Serializable for serialization| |true|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
+|patchOnly|Only apply Optional&lt;T&gt; to PATCH operation request bodies (requires useOptional=true)| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |pubAuthor|Author name in generated pubspec| |Author|
 |pubAuthorEmail|Email address of the author in generated pubspec| |author@homepage|
@@ -42,6 +43,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |false|
+|useOptional|Use Optional&lt;T&gt; to distinguish absent, null, and present for optional fields (Dart 3+)| |false|
 
 ## IMPORT MAPPING
 
