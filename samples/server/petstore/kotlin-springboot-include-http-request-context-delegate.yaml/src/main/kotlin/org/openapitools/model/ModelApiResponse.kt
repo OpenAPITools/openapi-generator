@@ -13,20 +13,24 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
- * @param id 
- * @param name 
+ * @param code 
+ * @param type 
+ * @param message 
  */
-data class Tag(
+data class ModelApiResponse(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @get:JsonProperty("code") val code: kotlin.Int? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @ApiModelProperty(example = "null", value = "")
+    @get:JsonProperty("type") val type: kotlin.String? = null,
+
+    @ApiModelProperty(example = "null", value = "")
+    @get:JsonProperty("message") val message: kotlin.String? = null
 ) : Serializable {
 
     companion object {

@@ -13,19 +13,19 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
-import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
  * @param id 
  * @param name 
  */
-data class Tag(
+data class Category(
 
-    @Schema(example = "null", description = "")
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("id") val id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("name") val name: kotlin.String? = null
 ) : Serializable {
 

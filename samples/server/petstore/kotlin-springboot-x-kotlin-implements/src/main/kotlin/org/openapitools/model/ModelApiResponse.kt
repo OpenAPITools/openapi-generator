@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 
@@ -22,10 +23,13 @@ import javax.validation.Valid
  */
 data class ModelApiResponse(
 
+    @Schema(example = "null", description = "")
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
+    @Schema(example = "null", description = "")
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
+    @Schema(example = "null", description = "")
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : Serializable {
 

@@ -6,6 +6,11 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import io.swagger.v3.oas.annotations.*
+import io.swagger.v3.oas.annotations.enums.*
+import io.swagger.v3.oas.annotations.media.*
+import io.swagger.v3.oas.annotations.responses.*
+import io.swagger.v3.oas.annotations.security.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -32,65 +37,134 @@ import kotlin.collections.Map
 @Validated
 interface UserApi {
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Create user",
+        operationId = "createUser",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user"],
             consumes = ["application/json"]
     )
-    fun createUser( @Valid @RequestBody user: User, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun createUser(@Parameter(description = "", required = true) @Valid @RequestBody user: User, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Creates list of users with given input array",
+        operationId = "createUsersWithArrayInput",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user/createWithArray"],
             consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun createUsersWithArrayInput(@Parameter(description = "", required = true) @Valid @RequestBody user: kotlin.collections.List<User>, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Creates list of users with given input array",
+        operationId = "createUsersWithListInput",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user/createWithList"],
             consumes = ["application/json"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun createUsersWithListInput(@Parameter(description = "", required = true) @Valid @RequestBody user: kotlin.collections.List<User>, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Delete user",
+        operationId = "deleteUser",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            ApiResponse(responseCode = "404", description = "User not found")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun deleteUser(@Parameter(description = "", required = true) @PathVariable("username") username: kotlin.String, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Get user by user name",
+        operationId = "getUserByName",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = User::class))]),
+            ApiResponse(responseCode = "400", description = "Invalid username supplied"),
+            ApiResponse(responseCode = "404", description = "User not found")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/{username}"],
             produces = ["application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<User>
+    fun getUserByName(@Parameter(description = "", required = true) @PathVariable("username") username: kotlin.String, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<User>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Logs user into the system",
+        operationId = "loginUser",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.String::class))]),
+            ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/login"],
             produces = ["application/json"]
     )
-    fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String, request: javax.servlet.http.HttpServletRequest): ResponseEntity<kotlin.String>
+    fun loginUser(@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<kotlin.String>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Logs out current logged in user session",
+        operationId = "logoutUser",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/logout"]
     )
-    fun logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun logoutUser(@Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 
-
+    @Operation(
+        tags = ["user",],
+        summary = "Updated user",
+        operationId = "updateUser",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "400", description = "Invalid user supplied"),
+            ApiResponse(responseCode = "404", description = "User not found")
+        ]
+    )
     @RequestMapping(
             method = [RequestMethod.PUT],
             value = ["/user/{username}"],
             consumes = ["application/json"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
+    fun updateUser(@Parameter(description = "", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "", required = true) @Valid @RequestBody user: User, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>
 }

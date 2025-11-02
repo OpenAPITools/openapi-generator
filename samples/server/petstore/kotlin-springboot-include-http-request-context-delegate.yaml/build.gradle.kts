@@ -20,10 +20,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
-tasks.bootJar {
-    enabled = false
-}
-
 plugins {
     val kotlinVersion = "1.9.25"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
@@ -34,10 +30,13 @@ plugins {
 }
 
 dependencies {
+    val kotlinxCoroutinesVersion = "1.6.1"
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.8")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
+    implementation("io.swagger:swagger-annotations:1.6.6")
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
@@ -50,4 +49,5 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesVersion")
 }
