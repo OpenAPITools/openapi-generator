@@ -23,3 +23,4 @@ src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
 src/main/java/org/openapitools/client/model/User.java
+src/test/java/org/openapitools/client/api/PetApiTest.java
