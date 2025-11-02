@@ -6,9 +6,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
@@ -34,10 +31,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -372,7 +372,6 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil");
     }
 
-
     @Test
     public void testNullableMultipartFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -439,7 +438,6 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ArrayWithNullableItemsModel.kt"), "List<kotlin.String?>");
     }
-
 
     @Test
     public void doNotGenerateRequestParamForObjectQueryParam() throws IOException {
@@ -693,12 +691,12 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
                 "description = \"\"\"# Multi-line descriptions\n"
-                        + "\n"
-                        + "This is an example of a multi-line description.\n"
-                        + "\n"
-                        + "It:\n"
-                        + "- has multiple lines\n"
-                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                + "\n"
+                + "This is an example of a multi-line description.\n"
+                + "\n"
+                + "It:\n"
+                + "- has multiple lines\n"
+                + "- uses Markdown (CommonMark) for rich text representation\"\"\""
         );
     }
 
@@ -817,10 +815,10 @@ public class KotlinSpringServerCodegenTest {
     @Test
     public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/inner_enum.yaml",
-            new HashMap<>(),
-            new HashMap<>(),
-            configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                "src/test/resources/3_0/inner_enum.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
         );
 
         File enumConverterFile = files.get("EnumConverterConfiguration.kt");
@@ -863,7 +861,6 @@ public class KotlinSpringServerCodegenTest {
 
         Path controllerFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApi.kt");
         assertFileContains(controllerFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
-
 
         Path serviceFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PetApiService.kt");
         assertFileContains(serviceFile, "images: Array<org.springframework.web.multipart.MultipartFile>");
@@ -994,6 +991,7 @@ public class KotlinSpringServerCodegenTest {
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
+
     @Test
     public void generateSerializableModelWithXimplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1081,6 +1079,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.ANNOTATION_LIBRARY, annotationLibrary);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, interfaceOnly);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.DELEGATE_PATTERN, true);
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
@@ -1098,6 +1097,31 @@ public class KotlinSpringServerCodegenTest {
         return Paths.get(outputPath);
     }
 
+    private Path generateApiSources2(
+            Map<String, Object> additionalProperties,
+            Map<String, String> generatorPropertyDefaults
+    ) throws Exception {
+        File outputDir = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        outputDir.deleteOnExit();
+        String outputPath = outputDir.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(outputDir.getAbsolutePath());
+        codegen.additionalProperties().putAll(additionalProperties);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        for (var entry : generatorPropertyDefaults.entrySet()) {
+            generator.setGeneratorPropertyDefault(entry.getKey(), entry.getValue());
+        }
+        generator.opts(input).generate();
+
+        return Paths.get(outputPath);
+    }
+
     private void verifyGeneratedFilesContain(Map<Path, List<String>> expectedSnippetsByPathsToFiles) {
         for (var expectedSnippetsByPathToFile : expectedSnippetsByPathsToFiles.entrySet()) {
             assertFileContains(expectedSnippetsByPathToFile.getKey(), expectedSnippetsByPathToFile.getValue().toArray(new String[0]));
@@ -1107,7 +1131,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextControllerImplAnnotationSwagger() throws Exception {
-        Path root = generateApiSources(true, true, false, "swagger2");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1121,7 +1158,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextControllerImplAnnotationSwagger1() throws Exception {
-        Path root = generateApiSources(true, true, false, "swagger1");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1135,7 +1185,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextControllerImplAnnotationNone() throws Exception {
-        Path root = generateApiSources(true, true, false, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1149,7 +1212,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithoutHttpRequestContextControllerImplAnnotationNone() throws Exception {
-        Path root = generateApiSources(false, true, false, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1163,7 +1239,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextControllerImplAnnotationSwagger() throws Exception {
-        Path root = generateApiSources(true, false, false, "swagger2");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1177,7 +1266,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextControllerImplAnnotationSwagger1() throws Exception {
-        Path root = generateApiSources(true, false, false, "swagger1");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1191,7 +1293,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextControllerImplAnnotationNone() throws Exception {
-        Path root = generateApiSources(true, false, false, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1205,7 +1320,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithoutHttpRequestContextControllerImplAnnotationNone() throws Exception {
-        Path root = generateApiSources(false, false, false, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
@@ -1219,7 +1347,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextInterfaceOnlyAnnotationSwagger() throws Exception {
-        Path root = generateApiSources(true, true, true, "swagger2");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1233,7 +1374,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextInterfaceOnlyAnnotationSwagger1() throws Exception {
-        Path root = generateApiSources(true, true, true, "swagger1");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1247,7 +1401,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithHttpRequestContextInterfaceOnlyAnnotationNone() throws Exception {
-        Path root = generateApiSources(true, true, true, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1261,7 +1428,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void reactiveWithoutHttpRequestContextInterfaceOnlyAnnotationNone() throws Exception {
-        Path root = generateApiSources(false, true, true, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1275,7 +1455,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextInterfaceOnlyAnnotationSwagger() throws Exception {
-        Path root = generateApiSources(true, false, true, "swagger2");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1289,7 +1482,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextInterfaceOnlyAnnotationSwagger1() throws Exception {
-        Path root = generateApiSources(true, false, true, "swagger1");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1303,7 +1509,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithHttpRequestContextInterfaceOnlyAnnotationNone() throws Exception {
-        Path root = generateApiSources(true, false, true, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1317,7 +1536,20 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void nonReactiveWithoutHttpRequestContextInterfaceOnlyAnnotationNone() throws Exception {
-        Path root = generateApiSources(false, false, true, "none");
+        Path root = generateApiSources2(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
@@ -1611,43 +1843,43 @@ public class KotlinSpringServerCodegenTest {
 
     @DataProvider
     public Object[][] issue17997DocumentationProviders() {
-        return new Object[][]{
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
-                        "@PathVariable"
-                    ),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
-                        "@PathVariable"
-                    )
-            },
-            {DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
-                        "@PathVariable"
-                    ),
-                (Consumer<Path>) outputPath ->
-                    assertFileContains(
-                        outputPath,
-                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
-                        "@PathVariable"
-                    )
-            }
+        return new Object[][] {
+                { DocumentationProviderFeatures.DocumentationProvider.SPRINGDOC.name(),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = [\"0\", \"1\"], defaultValue = \"0\"",
+                                        "@PathVariable"
+                                ),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = [\"sleeping\", \"awake\"]", "@PathVariable",
+                                        "@PathVariable"
+                                )
+                },
+                { DocumentationProviderFeatures.DocumentationProvider.SPRINGFOX.name(),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = \"0, 1\", defaultValue = \"0\"",
+                                        "@PathVariable"
+                                ),
+                        (Consumer<Path>) outputPath ->
+                                assertFileContains(
+                                        outputPath,
+                                        "allowableValues = \"sleeping, awake\"", "@PathVariable",
+                                        "@PathVariable"
+                                )
+                }
         };
     }
 
     @Test(dataProvider = "issue17997DocumentationProviders")
     public void testDocumentationAnnotationInPathParams_Issue17997(
-        String documentProvider,
-        Consumer<Path> intEnumAssertFunction,
-        Consumer<Path> stringEnumAssertFunction
+            String documentProvider,
+            Consumer<Path> intEnumAssertFunction,
+            Consumer<Path> stringEnumAssertFunction
     ) throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(DOCUMENTATION_PROVIDER, documentProvider);
@@ -1658,14 +1890,14 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.put(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generateFromContract(
-            "src/test/resources/3_0/issue_6762.yaml",
-            additionalProperties,
-            generatorPropertyDefaults
+                "src/test/resources/3_0/issue_6762.yaml",
+                additionalProperties,
+                generatorPropertyDefaults
         );
 
         Stream.of(
-            "ZebrasApiController.kt",
-            "GiraffesApiController.kt"
+                "ZebrasApiController.kt",
+                "GiraffesApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1673,8 +1905,8 @@ public class KotlinSpringServerCodegenTest {
         });
 
         Stream.of(
-            "BearsApiController.kt",
-            "CamelsApiController.kt"
+                "BearsApiController.kt",
+                "CamelsApiController.kt"
         ).forEach(filename -> {
             File file = files.get(filename);
             assertThat(file).isNotNull();
@@ -1973,13 +2205,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("number")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -1987,13 +2219,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("token")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toParameter()
@@ -2001,13 +2233,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertParameter("clientNumber")
                 .assertParameterAnnotation("Min")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toParameter()
                 .assertParameterAnnotation("Max")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ));
         KotlinFileAssert.assertThat(files.get("LongTest.kt"))
@@ -2015,13 +2247,13 @@ public class KotlinSpringServerCodegenTest {
                 .assertPrimaryConstructorParameter("field1")
                 .assertParameterAnnotation("Min", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "1L",
+                        "value", "1L",
                         "message", "\"Must be positive\""
                 ))
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("Max", "get")
                 .hasAttributes(ImmutableMap.of(
-                        "value",  "99L",
+                        "value", "99L",
                         "message", "\"Must be less than 100\""
                 ))
                 .toPrimaryConstructorParameter()
@@ -2043,9 +2275,9 @@ public class KotlinSpringServerCodegenTest {
     }
 
     private Map<String, File> generateFromContract(
-        String url,
-        Map<String, Object> additionalProperties,
-        Map<String, String> generatorPropertyDefaults
+            String url,
+            Map<String, Object> additionalProperties,
+            Map<String, String> generatorPropertyDefaults
     ) throws IOException {
         return generateFromContract(url, additionalProperties, generatorPropertyDefaults, codegen -> {
         });
@@ -2057,22 +2289,22 @@ public class KotlinSpringServerCodegenTest {
      * use CodegenConfigurator instead of CodegenConfig for easier configuration like in JavaClientCodeGenTest
      */
     private Map<String, File> generateFromContract(
-        String url,
-        Map<String, Object> additionalProperties,
-        Map<String, String> generatorPropertyDefaults,
-        Consumer<CodegenConfigurator> consumer
+            String url,
+            Map<String, Object> additionalProperties,
+            Map<String, String> generatorPropertyDefaults,
+            Consumer<CodegenConfigurator> consumer
     ) throws IOException {
 
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("kotlin-spring")
-            .setAdditionalProperties(additionalProperties)
-            .setValidateSpec(false)
-            .setInputSpec(url)
-            .setLibrary(SPRING_BOOT)
-            .setOutputDir(output.getAbsolutePath());
+                .setGeneratorName("kotlin-spring")
+                .setAdditionalProperties(additionalProperties)
+                .setValidateSpec(false)
+                .setInputSpec(url)
+                .setLibrary(SPRING_BOOT)
+                .setOutputDir(output.getAbsolutePath());
 
         consumer.accept(configurator);
 
@@ -2082,6 +2314,6 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
 
         return generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
     }
 }
