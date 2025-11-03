@@ -149,12 +149,32 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Category: ");
+            if (Category.IsSet)
+            {
+                sb.Append(Category.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
-            sb.Append("  Tags: ").Append(Tags).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  Tags: ");
+            if (Tags.IsSet)
+            {
+                sb.Append(Tags.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Status: ");
+            if (Status.IsSet)
+            {
+                sb.Append(Status.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

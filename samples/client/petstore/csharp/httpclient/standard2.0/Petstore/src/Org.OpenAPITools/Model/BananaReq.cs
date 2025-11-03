@@ -71,7 +71,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class BananaReq {\n");
             sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
-            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
+            sb.Append("  Sweet: ");
+            if (Sweet.IsSet)
+            {
+                sb.Append(Sweet.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

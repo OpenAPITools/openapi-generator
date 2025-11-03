@@ -452,35 +452,155 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  MixDate: ").Append(MixDate).Append("\n");
-            sb.Append("  ShopId: ").Append(ShopId).Append("\n");
-            sb.Append("  TotalPrice: ").Append(TotalPrice).Append("\n");
+            sb.Append("  ShopId: ");
+            if (ShopId.IsSet)
+            {
+                sb.Append(ShopId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  TotalPrice: ");
+            if (TotalPrice.IsSet)
+            {
+                sb.Append(TotalPrice.Value);
+            }
+            sb.Append("\n");
             sb.Append("  TotalRecalculations: ").Append(TotalRecalculations).Append("\n");
             sb.Append("  TotalOverPoors: ").Append(TotalOverPoors).Append("\n");
             sb.Append("  TotalSkips: ").Append(TotalSkips).Append("\n");
             sb.Append("  TotalUnderPours: ").Append(TotalUnderPours).Append("\n");
             sb.Append("  FormulaVersionDate: ").Append(FormulaVersionDate).Append("\n");
-            sb.Append("  SomeCode: ").Append(SomeCode).Append("\n");
-            sb.Append("  BatchNumber: ").Append(BatchNumber).Append("\n");
-            sb.Append("  BrandCode: ").Append(BrandCode).Append("\n");
-            sb.Append("  BrandId: ").Append(BrandId).Append("\n");
-            sb.Append("  BrandName: ").Append(BrandName).Append("\n");
-            sb.Append("  CategoryCode: ").Append(CategoryCode).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  ColorDescription: ").Append(ColorDescription).Append("\n");
-            sb.Append("  Comment: ").Append(Comment).Append("\n");
-            sb.Append("  CommercialProductCode: ").Append(CommercialProductCode).Append("\n");
-            sb.Append("  ProductLineCode: ").Append(ProductLineCode).Append("\n");
-            sb.Append("  Country: ").Append(Country).Append("\n");
-            sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
-            sb.Append("  CreatedByFirstName: ").Append(CreatedByFirstName).Append("\n");
-            sb.Append("  CreatedByLastName: ").Append(CreatedByLastName).Append("\n");
-            sb.Append("  DeltaECalculationRepaired: ").Append(DeltaECalculationRepaired).Append("\n");
-            sb.Append("  DeltaECalculationSprayout: ").Append(DeltaECalculationSprayout).Append("\n");
-            sb.Append("  OwnColorVariantNumber: ").Append(OwnColorVariantNumber).Append("\n");
-            sb.Append("  PrimerProductId: ").Append(PrimerProductId).Append("\n");
-            sb.Append("  ProductId: ").Append(ProductId).Append("\n");
-            sb.Append("  ProductName: ").Append(ProductName).Append("\n");
-            sb.Append("  SelectedVersionIndex: ").Append(SelectedVersionIndex).Append("\n");
+            sb.Append("  SomeCode: ");
+            if (SomeCode.IsSet)
+            {
+                sb.Append(SomeCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BatchNumber: ");
+            if (BatchNumber.IsSet)
+            {
+                sb.Append(BatchNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandCode: ");
+            if (BrandCode.IsSet)
+            {
+                sb.Append(BrandCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandId: ");
+            if (BrandId.IsSet)
+            {
+                sb.Append(BrandId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandName: ");
+            if (BrandName.IsSet)
+            {
+                sb.Append(BrandName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CategoryCode: ");
+            if (CategoryCode.IsSet)
+            {
+                sb.Append(CategoryCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ColorDescription: ");
+            if (ColorDescription.IsSet)
+            {
+                sb.Append(ColorDescription.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Comment: ");
+            if (Comment.IsSet)
+            {
+                sb.Append(Comment.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CommercialProductCode: ");
+            if (CommercialProductCode.IsSet)
+            {
+                sb.Append(CommercialProductCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductLineCode: ");
+            if (ProductLineCode.IsSet)
+            {
+                sb.Append(ProductLineCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Country: ");
+            if (Country.IsSet)
+            {
+                sb.Append(Country.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedBy: ");
+            if (CreatedBy.IsSet)
+            {
+                sb.Append(CreatedBy.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedByFirstName: ");
+            if (CreatedByFirstName.IsSet)
+            {
+                sb.Append(CreatedByFirstName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedByLastName: ");
+            if (CreatedByLastName.IsSet)
+            {
+                sb.Append(CreatedByLastName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeltaECalculationRepaired: ");
+            if (DeltaECalculationRepaired.IsSet)
+            {
+                sb.Append(DeltaECalculationRepaired.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeltaECalculationSprayout: ");
+            if (DeltaECalculationSprayout.IsSet)
+            {
+                sb.Append(DeltaECalculationSprayout.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OwnColorVariantNumber: ");
+            if (OwnColorVariantNumber.IsSet)
+            {
+                sb.Append(OwnColorVariantNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PrimerProductId: ");
+            if (PrimerProductId.IsSet)
+            {
+                sb.Append(PrimerProductId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductId: ");
+            if (ProductId.IsSet)
+            {
+                sb.Append(ProductId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductName: ");
+            if (ProductName.IsSet)
+            {
+                sb.Append(ProductName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  SelectedVersionIndex: ");
+            if (SelectedVersionIndex.IsSet)
+            {
+                sb.Append(SelectedVersionIndex.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

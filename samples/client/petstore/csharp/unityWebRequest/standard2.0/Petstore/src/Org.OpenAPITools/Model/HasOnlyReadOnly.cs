@@ -75,8 +75,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class HasOnlyReadOnly {\n");
-            sb.Append("  Bar: ").Append(Bar).Append("\n");
-            sb.Append("  Foo: ").Append(Foo).Append("\n");
+            sb.Append("  Bar: ");
+            if (Bar.IsSet)
+            {
+                sb.Append(Bar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Foo: ");
+            if (Foo.IsSet)
+            {
+                sb.Append(Foo.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

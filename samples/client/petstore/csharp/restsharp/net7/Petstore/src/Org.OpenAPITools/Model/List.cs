@@ -61,7 +61,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class List {\n");
-            sb.Append("  Var123List: ").Append(Var123List).Append("\n");
+            sb.Append("  Var123List: ");
+            if (Var123List.IsSet)
+            {
+                sb.Append(Var123List.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

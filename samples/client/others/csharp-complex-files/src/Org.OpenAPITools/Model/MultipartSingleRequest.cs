@@ -62,7 +62,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MultipartSingleRequest {\n");
-            sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  File: ");
+            if (File.IsSet)
+            {
+                sb.Append(File.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -143,14 +143,54 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class User {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Username: ").Append(Username).Append("\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  LastName: ").Append(LastName).Append("\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  Phone: ").Append(Phone).Append("\n");
-            sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Username: ");
+            if (Username.IsSet)
+            {
+                sb.Append(Username.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  FirstName: ");
+            if (FirstName.IsSet)
+            {
+                sb.Append(FirstName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  LastName: ");
+            if (LastName.IsSet)
+            {
+                sb.Append(LastName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Email: ");
+            if (Email.IsSet)
+            {
+                sb.Append(Email.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Password: ");
+            if (Password.IsSet)
+            {
+                sb.Append(Password.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Phone: ");
+            if (Phone.IsSet)
+            {
+                sb.Append(Phone.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UserStatus: ");
+            if (UserStatus.IsSet)
+            {
+                sb.Append(UserStatus.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

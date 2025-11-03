@@ -74,8 +74,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NowGet200Response {\n");
-            sb.Append("  Today: ").Append(Today).Append("\n");
-            sb.Append("  Now: ").Append(Now).Append("\n");
+            sb.Append("  Today: ");
+            if (Today.IsSet)
+            {
+                sb.Append(Today.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Now: ");
+            if (Now.IsSet)
+            {
+                sb.Append(Now.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

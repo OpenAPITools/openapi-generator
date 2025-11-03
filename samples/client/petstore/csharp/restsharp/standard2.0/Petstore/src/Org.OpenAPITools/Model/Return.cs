@@ -63,7 +63,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  VarReturn: ");
+            if (VarReturn.IsSet)
+            {
+                sb.Append(VarReturn.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

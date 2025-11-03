@@ -59,7 +59,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RolesReportsHashRole {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Name: ");
+            if (Name.IsSet)
+            {
+                sb.Append(Name.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

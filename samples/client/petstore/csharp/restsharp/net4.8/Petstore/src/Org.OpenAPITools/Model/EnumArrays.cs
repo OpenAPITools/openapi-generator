@@ -114,8 +114,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
-            sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
-            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  JustSymbol: ");
+            if (JustSymbol.IsSet)
+            {
+                sb.Append(JustSymbol.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayEnum: ");
+            if (ArrayEnum.IsSet)
+            {
+                sb.Append(ArrayEnum.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

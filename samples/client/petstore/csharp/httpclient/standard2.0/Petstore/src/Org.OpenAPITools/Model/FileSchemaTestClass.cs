@@ -82,8 +82,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FileSchemaTestClass {\n");
-            sb.Append("  File: ").Append(File).Append("\n");
-            sb.Append("  Files: ").Append(Files).Append("\n");
+            sb.Append("  File: ");
+            if (File.IsSet)
+            {
+                sb.Append(File.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Files: ");
+            if (Files.IsSet)
+            {
+                sb.Append(Files.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

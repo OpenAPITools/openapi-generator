@@ -68,7 +68,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-            sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
+            sb.Append("  SomeProperty: ");
+            if (SomeProperty.IsSet)
+            {
+                sb.Append(SomeProperty.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

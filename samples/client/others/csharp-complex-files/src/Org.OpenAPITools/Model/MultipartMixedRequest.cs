@@ -102,9 +102,19 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class MultipartMixedRequest {\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Marker: ").Append(Marker).Append("\n");
+            sb.Append("  Marker: ");
+            if (Marker.IsSet)
+            {
+                sb.Append(Marker.Value);
+            }
+            sb.Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
-            sb.Append("  StatusArray: ").Append(StatusArray).Append("\n");
+            sb.Append("  StatusArray: ");
+            if (StatusArray.IsSet)
+            {
+                sb.Append(StatusArray.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

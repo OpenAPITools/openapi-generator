@@ -90,7 +90,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Activity {\n");
-            sb.Append("  ActivityOutputs: ").Append(ActivityOutputs).Append("\n");
+            sb.Append("  ActivityOutputs: ");
+            if (ActivityOutputs.IsSet)
+            {
+                sb.Append(ActivityOutputs.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

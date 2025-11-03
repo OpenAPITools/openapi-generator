@@ -75,7 +75,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class AppleReq {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Mealy: ").Append(Mealy).Append("\n");
+            sb.Append("  Mealy: ");
+            if (Mealy.IsSet)
+            {
+                sb.Append(Mealy.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

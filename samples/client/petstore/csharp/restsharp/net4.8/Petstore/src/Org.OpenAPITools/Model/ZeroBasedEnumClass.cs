@@ -82,7 +82,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ZeroBasedEnumClass {\n");
-            sb.Append("  ZeroBasedEnum: ").Append(ZeroBasedEnum).Append("\n");
+            sb.Append("  ZeroBasedEnum: ");
+            if (ZeroBasedEnum.IsSet)
+            {
+                sb.Append(ZeroBasedEnum.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

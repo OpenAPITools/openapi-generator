@@ -119,10 +119,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MapTest {\n");
-            sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
-            sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
-            sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
-            sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
+            sb.Append("  MapMapOfString: ");
+            if (MapMapOfString.IsSet)
+            {
+                sb.Append(MapMapOfString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapOfEnumString: ");
+            if (MapOfEnumString.IsSet)
+            {
+                sb.Append(MapOfEnumString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DirectMap: ");
+            if (DirectMap.IsSet)
+            {
+                sb.Append(DirectMap.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  IndirectMap: ");
+            if (IndirectMap.IsSet)
+            {
+                sb.Append(IndirectMap.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -81,8 +81,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RolesReportsHash {\n");
-            sb.Append("  RoleUuid: ").Append(RoleUuid).Append("\n");
-            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  RoleUuid: ");
+            if (RoleUuid.IsSet)
+            {
+                sb.Append(RoleUuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Role: ");
+            if (Role.IsSet)
+            {
+                sb.Append(Role.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

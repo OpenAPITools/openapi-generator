@@ -101,9 +101,24 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Name {\n");
             sb.Append("  VarName: ").Append(VarName).Append("\n");
-            sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
-            sb.Append("  Property: ").Append(Property).Append("\n");
-            sb.Append("  Var123Number: ").Append(Var123Number).Append("\n");
+            sb.Append("  SnakeCase: ");
+            if (SnakeCase.IsSet)
+            {
+                sb.Append(SnakeCase.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Property: ");
+            if (Property.IsSet)
+            {
+                sb.Append(Property.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Var123Number: ");
+            if (Var123Number.IsSet)
+            {
+                sb.Append(Var123Number.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

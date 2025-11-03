@@ -61,7 +61,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class DateOnlyClass {\n");
-            sb.Append("  DateOnlyProperty: ").Append(DateOnlyProperty).Append("\n");
+            sb.Append("  DateOnlyProperty: ");
+            if (DateOnlyProperty.IsSet)
+            {
+                sb.Append(DateOnlyProperty.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -56,7 +56,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Banana {\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  LengthCm: ");
+            if (LengthCm.IsSet)
+            {
+                sb.Append(LengthCm.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

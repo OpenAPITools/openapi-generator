@@ -96,10 +96,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ObjectWithDeprecatedFields {\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  DeprecatedRef: ").Append(DeprecatedRef).Append("\n");
-            sb.Append("  Bars: ").Append(Bars).Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeprecatedRef: ");
+            if (DeprecatedRef.IsSet)
+            {
+                sb.Append(DeprecatedRef.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Bars: ");
+            if (Bars.IsSet)
+            {
+                sb.Append(Bars.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

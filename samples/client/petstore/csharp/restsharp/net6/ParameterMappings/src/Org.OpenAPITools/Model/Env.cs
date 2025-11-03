@@ -60,7 +60,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Env {\n");
-            sb.Append("  Dummy: ").Append(Dummy).Append("\n");
+            sb.Append("  Dummy: ");
+            if (Dummy.IsSet)
+            {
+                sb.Append(Dummy.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

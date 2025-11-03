@@ -72,9 +72,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NumberPropertiesOnly {\n");
-            sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  Float: ").Append(Float).Append("\n");
-            sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Number: ");
+            if (Number.IsSet)
+            {
+                sb.Append(Number.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Float: ");
+            if (Float.IsSet)
+            {
+                sb.Append(Float.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Double: ");
+            if (Double.IsSet)
+            {
+                sb.Append(Double.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

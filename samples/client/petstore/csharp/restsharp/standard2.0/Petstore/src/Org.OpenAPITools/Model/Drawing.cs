@@ -97,10 +97,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Drawing {\n");
-            sb.Append("  MainShape: ").Append(MainShape).Append("\n");
-            sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
-            sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
-            sb.Append("  Shapes: ").Append(Shapes).Append("\n");
+            sb.Append("  MainShape: ");
+            if (MainShape.IsSet)
+            {
+                sb.Append(MainShape.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ShapeOrNull: ");
+            if (ShapeOrNull.IsSet)
+            {
+                sb.Append(ShapeOrNull.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NullableShape: ");
+            if (NullableShape.IsSet)
+            {
+                sb.Append(NullableShape.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Shapes: ");
+            if (Shapes.IsSet)
+            {
+                sb.Append(Shapes.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

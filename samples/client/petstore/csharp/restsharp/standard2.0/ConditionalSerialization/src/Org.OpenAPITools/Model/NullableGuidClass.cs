@@ -86,7 +86,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableGuidClass {\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

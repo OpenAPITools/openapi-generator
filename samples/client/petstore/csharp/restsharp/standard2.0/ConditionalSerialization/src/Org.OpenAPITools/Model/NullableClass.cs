@@ -426,18 +426,78 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  IntegerProp: ").Append(IntegerProp).Append("\n");
-            sb.Append("  NumberProp: ").Append(NumberProp).Append("\n");
-            sb.Append("  BooleanProp: ").Append(BooleanProp).Append("\n");
-            sb.Append("  StringProp: ").Append(StringProp).Append("\n");
-            sb.Append("  DateProp: ").Append(DateProp).Append("\n");
-            sb.Append("  DatetimeProp: ").Append(DatetimeProp).Append("\n");
-            sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append("\n");
-            sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
-            sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
-            sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append("\n");
-            sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append("\n");
-            sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
+            sb.Append("  IntegerProp: ");
+            if (IntegerProp.IsSet)
+            {
+                sb.Append(IntegerProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NumberProp: ");
+            if (NumberProp.IsSet)
+            {
+                sb.Append(NumberProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BooleanProp: ");
+            if (BooleanProp.IsSet)
+            {
+                sb.Append(BooleanProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  StringProp: ");
+            if (StringProp.IsSet)
+            {
+                sb.Append(StringProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DateProp: ");
+            if (DateProp.IsSet)
+            {
+                sb.Append(DateProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DatetimeProp: ");
+            if (DatetimeProp.IsSet)
+            {
+                sb.Append(DatetimeProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayNullableProp: ");
+            if (ArrayNullableProp.IsSet)
+            {
+                sb.Append(ArrayNullableProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayAndItemsNullableProp: ");
+            if (ArrayAndItemsNullableProp.IsSet)
+            {
+                sb.Append(ArrayAndItemsNullableProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayItemsNullable: ");
+            if (ArrayItemsNullable.IsSet)
+            {
+                sb.Append(ArrayItemsNullable.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ObjectNullableProp: ");
+            if (ObjectNullableProp.IsSet)
+            {
+                sb.Append(ObjectNullableProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ObjectAndItemsNullableProp: ");
+            if (ObjectAndItemsNullableProp.IsSet)
+            {
+                sb.Append(ObjectAndItemsNullableProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ObjectItemsNullable: ");
+            if (ObjectItemsNullable.IsSet)
+            {
+                sb.Append(ObjectItemsNullable.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

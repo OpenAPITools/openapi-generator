@@ -134,12 +134,42 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Capitalization {\n");
-            sb.Append("  SmallCamel: ").Append(SmallCamel).Append("\n");
-            sb.Append("  CapitalCamel: ").Append(CapitalCamel).Append("\n");
-            sb.Append("  SmallSnake: ").Append(SmallSnake).Append("\n");
-            sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
-            sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
-            sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
+            sb.Append("  SmallCamel: ");
+            if (SmallCamel.IsSet)
+            {
+                sb.Append(SmallCamel.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CapitalCamel: ");
+            if (CapitalCamel.IsSet)
+            {
+                sb.Append(CapitalCamel.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  SmallSnake: ");
+            if (SmallSnake.IsSet)
+            {
+                sb.Append(SmallSnake.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CapitalSnake: ");
+            if (CapitalSnake.IsSet)
+            {
+                sb.Append(CapitalSnake.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  SCAETHFlowPoints: ");
+            if (SCAETHFlowPoints.IsSet)
+            {
+                sb.Append(SCAETHFlowPoints.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ATT_NAME: ");
+            if (ATT_NAME.IsSet)
+            {
+                sb.Append(ATT_NAME.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

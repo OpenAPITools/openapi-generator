@@ -95,9 +95,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Apple {\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Origin: ").Append(Origin).Append("\n");
-            sb.Append("  ColorCode: ").Append(ColorCode).Append("\n");
+            sb.Append("  Cultivar: ");
+            if (Cultivar.IsSet)
+            {
+                sb.Append(Cultivar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Origin: ");
+            if (Origin.IsSet)
+            {
+                sb.Append(Origin.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ColorCode: ");
+            if (ColorCode.IsSet)
+            {
+                sb.Append(ColorCode.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

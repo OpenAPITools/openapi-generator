@@ -61,7 +61,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {\n");
-            sb.Append("  Values: ").Append(Values).Append("\n");
+            sb.Append("  Values: ");
+            if (Values.IsSet)
+            {
+                sb.Append(Values.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

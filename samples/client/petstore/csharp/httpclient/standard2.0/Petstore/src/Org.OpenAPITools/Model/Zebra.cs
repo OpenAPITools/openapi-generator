@@ -110,7 +110,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Type: ");
+            if (Type.IsSet)
+            {
+                sb.Append(Type.Value);
+            }
+            sb.Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");

@@ -64,7 +64,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class HealthCheckResult {\n");
-            sb.Append("  NullableMessage: ").Append(NullableMessage).Append("\n");
+            sb.Append("  NullableMessage: ");
+            if (NullableMessage.IsSet)
+            {
+                sb.Append(NullableMessage.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

@@ -82,9 +82,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ApiResponse {\n");
-            sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Code: ");
+            if (Code.IsSet)
+            {
+                sb.Append(Code.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Type: ");
+            if (Type.IsSet)
+            {
+                sb.Append(Type.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Message: ");
+            if (Message.IsSet)
+            {
+                sb.Append(Message.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

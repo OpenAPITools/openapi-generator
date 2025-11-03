@@ -59,7 +59,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedAnyOf {\n");
-            sb.Append("  Content: ").Append(Content).Append("\n");
+            sb.Append("  Content: ");
+            if (Content.IsSet)
+            {
+                sb.Append(Content.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

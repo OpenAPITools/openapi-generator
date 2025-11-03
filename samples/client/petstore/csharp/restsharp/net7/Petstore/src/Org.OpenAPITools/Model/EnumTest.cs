@@ -286,15 +286,55 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumTest {\n");
-            sb.Append("  EnumString: ").Append(EnumString).Append("\n");
+            sb.Append("  EnumString: ");
+            if (EnumString.IsSet)
+            {
+                sb.Append(EnumString.Value);
+            }
+            sb.Append("\n");
             sb.Append("  EnumStringRequired: ").Append(EnumStringRequired).Append("\n");
-            sb.Append("  EnumInteger: ").Append(EnumInteger).Append("\n");
-            sb.Append("  EnumIntegerOnly: ").Append(EnumIntegerOnly).Append("\n");
-            sb.Append("  EnumNumber: ").Append(EnumNumber).Append("\n");
-            sb.Append("  OuterEnum: ").Append(OuterEnum).Append("\n");
-            sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
-            sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
-            sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
+            sb.Append("  EnumInteger: ");
+            if (EnumInteger.IsSet)
+            {
+                sb.Append(EnumInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  EnumIntegerOnly: ");
+            if (EnumIntegerOnly.IsSet)
+            {
+                sb.Append(EnumIntegerOnly.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  EnumNumber: ");
+            if (EnumNumber.IsSet)
+            {
+                sb.Append(EnumNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OuterEnum: ");
+            if (OuterEnum.IsSet)
+            {
+                sb.Append(OuterEnum.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OuterEnumInteger: ");
+            if (OuterEnumInteger.IsSet)
+            {
+                sb.Append(OuterEnumInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OuterEnumDefaultValue: ");
+            if (OuterEnumDefaultValue.IsSet)
+            {
+                sb.Append(OuterEnumDefaultValue.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OuterEnumIntegerDefaultValue: ");
+            if (OuterEnumIntegerDefaultValue.IsSet)
+            {
+                sb.Append(OuterEnumIntegerDefaultValue.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -136,12 +136,42 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PetId: ").Append(PetId).Append("\n");
-            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PetId: ");
+            if (PetId.IsSet)
+            {
+                sb.Append(PetId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Quantity: ");
+            if (Quantity.IsSet)
+            {
+                sb.Append(Quantity.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ShipDate: ");
+            if (ShipDate.IsSet)
+            {
+                sb.Append(ShipDate.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Status: ");
+            if (Status.IsSet)
+            {
+                sb.Append(Status.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Complete: ");
+            if (Complete.IsSet)
+            {
+                sb.Append(Complete.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

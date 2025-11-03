@@ -146,14 +146,54 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
-            sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
-            sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
-            sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ").Append(MapWithUndeclaredPropertiesAnytype1).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ").Append(MapWithUndeclaredPropertiesAnytype2).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append("\n");
-            sb.Append("  EmptyMap: ").Append(EmptyMap).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append("\n");
+            sb.Append("  MapProperty: ");
+            if (MapProperty.IsSet)
+            {
+                sb.Append(MapProperty.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapOfMapProperty: ");
+            if (MapOfMapProperty.IsSet)
+            {
+                sb.Append(MapOfMapProperty.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Anytype1: ");
+            if (Anytype1.IsSet)
+            {
+                sb.Append(Anytype1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ");
+            if (MapWithUndeclaredPropertiesAnytype1.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ");
+            if (MapWithUndeclaredPropertiesAnytype2.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype2.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ");
+            if (MapWithUndeclaredPropertiesAnytype3.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype3.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  EmptyMap: ");
+            if (EmptyMap.IsSet)
+            {
+                sb.Append(EmptyMap.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesString: ");
+            if (MapWithUndeclaredPropertiesString.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesString.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

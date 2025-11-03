@@ -162,14 +162,54 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class DefaultValue {\n");
-            sb.Append("  ArrayStringEnumRefDefault: ").Append(ArrayStringEnumRefDefault).Append("\n");
-            sb.Append("  ArrayStringEnumDefault: ").Append(ArrayStringEnumDefault).Append("\n");
-            sb.Append("  ArrayStringDefault: ").Append(ArrayStringDefault).Append("\n");
-            sb.Append("  ArrayIntegerDefault: ").Append(ArrayIntegerDefault).Append("\n");
-            sb.Append("  ArrayString: ").Append(ArrayString).Append("\n");
-            sb.Append("  ArrayStringNullable: ").Append(ArrayStringNullable).Append("\n");
-            sb.Append("  ArrayStringExtensionNullable: ").Append(ArrayStringExtensionNullable).Append("\n");
-            sb.Append("  StringNullable: ").Append(StringNullable).Append("\n");
+            sb.Append("  ArrayStringEnumRefDefault: ");
+            if (ArrayStringEnumRefDefault.IsSet)
+            {
+                sb.Append(ArrayStringEnumRefDefault.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayStringEnumDefault: ");
+            if (ArrayStringEnumDefault.IsSet)
+            {
+                sb.Append(ArrayStringEnumDefault.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayStringDefault: ");
+            if (ArrayStringDefault.IsSet)
+            {
+                sb.Append(ArrayStringDefault.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayIntegerDefault: ");
+            if (ArrayIntegerDefault.IsSet)
+            {
+                sb.Append(ArrayIntegerDefault.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayString: ");
+            if (ArrayString.IsSet)
+            {
+                sb.Append(ArrayString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayStringNullable: ");
+            if (ArrayStringNullable.IsSet)
+            {
+                sb.Append(ArrayStringNullable.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayStringExtensionNullable: ");
+            if (ArrayStringExtensionNullable.IsSet)
+            {
+                sb.Append(ArrayStringExtensionNullable.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  StringNullable: ");
+            if (StringNullable.IsSet)
+            {
+                sb.Append(StringNullable.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

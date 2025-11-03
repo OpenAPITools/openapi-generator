@@ -84,7 +84,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

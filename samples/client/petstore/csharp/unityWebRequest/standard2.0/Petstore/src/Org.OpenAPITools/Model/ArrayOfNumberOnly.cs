@@ -59,7 +59,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayOfNumberOnly {\n");
-            sb.Append("  ArrayNumber: ").Append(ArrayNumber).Append("\n");
+            sb.Append("  ArrayNumber: ");
+            if (ArrayNumber.IsSet)
+            {
+                sb.Append(ArrayNumber.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

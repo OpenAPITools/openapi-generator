@@ -823,48 +823,158 @@ namespace Org.OpenAPITools.Model
             sb.Append("class RequiredClass {\n");
             sb.Append("  RequiredNullableIntegerProp: ").Append(RequiredNullableIntegerProp).Append("\n");
             sb.Append("  RequiredNotnullableintegerProp: ").Append(RequiredNotnullableintegerProp).Append("\n");
-            sb.Append("  NotRequiredNullableIntegerProp: ").Append(NotRequiredNullableIntegerProp).Append("\n");
-            sb.Append("  NotRequiredNotnullableintegerProp: ").Append(NotRequiredNotnullableintegerProp).Append("\n");
+            sb.Append("  NotRequiredNullableIntegerProp: ");
+            if (NotRequiredNullableIntegerProp.IsSet)
+            {
+                sb.Append(NotRequiredNullableIntegerProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotRequiredNotnullableintegerProp: ");
+            if (NotRequiredNotnullableintegerProp.IsSet)
+            {
+                sb.Append(NotRequiredNotnullableintegerProp.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableStringProp: ").Append(RequiredNullableStringProp).Append("\n");
             sb.Append("  RequiredNotnullableStringProp: ").Append(RequiredNotnullableStringProp).Append("\n");
-            sb.Append("  NotrequiredNullableStringProp: ").Append(NotrequiredNullableStringProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableStringProp: ").Append(NotrequiredNotnullableStringProp).Append("\n");
+            sb.Append("  NotrequiredNullableStringProp: ");
+            if (NotrequiredNullableStringProp.IsSet)
+            {
+                sb.Append(NotrequiredNullableStringProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableStringProp: ");
+            if (NotrequiredNotnullableStringProp.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableStringProp.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableBooleanProp: ").Append(RequiredNullableBooleanProp).Append("\n");
             sb.Append("  RequiredNotnullableBooleanProp: ").Append(RequiredNotnullableBooleanProp).Append("\n");
-            sb.Append("  NotrequiredNullableBooleanProp: ").Append(NotrequiredNullableBooleanProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableBooleanProp: ").Append(NotrequiredNotnullableBooleanProp).Append("\n");
+            sb.Append("  NotrequiredNullableBooleanProp: ");
+            if (NotrequiredNullableBooleanProp.IsSet)
+            {
+                sb.Append(NotrequiredNullableBooleanProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableBooleanProp: ");
+            if (NotrequiredNotnullableBooleanProp.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableBooleanProp.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableDateProp: ").Append(RequiredNullableDateProp).Append("\n");
             sb.Append("  RequiredNotNullableDateProp: ").Append(RequiredNotNullableDateProp).Append("\n");
-            sb.Append("  NotRequiredNullableDateProp: ").Append(NotRequiredNullableDateProp).Append("\n");
-            sb.Append("  NotRequiredNotnullableDateProp: ").Append(NotRequiredNotnullableDateProp).Append("\n");
+            sb.Append("  NotRequiredNullableDateProp: ");
+            if (NotRequiredNullableDateProp.IsSet)
+            {
+                sb.Append(NotRequiredNullableDateProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotRequiredNotnullableDateProp: ");
+            if (NotRequiredNotnullableDateProp.IsSet)
+            {
+                sb.Append(NotRequiredNotnullableDateProp.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNotnullableDatetimeProp: ").Append(RequiredNotnullableDatetimeProp).Append("\n");
             sb.Append("  RequiredNullableDatetimeProp: ").Append(RequiredNullableDatetimeProp).Append("\n");
-            sb.Append("  NotrequiredNullableDatetimeProp: ").Append(NotrequiredNullableDatetimeProp).Append("\n");
-            sb.Append("  NotrequiredNotnullableDatetimeProp: ").Append(NotrequiredNotnullableDatetimeProp).Append("\n");
+            sb.Append("  NotrequiredNullableDatetimeProp: ");
+            if (NotrequiredNullableDatetimeProp.IsSet)
+            {
+                sb.Append(NotrequiredNullableDatetimeProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableDatetimeProp: ");
+            if (NotrequiredNotnullableDatetimeProp.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableDatetimeProp.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableEnumInteger: ").Append(RequiredNullableEnumInteger).Append("\n");
             sb.Append("  RequiredNotnullableEnumInteger: ").Append(RequiredNotnullableEnumInteger).Append("\n");
-            sb.Append("  NotrequiredNullableEnumInteger: ").Append(NotrequiredNullableEnumInteger).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumInteger: ").Append(NotrequiredNotnullableEnumInteger).Append("\n");
+            sb.Append("  NotrequiredNullableEnumInteger: ");
+            if (NotrequiredNullableEnumInteger.IsSet)
+            {
+                sb.Append(NotrequiredNullableEnumInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumInteger: ");
+            if (NotrequiredNotnullableEnumInteger.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableEnumInteger.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableEnumIntegerOnly: ").Append(RequiredNullableEnumIntegerOnly).Append("\n");
             sb.Append("  RequiredNotnullableEnumIntegerOnly: ").Append(RequiredNotnullableEnumIntegerOnly).Append("\n");
-            sb.Append("  NotrequiredNullableEnumIntegerOnly: ").Append(NotrequiredNullableEnumIntegerOnly).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumIntegerOnly: ").Append(NotrequiredNotnullableEnumIntegerOnly).Append("\n");
+            sb.Append("  NotrequiredNullableEnumIntegerOnly: ");
+            if (NotrequiredNullableEnumIntegerOnly.IsSet)
+            {
+                sb.Append(NotrequiredNullableEnumIntegerOnly.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumIntegerOnly: ");
+            if (NotrequiredNotnullableEnumIntegerOnly.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableEnumIntegerOnly.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNotnullableEnumString: ").Append(RequiredNotnullableEnumString).Append("\n");
             sb.Append("  RequiredNullableEnumString: ").Append(RequiredNullableEnumString).Append("\n");
-            sb.Append("  NotrequiredNullableEnumString: ").Append(NotrequiredNullableEnumString).Append("\n");
-            sb.Append("  NotrequiredNotnullableEnumString: ").Append(NotrequiredNotnullableEnumString).Append("\n");
+            sb.Append("  NotrequiredNullableEnumString: ");
+            if (NotrequiredNullableEnumString.IsSet)
+            {
+                sb.Append(NotrequiredNullableEnumString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableEnumString: ");
+            if (NotrequiredNotnullableEnumString.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableEnumString.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableOuterEnumDefaultValue: ").Append(RequiredNullableOuterEnumDefaultValue).Append("\n");
             sb.Append("  RequiredNotnullableOuterEnumDefaultValue: ").Append(RequiredNotnullableOuterEnumDefaultValue).Append("\n");
-            sb.Append("  NotrequiredNullableOuterEnumDefaultValue: ").Append(NotrequiredNullableOuterEnumDefaultValue).Append("\n");
-            sb.Append("  NotrequiredNotnullableOuterEnumDefaultValue: ").Append(NotrequiredNotnullableOuterEnumDefaultValue).Append("\n");
+            sb.Append("  NotrequiredNullableOuterEnumDefaultValue: ");
+            if (NotrequiredNullableOuterEnumDefaultValue.IsSet)
+            {
+                sb.Append(NotrequiredNullableOuterEnumDefaultValue.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableOuterEnumDefaultValue: ");
+            if (NotrequiredNotnullableOuterEnumDefaultValue.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableOuterEnumDefaultValue.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableUuid: ").Append(RequiredNullableUuid).Append("\n");
             sb.Append("  RequiredNotnullableUuid: ").Append(RequiredNotnullableUuid).Append("\n");
-            sb.Append("  NotrequiredNullableUuid: ").Append(NotrequiredNullableUuid).Append("\n");
-            sb.Append("  NotrequiredNotnullableUuid: ").Append(NotrequiredNotnullableUuid).Append("\n");
+            sb.Append("  NotrequiredNullableUuid: ");
+            if (NotrequiredNullableUuid.IsSet)
+            {
+                sb.Append(NotrequiredNullableUuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableUuid: ");
+            if (NotrequiredNotnullableUuid.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableUuid.Value);
+            }
+            sb.Append("\n");
             sb.Append("  RequiredNullableArrayOfString: ").Append(RequiredNullableArrayOfString).Append("\n");
             sb.Append("  RequiredNotnullableArrayOfString: ").Append(RequiredNotnullableArrayOfString).Append("\n");
-            sb.Append("  NotrequiredNullableArrayOfString: ").Append(NotrequiredNullableArrayOfString).Append("\n");
-            sb.Append("  NotrequiredNotnullableArrayOfString: ").Append(NotrequiredNotnullableArrayOfString).Append("\n");
+            sb.Append("  NotrequiredNullableArrayOfString: ");
+            if (NotrequiredNullableArrayOfString.IsSet)
+            {
+                sb.Append(NotrequiredNullableArrayOfString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NotrequiredNotnullableArrayOfString: ");
+            if (NotrequiredNotnullableArrayOfString.IsSet)
+            {
+                sb.Append(NotrequiredNotnullableArrayOfString.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

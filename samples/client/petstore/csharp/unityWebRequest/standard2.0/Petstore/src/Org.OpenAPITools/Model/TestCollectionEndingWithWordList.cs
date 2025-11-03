@@ -59,7 +59,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestCollectionEndingWithWordList {\n");
-            sb.Append("  Value: ").Append(Value).Append("\n");
+            sb.Append("  Value: ");
+            if (Value.IsSet)
+            {
+                sb.Append(Value.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

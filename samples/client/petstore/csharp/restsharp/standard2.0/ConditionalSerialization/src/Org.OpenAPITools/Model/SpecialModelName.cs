@@ -120,8 +120,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
-            sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
-            sb.Append("  VarSpecialModelName: ").Append(VarSpecialModelName).Append("\n");
+            sb.Append("  SpecialPropertyName: ");
+            if (SpecialPropertyName.IsSet)
+            {
+                sb.Append(SpecialPropertyName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  VarSpecialModelName: ");
+            if (VarSpecialModelName.IsSet)
+            {
+                sb.Append(VarSpecialModelName.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

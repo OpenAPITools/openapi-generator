@@ -271,25 +271,100 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
-            sb.Append("  Integer: ").Append(Integer).Append("\n");
-            sb.Append("  Int32: ").Append(Int32).Append("\n");
-            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
-            sb.Append("  Int64: ").Append(Int64).Append("\n");
-            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
+            sb.Append("  Integer: ");
+            if (Integer.IsSet)
+            {
+                sb.Append(Integer.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Int32: ");
+            if (Int32.IsSet)
+            {
+                sb.Append(Int32.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnsignedInteger: ");
+            if (UnsignedInteger.IsSet)
+            {
+                sb.Append(UnsignedInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Int64: ");
+            if (Int64.IsSet)
+            {
+                sb.Append(Int64.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnsignedLong: ");
+            if (UnsignedLong.IsSet)
+            {
+                sb.Append(UnsignedLong.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  Float: ").Append(Float).Append("\n");
-            sb.Append("  Double: ").Append(Double).Append("\n");
-            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Float: ");
+            if (Float.IsSet)
+            {
+                sb.Append(Float.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Double: ");
+            if (Double.IsSet)
+            {
+                sb.Append(Double.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Decimal: ");
+            if (Decimal.IsSet)
+            {
+                sb.Append(Decimal.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  String: ");
+            if (String.IsSet)
+            {
+                sb.Append(String.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Byte: ").Append(Byte).Append("\n");
-            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Binary: ");
+            if (Binary.IsSet)
+            {
+                sb.Append(Binary.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  DateTime: ");
+            if (DateTime.IsSet)
+            {
+                sb.Append(DateTime.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
-            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
-            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
+            sb.Append("  PatternWithDigits: ");
+            if (PatternWithDigits.IsSet)
+            {
+                sb.Append(PatternWithDigits.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PatternWithDigitsAndDelimiter: ");
+            if (PatternWithDigitsAndDelimiter.IsSet)
+            {
+                sb.Append(PatternWithDigitsAndDelimiter.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PatternWithBackslash: ");
+            if (PatternWithBackslash.IsSet)
+            {
+                sb.Append(PatternWithBackslash.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

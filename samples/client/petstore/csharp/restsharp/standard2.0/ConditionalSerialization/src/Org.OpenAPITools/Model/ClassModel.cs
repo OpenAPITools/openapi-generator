@@ -90,7 +90,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  Class: ");
+            if (Class.IsSet)
+            {
+                sb.Append(Class.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

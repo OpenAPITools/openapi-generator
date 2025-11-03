@@ -72,7 +72,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

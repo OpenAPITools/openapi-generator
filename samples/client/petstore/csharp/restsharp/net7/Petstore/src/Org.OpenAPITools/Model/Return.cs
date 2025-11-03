@@ -95,10 +95,20 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  VarReturn: ");
+            if (VarReturn.IsSet)
+            {
+                sb.Append(VarReturn.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Lock: ").Append(Lock).Append("\n");
             sb.Append("  Abstract: ").Append(Abstract).Append("\n");
-            sb.Append("  Unsafe: ").Append(Unsafe).Append("\n");
+            sb.Append("  Unsafe: ");
+            if (Unsafe.IsSet)
+            {
+                sb.Append(Unsafe.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -92,8 +92,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
+            sb.Append("  HasBaleen: ");
+            if (HasBaleen.IsSet)
+            {
+                sb.Append(HasBaleen.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  HasTeeth: ");
+            if (HasTeeth.IsSet)
+            {
+                sb.Append(HasTeeth.Value);
+            }
+            sb.Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");

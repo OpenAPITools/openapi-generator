@@ -94,9 +94,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
-            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
-            sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
-            sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  ArrayOfString: ");
+            if (ArrayOfString.IsSet)
+            {
+                sb.Append(ArrayOfString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayArrayOfInteger: ");
+            if (ArrayArrayOfInteger.IsSet)
+            {
+                sb.Append(ArrayArrayOfInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayArrayOfModel: ");
+            if (ArrayArrayOfModel.IsSet)
+            {
+                sb.Append(ArrayArrayOfModel.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

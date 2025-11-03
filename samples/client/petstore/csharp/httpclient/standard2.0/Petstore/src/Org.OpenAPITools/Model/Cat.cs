@@ -77,7 +77,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  Declawed: ");
+            if (Declawed.IsSet)
+            {
+                sb.Append(Declawed.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

@@ -99,10 +99,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class PropertyNameMapping {\n");
-            sb.Append("  HttpDebugOperation: ").Append(HttpDebugOperation).Append("\n");
-            sb.Append("  UnderscoreType: ").Append(UnderscoreType).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  TypeWithUnderscore: ").Append(TypeWithUnderscore).Append("\n");
+            sb.Append("  HttpDebugOperation: ");
+            if (HttpDebugOperation.IsSet)
+            {
+                sb.Append(HttpDebugOperation.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnderscoreType: ");
+            if (UnderscoreType.IsSet)
+            {
+                sb.Append(UnderscoreType.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Type: ");
+            if (Type.IsSet)
+            {
+                sb.Append(Type.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  TypeWithUnderscore: ");
+            if (TypeWithUnderscore.IsSet)
+            {
+                sb.Append(TypeWithUnderscore.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

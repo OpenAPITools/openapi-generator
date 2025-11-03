@@ -125,8 +125,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ActivityOutputElementRepresentation {\n");
-            sb.Append("  Prop1: ").Append(Prop1).Append("\n");
-            sb.Append("  Prop2: ").Append(Prop2).Append("\n");
+            sb.Append("  Prop1: ");
+            if (Prop1.IsSet)
+            {
+                sb.Append(Prop1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Prop2: ");
+            if (Prop2.IsSet)
+            {
+                sb.Append(Prop2.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

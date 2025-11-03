@@ -97,10 +97,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {\n");
-            sb.Append("  Size: ").Append(Size).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
+            sb.Append("  Size: ");
+            if (Size.IsSet)
+            {
+                sb.Append(Size.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Name: ");
+            if (Name.IsSet)
+            {
+                sb.Append(Name.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

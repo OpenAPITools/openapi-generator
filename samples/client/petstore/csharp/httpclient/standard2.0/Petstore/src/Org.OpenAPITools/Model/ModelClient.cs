@@ -69,7 +69,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
+            sb.Append("  VarClient: ");
+            if (VarClient.IsSet)
+            {
+                sb.Append(VarClient.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

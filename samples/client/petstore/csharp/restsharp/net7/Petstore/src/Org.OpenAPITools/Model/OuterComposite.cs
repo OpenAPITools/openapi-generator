@@ -77,9 +77,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
-            sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
-            sb.Append("  MyString: ").Append(MyString).Append("\n");
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
+            sb.Append("  MyNumber: ");
+            if (MyNumber.IsSet)
+            {
+                sb.Append(MyNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MyString: ");
+            if (MyString.IsSet)
+            {
+                sb.Append(MyString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MyBoolean: ");
+            if (MyBoolean.IsSet)
+            {
+                sb.Append(MyBoolean.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

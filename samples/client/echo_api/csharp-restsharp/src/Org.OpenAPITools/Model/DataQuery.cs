@@ -94,9 +94,24 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class DataQuery {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Suffix: ").Append(Suffix).Append("\n");
-            sb.Append("  Text: ").Append(Text).Append("\n");
-            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  Suffix: ");
+            if (Suffix.IsSet)
+            {
+                sb.Append(Suffix.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Text: ");
+            if (Text.IsSet)
+            {
+                sb.Append(Text.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Date: ");
+            if (Date.IsSet)
+            {
+                sb.Append(Date.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

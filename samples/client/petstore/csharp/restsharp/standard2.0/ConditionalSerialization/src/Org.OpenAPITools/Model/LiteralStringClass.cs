@@ -117,8 +117,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class LiteralStringClass {\n");
-            sb.Append("  EscapedLiteralString: ").Append(EscapedLiteralString).Append("\n");
-            sb.Append("  UnescapedLiteralString: ").Append(UnescapedLiteralString).Append("\n");
+            sb.Append("  EscapedLiteralString: ");
+            if (EscapedLiteralString.IsSet)
+            {
+                sb.Append(EscapedLiteralString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnescapedLiteralString: ");
+            if (UnescapedLiteralString.IsSet)
+            {
+                sb.Append(UnescapedLiteralString.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

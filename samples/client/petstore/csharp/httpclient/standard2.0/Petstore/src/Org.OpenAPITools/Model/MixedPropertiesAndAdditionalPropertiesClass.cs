@@ -108,10 +108,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-            sb.Append("  UuidWithPattern: ").Append(UuidWithPattern).Append("\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Map: ").Append(Map).Append("\n");
+            sb.Append("  UuidWithPattern: ");
+            if (UuidWithPattern.IsSet)
+            {
+                sb.Append(UuidWithPattern.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DateTime: ");
+            if (DateTime.IsSet)
+            {
+                sb.Append(DateTime.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Map: ");
+            if (Map.IsSet)
+            {
+                sb.Append(Map.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
