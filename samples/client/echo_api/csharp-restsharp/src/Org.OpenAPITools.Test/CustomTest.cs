@@ -26,7 +26,7 @@ namespace Org.OpenAPITools.Test
             Assert.Equal(12345L, p.Id.Value);
 
             // response is empty body
-            Pet p2 = bodyApi.TestEchoBodyPet(null);
+            Pet p2 = bodyApi.TestEchoBodyPet();
             Assert.Null(p2);
         }
 
