@@ -35,6 +35,7 @@ part '{{classFilename}}.g.dart';
 class {{{classname}}} {
 {{>serialization/json_serializable/dart_constructor}}
 
+
 {{#vars}}
   {{#description}}
       /// {{{description}}}
@@ -51,10 +52,8 @@ class {{{classname}}} {
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   {{^isBinary}}
-  {{^required}}{{#useOptional}}
-  @OptionalConverter()
-  {{/useOptional}}{{/required}}
-  @JsonKey(
+{{^required}}{{#useOptional}}  @OptionalConverter()
+{{/useOptional}}{{/required}}  @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
