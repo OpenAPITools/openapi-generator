@@ -1,5 +1,5 @@
 generatorName: kotlin-spring
-outputDir: samples/server/petstore/kotlin-springboot-include-http-request-context-delegate.yaml
+outputDir: samples/server/petstore/kotlin-springboot-include-http-request-context-delegate
 library: spring-boot
 inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
