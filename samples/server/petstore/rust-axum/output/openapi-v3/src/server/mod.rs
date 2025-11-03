@@ -162,16 +162,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::AnyOfGetResponse::Status200_Success(body) => {
+            apis::default::AnyOfGetResponse::Status200_Success_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -180,16 +180,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::AnyOfGetResponse::Status201_AlternateSuccess(body) => {
+            apis::default::AnyOfGetResponse::Status201_AlternateSuccess_Json(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -198,16 +198,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::AnyOfGetResponse::Status202_AnyOfSuccess(body) => {
+            apis::default::AnyOfGetResponse::Status202_AnyOfSuccess_Json(body) => {
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -456,16 +456,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::ExamplesTestResponse::Status200_OK(body) => {
+            apis::default::ExamplesTestResponse::Status200_OK_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -811,7 +811,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::MergePatchJsonGetResponse::Status200_Merge(body) => {
+            apis::default::MergePatchJsonGetResponse::Status200_Merge_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -820,9 +820,9 @@ where
                         HeaderValue::from_static("application/merge-patch+json"),
                     );
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -883,16 +883,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::MultigetGetResponse::Status200_JSONRsp(body) => {
+            apis::default::MultigetGetResponse::Status200_JSONRsp_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -901,17 +901,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status201_XMLRsp(body) => {
+            apis::default::MultigetGetResponse::Status201_XMLRsp_PlainText(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status202_OctetRsp(body) => {
+            apis::default::MultigetGetResponse::Status202_OctetRsp_PlainText(body) => {
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -920,30 +919,28 @@ where
                         HeaderValue::from_static("application/octet-stream"),
                     );
                 }
-
                 let body_content = body.0;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status203_StringRsp(body) => {
+            apis::default::MultigetGetResponse::Status203_StringRsp_PlainText(body) => {
                 let mut response = response.status(203);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status204_DuplicateResponseLongText(body) => {
+            apis::default::MultigetGetResponse::Status204_DuplicateResponseLongText_Json(body) => {
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -952,16 +949,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status205_DuplicateResponseLongText(body) => {
+            apis::default::MultigetGetResponse::Status205_DuplicateResponseLongText_Json(body) => {
                 let mut response = response.status(205);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -970,16 +967,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::MultigetGetResponse::Status206_DuplicateResponseLongText(body) => {
+            apis::default::MultigetGetResponse::Status206_DuplicateResponseLongText_Json(body) => {
                 let mut response = response.status(206);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1168,16 +1165,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::OneOfGetResponse::Status200_Success(body) => {
+            apis::default::OneOfGetResponse::Status200_Success_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1299,16 +1296,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::ParamgetGetResponse::Status200_JSONRsp(body) => {
+            apis::default::ParamgetGetResponse::Status200_JSONRsp_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1549,7 +1546,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::ResponsesWithHeadersGetResponse::Status200_Success {
+            apis::default::ResponsesWithHeadersGetResponse::Status200_Success_Json {
                 body,
                 success_info,
                 bool_header,
@@ -1606,9 +1603,9 @@ where
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1708,16 +1705,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::Rfc7807GetResponse::Status204_OK(body) => {
+            apis::default::Rfc7807GetResponse::Status204_OK_Json(body) => {
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1726,7 +1723,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::Rfc7807GetResponse::Status404_NotFound(body) => {
+            apis::default::Rfc7807GetResponse::Status404_NotFound_Json(body) => {
                 let mut response = response.status(404);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1735,9 +1732,9 @@ where
                         HeaderValue::from_static("application/problem+json"),
                     );
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -1746,13 +1743,12 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::default::Rfc7807GetResponse::Status406_NotAcceptable(body) => {
+            apis::default::Rfc7807GetResponse::Status406_NotAcceptable_PlainText(body) => {
                 let mut response = response.status(406);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
@@ -1978,16 +1974,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::UuidGetResponse::Status200_DuplicateResponseLongText(body) => {
+            apis::default::UuidGetResponse::Status200_DuplicateResponseLongText_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -2122,13 +2118,12 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::default::XmlOtherPostResponse::Status201_OK(body) => {
+            apis::default::XmlOtherPostResponse::Status201_OK_PlainText(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
                 }
-
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
@@ -2394,16 +2389,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::info_repo::GetRepoInfoResponse::Status200_OK(body) => {
+            apis::info_repo::GetRepoInfoResponse::Status200_OK_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })

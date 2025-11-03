@@ -11,15 +11,15 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
-    /// OK
-    Status200_OK(models::FooAllOfObject),
+    /// OK (*/*)
+    Status200_OK_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DummyGetResponse {
-    /// Success
+    /// Success ()
     Status200_Success,
 }
 
@@ -27,7 +27,7 @@ pub enum DummyGetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum DummyPutResponse {
-    /// Success
+    /// Success ()
     Status200_Success,
 }
 
@@ -35,31 +35,31 @@ pub enum DummyPutResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum FileResponseGetResponse {
-    /// Success
-    Status200_Success(ByteArray),
+    /// Success (application/json)
+    Status200_Success_Json(ByteArray),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum GetStructuredYamlResponse {
-    /// OK
-    Status200_OK(String),
+    /// OK (application/yaml)
+    Status200_OK_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum HtmlPostResponse {
-    /// Success
-    Status200_Success(String),
+    /// Success (text/html)
+    Status200_Success_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PostYamlResponse {
-    /// OK
+    /// OK ()
     Status204_OK,
 }
 
@@ -67,15 +67,15 @@ pub enum PostYamlResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum RawJsonGetResponse {
-    /// Success
-    Status200_Success(crate::types::Object),
+    /// Success (*/*)
+    Status200_Success_PlainText(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum SoloObjectPostResponse {
-    /// OK
+    /// OK ()
     Status204_OK,
 }
 

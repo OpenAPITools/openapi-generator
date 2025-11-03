@@ -11,7 +11,7 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op10GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -19,7 +19,7 @@ pub enum Op10GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op11GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -27,7 +27,7 @@ pub enum Op11GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op12GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -35,7 +35,7 @@ pub enum Op12GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op13GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -43,7 +43,7 @@ pub enum Op13GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op14GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -51,7 +51,7 @@ pub enum Op14GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op15GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -59,7 +59,7 @@ pub enum Op15GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op16GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -67,7 +67,7 @@ pub enum Op16GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op17GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -75,7 +75,7 @@ pub enum Op17GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op18GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -83,7 +83,7 @@ pub enum Op18GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op19GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -91,7 +91,7 @@ pub enum Op19GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op1GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -99,7 +99,7 @@ pub enum Op1GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op20GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -107,7 +107,7 @@ pub enum Op20GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op21GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -115,7 +115,7 @@ pub enum Op21GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op22GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -123,7 +123,7 @@ pub enum Op22GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op23GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -131,7 +131,7 @@ pub enum Op23GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op24GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -139,7 +139,7 @@ pub enum Op24GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op25GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -147,7 +147,7 @@ pub enum Op25GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op26GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -155,7 +155,7 @@ pub enum Op26GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op27GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -163,7 +163,7 @@ pub enum Op27GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op28GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -171,7 +171,7 @@ pub enum Op28GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op29GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -179,7 +179,7 @@ pub enum Op29GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op2GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -187,7 +187,7 @@ pub enum Op2GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op30GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -195,7 +195,7 @@ pub enum Op30GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op31GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -203,7 +203,7 @@ pub enum Op31GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op32GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -211,7 +211,7 @@ pub enum Op32GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op33GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -219,7 +219,7 @@ pub enum Op33GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op34GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -227,7 +227,7 @@ pub enum Op34GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op35GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -235,7 +235,7 @@ pub enum Op35GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op36GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -243,7 +243,7 @@ pub enum Op36GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op37GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -251,7 +251,7 @@ pub enum Op37GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op3GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -259,7 +259,7 @@ pub enum Op3GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op4GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -267,7 +267,7 @@ pub enum Op4GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op5GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -275,7 +275,7 @@ pub enum Op5GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op6GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -283,7 +283,7 @@ pub enum Op6GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op7GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -291,7 +291,7 @@ pub enum Op7GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op8GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
@@ -299,7 +299,7 @@ pub enum Op8GetResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum Op9GetResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 

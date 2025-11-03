@@ -102,16 +102,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::payments::GetPaymentMethodByIdResponse::Status200_OK(body) => {
+            apis::payments::GetPaymentMethodByIdResponse::Status200_OK_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -120,16 +120,18 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::payments::GetPaymentMethodByIdResponse::Status422_UnprocessableEntity(body) => {
+            apis::payments::GetPaymentMethodByIdResponse::Status422_UnprocessableEntity_Json(
+                body,
+            ) => {
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -204,16 +206,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::payments::GetPaymentMethodsResponse::Status200_OK(body) => {
+            apis::payments::GetPaymentMethodsResponse::Status200_OK_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -311,16 +313,16 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            apis::payments::PostMakePaymentResponse::Status200_OK(body) => {
+            apis::payments::PostMakePaymentResponse::Status200_OK_Json(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })
@@ -329,16 +331,16 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            apis::payments::PostMakePaymentResponse::Status422_UnprocessableEntity(body) => {
+            apis::payments::PostMakePaymentResponse::Status422_UnprocessableEntity_Json(body) => {
                 let mut response = response.status(422);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
                     response_headers
                         .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
-
+                let body_clone = body.clone();
                 let body_content = tokio::task::spawn_blocking(move || {
-                    serde_json::to_vec(&body).map_err(|e| {
+                    serde_json::to_vec(&body_clone).map_err(|e| {
                         error!(error = ?e);
                         StatusCode::INTERNAL_SERVER_ERROR
                     })

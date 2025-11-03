@@ -11,7 +11,7 @@ use crate::{models, types::*};
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipartRelatedRequestPostResponse {
-    /// OK
+    /// OK ()
     Status201_OK,
 }
 
@@ -19,7 +19,7 @@ pub enum MultipartRelatedRequestPostResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipartRequestPostResponse {
-    /// OK
+    /// OK ()
     Status201_OK,
 }
 
@@ -27,7 +27,7 @@ pub enum MultipartRequestPostResponse {
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum MultipleIdenticalMimeTypesPostResponse {
-    /// OK
+    /// OK ()
     Status200_OK,
 }
 
