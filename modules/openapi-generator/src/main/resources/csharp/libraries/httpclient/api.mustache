@@ -398,7 +398,15 @@ namespace {{packageName}}.{{apiPackage}}
             {{#required}}
             {{#isDeepObject}}
             {{#items.vars}}
+            {{#required}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}));
+            {{/required}}
+            {{^required}}
+            if ({{paramName}}.{{name}}.IsSet)
+            {
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.{{name}}.Value));
+            }
+            {{/required}}
             {{/items.vars}}
             {{^items}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}));
@@ -412,12 +420,17 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}}.IsSet)
             {
                 {{#isDeepObject}}
-                    {{#items.vars}}
-                if ({{paramName}}.Value.{{name}} != null)
+                {{#items.vars}}
+                {{#required}}
+                localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value.{{name}}));
+                {{/required}}
+                {{^required}}
+                if ({{paramName}}.Value.{{name}}.IsSet)
                 {
-                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value.{{name}}));
+                    localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}.Value.{{name}}.Value));
                 }
-                    {{/items.vars}}
+                {{/required}}
+                {{/items.vars}}
                 {{^items}}
                 localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("deepObject", "{{baseName}}", {{paramName}}.Value));
                 {{/items}}
