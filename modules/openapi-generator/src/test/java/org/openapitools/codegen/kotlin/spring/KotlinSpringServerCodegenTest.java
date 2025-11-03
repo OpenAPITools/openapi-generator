@@ -1500,6 +1500,75 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void nonReactiveWithHttpRequestContextControllerImplAnnotationNoneNoDelegateWithApiTests() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.API_TESTS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
+                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
+                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
+                                "logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"),
+                        root.resolve("src/test/kotlin/org/openapitools/api/PetApiTest.kt"), List.of(
+                                "val request: javax.servlet.http.HttpServletRequest = TODO()",
+                                "api.deletePet(petId, apiKey, request)"),
+                        root.resolve("src/test/kotlin/org/openapitools/api/UserApiTest.kt"), List.of(
+                                "val request: javax.servlet.http.HttpServletRequest = TODO()",
+                                "api.logoutUser(request)")
+                )
+        );
+    }
+
+
+    @Test
+    public void reactiveWithHttpRequestContextControllerImplAnnotationNoneNoDelegateWithApiTests() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, true,
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, false,
+                KotlinSpringServerCodegen.DELEGATE_PATTERN, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.API_TESTS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
+                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
+                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
+                                "logoutUser(exchange: org.springframework.web.server.ServerWebExchange)"),
+                        root.resolve("src/test/kotlin/org/openapitools/api/PetApiTest.kt"), List.of(
+                                "val exchange: org.springframework.web.server.ServerWebExchange = TODO()",
+                                "api.deletePet(petId, apiKey, exchange)"),
+                        root.resolve("src/test/kotlin/org/openapitools/api/UserApiTest.kt"), List.of(
+                                "val exchange: org.springframework.web.server.ServerWebExchange = TODO()",
+                                "api.logoutUser(exchange)")
+                )
+        );
+    }
+
+    @Test
     public void nonReactiveWithoutHttpRequestContextInterfaceOnlyAnnotationNoneNoDelegate() throws Exception {
         Path root = generateApiSources(Map.of(
                 KotlinSpringServerCodegen.INCLUDE_HTTP_REQUEST_CONTEXT, false,
