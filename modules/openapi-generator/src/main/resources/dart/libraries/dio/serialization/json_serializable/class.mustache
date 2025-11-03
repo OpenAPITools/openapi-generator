@@ -52,8 +52,12 @@ class {{{classname}}} {
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   {{^isBinary}}
-{{^required}}{{#useOptional}}  @OptionalConverter()
-{{/useOptional}}{{/required}}  @JsonKey(
+{{^required}}
+{{#useOptional}}
+  @OptionalConverter()
+{{/useOptional}}
+{{/required}}
+  @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
