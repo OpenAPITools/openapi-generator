@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,25 +40,40 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id.</param>
         /// <param name="deprecatedRef">deprecatedRef.</param>
         /// <param name="bars">bars.</param>
-        public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        public ObjectWithDeprecatedFields(Option<string> uuid = default(Option<string>), Option<decimal> id = default(Option<decimal>), Option<DeprecatedObject> deprecatedRef = default(Option<DeprecatedObject>), Option<List<string>> bars = default(Option<List<string>>))
         {
+            // to ensure "uuid" (not nullable) is not null
+            if (uuid.IsSet && uuid.Value == null)
+            {
+                throw new ArgumentNullException("uuid isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
+            // to ensure "deprecatedRef" (not nullable) is not null
+            if (deprecatedRef.IsSet && deprecatedRef.Value == null)
+            {
+                throw new ArgumentNullException("deprecatedRef isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
+            // to ensure "bars" (not nullable) is not null
+            if (bars.IsSet && bars.Value == null)
+            {
+                throw new ArgumentNullException("bars isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
             this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (this.Uuid.IsSet)
             {
                 this._flagUuid = true;
             }
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
             this._DeprecatedRef = deprecatedRef;
-            if (this.DeprecatedRef != null)
+            if (this.DeprecatedRef.IsSet)
             {
                 this._flagDeprecatedRef = true;
             }
             this._Bars = bars;
-            if (this.Bars != null)
+            if (this.Bars.IsSet)
             {
                 this._flagBars = true;
             }
@@ -68,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public string Uuid
+        public Option<string> Uuid
         {
             get{ return _Uuid;}
             set
@@ -77,7 +93,7 @@ namespace Org.OpenAPITools.Model
                 _flagUuid = true;
             }
         }
-        private string _Uuid;
+        private Option<string> _Uuid;
         private bool _flagUuid;
 
         /// <summary>
@@ -93,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
-        public decimal Id
+        public Option<decimal> Id
         {
             get{ return _Id;}
             set
@@ -102,7 +118,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private decimal _Id;
+        private Option<decimal> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -118,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef
+        public Option<DeprecatedObject> DeprecatedRef
         {
             get{ return _DeprecatedRef;}
             set
@@ -127,7 +143,7 @@ namespace Org.OpenAPITools.Model
                 _flagDeprecatedRef = true;
             }
         }
-        private DeprecatedObject _DeprecatedRef;
+        private Option<DeprecatedObject> _DeprecatedRef;
         private bool _flagDeprecatedRef;
 
         /// <summary>
@@ -143,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bars", EmitDefaultValue = false)]
         [Obsolete]
-        public List<string> Bars
+        public Option<List<string>> Bars
         {
             get{ return _Bars;}
             set
@@ -152,7 +168,7 @@ namespace Org.OpenAPITools.Model
                 _flagBars = true;
             }
         }
-        private List<string> _Bars;
+        private Option<List<string>> _Bars;
         private bool _flagBars;
 
         /// <summary>
@@ -224,18 +240,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.DeprecatedRef != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                if (this.Bars != null)
+                if (this.DeprecatedRef.IsSet && this.DeprecatedRef.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.Value.GetHashCode();
+                }
+                if (this.Bars.IsSet && this.Bars.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Bars.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

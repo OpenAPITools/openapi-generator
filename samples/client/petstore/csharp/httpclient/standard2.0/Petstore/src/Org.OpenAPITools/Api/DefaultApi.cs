@@ -563,7 +563,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'country' is set
             if (country == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'country' when calling DefaultApi->GetCountry");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'country' when calling DefaultApi->GetCountry");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -619,7 +619,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'country' is set
             if (country == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'country' when calling DefaultApi->GetCountry");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'country' when calling DefaultApi->GetCountry");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testheaderintegerbooleanstringenums"></a>
 # **TestHeaderIntegerBooleanStringEnums**
-> string TestHeaderIntegerBooleanStringEnums (int? integerHeader = null, bool? booleanHeader = null, string? stringHeader = null, string? enumNonrefStringHeader = null, StringEnumRef? enumRefStringHeader = null)
+> string TestHeaderIntegerBooleanStringEnums (int integerHeader = null, bool booleanHeader = null, string stringHeader = null, string enumNonrefStringHeader = null, StringEnumRef enumRefStringHeader = null)
 
 Test header parameter(s)
 
@@ -31,11 +31,11 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new HeaderApi(config);
-            var integerHeader = 56;  // int? |  (optional) 
-            var booleanHeader = true;  // bool? |  (optional) 
-            var stringHeader = "stringHeader_example";  // string? |  (optional) 
-            var enumNonrefStringHeader = "success";  // string? |  (optional) 
-            var enumRefStringHeader = new StringEnumRef?(); // StringEnumRef? |  (optional) 
+            var integerHeader = 56;  // int |  (optional) 
+            var booleanHeader = true;  // bool |  (optional) 
+            var stringHeader = "stringHeader_example";  // string |  (optional) 
+            var enumNonrefStringHeader = "success";  // string |  (optional) 
+            var enumRefStringHeader = (StringEnumRef) "success";  // StringEnumRef |  (optional) 
 
             try
             {
@@ -78,11 +78,11 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **integerHeader** | **int?** |  | [optional]  |
-| **booleanHeader** | **bool?** |  | [optional]  |
-| **stringHeader** | **string?** |  | [optional]  |
-| **enumNonrefStringHeader** | **string?** |  | [optional]  |
-| **enumRefStringHeader** | [**StringEnumRef?**](StringEnumRef?.md) |  | [optional]  |
+| **integerHeader** | **int** |  | [optional]  |
+| **booleanHeader** | **bool** |  | [optional]  |
+| **stringHeader** | **string** |  | [optional]  |
+| **enumNonrefStringHeader** | **string** |  | [optional]  |
+| **enumRefStringHeader** | **StringEnumRef** |  | [optional]  |
 
 ### Return type
 

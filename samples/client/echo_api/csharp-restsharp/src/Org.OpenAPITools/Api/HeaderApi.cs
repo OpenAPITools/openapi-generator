@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringHeader"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestHeaderIntegerBooleanStringEnums(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0);
+        string TestHeaderIntegerBooleanStringEnums(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0);
 
         /// <summary>
         /// Test header parameter(s)
@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringHeader"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0);
+        ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test header parameter(s)
@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringHeader"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestHeaderIntegerBooleanStringEnums(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
+        public string TestHeaderIntegerBooleanStringEnums(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
             return localVarResponse.Data;
@@ -248,8 +248,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringHeader"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestHeaderIntegerBooleanStringEnumsWithHttpInfo(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0)
         {
+            // verify the required parameter 'stringHeader' is set
+            if (stringHeader.IsSet && stringHeader.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringHeader' when calling HeaderApi->TestHeaderIntegerBooleanStringEnums");
+
+            // verify the required parameter 'enumNonrefStringHeader' is set
+            if (enumNonrefStringHeader.IsSet && enumNonrefStringHeader.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringHeader' when calling HeaderApi->TestHeaderIntegerBooleanStringEnums");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -272,25 +280,25 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integerHeader != null)
+            if (integerHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader.Value)); // header parameter
             }
-            if (booleanHeader != null)
+            if (booleanHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader.Value)); // header parameter
             }
-            if (stringHeader != null)
+            if (stringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader.Value)); // header parameter
             }
-            if (enumNonrefStringHeader != null)
+            if (enumNonrefStringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader.Value)); // header parameter
             }
-            if (enumRefStringHeader != null)
+            if (enumRefStringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader.Value)); // header parameter
             }
 
             localVarRequestOptions.Operation = "HeaderApi.TestHeaderIntegerBooleanStringEnums";
@@ -323,7 +331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestHeaderIntegerBooleanStringEnumsAsync(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -341,8 +349,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(int? integerHeader = default(int?), bool? booleanHeader = default(bool?), string? stringHeader = default(string?), string? enumNonrefStringHeader = default(string?), StringEnumRef? enumRefStringHeader = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestHeaderIntegerBooleanStringEnumsWithHttpInfoAsync(Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'stringHeader' is set
+            if (stringHeader.IsSet && stringHeader.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringHeader' when calling HeaderApi->TestHeaderIntegerBooleanStringEnums");
+
+            // verify the required parameter 'enumNonrefStringHeader' is set
+            if (enumNonrefStringHeader.IsSet && enumNonrefStringHeader.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringHeader' when calling HeaderApi->TestHeaderIntegerBooleanStringEnums");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -366,25 +382,25 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integerHeader != null)
+            if (integerHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("integer_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integerHeader.Value)); // header parameter
             }
-            if (booleanHeader != null)
+            if (booleanHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanHeader.Value)); // header parameter
             }
-            if (stringHeader != null)
+            if (stringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(stringHeader.Value)); // header parameter
             }
-            if (enumNonrefStringHeader != null)
+            if (enumNonrefStringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_nonref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumNonrefStringHeader.Value)); // header parameter
             }
-            if (enumRefStringHeader != null)
+            if (enumRefStringHeader.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_ref_string_header", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumRefStringHeader.Value)); // header parameter
             }
 
             localVarRequestOptions.Operation = "HeaderApi.TestHeaderIntegerBooleanStringEnums";

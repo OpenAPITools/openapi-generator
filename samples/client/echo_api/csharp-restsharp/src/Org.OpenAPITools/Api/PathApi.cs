@@ -246,15 +246,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'pathString' is set
             if (pathString == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
 
             // verify the required parameter 'enumNonrefStringPath' is set
             if (enumNonrefStringPath == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -333,15 +329,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'pathString' is set
             if (pathString == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'pathString' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
 
             // verify the required parameter 'enumNonrefStringPath' is set
             if (enumNonrefStringPath == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

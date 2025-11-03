@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,12 +38,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;).</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;).</param>
-        public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
+        public LiteralStringClass(Option<string> escapedLiteralString = default(Option<string>), Option<string> unescapedLiteralString = default(Option<string>))
         {
-            // use default value if no "escapedLiteralString" provided
-            this.EscapedLiteralString = escapedLiteralString ?? @"C:\\Users\\username";
-            // use default value if no "unescapedLiteralString" provided
-            this.UnescapedLiteralString = unescapedLiteralString ?? @"C:\Users\username";
+            // to ensure "escapedLiteralString" (not nullable) is not null
+            if (escapedLiteralString.IsSet && escapedLiteralString.Value == null)
+            {
+                throw new ArgumentNullException("escapedLiteralString isn't a nullable property for LiteralStringClass and cannot be null");
+            }
+            // to ensure "unescapedLiteralString" (not nullable) is not null
+            if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
+            {
+                throw new ArgumentNullException("unescapedLiteralString isn't a nullable property for LiteralStringClass and cannot be null");
+            }
+            this.EscapedLiteralString = escapedLiteralString.IsSet ? escapedLiteralString : new Option<string>(@"C:\\Users\\username");
+            this.UnescapedLiteralString = unescapedLiteralString.IsSet ? unescapedLiteralString : new Option<string>(@"C:\Users\username");
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -50,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [DataMember(Name = "escapedLiteralString", EmitDefaultValue = false)]
-        public string EscapedLiteralString { get; set; }
+        public Option<string> EscapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [DataMember(Name = "unescapedLiteralString", EmitDefaultValue = false)]
-        public string UnescapedLiteralString { get; set; }
+        public Option<string> UnescapedLiteralString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -117,13 +126,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.EscapedLiteralString != null)
+                if (this.EscapedLiteralString.IsSet && this.EscapedLiteralString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.EscapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EscapedLiteralString.Value.GetHashCode();
                 }
-                if (this.UnescapedLiteralString != null)
+                if (this.UnescapedLiteralString.IsSet && this.UnescapedLiteralString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.UnescapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UnescapedLiteralString.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

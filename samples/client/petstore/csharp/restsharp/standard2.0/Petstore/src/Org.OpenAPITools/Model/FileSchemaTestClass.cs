@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,8 +38,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file.</param>
         /// <param name="files">files.</param>
-        public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
+        public FileSchemaTestClass(Option<File> file = default(Option<File>), Option<List<File>> files = default(Option<List<File>>))
         {
+            // to ensure "file" (not nullable) is not null
+            if (file.IsSet && file.Value == null)
+            {
+                throw new ArgumentNullException("file isn't a nullable property for FileSchemaTestClass and cannot be null");
+            }
+            // to ensure "files" (not nullable) is not null
+            if (files.IsSet && files.Value == null)
+            {
+                throw new ArgumentNullException("files isn't a nullable property for FileSchemaTestClass and cannot be null");
+            }
             this.File = file;
             this.Files = files;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -48,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        public File File { get; set; }
+        public Option<File> File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        public List<File> Files { get; set; }
+        public Option<List<File>> Files { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,13 +126,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.File != null)
+                if (this.File.IsSet && this.File.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.File.GetHashCode();
+                    hashCode = (hashCode * 59) + this.File.Value.GetHashCode();
                 }
-                if (this.Files != null)
+                if (this.Files.IsSet && this.Files.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Files.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Files.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

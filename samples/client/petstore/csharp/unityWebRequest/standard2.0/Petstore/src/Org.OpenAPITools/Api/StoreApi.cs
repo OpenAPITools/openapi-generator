@@ -369,7 +369,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'orderId' when calling StoreApi->DeleteOrder");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -429,7 +429,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'orderId' when calling StoreApi->DeleteOrder");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -734,7 +734,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'order' is set
             if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'order' when calling StoreApi->PlaceOrder");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -798,7 +798,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'order' is set
             if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'order' when calling StoreApi->PlaceOrder");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -34,8 +35,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber.</param>
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
+        public ArrayOfArrayOfNumberOnly(Option<List<List<decimal>>> arrayArrayNumber = default(Option<List<List<decimal>>>))
         {
+            // to ensure "arrayArrayNumber" (not nullable) is not null
+            if (arrayArrayNumber.IsSet && arrayArrayNumber.Value == null)
+            {
+                throw new ArgumentNullException("arrayArrayNumber isn't a nullable property for ArrayOfArrayOfNumberOnly and cannot be null");
+            }
             this.ArrayArrayNumber = arrayArrayNumber;
         }
 
@@ -43,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
-        public List<List<decimal>> ArrayArrayNumber { get; set; }
+        public Option<List<List<decimal>>> ArrayArrayNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -90,10 +96,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ArrayArrayNumber == input.ArrayArrayNumber ||
-                    this.ArrayArrayNumber != null &&
-                    input.ArrayArrayNumber != null &&
-                    this.ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
+                    
+                    this.ArrayArrayNumber.IsSet && this.ArrayArrayNumber.Value != null &&
+                    input.ArrayArrayNumber.IsSet && input.ArrayArrayNumber.Value != null &&
+                    this.ArrayArrayNumber.Value.SequenceEqual(input.ArrayArrayNumber.Value)
                 );
         }
 
@@ -106,9 +112,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayArrayNumber != null)
+                if (this.ArrayArrayNumber.IsSet && this.ArrayArrayNumber.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.Value.GetHashCode();
                 }
                 return hashCode;
             }

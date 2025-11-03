@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapProperty** | **Dictionary&lt;string, string&gt;** |  | [optional] 
 **MapOfMapProperty** | **Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt;** |  | [optional] 
-**Anytype1** | **Object** |  | [optional] 
+**Anytype1** | **Object?** |  | [optional] 
 **MapWithUndeclaredPropertiesAnytype1** | **Object** |  | [optional] 
 **MapWithUndeclaredPropertiesAnytype2** | **Object** |  | [optional] 
 **MapWithUndeclaredPropertiesAnytype3** | **Dictionary&lt;string, Object&gt;** |  | [optional] 

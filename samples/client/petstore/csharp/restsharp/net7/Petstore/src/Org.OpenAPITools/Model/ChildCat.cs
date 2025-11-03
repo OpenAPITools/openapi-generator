@@ -24,6 +24,7 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -63,17 +64,22 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        public ChildCat(Option<string> name = default(Option<string>), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
-            this.PetType = petType;
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for ChildCat and cannot be null");
+            }
             this.Name = name;
+            this.PetType = petType;
         }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -128,9 +134,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Name != null)
+                if (this.Name.IsSet && this.Name.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 return hashCode;

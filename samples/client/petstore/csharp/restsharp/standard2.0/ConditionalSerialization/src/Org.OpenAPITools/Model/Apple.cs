@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,20 +39,35 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar.</param>
         /// <param name="origin">origin.</param>
         /// <param name="colorCode">colorCode.</param>
-        public Apple(string cultivar = default(string), string origin = default(string), string colorCode = default(string))
+        public Apple(Option<string> cultivar = default(Option<string>), Option<string> origin = default(Option<string>), Option<string> colorCode = default(Option<string>))
         {
+            // to ensure "cultivar" (not nullable) is not null
+            if (cultivar.IsSet && cultivar.Value == null)
+            {
+                throw new ArgumentNullException("cultivar isn't a nullable property for Apple and cannot be null");
+            }
+            // to ensure "origin" (not nullable) is not null
+            if (origin.IsSet && origin.Value == null)
+            {
+                throw new ArgumentNullException("origin isn't a nullable property for Apple and cannot be null");
+            }
+            // to ensure "colorCode" (not nullable) is not null
+            if (colorCode.IsSet && colorCode.Value == null)
+            {
+                throw new ArgumentNullException("colorCode isn't a nullable property for Apple and cannot be null");
+            }
             this._Cultivar = cultivar;
-            if (this.Cultivar != null)
+            if (this.Cultivar.IsSet)
             {
                 this._flagCultivar = true;
             }
             this._Origin = origin;
-            if (this.Origin != null)
+            if (this.Origin.IsSet)
             {
                 this._flagOrigin = true;
             }
             this._ColorCode = colorCode;
-            if (this.ColorCode != null)
+            if (this.ColorCode.IsSet)
             {
                 this._flagColorCode = true;
             }
@@ -62,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar
+        public Option<string> Cultivar
         {
             get{ return _Cultivar;}
             set
@@ -71,7 +87,7 @@ namespace Org.OpenAPITools.Model
                 _flagCultivar = true;
             }
         }
-        private string _Cultivar;
+        private Option<string> _Cultivar;
         private bool _flagCultivar;
 
         /// <summary>
@@ -86,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin
+        public Option<string> Origin
         {
             get{ return _Origin;}
             set
@@ -95,7 +111,7 @@ namespace Org.OpenAPITools.Model
                 _flagOrigin = true;
             }
         }
-        private string _Origin;
+        private Option<string> _Origin;
         private bool _flagOrigin;
 
         /// <summary>
@@ -110,7 +126,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ColorCode
         /// </summary>
         [DataMember(Name = "color_code", EmitDefaultValue = false)]
-        public string ColorCode
+        public Option<string> ColorCode
         {
             get{ return _ColorCode;}
             set
@@ -119,7 +135,7 @@ namespace Org.OpenAPITools.Model
                 _flagColorCode = true;
             }
         }
-        private string _ColorCode;
+        private Option<string> _ColorCode;
         private bool _flagColorCode;
 
         /// <summary>
@@ -190,17 +206,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
+                if (this.Cultivar.IsSet && this.Cultivar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Cultivar.Value.GetHashCode();
                 }
-                if (this.Origin != null)
+                if (this.Origin.IsSet && this.Origin.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Origin.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Origin.Value.GetHashCode();
                 }
-                if (this.ColorCode != null)
+                if (this.ColorCode.IsSet && this.ColorCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ColorCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ColorCode.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

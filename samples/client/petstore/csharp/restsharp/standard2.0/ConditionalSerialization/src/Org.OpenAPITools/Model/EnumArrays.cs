@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -57,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol
+        public Option<JustSymbolEnum> JustSymbol
         {
             get{ return _JustSymbol;}
             set
@@ -66,7 +67,7 @@ namespace Org.OpenAPITools.Model
                 _flagJustSymbol = true;
             }
         }
-        private JustSymbolEnum? _JustSymbol;
+        private Option<JustSymbolEnum> _JustSymbol;
         private bool _flagJustSymbol;
 
         /// <summary>
@@ -101,15 +102,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+        public EnumArrays(Option<JustSymbolEnum> justSymbol = default(Option<JustSymbolEnum>), Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default(Option<List<EnumArrays.ArrayEnumEnum>>))
         {
+            // to ensure "arrayEnum" (not nullable) is not null
+            if (arrayEnum.IsSet && arrayEnum.Value == null)
+            {
+                throw new ArgumentNullException("arrayEnum isn't a nullable property for EnumArrays and cannot be null");
+            }
             this._JustSymbol = justSymbol;
-            if (this.JustSymbol != null)
+            if (this.JustSymbol.IsSet)
             {
                 this._flagJustSymbol = true;
             }
             this._ArrayEnum = arrayEnum;
-            if (this.ArrayEnum != null)
+            if (this.ArrayEnum.IsSet)
             {
                 this._flagArrayEnum = true;
             }
@@ -120,7 +126,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum
+        public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnum
         {
             get{ return _ArrayEnum;}
             set
@@ -129,7 +135,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayEnum = true;
             }
         }
-        private List<EnumArrays.ArrayEnumEnum> _ArrayEnum;
+        private Option<List<EnumArrays.ArrayEnumEnum>> _ArrayEnum;
         private bool _flagArrayEnum;
 
         /// <summary>
@@ -199,10 +205,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
+                if (this.JustSymbol.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustSymbol.Value.GetHashCode();
+                }
+                if (this.ArrayEnum.IsSet && this.ArrayEnum.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

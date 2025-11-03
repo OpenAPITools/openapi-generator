@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
         /// <param name="baz">baz.</param>
-        public ReadOnlyFirst(string baz = default(string))
+        public ReadOnlyFirst(Option<string> baz = default(Option<string>))
         {
+            // to ensure "baz" (not nullable) is not null
+            if (baz.IsSet && baz.Value == null)
+            {
+                throw new ArgumentNullException("baz isn't a nullable property for ReadOnlyFirst and cannot be null");
+            }
             this.Baz = baz;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -46,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        public Option<string> Bar { get; private set; }
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -60,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Baz
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
-        public string Baz { get; set; }
+        public Option<string> Baz { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -121,13 +127,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
-                if (this.Baz != null)
+                if (this.Baz.IsSet && this.Baz.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Baz.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Baz.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

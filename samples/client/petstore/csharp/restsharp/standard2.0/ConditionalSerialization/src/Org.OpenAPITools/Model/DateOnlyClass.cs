@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
+        public DateOnlyClass(Option<DateTime> dateOnlyProperty = default(Option<DateTime>))
         {
+            // to ensure "dateOnlyProperty" (not nullable) is not null
+            if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
+            {
+                throw new ArgumentNullException("dateOnlyProperty isn't a nullable property for DateOnlyClass and cannot be null");
+            }
             this._DateOnlyProperty = dateOnlyProperty;
-            if (this.DateOnlyProperty != null)
+            if (this.DateOnlyProperty.IsSet)
             {
                 this._flagDateOnlyProperty = true;
             }
@@ -52,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
-        public DateTime DateOnlyProperty
+        public Option<DateTime> DateOnlyProperty
         {
             get{ return _DateOnlyProperty;}
             set
@@ -61,7 +67,7 @@ namespace Org.OpenAPITools.Model
                 _flagDateOnlyProperty = true;
             }
         }
-        private DateTime _DateOnlyProperty;
+        private Option<DateTime> _DateOnlyProperty;
         private bool _flagDateOnlyProperty;
 
         /// <summary>
@@ -130,9 +136,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.DateOnlyProperty != null)
+                if (this.DateOnlyProperty.IsSet && this.DateOnlyProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateOnlyProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateOnlyProperty.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

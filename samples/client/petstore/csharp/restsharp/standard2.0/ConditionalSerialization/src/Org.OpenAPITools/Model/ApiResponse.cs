@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,20 +39,30 @@ namespace Org.OpenAPITools.Model
         /// <param name="code">code.</param>
         /// <param name="type">type.</param>
         /// <param name="message">message.</param>
-        public ApiResponse(int code = default(int), string type = default(string), string message = default(string))
+        public ApiResponse(Option<int> code = default(Option<int>), Option<string> type = default(Option<string>), Option<string> message = default(Option<string>))
         {
+            // to ensure "type" (not nullable) is not null
+            if (type.IsSet && type.Value == null)
+            {
+                throw new ArgumentNullException("type isn't a nullable property for ApiResponse and cannot be null");
+            }
+            // to ensure "message" (not nullable) is not null
+            if (message.IsSet && message.Value == null)
+            {
+                throw new ArgumentNullException("message isn't a nullable property for ApiResponse and cannot be null");
+            }
             this._Code = code;
-            if (this.Code != null)
+            if (this.Code.IsSet)
             {
                 this._flagCode = true;
             }
             this._Type = type;
-            if (this.Type != null)
+            if (this.Type.IsSet)
             {
                 this._flagType = true;
             }
             this._Message = message;
-            if (this.Message != null)
+            if (this.Message.IsSet)
             {
                 this._flagMessage = true;
             }
@@ -62,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [DataMember(Name = "code", EmitDefaultValue = false)]
-        public int Code
+        public Option<int> Code
         {
             get{ return _Code;}
             set
@@ -71,7 +82,7 @@ namespace Org.OpenAPITools.Model
                 _flagCode = true;
             }
         }
-        private int _Code;
+        private Option<int> _Code;
         private bool _flagCode;
 
         /// <summary>
@@ -86,7 +97,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type
+        public Option<string> Type
         {
             get{ return _Type;}
             set
@@ -95,7 +106,7 @@ namespace Org.OpenAPITools.Model
                 _flagType = true;
             }
         }
-        private string _Type;
+        private Option<string> _Type;
         private bool _flagType;
 
         /// <summary>
@@ -110,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name = "message", EmitDefaultValue = false)]
-        public string Message
+        public Option<string> Message
         {
             get{ return _Message;}
             set
@@ -119,7 +130,7 @@ namespace Org.OpenAPITools.Model
                 _flagMessage = true;
             }
         }
-        private string _Message;
+        private Option<string> _Message;
         private bool _flagMessage;
 
         /// <summary>
@@ -190,14 +201,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Code.GetHashCode();
-                if (this.Type != null)
+                if (this.Code.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                hashCode = (hashCode * 59) + this.Code.Value.GetHashCode();
                 }
-                if (this.Message != null)
+                if (this.Type.IsSet && this.Type.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Message.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Type.Value.GetHashCode();
+                }
+                if (this.Message.IsSet && this.Message.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Message.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

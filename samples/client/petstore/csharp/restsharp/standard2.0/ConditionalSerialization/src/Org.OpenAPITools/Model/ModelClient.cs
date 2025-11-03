@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient.</param>
-        public ModelClient(string varClient = default(string))
+        public ModelClient(Option<string> varClient = default(Option<string>))
         {
+            // to ensure "varClient" (not nullable) is not null
+            if (varClient.IsSet && varClient.Value == null)
+            {
+                throw new ArgumentNullException("varClient isn't a nullable property for ModelClient and cannot be null");
+            }
             this._VarClient = varClient;
-            if (this.VarClient != null)
+            if (this.VarClient.IsSet)
             {
                 this._flagVarClient = true;
             }
@@ -50,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string VarClient
+        public Option<string> VarClient
         {
             get{ return _VarClient;}
             set
@@ -59,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagVarClient = true;
             }
         }
-        private string _VarClient;
+        private Option<string> _VarClient;
         private bool _flagVarClient;
 
         /// <summary>
@@ -128,9 +134,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.VarClient != null)
+                if (this.VarClient.IsSet && this.VarClient.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

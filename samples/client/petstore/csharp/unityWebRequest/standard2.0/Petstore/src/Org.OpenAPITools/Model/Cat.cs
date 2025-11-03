@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
+        public Cat(Option<bool> declawed = default(Option<bool>), string className = @"Cat", Option<string> color = default(Option<string>)) : base(className, color)
         {
             this.Declawed = declawed;
         }
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
-        public bool Declawed { get; set; }
+        public Option<bool> Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -98,7 +99,6 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    this.Declawed == input.Declawed ||
                     this.Declawed.Equals(input.Declawed)
                 );
         }
@@ -112,7 +112,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                if (this.Declawed.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Declawed.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

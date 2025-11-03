@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -90,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumString
         /// </summary>
         [DataMember(Name = "enum_string", EmitDefaultValue = false)]
-        public EnumStringEnum? EnumString { get; set; }
+        public Option<EnumStringEnum> EnumString { get; set; }
         /// <summary>
         /// Defines EnumStringRequired
         /// </summary>
@@ -173,7 +174,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumInteger
         /// </summary>
         [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
-        public EnumIntegerEnum? EnumInteger { get; set; }
+        public Option<EnumIntegerEnum> EnumInteger { get; set; }
         /// <summary>
         /// Defines EnumIntegerOnly
         /// </summary>
@@ -195,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
         [DataMember(Name = "enum_integer_only", EmitDefaultValue = false)]
-        public EnumIntegerOnlyEnum? EnumIntegerOnly { get; set; }
+        public Option<EnumIntegerOnlyEnum> EnumIntegerOnly { get; set; }
         /// <summary>
         /// Defines EnumNumber
         /// </summary>
@@ -220,31 +221,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumNumber
         /// </summary>
         [DataMember(Name = "enum_number", EmitDefaultValue = false)]
-        public EnumNumberEnum? EnumNumber { get; set; }
+        public Option<EnumNumberEnum> EnumNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
         [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
-        public OuterEnum? OuterEnum { get; set; }
+        public Option<OuterEnum> OuterEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
-        public OuterEnumInteger? OuterEnumInteger { get; set; }
+        public Option<OuterEnumInteger> OuterEnumInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
+        public Option<OuterEnumDefaultValue> OuterEnumDefaultValue { get; set; }
 
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
+        public Option<OuterEnumIntegerDefaultValue> OuterEnumIntegerDefaultValue { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -262,10 +263,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnumInteger">outerEnumInteger.</param>
         /// <param name="outerEnumDefaultValue">outerEnumDefaultValue.</param>
         /// <param name="outerEnumIntegerDefaultValue">outerEnumIntegerDefaultValue.</param>
-        public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumIntegerOnlyEnum? enumIntegerOnly = default(EnumIntegerOnlyEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum? outerEnum = default(OuterEnum?), OuterEnumInteger? outerEnumInteger = default(OuterEnumInteger?), OuterEnumDefaultValue? outerEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue = default(OuterEnumIntegerDefaultValue?))
+        public EnumTest(Option<EnumStringEnum> enumString = default(Option<EnumStringEnum>), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), Option<EnumIntegerEnum> enumInteger = default(Option<EnumIntegerEnum>), Option<EnumIntegerOnlyEnum> enumIntegerOnly = default(Option<EnumIntegerOnlyEnum>), Option<EnumNumberEnum> enumNumber = default(Option<EnumNumberEnum>), Option<OuterEnum> outerEnum = default(Option<OuterEnum>), Option<OuterEnumInteger> outerEnumInteger = default(Option<OuterEnumInteger>), Option<OuterEnumDefaultValue> outerEnumDefaultValue = default(Option<OuterEnumDefaultValue>), Option<OuterEnumIntegerDefaultValue> outerEnumIntegerDefaultValue = default(Option<OuterEnumIntegerDefaultValue>))
         {
-            this.EnumStringRequired = enumStringRequired;
             this.EnumString = enumString;
+            this.EnumStringRequired = enumStringRequired;
             this.EnumInteger = enumInteger;
             this.EnumIntegerOnly = enumIntegerOnly;
             this.EnumNumber = enumNumber;
@@ -328,7 +329,6 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.EnumString == input.EnumString ||
                     this.EnumString.Equals(input.EnumString)
                 ) && 
                 (
@@ -336,31 +336,24 @@ namespace Org.OpenAPITools.Model
                     this.EnumStringRequired.Equals(input.EnumStringRequired)
                 ) && 
                 (
-                    this.EnumInteger == input.EnumInteger ||
                     this.EnumInteger.Equals(input.EnumInteger)
                 ) && 
                 (
-                    this.EnumIntegerOnly == input.EnumIntegerOnly ||
                     this.EnumIntegerOnly.Equals(input.EnumIntegerOnly)
                 ) && 
                 (
-                    this.EnumNumber == input.EnumNumber ||
                     this.EnumNumber.Equals(input.EnumNumber)
                 ) && 
                 (
-                    this.OuterEnum == input.OuterEnum ||
                     this.OuterEnum.Equals(input.OuterEnum)
                 ) && 
                 (
-                    this.OuterEnumInteger == input.OuterEnumInteger ||
                     this.OuterEnumInteger.Equals(input.OuterEnumInteger)
                 ) && 
                 (
-                    this.OuterEnumDefaultValue == input.OuterEnumDefaultValue ||
                     this.OuterEnumDefaultValue.Equals(input.OuterEnumDefaultValue)
                 ) && 
                 (
-                    this.OuterEnumIntegerDefaultValue == input.OuterEnumIntegerDefaultValue ||
                     this.OuterEnumIntegerDefaultValue.Equals(input.OuterEnumIntegerDefaultValue)
                 );
         }
@@ -374,15 +367,39 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.EnumString.GetHashCode();
+                if (this.EnumString.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.EnumString.Value.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.EnumStringRequired.GetHashCode();
-                hashCode = (hashCode * 59) + this.EnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.EnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + this.EnumNumber.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnum.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.EnumInteger.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.EnumInteger.Value.GetHashCode();
+                }
+                if (this.EnumIntegerOnly.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.EnumIntegerOnly.Value.GetHashCode();
+                }
+                if (this.EnumNumber.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.EnumNumber.Value.GetHashCode();
+                }
+                if (this.OuterEnum.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.OuterEnum.Value.GetHashCode();
+                }
+                if (this.OuterEnumInteger.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.OuterEnumInteger.Value.GetHashCode();
+                }
+                if (this.OuterEnumDefaultValue.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.OuterEnumDefaultValue.Value.GetHashCode();
+                }
+                if (this.OuterEnumIntegerDefaultValue.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.OuterEnumIntegerDefaultValue.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

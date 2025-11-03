@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -48,12 +49,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
-            this.PkiNotificationtestID = pkiNotificationtestID;
-            // to ensure "aObjVariableobject" is required (not null)
+            // to ensure "aObjVariableobject" (not nullable) is not null
             if (aObjVariableobject == null)
             {
-                throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
+                throw new ArgumentNullException("aObjVariableobject isn't a nullable property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
+            this.PkiNotificationtestID = pkiNotificationtestID;
             this.AObjVariableobject = aObjVariableobject;
             this.AdditionalProperties = new Dictionary<string, object>();
         }

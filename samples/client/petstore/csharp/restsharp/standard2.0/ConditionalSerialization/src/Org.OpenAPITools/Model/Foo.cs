@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,14 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar = @"bar")
+        public Foo(Option<string> bar = default(Option<string>))
         {
+            // to ensure "bar" (not nullable) is not null
+            if (bar.IsSet && bar.Value == null)
+            {
+                throw new ArgumentNullException("bar isn't a nullable property for Foo and cannot be null");
+            }
+            this._Bar = bar.IsSet ? bar : new Option<string>(@"bar");
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -45,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar
+        public Option<string> Bar
         {
             get{ return _Bar;}
             set
@@ -54,7 +61,7 @@ namespace Org.OpenAPITools.Model
                 _flagBar = true;
             }
         }
-        private string _Bar;
+        private Option<string> _Bar;
         private bool _flagBar;
 
         /// <summary>
@@ -123,9 +130,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

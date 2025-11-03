@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -63,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type
+        public Option<TypeEnum> Type
         {
             get{ return _Type;}
             set
@@ -72,7 +73,7 @@ namespace Org.OpenAPITools.Model
                 _flagType = true;
             }
         }
-        private TypeEnum? _Type;
+        private Option<TypeEnum> _Type;
         private bool _flagType;
 
         /// <summary>
@@ -96,19 +97,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string))
+        public Zebra(Option<TypeEnum> type = default(Option<TypeEnum>), string className = default(string))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for Zebra and cannot be null");
             }
-            this._ClassName = className;
             this._Type = type;
-            if (this.Type != null)
+            if (this.Type.IsSet)
             {
                 this._flagType = true;
             }
+            this._ClassName = className;
+            this._flagClassName = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -195,7 +197,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.Type.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Type.Value.GetHashCode();
+                }
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();

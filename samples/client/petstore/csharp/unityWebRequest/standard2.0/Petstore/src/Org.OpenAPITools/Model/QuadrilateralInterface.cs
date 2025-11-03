@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,10 +42,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateralType">quadrilateralType (required).</param>
         public QuadrilateralInterface(string quadrilateralType = default(string))
         {
-            // to ensure "quadrilateralType" is required (not null)
+            // to ensure "quadrilateralType" (not nullable) is not null
             if (quadrilateralType == null)
             {
-                throw new ArgumentNullException("quadrilateralType is a required property for QuadrilateralInterface and cannot be null");
+                throw new ArgumentNullException("quadrilateralType isn't a nullable property for QuadrilateralInterface and cannot be null");
             }
             this.QuadrilateralType = quadrilateralType;
         }

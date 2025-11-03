@@ -33,8 +33,8 @@ Name | Type | Description | Notes
 **NotrequiredNullableEnumIntegerOnly** | **int?** |  | [optional] 
 **NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
 **RequiredNotnullableEnumString** | **string** |  | 
-**RequiredNullableEnumString** | **string** |  | 
-**NotrequiredNullableEnumString** | **string** |  | [optional] 
+**RequiredNullableEnumString** | **string?** |  | 
+**NotrequiredNullableEnumString** | **string?** |  | [optional] 
 **NotrequiredNotnullableEnumString** | **string** |  | [optional] 
 **RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
 **RequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 

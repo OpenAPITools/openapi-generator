@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -68,8 +69,33 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayStringNullable">arrayStringNullable.</param>
         /// <param name="arrayStringExtensionNullable">arrayStringExtensionNullable.</param>
         /// <param name="stringNullable">stringNullable.</param>
-        public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault = default(List<StringEnumRef>), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string> arrayStringDefault = default(List<string>), List<int> arrayIntegerDefault = default(List<int>), List<string> arrayString = default(List<string>), List<string> arrayStringNullable = default(List<string>), List<string> arrayStringExtensionNullable = default(List<string>), string stringNullable = default(string))
+        public DefaultValue(Option<List<StringEnumRef>> arrayStringEnumRefDefault = default(Option<List<StringEnumRef>>), Option<List<DefaultValue.ArrayStringEnumDefaultEnum>> arrayStringEnumDefault = default(Option<List<DefaultValue.ArrayStringEnumDefaultEnum>>), Option<List<string>> arrayStringDefault = default(Option<List<string>>), Option<List<int>> arrayIntegerDefault = default(Option<List<int>>), Option<List<string>> arrayString = default(Option<List<string>>), Option<List<string>?> arrayStringNullable = default(Option<List<string>?>), Option<List<string>?> arrayStringExtensionNullable = default(Option<List<string>?>), Option<string?> stringNullable = default(Option<string?>))
         {
+            // to ensure "arrayStringEnumRefDefault" (not nullable) is not null
+            if (arrayStringEnumRefDefault.IsSet && arrayStringEnumRefDefault.Value == null)
+            {
+                throw new ArgumentNullException("arrayStringEnumRefDefault isn't a nullable property for DefaultValue and cannot be null");
+            }
+            // to ensure "arrayStringEnumDefault" (not nullable) is not null
+            if (arrayStringEnumDefault.IsSet && arrayStringEnumDefault.Value == null)
+            {
+                throw new ArgumentNullException("arrayStringEnumDefault isn't a nullable property for DefaultValue and cannot be null");
+            }
+            // to ensure "arrayStringDefault" (not nullable) is not null
+            if (arrayStringDefault.IsSet && arrayStringDefault.Value == null)
+            {
+                throw new ArgumentNullException("arrayStringDefault isn't a nullable property for DefaultValue and cannot be null");
+            }
+            // to ensure "arrayIntegerDefault" (not nullable) is not null
+            if (arrayIntegerDefault.IsSet && arrayIntegerDefault.Value == null)
+            {
+                throw new ArgumentNullException("arrayIntegerDefault isn't a nullable property for DefaultValue and cannot be null");
+            }
+            // to ensure "arrayString" (not nullable) is not null
+            if (arrayString.IsSet && arrayString.Value == null)
+            {
+                throw new ArgumentNullException("arrayString isn't a nullable property for DefaultValue and cannot be null");
+            }
             this.ArrayStringEnumRefDefault = arrayStringEnumRefDefault;
             this.ArrayStringEnumDefault = arrayStringEnumDefault;
             this.ArrayStringDefault = arrayStringDefault;
@@ -84,49 +110,49 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayStringEnumRefDefault
         /// </summary>
         [DataMember(Name = "array_string_enum_ref_default", EmitDefaultValue = false)]
-        public List<StringEnumRef> ArrayStringEnumRefDefault { get; set; }
+        public Option<List<StringEnumRef>> ArrayStringEnumRefDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringEnumDefault
         /// </summary>
         [DataMember(Name = "array_string_enum_default", EmitDefaultValue = false)]
-        public List<DefaultValue.ArrayStringEnumDefaultEnum> ArrayStringEnumDefault { get; set; }
+        public Option<List<DefaultValue.ArrayStringEnumDefaultEnum>> ArrayStringEnumDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringDefault
         /// </summary>
         [DataMember(Name = "array_string_default", EmitDefaultValue = false)]
-        public List<string> ArrayStringDefault { get; set; }
+        public Option<List<string>> ArrayStringDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayIntegerDefault
         /// </summary>
         [DataMember(Name = "array_integer_default", EmitDefaultValue = false)]
-        public List<int> ArrayIntegerDefault { get; set; }
+        public Option<List<int>> ArrayIntegerDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayString
         /// </summary>
         [DataMember(Name = "array_string", EmitDefaultValue = false)]
-        public List<string> ArrayString { get; set; }
+        public Option<List<string>> ArrayString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringNullable
         /// </summary>
         [DataMember(Name = "array_string_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringNullable { get; set; }
+        public Option<List<string>?> ArrayStringNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringExtensionNullable
         /// </summary>
         [DataMember(Name = "array_string_extension_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringExtensionNullable { get; set; }
+        public Option<List<string>?> ArrayStringExtensionNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets StringNullable
         /// </summary>
         [DataMember(Name = "string_nullable", EmitDefaultValue = true)]
-        public string StringNullable { get; set; }
+        public Option<string?> StringNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -180,51 +206,50 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ArrayStringEnumRefDefault == input.ArrayStringEnumRefDefault ||
-                    this.ArrayStringEnumRefDefault != null &&
-                    input.ArrayStringEnumRefDefault != null &&
-                    this.ArrayStringEnumRefDefault.SequenceEqual(input.ArrayStringEnumRefDefault)
+                    
+                    this.ArrayStringEnumRefDefault.IsSet && this.ArrayStringEnumRefDefault.Value != null &&
+                    input.ArrayStringEnumRefDefault.IsSet && input.ArrayStringEnumRefDefault.Value != null &&
+                    this.ArrayStringEnumRefDefault.Value.SequenceEqual(input.ArrayStringEnumRefDefault.Value)
                 ) && 
                 (
-                    this.ArrayStringEnumDefault == input.ArrayStringEnumDefault ||
-                    this.ArrayStringEnumDefault != null &&
-                    input.ArrayStringEnumDefault != null &&
-                    this.ArrayStringEnumDefault.SequenceEqual(input.ArrayStringEnumDefault)
+                    
+                    this.ArrayStringEnumDefault.IsSet && this.ArrayStringEnumDefault.Value != null &&
+                    input.ArrayStringEnumDefault.IsSet && input.ArrayStringEnumDefault.Value != null &&
+                    this.ArrayStringEnumDefault.Value.SequenceEqual(input.ArrayStringEnumDefault.Value)
                 ) && 
                 (
-                    this.ArrayStringDefault == input.ArrayStringDefault ||
-                    this.ArrayStringDefault != null &&
-                    input.ArrayStringDefault != null &&
-                    this.ArrayStringDefault.SequenceEqual(input.ArrayStringDefault)
+                    
+                    this.ArrayStringDefault.IsSet && this.ArrayStringDefault.Value != null &&
+                    input.ArrayStringDefault.IsSet && input.ArrayStringDefault.Value != null &&
+                    this.ArrayStringDefault.Value.SequenceEqual(input.ArrayStringDefault.Value)
                 ) && 
                 (
-                    this.ArrayIntegerDefault == input.ArrayIntegerDefault ||
-                    this.ArrayIntegerDefault != null &&
-                    input.ArrayIntegerDefault != null &&
-                    this.ArrayIntegerDefault.SequenceEqual(input.ArrayIntegerDefault)
+                    
+                    this.ArrayIntegerDefault.IsSet && this.ArrayIntegerDefault.Value != null &&
+                    input.ArrayIntegerDefault.IsSet && input.ArrayIntegerDefault.Value != null &&
+                    this.ArrayIntegerDefault.Value.SequenceEqual(input.ArrayIntegerDefault.Value)
                 ) && 
                 (
-                    this.ArrayString == input.ArrayString ||
-                    this.ArrayString != null &&
-                    input.ArrayString != null &&
-                    this.ArrayString.SequenceEqual(input.ArrayString)
+                    
+                    this.ArrayString.IsSet && this.ArrayString.Value != null &&
+                    input.ArrayString.IsSet && input.ArrayString.Value != null &&
+                    this.ArrayString.Value.SequenceEqual(input.ArrayString.Value)
                 ) && 
                 (
-                    this.ArrayStringNullable == input.ArrayStringNullable ||
-                    this.ArrayStringNullable != null &&
-                    input.ArrayStringNullable != null &&
-                    this.ArrayStringNullable.SequenceEqual(input.ArrayStringNullable)
+                    
+                    this.ArrayStringNullable.IsSet && this.ArrayStringNullable.Value != null &&
+                    input.ArrayStringNullable.IsSet && input.ArrayStringNullable.Value != null &&
+                    this.ArrayStringNullable.Value.SequenceEqual(input.ArrayStringNullable.Value)
                 ) && 
                 (
-                    this.ArrayStringExtensionNullable == input.ArrayStringExtensionNullable ||
-                    this.ArrayStringExtensionNullable != null &&
-                    input.ArrayStringExtensionNullable != null &&
-                    this.ArrayStringExtensionNullable.SequenceEqual(input.ArrayStringExtensionNullable)
+                    
+                    this.ArrayStringExtensionNullable.IsSet && this.ArrayStringExtensionNullable.Value != null &&
+                    input.ArrayStringExtensionNullable.IsSet && input.ArrayStringExtensionNullable.Value != null &&
+                    this.ArrayStringExtensionNullable.Value.SequenceEqual(input.ArrayStringExtensionNullable.Value)
                 ) && 
                 (
-                    this.StringNullable == input.StringNullable ||
-                    (this.StringNullable != null &&
-                    this.StringNullable.Equals(input.StringNullable))
+                    
+                    this.StringNullable.Equals(input.StringNullable)
                 );
         }
 
@@ -237,37 +262,37 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayStringEnumRefDefault != null)
+                if (this.ArrayStringEnumRefDefault.IsSet && this.ArrayStringEnumRefDefault.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayStringEnumRefDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringEnumRefDefault.Value.GetHashCode();
                 }
-                if (this.ArrayStringEnumDefault != null)
+                if (this.ArrayStringEnumDefault.IsSet && this.ArrayStringEnumDefault.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayStringEnumDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringEnumDefault.Value.GetHashCode();
                 }
-                if (this.ArrayStringDefault != null)
+                if (this.ArrayStringDefault.IsSet && this.ArrayStringDefault.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayStringDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringDefault.Value.GetHashCode();
                 }
-                if (this.ArrayIntegerDefault != null)
+                if (this.ArrayIntegerDefault.IsSet && this.ArrayIntegerDefault.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayIntegerDefault.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayIntegerDefault.Value.GetHashCode();
                 }
-                if (this.ArrayString != null)
+                if (this.ArrayString.IsSet && this.ArrayString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayString.Value.GetHashCode();
                 }
-                if (this.ArrayStringNullable != null)
+                if (this.ArrayStringNullable.IsSet && this.ArrayStringNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayStringNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringNullable.Value.GetHashCode();
                 }
-                if (this.ArrayStringExtensionNullable != null)
+                if (this.ArrayStringExtensionNullable.IsSet && this.ArrayStringExtensionNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayStringExtensionNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayStringExtensionNullable.Value.GetHashCode();
                 }
-                if (this.StringNullable != null)
+                if (this.StringNullable.IsSet && this.StringNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.StringNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StringNullable.Value.GetHashCode();
                 }
                 return hashCode;
             }

@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -40,8 +41,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varName">varName (required).</param>
         /// <param name="property">property.</param>
-        public Name(int varName = default(int), string property = default(string))
+        public Name(int varName = default(int), Option<string> property = default(Option<string>))
         {
+            // to ensure "property" (not nullable) is not null
+            if (property.IsSet && property.Value == null)
+            {
+                throw new ArgumentNullException("property isn't a nullable property for Name and cannot be null");
+            }
             this.VarName = varName;
             this.Property = property;
         }
@@ -56,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
-        public int SnakeCase { get; private set; }
+        public Option<int> SnakeCase { get; private set; }
 
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
@@ -70,13 +76,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Property
         /// </summary>
         [DataMember(Name = "property", EmitDefaultValue = false)]
-        public string Property { get; set; }
+        public Option<string> Property { get; set; }
 
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int Var123Number { get; private set; }
+        public Option<int> Var123Number { get; private set; }
 
         /// <summary>
         /// Returns false as Var123Number should not be serialized given that it's read-only.
@@ -138,16 +144,13 @@ namespace Org.OpenAPITools.Model
                     this.VarName.Equals(input.VarName)
                 ) && 
                 (
-                    this.SnakeCase == input.SnakeCase ||
                     this.SnakeCase.Equals(input.SnakeCase)
                 ) && 
                 (
-                    this.Property == input.Property ||
-                    (this.Property != null &&
-                    this.Property.Equals(input.Property))
+                    
+                    this.Property.Equals(input.Property)
                 ) && 
                 (
-                    this.Var123Number == input.Var123Number ||
                     this.Var123Number.Equals(input.Var123Number)
                 );
         }
@@ -162,12 +165,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.VarName.GetHashCode();
-                hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
-                if (this.Property != null)
+                if (this.SnakeCase.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Property.GetHashCode();
+                hashCode = (hashCode * 59) + this.SnakeCase.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
+                if (this.Property.IsSet && this.Property.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Property.Value.GetHashCode();
+                }
+                if (this.Var123Number.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Var123Number.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

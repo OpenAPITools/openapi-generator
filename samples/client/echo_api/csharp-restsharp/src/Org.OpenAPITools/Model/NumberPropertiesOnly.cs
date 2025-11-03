@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number.</param>
         /// <param name="varFloat">varFloat.</param>
         /// <param name="varDouble">varDouble.</param>
-        public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
+        public NumberPropertiesOnly(Option<decimal> number = default(Option<decimal>), Option<float> varFloat = default(Option<float>), Option<double> varDouble = default(Option<double>))
         {
             this.Number = number;
             this.Float = varFloat;
@@ -49,19 +50,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", EmitDefaultValue = false)]
-        public decimal Number { get; set; }
+        public Option<decimal> Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public Option<float> Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public Option<double> Double { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -110,15 +111,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Number == input.Number ||
                     this.Number.Equals(input.Number)
                 ) && 
                 (
-                    this.Float == input.Float ||
                     this.Float.Equals(input.Float)
                 ) && 
                 (
-                    this.Double == input.Double ||
                     this.Double.Equals(input.Double)
                 );
         }
@@ -132,9 +130,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                if (this.Number.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Number.Value.GetHashCode();
+                }
+                if (this.Float.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Float.Value.GetHashCode();
+                }
+                if (this.Double.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Double.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>bool</returns>
-        bool FakeOuterBooleanSerialize(bool? body = default(bool?), int operationIndex = 0);
+        bool FakeOuterBooleanSerialize(Option<bool> body = default(Option<bool>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of bool</returns>
-        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?), int operationIndex = 0);
+        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(Option<bool> body = default(Option<bool>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0);
+        OuterComposite FakeOuterCompositeSerialize(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0);
+        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>decimal</returns>
-        decimal FakeOuterNumberSerialize(decimal? body = default(decimal?), int operationIndex = 0);
+        decimal FakeOuterNumberSerialize(Option<decimal> body = default(Option<decimal>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of decimal</returns>
-        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?), int operationIndex = 0);
+        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(Option<decimal> body = default(Option<decimal>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string FakeOuterStringSerialize(Guid requiredStringUuid, string body = default(string), int operationIndex = 0);
+        string FakeOuterStringSerialize(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, string body = default(string), int operationIndex = 0);
+        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0);
+        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -329,7 +329,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -347,7 +347,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0);
+        void TestEnumParameters(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// To test enum parameters
@@ -366,7 +366,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0);
+        ApiResponse<Object> TestEnumParametersWithHttpInfo(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -382,7 +382,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0);
+        void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -399,7 +399,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0);
+        ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0);
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -480,7 +480,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0);
+        void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -500,7 +500,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0);
+        ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// test referenced string map
         /// </summary>
@@ -564,7 +564,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of bool</returns>
-        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(Option<bool> body = default(Option<bool>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -577,7 +577,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(Option<bool> body = default(Option<bool>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -589,7 +589,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of OuterComposite</returns>
-        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -602,7 +602,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -614,7 +614,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of decimal</returns>
-        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(Option<decimal> body = default(Option<decimal>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -627,7 +627,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(Option<decimal> body = default(Option<decimal>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -640,7 +640,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -654,7 +654,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -850,7 +850,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -876,7 +876,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -895,7 +895,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test enum parameters
@@ -915,7 +915,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -932,7 +932,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -950,7 +950,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -1047,7 +1047,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -1068,7 +1068,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// test referenced string map
         /// </summary>
@@ -1347,7 +1347,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>bool</returns>
-        public bool FakeOuterBooleanSerialize(bool? body = default(bool?), int operationIndex = 0)
+        public bool FakeOuterBooleanSerialize(Option<bool> body = default(Option<bool>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body);
             return localVarResponse.Data;
@@ -1360,7 +1360,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of bool</returns>
-        public Org.OpenAPITools.Client.ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(bool? body = default(bool?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo(Option<bool> body = default(Option<bool>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1413,7 +1413,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of bool</returns>
-        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(Option<bool> body = default(Option<bool>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1427,7 +1427,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(bool? body = default(bool?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync(Option<bool> body = default(Option<bool>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1481,7 +1481,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0)
+        public OuterComposite FakeOuterCompositeSerialize(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
             return localVarResponse.Data;
@@ -1494,8 +1494,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="outerComposite">Input composite as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0)
         {
+            // verify the required parameter 'outerComposite' is set
+            if (outerComposite.IsSet && outerComposite.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'outerComposite' when calling FakeApi->FakeOuterCompositeSerialize");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1547,7 +1551,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of OuterComposite</returns>
-        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1561,8 +1565,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(OuterComposite outerComposite = default(OuterComposite), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync(Option<OuterComposite> outerComposite = default(Option<OuterComposite>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'outerComposite' is set
+            if (outerComposite.IsSet && outerComposite.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'outerComposite' when calling FakeApi->FakeOuterCompositeSerialize");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1615,7 +1623,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>decimal</returns>
-        public decimal FakeOuterNumberSerialize(decimal? body = default(decimal?), int operationIndex = 0)
+        public decimal FakeOuterNumberSerialize(Option<decimal> body = default(Option<decimal>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body);
             return localVarResponse.Data;
@@ -1628,7 +1636,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of decimal</returns>
-        public Org.OpenAPITools.Client.ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(decimal? body = default(decimal?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo(Option<decimal> body = default(Option<decimal>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1681,7 +1689,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of decimal</returns>
-        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(Option<decimal> body = default(Option<decimal>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1695,7 +1703,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(decimal? body = default(decimal?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync(Option<decimal> body = default(Option<decimal>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1750,7 +1758,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string FakeOuterStringSerialize(Guid requiredStringUuid, string body = default(string), int operationIndex = 0)
+        public string FakeOuterStringSerialize(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
             return localVarResponse.Data;
@@ -1764,8 +1772,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, string body = default(string), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0)
         {
+            // verify the required parameter 'requiredStringUuid' is set
+            if (requiredStringUuid == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredStringUuid' when calling FakeApi->FakeOuterStringSerialize");
+
+            // verify the required parameter 'body' is set
+            if (body.IsSet && body.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'body' when calling FakeApi->FakeOuterStringSerialize");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1819,7 +1835,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1834,8 +1850,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, Option<string> body = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'requiredStringUuid' is set
+            if (requiredStringUuid == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredStringUuid' when calling FakeApi->FakeOuterStringSerialize");
+
+            // verify the required parameter 'body' is set
+            if (body.IsSet && body.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'body' when calling FakeApi->FakeOuterStringSerialize");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2283,9 +2307,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2354,9 +2376,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2425,9 +2445,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2496,9 +2514,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'fileSchemaTestClass' is set
             if (fileSchemaTestClass == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2569,15 +2585,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'query' is set
             if (query == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
 
             // verify the required parameter 'user' is set
             if (user == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2649,15 +2661,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'query' is set
             if (query == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
 
             // verify the required parameter 'user' is set
             if (user == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2728,9 +2736,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'modelClient' when calling FakeApi->TestClientModel");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2801,9 +2807,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'modelClient' when calling FakeApi->TestClientModel");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2870,7 +2874,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0)
+        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0)
         {
             TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
         }
@@ -2895,19 +2899,39 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0)
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
 
             // verify the required parameter 'varByte' is set
             if (varByte == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'varByte' when calling FakeApi->TestEndpointParameters");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'varByte' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'varString' is set
+            if (varString.IsSet && varString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'varString' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'binary' is set
+            if (binary.IsSet && binary.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'binary' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'date' is set
+            if (date.IsSet && date.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'date' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'dateTime' is set
+            if (dateTime.IsSet && dateTime.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'dateTime' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'password' is set
+            if (password.IsSet && password.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'password' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'callback' is set
+            if (callback.IsSet && callback.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'callback' when calling FakeApi->TestEndpointParameters");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2931,49 +2955,49 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integer != null)
+            if (integer.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
+                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer.Value)); // form parameter
             }
-            if (int32 != null)
+            if (int32.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32.Value)); // form parameter
             }
-            if (int64 != null)
+            if (int64.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
-            if (varFloat != null)
+            if (varFloat.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varFloat)); // form parameter
+                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varFloat.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varDouble)); // form parameter
-            if (varString != null)
+            if (varString.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varString.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
             localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varByte)); // form parameter
-            if (binary != null)
+            if (binary.IsSet)
             {
-                localVarRequestOptions.FileParameters.Add("binary", binary);
+                localVarRequestOptions.FileParameters.Add("binary", binary.Value);
             }
-            if (date != null)
+            if (date.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
+                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date.Value)); // form parameter
             }
-            if (dateTime != null)
+            if (dateTime.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
+                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime.Value)); // form parameter
             }
-            if (password != null)
+            if (password.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
+                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password.Value)); // form parameter
             }
-            if (callback != null)
+            if (callback.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
+                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestEndpointParameters";
@@ -3021,7 +3045,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestEndpointParametersWithHttpInfoAsync(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -3047,19 +3071,39 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string varString = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateTime> date = default(Option<DateTime>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
 
             // verify the required parameter 'varByte' is set
             if (varByte == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'varByte' when calling FakeApi->TestEndpointParameters");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'varByte' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'varString' is set
+            if (varString.IsSet && varString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'varString' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'binary' is set
+            if (binary.IsSet && binary.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'binary' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'date' is set
+            if (date.IsSet && date.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'date' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'dateTime' is set
+            if (dateTime.IsSet && dateTime.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'dateTime' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'password' is set
+            if (password.IsSet && password.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'password' when calling FakeApi->TestEndpointParameters");
+
+            // verify the required parameter 'callback' is set
+            if (callback.IsSet && callback.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'callback' when calling FakeApi->TestEndpointParameters");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -3084,49 +3128,49 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integer != null)
+            if (integer.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
+                localVarRequestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer.Value)); // form parameter
             }
-            if (int32 != null)
+            if (int32.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int32", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int32.Value)); // form parameter
             }
-            if (int64 != null)
+            if (int64.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64)); // form parameter
+                localVarRequestOptions.FormParameters.Add("int64", Org.OpenAPITools.Client.ClientUtils.ParameterToString(int64.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("number", Org.OpenAPITools.Client.ClientUtils.ParameterToString(number)); // form parameter
-            if (varFloat != null)
+            if (varFloat.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varFloat)); // form parameter
+                localVarRequestOptions.FormParameters.Add("float", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varFloat.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("double", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varDouble)); // form parameter
-            if (varString != null)
+            if (varString.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varString.Value)); // form parameter
             }
             localVarRequestOptions.FormParameters.Add("pattern_without_delimiter", Org.OpenAPITools.Client.ClientUtils.ParameterToString(patternWithoutDelimiter)); // form parameter
             localVarRequestOptions.FormParameters.Add("byte", Org.OpenAPITools.Client.ClientUtils.ParameterToString(varByte)); // form parameter
-            if (binary != null)
+            if (binary.IsSet)
             {
-                localVarRequestOptions.FileParameters.Add("binary", binary);
+                localVarRequestOptions.FileParameters.Add("binary", binary.Value);
             }
-            if (date != null)
+            if (date.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date)); // form parameter
+                localVarRequestOptions.FormParameters.Add("date", Org.OpenAPITools.Client.ClientUtils.ParameterToString(date.Value)); // form parameter
             }
-            if (dateTime != null)
+            if (dateTime.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime)); // form parameter
+                localVarRequestOptions.FormParameters.Add("dateTime", Org.OpenAPITools.Client.ClientUtils.ParameterToString(dateTime.Value)); // form parameter
             }
-            if (password != null)
+            if (password.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password)); // form parameter
+                localVarRequestOptions.FormParameters.Add("password", Org.OpenAPITools.Client.ClientUtils.ParameterToString(password.Value)); // form parameter
             }
-            if (callback != null)
+            if (callback.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback)); // form parameter
+                localVarRequestOptions.FormParameters.Add("callback", Org.OpenAPITools.Client.ClientUtils.ParameterToString(callback.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestEndpointParameters";
@@ -3168,7 +3212,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestEnumParameters(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0)
+        public void TestEnumParameters(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0)
         {
             TestEnumParametersWithHttpInfo(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
         }
@@ -3187,8 +3231,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0)
         {
+            // verify the required parameter 'enumHeaderStringArray' is set
+            if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumHeaderStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumHeaderString' is set
+            if (enumHeaderString.IsSet && enumHeaderString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumHeaderString' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumQueryStringArray' is set
+            if (enumQueryStringArray.IsSet && enumQueryStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumQueryStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumQueryString' is set
+            if (enumQueryString.IsSet && enumQueryString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumQueryString' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumFormStringArray' is set
+            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumFormStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumFormString' is set
+            if (enumFormString.IsSet && enumFormString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumFormString' when calling FakeApi->TestEnumParameters");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -3211,37 +3279,37 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (enumQueryStringArray != null)
+            if (enumQueryStringArray.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "enum_query_string_array", enumQueryStringArray));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "enum_query_string_array", enumQueryStringArray.Value));
             }
-            if (enumQueryString != null)
+            if (enumQueryString.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString.Value));
             }
-            if (enumQueryInteger != null)
+            if (enumQueryInteger.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger.Value));
             }
-            if (enumQueryDouble != null)
+            if (enumQueryDouble.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble.Value));
             }
-            if (enumHeaderStringArray != null)
+            if (enumHeaderStringArray.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray.Value)); // header parameter
             }
-            if (enumHeaderString != null)
+            if (enumHeaderString.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString.Value)); // header parameter
             }
-            if (enumFormStringArray != null)
+            if (enumFormStringArray.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray.Value)); // form parameter
             }
-            if (enumFormString != null)
+            if (enumFormString.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestEnumParameters";
@@ -3277,7 +3345,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEnumParametersAsync(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -3297,8 +3365,32 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync(Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'enumHeaderStringArray' is set
+            if (enumHeaderStringArray.IsSet && enumHeaderStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumHeaderStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumHeaderString' is set
+            if (enumHeaderString.IsSet && enumHeaderString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumHeaderString' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumQueryStringArray' is set
+            if (enumQueryStringArray.IsSet && enumQueryStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumQueryStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumQueryString' is set
+            if (enumQueryString.IsSet && enumQueryString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumQueryString' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumFormStringArray' is set
+            if (enumFormStringArray.IsSet && enumFormStringArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumFormStringArray' when calling FakeApi->TestEnumParameters");
+
+            // verify the required parameter 'enumFormString' is set
+            if (enumFormString.IsSet && enumFormString.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumFormString' when calling FakeApi->TestEnumParameters");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -3322,37 +3414,37 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (enumQueryStringArray != null)
+            if (enumQueryStringArray.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "enum_query_string_array", enumQueryStringArray));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "enum_query_string_array", enumQueryStringArray.Value));
             }
-            if (enumQueryString != null)
+            if (enumQueryString.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_string", enumQueryString.Value));
             }
-            if (enumQueryInteger != null)
+            if (enumQueryInteger.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_integer", enumQueryInteger.Value));
             }
-            if (enumQueryDouble != null)
+            if (enumQueryDouble.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_query_double", enumQueryDouble.Value));
             }
-            if (enumHeaderStringArray != null)
+            if (enumHeaderStringArray.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderStringArray.Value)); // header parameter
             }
-            if (enumHeaderString != null)
+            if (enumHeaderString.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("enum_header_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumHeaderString.Value)); // header parameter
             }
-            if (enumFormStringArray != null)
+            if (enumFormStringArray.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray.Value)); // form parameter
             }
-            if (enumFormString != null)
+            if (enumFormString.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormString.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestEnumParameters";
@@ -3386,7 +3478,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0)
+        public void TestGroupParameters(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0)
         {
             TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         }
@@ -3403,7 +3495,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -3428,18 +3520,18 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group));
-            if (stringGroup != null)
+            if (stringGroup.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup.Value));
             }
-            if (int64Group != null)
+            if (int64Group.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group.Value));
             }
             localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
-            if (booleanGroup != null)
+            if (booleanGroup.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup.Value)); // header parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestGroupParameters";
@@ -3479,7 +3571,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -3497,7 +3589,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -3523,18 +3615,18 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_int64_group", requiredInt64Group));
-            if (stringGroup != null)
+            if (stringGroup.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_group", stringGroup.Value));
             }
-            if (int64Group != null)
+            if (int64Group.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "int64_group", int64Group.Value));
             }
             localVarRequestOptions.HeaderParameters.Add("required_boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(requiredBooleanGroup)); // header parameter
-            if (booleanGroup != null)
+            if (booleanGroup.IsSet)
             {
-                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup)); // header parameter
+                localVarRequestOptions.HeaderParameters.Add("boolean_group", Org.OpenAPITools.Client.ClientUtils.ParameterToString(booleanGroup.Value)); // header parameter
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestGroupParameters";
@@ -3585,9 +3677,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -3656,9 +3746,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -3727,9 +3815,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
             if (testInlineFreeformAdditionalPropertiesRequest == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling FakeApi->TestInlineFreeformAdditionalProperties");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling FakeApi->TestInlineFreeformAdditionalProperties");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -3798,9 +3884,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
             if (testInlineFreeformAdditionalPropertiesRequest == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling FakeApi->TestInlineFreeformAdditionalProperties");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling FakeApi->TestInlineFreeformAdditionalProperties");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -3871,15 +3955,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'param' is set
             if (param == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'param' when calling FakeApi->TestJsonFormData");
 
             // verify the required parameter 'param2' is set
             if (param2 == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'param2' when calling FakeApi->TestJsonFormData");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -3951,15 +4031,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'param' is set
             if (param == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'param' when calling FakeApi->TestJsonFormData");
 
             // verify the required parameter 'param2' is set
             if (param2 == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'param2' when calling FakeApi->TestJsonFormData");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -4021,7 +4097,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0)
+        public void TestQueryParameterCollectionFormat(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0)
         {
             TestQueryParameterCollectionFormatWithHttpInfo(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable);
         }
@@ -4041,49 +4117,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="notRequiredNullable"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestQueryParameterCollectionFormatWithHttpInfo(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0)
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'ioutil' is set
             if (ioutil == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'http' is set
             if (http == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'url' is set
             if (url == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'context' is set
             if (context == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'requiredNotNullable' is set
             if (requiredNotNullable == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'requiredNullable' is set
             if (requiredNullable == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'notRequiredNotNullable' is set
+            if (notRequiredNotNullable.IsSet && notRequiredNotNullable.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'notRequiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'notRequiredNullable' is set
+            if (notRequiredNullable.IsSet && notRequiredNullable.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'notRequiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -4113,13 +4183,13 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "requiredNotNullable", requiredNotNullable));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "requiredNullable", requiredNullable));
-            if (notRequiredNotNullable != null)
+            if (notRequiredNotNullable.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNotNullable", notRequiredNotNullable));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNotNullable", notRequiredNotNullable.Value));
             }
-            if (notRequiredNullable != null)
+            if (notRequiredNullable.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNullable", notRequiredNullable));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNullable", notRequiredNullable.Value));
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestQueryParameterCollectionFormat";
@@ -4156,7 +4226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, requiredNotNullable, requiredNullable, notRequiredNotNullable, notRequiredNullable, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -4177,49 +4247,43 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = default(string), string notRequiredNullable = default(string), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'pipe' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'ioutil' is set
             if (ioutil == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'ioutil' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'http' is set
             if (http == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'http' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'url' is set
             if (url == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'url' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'context' is set
             if (context == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'context' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'requiredNotNullable' is set
             if (requiredNotNullable == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
 
             // verify the required parameter 'requiredNullable' is set
             if (requiredNullable == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'notRequiredNotNullable' is set
+            if (notRequiredNotNullable.IsSet && notRequiredNotNullable.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'notRequiredNotNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
+
+            // verify the required parameter 'notRequiredNullable' is set
+            if (notRequiredNullable.IsSet && notRequiredNullable.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'notRequiredNullable' when calling FakeApi->TestQueryParameterCollectionFormat");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -4250,13 +4314,13 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("multi", "context", context));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "requiredNotNullable", requiredNotNullable));
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "requiredNullable", requiredNullable));
-            if (notRequiredNotNullable != null)
+            if (notRequiredNotNullable.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNotNullable", notRequiredNotNullable));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNotNullable", notRequiredNotNullable.Value));
             }
-            if (notRequiredNullable != null)
+            if (notRequiredNullable.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNullable", notRequiredNullable));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "notRequiredNullable", notRequiredNullable.Value));
             }
 
             localVarRequestOptions.Operation = "FakeApi.TestQueryParameterCollectionFormat";
@@ -4301,9 +4365,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestStringMapReference");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestStringMapReference");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -4372,9 +4434,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'requestBody' is set
             if (requestBody == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestStringMapReference");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'requestBody' when calling FakeApi->TestStringMapReference");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

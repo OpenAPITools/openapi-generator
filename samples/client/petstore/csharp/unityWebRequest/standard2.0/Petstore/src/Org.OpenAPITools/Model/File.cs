@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -34,8 +35,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization.</param>
-        public File(string sourceURI = default(string))
+        public File(Option<string> sourceURI = default(Option<string>))
         {
+            // to ensure "sourceURI" (not nullable) is not null
+            if (sourceURI.IsSet && sourceURI.Value == null)
+            {
+                throw new ArgumentNullException("sourceURI isn't a nullable property for File and cannot be null");
+            }
             this.SourceURI = sourceURI;
         }
 
@@ -44,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
-        public string SourceURI { get; set; }
+        public Option<string> SourceURI { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -91,9 +97,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.SourceURI == input.SourceURI ||
-                    (this.SourceURI != null &&
-                    this.SourceURI.Equals(input.SourceURI))
+                    
+                    this.SourceURI.Equals(input.SourceURI)
                 );
         }
 
@@ -106,9 +111,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SourceURI != null)
+                if (this.SourceURI.IsSet && this.SourceURI.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SourceURI.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SourceURI.Value.GetHashCode();
                 }
                 return hashCode;
             }

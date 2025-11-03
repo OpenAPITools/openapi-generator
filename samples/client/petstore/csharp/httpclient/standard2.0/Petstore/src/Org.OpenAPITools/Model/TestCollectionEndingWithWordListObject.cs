@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordListObject" /> class.
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList.</param>
-        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList = default(List<TestCollectionEndingWithWordList>))
+        public TestCollectionEndingWithWordListObject(Option<List<TestCollectionEndingWithWordList>> testCollectionEndingWithWordList = default(Option<List<TestCollectionEndingWithWordList>>))
         {
+            // to ensure "testCollectionEndingWithWordList" (not nullable) is not null
+            if (testCollectionEndingWithWordList.IsSet && testCollectionEndingWithWordList.Value == null)
+            {
+                throw new ArgumentNullException("testCollectionEndingWithWordList isn't a nullable property for TestCollectionEndingWithWordListObject and cannot be null");
+            }
             this.TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [DataMember(Name = "TestCollectionEndingWithWordList", EmitDefaultValue = false)]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
+        public Option<List<TestCollectionEndingWithWordList>> TestCollectionEndingWithWordList { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -107,9 +113,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.TestCollectionEndingWithWordList != null)
+                if (this.TestCollectionEndingWithWordList.IsSet && this.TestCollectionEndingWithWordList.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.TestCollectionEndingWithWordList.GetHashCode();
+                    hashCode = (hashCode * 59) + this.TestCollectionEndingWithWordList.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

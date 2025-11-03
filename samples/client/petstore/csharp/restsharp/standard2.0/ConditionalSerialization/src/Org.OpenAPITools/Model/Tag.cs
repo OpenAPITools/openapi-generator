@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,15 +38,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public Tag(long id = default(long), string name = default(string))
+        public Tag(Option<long> id = default(Option<long>), Option<string> name = default(Option<string>))
         {
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for Tag and cannot be null");
+            }
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name.IsSet)
             {
                 this._flagName = true;
             }
@@ -56,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public Option<long> Id
         {
             get{ return _Id;}
             set
@@ -65,7 +71,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private Option<long> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name
+        public Option<string> Name
         {
             get{ return _Name;}
             set
@@ -89,7 +95,7 @@ namespace Org.OpenAPITools.Model
                 _flagName = true;
             }
         }
-        private string _Name;
+        private Option<string> _Name;
         private bool _flagName;
 
         /// <summary>
@@ -159,10 +165,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Name != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
+                if (this.Name.IsSet && this.Name.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

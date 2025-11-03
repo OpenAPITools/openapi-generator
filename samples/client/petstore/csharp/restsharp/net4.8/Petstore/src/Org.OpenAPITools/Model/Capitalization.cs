@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -41,8 +42,38 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalSnake">capitalSnake.</param>
         /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
         /// <param name="aTTNAME">Name of the pet .</param>
-        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
+        public Capitalization(Option<string> smallCamel = default(Option<string>), Option<string> capitalCamel = default(Option<string>), Option<string> smallSnake = default(Option<string>), Option<string> capitalSnake = default(Option<string>), Option<string> sCAETHFlowPoints = default(Option<string>), Option<string> aTTNAME = default(Option<string>))
         {
+            // to ensure "smallCamel" (not nullable) is not null
+            if (smallCamel.IsSet && smallCamel.Value == null)
+            {
+                throw new ArgumentNullException("smallCamel isn't a nullable property for Capitalization and cannot be null");
+            }
+            // to ensure "capitalCamel" (not nullable) is not null
+            if (capitalCamel.IsSet && capitalCamel.Value == null)
+            {
+                throw new ArgumentNullException("capitalCamel isn't a nullable property for Capitalization and cannot be null");
+            }
+            // to ensure "smallSnake" (not nullable) is not null
+            if (smallSnake.IsSet && smallSnake.Value == null)
+            {
+                throw new ArgumentNullException("smallSnake isn't a nullable property for Capitalization and cannot be null");
+            }
+            // to ensure "capitalSnake" (not nullable) is not null
+            if (capitalSnake.IsSet && capitalSnake.Value == null)
+            {
+                throw new ArgumentNullException("capitalSnake isn't a nullable property for Capitalization and cannot be null");
+            }
+            // to ensure "sCAETHFlowPoints" (not nullable) is not null
+            if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
+            {
+                throw new ArgumentNullException("sCAETHFlowPoints isn't a nullable property for Capitalization and cannot be null");
+            }
+            // to ensure "aTTNAME" (not nullable) is not null
+            if (aTTNAME.IsSet && aTTNAME.Value == null)
+            {
+                throw new ArgumentNullException("aTTNAME isn't a nullable property for Capitalization and cannot be null");
+            }
             this.SmallCamel = smallCamel;
             this.CapitalCamel = capitalCamel;
             this.SmallSnake = smallSnake;
@@ -56,38 +87,38 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
-        public string SmallCamel { get; set; }
+        public Option<string> SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
-        public string CapitalCamel { get; set; }
+        public Option<string> CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
-        public string SmallSnake { get; set; }
+        public Option<string> SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
-        public string CapitalSnake { get; set; }
+        public Option<string> CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
-        public string SCAETHFlowPoints { get; set; }
+        public Option<string> SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
         [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
-        public string ATT_NAME { get; set; }
+        public Option<string> ATT_NAME { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -152,29 +183,29 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SmallCamel != null)
+                if (this.SmallCamel.IsSet && this.SmallCamel.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SmallCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SmallCamel.Value.GetHashCode();
                 }
-                if (this.CapitalCamel != null)
+                if (this.CapitalCamel.IsSet && this.CapitalCamel.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CapitalCamel.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CapitalCamel.Value.GetHashCode();
                 }
-                if (this.SmallSnake != null)
+                if (this.SmallSnake.IsSet && this.SmallSnake.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SmallSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SmallSnake.Value.GetHashCode();
                 }
-                if (this.CapitalSnake != null)
+                if (this.CapitalSnake.IsSet && this.CapitalSnake.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CapitalSnake.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CapitalSnake.Value.GetHashCode();
                 }
-                if (this.SCAETHFlowPoints != null)
+                if (this.SCAETHFlowPoints.IsSet && this.SCAETHFlowPoints.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SCAETHFlowPoints.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SCAETHFlowPoints.Value.GetHashCode();
                 }
-                if (this.ATT_NAME != null)
+                if (this.ATT_NAME.IsSet && this.ATT_NAME.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ATT_NAME.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ATT_NAME.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

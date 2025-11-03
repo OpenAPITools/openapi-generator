@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public Category(long id = default(long), string name = default(string))
+        public Category(Option<long> id = default(Option<long>), Option<string> name = default(Option<string>))
         {
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for Category and cannot be null");
+            }
             this.Id = id;
             this.Name = name;
         }
@@ -48,14 +54,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>1</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>Dogs</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,13 +109,11 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
                     this.Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
+                    
+                    this.Name.Equals(input.Name)
                 );
         }
 
@@ -122,10 +126,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Name != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
+                if (this.Name.IsSet && this.Name.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 return hashCode;
             }

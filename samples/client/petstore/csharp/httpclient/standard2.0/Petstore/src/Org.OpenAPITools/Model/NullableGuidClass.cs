@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NullableGuidClass" /> class.
         /// </summary>
         /// <param name="uuid">uuid.</param>
-        public NullableGuidClass(Guid? uuid = default(Guid?))
+        public NullableGuidClass(Option<Guid?> uuid = default(Option<Guid?>))
         {
             this.Uuid = uuid;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = true)]
-        public Guid? Uuid { get; set; }
+        public Option<Guid?> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,9 +109,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

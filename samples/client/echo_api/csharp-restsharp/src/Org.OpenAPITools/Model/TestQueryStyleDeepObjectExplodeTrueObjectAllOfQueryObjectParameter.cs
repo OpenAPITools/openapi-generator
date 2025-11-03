@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,8 +40,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color.</param>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default(string), string color = default(string), long id = default(long), string name = default(string))
+        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(Option<string> size = default(Option<string>), Option<string> color = default(Option<string>), Option<long> id = default(Option<long>), Option<string> name = default(Option<string>))
         {
+            // to ensure "size" (not nullable) is not null
+            if (size.IsSet && size.Value == null)
+            {
+                throw new ArgumentNullException("size isn't a nullable property for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter and cannot be null");
+            }
+            // to ensure "color" (not nullable) is not null
+            if (color.IsSet && color.Value == null)
+            {
+                throw new ArgumentNullException("color isn't a nullable property for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter and cannot be null");
+            }
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter and cannot be null");
+            }
             this.Size = size;
             this.Color = color;
             this.Id = id;
@@ -51,27 +67,27 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Size
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
-        public string Size { get; set; }
+        public Option<string> Size { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         /// <example>1</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>Dogs</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -121,23 +137,19 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Size == input.Size ||
-                    (this.Size != null &&
-                    this.Size.Equals(input.Size))
+                    
+                    this.Size.Equals(input.Size)
                 ) && 
                 (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    
+                    this.Color.Equals(input.Color)
                 ) && 
                 (
-                    this.Id == input.Id ||
                     this.Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
+                    
+                    this.Name.Equals(input.Name)
                 );
         }
 
@@ -150,18 +162,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Size != null)
+                if (this.Size.IsSet && this.Size.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Size.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Size.Value.GetHashCode();
                 }
-                if (this.Color != null)
+                if (this.Color.IsSet && this.Color.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Name != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
+                if (this.Name.IsSet && this.Name.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 return hashCode;
             }

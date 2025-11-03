@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -40,16 +41,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = @"red")
+        public Animal(string className = default(string), Option<string> color = default(Option<string>))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for Animal and cannot be null");
+            }
+            // to ensure "color" (not nullable) is not null
+            if (color.IsSet && color.Value == null)
+            {
+                throw new ArgumentNullException("color isn't a nullable property for Animal and cannot be null");
             }
             this.ClassName = className;
-            // use default value if no "color" provided
-            this.Color = color ?? @"red";
+            this.Color = color.IsSet ? color : new Option<string>(@"red");
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -115,9 +120,8 @@ namespace Org.OpenAPITools.Model
                     this.ClassName.Equals(input.ClassName))
                 ) && 
                 (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    
+                    this.Color.Equals(input.Color)
                 );
         }
 
@@ -134,9 +138,9 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
-                if (this.Color != null)
+                if (this.Color.IsSet && this.Color.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.Value.GetHashCode();
                 }
                 return hashCode;
             }

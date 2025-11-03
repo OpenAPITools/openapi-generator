@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedSubId" /> class.
         /// </summary>
         /// <param name="id">id.</param>
-        public MixedSubId(string id = default(string))
+        public MixedSubId(Option<string> id = default(Option<string>))
         {
+            // to ensure "id" (not nullable) is not null
+            if (id.IsSet && id.Value == null)
+            {
+                throw new ArgumentNullException("id isn't a nullable property for MixedSubId and cannot be null");
+            }
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
@@ -50,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id
+        public Option<string> Id
         {
             get{ return _Id;}
             set
@@ -59,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private string _Id;
+        private Option<string> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -128,9 +134,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
+                if (this.Id.IsSet && this.Id.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

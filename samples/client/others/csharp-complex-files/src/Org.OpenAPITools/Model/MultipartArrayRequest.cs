@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartArrayRequest" /> class.
         /// </summary>
         /// <param name="files">Many files.</param>
-        public MultipartArrayRequest(List<System.IO.Stream> files = default(List<System.IO.Stream>))
+        public MultipartArrayRequest(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>))
         {
+            // to ensure "files" (not nullable) is not null
+            if (files.IsSet && files.Value == null)
+            {
+                throw new ArgumentNullException("files isn't a nullable property for MultipartArrayRequest and cannot be null");
+            }
             this.Files = files;
         }
 
@@ -46,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Many files</value>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        public List<System.IO.Stream> Files { get; set; }
+        public Option<List<System.IO.Stream>> Files { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -99,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Files != null)
+                if (this.Files.IsSet && this.Files.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Files.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Files.Value.GetHashCode();
                 }
                 return hashCode;
             }

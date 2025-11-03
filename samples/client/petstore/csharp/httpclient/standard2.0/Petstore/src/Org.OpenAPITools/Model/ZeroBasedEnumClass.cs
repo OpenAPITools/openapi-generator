@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -57,12 +58,12 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
         [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = false)]
-        public ZeroBasedEnumEnum? ZeroBasedEnum { get; set; }
+        public Option<ZeroBasedEnumEnum> ZeroBasedEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
+        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum> zeroBasedEnum = default(Option<ZeroBasedEnumEnum>))
         {
             this.ZeroBasedEnum = zeroBasedEnum;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -126,7 +127,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.ZeroBasedEnum.GetHashCode();
+                if (this.ZeroBasedEnum.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.ZeroBasedEnum.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

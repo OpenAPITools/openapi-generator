@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,15 +38,25 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file.</param>
         /// <param name="files">files.</param>
-        public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
+        public FileSchemaTestClass(Option<File> file = default(Option<File>), Option<List<File>> files = default(Option<List<File>>))
         {
+            // to ensure "file" (not nullable) is not null
+            if (file.IsSet && file.Value == null)
+            {
+                throw new ArgumentNullException("file isn't a nullable property for FileSchemaTestClass and cannot be null");
+            }
+            // to ensure "files" (not nullable) is not null
+            if (files.IsSet && files.Value == null)
+            {
+                throw new ArgumentNullException("files isn't a nullable property for FileSchemaTestClass and cannot be null");
+            }
             this._File = file;
-            if (this.File != null)
+            if (this.File.IsSet)
             {
                 this._flagFile = true;
             }
             this._Files = files;
-            if (this.Files != null)
+            if (this.Files.IsSet)
             {
                 this._flagFiles = true;
             }
@@ -56,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        public File File
+        public Option<File> File
         {
             get{ return _File;}
             set
@@ -65,7 +76,7 @@ namespace Org.OpenAPITools.Model
                 _flagFile = true;
             }
         }
-        private File _File;
+        private Option<File> _File;
         private bool _flagFile;
 
         /// <summary>
@@ -80,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Files
         /// </summary>
         [DataMember(Name = "files", EmitDefaultValue = false)]
-        public List<File> Files
+        public Option<List<File>> Files
         {
             get{ return _Files;}
             set
@@ -89,7 +100,7 @@ namespace Org.OpenAPITools.Model
                 _flagFiles = true;
             }
         }
-        private List<File> _Files;
+        private Option<List<File>> _Files;
         private bool _flagFiles;
 
         /// <summary>
@@ -159,13 +170,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.File != null)
+                if (this.File.IsSet && this.File.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.File.GetHashCode();
+                    hashCode = (hashCode * 59) + this.File.Value.GetHashCode();
                 }
-                if (this.Files != null)
+                if (this.Files.IsSet && this.Files.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Files.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Files.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

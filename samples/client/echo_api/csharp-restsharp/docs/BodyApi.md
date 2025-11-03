@@ -103,7 +103,7 @@ No authorization required
 
 <a id="testbodyapplicationoctetstreambinary"></a>
 # **TestBodyApplicationOctetstreamBinary**
-> string TestBodyApplicationOctetstreamBinary (System.IO.Stream? body = null)
+> string TestBodyApplicationOctetstreamBinary (System.IO.Stream body = null)
 
 Test body parameter(s)
 
@@ -126,7 +126,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var body = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? |  (optional) 
+            var body = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream |  (optional) 
 
             try
             {
@@ -169,7 +169,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **System.IO.Stream?****System.IO.Stream?** |  | [optional]  |
+| **body** | **System.IO.Stream****System.IO.Stream** |  | [optional]  |
 
 ### Return type
 
@@ -285,7 +285,7 @@ No authorization required
 
 <a id="testbodymultipartformdatasinglebinary"></a>
 # **TestBodyMultipartFormdataSingleBinary**
-> string TestBodyMultipartFormdataSingleBinary (System.IO.Stream? myFile = null)
+> string TestBodyMultipartFormdataSingleBinary (System.IO.Stream myFile = null)
 
 Test single binary in multipart mime
 
@@ -308,7 +308,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var myFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? |  (optional) 
+            var myFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream |  (optional) 
 
             try
             {
@@ -351,7 +351,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **myFile** | **System.IO.Stream?****System.IO.Stream?** |  | [optional]  |
+| **myFile** | **System.IO.Stream****System.IO.Stream** |  | [optional]  |
 
 ### Return type
 
@@ -376,7 +376,7 @@ No authorization required
 
 <a id="testechobodyallofpet"></a>
 # **TestEchoBodyAllOfPet**
-> Pet TestEchoBodyAllOfPet (Pet? pet = null)
+> Pet TestEchoBodyAllOfPet (Pet pet = null)
 
 Test body parameter(s)
 
@@ -399,7 +399,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var pet = new Pet?(); // Pet? | Pet object that needs to be added to the store (optional) 
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store (optional) 
 
             try
             {
@@ -442,7 +442,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **pet** | [**Pet?**](Pet?.md) | Pet object that needs to be added to the store | [optional]  |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [optional]  |
 
 ### Return type
 
@@ -467,7 +467,7 @@ No authorization required
 
 <a id="testechobodyfreeformobjectresponsestring"></a>
 # **TestEchoBodyFreeFormObjectResponseString**
-> string TestEchoBodyFreeFormObjectResponseString (Object? body = null)
+> string TestEchoBodyFreeFormObjectResponseString (Object body = null)
 
 Test free form object
 
@@ -490,7 +490,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var body = null;  // Object? | Free form object (optional) 
+            var body = null;  // Object | Free form object (optional) 
 
             try
             {
@@ -533,7 +533,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **Object?** | Free form object | [optional]  |
+| **body** | **Object** | Free form object | [optional]  |
 
 ### Return type
 
@@ -558,7 +558,7 @@ No authorization required
 
 <a id="testechobodypet"></a>
 # **TestEchoBodyPet**
-> Pet TestEchoBodyPet (Pet? pet = null)
+> Pet TestEchoBodyPet (Pet pet = null)
 
 Test body parameter(s)
 
@@ -581,7 +581,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var pet = new Pet?(); // Pet? | Pet object that needs to be added to the store (optional) 
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store (optional) 
 
             try
             {
@@ -624,7 +624,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **pet** | [**Pet?**](Pet?.md) | Pet object that needs to be added to the store | [optional]  |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [optional]  |
 
 ### Return type
 
@@ -649,7 +649,7 @@ No authorization required
 
 <a id="testechobodypetresponsestring"></a>
 # **TestEchoBodyPetResponseString**
-> string TestEchoBodyPetResponseString (Pet? pet = null)
+> string TestEchoBodyPetResponseString (Pet pet = null)
 
 Test empty response body
 
@@ -672,7 +672,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var pet = new Pet?(); // Pet? | Pet object that needs to be added to the store (optional) 
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store (optional) 
 
             try
             {
@@ -715,7 +715,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **pet** | [**Pet?**](Pet?.md) | Pet object that needs to be added to the store | [optional]  |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [optional]  |
 
 ### Return type
 
@@ -740,7 +740,7 @@ No authorization required
 
 <a id="testechobodystringenum"></a>
 # **TestEchoBodyStringEnum**
-> StringEnumRef TestEchoBodyStringEnum (string? body = null)
+> StringEnumRef TestEchoBodyStringEnum (string body = null)
 
 Test string enum response body
 
@@ -763,7 +763,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var body = null;  // string? | String enum (optional) 
+            var body = null;  // string | String enum (optional) 
 
             try
             {
@@ -806,7 +806,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **string?** | String enum | [optional]  |
+| **body** | **string** | String enum | [optional]  |
 
 ### Return type
 
@@ -831,7 +831,7 @@ No authorization required
 
 <a id="testechobodytagresponsestring"></a>
 # **TestEchoBodyTagResponseString**
-> string TestEchoBodyTagResponseString (Tag? tag = null)
+> string TestEchoBodyTagResponseString (Tag tag = null)
 
 Test empty json (request body)
 
@@ -854,7 +854,7 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var tag = new Tag?(); // Tag? | Tag object (optional) 
+            var tag = new Tag(); // Tag | Tag object (optional) 
 
             try
             {
@@ -897,7 +897,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **tag** | [**Tag?**](Tag?.md) | Tag object | [optional]  |
+| **tag** | [**Tag**](Tag.md) | Tag object | [optional]  |
 
 ### Return type
 

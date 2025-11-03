@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateTime dateOnlyProperty = default(DateTime))
+        public DateOnlyClass(Option<DateTime> dateOnlyProperty = default(Option<DateTime>))
         {
+            // to ensure "dateOnlyProperty" (not nullable) is not null
+            if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
+            {
+                throw new ArgumentNullException("dateOnlyProperty isn't a nullable property for DateOnlyClass and cannot be null");
+            }
             this.DateOnlyProperty = dateOnlyProperty;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -49,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime DateOnlyProperty { get; set; }
+        public Option<DateTime> DateOnlyProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.DateOnlyProperty != null)
+                if (this.DateOnlyProperty.IsSet && this.DateOnlyProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateOnlyProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateOnlyProperty.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestEnumRefString(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
+        string TestEnumRefString(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestEnumRefStringWithHttpInfo(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
+        ApiResponse<string> TestEnumRefStringWithHttpInfo(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0);
+        string TestQueryDatetimeDateString(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0);
+        ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryIntegerBooleanString(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0);
+        string TestQueryIntegerBooleanString(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -105,7 +105,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryIntegerBooleanStringWithHttpInfo(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0);
+        ApiResponse<string> TestQueryIntegerBooleanStringWithHttpInfo(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleDeepObjectExplodeTrueObject(Pet? queryObject = default(Pet?), int operationIndex = 0);
+        string TestQueryStyleDeepObjectExplodeTrueObject(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Pet? queryObject = default(Pet?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0);
+        string TestQueryStyleDeepObjectExplodeTrueObjectAllOf(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleFormExplodeFalseArrayInteger(List<int>? queryObject = default(List<int>?), int operationIndex = 0);
+        string TestQueryStyleFormExplodeFalseArrayInteger(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -174,7 +174,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<int>? queryObject = default(List<int>?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleFormExplodeFalseArrayString(List<string>? queryObject = default(List<string>?), int operationIndex = 0);
+        string TestQueryStyleFormExplodeFalseArrayString(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<string>? queryObject = default(List<string>?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0);
+        string TestQueryStyleFormExplodeTrueArrayString(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -220,7 +220,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -231,7 +231,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleFormExplodeTrueObject(Pet? queryObject = default(Pet?), int operationIndex = 0);
+        string TestQueryStyleFormExplodeTrueObject(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleFormExplodeTrueObjectWithHttpInfo(Pet? queryObject = default(Pet?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleFormExplodeTrueObjectWithHttpInfo(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -254,7 +254,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryStyleFormExplodeTrueObjectAllOf(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0);
+        string TestQueryStyleFormExplodeTrueObjectAllOf(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -266,7 +266,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0);
+        ApiResponse<string> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -288,7 +288,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -302,7 +302,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -316,7 +316,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -331,7 +331,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -345,7 +345,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -360,7 +360,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -372,7 +372,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -385,7 +385,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -397,7 +397,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -410,7 +410,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -422,7 +422,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -435,7 +435,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -447,7 +447,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -460,7 +460,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -472,7 +472,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -485,7 +485,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -497,7 +497,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -510,7 +510,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -522,7 +522,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -535,7 +535,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -664,7 +664,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestEnumRefString(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
+        public string TestEnumRefString(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
             return localVarResponse.Data;
@@ -678,8 +678,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEnumRefStringWithHttpInfo(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestEnumRefStringWithHttpInfo(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0)
         {
+            // verify the required parameter 'enumNonrefStringQuery' is set
+            if (enumNonrefStringQuery.IsSet && enumNonrefStringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringQuery' when calling QueryApi->TestEnumRefString");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -702,13 +706,13 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (enumNonrefStringQuery != null)
+            if (enumNonrefStringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery.Value));
             }
-            if (enumRefStringQuery != null)
+            if (enumRefStringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestEnumRefString";
@@ -738,7 +742,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEnumRefStringWithHttpInfoAsync(enumNonrefStringQuery, enumRefStringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -753,8 +757,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'enumNonrefStringQuery' is set
+            if (enumNonrefStringQuery.IsSet && enumNonrefStringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'enumNonrefStringQuery' when calling QueryApi->TestEnumRefString");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -778,13 +786,13 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (enumNonrefStringQuery != null)
+            if (enumNonrefStringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery.Value));
             }
-            if (enumRefStringQuery != null)
+            if (enumRefStringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestEnumRefString";
@@ -815,7 +823,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0)
+        public string TestQueryDatetimeDateString(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery);
             return localVarResponse.Data;
@@ -830,8 +838,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0)
         {
+            // verify the required parameter 'datetimeQuery' is set
+            if (datetimeQuery.IsSet && datetimeQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'datetimeQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
+            // verify the required parameter 'dateQuery' is set
+            if (dateQuery.IsSet && dateQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'dateQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
+            // verify the required parameter 'stringQuery' is set
+            if (stringQuery.IsSet && stringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -854,17 +874,17 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (datetimeQuery != null)
+            if (datetimeQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "datetime_query", datetimeQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "datetime_query", datetimeQuery.Value));
             }
-            if (dateQuery != null)
+            if (dateQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "date_query", dateQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "date_query", dateQuery.Value));
             }
-            if (stringQuery != null)
+            if (stringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryDatetimeDateString";
@@ -895,7 +915,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryDatetimeDateStringWithHttpInfoAsync(datetimeQuery, dateQuery, stringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -911,8 +931,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'datetimeQuery' is set
+            if (datetimeQuery.IsSet && datetimeQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'datetimeQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
+            // verify the required parameter 'dateQuery' is set
+            if (dateQuery.IsSet && dateQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'dateQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
+            // verify the required parameter 'stringQuery' is set
+            if (stringQuery.IsSet && stringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringQuery' when calling QueryApi->TestQueryDatetimeDateString");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -936,17 +968,17 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (datetimeQuery != null)
+            if (datetimeQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "datetime_query", datetimeQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "datetime_query", datetimeQuery.Value));
             }
-            if (dateQuery != null)
+            if (dateQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "date_query", dateQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "date_query", dateQuery.Value));
             }
-            if (stringQuery != null)
+            if (stringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryDatetimeDateString";
@@ -977,7 +1009,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryIntegerBooleanString(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0)
+        public string TestQueryIntegerBooleanString(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryIntegerBooleanStringWithHttpInfo(integerQuery, booleanQuery, stringQuery);
             return localVarResponse.Data;
@@ -992,8 +1024,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryIntegerBooleanStringWithHttpInfo(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryIntegerBooleanStringWithHttpInfo(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0)
         {
+            // verify the required parameter 'stringQuery' is set
+            if (stringQuery.IsSet && stringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringQuery' when calling QueryApi->TestQueryIntegerBooleanString");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1016,17 +1052,17 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integerQuery != null)
+            if (integerQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "integer_query", integerQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "integer_query", integerQuery.Value));
             }
-            if (booleanQuery != null)
+            if (booleanQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "boolean_query", booleanQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "boolean_query", booleanQuery.Value));
             }
-            if (stringQuery != null)
+            if (stringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryIntegerBooleanString";
@@ -1057,7 +1093,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryIntegerBooleanStringAsync(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryIntegerBooleanStringWithHttpInfoAsync(integerQuery, booleanQuery, stringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1073,8 +1109,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(int? integerQuery = default(int?), bool? booleanQuery = default(bool?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryIntegerBooleanStringWithHttpInfoAsync(Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'stringQuery' is set
+            if (stringQuery.IsSet && stringQuery.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'stringQuery' when calling QueryApi->TestQueryIntegerBooleanString");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1098,17 +1138,17 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (integerQuery != null)
+            if (integerQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "integer_query", integerQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "integer_query", integerQuery.Value));
             }
-            if (booleanQuery != null)
+            if (booleanQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "boolean_query", booleanQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "boolean_query", booleanQuery.Value));
             }
-            if (stringQuery != null)
+            if (stringQuery.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "string_query", stringQuery.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryIntegerBooleanString";
@@ -1137,7 +1177,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleDeepObjectExplodeTrueObject(Pet? queryObject = default(Pet?), int operationIndex = 0)
+        public string TestQueryStyleDeepObjectExplodeTrueObject(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1150,8 +1190,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Pet? queryObject = default(Pet?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleDeepObjectExplodeTrueObject");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1174,31 +1218,31 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                if (queryObject.Id != null)
+                if (queryObject.Value.Id != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Id));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Value.Id));
                 }
-                if (queryObject.Name != null)
+                if (queryObject.Value.Name != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Name));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Value.Name));
                 }
-                if (queryObject.Category != null)
+                if (queryObject.Value.Category != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Category));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Value.Category));
                 }
-                if (queryObject.PhotoUrls != null)
+                if (queryObject.Value.PhotoUrls != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.PhotoUrls));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.Value.PhotoUrls));
                 }
-                if (queryObject.Tags != null)
+                if (queryObject.Value.Tags != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Tags));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Value.Tags));
                 }
-                if (queryObject.Status != null)
+                if (queryObject.Value.Status != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Status));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Value.Status));
                 }
             }
 
@@ -1228,7 +1272,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1242,8 +1286,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfoAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleDeepObjectExplodeTrueObject");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1267,31 +1315,31 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                if (queryObject.Id != null)
+                if (queryObject.Value.Id != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Id));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Value.Id));
                 }
-                if (queryObject.Name != null)
+                if (queryObject.Value.Name != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Name));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Value.Name));
                 }
-                if (queryObject.Category != null)
+                if (queryObject.Value.Category != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Category));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Value.Category));
                 }
-                if (queryObject.PhotoUrls != null)
+                if (queryObject.Value.PhotoUrls != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.PhotoUrls));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.Value.PhotoUrls));
                 }
-                if (queryObject.Tags != null)
+                if (queryObject.Value.Tags != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Tags));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Value.Tags));
                 }
-                if (queryObject.Status != null)
+                if (queryObject.Value.Status != null)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Status));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Value.Status));
                 }
             }
 
@@ -1321,7 +1369,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleDeepObjectExplodeTrueObjectAllOf(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0)
+        public string TestQueryStyleDeepObjectExplodeTrueObjectAllOf(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1334,8 +1382,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleDeepObjectExplodeTrueObjectAllOf");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1358,7 +1410,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
             }
 
@@ -1388,7 +1440,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1402,8 +1454,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? queryObject = default(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfoAsync(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleDeepObjectExplodeTrueObjectAllOf");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1427,7 +1483,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
             }
 
@@ -1457,7 +1513,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleFormExplodeFalseArrayInteger(List<int>? queryObject = default(List<int>?), int operationIndex = 0)
+        public string TestQueryStyleFormExplodeFalseArrayInteger(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1470,8 +1526,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<int>? queryObject = default(List<int>?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeFalseArrayInteger");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1494,9 +1554,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeFalseArrayInteger";
@@ -1525,7 +1585,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayIntegerAsync(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1539,8 +1599,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(List<int>? queryObject = default(List<int>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfoAsync(Option<List<int>> queryObject = default(Option<List<int>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeFalseArrayInteger");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1564,9 +1628,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeFalseArrayInteger";
@@ -1595,7 +1659,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleFormExplodeFalseArrayString(List<string>? queryObject = default(List<string>?), int operationIndex = 0)
+        public string TestQueryStyleFormExplodeFalseArrayString(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1608,8 +1672,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<string>? queryObject = default(List<string>?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeFalseArrayString");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1632,9 +1700,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeFalseArrayString";
@@ -1663,7 +1731,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeFalseArrayStringAsync(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1677,8 +1745,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(List<string>? queryObject = default(List<string>?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeFalseArrayStringWithHttpInfoAsync(Option<List<string>> queryObject = default(Option<List<string>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeFalseArrayString");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1702,9 +1774,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeFalseArrayString";
@@ -1733,7 +1805,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0)
+        public string TestQueryStyleFormExplodeTrueArrayString(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1746,8 +1818,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueArrayString");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1770,9 +1846,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueArrayString";
@@ -1801,7 +1877,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueArrayStringAsync(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1815,8 +1891,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? queryObject = default(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueArrayStringWithHttpInfoAsync(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueArrayString");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1840,9 +1920,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueArrayString";
@@ -1871,7 +1951,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleFormExplodeTrueObject(Pet? queryObject = default(Pet?), int operationIndex = 0)
+        public string TestQueryStyleFormExplodeTrueObject(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -1884,8 +1964,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueObjectWithHttpInfo(Pet? queryObject = default(Pet?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueObjectWithHttpInfo(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueObject");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1908,9 +1992,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueObject";
@@ -1939,7 +2023,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -1953,8 +2037,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Pet? queryObject = default(Pet?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectWithHttpInfoAsync(Option<Pet> queryObject = default(Option<Pet>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueObject");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1978,9 +2066,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueObject";
@@ -2009,7 +2097,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryStyleFormExplodeTrueObjectAllOf(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0)
+        public string TestQueryStyleFormExplodeTrueObjectAllOf(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject);
             return localVarResponse.Data;
@@ -2022,8 +2110,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="queryObject"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0)
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueObjectAllOf");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -2046,9 +2138,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueObjectAllOf";
@@ -2077,7 +2169,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryStyleFormExplodeTrueObjectAllOfAsync(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(queryObject, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -2091,8 +2183,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(DataQuery? queryObject = default(DataQuery?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfoAsync(Option<DataQuery> queryObject = default(Option<DataQuery>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'queryObject' is set
+            if (queryObject.IsSet && queryObject.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'queryObject' when calling QueryApi->TestQueryStyleFormExplodeTrueObjectAllOf");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2116,9 +2212,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (queryObject != null)
+            if (queryObject.IsSet)
             {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject));
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_object", queryObject.Value));
             }
 
             localVarRequestOptions.Operation = "QueryApi.TestQueryStyleFormExplodeTrueObjectAllOf";

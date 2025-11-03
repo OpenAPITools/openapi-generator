@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -47,13 +48,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
-            this._PkiNotificationtestID = pkiNotificationtestID;
-            // to ensure "aObjVariableobject" is required (not null)
+            // to ensure "aObjVariableobject" (not nullable) is not null
             if (aObjVariableobject == null)
             {
-                throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
+                throw new ArgumentNullException("aObjVariableobject isn't a nullable property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
+            this._PkiNotificationtestID = pkiNotificationtestID;
+            this._flagPkiNotificationtestID = true;
             this._AObjVariableobject = aObjVariableobject;
+            this._flagAObjVariableobject = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

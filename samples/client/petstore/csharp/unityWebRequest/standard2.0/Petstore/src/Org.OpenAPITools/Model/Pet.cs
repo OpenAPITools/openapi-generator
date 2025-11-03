@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -62,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>pet status in the store</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -77,22 +78,32 @@ namespace Org.OpenAPITools.Model
         /// <param name="photoUrls">photoUrls (required).</param>
         /// <param name="tags">tags.</param>
         /// <param name="status">pet status in the store.</param>
-        public Pet(long id = default(long), Category category = default(Category), string name = default(string), List<string> photoUrls = default(List<string>), List<Tag> tags = default(List<Tag>), StatusEnum? status = default(StatusEnum?))
+        public Pet(Option<long> id = default(Option<long>), Option<Category> category = default(Option<Category>), string name = default(string), List<string> photoUrls = default(List<string>), Option<List<Tag>> tags = default(Option<List<Tag>>), Option<StatusEnum> status = default(Option<StatusEnum>))
         {
-            // to ensure "name" is required (not null)
+            // to ensure "category" (not nullable) is not null
+            if (category.IsSet && category.Value == null)
+            {
+                throw new ArgumentNullException("category isn't a nullable property for Pet and cannot be null");
+            }
+            // to ensure "name" (not nullable) is not null
             if (name == null)
             {
-                throw new ArgumentNullException("name is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("name isn't a nullable property for Pet and cannot be null");
             }
-            this.Name = name;
-            // to ensure "photoUrls" is required (not null)
+            // to ensure "photoUrls" (not nullable) is not null
             if (photoUrls == null)
             {
-                throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
+                throw new ArgumentNullException("photoUrls isn't a nullable property for Pet and cannot be null");
             }
-            this.PhotoUrls = photoUrls;
+            // to ensure "tags" (not nullable) is not null
+            if (tags.IsSet && tags.Value == null)
+            {
+                throw new ArgumentNullException("tags isn't a nullable property for Pet and cannot be null");
+            }
             this.Id = id;
             this.Category = category;
+            this.Name = name;
+            this.PhotoUrls = photoUrls;
             this.Tags = tags;
             this.Status = status;
         }
@@ -101,13 +112,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [DataMember(Name = "category", EmitDefaultValue = false)]
-        public Category Category { get; set; }
+        public Option<Category> Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -126,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [DataMember(Name = "tags", EmitDefaultValue = false)]
-        public List<Tag> Tags { get; set; }
+        public Option<List<Tag>> Tags { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -178,13 +189,11 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
                     this.Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Category == input.Category ||
-                    (this.Category != null &&
-                    this.Category.Equals(input.Category))
+                    
+                    this.Category.Equals(input.Category)
                 ) && 
                 (
                     this.Name == input.Name ||
@@ -192,19 +201,18 @@ namespace Org.OpenAPITools.Model
                     this.Name.Equals(input.Name))
                 ) && 
                 (
-                    this.PhotoUrls == input.PhotoUrls ||
+                    this.PhotoUrls == input.PhotoUrls || 
                     this.PhotoUrls != null &&
                     input.PhotoUrls != null &&
                     this.PhotoUrls.SequenceEqual(input.PhotoUrls)
                 ) && 
                 (
-                    this.Tags == input.Tags ||
-                    this.Tags != null &&
-                    input.Tags != null &&
-                    this.Tags.SequenceEqual(input.Tags)
+                    
+                    this.Tags.IsSet && this.Tags.Value != null &&
+                    input.Tags.IsSet && input.Tags.Value != null &&
+                    this.Tags.Value.SequenceEqual(input.Tags.Value)
                 ) && 
                 (
-                    this.Status == input.Status ||
                     this.Status.Equals(input.Status)
                 );
         }
@@ -218,10 +226,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Category != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
+                if (this.Category.IsSet && this.Category.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Category.Value.GetHashCode();
                 }
                 if (this.Name != null)
                 {
@@ -231,11 +242,14 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
                 }
-                if (this.Tags != null)
+                if (this.Tags.IsSet && this.Tags.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Tags.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
+                if (this.Status.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Status.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

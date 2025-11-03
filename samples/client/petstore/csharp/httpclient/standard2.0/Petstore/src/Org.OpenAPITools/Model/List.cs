@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="List" /> class.
         /// </summary>
         /// <param name="var123List">var123List.</param>
-        public List(string var123List = default(string))
+        public List(Option<string> var123List = default(Option<string>))
         {
+            // to ensure "var123List" (not nullable) is not null
+            if (var123List.IsSet && var123List.Value == null)
+            {
+                throw new ArgumentNullException("var123List isn't a nullable property for List and cannot be null");
+            }
             this.Var123List = var123List;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123List
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
-        public string Var123List { get; set; }
+        public Option<string> Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -107,9 +113,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Var123List != null)
+                if (this.Var123List.IsSet && this.Var123List.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Var123List.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Var123List.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

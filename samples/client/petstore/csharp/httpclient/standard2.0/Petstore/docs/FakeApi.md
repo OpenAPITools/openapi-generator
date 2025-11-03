@@ -115,7 +115,7 @@ No authorization required
 
 <a id="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
-> bool FakeOuterBooleanSerialize (bool? body = null)
+> bool FakeOuterBooleanSerialize (bool body = null)
 
 
 
@@ -142,7 +142,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
-            var body = true;  // bool? | Input boolean as post body (optional) 
+            var body = true;  // bool | Input boolean as post body (optional) 
 
             try
             {
@@ -183,7 +183,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **bool?** | Input boolean as post body | [optional]  |
+| **body** | **bool** | Input boolean as post body | [optional]  |
 
 ### Return type
 
@@ -301,7 +301,7 @@ No authorization required
 
 <a id="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
-> decimal FakeOuterNumberSerialize (decimal? body = null)
+> decimal FakeOuterNumberSerialize (decimal body = null)
 
 
 
@@ -328,7 +328,7 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
-            var body = 8.14D;  // decimal? | Input number as post body (optional) 
+            var body = 8.14D;  // decimal | Input number as post body (optional) 
 
             try
             {
@@ -369,7 +369,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **decimal?** | Input number as post body | [optional]  |
+| **body** | **decimal** | Input number as post body | [optional]  |
 
 ### Return type
 
@@ -1115,7 +1115,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string varString = null, FileParameter binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int integer = null, int int32 = null, long int64 = null, float varFloat = null, string varString = null, FileParameter binary = null, DateTime date = null, DateTime dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1150,14 +1150,14 @@ namespace Example
             var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
             var varByte = System.Text.Encoding.ASCII.GetBytes("BYTE_ARRAY_DATA_HERE");  // byte[] | None
-            var integer = 56;  // int? | None (optional) 
-            var int32 = 56;  // int? | None (optional) 
-            var int64 = 789L;  // long? | None (optional) 
-            var varFloat = 3.4F;  // float? | None (optional) 
+            var integer = 56;  // int | None (optional) 
+            var int32 = 56;  // int | None (optional) 
+            var int64 = 789L;  // long | None (optional) 
+            var varFloat = 3.4F;  // float | None (optional) 
             var varString = "varString_example";  // string | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // FileParameter | None (optional) 
-            var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
-            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
+            var date = DateTime.Parse("2013-10-20");  // DateTime | None (optional) 
+            var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = "password_example";  // string | None (optional) 
             var callback = "callback_example";  // string | None (optional) 
 
@@ -1202,14 +1202,14 @@ catch (ApiException e)
 | **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
 | **varByte** | **byte[]** | None |  |
-| **integer** | **int?** | None | [optional]  |
-| **int32** | **int?** | None | [optional]  |
-| **int64** | **long?** | None | [optional]  |
-| **varFloat** | **float?** | None | [optional]  |
+| **integer** | **int** | None | [optional]  |
+| **int32** | **int** | None | [optional]  |
+| **int64** | **long** | None | [optional]  |
+| **varFloat** | **float** | None | [optional]  |
 | **varString** | **string** | None | [optional]  |
 | **binary** | **FileParameter****FileParameter** | None | [optional]  |
-| **date** | **DateTime?** | None | [optional]  |
-| **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
+| **date** | **DateTime** | None | [optional]  |
+| **dateTime** | **DateTime** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
 | **password** | **string** | None | [optional]  |
 | **callback** | **string** | None | [optional]  |
 
@@ -1237,7 +1237,7 @@ void (empty response body)
 
 <a id="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int enumQueryInteger = null, double enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
 
@@ -1268,8 +1268,8 @@ namespace Example
             var enumHeaderString = "_abc";  // string | Header parameter enum test (string) (optional)  (default to -efg)
             var enumQueryStringArray = new List<string>(); // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = "_abc";  // string | Query parameter enum test (string) (optional)  (default to -efg)
-            var enumQueryInteger = 1;  // int? | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.1D;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryInteger = 1;  // int | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = 1.1D;  // double | Query parameter enum test (double) (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = "_abc";  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
@@ -1314,8 +1314,8 @@ catch (ApiException e)
 | **enumHeaderString** | **string** | Header parameter enum test (string) | [optional] [default to -efg] |
 | **enumQueryStringArray** | [**List&lt;string&gt;**](string.md) | Query parameter enum test (string array) | [optional]  |
 | **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg] |
-| **enumQueryInteger** | **int?** | Query parameter enum test (double) | [optional]  |
-| **enumQueryDouble** | **double?** | Query parameter enum test (double) | [optional]  |
+| **enumQueryInteger** | **int** | Query parameter enum test (double) | [optional]  |
+| **enumQueryDouble** | **double** | Query parameter enum test (double) | [optional]  |
 | **enumFormStringArray** | [**List&lt;string&gt;**](string.md) | Form parameter enum test (string array) | [optional] [default to $] |
 | **enumFormString** | **string** | Form parameter enum test (string) | [optional] [default to -efg] |
 
@@ -1343,7 +1343,7 @@ No authorization required
 
 <a id="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int stringGroup = null, bool booleanGroup = null, long int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -1376,9 +1376,9 @@ namespace Example
             var requiredStringGroup = 56;  // int | Required String in group parameters
             var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
             var requiredInt64Group = 789L;  // long | Required Integer in group parameters
-            var stringGroup = 56;  // int? | String in group parameters (optional) 
-            var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
-            var int64Group = 789L;  // long? | Integer in group parameters (optional) 
+            var stringGroup = 56;  // int | String in group parameters (optional) 
+            var booleanGroup = true;  // bool | Boolean in group parameters (optional) 
+            var int64Group = 789L;  // long | Integer in group parameters (optional) 
 
             try
             {
@@ -1420,9 +1420,9 @@ catch (ApiException e)
 | **requiredStringGroup** | **int** | Required String in group parameters |  |
 | **requiredBooleanGroup** | **bool** | Required Boolean in group parameters |  |
 | **requiredInt64Group** | **long** | Required Integer in group parameters |  |
-| **stringGroup** | **int?** | String in group parameters | [optional]  |
-| **booleanGroup** | **bool?** | Boolean in group parameters | [optional]  |
-| **int64Group** | **long?** | Integer in group parameters | [optional]  |
+| **stringGroup** | **int** | String in group parameters | [optional]  |
+| **booleanGroup** | **bool** | Boolean in group parameters | [optional]  |
+| **int64Group** | **long** | Integer in group parameters | [optional]  |
 
 ### Return type
 

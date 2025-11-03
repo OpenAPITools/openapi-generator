@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -54,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "required_nullable_enum_integer", IsRequired = true, EmitDefaultValue = true)]
-        public RequiredNullableEnumIntegerEnum RequiredNullableEnumInteger
+        public RequiredNullableEnumIntegerEnum? RequiredNullableEnumInteger
         {
             get{ return _RequiredNullableEnumInteger;}
             set
@@ -63,7 +64,7 @@ namespace Org.OpenAPITools.Model
                 _flagRequiredNullableEnumInteger = true;
             }
         }
-        private RequiredNullableEnumIntegerEnum _RequiredNullableEnumInteger;
+        private RequiredNullableEnumIntegerEnum? _RequiredNullableEnumInteger;
         private bool _flagRequiredNullableEnumInteger;
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumInteger
+        public Option<NotrequiredNullableEnumIntegerEnum?> NotrequiredNullableEnumInteger
         {
             get{ return _NotrequiredNullableEnumInteger;}
             set
@@ -147,7 +148,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumInteger = true;
             }
         }
-        private NotrequiredNullableEnumIntegerEnum? _NotrequiredNullableEnumInteger;
+        private Option<NotrequiredNullableEnumIntegerEnum?> _NotrequiredNullableEnumInteger;
         private bool _flagNotrequiredNullableEnumInteger;
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_integer", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumInteger
+        public Option<NotrequiredNotnullableEnumIntegerEnum> NotrequiredNotnullableEnumInteger
         {
             get{ return _NotrequiredNotnullableEnumInteger;}
             set
@@ -189,7 +190,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumInteger = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerEnum? _NotrequiredNotnullableEnumInteger;
+        private Option<NotrequiredNotnullableEnumIntegerEnum> _NotrequiredNotnullableEnumInteger;
         private bool _flagNotrequiredNotnullableEnumInteger;
 
         /// <summary>
@@ -203,7 +204,6 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines RequiredNullableEnumIntegerOnly
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public enum RequiredNullableEnumIntegerOnlyEnum
         {
             /// <summary>
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "required_nullable_enum_integer_only", IsRequired = true, EmitDefaultValue = true)]
-        public RequiredNullableEnumIntegerOnlyEnum RequiredNullableEnumIntegerOnly
+        public RequiredNullableEnumIntegerOnlyEnum? RequiredNullableEnumIntegerOnly
         {
             get{ return _RequiredNullableEnumIntegerOnly;}
             set
@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
                 _flagRequiredNullableEnumIntegerOnly = true;
             }
         }
-        private RequiredNullableEnumIntegerOnlyEnum _RequiredNullableEnumIntegerOnly;
+        private RequiredNullableEnumIntegerOnlyEnum? _RequiredNullableEnumIntegerOnly;
         private bool _flagRequiredNullableEnumIntegerOnly;
 
         /// <summary>
@@ -288,7 +288,6 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Defines NotrequiredNullableEnumIntegerOnly
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
         public enum NotrequiredNullableEnumIntegerOnlyEnum
         {
             /// <summary>
@@ -308,7 +307,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer_only", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnly
+        public Option<NotrequiredNullableEnumIntegerOnlyEnum?> NotrequiredNullableEnumIntegerOnly
         {
             get{ return _NotrequiredNullableEnumIntegerOnly;}
             set
@@ -317,7 +316,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNullableEnumIntegerOnlyEnum? _NotrequiredNullableEnumIntegerOnly;
+        private Option<NotrequiredNullableEnumIntegerOnlyEnum?> _NotrequiredNullableEnumIntegerOnly;
         private bool _flagNotrequiredNullableEnumIntegerOnly;
 
         /// <summary>
@@ -350,7 +349,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_integer_only", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnly
+        public Option<NotrequiredNotnullableEnumIntegerOnlyEnum> NotrequiredNotnullableEnumIntegerOnly
         {
             get{ return _NotrequiredNotnullableEnumIntegerOnly;}
             set
@@ -359,7 +358,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerOnlyEnum? _NotrequiredNotnullableEnumIntegerOnly;
+        private Option<NotrequiredNotnullableEnumIntegerOnlyEnum> _NotrequiredNotnullableEnumIntegerOnly;
         private bool _flagNotrequiredNotnullableEnumIntegerOnly;
 
         /// <summary>
@@ -512,7 +511,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "required_nullable_enum_string", IsRequired = true, EmitDefaultValue = true)]
-        public RequiredNullableEnumStringEnum RequiredNullableEnumString
+        public RequiredNullableEnumStringEnum? RequiredNullableEnumString
         {
             get{ return _RequiredNullableEnumString;}
             set
@@ -521,7 +520,7 @@ namespace Org.OpenAPITools.Model
                 _flagRequiredNullableEnumString = true;
             }
         }
-        private RequiredNullableEnumStringEnum _RequiredNullableEnumString;
+        private RequiredNullableEnumStringEnum? _RequiredNullableEnumString;
         private bool _flagRequiredNullableEnumString;
 
         /// <summary>
@@ -593,7 +592,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_string", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumString
+        public Option<NotrequiredNullableEnumStringEnum?> NotrequiredNullableEnumString
         {
             get{ return _NotrequiredNullableEnumString;}
             set
@@ -602,7 +601,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumString = true;
             }
         }
-        private NotrequiredNullableEnumStringEnum? _NotrequiredNullableEnumString;
+        private Option<NotrequiredNullableEnumStringEnum?> _NotrequiredNullableEnumString;
         private bool _flagNotrequiredNullableEnumString;
 
         /// <summary>
@@ -674,7 +673,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_enum_string", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumString
+        public Option<NotrequiredNotnullableEnumStringEnum> NotrequiredNotnullableEnumString
         {
             get{ return _NotrequiredNotnullableEnumString;}
             set
@@ -683,7 +682,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumString = true;
             }
         }
-        private NotrequiredNotnullableEnumStringEnum? _NotrequiredNotnullableEnumString;
+        private Option<NotrequiredNotnullableEnumStringEnum> _NotrequiredNotnullableEnumString;
         private bool _flagNotrequiredNotnullableEnumString;
 
         /// <summary>
@@ -752,7 +751,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_outerEnumDefaultValue", EmitDefaultValue = true)]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue
+        public Option<OuterEnumDefaultValue> NotrequiredNullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNullableOuterEnumDefaultValue;}
             set
@@ -761,7 +760,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNullableOuterEnumDefaultValue;
+        private Option<OuterEnumDefaultValue> _NotrequiredNullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -778,7 +777,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue
+        public Option<OuterEnumDefaultValue> NotrequiredNotnullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNotnullableOuterEnumDefaultValue;}
             set
@@ -787,7 +786,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNotnullableOuterEnumDefaultValue;
+        private Option<OuterEnumDefaultValue> _NotrequiredNotnullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNotnullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -853,182 +852,209 @@ namespace Org.OpenAPITools.Model
         /// <param name="requiredNotnullableArrayOfString">requiredNotnullableArrayOfString (required).</param>
         /// <param name="notrequiredNullableArrayOfString">notrequiredNullableArrayOfString.</param>
         /// <param name="notrequiredNotnullableArrayOfString">notrequiredNotnullableArrayOfString.</param>
-        public RequiredClass(int? requiredNullableIntegerProp = default(int?), int requiredNotnullableintegerProp = default(int), int? notRequiredNullableIntegerProp = default(int?), int notRequiredNotnullableintegerProp = default(int), string requiredNullableStringProp = default(string), string requiredNotnullableStringProp = default(string), string notrequiredNullableStringProp = default(string), string notrequiredNotnullableStringProp = default(string), bool? requiredNullableBooleanProp = default(bool?), bool requiredNotnullableBooleanProp = default(bool), bool? notrequiredNullableBooleanProp = default(bool?), bool notrequiredNotnullableBooleanProp = default(bool), DateTime? requiredNullableDateProp = default(DateTime?), DateTime requiredNotNullableDateProp = default(DateTime), DateTime? notRequiredNullableDateProp = default(DateTime?), DateTime notRequiredNotnullableDateProp = default(DateTime), DateTime requiredNotnullableDatetimeProp = default(DateTime), DateTime? requiredNullableDatetimeProp = default(DateTime?), DateTime? notrequiredNullableDatetimeProp = default(DateTime?), DateTime notrequiredNotnullableDatetimeProp = default(DateTime), RequiredNullableEnumIntegerEnum requiredNullableEnumInteger = default(RequiredNullableEnumIntegerEnum), RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger = default(RequiredNotnullableEnumIntegerEnum), NotrequiredNullableEnumIntegerEnum? notrequiredNullableEnumInteger = default(NotrequiredNullableEnumIntegerEnum?), NotrequiredNotnullableEnumIntegerEnum? notrequiredNotnullableEnumInteger = default(NotrequiredNotnullableEnumIntegerEnum?), RequiredNullableEnumIntegerOnlyEnum requiredNullableEnumIntegerOnly = default(RequiredNullableEnumIntegerOnlyEnum), RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly = default(RequiredNotnullableEnumIntegerOnlyEnum), NotrequiredNullableEnumIntegerOnlyEnum? notrequiredNullableEnumIntegerOnly = default(NotrequiredNullableEnumIntegerOnlyEnum?), NotrequiredNotnullableEnumIntegerOnlyEnum? notrequiredNotnullableEnumIntegerOnly = default(NotrequiredNotnullableEnumIntegerOnlyEnum?), RequiredNotnullableEnumStringEnum requiredNotnullableEnumString = default(RequiredNotnullableEnumStringEnum), RequiredNullableEnumStringEnum requiredNullableEnumString = default(RequiredNullableEnumStringEnum), NotrequiredNullableEnumStringEnum? notrequiredNullableEnumString = default(NotrequiredNullableEnumStringEnum?), NotrequiredNotnullableEnumStringEnum? notrequiredNotnullableEnumString = default(NotrequiredNotnullableEnumStringEnum?), OuterEnumDefaultValue requiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue? notrequiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), OuterEnumDefaultValue? notrequiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue?), Guid? requiredNullableUuid = default(Guid?), Guid requiredNotnullableUuid = default(Guid), Guid? notrequiredNullableUuid = default(Guid?), Guid notrequiredNotnullableUuid = default(Guid), List<string> requiredNullableArrayOfString = default(List<string>), List<string> requiredNotnullableArrayOfString = default(List<string>), List<string> notrequiredNullableArrayOfString = default(List<string>), List<string> notrequiredNotnullableArrayOfString = default(List<string>))
+        public RequiredClass(int? requiredNullableIntegerProp = default(int?), int requiredNotnullableintegerProp = default(int), Option<int?> notRequiredNullableIntegerProp = default(Option<int?>), Option<int> notRequiredNotnullableintegerProp = default(Option<int>), string requiredNullableStringProp = default(string), string requiredNotnullableStringProp = default(string), Option<string> notrequiredNullableStringProp = default(Option<string>), Option<string> notrequiredNotnullableStringProp = default(Option<string>), bool? requiredNullableBooleanProp = default(bool?), bool requiredNotnullableBooleanProp = default(bool), Option<bool?> notrequiredNullableBooleanProp = default(Option<bool?>), Option<bool> notrequiredNotnullableBooleanProp = default(Option<bool>), DateTime? requiredNullableDateProp = default(DateTime?), DateTime requiredNotNullableDateProp = default(DateTime), Option<DateTime?> notRequiredNullableDateProp = default(Option<DateTime?>), Option<DateTime> notRequiredNotnullableDateProp = default(Option<DateTime>), DateTime requiredNotnullableDatetimeProp = default(DateTime), DateTime? requiredNullableDatetimeProp = default(DateTime?), Option<DateTime?> notrequiredNullableDatetimeProp = default(Option<DateTime?>), Option<DateTime> notrequiredNotnullableDatetimeProp = default(Option<DateTime>), RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default(RequiredNullableEnumIntegerEnum?), RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger = default(RequiredNotnullableEnumIntegerEnum), Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default(Option<NotrequiredNullableEnumIntegerEnum?>), Option<NotrequiredNotnullableEnumIntegerEnum> notrequiredNotnullableEnumInteger = default(Option<NotrequiredNotnullableEnumIntegerEnum>), RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default(RequiredNullableEnumIntegerOnlyEnum?), RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly = default(RequiredNotnullableEnumIntegerOnlyEnum), Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default(Option<NotrequiredNullableEnumIntegerOnlyEnum?>), Option<NotrequiredNotnullableEnumIntegerOnlyEnum> notrequiredNotnullableEnumIntegerOnly = default(Option<NotrequiredNotnullableEnumIntegerOnlyEnum>), RequiredNotnullableEnumStringEnum requiredNotnullableEnumString = default(RequiredNotnullableEnumStringEnum), RequiredNullableEnumStringEnum? requiredNullableEnumString = default(RequiredNullableEnumStringEnum?), Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default(Option<NotrequiredNullableEnumStringEnum?>), Option<NotrequiredNotnullableEnumStringEnum> notrequiredNotnullableEnumString = default(Option<NotrequiredNotnullableEnumStringEnum>), OuterEnumDefaultValue requiredNullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue = default(OuterEnumDefaultValue), Option<OuterEnumDefaultValue> notrequiredNullableOuterEnumDefaultValue = default(Option<OuterEnumDefaultValue>), Option<OuterEnumDefaultValue> notrequiredNotnullableOuterEnumDefaultValue = default(Option<OuterEnumDefaultValue>), Guid? requiredNullableUuid = default(Guid?), Guid requiredNotnullableUuid = default(Guid), Option<Guid?> notrequiredNullableUuid = default(Option<Guid?>), Option<Guid> notrequiredNotnullableUuid = default(Option<Guid>), List<string> requiredNullableArrayOfString = default(List<string>), List<string> requiredNotnullableArrayOfString = default(List<string>), Option<List<string>> notrequiredNullableArrayOfString = default(Option<List<string>>), Option<List<string>> notrequiredNotnullableArrayOfString = default(Option<List<string>>))
         {
-            // to ensure "requiredNullableIntegerProp" is required (not null)
-            if (requiredNullableIntegerProp == null)
-            {
-                throw new ArgumentNullException("requiredNullableIntegerProp is a required property for RequiredClass and cannot be null");
-            }
-            this._RequiredNullableIntegerProp = requiredNullableIntegerProp;
-            this._RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
-            // to ensure "requiredNullableStringProp" is required (not null)
-            if (requiredNullableStringProp == null)
-            {
-                throw new ArgumentNullException("requiredNullableStringProp is a required property for RequiredClass and cannot be null");
-            }
-            this._RequiredNullableStringProp = requiredNullableStringProp;
-            // to ensure "requiredNotnullableStringProp" is required (not null)
+            // to ensure "requiredNotnullableStringProp" (not nullable) is not null
             if (requiredNotnullableStringProp == null)
             {
-                throw new ArgumentNullException("requiredNotnullableStringProp is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("requiredNotnullableStringProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNotnullableStringProp = requiredNotnullableStringProp;
-            // to ensure "requiredNullableBooleanProp" is required (not null)
-            if (requiredNullableBooleanProp == null)
+            // to ensure "notrequiredNotnullableStringProp" (not nullable) is not null
+            if (notrequiredNotnullableStringProp.IsSet && notrequiredNotnullableStringProp.Value == null)
             {
-                throw new ArgumentNullException("requiredNullableBooleanProp is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("notrequiredNotnullableStringProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNullableBooleanProp = requiredNullableBooleanProp;
-            this._RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
-            // to ensure "requiredNullableDateProp" is required (not null)
-            if (requiredNullableDateProp == null)
+            // to ensure "requiredNotNullableDateProp" (not nullable) is not null
+            if (requiredNotNullableDateProp == null)
             {
-                throw new ArgumentNullException("requiredNullableDateProp is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("requiredNotNullableDateProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNullableDateProp = requiredNullableDateProp;
-            this._RequiredNotNullableDateProp = requiredNotNullableDateProp;
-            this._RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
-            // to ensure "requiredNullableDatetimeProp" is required (not null)
-            if (requiredNullableDatetimeProp == null)
+            // to ensure "notRequiredNotnullableDateProp" (not nullable) is not null
+            if (notRequiredNotnullableDateProp.IsSet && notRequiredNotnullableDateProp.Value == null)
             {
-                throw new ArgumentNullException("requiredNullableDatetimeProp is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("notRequiredNotnullableDateProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
-            this._RequiredNullableEnumInteger = requiredNullableEnumInteger;
-            this._RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
-            this._RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
-            this._RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
-            this._RequiredNotnullableEnumString = requiredNotnullableEnumString;
-            this._RequiredNullableEnumString = requiredNullableEnumString;
-            this._RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
-            this._RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
-            // to ensure "requiredNullableUuid" is required (not null)
-            if (requiredNullableUuid == null)
+            // to ensure "requiredNotnullableDatetimeProp" (not nullable) is not null
+            if (requiredNotnullableDatetimeProp == null)
             {
-                throw new ArgumentNullException("requiredNullableUuid is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("requiredNotnullableDatetimeProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNullableUuid = requiredNullableUuid;
-            this._RequiredNotnullableUuid = requiredNotnullableUuid;
-            // to ensure "requiredNullableArrayOfString" is required (not null)
-            if (requiredNullableArrayOfString == null)
+            // to ensure "notrequiredNotnullableDatetimeProp" (not nullable) is not null
+            if (notrequiredNotnullableDatetimeProp.IsSet && notrequiredNotnullableDatetimeProp.Value == null)
             {
-                throw new ArgumentNullException("requiredNullableArrayOfString is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("notrequiredNotnullableDatetimeProp isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNullableArrayOfString = requiredNullableArrayOfString;
-            // to ensure "requiredNotnullableArrayOfString" is required (not null)
+            // to ensure "requiredNotnullableUuid" (not nullable) is not null
+            if (requiredNotnullableUuid == null)
+            {
+                throw new ArgumentNullException("requiredNotnullableUuid isn't a nullable property for RequiredClass and cannot be null");
+            }
+            // to ensure "notrequiredNotnullableUuid" (not nullable) is not null
+            if (notrequiredNotnullableUuid.IsSet && notrequiredNotnullableUuid.Value == null)
+            {
+                throw new ArgumentNullException("notrequiredNotnullableUuid isn't a nullable property for RequiredClass and cannot be null");
+            }
+            // to ensure "requiredNotnullableArrayOfString" (not nullable) is not null
             if (requiredNotnullableArrayOfString == null)
             {
-                throw new ArgumentNullException("requiredNotnullableArrayOfString is a required property for RequiredClass and cannot be null");
+                throw new ArgumentNullException("requiredNotnullableArrayOfString isn't a nullable property for RequiredClass and cannot be null");
             }
-            this._RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
+            // to ensure "notrequiredNotnullableArrayOfString" (not nullable) is not null
+            if (notrequiredNotnullableArrayOfString.IsSet && notrequiredNotnullableArrayOfString.Value == null)
+            {
+                throw new ArgumentNullException("notrequiredNotnullableArrayOfString isn't a nullable property for RequiredClass and cannot be null");
+            }
+            this._RequiredNullableIntegerProp = requiredNullableIntegerProp;
+            this._flagRequiredNullableIntegerProp = true;
+            this._RequiredNotnullableintegerProp = requiredNotnullableintegerProp;
+            this._flagRequiredNotnullableintegerProp = true;
             this._NotRequiredNullableIntegerProp = notRequiredNullableIntegerProp;
-            if (this.NotRequiredNullableIntegerProp != null)
+            if (this.NotRequiredNullableIntegerProp.IsSet)
             {
                 this._flagNotRequiredNullableIntegerProp = true;
             }
             this._NotRequiredNotnullableintegerProp = notRequiredNotnullableintegerProp;
-            if (this.NotRequiredNotnullableintegerProp != null)
+            if (this.NotRequiredNotnullableintegerProp.IsSet)
             {
                 this._flagNotRequiredNotnullableintegerProp = true;
             }
+            this._RequiredNullableStringProp = requiredNullableStringProp;
+            this._flagRequiredNullableStringProp = true;
+            this._RequiredNotnullableStringProp = requiredNotnullableStringProp;
+            this._flagRequiredNotnullableStringProp = true;
             this._NotrequiredNullableStringProp = notrequiredNullableStringProp;
-            if (this.NotrequiredNullableStringProp != null)
+            if (this.NotrequiredNullableStringProp.IsSet)
             {
                 this._flagNotrequiredNullableStringProp = true;
             }
             this._NotrequiredNotnullableStringProp = notrequiredNotnullableStringProp;
-            if (this.NotrequiredNotnullableStringProp != null)
+            if (this.NotrequiredNotnullableStringProp.IsSet)
             {
                 this._flagNotrequiredNotnullableStringProp = true;
             }
+            this._RequiredNullableBooleanProp = requiredNullableBooleanProp;
+            this._flagRequiredNullableBooleanProp = true;
+            this._RequiredNotnullableBooleanProp = requiredNotnullableBooleanProp;
+            this._flagRequiredNotnullableBooleanProp = true;
             this._NotrequiredNullableBooleanProp = notrequiredNullableBooleanProp;
-            if (this.NotrequiredNullableBooleanProp != null)
+            if (this.NotrequiredNullableBooleanProp.IsSet)
             {
                 this._flagNotrequiredNullableBooleanProp = true;
             }
             this._NotrequiredNotnullableBooleanProp = notrequiredNotnullableBooleanProp;
-            if (this.NotrequiredNotnullableBooleanProp != null)
+            if (this.NotrequiredNotnullableBooleanProp.IsSet)
             {
                 this._flagNotrequiredNotnullableBooleanProp = true;
             }
+            this._RequiredNullableDateProp = requiredNullableDateProp;
+            this._flagRequiredNullableDateProp = true;
+            this._RequiredNotNullableDateProp = requiredNotNullableDateProp;
+            this._flagRequiredNotNullableDateProp = true;
             this._NotRequiredNullableDateProp = notRequiredNullableDateProp;
-            if (this.NotRequiredNullableDateProp != null)
+            if (this.NotRequiredNullableDateProp.IsSet)
             {
                 this._flagNotRequiredNullableDateProp = true;
             }
             this._NotRequiredNotnullableDateProp = notRequiredNotnullableDateProp;
-            if (this.NotRequiredNotnullableDateProp != null)
+            if (this.NotRequiredNotnullableDateProp.IsSet)
             {
                 this._flagNotRequiredNotnullableDateProp = true;
             }
+            this._RequiredNotnullableDatetimeProp = requiredNotnullableDatetimeProp;
+            this._flagRequiredNotnullableDatetimeProp = true;
+            this._RequiredNullableDatetimeProp = requiredNullableDatetimeProp;
+            this._flagRequiredNullableDatetimeProp = true;
             this._NotrequiredNullableDatetimeProp = notrequiredNullableDatetimeProp;
-            if (this.NotrequiredNullableDatetimeProp != null)
+            if (this.NotrequiredNullableDatetimeProp.IsSet)
             {
                 this._flagNotrequiredNullableDatetimeProp = true;
             }
             this._NotrequiredNotnullableDatetimeProp = notrequiredNotnullableDatetimeProp;
-            if (this.NotrequiredNotnullableDatetimeProp != null)
+            if (this.NotrequiredNotnullableDatetimeProp.IsSet)
             {
                 this._flagNotrequiredNotnullableDatetimeProp = true;
             }
+            this._RequiredNullableEnumInteger = requiredNullableEnumInteger;
+            this._flagRequiredNullableEnumInteger = true;
+            this._RequiredNotnullableEnumInteger = requiredNotnullableEnumInteger;
+            this._flagRequiredNotnullableEnumInteger = true;
             this._NotrequiredNullableEnumInteger = notrequiredNullableEnumInteger;
-            if (this.NotrequiredNullableEnumInteger != null)
+            if (this.NotrequiredNullableEnumInteger.IsSet)
             {
                 this._flagNotrequiredNullableEnumInteger = true;
             }
             this._NotrequiredNotnullableEnumInteger = notrequiredNotnullableEnumInteger;
-            if (this.NotrequiredNotnullableEnumInteger != null)
+            if (this.NotrequiredNotnullableEnumInteger.IsSet)
             {
                 this._flagNotrequiredNotnullableEnumInteger = true;
             }
+            this._RequiredNullableEnumIntegerOnly = requiredNullableEnumIntegerOnly;
+            this._flagRequiredNullableEnumIntegerOnly = true;
+            this._RequiredNotnullableEnumIntegerOnly = requiredNotnullableEnumIntegerOnly;
+            this._flagRequiredNotnullableEnumIntegerOnly = true;
             this._NotrequiredNullableEnumIntegerOnly = notrequiredNullableEnumIntegerOnly;
-            if (this.NotrequiredNullableEnumIntegerOnly != null)
+            if (this.NotrequiredNullableEnumIntegerOnly.IsSet)
             {
                 this._flagNotrequiredNullableEnumIntegerOnly = true;
             }
             this._NotrequiredNotnullableEnumIntegerOnly = notrequiredNotnullableEnumIntegerOnly;
-            if (this.NotrequiredNotnullableEnumIntegerOnly != null)
+            if (this.NotrequiredNotnullableEnumIntegerOnly.IsSet)
             {
                 this._flagNotrequiredNotnullableEnumIntegerOnly = true;
             }
+            this._RequiredNotnullableEnumString = requiredNotnullableEnumString;
+            this._flagRequiredNotnullableEnumString = true;
+            this._RequiredNullableEnumString = requiredNullableEnumString;
+            this._flagRequiredNullableEnumString = true;
             this._NotrequiredNullableEnumString = notrequiredNullableEnumString;
-            if (this.NotrequiredNullableEnumString != null)
+            if (this.NotrequiredNullableEnumString.IsSet)
             {
                 this._flagNotrequiredNullableEnumString = true;
             }
             this._NotrequiredNotnullableEnumString = notrequiredNotnullableEnumString;
-            if (this.NotrequiredNotnullableEnumString != null)
+            if (this.NotrequiredNotnullableEnumString.IsSet)
             {
                 this._flagNotrequiredNotnullableEnumString = true;
             }
+            this._RequiredNullableOuterEnumDefaultValue = requiredNullableOuterEnumDefaultValue;
+            this._flagRequiredNullableOuterEnumDefaultValue = true;
+            this._RequiredNotnullableOuterEnumDefaultValue = requiredNotnullableOuterEnumDefaultValue;
+            this._flagRequiredNotnullableOuterEnumDefaultValue = true;
             this._NotrequiredNullableOuterEnumDefaultValue = notrequiredNullableOuterEnumDefaultValue;
-            if (this.NotrequiredNullableOuterEnumDefaultValue != null)
+            if (this.NotrequiredNullableOuterEnumDefaultValue.IsSet)
             {
                 this._flagNotrequiredNullableOuterEnumDefaultValue = true;
             }
             this._NotrequiredNotnullableOuterEnumDefaultValue = notrequiredNotnullableOuterEnumDefaultValue;
-            if (this.NotrequiredNotnullableOuterEnumDefaultValue != null)
+            if (this.NotrequiredNotnullableOuterEnumDefaultValue.IsSet)
             {
                 this._flagNotrequiredNotnullableOuterEnumDefaultValue = true;
             }
+            this._RequiredNullableUuid = requiredNullableUuid;
+            this._flagRequiredNullableUuid = true;
+            this._RequiredNotnullableUuid = requiredNotnullableUuid;
+            this._flagRequiredNotnullableUuid = true;
             this._NotrequiredNullableUuid = notrequiredNullableUuid;
-            if (this.NotrequiredNullableUuid != null)
+            if (this.NotrequiredNullableUuid.IsSet)
             {
                 this._flagNotrequiredNullableUuid = true;
             }
             this._NotrequiredNotnullableUuid = notrequiredNotnullableUuid;
-            if (this.NotrequiredNotnullableUuid != null)
+            if (this.NotrequiredNotnullableUuid.IsSet)
             {
                 this._flagNotrequiredNotnullableUuid = true;
             }
+            this._RequiredNullableArrayOfString = requiredNullableArrayOfString;
+            this._flagRequiredNullableArrayOfString = true;
+            this._RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
+            this._flagRequiredNotnullableArrayOfString = true;
             this._NotrequiredNullableArrayOfString = notrequiredNullableArrayOfString;
-            if (this.NotrequiredNullableArrayOfString != null)
+            if (this.NotrequiredNullableArrayOfString.IsSet)
             {
                 this._flagNotrequiredNullableArrayOfString = true;
             }
             this._NotrequiredNotnullableArrayOfString = notrequiredNotnullableArrayOfString;
-            if (this.NotrequiredNotnullableArrayOfString != null)
+            if (this.NotrequiredNotnullableArrayOfString.IsSet)
             {
                 this._flagNotrequiredNotnullableArrayOfString = true;
             }
@@ -1087,7 +1113,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNullableIntegerProp
         /// </summary>
         [DataMember(Name = "not_required_nullable_integer_prop", EmitDefaultValue = true)]
-        public int? NotRequiredNullableIntegerProp
+        public Option<int?> NotRequiredNullableIntegerProp
         {
             get{ return _NotRequiredNullableIntegerProp;}
             set
@@ -1096,7 +1122,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotRequiredNullableIntegerProp = true;
             }
         }
-        private int? _NotRequiredNullableIntegerProp;
+        private Option<int?> _NotRequiredNullableIntegerProp;
         private bool _flagNotRequiredNullableIntegerProp;
 
         /// <summary>
@@ -1111,7 +1137,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = false)]
-        public int NotRequiredNotnullableintegerProp
+        public Option<int> NotRequiredNotnullableintegerProp
         {
             get{ return _NotRequiredNotnullableintegerProp;}
             set
@@ -1120,7 +1146,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotRequiredNotnullableintegerProp = true;
             }
         }
-        private int _NotRequiredNotnullableintegerProp;
+        private Option<int> _NotRequiredNotnullableintegerProp;
         private bool _flagNotRequiredNotnullableintegerProp;
 
         /// <summary>
@@ -1183,7 +1209,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableStringProp
         /// </summary>
         [DataMember(Name = "notrequired_nullable_string_prop", EmitDefaultValue = true)]
-        public string NotrequiredNullableStringProp
+        public Option<string> NotrequiredNullableStringProp
         {
             get{ return _NotrequiredNullableStringProp;}
             set
@@ -1192,7 +1218,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableStringProp = true;
             }
         }
-        private string _NotrequiredNullableStringProp;
+        private Option<string> _NotrequiredNullableStringProp;
         private bool _flagNotrequiredNullableStringProp;
 
         /// <summary>
@@ -1207,7 +1233,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableStringProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_string_prop", EmitDefaultValue = false)]
-        public string NotrequiredNotnullableStringProp
+        public Option<string> NotrequiredNotnullableStringProp
         {
             get{ return _NotrequiredNotnullableStringProp;}
             set
@@ -1216,7 +1242,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableStringProp = true;
             }
         }
-        private string _NotrequiredNotnullableStringProp;
+        private Option<string> _NotrequiredNotnullableStringProp;
         private bool _flagNotrequiredNotnullableStringProp;
 
         /// <summary>
@@ -1279,7 +1305,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableBooleanProp
         /// </summary>
         [DataMember(Name = "notrequired_nullable_boolean_prop", EmitDefaultValue = true)]
-        public bool? NotrequiredNullableBooleanProp
+        public Option<bool?> NotrequiredNullableBooleanProp
         {
             get{ return _NotrequiredNullableBooleanProp;}
             set
@@ -1288,7 +1314,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableBooleanProp = true;
             }
         }
-        private bool? _NotrequiredNullableBooleanProp;
+        private Option<bool?> _NotrequiredNullableBooleanProp;
         private bool _flagNotrequiredNullableBooleanProp;
 
         /// <summary>
@@ -1303,7 +1329,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_boolean_prop", EmitDefaultValue = true)]
-        public bool NotrequiredNotnullableBooleanProp
+        public Option<bool> NotrequiredNotnullableBooleanProp
         {
             get{ return _NotrequiredNotnullableBooleanProp;}
             set
@@ -1312,7 +1338,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableBooleanProp = true;
             }
         }
-        private bool _NotrequiredNotnullableBooleanProp;
+        private Option<bool> _NotrequiredNotnullableBooleanProp;
         private bool _flagNotrequiredNotnullableBooleanProp;
 
         /// <summary>
@@ -1378,7 +1404,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "not_required_nullable_date_prop", EmitDefaultValue = true)]
-        public DateTime? NotRequiredNullableDateProp
+        public Option<DateTime?> NotRequiredNullableDateProp
         {
             get{ return _NotRequiredNullableDateProp;}
             set
@@ -1387,7 +1413,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotRequiredNullableDateProp = true;
             }
         }
-        private DateTime? _NotRequiredNullableDateProp;
+        private Option<DateTime?> _NotRequiredNullableDateProp;
         private bool _flagNotRequiredNullableDateProp;
 
         /// <summary>
@@ -1403,7 +1429,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
         [DataMember(Name = "not_required_notnullable_date_prop", EmitDefaultValue = false)]
-        public DateTime NotRequiredNotnullableDateProp
+        public Option<DateTime> NotRequiredNotnullableDateProp
         {
             get{ return _NotRequiredNotnullableDateProp;}
             set
@@ -1412,7 +1438,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotRequiredNotnullableDateProp = true;
             }
         }
-        private DateTime _NotRequiredNotnullableDateProp;
+        private Option<DateTime> _NotRequiredNotnullableDateProp;
         private bool _flagNotRequiredNotnullableDateProp;
 
         /// <summary>
@@ -1475,7 +1501,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableDatetimeProp
         /// </summary>
         [DataMember(Name = "notrequired_nullable_datetime_prop", EmitDefaultValue = true)]
-        public DateTime? NotrequiredNullableDatetimeProp
+        public Option<DateTime?> NotrequiredNullableDatetimeProp
         {
             get{ return _NotrequiredNullableDatetimeProp;}
             set
@@ -1484,7 +1510,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableDatetimeProp = true;
             }
         }
-        private DateTime? _NotrequiredNullableDatetimeProp;
+        private Option<DateTime?> _NotrequiredNullableDatetimeProp;
         private bool _flagNotrequiredNullableDatetimeProp;
 
         /// <summary>
@@ -1499,7 +1525,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableDatetimeProp
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_datetime_prop", EmitDefaultValue = false)]
-        public DateTime NotrequiredNotnullableDatetimeProp
+        public Option<DateTime> NotrequiredNotnullableDatetimeProp
         {
             get{ return _NotrequiredNotnullableDatetimeProp;}
             set
@@ -1508,7 +1534,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableDatetimeProp = true;
             }
         }
-        private DateTime _NotrequiredNotnullableDatetimeProp;
+        private Option<DateTime> _NotrequiredNotnullableDatetimeProp;
         private bool _flagNotrequiredNotnullableDatetimeProp;
 
         /// <summary>
@@ -1574,7 +1600,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "notrequired_nullable_uuid", EmitDefaultValue = true)]
-        public Guid? NotrequiredNullableUuid
+        public Option<Guid?> NotrequiredNullableUuid
         {
             get{ return _NotrequiredNullableUuid;}
             set
@@ -1583,7 +1609,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableUuid = true;
             }
         }
-        private Guid? _NotrequiredNullableUuid;
+        private Option<Guid?> _NotrequiredNullableUuid;
         private bool _flagNotrequiredNullableUuid;
 
         /// <summary>
@@ -1599,7 +1625,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "notrequired_notnullable_uuid", EmitDefaultValue = false)]
-        public Guid NotrequiredNotnullableUuid
+        public Option<Guid> NotrequiredNotnullableUuid
         {
             get{ return _NotrequiredNotnullableUuid;}
             set
@@ -1608,7 +1634,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableUuid = true;
             }
         }
-        private Guid _NotrequiredNotnullableUuid;
+        private Option<Guid> _NotrequiredNotnullableUuid;
         private bool _flagNotrequiredNotnullableUuid;
 
         /// <summary>
@@ -1671,7 +1697,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNullableArrayOfString
         /// </summary>
         [DataMember(Name = "notrequired_nullable_array_of_string", EmitDefaultValue = true)]
-        public List<string> NotrequiredNullableArrayOfString
+        public Option<List<string>> NotrequiredNullableArrayOfString
         {
             get{ return _NotrequiredNullableArrayOfString;}
             set
@@ -1680,7 +1706,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableArrayOfString = true;
             }
         }
-        private List<string> _NotrequiredNullableArrayOfString;
+        private Option<List<string>> _NotrequiredNullableArrayOfString;
         private bool _flagNotrequiredNullableArrayOfString;
 
         /// <summary>
@@ -1695,7 +1721,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableArrayOfString
         /// </summary>
         [DataMember(Name = "notrequired_notnullable_array_of_string", EmitDefaultValue = false)]
-        public List<string> NotrequiredNotnullableArrayOfString
+        public Option<List<string>> NotrequiredNotnullableArrayOfString
         {
             get{ return _NotrequiredNotnullableArrayOfString;}
             set
@@ -1704,7 +1730,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableArrayOfString = true;
             }
         }
-        private List<string> _NotrequiredNotnullableArrayOfString;
+        private Option<List<string>> _NotrequiredNotnullableArrayOfString;
         private bool _flagNotrequiredNotnullableArrayOfString;
 
         /// <summary>
@@ -1816,16 +1842,16 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.RequiredNullableIntegerProp != null)
-                {
-                    hashCode = (hashCode * 59) + this.RequiredNullableIntegerProp.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.RequiredNullableIntegerProp.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableintegerProp.GetHashCode();
-                if (this.NotRequiredNullableIntegerProp != null)
+                if (this.NotRequiredNullableIntegerProp.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotRequiredNullableIntegerProp.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.GetHashCode();
+                if (this.NotRequiredNotnullableintegerProp.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotRequiredNotnullableintegerProp.Value.GetHashCode();
+                }
                 if (this.RequiredNullableStringProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableStringProp.GetHashCode();
@@ -1834,24 +1860,24 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.RequiredNotnullableStringProp.GetHashCode();
                 }
-                if (this.NotrequiredNullableStringProp != null)
+                if (this.NotrequiredNullableStringProp.IsSet && this.NotrequiredNullableStringProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableStringProp.Value.GetHashCode();
                 }
-                if (this.NotrequiredNotnullableStringProp != null)
+                if (this.NotrequiredNotnullableStringProp.IsSet && this.NotrequiredNotnullableStringProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableStringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableStringProp.Value.GetHashCode();
                 }
-                if (this.RequiredNullableBooleanProp != null)
-                {
-                    hashCode = (hashCode * 59) + this.RequiredNullableBooleanProp.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + this.RequiredNullableBooleanProp.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableBooleanProp.GetHashCode();
-                if (this.NotrequiredNullableBooleanProp != null)
+                if (this.NotrequiredNullableBooleanProp.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.GetHashCode();
+                hashCode = (hashCode * 59) + this.NotrequiredNullableBooleanProp.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.GetHashCode();
+                if (this.NotrequiredNotnullableBooleanProp.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableBooleanProp.Value.GetHashCode();
+                }
                 if (this.RequiredNullableDateProp != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableDateProp.GetHashCode();
@@ -1860,13 +1886,13 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.RequiredNotNullableDateProp.GetHashCode();
                 }
-                if (this.NotRequiredNullableDateProp != null)
+                if (this.NotRequiredNullableDateProp.IsSet && this.NotRequiredNullableDateProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotRequiredNullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotRequiredNullableDateProp.Value.GetHashCode();
                 }
-                if (this.NotRequiredNotnullableDateProp != null)
+                if (this.NotRequiredNotnullableDateProp.IsSet && this.NotRequiredNotnullableDateProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableDateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotRequiredNotnullableDateProp.Value.GetHashCode();
                 }
                 if (this.RequiredNotnullableDatetimeProp != null)
                 {
@@ -1876,30 +1902,54 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableDatetimeProp.GetHashCode();
                 }
-                if (this.NotrequiredNullableDatetimeProp != null)
+                if (this.NotrequiredNullableDatetimeProp.IsSet && this.NotrequiredNullableDatetimeProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableDatetimeProp.Value.GetHashCode();
                 }
-                if (this.NotrequiredNotnullableDatetimeProp != null)
+                if (this.NotrequiredNotnullableDatetimeProp.IsSet && this.NotrequiredNotnullableDatetimeProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableDatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableDatetimeProp.Value.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.RequiredNullableEnumInteger.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumInteger.GetHashCode();
+                if (this.NotrequiredNullableEnumInteger.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumInteger.Value.GetHashCode();
+                }
+                if (this.NotrequiredNotnullableEnumInteger.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumInteger.Value.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.RequiredNullableEnumIntegerOnly.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumIntegerOnly.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumIntegerOnly.GetHashCode();
+                if (this.NotrequiredNullableEnumIntegerOnly.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumIntegerOnly.Value.GetHashCode();
+                }
+                if (this.NotrequiredNotnullableEnumIntegerOnly.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumIntegerOnly.Value.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.RequiredNotnullableEnumString.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumString.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumString.GetHashCode();
+                if (this.NotrequiredNullableEnumString.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNullableEnumString.Value.GetHashCode();
+                }
+                if (this.NotrequiredNotnullableEnumString.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableEnumString.Value.GetHashCode();
+                }
                 hashCode = (hashCode * 59) + this.RequiredNullableOuterEnumDefaultValue.GetHashCode();
                 hashCode = (hashCode * 59) + this.RequiredNotnullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNullableOuterEnumDefaultValue.GetHashCode();
-                hashCode = (hashCode * 59) + this.NotrequiredNotnullableOuterEnumDefaultValue.GetHashCode();
+                if (this.NotrequiredNullableOuterEnumDefaultValue.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNullableOuterEnumDefaultValue.Value.GetHashCode();
+                }
+                if (this.NotrequiredNotnullableOuterEnumDefaultValue.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.NotrequiredNotnullableOuterEnumDefaultValue.Value.GetHashCode();
+                }
                 if (this.RequiredNullableUuid != null)
                 {
                     hashCode = (hashCode * 59) + this.RequiredNullableUuid.GetHashCode();
@@ -1908,13 +1958,13 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.RequiredNotnullableUuid.GetHashCode();
                 }
-                if (this.NotrequiredNullableUuid != null)
+                if (this.NotrequiredNullableUuid.IsSet && this.NotrequiredNullableUuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableUuid.Value.GetHashCode();
                 }
-                if (this.NotrequiredNotnullableUuid != null)
+                if (this.NotrequiredNotnullableUuid.IsSet && this.NotrequiredNotnullableUuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableUuid.Value.GetHashCode();
                 }
                 if (this.RequiredNullableArrayOfString != null)
                 {
@@ -1924,13 +1974,13 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.RequiredNotnullableArrayOfString.GetHashCode();
                 }
-                if (this.NotrequiredNullableArrayOfString != null)
+                if (this.NotrequiredNullableArrayOfString.IsSet && this.NotrequiredNullableArrayOfString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNullableArrayOfString.Value.GetHashCode();
                 }
-                if (this.NotrequiredNotnullableArrayOfString != null)
+                if (this.NotrequiredNotnullableArrayOfString.IsSet && this.NotrequiredNotnullableArrayOfString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NotrequiredNotnullableArrayOfString.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

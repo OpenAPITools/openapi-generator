@@ -29,6 +29,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using UnityEngine.Networking;
 using UnityEngine;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Client
 {
@@ -49,7 +50,8 @@ namespace Org.OpenAPITools.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -192,7 +194,8 @@ namespace Org.OpenAPITools.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         /// <summary>

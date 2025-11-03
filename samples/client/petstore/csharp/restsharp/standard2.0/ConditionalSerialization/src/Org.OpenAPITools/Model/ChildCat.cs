@@ -24,6 +24,7 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -86,14 +87,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="petType">petType (required) (default to PetTypeEnum.ChildCat).</param>
-        public ChildCat(string name = default(string), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
+        public ChildCat(Option<string> name = default(Option<string>), PetTypeEnum petType = PetTypeEnum.ChildCat) : base()
         {
-            this._PetType = petType;
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for ChildCat and cannot be null");
+            }
             this._Name = name;
-            if (this.Name != null)
+            if (this.Name.IsSet)
             {
                 this._flagName = true;
             }
+            this._PetType = petType;
+            this._flagPetType = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -101,7 +108,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name
+        public Option<string> Name
         {
             get{ return _Name;}
             set
@@ -110,7 +117,7 @@ namespace Org.OpenAPITools.Model
                 _flagName = true;
             }
         }
-        private string _Name;
+        private Option<string> _Name;
         private bool _flagName;
 
         /// <summary>
@@ -181,9 +188,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Name != null)
+                if (this.Name.IsSet && this.Name.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.PetType.GetHashCode();
                 if (this.AdditionalProperties != null)

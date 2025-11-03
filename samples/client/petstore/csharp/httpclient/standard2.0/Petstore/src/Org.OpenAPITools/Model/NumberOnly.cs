@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -40,7 +41,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal justNumber = default(decimal))
+        public NumberOnly(Option<decimal> justNumber = default(Option<decimal>))
         {
             this.JustNumber = justNumber;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
-        public decimal JustNumber { get; set; }
+        public Option<decimal> JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -110,7 +111,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                if (this.JustNumber.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.JustNumber.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

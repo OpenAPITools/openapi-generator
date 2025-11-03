@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,10 +42,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType (required).</param>
         public ShapeInterface(string shapeType = default(string))
         {
-            // to ensure "shapeType" is required (not null)
+            // to ensure "shapeType" (not nullable) is not null
             if (shapeType == null)
             {
-                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+                throw new ArgumentNullException("shapeType isn't a nullable property for ShapeInterface and cannot be null");
             }
             this.ShapeType = shapeType;
         }

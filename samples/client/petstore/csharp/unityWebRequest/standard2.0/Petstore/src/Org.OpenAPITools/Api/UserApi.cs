@@ -541,7 +541,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUser");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -602,7 +602,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUser");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -665,7 +665,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -726,7 +726,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -789,7 +789,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUsersWithListInput");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -850,7 +850,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->CreateUsersWithListInput");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -913,7 +913,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->DeleteUser");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -973,7 +973,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->DeleteUser");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1036,7 +1036,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->GetUserByName");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1099,7 +1099,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->GetUserByName");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1166,11 +1166,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->LoginUser");
 
             // verify the required parameter 'password' is set
             if (password == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'password' when calling UserApi->LoginUser");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1236,11 +1236,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->LoginUser");
 
             // verify the required parameter 'password' is set
             if (password == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'password' when calling UserApi->LoginUser");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1415,11 +1415,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->UpdateUser");
 
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->UpdateUser");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1483,11 +1483,11 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'username' is set
             if (username == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'username' when calling UserApi->UpdateUser");
 
             // verify the required parameter 'user' is set
             if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'user' when calling UserApi->UpdateUser");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

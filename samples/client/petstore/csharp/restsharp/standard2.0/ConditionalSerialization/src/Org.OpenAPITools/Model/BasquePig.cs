@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -46,12 +47,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className (required).</param>
         public BasquePig(string className = default(string))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for BasquePig and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for BasquePig and cannot be null");
             }
             this._ClassName = className;
+            this._flagClassName = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 

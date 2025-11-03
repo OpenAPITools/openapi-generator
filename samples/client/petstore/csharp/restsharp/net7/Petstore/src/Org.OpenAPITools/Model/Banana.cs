@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
         /// <param name="lengthCm">lengthCm.</param>
-        public Banana(decimal lengthCm = default(decimal))
+        public Banana(Option<decimal> lengthCm = default(Option<decimal>))
         {
             this.LengthCm = lengthCm;
         }
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
+        public Option<decimal> LengthCm { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -98,7 +99,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                if (this.LengthCm.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.LengthCm.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

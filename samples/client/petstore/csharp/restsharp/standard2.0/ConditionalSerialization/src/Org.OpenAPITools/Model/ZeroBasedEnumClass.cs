@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -57,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "ZeroBasedEnum", EmitDefaultValue = false)]
-        public ZeroBasedEnumEnum? ZeroBasedEnum
+        public Option<ZeroBasedEnumEnum> ZeroBasedEnum
         {
             get{ return _ZeroBasedEnum;}
             set
@@ -66,7 +67,7 @@ namespace Org.OpenAPITools.Model
                 _flagZeroBasedEnum = true;
             }
         }
-        private ZeroBasedEnumEnum? _ZeroBasedEnum;
+        private Option<ZeroBasedEnumEnum> _ZeroBasedEnum;
         private bool _flagZeroBasedEnum;
 
         /// <summary>
@@ -81,10 +82,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ZeroBasedEnumClass" /> class.
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default(ZeroBasedEnumEnum?))
+        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum> zeroBasedEnum = default(Option<ZeroBasedEnumEnum>))
         {
             this._ZeroBasedEnum = zeroBasedEnum;
-            if (this.ZeroBasedEnum != null)
+            if (this.ZeroBasedEnum.IsSet)
             {
                 this._flagZeroBasedEnum = true;
             }
@@ -149,7 +150,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.ZeroBasedEnum.GetHashCode();
+                if (this.ZeroBasedEnum.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.ZeroBasedEnum.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

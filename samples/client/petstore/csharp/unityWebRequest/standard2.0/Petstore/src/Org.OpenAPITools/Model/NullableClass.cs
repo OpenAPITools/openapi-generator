@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -45,8 +46,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp.</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
+        public NullableClass(Option<int?> integerProp = default(Option<int?>), Option<decimal?> numberProp = default(Option<decimal?>), Option<bool?> booleanProp = default(Option<bool?>), Option<string> stringProp = default(Option<string>), Option<DateTime?> dateProp = default(Option<DateTime?>), Option<DateTime?> datetimeProp = default(Option<DateTime?>), Option<List<Object>> arrayNullableProp = default(Option<List<Object>>), Option<List<Object>> arrayAndItemsNullableProp = default(Option<List<Object>>), Option<List<Object>> arrayItemsNullable = default(Option<List<Object>>), Option<Dictionary<string, Object>> objectNullableProp = default(Option<Dictionary<string, Object>>), Option<Dictionary<string, Object>> objectAndItemsNullableProp = default(Option<Dictionary<string, Object>>), Option<Dictionary<string, Object>> objectItemsNullable = default(Option<Dictionary<string, Object>>))
         {
+            // to ensure "arrayItemsNullable" (not nullable) is not null
+            if (arrayItemsNullable.IsSet && arrayItemsNullable.Value == null)
+            {
+                throw new ArgumentNullException("arrayItemsNullable isn't a nullable property for NullableClass and cannot be null");
+            }
+            // to ensure "objectItemsNullable" (not nullable) is not null
+            if (objectItemsNullable.IsSet && objectItemsNullable.Value == null)
+            {
+                throw new ArgumentNullException("objectItemsNullable isn't a nullable property for NullableClass and cannot be null");
+            }
             this.IntegerProp = integerProp;
             this.NumberProp = numberProp;
             this.BooleanProp = booleanProp;
@@ -66,74 +77,74 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
-        public int? IntegerProp { get; set; }
+        public Option<int?> IntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [DataMember(Name = "number_prop", EmitDefaultValue = true)]
-        public decimal? NumberProp { get; set; }
+        public Option<decimal?> NumberProp { get; set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
-        public bool? BooleanProp { get; set; }
+        public Option<bool?> BooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
-        public string StringProp { get; set; }
+        public Option<string> StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime? DateProp { get; set; }
+        public Option<DateTime?> DateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
-        public DateTime? DatetimeProp { get; set; }
+        public Option<DateTime?> DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [DataMember(Name = "array_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayNullableProp { get; set; }
+        public Option<List<Object>> ArrayNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "array_and_items_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayAndItemsNullableProp { get; set; }
+        public Option<List<Object>> ArrayAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [DataMember(Name = "array_items_nullable", EmitDefaultValue = false)]
-        public List<Object> ArrayItemsNullable { get; set; }
+        public Option<List<Object>> ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [DataMember(Name = "object_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectNullableProp { get; set; }
+        public Option<Dictionary<string, Object>> ObjectNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "object_and_items_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+        public Option<Dictionary<string, Object>> ObjectAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [DataMember(Name = "object_items_nullable", EmitDefaultValue = false)]
-        public Dictionary<string, Object> ObjectItemsNullable { get; set; }
+        public Option<Dictionary<string, Object>> ObjectItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -198,70 +209,61 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.IntegerProp == input.IntegerProp ||
-                    (this.IntegerProp != null &&
-                    this.IntegerProp.Equals(input.IntegerProp))
+                    this.IntegerProp.Equals(input.IntegerProp)
                 ) && 
                 (
-                    this.NumberProp == input.NumberProp ||
-                    (this.NumberProp != null &&
-                    this.NumberProp.Equals(input.NumberProp))
+                    this.NumberProp.Equals(input.NumberProp)
                 ) && 
                 (
-                    this.BooleanProp == input.BooleanProp ||
-                    (this.BooleanProp != null &&
-                    this.BooleanProp.Equals(input.BooleanProp))
+                    this.BooleanProp.Equals(input.BooleanProp)
                 ) && 
                 (
-                    this.StringProp == input.StringProp ||
-                    (this.StringProp != null &&
-                    this.StringProp.Equals(input.StringProp))
+                    
+                    this.StringProp.Equals(input.StringProp)
                 ) && 
                 (
-                    this.DateProp == input.DateProp ||
-                    (this.DateProp != null &&
-                    this.DateProp.Equals(input.DateProp))
+                    
+                    this.DateProp.Equals(input.DateProp)
                 ) && 
                 (
-                    this.DatetimeProp == input.DatetimeProp ||
-                    (this.DatetimeProp != null &&
-                    this.DatetimeProp.Equals(input.DatetimeProp))
+                    
+                    this.DatetimeProp.Equals(input.DatetimeProp)
                 ) && 
                 (
-                    this.ArrayNullableProp == input.ArrayNullableProp ||
-                    this.ArrayNullableProp != null &&
-                    input.ArrayNullableProp != null &&
-                    this.ArrayNullableProp.SequenceEqual(input.ArrayNullableProp)
+                    
+                    this.ArrayNullableProp.IsSet && this.ArrayNullableProp.Value != null &&
+                    input.ArrayNullableProp.IsSet && input.ArrayNullableProp.Value != null &&
+                    this.ArrayNullableProp.Value.SequenceEqual(input.ArrayNullableProp.Value)
                 ) && 
                 (
-                    this.ArrayAndItemsNullableProp == input.ArrayAndItemsNullableProp ||
-                    this.ArrayAndItemsNullableProp != null &&
-                    input.ArrayAndItemsNullableProp != null &&
-                    this.ArrayAndItemsNullableProp.SequenceEqual(input.ArrayAndItemsNullableProp)
+                    
+                    this.ArrayAndItemsNullableProp.IsSet && this.ArrayAndItemsNullableProp.Value != null &&
+                    input.ArrayAndItemsNullableProp.IsSet && input.ArrayAndItemsNullableProp.Value != null &&
+                    this.ArrayAndItemsNullableProp.Value.SequenceEqual(input.ArrayAndItemsNullableProp.Value)
                 ) && 
                 (
-                    this.ArrayItemsNullable == input.ArrayItemsNullable ||
-                    this.ArrayItemsNullable != null &&
-                    input.ArrayItemsNullable != null &&
-                    this.ArrayItemsNullable.SequenceEqual(input.ArrayItemsNullable)
+                    
+                    this.ArrayItemsNullable.IsSet && this.ArrayItemsNullable.Value != null &&
+                    input.ArrayItemsNullable.IsSet && input.ArrayItemsNullable.Value != null &&
+                    this.ArrayItemsNullable.Value.SequenceEqual(input.ArrayItemsNullable.Value)
                 ) && 
                 (
-                    this.ObjectNullableProp == input.ObjectNullableProp ||
-                    this.ObjectNullableProp != null &&
-                    input.ObjectNullableProp != null &&
-                    this.ObjectNullableProp.SequenceEqual(input.ObjectNullableProp)
+                    
+                    this.ObjectNullableProp.IsSet && this.ObjectNullableProp.Value != null &&
+                    input.ObjectNullableProp.IsSet && input.ObjectNullableProp.Value != null &&
+                    this.ObjectNullableProp.Value.SequenceEqual(input.ObjectNullableProp.Value)
                 ) && 
                 (
-                    this.ObjectAndItemsNullableProp == input.ObjectAndItemsNullableProp ||
-                    this.ObjectAndItemsNullableProp != null &&
-                    input.ObjectAndItemsNullableProp != null &&
-                    this.ObjectAndItemsNullableProp.SequenceEqual(input.ObjectAndItemsNullableProp)
+                    
+                    this.ObjectAndItemsNullableProp.IsSet && this.ObjectAndItemsNullableProp.Value != null &&
+                    input.ObjectAndItemsNullableProp.IsSet && input.ObjectAndItemsNullableProp.Value != null &&
+                    this.ObjectAndItemsNullableProp.Value.SequenceEqual(input.ObjectAndItemsNullableProp.Value)
                 ) && 
                 (
-                    this.ObjectItemsNullable == input.ObjectItemsNullable ||
-                    this.ObjectItemsNullable != null &&
-                    input.ObjectItemsNullable != null &&
-                    this.ObjectItemsNullable.SequenceEqual(input.ObjectItemsNullable)
+                    
+                    this.ObjectItemsNullable.IsSet && this.ObjectItemsNullable.Value != null &&
+                    input.ObjectItemsNullable.IsSet && input.ObjectItemsNullable.Value != null &&
+                    this.ObjectItemsNullable.Value.SequenceEqual(input.ObjectItemsNullable.Value)
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -275,53 +277,53 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.IntegerProp != null)
+                if (this.IntegerProp.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.IntegerProp.GetHashCode();
+                hashCode = (hashCode * 59) + this.IntegerProp.Value.GetHashCode();
                 }
-                if (this.NumberProp != null)
+                if (this.NumberProp.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.NumberProp.GetHashCode();
+                hashCode = (hashCode * 59) + this.NumberProp.Value.GetHashCode();
                 }
-                if (this.BooleanProp != null)
+                if (this.BooleanProp.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.BooleanProp.GetHashCode();
+                hashCode = (hashCode * 59) + this.BooleanProp.Value.GetHashCode();
                 }
-                if (this.StringProp != null)
+                if (this.StringProp.IsSet && this.StringProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.StringProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StringProp.Value.GetHashCode();
                 }
-                if (this.DateProp != null)
+                if (this.DateProp.IsSet && this.DateProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateProp.Value.GetHashCode();
                 }
-                if (this.DatetimeProp != null)
+                if (this.DatetimeProp.IsSet && this.DatetimeProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DatetimeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DatetimeProp.Value.GetHashCode();
                 }
-                if (this.ArrayNullableProp != null)
+                if (this.ArrayNullableProp.IsSet && this.ArrayNullableProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayNullableProp.Value.GetHashCode();
                 }
-                if (this.ArrayAndItemsNullableProp != null)
+                if (this.ArrayAndItemsNullableProp.IsSet && this.ArrayAndItemsNullableProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayAndItemsNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayAndItemsNullableProp.Value.GetHashCode();
                 }
-                if (this.ArrayItemsNullable != null)
+                if (this.ArrayItemsNullable.IsSet && this.ArrayItemsNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayItemsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayItemsNullable.Value.GetHashCode();
                 }
-                if (this.ObjectNullableProp != null)
+                if (this.ObjectNullableProp.IsSet && this.ObjectNullableProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectNullableProp.Value.GetHashCode();
                 }
-                if (this.ObjectAndItemsNullableProp != null)
+                if (this.ObjectAndItemsNullableProp.IsSet && this.ObjectAndItemsNullableProp.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectAndItemsNullableProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectAndItemsNullableProp.Value.GetHashCode();
                 }
-                if (this.ObjectItemsNullable != null)
+                if (this.ObjectItemsNullable.IsSet && this.ObjectItemsNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectItemsNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectItemsNullable.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

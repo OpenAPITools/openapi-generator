@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartMixedRequestMarker" /> class.
         /// </summary>
         /// <param name="name">name.</param>
-        public MultipartMixedRequestMarker(string name = default(string))
+        public MultipartMixedRequestMarker(Option<string> name = default(Option<string>))
         {
+            // to ensure "name" (not nullable) is not null
+            if (name.IsSet && name.Value == null)
+            {
+                throw new ArgumentNullException("name isn't a nullable property for MultipartMixedRequestMarker and cannot be null");
+            }
             this.Name = name;
         }
 
@@ -45,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public Option<string> Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -98,9 +104,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Name != null)
+                if (this.Name.IsSet && this.Name.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
                 }
                 return hashCode;
             }

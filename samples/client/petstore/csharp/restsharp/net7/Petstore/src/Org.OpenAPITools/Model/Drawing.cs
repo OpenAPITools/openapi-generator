@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,8 +40,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
+        public Drawing(Option<Shape> mainShape = default(Option<Shape>), Option<ShapeOrNull?> shapeOrNull = default(Option<ShapeOrNull?>), Option<NullableShape?> nullableShape = default(Option<NullableShape?>), Option<List<Shape>> shapes = default(Option<List<Shape>>))
         {
+            // to ensure "mainShape" (not nullable) is not null
+            if (mainShape.IsSet && mainShape.Value == null)
+            {
+                throw new ArgumentNullException("mainShape isn't a nullable property for Drawing and cannot be null");
+            }
+            // to ensure "shapes" (not nullable) is not null
+            if (shapes.IsSet && shapes.Value == null)
+            {
+                throw new ArgumentNullException("shapes isn't a nullable property for Drawing and cannot be null");
+            }
             this.MainShape = mainShape;
             this.ShapeOrNull = shapeOrNull;
             this.NullableShape = nullableShape;
@@ -52,25 +63,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [DataMember(Name = "mainShape", EmitDefaultValue = false)]
-        public Shape MainShape { get; set; }
+        public Option<Shape> MainShape { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [DataMember(Name = "shapeOrNull", EmitDefaultValue = true)]
-        public ShapeOrNull ShapeOrNull { get; set; }
+        public Option<ShapeOrNull?> ShapeOrNull { get; set; }
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [DataMember(Name = "nullableShape", EmitDefaultValue = true)]
-        public NullableShape NullableShape { get; set; }
+        public Option<NullableShape?> NullableShape { get; set; }
 
         /// <summary>
         /// Gets or Sets Shapes
         /// </summary>
         [DataMember(Name = "shapes", EmitDefaultValue = false)]
-        public List<Shape> Shapes { get; set; }
+        public Option<List<Shape>> Shapes { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -133,21 +144,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.MainShape != null)
+                if (this.MainShape.IsSet && this.MainShape.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MainShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MainShape.Value.GetHashCode();
                 }
-                if (this.ShapeOrNull != null)
+                if (this.ShapeOrNull.IsSet && this.ShapeOrNull.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeOrNull.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ShapeOrNull.Value.GetHashCode();
                 }
-                if (this.NullableShape != null)
+                if (this.NullableShape.IsSet && this.NullableShape.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NullableShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NullableShape.Value.GetHashCode();
                 }
-                if (this.Shapes != null)
+                if (this.Shapes.IsSet && this.Shapes.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Shapes.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Shapes.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **TotalSkips** | **int** |  | 
 **TotalUnderPours** | **int** |  | 
 **FormulaVersionDate** | **DateTime** |  | 
-**SomeCode** | **string** | SomeCode is only required for color mixes | [optional] 
+**SomeCode** | **string?** | SomeCode is only required for color mixes | [optional] 
 **BatchNumber** | **string** |  | [optional] 
 **BrandCode** | **string** | BrandCode is only required for non-color mixes | [optional] 
 **BrandId** | **string** | BrandId is only required for color mixes | [optional] 

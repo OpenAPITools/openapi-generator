@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,8 +40,28 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Option<Guid> uuidWithPattern = default(Option<Guid>), Option<Guid> uuid = default(Option<Guid>), Option<DateTime> dateTime = default(Option<DateTime>), Option<Dictionary<string, Animal>> map = default(Option<Dictionary<string, Animal>>))
         {
+            // to ensure "uuidWithPattern" (not nullable) is not null
+            if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
+            {
+                throw new ArgumentNullException("uuidWithPattern isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "uuid" (not nullable) is not null
+            if (uuid.IsSet && uuid.Value == null)
+            {
+                throw new ArgumentNullException("uuid isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "dateTime" (not nullable) is not null
+            if (dateTime.IsSet && dateTime.Value == null)
+            {
+                throw new ArgumentNullException("dateTime isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "map" (not nullable) is not null
+            if (map.IsSet && map.Value == null)
+            {
+                throw new ArgumentNullException("map isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
             this.UuidWithPattern = uuidWithPattern;
             this.Uuid = uuid;
             this.DateTime = dateTime;
@@ -51,25 +72,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [DataMember(Name = "uuid_with_pattern", EmitDefaultValue = false)]
-        public Guid UuidWithPattern { get; set; }
+        public Option<Guid> UuidWithPattern { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        public Option<Guid> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        public Option<DateTime> DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
         [DataMember(Name = "map", EmitDefaultValue = false)]
-        public Dictionary<string, Animal> Map { get; set; }
+        public Option<Dictionary<string, Animal>> Map { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -125,21 +146,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.UuidWithPattern != null)
+                if (this.UuidWithPattern.IsSet && this.UuidWithPattern.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UuidWithPattern.Value.GetHashCode();
                 }
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
-                if (this.DateTime != null)
+                if (this.DateTime.IsSet && this.DateTime.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateTime.Value.GetHashCode();
                 }
-                if (this.Map != null)
+                if (this.Map.IsSet && this.Map.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Map.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Map.Value.GetHashCode();
                 }
                 return hashCode;
             }

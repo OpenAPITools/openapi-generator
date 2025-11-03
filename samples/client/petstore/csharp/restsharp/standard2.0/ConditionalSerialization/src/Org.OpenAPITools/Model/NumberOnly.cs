@@ -24,6 +24,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,10 +40,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal justNumber = default(decimal))
+        public NumberOnly(Option<decimal> justNumber = default(Option<decimal>))
         {
             this._JustNumber = justNumber;
-            if (this.JustNumber != null)
+            if (this.JustNumber.IsSet)
             {
                 this._flagJustNumber = true;
             }
@@ -53,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name = "JustNumber", EmitDefaultValue = false)]
-        public decimal JustNumber
+        public Option<decimal> JustNumber
         {
             get{ return _JustNumber;}
             set
@@ -62,7 +63,7 @@ namespace Org.OpenAPITools.Model
                 _flagJustNumber = true;
             }
         }
-        private decimal _JustNumber;
+        private Option<decimal> _JustNumber;
         private bool _flagJustNumber;
 
         /// <summary>
@@ -131,7 +132,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustNumber.GetHashCode();
+                if (this.JustNumber.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.JustNumber.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

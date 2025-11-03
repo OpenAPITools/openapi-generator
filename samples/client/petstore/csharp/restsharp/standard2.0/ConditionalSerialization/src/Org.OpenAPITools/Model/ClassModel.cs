@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
         /// <param name="varClass">varClass.</param>
-        public ClassModel(string varClass = default(string))
+        public ClassModel(Option<string> varClass = default(Option<string>))
         {
+            // to ensure "varClass" (not nullable) is not null
+            if (varClass.IsSet && varClass.Value == null)
+            {
+                throw new ArgumentNullException("varClass isn't a nullable property for ClassModel and cannot be null");
+            }
             this._Class = varClass;
-            if (this.Class != null)
+            if (this.Class.IsSet)
             {
                 this._flagClass = true;
             }
@@ -50,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string Class
+        public Option<string> Class
         {
             get{ return _Class;}
             set
@@ -59,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagClass = true;
             }
         }
-        private string _Class;
+        private Option<string> _Class;
         private bool _flagClass;
 
         /// <summary>
@@ -128,9 +134,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Class != null)
+                if (this.Class.IsSet && this.Class.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

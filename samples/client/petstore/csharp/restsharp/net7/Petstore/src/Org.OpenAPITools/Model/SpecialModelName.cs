@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
         /// <param name="varSpecialModelName">varSpecialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
+        public SpecialModelName(Option<long> specialPropertyName = default(Option<long>), Option<string> varSpecialModelName = default(Option<string>))
         {
+            // to ensure "varSpecialModelName" (not nullable) is not null
+            if (varSpecialModelName.IsSet && varSpecialModelName.Value == null)
+            {
+                throw new ArgumentNullException("varSpecialModelName isn't a nullable property for SpecialModelName and cannot be null");
+            }
             this.SpecialPropertyName = specialPropertyName;
             this.VarSpecialModelName = varSpecialModelName;
         }
@@ -47,13 +53,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName { get; set; }
+        public Option<long> SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [DataMember(Name = "_special_model.name_", EmitDefaultValue = false)]
-        public string VarSpecialModelName { get; set; }
+        public Option<string> VarSpecialModelName { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -107,10 +113,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
-                if (this.VarSpecialModelName != null)
+                if (this.SpecialPropertyName.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();
+                hashCode = (hashCode * 59) + this.SpecialPropertyName.Value.GetHashCode();
+                }
+                if (this.VarSpecialModelName.IsSet && this.VarSpecialModelName.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.VarSpecialModelName.Value.GetHashCode();
                 }
                 return hashCode;
             }

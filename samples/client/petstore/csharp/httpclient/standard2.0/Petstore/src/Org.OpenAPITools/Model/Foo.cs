@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,10 +38,14 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Foo" /> class.
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;).</param>
-        public Foo(string bar = @"bar")
+        public Foo(Option<string> bar = default(Option<string>))
         {
-            // use default value if no "bar" provided
-            this.Bar = bar ?? @"bar";
+            // to ensure "bar" (not nullable) is not null
+            if (bar.IsSet && bar.Value == null)
+            {
+                throw new ArgumentNullException("bar isn't a nullable property for Foo and cannot be null");
+            }
+            this.Bar = bar.IsSet ? bar : new Option<string>(@"bar");
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -48,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; set; }
+        public Option<string> Bar { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,9 +113,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
         /// </summary>
         /// <param name="nullableMessage">nullableMessage.</param>
-        public HealthCheckResult(string nullableMessage = default(string))
+        public HealthCheckResult(Option<string> nullableMessage = default(Option<string>))
         {
             this._NullableMessage = nullableMessage;
-            if (this.NullableMessage != null)
+            if (this.NullableMessage.IsSet)
             {
                 this._flagNullableMessage = true;
             }
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
-        public string NullableMessage
+        public Option<string> NullableMessage
         {
             get{ return _NullableMessage;}
             set
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
                 _flagNullableMessage = true;
             }
         }
-        private string _NullableMessage;
+        private Option<string> _NullableMessage;
         private bool _flagNullableMessage;
 
         /// <summary>
@@ -128,9 +129,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.NullableMessage != null)
+                if (this.NullableMessage.IsSet && this.NullableMessage.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NullableMessage.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NullableMessage.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
