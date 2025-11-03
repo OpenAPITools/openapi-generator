@@ -136,20 +136,20 @@
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
-        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}){{/defaultValue}}{{/required}}{{^required}}default(Option<{{{datatypeWithEnum}}}{{>NullConditionalParameter}}>){{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
+        public {{classname}}({{#readWriteVars}}{{^required}}Option<{{/required}}{{{datatypeWithEnum}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{>CamelCaseSanitizedParamName}} = {{#required}}{{#defaultValue}}{{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default({{{datatypeWithEnum}}}{{>NullConditionalParameter}}){{/isDateTime}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{>NullConditionalParameter}}){{/defaultValue}}{{/required}}{{^required}}default(Option<{{{datatypeWithEnum}}}{{>NullConditionalParameter}}>){{/required}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{>CamelCaseSanitizedParamName}}{{^-last}}, {{/-last}}{{/parentVars}}){{/parent}}
         {
             {{! Push all sanity tests on top }}
             {{#vars}}
             {{^isInherited}}
             {{^isReadOnly}}
             {{^isNullable}}
-            {{^vendorExtensions.x-csharp-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
             // to ensure "{{>CamelCaseSanitizedParamName}}" (not nullable) is not null
             if ({{^required}}{{>CamelCaseSanitizedParamName}}.IsSet && {{/required}}{{>CamelCaseSanitizedParamName}}{{^required}}.Value{{/required}} == null)
             {
                 throw new ArgumentNullException("{{>CamelCaseSanitizedParamName}} isn't a nullable property for {{classname}} and cannot be null");
             }
-            {{/vendorExtensions.x-csharp-value-type}}
+            {{/vendorExtensions.x-is-value-type}}
             {{/isNullable}}
             {{/isReadOnly}}
             {{/isInherited}}

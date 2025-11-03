@@ -354,12 +354,12 @@ namespace {{packageName}}.{{apiPackage}}
         {
             {{#allParams}}
             {{^nullable}}
-            {{^vendorExtensions.x-csharp-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{^required}}{{paramName}}.IsSet && {{/required}}{{paramName}}{{^required}}.Value{{/required}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Null non nullable parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
-            {{/vendorExtensions.x-csharp-value-type}}
+            {{/vendorExtensions.x-is-value-type}}
             {{/nullable}}
             {{/allParams}}
             {{packageName}}.Client.RequestOptions localVarRequestOptions = new {{packageName}}.Client.RequestOptions();
@@ -574,12 +574,12 @@ namespace {{packageName}}.{{apiPackage}}
         {
             {{#allParams}}
             {{^nullable}}
-            {{^vendorExtensions.x-csharp-value-type}}
+            {{^vendorExtensions.x-is-value-type}}
             // verify the required parameter '{{paramName}}' is set
             if ({{^required}}{{paramName}}.IsSet && {{/required}}{{paramName}}{{^required}}.Value{{/required}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Null non nullable parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
 
-            {{/vendorExtensions.x-csharp-value-type}}
+            {{/vendorExtensions.x-is-value-type}}
             {{/nullable}}
             {{/allParams}}
 

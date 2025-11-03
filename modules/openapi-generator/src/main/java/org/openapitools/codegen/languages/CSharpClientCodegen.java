@@ -634,6 +634,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
+
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (property.isNullable && (nullReferenceTypesFlag || (!property.isContainer && (getNullableTypes().contains(property.dataType) || property.isEnum)))) {
+                property.vendorExtensions.put("x-csharp-use-nullable-operator", true);
+            }
+        }
     }
 
     @Override
