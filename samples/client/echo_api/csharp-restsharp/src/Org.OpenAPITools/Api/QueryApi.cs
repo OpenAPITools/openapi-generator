@@ -1220,29 +1220,23 @@ namespace Org.OpenAPITools.Api
 
             if (queryObject.IsSet)
             {
-                if (queryObject.Value.Id != null)
+                if (queryObject.Value.Id.IsSet)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Value.Id));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[id]", queryObject.Value.Id.Value));
                 }
-                if (queryObject.Value.Name != null)
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Value.Name));
+                if (queryObject.Value.Category.IsSet)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[name]", queryObject.Value.Name));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Value.Category.Value));
                 }
-                if (queryObject.Value.Category != null)
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.Value.PhotoUrls));
+                if (queryObject.Value.Tags.IsSet)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[category]", queryObject.Value.Category));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Value.Tags.Value));
                 }
-                if (queryObject.Value.PhotoUrls != null)
+                if (queryObject.Value.Status.IsSet)
                 {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[photoUrls]", queryObject.Value.PhotoUrls));
-                }
-                if (queryObject.Value.Tags != null)
-                {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[tags]", queryObject.Value.Tags));
-                }
-                if (queryObject.Value.Status != null)
-                {
-                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Value.Status));
+                    localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "queryObject[status]", queryObject.Value.Status.Value));
                 }
             }
 
