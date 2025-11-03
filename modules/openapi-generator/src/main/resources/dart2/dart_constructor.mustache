@@ -1,17 +1,7 @@
   /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
-    {{!
-        A field is required in Dart when it is
-        required && !defaultValue in OAS
-    }}
-    {{^required}}{{#vendorExtensions.x-is-optional}}
-    this.{{{name}}}{{#defaultValue}} = const Optional.present({{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^defaultValue}} = const Optional.absent(){{/defaultValue}},
-    {{/vendorExtensions.x-is-optional}}{{/required}}
-    {{^required}}{{^vendorExtensions.x-is-optional}}
-    this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},
-    {{/vendorExtensions.x-is-optional}}{{/required}}
-    {{#required}}{{^defaultValue}}required {{/defaultValue}}this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},
-    {{/required}}
+    {{! A field is required in Dart when it is required && !defaultValue in OAS }}
+{{^required}}{{#vendorExtensions.x-is-optional}}    this.{{{name}}}{{#defaultValue}} = const Optional.present({{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^defaultValue}} = const Optional.absent(){{/defaultValue}},{{/vendorExtensions.x-is-optional}}{{/required}}{{^required}}{{^vendorExtensions.x-is-optional}}    this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},{{/vendorExtensions.x-is-optional}}{{/required}}{{#required}}    {{^defaultValue}}required {{/defaultValue}}this.{{{name}}}{{#defaultValue}} = {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}},{{/required}}
   {{/vars}}
   });
