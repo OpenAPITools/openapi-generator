@@ -303,7 +303,17 @@
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             {{/parent}}
             {{#vars}}
+            {{#required}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/required}}
+            {{^required}}
+            sb.Append("  {{name}}: ");
+            if ({{name}}.IsSet)
+            {
+                sb.Append({{name}}.Value);
+            }
+            sb.Append("\n");
+            {{/required}}
             {{/vars}}
             {{#isAdditionalPropertiesTrue}}
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
