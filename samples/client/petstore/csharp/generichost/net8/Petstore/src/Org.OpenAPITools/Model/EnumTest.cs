@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// EnumTest
     /// </summary>
-    public partial class EnumTest : IValidatableObject
+    public partial class EnumTest : IEquatable<EnumTest>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
@@ -678,6 +678,66 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumTest).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if EnumTest instances are equal
+        /// </summary>
+        /// <param name="input">Instance of EnumTest to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(EnumTest input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + EnumStringRequired.GetHashCode();
+                if (EnumInteger != null)
+                    hashCode = (hashCode * 59) + EnumInteger.GetHashCode();
+
+                if (EnumIntegerOnly != null)
+                    hashCode = (hashCode * 59) + EnumIntegerOnly.GetHashCode();
+
+                if (EnumNumber != null)
+                    hashCode = (hashCode * 59) + EnumNumber.GetHashCode();
+
+                if (EnumString != null)
+                    hashCode = (hashCode * 59) + EnumString.GetHashCode();
+
+                if (OuterEnum != null)
+                    hashCode = (hashCode * 59) + OuterEnum.GetHashCode();
+
+                if (OuterEnumDefaultValue != null)
+                    hashCode = (hashCode * 59) + OuterEnumDefaultValue.GetHashCode();
+
+                if (OuterEnumInteger != null)
+                    hashCode = (hashCode * 59) + OuterEnumInteger.GetHashCode();
+
+                if (OuterEnumIntegerDefaultValue != null)
+                    hashCode = (hashCode * 59) + OuterEnumIntegerDefaultValue.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
