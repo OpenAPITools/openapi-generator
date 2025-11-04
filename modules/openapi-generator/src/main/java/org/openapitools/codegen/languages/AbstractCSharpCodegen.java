@@ -44,7 +44,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.languages.CSharpClientCodegen.GENERICHOST;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -1466,12 +1465,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
-            String typeDeclaration = getTypeDeclaration(inner);
-            if (!GENERICHOST.equals(getLibrary())) {
-                if (ModelUtils.isNullable(inner) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(inner) || getValueTypes().contains(typeDeclaration)) && !typeDeclaration.endsWith("?")) {
-                    typeDeclaration += "?";
-                }
-            }
+            String typeDeclaration = getNullableSchemaType(inner);
             return getSchemaType(p) + "<string, " + typeDeclaration + ">";
         }
         return super.getTypeDeclaration(p);
