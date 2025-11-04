@@ -6,3 +6,4 @@ generateAliasAsModel: true
 additionalProperties:
   hideGenerationTimestamp: "true"
   packageName: openapi-v3
+  disallowAdditionalPropertiesIfNotPresent: true

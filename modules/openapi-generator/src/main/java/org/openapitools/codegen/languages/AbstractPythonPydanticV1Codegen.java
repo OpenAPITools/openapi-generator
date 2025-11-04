@@ -51,6 +51,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
     @Setter protected String projectName; // for setup.py, e.g. petstore-api
+    @Setter
+    protected boolean legacyDisallowAdditionalPropertiesDefaultBehavior = false;
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
     protected Map<Character, String> regexModifiers;
@@ -139,6 +141,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.LEGACY_DEFAULT_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_BEHAVIOR)) {
+            setLegacyDisallowAdditionalPropertiesDefaultBehavior(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.LEGACY_DEFAULT_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_BEHAVIOR).toString()));
+        }
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
@@ -984,6 +990,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             model.getVendorExtensions().putIfAbsent("x-py-pydantic-imports", pydanticImports);
             model.getVendorExtensions().putIfAbsent("x-py-datetime-imports", datetimeImports);
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
+
+            if (legacyDisallowAdditionalPropertiesDefaultBehavior) {
+                model.vendorExtensions.putIfAbsent("x-py-legacy-disallow-additional-properties-default-behavior", true);
+            }
 
             // remove the items of postponedModelImports in modelImports to avoid circular imports error
             if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()) {
