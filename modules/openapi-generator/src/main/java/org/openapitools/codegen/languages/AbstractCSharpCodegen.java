@@ -1162,7 +1162,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
-        String dataType = getNullablePropertyType(operation.returnProperty.items);
+        String dataType = getNullableTypeDeclaration(operation.returnProperty.items);
 
         for (String nestedType : nestedTypes) {
             if (operation.returnType.contains("<" + nestedType + ">")) {
@@ -1435,18 +1435,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         String arrayType = typeMapping.get("array");
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema<?> items = ModelUtils.getSchemaItems(arr);
-        String nestedType = getNullableSchemaType(items);
 
         // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
+        instantiationType.append("<").append(getNullableTypeDeclaration(items)).append(">");
         return instantiationType.toString();
     }
 
-    protected String getNullablePropertyType(CodegenProperty property) {
+    protected String getNullableTypeDeclaration(CodegenProperty property) {
         return property.dataType;
     }
 
-    protected String getNullableSchemaType(Schema<?> items) {
+    protected String getNullableTypeDeclaration(Schema<?> items) {
         return getTypeDeclaration(items);
     }
 
@@ -1465,8 +1464,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
-            String typeDeclaration = getNullableSchemaType(inner);
-            return getSchemaType(p) + "<string, " + typeDeclaration + ">";
+            return getSchemaType(p) + "<string, " + getNullableTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }

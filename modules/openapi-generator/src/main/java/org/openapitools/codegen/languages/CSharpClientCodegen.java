@@ -1705,8 +1705,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return objs;
     }
 
-    protected String getNullablePropertyType(CodegenProperty property) {
-        String dataType = super.getNullablePropertyType(property);
+    protected String getNullableTypeDeclaration(CodegenProperty property) {
+        String dataType = super.getNullableTypeDeclaration(property);
         if (!GENERICHOST.equals(getLibrary())) {
             if (property.isNullable && (this.nullReferenceTypesFlag || property.isEnum || getValueTypes().contains(dataType)) && !dataType.endsWith("?")) {
                 dataType += "?";
@@ -1715,8 +1715,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return dataType;
     }
 
-    protected String getNullableSchemaType(Schema<?> items) {
-        String nestedType = super.getNullableSchemaType(items);
+    protected String getNullableTypeDeclaration(Schema<?> items) {
+        String nestedType = super.getNullableTypeDeclaration(items);
         if (!GENERICHOST.equals(getLibrary())) {
             if (ModelUtils.isNullable(items) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(items) || getValueTypes().contains(nestedType)) && !nestedType.endsWith("?")) {
                 nestedType += "?";
