@@ -182,12 +182,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}HeaderParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -332,12 +332,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}PathParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -494,12 +494,12 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
     {{#pattern}}
     {{^isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isByteArray}}
     {{#isByteArray}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}QueryParams_{{{paramName}}}{{/lambda.lowercase}}(
         b: &ByteArray
@@ -1096,12 +1096,12 @@ impl {{{classname}}} {
 {{#pattern}}
 {{^isByteArray}}
 lazy_static::lazy_static! {
-    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
 }
 {{/isByteArray}}
 {{#isByteArray}}
 lazy_static::lazy_static! {
-    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+    static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
 }
 fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}(
     b: &ByteArray
