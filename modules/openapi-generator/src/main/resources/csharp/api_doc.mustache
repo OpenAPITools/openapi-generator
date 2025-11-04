@@ -80,10 +80,10 @@ namespace Example
             {{/useHttpClient}}
             {{#allParams}}
             {{#isPrimitiveType}}
-            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = {{{example}}};  // {{{dataType}}}{{^useGenericHost}}{{>NullConditionalParameter}}{{/useGenericHost}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
-            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}}{{^useGenericHost}}{{>NullConditionalParameter}}{{/useGenericHost}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{/allParams}}
 
