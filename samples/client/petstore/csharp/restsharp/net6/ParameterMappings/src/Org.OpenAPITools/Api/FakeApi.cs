@@ -242,21 +242,15 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'type' is set
             if (type == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'type' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'type' when calling FakeApi->GetParameterNameMapping");
 
             // verify the required parameter 'TypeWithUnderscore' is set
             if (TypeWithUnderscore == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'TypeWithUnderscore' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'TypeWithUnderscore' when calling FakeApi->GetParameterNameMapping");
 
             // verify the required parameter 'httpDebugOption' is set
             if (httpDebugOption == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'httpDebugOption' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'httpDebugOption' when calling FakeApi->GetParameterNameMapping");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -335,21 +329,15 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'type' is set
             if (type == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'type' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'type' when calling FakeApi->GetParameterNameMapping");
 
             // verify the required parameter 'TypeWithUnderscore' is set
             if (TypeWithUnderscore == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'TypeWithUnderscore' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'TypeWithUnderscore' when calling FakeApi->GetParameterNameMapping");
 
             // verify the required parameter 'httpDebugOption' is set
             if (httpDebugOption == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'httpDebugOption' when calling FakeApi->GetParameterNameMapping");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'httpDebugOption' when calling FakeApi->GetParameterNameMapping");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

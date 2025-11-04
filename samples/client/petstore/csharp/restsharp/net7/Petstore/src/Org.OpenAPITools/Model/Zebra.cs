@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -62,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
+        public Option<TypeEnum> Type { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
@@ -76,15 +77,15 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string))
+        public Zebra(Option<TypeEnum> type = default(Option<TypeEnum>), string className = default(string))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for Zebra and cannot be null");
             }
-            this.ClassName = className;
             this.Type = type;
+            this.ClassName = className;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -108,7 +109,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
+            sb.Append("  Type: ");
+            if (Type.IsSet)
+            {
+                sb.Append(Type.Value);
+            }
+            sb.Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -153,7 +159,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                if (this.Type.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Type.Value.GetHashCode();
+                }
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();

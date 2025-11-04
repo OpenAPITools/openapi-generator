@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Banana" /> class.
         /// </summary>
         /// <param name="lengthCm">lengthCm.</param>
-        public Banana(decimal lengthCm = default(decimal))
+        public Banana(Option<decimal> lengthCm = default(Option<decimal>))
         {
             this._LengthCm = lengthCm;
-            if (this.LengthCm != null)
+            if (this.LengthCm.IsSet)
             {
                 this._flagLengthCm = true;
             }
@@ -50,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LengthCm
         /// </summary>
         [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm
+        public Option<decimal> LengthCm
         {
             get{ return _LengthCm;}
             set
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
                 _flagLengthCm = true;
             }
         }
-        private decimal _LengthCm;
+        private Option<decimal> _LengthCm;
         private bool _flagLengthCm;
 
         /// <summary>
@@ -84,7 +85,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Banana {\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  LengthCm: ");
+            if (LengthCm.IsSet)
+            {
+                sb.Append(LengthCm.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,7 +134,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
+                if (this.LengthCm.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.LengthCm.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,25 +40,45 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuidWithPattern = default(Guid), Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Option<Guid> uuidWithPattern = default(Option<Guid>), Option<Guid> uuid = default(Option<Guid>), Option<DateTime> dateTime = default(Option<DateTime>), Option<Dictionary<string, Animal>> map = default(Option<Dictionary<string, Animal>>))
         {
+            // to ensure "uuidWithPattern" (not nullable) is not null
+            if (uuidWithPattern.IsSet && uuidWithPattern.Value == null)
+            {
+                throw new ArgumentNullException("uuidWithPattern isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "uuid" (not nullable) is not null
+            if (uuid.IsSet && uuid.Value == null)
+            {
+                throw new ArgumentNullException("uuid isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "dateTime" (not nullable) is not null
+            if (dateTime.IsSet && dateTime.Value == null)
+            {
+                throw new ArgumentNullException("dateTime isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "map" (not nullable) is not null
+            if (map.IsSet && map.Value == null)
+            {
+                throw new ArgumentNullException("map isn't a nullable property for MixedPropertiesAndAdditionalPropertiesClass and cannot be null");
+            }
             this._UuidWithPattern = uuidWithPattern;
-            if (this.UuidWithPattern != null)
+            if (this.UuidWithPattern.IsSet)
             {
                 this._flagUuidWithPattern = true;
             }
             this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (this.Uuid.IsSet)
             {
                 this._flagUuid = true;
             }
             this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (this.DateTime.IsSet)
             {
                 this._flagDateTime = true;
             }
             this._Map = map;
-            if (this.Map != null)
+            if (this.Map.IsSet)
             {
                 this._flagMap = true;
             }
@@ -68,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [DataMember(Name = "uuid_with_pattern", EmitDefaultValue = false)]
-        public Guid UuidWithPattern
+        public Option<Guid> UuidWithPattern
         {
             get{ return _UuidWithPattern;}
             set
@@ -77,7 +98,7 @@ namespace Org.OpenAPITools.Model
                 _flagUuidWithPattern = true;
             }
         }
-        private Guid _UuidWithPattern;
+        private Option<Guid> _UuidWithPattern;
         private bool _flagUuidWithPattern;
 
         /// <summary>
@@ -92,7 +113,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid
+        public Option<Guid> Uuid
         {
             get{ return _Uuid;}
             set
@@ -101,7 +122,7 @@ namespace Org.OpenAPITools.Model
                 _flagUuid = true;
             }
         }
-        private Guid _Uuid;
+        private Option<Guid> _Uuid;
         private bool _flagUuid;
 
         /// <summary>
@@ -116,7 +137,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime
+        public Option<DateTime> DateTime
         {
             get{ return _DateTime;}
             set
@@ -125,7 +146,7 @@ namespace Org.OpenAPITools.Model
                 _flagDateTime = true;
             }
         }
-        private DateTime _DateTime;
+        private Option<DateTime> _DateTime;
         private bool _flagDateTime;
 
         /// <summary>
@@ -140,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Map
         /// </summary>
         [DataMember(Name = "map", EmitDefaultValue = false)]
-        public Dictionary<string, Animal> Map
+        public Option<Dictionary<string, Animal>> Map
         {
             get{ return _Map;}
             set
@@ -149,7 +170,7 @@ namespace Org.OpenAPITools.Model
                 _flagMap = true;
             }
         }
-        private Dictionary<string, Animal> _Map;
+        private Option<Dictionary<string, Animal>> _Map;
         private bool _flagMap;
 
         /// <summary>
@@ -174,10 +195,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-            sb.Append("  UuidWithPattern: ").Append(UuidWithPattern).Append("\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Map: ").Append(Map).Append("\n");
+            sb.Append("  UuidWithPattern: ");
+            if (UuidWithPattern.IsSet)
+            {
+                sb.Append(UuidWithPattern.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DateTime: ");
+            if (DateTime.IsSet)
+            {
+                sb.Append(DateTime.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Map: ");
+            if (Map.IsSet)
+            {
+                sb.Append(Map.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -221,21 +262,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.UuidWithPattern != null)
+                if (this.UuidWithPattern.IsSet && this.UuidWithPattern.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.UuidWithPattern.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UuidWithPattern.Value.GetHashCode();
                 }
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
-                if (this.DateTime != null)
+                if (this.DateTime.IsSet && this.DateTime.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateTime.Value.GetHashCode();
                 }
-                if (this.Map != null)
+                if (this.Map.IsSet && this.Map.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Map.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Map.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -62,8 +63,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">Query.</param>
         /// <param name="outcomes">outcomes.</param>
-        public Query(long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>))
+        public Query(Option<long> id = default(Option<long>), Option<List<Query.OutcomesEnum>> outcomes = default(Option<List<Query.OutcomesEnum>>))
         {
+            // to ensure "outcomes" (not nullable) is not null
+            if (outcomes.IsSet && outcomes.Value == null)
+            {
+                throw new ArgumentNullException("outcomes isn't a nullable property for Query and cannot be null");
+            }
             this.Id = id;
             this.Outcomes = outcomes;
         }
@@ -73,13 +79,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Query</value>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Outcomes
         /// </summary>
         [DataMember(Name = "outcomes", EmitDefaultValue = false)]
-        public List<Query.OutcomesEnum> Outcomes { get; set; }
+        public Option<List<Query.OutcomesEnum>> Outcomes { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -89,8 +95,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Query {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Outcomes: ").Append(Outcomes).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Outcomes: ");
+            if (Outcomes.IsSet)
+            {
+                sb.Append(Outcomes.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -127,14 +143,13 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
                     this.Id.Equals(input.Id)
                 ) && 
                 (
-                    this.Outcomes == input.Outcomes ||
-                    this.Outcomes != null &&
-                    input.Outcomes != null &&
-                    this.Outcomes.SequenceEqual(input.Outcomes)
+                    
+                    this.Outcomes.IsSet && this.Outcomes.Value != null &&
+                    input.Outcomes.IsSet && input.Outcomes.Value != null &&
+                    this.Outcomes.Value.SequenceEqual(input.Outcomes.Value)
                 );
         }
 
@@ -147,10 +162,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Outcomes != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Outcomes.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
+                if (this.Outcomes.IsSet && this.Outcomes.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Outcomes.Value.GetHashCode();
                 }
                 return hashCode;
             }

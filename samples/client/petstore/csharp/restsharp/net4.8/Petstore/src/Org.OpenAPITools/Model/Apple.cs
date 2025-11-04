@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,8 +39,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="cultivar">cultivar.</param>
         /// <param name="origin">origin.</param>
         /// <param name="colorCode">colorCode.</param>
-        public Apple(string cultivar = default(string), string origin = default(string), string colorCode = default(string))
+        public Apple(Option<string> cultivar = default(Option<string>), Option<string> origin = default(Option<string>), Option<string> colorCode = default(Option<string>))
         {
+            // to ensure "cultivar" (not nullable) is not null
+            if (cultivar.IsSet && cultivar.Value == null)
+            {
+                throw new ArgumentNullException("cultivar isn't a nullable property for Apple and cannot be null");
+            }
+            // to ensure "origin" (not nullable) is not null
+            if (origin.IsSet && origin.Value == null)
+            {
+                throw new ArgumentNullException("origin isn't a nullable property for Apple and cannot be null");
+            }
+            // to ensure "colorCode" (not nullable) is not null
+            if (colorCode.IsSet && colorCode.Value == null)
+            {
+                throw new ArgumentNullException("colorCode isn't a nullable property for Apple and cannot be null");
+            }
             this.Cultivar = cultivar;
             this.Origin = origin;
             this.ColorCode = colorCode;
@@ -50,19 +66,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Cultivar
         /// </summary>
         [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        public Option<string> Cultivar { get; set; }
 
         /// <summary>
         /// Gets or Sets Origin
         /// </summary>
         [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
+        public Option<string> Origin { get; set; }
 
         /// <summary>
         /// Gets or Sets ColorCode
         /// </summary>
         [DataMember(Name = "color_code", EmitDefaultValue = false)]
-        public string ColorCode { get; set; }
+        public Option<string> ColorCode { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -78,9 +94,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Apple {\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Origin: ").Append(Origin).Append("\n");
-            sb.Append("  ColorCode: ").Append(ColorCode).Append("\n");
+            sb.Append("  Cultivar: ");
+            if (Cultivar.IsSet)
+            {
+                sb.Append(Cultivar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Origin: ");
+            if (Origin.IsSet)
+            {
+                sb.Append(Origin.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ColorCode: ");
+            if (ColorCode.IsSet)
+            {
+                sb.Append(ColorCode.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -124,17 +155,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
+                if (this.Cultivar.IsSet && this.Cultivar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Cultivar.Value.GetHashCode();
                 }
-                if (this.Origin != null)
+                if (this.Origin.IsSet && this.Origin.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Origin.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Origin.Value.GetHashCode();
                 }
-                if (this.ColorCode != null)
+                if (this.ColorCode.IsSet && this.ColorCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ColorCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ColorCode.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

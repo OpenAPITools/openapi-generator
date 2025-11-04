@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="varReturn">varReturn.</param>
-        public Return(int varReturn = default(int))
+        public Return(Option<int> varReturn = default(Option<int>))
         {
             this.VarReturn = varReturn;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn { get; set; }
+        public Option<int> VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +63,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  VarReturn: ");
+            if (VarReturn.IsSet)
+            {
+                sb.Append(VarReturn.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,7 +112,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.VarReturn.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.VarReturn.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

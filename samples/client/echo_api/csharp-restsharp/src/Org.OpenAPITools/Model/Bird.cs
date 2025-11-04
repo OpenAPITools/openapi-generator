@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,8 +38,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="size">size.</param>
         /// <param name="color">color.</param>
-        public Bird(string size = default(string), string color = default(string))
+        public Bird(Option<string> size = default(Option<string>), Option<string> color = default(Option<string>))
         {
+            // to ensure "size" (not nullable) is not null
+            if (size.IsSet && size.Value == null)
+            {
+                throw new ArgumentNullException("size isn't a nullable property for Bird and cannot be null");
+            }
+            // to ensure "color" (not nullable) is not null
+            if (color.IsSet && color.Value == null)
+            {
+                throw new ArgumentNullException("color isn't a nullable property for Bird and cannot be null");
+            }
             this.Size = size;
             this.Color = color;
         }
@@ -47,13 +58,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Size
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
-        public string Size { get; set; }
+        public Option<string> Size { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public Option<string> Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -63,8 +74,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Bird {\n");
-            sb.Append("  Size: ").Append(Size).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Size: ");
+            if (Size.IsSet)
+            {
+                sb.Append(Size.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -101,14 +122,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Size == input.Size ||
-                    (this.Size != null &&
-                    this.Size.Equals(input.Size))
+                    
+                    this.Size.Equals(input.Size)
                 ) && 
                 (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    
+                    this.Color.Equals(input.Color)
                 );
         }
 
@@ -121,13 +140,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Size != null)
+                if (this.Size.IsSet && this.Size.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Size.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Size.Value.GetHashCode();
                 }
-                if (this.Color != null)
+                if (this.Color.IsSet && this.Color.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.Value.GetHashCode();
                 }
                 return hashCode;
             }

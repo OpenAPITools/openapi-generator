@@ -15,7 +15,12 @@ All URIs are relative to *{{{basePath}}}*
 {{#operation}}
 <a id="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
+{{#useGenericHost}}
 > {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/useGenericHost}}
+{{^useGenericHost}}
+> {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = {{>DefaultDataTypeParameter}}{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/useGenericHost}}
 
 {{{summary}}}{{#notes}}
 
@@ -75,10 +80,10 @@ namespace Example
             {{/useHttpClient}}
             {{#allParams}}
             {{#isPrimitiveType}}
-            var {{paramName}} = {{{example}}};  // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = {{{example}}};  // {{{dataType}}}{{^useGenericHost}}{{>NullConditionalParameter}}{{/useGenericHost}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
-            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+            var {{paramName}} = new {{{dataType}}}(); // {{{dataType}}}{{^useGenericHost}}{{>NullConditionalParameter}}{{/useGenericHost}} | {{{description}}}{{^required}} (optional) {{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
             {{/isPrimitiveType}}
             {{/allParams}}
 

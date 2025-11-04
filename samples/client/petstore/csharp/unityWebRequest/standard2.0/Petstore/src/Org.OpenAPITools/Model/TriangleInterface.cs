@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,10 +42,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangleType">triangleType (required).</param>
         public TriangleInterface(string triangleType = default(string))
         {
-            // to ensure "triangleType" is required (not null)
+            // to ensure "triangleType" (not nullable) is not null
             if (triangleType == null)
             {
-                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+                throw new ArgumentNullException("triangleType isn't a nullable property for TriangleInterface and cannot be null");
             }
             this.TriangleType = triangleType;
         }

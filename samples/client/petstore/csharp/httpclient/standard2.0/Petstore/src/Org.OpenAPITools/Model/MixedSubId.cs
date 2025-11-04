@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedSubId" /> class.
         /// </summary>
         /// <param name="id">id.</param>
-        public MixedSubId(string id = default(string))
+        public MixedSubId(Option<string> id = default(Option<string>))
         {
+            // to ensure "id" (not nullable) is not null
+            if (id.IsSet && id.Value == null)
+            {
+                throw new ArgumentNullException("id isn't a nullable property for MixedSubId and cannot be null");
+            }
             this.Id = id;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public string Id { get; set; }
+        public Option<string> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +69,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedSubId {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +118,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Id != null)
+                if (this.Id.IsSet && this.Id.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

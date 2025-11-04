@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,8 +42,43 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3.</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map..</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>), Object anytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype1 = default(Object), Object mapWithUndeclaredPropertiesAnytype2 = default(Object), Dictionary<string, Object> mapWithUndeclaredPropertiesAnytype3 = default(Dictionary<string, Object>), Object emptyMap = default(Object), Dictionary<string, string> mapWithUndeclaredPropertiesString = default(Dictionary<string, string>))
+        public AdditionalPropertiesClass(Option<Dictionary<string, string>> mapProperty = default(Option<Dictionary<string, string>>), Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default(Option<Dictionary<string, Dictionary<string, string>>>), Option<Object> anytype1 = default(Option<Object>), Option<Object> mapWithUndeclaredPropertiesAnytype1 = default(Option<Object>), Option<Object> mapWithUndeclaredPropertiesAnytype2 = default(Option<Object>), Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default(Option<Dictionary<string, Object>>), Option<Object> emptyMap = default(Option<Object>), Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default(Option<Dictionary<string, string>>))
         {
+            // to ensure "mapProperty" (not nullable) is not null
+            if (mapProperty.IsSet && mapProperty.Value == null)
+            {
+                throw new ArgumentNullException("mapProperty isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "mapOfMapProperty" (not nullable) is not null
+            if (mapOfMapProperty.IsSet && mapOfMapProperty.Value == null)
+            {
+                throw new ArgumentNullException("mapOfMapProperty isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "mapWithUndeclaredPropertiesAnytype1" (not nullable) is not null
+            if (mapWithUndeclaredPropertiesAnytype1.IsSet && mapWithUndeclaredPropertiesAnytype1.Value == null)
+            {
+                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype1 isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "mapWithUndeclaredPropertiesAnytype2" (not nullable) is not null
+            if (mapWithUndeclaredPropertiesAnytype2.IsSet && mapWithUndeclaredPropertiesAnytype2.Value == null)
+            {
+                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype2 isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "mapWithUndeclaredPropertiesAnytype3" (not nullable) is not null
+            if (mapWithUndeclaredPropertiesAnytype3.IsSet && mapWithUndeclaredPropertiesAnytype3.Value == null)
+            {
+                throw new ArgumentNullException("mapWithUndeclaredPropertiesAnytype3 isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "emptyMap" (not nullable) is not null
+            if (emptyMap.IsSet && emptyMap.Value == null)
+            {
+                throw new ArgumentNullException("emptyMap isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
+            // to ensure "mapWithUndeclaredPropertiesString" (not nullable) is not null
+            if (mapWithUndeclaredPropertiesString.IsSet && mapWithUndeclaredPropertiesString.Value == null)
+            {
+                throw new ArgumentNullException("mapWithUndeclaredPropertiesString isn't a nullable property for AdditionalPropertiesClass and cannot be null");
+            }
             this.MapProperty = mapProperty;
             this.MapOfMapProperty = mapOfMapProperty;
             this.Anytype1 = anytype1;
@@ -57,50 +93,50 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapProperty
         /// </summary>
         [DataMember(Name = "map_property", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapProperty { get; set; }
+        public Option<Dictionary<string, string>> MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
-        public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
+        public Option<Dictionary<string, Dictionary<string, string>>> MapOfMapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets Anytype1
         /// </summary>
         [DataMember(Name = "anytype_1", EmitDefaultValue = true)]
-        public Object Anytype1 { get; set; }
+        public Option<Object> Anytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_1", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype1 { get; set; }
+        public Option<Object> MapWithUndeclaredPropertiesAnytype1 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_2", EmitDefaultValue = false)]
-        public Object MapWithUndeclaredPropertiesAnytype2 { get; set; }
+        public Option<Object> MapWithUndeclaredPropertiesAnytype2 { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_anytype_3", EmitDefaultValue = false)]
-        public Dictionary<string, Object> MapWithUndeclaredPropertiesAnytype3 { get; set; }
+        public Option<Dictionary<string, Object>> MapWithUndeclaredPropertiesAnytype3 { get; set; }
 
         /// <summary>
         /// an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [DataMember(Name = "empty_map", EmitDefaultValue = false)]
-        public Object EmptyMap { get; set; }
+        public Option<Object> EmptyMap { get; set; }
 
         /// <summary>
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [DataMember(Name = "map_with_undeclared_properties_string", EmitDefaultValue = false)]
-        public Dictionary<string, string> MapWithUndeclaredPropertiesString { get; set; }
+        public Option<Dictionary<string, string>> MapWithUndeclaredPropertiesString { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -110,14 +146,54 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
-            sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
-            sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
-            sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ").Append(MapWithUndeclaredPropertiesAnytype1).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ").Append(MapWithUndeclaredPropertiesAnytype2).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append("\n");
-            sb.Append("  EmptyMap: ").Append(EmptyMap).Append("\n");
-            sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append("\n");
+            sb.Append("  MapProperty: ");
+            if (MapProperty.IsSet)
+            {
+                sb.Append(MapProperty.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapOfMapProperty: ");
+            if (MapOfMapProperty.IsSet)
+            {
+                sb.Append(MapOfMapProperty.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Anytype1: ");
+            if (Anytype1.IsSet)
+            {
+                sb.Append(Anytype1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype1: ");
+            if (MapWithUndeclaredPropertiesAnytype1.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype2: ");
+            if (MapWithUndeclaredPropertiesAnytype2.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype2.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesAnytype3: ");
+            if (MapWithUndeclaredPropertiesAnytype3.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesAnytype3.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  EmptyMap: ");
+            if (EmptyMap.IsSet)
+            {
+                sb.Append(EmptyMap.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MapWithUndeclaredPropertiesString: ");
+            if (MapWithUndeclaredPropertiesString.IsSet)
+            {
+                sb.Append(MapWithUndeclaredPropertiesString.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -154,48 +230,44 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.MapProperty == input.MapProperty ||
-                    this.MapProperty != null &&
-                    input.MapProperty != null &&
-                    this.MapProperty.SequenceEqual(input.MapProperty)
+                    
+                    this.MapProperty.IsSet && this.MapProperty.Value != null &&
+                    input.MapProperty.IsSet && input.MapProperty.Value != null &&
+                    this.MapProperty.Value.SequenceEqual(input.MapProperty.Value)
                 ) && 
                 (
-                    this.MapOfMapProperty == input.MapOfMapProperty ||
-                    this.MapOfMapProperty != null &&
-                    input.MapOfMapProperty != null &&
-                    this.MapOfMapProperty.SequenceEqual(input.MapOfMapProperty)
+                    
+                    this.MapOfMapProperty.IsSet && this.MapOfMapProperty.Value != null &&
+                    input.MapOfMapProperty.IsSet && input.MapOfMapProperty.Value != null &&
+                    this.MapOfMapProperty.Value.SequenceEqual(input.MapOfMapProperty.Value)
                 ) && 
                 (
-                    this.Anytype1 == input.Anytype1 ||
-                    (this.Anytype1 != null &&
-                    this.Anytype1.Equals(input.Anytype1))
+                    
+                    this.Anytype1.Equals(input.Anytype1)
                 ) && 
                 (
-                    this.MapWithUndeclaredPropertiesAnytype1 == input.MapWithUndeclaredPropertiesAnytype1 ||
-                    (this.MapWithUndeclaredPropertiesAnytype1 != null &&
-                    this.MapWithUndeclaredPropertiesAnytype1.Equals(input.MapWithUndeclaredPropertiesAnytype1))
+                    
+                    this.MapWithUndeclaredPropertiesAnytype1.Equals(input.MapWithUndeclaredPropertiesAnytype1)
                 ) && 
                 (
-                    this.MapWithUndeclaredPropertiesAnytype2 == input.MapWithUndeclaredPropertiesAnytype2 ||
-                    (this.MapWithUndeclaredPropertiesAnytype2 != null &&
-                    this.MapWithUndeclaredPropertiesAnytype2.Equals(input.MapWithUndeclaredPropertiesAnytype2))
+                    
+                    this.MapWithUndeclaredPropertiesAnytype2.Equals(input.MapWithUndeclaredPropertiesAnytype2)
                 ) && 
                 (
-                    this.MapWithUndeclaredPropertiesAnytype3 == input.MapWithUndeclaredPropertiesAnytype3 ||
-                    this.MapWithUndeclaredPropertiesAnytype3 != null &&
-                    input.MapWithUndeclaredPropertiesAnytype3 != null &&
-                    this.MapWithUndeclaredPropertiesAnytype3.SequenceEqual(input.MapWithUndeclaredPropertiesAnytype3)
+                    
+                    this.MapWithUndeclaredPropertiesAnytype3.IsSet && this.MapWithUndeclaredPropertiesAnytype3.Value != null &&
+                    input.MapWithUndeclaredPropertiesAnytype3.IsSet && input.MapWithUndeclaredPropertiesAnytype3.Value != null &&
+                    this.MapWithUndeclaredPropertiesAnytype3.Value.SequenceEqual(input.MapWithUndeclaredPropertiesAnytype3.Value)
                 ) && 
                 (
-                    this.EmptyMap == input.EmptyMap ||
-                    (this.EmptyMap != null &&
-                    this.EmptyMap.Equals(input.EmptyMap))
+                    
+                    this.EmptyMap.Equals(input.EmptyMap)
                 ) && 
                 (
-                    this.MapWithUndeclaredPropertiesString == input.MapWithUndeclaredPropertiesString ||
-                    this.MapWithUndeclaredPropertiesString != null &&
-                    input.MapWithUndeclaredPropertiesString != null &&
-                    this.MapWithUndeclaredPropertiesString.SequenceEqual(input.MapWithUndeclaredPropertiesString)
+                    
+                    this.MapWithUndeclaredPropertiesString.IsSet && this.MapWithUndeclaredPropertiesString.Value != null &&
+                    input.MapWithUndeclaredPropertiesString.IsSet && input.MapWithUndeclaredPropertiesString.Value != null &&
+                    this.MapWithUndeclaredPropertiesString.Value.SequenceEqual(input.MapWithUndeclaredPropertiesString.Value)
                 );
         }
 
@@ -208,37 +280,37 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.MapProperty != null)
+                if (this.MapProperty.IsSet && this.MapProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapProperty.Value.GetHashCode();
                 }
-                if (this.MapOfMapProperty != null)
+                if (this.MapOfMapProperty.IsSet && this.MapOfMapProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapOfMapProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapOfMapProperty.Value.GetHashCode();
                 }
-                if (this.Anytype1 != null)
+                if (this.Anytype1.IsSet && this.Anytype1.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Anytype1.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Anytype1.Value.GetHashCode();
                 }
-                if (this.MapWithUndeclaredPropertiesAnytype1 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype1.IsSet && this.MapWithUndeclaredPropertiesAnytype1.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype1.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype1.Value.GetHashCode();
                 }
-                if (this.MapWithUndeclaredPropertiesAnytype2 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype2.IsSet && this.MapWithUndeclaredPropertiesAnytype2.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype2.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype2.Value.GetHashCode();
                 }
-                if (this.MapWithUndeclaredPropertiesAnytype3 != null)
+                if (this.MapWithUndeclaredPropertiesAnytype3.IsSet && this.MapWithUndeclaredPropertiesAnytype3.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype3.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesAnytype3.Value.GetHashCode();
                 }
-                if (this.EmptyMap != null)
+                if (this.EmptyMap.IsSet && this.EmptyMap.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.EmptyMap.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EmptyMap.Value.GetHashCode();
                 }
-                if (this.MapWithUndeclaredPropertiesString != null)
+                if (this.MapWithUndeclaredPropertiesString.IsSet && this.MapWithUndeclaredPropertiesString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MapWithUndeclaredPropertiesString.Value.GetHashCode();
                 }
                 return hashCode;
             }

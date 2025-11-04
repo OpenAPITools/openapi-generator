@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MultipartSingleRequest" /> class.
         /// </summary>
         /// <param name="file">One file.</param>
-        public MultipartSingleRequest(System.IO.Stream file = default(System.IO.Stream))
+        public MultipartSingleRequest(Option<System.IO.Stream> file = default(Option<System.IO.Stream>))
         {
+            // to ensure "file" (not nullable) is not null
+            if (file.IsSet && file.Value == null)
+            {
+                throw new ArgumentNullException("file isn't a nullable property for MultipartSingleRequest and cannot be null");
+            }
             this.File = file;
         }
 
@@ -46,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>One file</value>
         [DataMember(Name = "file", EmitDefaultValue = false)]
-        public System.IO.Stream File { get; set; }
+        public Option<System.IO.Stream> File { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,7 +62,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MultipartSingleRequest {\n");
-            sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  File: ");
+            if (File.IsSet)
+            {
+                sb.Append(File.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,9 +110,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.File != null)
+                if (this.File.IsSet && this.File.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.File.GetHashCode();
+                    hashCode = (hashCode * 59) + this.File.Value.GetHashCode();
                 }
                 return hashCode;
             }

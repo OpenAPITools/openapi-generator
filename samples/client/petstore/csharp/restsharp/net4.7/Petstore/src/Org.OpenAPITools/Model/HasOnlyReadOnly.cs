@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -45,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        public Option<string> Bar { get; private set; }
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Foo
         /// </summary>
         [DataMember(Name = "foo", EmitDefaultValue = false)]
-        public string Foo { get; private set; }
+        public Option<string> Foo { get; private set; }
 
         /// <summary>
         /// Returns false as Foo should not be serialized given that it's read-only.
@@ -83,8 +84,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class HasOnlyReadOnly {\n");
-            sb.Append("  Bar: ").Append(Bar).Append("\n");
-            sb.Append("  Foo: ").Append(Foo).Append("\n");
+            sb.Append("  Bar: ");
+            if (Bar.IsSet)
+            {
+                sb.Append(Bar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Foo: ");
+            if (Foo.IsSet)
+            {
+                sb.Append(Foo.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,13 +139,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
-                if (this.Foo != null)
+                if (this.Foo.IsSet && this.Foo.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Foo.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Foo.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

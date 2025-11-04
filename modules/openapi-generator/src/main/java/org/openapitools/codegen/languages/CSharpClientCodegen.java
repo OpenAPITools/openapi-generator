@@ -394,20 +394,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected void updateCodegenParameterEnum(CodegenParameter parameter, CodegenModel model) {
-        if (GENERICHOST.equals(getLibrary())) {
-            super.updateCodegenParameterEnum(parameter, model);
-            return;
-        }
-
-        super.updateCodegenParameterEnumLegacy(parameter, model);
-
-        if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
-            parameter.dataType = parameter.dataType + "?";
-        }
-    }
-
-    @Override
     public String apiDocFileFolder() {
         if (GENERICHOST.equals(getLibrary())) {
             return (outputFolder + "/" + apiDocPath + File.separatorChar + "apis").replace('/', File.separatorChar);
@@ -456,15 +442,21 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        // Cleanup possible duplicates. Currently, readWriteVars can contain the same property twice. May or may not be isolated to C#.
-        if (codegenModel != null && codegenModel.readWriteVars != null && codegenModel.readWriteVars.size() > 1) {
-            int length = codegenModel.readWriteVars.size() - 1;
-            for (int i = length; i > (length / 2); i--) {
-                final CodegenProperty codegenProperty = codegenModel.readWriteVars.get(i);
-                // If the property at current index is found earlier in the list, remove this last instance.
-                if (codegenModel.readWriteVars.indexOf(codegenProperty) < i) {
-                    codegenModel.readWriteVars.remove(i);
+        if (codegenModel != null && codegenModel.readWriteVars != null) {
+            // Cleanup possible duplicates. Currently, readWriteVars can contain the same property twice. May or may not be isolated to C#.
+            if (codegenModel.readWriteVars.size() > 1) {
+                int length = codegenModel.readWriteVars.size() - 1;
+                for (int i = length; i > (length / 2); i--) {
+                    final CodegenProperty codegenProperty = codegenModel.readWriteVars.get(i);
+                    // If the property at current index is found earlier in the list, remove this last instance.
+                    if (codegenModel.readWriteVars.indexOf(codegenProperty) < i) {
+                        codegenModel.readWriteVars.remove(i);
+                    }
                 }
+            }
+
+            for (CodegenProperty prop : codegenModel.readWriteVars) {
+                postProcessModelProperty(codegenModel, prop);
             }
         }
 
@@ -618,23 +610,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public String getNullableType(Schema p, String type) {
-        if (GENERICHOST.equals(getLibrary())) {
-            return super.getNullableType(p, type);
-        }
-
-        if (languageSpecificPrimitives.contains(type)) {
-            if (isSupportNullable() && ModelUtils.isNullable(p) && this.getNullableTypes().contains(type)) {
-                return type + "?";
-            } else {
-                return type;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -659,16 +634,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         postProcessEmitDefaultValue(property.vendorExtensions);
 
         super.postProcessModelProperty(model, property);
+
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (property.isNullable && (nullReferenceTypesFlag || (!property.isContainer && (getNullableTypes().contains(property.dataType) || property.isEnum)))) {
+                property.vendorExtensions.put("x-csharp-use-nullable-operator", true);
+            }
+        }
     }
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
-
-        if (!GENERICHOST.equals(getLibrary()) && !parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
-            parameter.dataType = parameter.dataType + "?";
-        }
     }
 
     public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {
@@ -994,6 +971,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ExceptionFactory.mustache", clientPackageDir, "ExceptionFactory.cs"));
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(new SupportingFile("Option.mustache", clientPackageDir, "Option.cs"));
+ 
         if (needsCustomHttpMethod) {
             supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
         }
@@ -1544,9 +1523,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);
             }
+            if (!GENERICHOST.equals(getLibrary())) {
+                if (ModelUtils.isNullable(additionalProperties) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(additionalProperties) || getValueTypes().contains(inner)) && !inner.endsWith("?")) {
+                    inner += "?";
+                }
+            }
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            String inner = getSchemaType(ModelUtils.getSchemaItems(schema));
+            Schema<?> schemaItems = ModelUtils.getSchemaItems(schema);
+            String inner = getSchemaType(schemaItems);
+            if (!GENERICHOST.equals(getLibrary())) {
+                if (ModelUtils.isNullable(schemaItems) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(schemaItems) || getValueTypes().contains(inner)) && !inner.endsWith("?")) {
+                    inner += "?";
+                }
+            }
             return instantiationTypes.get("array") + "<" + inner + ">";
         } else {
             return null;
@@ -1713,5 +1703,25 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return objs;
+    }
+
+    protected String getNullableTypeDeclaration(CodegenProperty property) {
+        String dataType = super.getNullableTypeDeclaration(property);
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (property.isNullable && (this.nullReferenceTypesFlag || property.isEnum || getValueTypes().contains(dataType)) && !dataType.endsWith("?")) {
+                dataType += "?";
+            }
+        }
+        return dataType;
+    }
+
+    protected String getNullableTypeDeclaration(Schema<?> items) {
+        String nestedType = super.getNullableTypeDeclaration(items);
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (ModelUtils.isNullable(items) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(items) || getValueTypes().contains(nestedType)) && !nestedType.endsWith("?")) {
+                nestedType += "?";
+            }
+        }
+        return nestedType;
     }
 }

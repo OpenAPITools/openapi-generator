@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -43,10 +44,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className (required).</param>
         public DanishPig(string className = default(string))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for DanishPig and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for DanishPig and cannot be null");
             }
             this.ClassName = className;
         }

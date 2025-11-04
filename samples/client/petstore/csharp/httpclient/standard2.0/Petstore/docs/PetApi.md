@@ -108,7 +108,7 @@ void (empty response body)
 
 <a id="deletepet"></a>
 # **DeletePet**
-> void DeletePet (long petId, string apiKey = null)
+> void DeletePet (long petId, Option<string> apiKey = default(Option<string>))
 
 Deletes a pet
 
@@ -600,7 +600,7 @@ void (empty response body)
 
 <a id="updatepetwithform"></a>
 # **UpdatePetWithForm**
-> void UpdatePetWithForm (long petId, string name = null, string status = null)
+> void UpdatePetWithForm (long petId, Option<string> name = default(Option<string>), Option<string> status = default(Option<string>))
 
 Updates a pet in the store with form data
 
@@ -696,7 +696,7 @@ void (empty response body)
 
 <a id="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, FileParameter file = null)
+> ApiResponse UploadFile (long petId, Option<string> additionalMetadata = default(Option<string>), Option<FileParameter> file = default(Option<FileParameter>))
 
 uploads an image
 
@@ -796,7 +796,7 @@ catch (ApiException e)
 
 <a id="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, FileParameter requiredFile, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (long petId, FileParameter requiredFile, Option<string> additionalMetadata = default(Option<string>))
 
 uploads an image (required)
 

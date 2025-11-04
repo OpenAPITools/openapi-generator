@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,15 +38,25 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="roleUuid">roleUuid.</param>
         /// <param name="role">role.</param>
-        public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
+        public RolesReportsHash(Option<Guid> roleUuid = default(Option<Guid>), Option<RolesReportsHashRole> role = default(Option<RolesReportsHashRole>))
         {
+            // to ensure "roleUuid" (not nullable) is not null
+            if (roleUuid.IsSet && roleUuid.Value == null)
+            {
+                throw new ArgumentNullException("roleUuid isn't a nullable property for RolesReportsHash and cannot be null");
+            }
+            // to ensure "role" (not nullable) is not null
+            if (role.IsSet && role.Value == null)
+            {
+                throw new ArgumentNullException("role isn't a nullable property for RolesReportsHash and cannot be null");
+            }
             this._RoleUuid = roleUuid;
-            if (this.RoleUuid != null)
+            if (this.RoleUuid.IsSet)
             {
                 this._flagRoleUuid = true;
             }
             this._Role = role;
-            if (this.Role != null)
+            if (this.Role.IsSet)
             {
                 this._flagRole = true;
             }
@@ -56,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RoleUuid
         /// </summary>
         [DataMember(Name = "role_uuid", EmitDefaultValue = false)]
-        public Guid RoleUuid
+        public Option<Guid> RoleUuid
         {
             get{ return _RoleUuid;}
             set
@@ -65,7 +76,7 @@ namespace Org.OpenAPITools.Model
                 _flagRoleUuid = true;
             }
         }
-        private Guid _RoleUuid;
+        private Option<Guid> _RoleUuid;
         private bool _flagRoleUuid;
 
         /// <summary>
@@ -80,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Role
         /// </summary>
         [DataMember(Name = "role", EmitDefaultValue = false)]
-        public RolesReportsHashRole Role
+        public Option<RolesReportsHashRole> Role
         {
             get{ return _Role;}
             set
@@ -89,7 +100,7 @@ namespace Org.OpenAPITools.Model
                 _flagRole = true;
             }
         }
-        private RolesReportsHashRole _Role;
+        private Option<RolesReportsHashRole> _Role;
         private bool _flagRole;
 
         /// <summary>
@@ -114,8 +125,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RolesReportsHash {\n");
-            sb.Append("  RoleUuid: ").Append(RoleUuid).Append("\n");
-            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  RoleUuid: ");
+            if (RoleUuid.IsSet)
+            {
+                sb.Append(RoleUuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Role: ");
+            if (Role.IsSet)
+            {
+                sb.Append(Role.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -159,13 +180,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.RoleUuid != null)
+                if (this.RoleUuid.IsSet && this.RoleUuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.RoleUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RoleUuid.Value.GetHashCode();
                 }
-                if (this.Role != null)
+                if (this.Role.IsSet && this.Role.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Role.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Role.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

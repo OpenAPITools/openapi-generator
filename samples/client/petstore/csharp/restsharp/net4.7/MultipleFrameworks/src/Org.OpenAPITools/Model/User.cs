@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -43,8 +44,38 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password.</param>
         /// <param name="phone">phone.</param>
         /// <param name="userStatus">User Status.</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int))
+        public User(Option<long> id = default(Option<long>), Option<string> username = default(Option<string>), Option<string> firstName = default(Option<string>), Option<string> lastName = default(Option<string>), Option<string> email = default(Option<string>), Option<string> password = default(Option<string>), Option<string> phone = default(Option<string>), Option<int> userStatus = default(Option<int>))
         {
+            // to ensure "username" (not nullable) is not null
+            if (username.IsSet && username.Value == null)
+            {
+                throw new ArgumentNullException("username isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "firstName" (not nullable) is not null
+            if (firstName.IsSet && firstName.Value == null)
+            {
+                throw new ArgumentNullException("firstName isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "lastName" (not nullable) is not null
+            if (lastName.IsSet && lastName.Value == null)
+            {
+                throw new ArgumentNullException("lastName isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "email" (not nullable) is not null
+            if (email.IsSet && email.Value == null)
+            {
+                throw new ArgumentNullException("email isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "password" (not nullable) is not null
+            if (password.IsSet && password.Value == null)
+            {
+                throw new ArgumentNullException("password isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "phone" (not nullable) is not null
+            if (phone.IsSet && phone.Value == null)
+            {
+                throw new ArgumentNullException("phone isn't a nullable property for User and cannot be null");
+            }
             this.Id = id;
             this.Username = username;
             this.FirstName = firstName;
@@ -59,50 +90,50 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name = "username", EmitDefaultValue = false)]
-        public string Username { get; set; }
+        public Option<string> Username { get; set; }
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name = "firstName", EmitDefaultValue = false)]
-        public string FirstName { get; set; }
+        public Option<string> FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name = "lastName", EmitDefaultValue = false)]
-        public string LastName { get; set; }
+        public Option<string> LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name = "email", EmitDefaultValue = false)]
-        public string Email { get; set; }
+        public Option<string> Email { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", EmitDefaultValue = false)]
-        public string Password { get; set; }
+        public Option<string> Password { get; set; }
 
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
-        public string Phone { get; set; }
+        public Option<string> Phone { get; set; }
 
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
-        public int UserStatus { get; set; }
+        public Option<int> UserStatus { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -112,14 +143,54 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class User {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Username: ").Append(Username).Append("\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  LastName: ").Append(LastName).Append("\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  Phone: ").Append(Phone).Append("\n");
-            sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Username: ");
+            if (Username.IsSet)
+            {
+                sb.Append(Username.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  FirstName: ");
+            if (FirstName.IsSet)
+            {
+                sb.Append(FirstName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  LastName: ");
+            if (LastName.IsSet)
+            {
+                sb.Append(LastName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Email: ");
+            if (Email.IsSet)
+            {
+                sb.Append(Email.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Password: ");
+            if (Password.IsSet)
+            {
+                sb.Append(Password.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Phone: ");
+            if (Phone.IsSet)
+            {
+                sb.Append(Phone.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UserStatus: ");
+            if (UserStatus.IsSet)
+            {
+                sb.Append(UserStatus.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -162,32 +233,38 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Username != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                if (this.FirstName != null)
+                if (this.Username.IsSet && this.Username.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Username.Value.GetHashCode();
                 }
-                if (this.LastName != null)
+                if (this.FirstName.IsSet && this.FirstName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.FirstName.Value.GetHashCode();
                 }
-                if (this.Email != null)
+                if (this.LastName.IsSet && this.LastName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                    hashCode = (hashCode * 59) + this.LastName.Value.GetHashCode();
                 }
-                if (this.Password != null)
+                if (this.Email.IsSet && this.Email.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Email.Value.GetHashCode();
                 }
-                if (this.Phone != null)
+                if (this.Password.IsSet && this.Password.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Password.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
+                if (this.Phone.IsSet && this.Phone.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Phone.Value.GetHashCode();
+                }
+                if (this.UserStatus.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.UserStatus.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

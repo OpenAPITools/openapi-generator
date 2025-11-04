@@ -97,7 +97,7 @@ namespace Org.OpenAPITools.Test.Api
         [Fact]
         public void TestEchoBodyPetTest()
         {
-            Pet? pet = new Pet(123, "cat", new Category() { Id = 12, Name = "Test" }, new List<string>(){"http://google.com"},null, null);
+            Pet? pet = new Pet(123, "cat", new Category() { Id = 12, Name = "Test" }, new List<string>(){"http://google.com"});
             var response = instance.TestEchoBodyPet(pet);
             Assert.IsType<Pet>(response);
         }

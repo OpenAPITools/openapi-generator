@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using UnityEngine.Networking;
 using UnityEngine;
+using {{packageName}}.{{clientPackage}};
 
 namespace {{packageName}}.Client
 {
@@ -41,7 +42,8 @@ namespace {{packageName}}.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -184,7 +186,8 @@ namespace {{packageName}}.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         /// <summary>

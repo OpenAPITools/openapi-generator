@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -42,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        public Option<string> Bar { get; private set; }
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -56,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Foo
         /// </summary>
         [DataMember(Name = "foo", EmitDefaultValue = false)]
-        public string Foo { get; private set; }
+        public Option<string> Foo { get; private set; }
 
         /// <summary>
         /// Returns false as Foo should not be serialized given that it's read-only.
@@ -74,8 +75,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class HasOnlyReadOnly {\n");
-            sb.Append("  Bar: ").Append(Bar).Append("\n");
-            sb.Append("  Foo: ").Append(Foo).Append("\n");
+            sb.Append("  Bar: ");
+            if (Bar.IsSet)
+            {
+                sb.Append(Bar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Foo: ");
+            if (Foo.IsSet)
+            {
+                sb.Append(Foo.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,14 +123,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Bar == input.Bar ||
-                    (this.Bar != null &&
-                    this.Bar.Equals(input.Bar))
+                    
+                    this.Bar.Equals(input.Bar)
                 ) && 
                 (
-                    this.Foo == input.Foo ||
-                    (this.Foo != null &&
-                    this.Foo.Equals(input.Foo))
+                    
+                    this.Foo.Equals(input.Foo)
                 );
         }
 
@@ -132,13 +141,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
-                if (this.Foo != null)
+                if (this.Foo.IsSet && this.Foo.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Foo.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Foo.Value.GetHashCode();
                 }
                 return hashCode;
             }

@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="today">today.</param>
         /// <param name="now">now.</param>
-        public NowGet200Response(DateTime today = default(DateTime), DateTime now = default(DateTime))
+        public NowGet200Response(Option<DateTime> today = default(Option<DateTime>), Option<DateTime> now = default(Option<DateTime>))
         {
+            // to ensure "today" (not nullable) is not null
+            if (today.IsSet && today.Value == null)
+            {
+                throw new ArgumentNullException("today isn't a nullable property for NowGet200Response and cannot be null");
+            }
+            // to ensure "now" (not nullable) is not null
+            if (now.IsSet && now.Value == null)
+            {
+                throw new ArgumentNullException("now isn't a nullable property for NowGet200Response and cannot be null");
+            }
             this.Today = today;
             this.Now = now;
         }
@@ -47,13 +58,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "today", EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime Today { get; set; }
+        public Option<DateTime> Today { get; set; }
 
         /// <summary>
         /// Gets or Sets Now
         /// </summary>
         [DataMember(Name = "now", EmitDefaultValue = false)]
-        public DateTime Now { get; set; }
+        public Option<DateTime> Now { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -63,8 +74,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NowGet200Response {\n");
-            sb.Append("  Today: ").Append(Today).Append("\n");
-            sb.Append("  Now: ").Append(Now).Append("\n");
+            sb.Append("  Today: ");
+            if (Today.IsSet)
+            {
+                sb.Append(Today.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Now: ");
+            if (Now.IsSet)
+            {
+                sb.Append(Now.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

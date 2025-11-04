@@ -24,6 +24,7 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -48,8 +49,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed.</param>
         /// <param name="className">className (required) (default to &quot;Dog&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Dog(string breed = default(string), string className = @"Dog", string color = @"red") : base(className, color)
+        public Dog(Option<string> breed = default(Option<string>), string className = @"Dog", Option<string> color = default(Option<string>)) : base(className, color)
         {
+            // to ensure "breed" (not nullable) is not null
+            if (breed.IsSet && breed.Value == null)
+            {
+                throw new ArgumentNullException("breed isn't a nullable property for Dog and cannot be null");
+            }
             this.Breed = breed;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -58,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Breed
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
-        public string Breed { get; set; }
+        public Option<string> Breed { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -75,7 +81,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Dog {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Breed: ").Append(Breed).Append("\n");
+            sb.Append("  Breed: ");
+            if (Breed.IsSet)
+            {
+                sb.Append(Breed.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -119,9 +130,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Breed != null)
+                if (this.Breed.IsSet && this.Breed.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Breed.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Breed.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

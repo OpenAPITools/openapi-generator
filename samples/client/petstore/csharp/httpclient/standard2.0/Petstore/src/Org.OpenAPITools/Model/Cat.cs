@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -49,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required) (default to &quot;Cat&quot;).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool declawed = default(bool), string className = @"Cat", string color = @"red") : base(className, color)
+        public Cat(Option<bool> declawed = default(Option<bool>), string className = @"Cat", Option<string> color = default(Option<string>)) : base(className, color)
         {
             this.Declawed = declawed;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
-        public bool Declawed { get; set; }
+        public Option<bool> Declawed { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -76,7 +77,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  Declawed: ");
+            if (Declawed.IsSet)
+            {
+                sb.Append(Declawed.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -120,7 +126,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                if (this.Declawed.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Declawed.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

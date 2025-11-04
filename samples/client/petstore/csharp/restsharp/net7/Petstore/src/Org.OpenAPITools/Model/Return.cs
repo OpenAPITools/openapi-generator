@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -44,21 +45,21 @@ namespace Org.OpenAPITools.Model
         /// <param name="varLock">varLock (required).</param>
         /// <param name="varAbstract">varAbstract (required).</param>
         /// <param name="varUnsafe">varUnsafe.</param>
-        public Return(int varReturn = default(int), string varLock = default(string), string varAbstract = default(string), string varUnsafe = default(string))
+        public Return(Option<int> varReturn = default(Option<int>), string varLock = default(string), string? varAbstract = default(string?), Option<string> varUnsafe = default(Option<string>))
         {
-            // to ensure "varLock" is required (not null)
+            // to ensure "varLock" (not nullable) is not null
             if (varLock == null)
             {
-                throw new ArgumentNullException("varLock is a required property for Return and cannot be null");
+                throw new ArgumentNullException("varLock isn't a nullable property for Return and cannot be null");
             }
-            this.Lock = varLock;
-            // to ensure "varAbstract" is required (not null)
-            if (varAbstract == null)
+            // to ensure "varUnsafe" (not nullable) is not null
+            if (varUnsafe.IsSet && varUnsafe.Value == null)
             {
-                throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
+                throw new ArgumentNullException("varUnsafe isn't a nullable property for Return and cannot be null");
             }
-            this.Abstract = varAbstract;
             this.VarReturn = varReturn;
+            this.Lock = varLock;
+            this.Abstract = varAbstract;
             this.Unsafe = varUnsafe;
         }
 
@@ -66,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn { get; set; }
+        public Option<int> VarReturn { get; set; }
 
         /// <summary>
         /// Gets or Sets Lock
@@ -78,13 +79,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Abstract
         /// </summary>
         [DataMember(Name = "abstract", IsRequired = true, EmitDefaultValue = true)]
-        public string Abstract { get; set; }
+        public string? Abstract { get; set; }
 
         /// <summary>
         /// Gets or Sets Unsafe
         /// </summary>
         [DataMember(Name = "unsafe", EmitDefaultValue = false)]
-        public string Unsafe { get; set; }
+        public Option<string> Unsafe { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -94,10 +95,20 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
-            sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  VarReturn: ");
+            if (VarReturn.IsSet)
+            {
+                sb.Append(VarReturn.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Lock: ").Append(Lock).Append("\n");
             sb.Append("  Abstract: ").Append(Abstract).Append("\n");
-            sb.Append("  Unsafe: ").Append(Unsafe).Append("\n");
+            sb.Append("  Unsafe: ");
+            if (Unsafe.IsSet)
+            {
+                sb.Append(Unsafe.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -140,7 +151,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.VarReturn.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.VarReturn.Value.GetHashCode();
+                }
                 if (this.Lock != null)
                 {
                     hashCode = (hashCode * 59) + this.Lock.GetHashCode();
@@ -149,9 +163,9 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Abstract.GetHashCode();
                 }
-                if (this.Unsafe != null)
+                if (this.Unsafe.IsSet && this.Unsafe.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Unsafe.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Unsafe.Value.GetHashCode();
                 }
                 return hashCode;
             }

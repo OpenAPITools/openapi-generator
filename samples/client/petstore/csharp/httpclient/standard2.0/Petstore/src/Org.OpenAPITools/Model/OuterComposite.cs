@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -39,8 +40,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
+        public OuterComposite(Option<decimal> myNumber = default(Option<decimal>), Option<string> myString = default(Option<string>), Option<bool> myBoolean = default(Option<bool>))
         {
+            // to ensure "myString" (not nullable) is not null
+            if (myString.IsSet && myString.Value == null)
+            {
+                throw new ArgumentNullException("myString isn't a nullable property for OuterComposite and cannot be null");
+            }
             this.MyNumber = myNumber;
             this.MyString = myString;
             this.MyBoolean = myBoolean;
@@ -51,19 +57,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name = "my_number", EmitDefaultValue = false)]
-        public decimal MyNumber { get; set; }
+        public Option<decimal> MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
         [DataMember(Name = "my_string", EmitDefaultValue = false)]
-        public string MyString { get; set; }
+        public Option<string> MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name = "my_boolean", EmitDefaultValue = true)]
-        public bool MyBoolean { get; set; }
+        public Option<bool> MyBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -79,9 +85,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class OuterComposite {\n");
-            sb.Append("  MyNumber: ").Append(MyNumber).Append("\n");
-            sb.Append("  MyString: ").Append(MyString).Append("\n");
-            sb.Append("  MyBoolean: ").Append(MyBoolean).Append("\n");
+            sb.Append("  MyNumber: ");
+            if (MyNumber.IsSet)
+            {
+                sb.Append(MyNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MyString: ");
+            if (MyString.IsSet)
+            {
+                sb.Append(MyString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  MyBoolean: ");
+            if (MyBoolean.IsSet)
+            {
+                sb.Append(MyBoolean.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -125,12 +146,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
-                if (this.MyString != null)
+                if (this.MyNumber.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.MyString.GetHashCode();
+                hashCode = (hashCode * 59) + this.MyNumber.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                if (this.MyString.IsSet && this.MyString.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.MyString.Value.GetHashCode();
+                }
+                if (this.MyBoolean.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.MyBoolean.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

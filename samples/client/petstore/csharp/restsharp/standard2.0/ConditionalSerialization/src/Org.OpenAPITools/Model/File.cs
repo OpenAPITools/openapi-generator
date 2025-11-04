@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="File" /> class.
         /// </summary>
         /// <param name="sourceURI">Test capitalization.</param>
-        public File(string sourceURI = default(string))
+        public File(Option<string> sourceURI = default(Option<string>))
         {
+            // to ensure "sourceURI" (not nullable) is not null
+            if (sourceURI.IsSet && sourceURI.Value == null)
+            {
+                throw new ArgumentNullException("sourceURI isn't a nullable property for File and cannot be null");
+            }
             this._SourceURI = sourceURI;
-            if (this.SourceURI != null)
+            if (this.SourceURI.IsSet)
             {
                 this._flagSourceURI = true;
             }
@@ -51,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Test capitalization</value>
         [DataMember(Name = "sourceURI", EmitDefaultValue = false)]
-        public string SourceURI
+        public Option<string> SourceURI
         {
             get{ return _SourceURI;}
             set
@@ -60,7 +66,7 @@ namespace Org.OpenAPITools.Model
                 _flagSourceURI = true;
             }
         }
-        private string _SourceURI;
+        private Option<string> _SourceURI;
         private bool _flagSourceURI;
 
         /// <summary>
@@ -85,7 +91,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class File {\n");
-            sb.Append("  SourceURI: ").Append(SourceURI).Append("\n");
+            sb.Append("  SourceURI: ");
+            if (SourceURI.IsSet)
+            {
+                sb.Append(SourceURI.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -129,9 +140,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SourceURI != null)
+                if (this.SourceURI.IsSet && this.SourceURI.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SourceURI.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SourceURI.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

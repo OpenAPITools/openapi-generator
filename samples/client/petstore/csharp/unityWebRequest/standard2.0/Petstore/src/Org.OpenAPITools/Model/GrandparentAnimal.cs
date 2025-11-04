@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -41,10 +42,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="petType">petType (required).</param>
         public GrandparentAnimal(string petType = default(string))
         {
-            // to ensure "petType" is required (not null)
+            // to ensure "petType" (not nullable) is not null
             if (petType == null)
             {
-                throw new ArgumentNullException("petType is a required property for GrandparentAnimal and cannot be null");
+                throw new ArgumentNullException("petType isn't a nullable property for GrandparentAnimal and cannot be null");
             }
             this.PetType = petType;
         }

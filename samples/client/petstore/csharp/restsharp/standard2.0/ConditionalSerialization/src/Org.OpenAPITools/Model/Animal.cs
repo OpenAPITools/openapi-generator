@@ -24,6 +24,7 @@ using JsonSubTypes;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -49,14 +50,21 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Animal(string className = default(string), string color = @"red")
+        public Animal(string className = default(string), Option<string> color = default(Option<string>))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for Animal and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for Animal and cannot be null");
+            }
+            // to ensure "color" (not nullable) is not null
+            if (color.IsSet && color.Value == null)
+            {
+                throw new ArgumentNullException("color isn't a nullable property for Animal and cannot be null");
             }
             this._ClassName = className;
+            this._flagClassName = true;
+            this._Color = color.IsSet ? color : new Option<string>(@"red");
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -88,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color
+        public Option<string> Color
         {
             get{ return _Color;}
             set
@@ -97,7 +105,7 @@ namespace Org.OpenAPITools.Model
                 _flagColor = true;
             }
         }
-        private string _Color;
+        private Option<string> _Color;
         private bool _flagColor;
 
         /// <summary>
@@ -123,7 +131,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -171,9 +184,9 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
                 }
-                if (this.Color != null)
+                if (this.Color.IsSet && this.Color.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -43,6 +43,7 @@ src/Org.OpenAPITools/Client/IReadableConfiguration.cs
 src/Org.OpenAPITools/Client/ISynchronousClient.cs
 src/Org.OpenAPITools/Client/Multimap.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
+src/Org.OpenAPITools/Client/Option.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AbstractOpenAPISchema.cs

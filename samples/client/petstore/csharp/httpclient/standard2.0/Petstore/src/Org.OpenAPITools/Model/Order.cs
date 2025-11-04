@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -65,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Order Status</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status { get; set; }
+        public Option<StatusEnum> Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
@@ -75,14 +76,19 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(Option<long> id = default(Option<long>), Option<long> petId = default(Option<long>), Option<int> quantity = default(Option<int>), Option<DateTime> shipDate = default(Option<DateTime>), Option<StatusEnum> status = default(Option<StatusEnum>), Option<bool> complete = default(Option<bool>))
         {
+            // to ensure "shipDate" (not nullable) is not null
+            if (shipDate.IsSet && shipDate.Value == null)
+            {
+                throw new ArgumentNullException("shipDate isn't a nullable property for Order and cannot be null");
+            }
             this.Id = id;
             this.PetId = petId;
             this.Quantity = quantity;
             this.ShipDate = shipDate;
             this.Status = status;
-            this.Complete = complete;
+            this.Complete = complete.IsSet ? complete : new Option<bool>(false);
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -90,32 +96,32 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId { get; set; }
+        public Option<long> PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity { get; set; }
+        public Option<int> Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
-        public DateTime ShipDate { get; set; }
+        public Option<DateTime> ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
-        public bool Complete { get; set; }
+        public Option<bool> Complete { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -131,12 +137,42 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PetId: ").Append(PetId).Append("\n");
-            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PetId: ");
+            if (PetId.IsSet)
+            {
+                sb.Append(PetId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Quantity: ");
+            if (Quantity.IsSet)
+            {
+                sb.Append(Quantity.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ShipDate: ");
+            if (ShipDate.IsSet)
+            {
+                sb.Append(ShipDate.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Status: ");
+            if (Status.IsSet)
+            {
+                sb.Append(Status.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Complete: ");
+            if (Complete.IsSet)
+            {
+                sb.Append(Complete.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -180,15 +216,30 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
-                if (this.ShipDate != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                if (this.PetId.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.PetId.Value.GetHashCode();
+                }
+                if (this.Quantity.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Quantity.Value.GetHashCode();
+                }
+                if (this.ShipDate.IsSet && this.ShipDate.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.ShipDate.Value.GetHashCode();
+                }
+                if (this.Status.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Status.Value.GetHashCode();
+                }
+                if (this.Complete.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Complete.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -23,10 +23,10 @@ namespace Org.OpenAPITools.Test
             Pet p = bodyApi.TestEchoBodyPet(queryObject);
             Assert.NotNull(p);
             Assert.Equal("Hello World", p.Name);
-            Assert.Equal(12345L, p.Id);
+            Assert.Equal(12345L, p.Id.Value);
 
             // response is empty body
-            Pet p2 = bodyApi.TestEchoBodyPet(null);
+            Pet p2 = bodyApi.TestEchoBodyPet();
             Assert.Null(p2);
         }
 

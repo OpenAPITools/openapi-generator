@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -75,138 +76,261 @@ namespace Org.OpenAPITools.Model
         /// <param name="productId">ProductId is only required for color mixes.</param>
         /// <param name="productName">ProductName is only required for color mixes.</param>
         /// <param name="selectedVersionIndex">selectedVersionIndex.</param>
-        public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Guid shopId = default(Guid), float? totalPrice = default(float?), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), string someCode = default(string), string batchNumber = default(string), string brandCode = default(string), string brandId = default(string), string brandName = default(string), string categoryCode = default(string), string color = default(string), string colorDescription = default(string), string comment = default(string), string commercialProductCode = default(string), string productLineCode = default(string), string country = default(string), string createdBy = default(string), string createdByFirstName = default(string), string createdByLastName = default(string), string deltaECalculationRepaired = default(string), string deltaECalculationSprayout = default(string), int? ownColorVariantNumber = default(int?), string primerProductId = default(string), string productId = default(string), string productName = default(string), int selectedVersionIndex = default(int))
+        public MixLog(Guid id = default(Guid), string description = default(string), DateTime mixDate = default(DateTime), Option<Guid> shopId = default(Option<Guid>), Option<float?> totalPrice = default(Option<float?>), int totalRecalculations = default(int), int totalOverPoors = default(int), int totalSkips = default(int), int totalUnderPours = default(int), DateTime formulaVersionDate = default(DateTime), Option<string> someCode = default(Option<string>), Option<string> batchNumber = default(Option<string>), Option<string> brandCode = default(Option<string>), Option<string> brandId = default(Option<string>), Option<string> brandName = default(Option<string>), Option<string> categoryCode = default(Option<string>), Option<string> color = default(Option<string>), Option<string> colorDescription = default(Option<string>), Option<string> comment = default(Option<string>), Option<string> commercialProductCode = default(Option<string>), Option<string> productLineCode = default(Option<string>), Option<string> country = default(Option<string>), Option<string> createdBy = default(Option<string>), Option<string> createdByFirstName = default(Option<string>), Option<string> createdByLastName = default(Option<string>), Option<string> deltaECalculationRepaired = default(Option<string>), Option<string> deltaECalculationSprayout = default(Option<string>), Option<int?> ownColorVariantNumber = default(Option<int?>), Option<string> primerProductId = default(Option<string>), Option<string> productId = default(Option<string>), Option<string> productName = default(Option<string>), Option<int> selectedVersionIndex = default(Option<int>))
         {
-            this._Id = id;
-            // to ensure "description" is required (not null)
+            // to ensure "id" (not nullable) is not null
+            if (id == null)
+            {
+                throw new ArgumentNullException("id isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "description" (not nullable) is not null
             if (description == null)
             {
-                throw new ArgumentNullException("description is a required property for MixLog and cannot be null");
+                throw new ArgumentNullException("description isn't a nullable property for MixLog and cannot be null");
             }
+            // to ensure "mixDate" (not nullable) is not null
+            if (mixDate == null)
+            {
+                throw new ArgumentNullException("mixDate isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "shopId" (not nullable) is not null
+            if (shopId.IsSet && shopId.Value == null)
+            {
+                throw new ArgumentNullException("shopId isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "formulaVersionDate" (not nullable) is not null
+            if (formulaVersionDate == null)
+            {
+                throw new ArgumentNullException("formulaVersionDate isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "batchNumber" (not nullable) is not null
+            if (batchNumber.IsSet && batchNumber.Value == null)
+            {
+                throw new ArgumentNullException("batchNumber isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "brandCode" (not nullable) is not null
+            if (brandCode.IsSet && brandCode.Value == null)
+            {
+                throw new ArgumentNullException("brandCode isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "brandId" (not nullable) is not null
+            if (brandId.IsSet && brandId.Value == null)
+            {
+                throw new ArgumentNullException("brandId isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "brandName" (not nullable) is not null
+            if (brandName.IsSet && brandName.Value == null)
+            {
+                throw new ArgumentNullException("brandName isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "categoryCode" (not nullable) is not null
+            if (categoryCode.IsSet && categoryCode.Value == null)
+            {
+                throw new ArgumentNullException("categoryCode isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "color" (not nullable) is not null
+            if (color.IsSet && color.Value == null)
+            {
+                throw new ArgumentNullException("color isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "colorDescription" (not nullable) is not null
+            if (colorDescription.IsSet && colorDescription.Value == null)
+            {
+                throw new ArgumentNullException("colorDescription isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "comment" (not nullable) is not null
+            if (comment.IsSet && comment.Value == null)
+            {
+                throw new ArgumentNullException("comment isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "commercialProductCode" (not nullable) is not null
+            if (commercialProductCode.IsSet && commercialProductCode.Value == null)
+            {
+                throw new ArgumentNullException("commercialProductCode isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "productLineCode" (not nullable) is not null
+            if (productLineCode.IsSet && productLineCode.Value == null)
+            {
+                throw new ArgumentNullException("productLineCode isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "country" (not nullable) is not null
+            if (country.IsSet && country.Value == null)
+            {
+                throw new ArgumentNullException("country isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "createdBy" (not nullable) is not null
+            if (createdBy.IsSet && createdBy.Value == null)
+            {
+                throw new ArgumentNullException("createdBy isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "createdByFirstName" (not nullable) is not null
+            if (createdByFirstName.IsSet && createdByFirstName.Value == null)
+            {
+                throw new ArgumentNullException("createdByFirstName isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "createdByLastName" (not nullable) is not null
+            if (createdByLastName.IsSet && createdByLastName.Value == null)
+            {
+                throw new ArgumentNullException("createdByLastName isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "deltaECalculationRepaired" (not nullable) is not null
+            if (deltaECalculationRepaired.IsSet && deltaECalculationRepaired.Value == null)
+            {
+                throw new ArgumentNullException("deltaECalculationRepaired isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "deltaECalculationSprayout" (not nullable) is not null
+            if (deltaECalculationSprayout.IsSet && deltaECalculationSprayout.Value == null)
+            {
+                throw new ArgumentNullException("deltaECalculationSprayout isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "primerProductId" (not nullable) is not null
+            if (primerProductId.IsSet && primerProductId.Value == null)
+            {
+                throw new ArgumentNullException("primerProductId isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "productId" (not nullable) is not null
+            if (productId.IsSet && productId.Value == null)
+            {
+                throw new ArgumentNullException("productId isn't a nullable property for MixLog and cannot be null");
+            }
+            // to ensure "productName" (not nullable) is not null
+            if (productName.IsSet && productName.Value == null)
+            {
+                throw new ArgumentNullException("productName isn't a nullable property for MixLog and cannot be null");
+            }
+            this._Id = id;
+            this._flagId = true;
             this._Description = description;
+            this._flagDescription = true;
             this._MixDate = mixDate;
-            this._TotalRecalculations = totalRecalculations;
-            this._TotalOverPoors = totalOverPoors;
-            this._TotalSkips = totalSkips;
-            this._TotalUnderPours = totalUnderPours;
-            this._FormulaVersionDate = formulaVersionDate;
+            this._flagMixDate = true;
             this._ShopId = shopId;
-            if (this.ShopId != null)
+            if (this.ShopId.IsSet)
             {
                 this._flagShopId = true;
             }
             this._TotalPrice = totalPrice;
-            if (this.TotalPrice != null)
+            if (this.TotalPrice.IsSet)
             {
                 this._flagTotalPrice = true;
             }
+            this._TotalRecalculations = totalRecalculations;
+            this._flagTotalRecalculations = true;
+            this._TotalOverPoors = totalOverPoors;
+            this._flagTotalOverPoors = true;
+            this._TotalSkips = totalSkips;
+            this._flagTotalSkips = true;
+            this._TotalUnderPours = totalUnderPours;
+            this._flagTotalUnderPours = true;
+            this._FormulaVersionDate = formulaVersionDate;
+            this._flagFormulaVersionDate = true;
             this._SomeCode = someCode;
-            if (this.SomeCode != null)
+            if (this.SomeCode.IsSet)
             {
                 this._flagSomeCode = true;
             }
             this._BatchNumber = batchNumber;
-            if (this.BatchNumber != null)
+            if (this.BatchNumber.IsSet)
             {
                 this._flagBatchNumber = true;
             }
             this._BrandCode = brandCode;
-            if (this.BrandCode != null)
+            if (this.BrandCode.IsSet)
             {
                 this._flagBrandCode = true;
             }
             this._BrandId = brandId;
-            if (this.BrandId != null)
+            if (this.BrandId.IsSet)
             {
                 this._flagBrandId = true;
             }
             this._BrandName = brandName;
-            if (this.BrandName != null)
+            if (this.BrandName.IsSet)
             {
                 this._flagBrandName = true;
             }
             this._CategoryCode = categoryCode;
-            if (this.CategoryCode != null)
+            if (this.CategoryCode.IsSet)
             {
                 this._flagCategoryCode = true;
             }
             this._Color = color;
-            if (this.Color != null)
+            if (this.Color.IsSet)
             {
                 this._flagColor = true;
             }
             this._ColorDescription = colorDescription;
-            if (this.ColorDescription != null)
+            if (this.ColorDescription.IsSet)
             {
                 this._flagColorDescription = true;
             }
             this._Comment = comment;
-            if (this.Comment != null)
+            if (this.Comment.IsSet)
             {
                 this._flagComment = true;
             }
             this._CommercialProductCode = commercialProductCode;
-            if (this.CommercialProductCode != null)
+            if (this.CommercialProductCode.IsSet)
             {
                 this._flagCommercialProductCode = true;
             }
             this._ProductLineCode = productLineCode;
-            if (this.ProductLineCode != null)
+            if (this.ProductLineCode.IsSet)
             {
                 this._flagProductLineCode = true;
             }
             this._Country = country;
-            if (this.Country != null)
+            if (this.Country.IsSet)
             {
                 this._flagCountry = true;
             }
             this._CreatedBy = createdBy;
-            if (this.CreatedBy != null)
+            if (this.CreatedBy.IsSet)
             {
                 this._flagCreatedBy = true;
             }
             this._CreatedByFirstName = createdByFirstName;
-            if (this.CreatedByFirstName != null)
+            if (this.CreatedByFirstName.IsSet)
             {
                 this._flagCreatedByFirstName = true;
             }
             this._CreatedByLastName = createdByLastName;
-            if (this.CreatedByLastName != null)
+            if (this.CreatedByLastName.IsSet)
             {
                 this._flagCreatedByLastName = true;
             }
             this._DeltaECalculationRepaired = deltaECalculationRepaired;
-            if (this.DeltaECalculationRepaired != null)
+            if (this.DeltaECalculationRepaired.IsSet)
             {
                 this._flagDeltaECalculationRepaired = true;
             }
             this._DeltaECalculationSprayout = deltaECalculationSprayout;
-            if (this.DeltaECalculationSprayout != null)
+            if (this.DeltaECalculationSprayout.IsSet)
             {
                 this._flagDeltaECalculationSprayout = true;
             }
             this._OwnColorVariantNumber = ownColorVariantNumber;
-            if (this.OwnColorVariantNumber != null)
+            if (this.OwnColorVariantNumber.IsSet)
             {
                 this._flagOwnColorVariantNumber = true;
             }
             this._PrimerProductId = primerProductId;
-            if (this.PrimerProductId != null)
+            if (this.PrimerProductId.IsSet)
             {
                 this._flagPrimerProductId = true;
             }
             this._ProductId = productId;
-            if (this.ProductId != null)
+            if (this.ProductId.IsSet)
             {
                 this._flagProductId = true;
             }
             this._ProductName = productName;
-            if (this.ProductName != null)
+            if (this.ProductName.IsSet)
             {
                 this._flagProductName = true;
             }
             this._SelectedVersionIndex = selectedVersionIndex;
-            if (this.SelectedVersionIndex != null)
+            if (this.SelectedVersionIndex.IsSet)
             {
                 this._flagSelectedVersionIndex = true;
             }
@@ -289,7 +413,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShopId
         /// </summary>
         [DataMember(Name = "shopId", EmitDefaultValue = false)]
-        public Guid ShopId
+        public Option<Guid> ShopId
         {
             get{ return _ShopId;}
             set
@@ -298,7 +422,7 @@ namespace Org.OpenAPITools.Model
                 _flagShopId = true;
             }
         }
-        private Guid _ShopId;
+        private Option<Guid> _ShopId;
         private bool _flagShopId;
 
         /// <summary>
@@ -313,7 +437,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TotalPrice
         /// </summary>
         [DataMember(Name = "totalPrice", EmitDefaultValue = true)]
-        public float? TotalPrice
+        public Option<float?> TotalPrice
         {
             get{ return _TotalPrice;}
             set
@@ -322,7 +446,7 @@ namespace Org.OpenAPITools.Model
                 _flagTotalPrice = true;
             }
         }
-        private float? _TotalPrice;
+        private Option<float?> _TotalPrice;
         private bool _flagTotalPrice;
 
         /// <summary>
@@ -458,7 +582,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>SomeCode is only required for color mixes</value>
         [DataMember(Name = "someCode", EmitDefaultValue = true)]
-        public string SomeCode
+        public Option<string> SomeCode
         {
             get{ return _SomeCode;}
             set
@@ -467,7 +591,7 @@ namespace Org.OpenAPITools.Model
                 _flagSomeCode = true;
             }
         }
-        private string _SomeCode;
+        private Option<string> _SomeCode;
         private bool _flagSomeCode;
 
         /// <summary>
@@ -482,7 +606,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BatchNumber
         /// </summary>
         [DataMember(Name = "batchNumber", EmitDefaultValue = false)]
-        public string BatchNumber
+        public Option<string> BatchNumber
         {
             get{ return _BatchNumber;}
             set
@@ -491,7 +615,7 @@ namespace Org.OpenAPITools.Model
                 _flagBatchNumber = true;
             }
         }
-        private string _BatchNumber;
+        private Option<string> _BatchNumber;
         private bool _flagBatchNumber;
 
         /// <summary>
@@ -507,7 +631,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>BrandCode is only required for non-color mixes</value>
         [DataMember(Name = "brandCode", EmitDefaultValue = false)]
-        public string BrandCode
+        public Option<string> BrandCode
         {
             get{ return _BrandCode;}
             set
@@ -516,7 +640,7 @@ namespace Org.OpenAPITools.Model
                 _flagBrandCode = true;
             }
         }
-        private string _BrandCode;
+        private Option<string> _BrandCode;
         private bool _flagBrandCode;
 
         /// <summary>
@@ -532,7 +656,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>BrandId is only required for color mixes</value>
         [DataMember(Name = "brandId", EmitDefaultValue = false)]
-        public string BrandId
+        public Option<string> BrandId
         {
             get{ return _BrandId;}
             set
@@ -541,7 +665,7 @@ namespace Org.OpenAPITools.Model
                 _flagBrandId = true;
             }
         }
-        private string _BrandId;
+        private Option<string> _BrandId;
         private bool _flagBrandId;
 
         /// <summary>
@@ -557,7 +681,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>BrandName is only required for color mixes</value>
         [DataMember(Name = "brandName", EmitDefaultValue = false)]
-        public string BrandName
+        public Option<string> BrandName
         {
             get{ return _BrandName;}
             set
@@ -566,7 +690,7 @@ namespace Org.OpenAPITools.Model
                 _flagBrandName = true;
             }
         }
-        private string _BrandName;
+        private Option<string> _BrandName;
         private bool _flagBrandName;
 
         /// <summary>
@@ -582,7 +706,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>CategoryCode is not used anymore</value>
         [DataMember(Name = "categoryCode", EmitDefaultValue = false)]
-        public string CategoryCode
+        public Option<string> CategoryCode
         {
             get{ return _CategoryCode;}
             set
@@ -591,7 +715,7 @@ namespace Org.OpenAPITools.Model
                 _flagCategoryCode = true;
             }
         }
-        private string _CategoryCode;
+        private Option<string> _CategoryCode;
         private bool _flagCategoryCode;
 
         /// <summary>
@@ -607,7 +731,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Color is only required for color mixes</value>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color
+        public Option<string> Color
         {
             get{ return _Color;}
             set
@@ -616,7 +740,7 @@ namespace Org.OpenAPITools.Model
                 _flagColor = true;
             }
         }
-        private string _Color;
+        private Option<string> _Color;
         private bool _flagColor;
 
         /// <summary>
@@ -631,7 +755,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ColorDescription
         /// </summary>
         [DataMember(Name = "colorDescription", EmitDefaultValue = false)]
-        public string ColorDescription
+        public Option<string> ColorDescription
         {
             get{ return _ColorDescription;}
             set
@@ -640,7 +764,7 @@ namespace Org.OpenAPITools.Model
                 _flagColorDescription = true;
             }
         }
-        private string _ColorDescription;
+        private Option<string> _ColorDescription;
         private bool _flagColorDescription;
 
         /// <summary>
@@ -655,7 +779,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Comment
         /// </summary>
         [DataMember(Name = "comment", EmitDefaultValue = false)]
-        public string Comment
+        public Option<string> Comment
         {
             get{ return _Comment;}
             set
@@ -664,7 +788,7 @@ namespace Org.OpenAPITools.Model
                 _flagComment = true;
             }
         }
-        private string _Comment;
+        private Option<string> _Comment;
         private bool _flagComment;
 
         /// <summary>
@@ -679,7 +803,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CommercialProductCode
         /// </summary>
         [DataMember(Name = "commercialProductCode", EmitDefaultValue = false)]
-        public string CommercialProductCode
+        public Option<string> CommercialProductCode
         {
             get{ return _CommercialProductCode;}
             set
@@ -688,7 +812,7 @@ namespace Org.OpenAPITools.Model
                 _flagCommercialProductCode = true;
             }
         }
-        private string _CommercialProductCode;
+        private Option<string> _CommercialProductCode;
         private bool _flagCommercialProductCode;
 
         /// <summary>
@@ -704,7 +828,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>ProductLineCode is only required for color mixes</value>
         [DataMember(Name = "productLineCode", EmitDefaultValue = false)]
-        public string ProductLineCode
+        public Option<string> ProductLineCode
         {
             get{ return _ProductLineCode;}
             set
@@ -713,7 +837,7 @@ namespace Org.OpenAPITools.Model
                 _flagProductLineCode = true;
             }
         }
-        private string _ProductLineCode;
+        private Option<string> _ProductLineCode;
         private bool _flagProductLineCode;
 
         /// <summary>
@@ -728,7 +852,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Country
         /// </summary>
         [DataMember(Name = "country", EmitDefaultValue = false)]
-        public string Country
+        public Option<string> Country
         {
             get{ return _Country;}
             set
@@ -737,7 +861,7 @@ namespace Org.OpenAPITools.Model
                 _flagCountry = true;
             }
         }
-        private string _Country;
+        private Option<string> _Country;
         private bool _flagCountry;
 
         /// <summary>
@@ -752,7 +876,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CreatedBy
         /// </summary>
         [DataMember(Name = "createdBy", EmitDefaultValue = false)]
-        public string CreatedBy
+        public Option<string> CreatedBy
         {
             get{ return _CreatedBy;}
             set
@@ -761,7 +885,7 @@ namespace Org.OpenAPITools.Model
                 _flagCreatedBy = true;
             }
         }
-        private string _CreatedBy;
+        private Option<string> _CreatedBy;
         private bool _flagCreatedBy;
 
         /// <summary>
@@ -776,7 +900,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CreatedByFirstName
         /// </summary>
         [DataMember(Name = "createdByFirstName", EmitDefaultValue = false)]
-        public string CreatedByFirstName
+        public Option<string> CreatedByFirstName
         {
             get{ return _CreatedByFirstName;}
             set
@@ -785,7 +909,7 @@ namespace Org.OpenAPITools.Model
                 _flagCreatedByFirstName = true;
             }
         }
-        private string _CreatedByFirstName;
+        private Option<string> _CreatedByFirstName;
         private bool _flagCreatedByFirstName;
 
         /// <summary>
@@ -800,7 +924,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CreatedByLastName
         /// </summary>
         [DataMember(Name = "createdByLastName", EmitDefaultValue = false)]
-        public string CreatedByLastName
+        public Option<string> CreatedByLastName
         {
             get{ return _CreatedByLastName;}
             set
@@ -809,7 +933,7 @@ namespace Org.OpenAPITools.Model
                 _flagCreatedByLastName = true;
             }
         }
-        private string _CreatedByLastName;
+        private Option<string> _CreatedByLastName;
         private bool _flagCreatedByLastName;
 
         /// <summary>
@@ -824,7 +948,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DeltaECalculationRepaired
         /// </summary>
         [DataMember(Name = "deltaECalculationRepaired", EmitDefaultValue = false)]
-        public string DeltaECalculationRepaired
+        public Option<string> DeltaECalculationRepaired
         {
             get{ return _DeltaECalculationRepaired;}
             set
@@ -833,7 +957,7 @@ namespace Org.OpenAPITools.Model
                 _flagDeltaECalculationRepaired = true;
             }
         }
-        private string _DeltaECalculationRepaired;
+        private Option<string> _DeltaECalculationRepaired;
         private bool _flagDeltaECalculationRepaired;
 
         /// <summary>
@@ -848,7 +972,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DeltaECalculationSprayout
         /// </summary>
         [DataMember(Name = "deltaECalculationSprayout", EmitDefaultValue = false)]
-        public string DeltaECalculationSprayout
+        public Option<string> DeltaECalculationSprayout
         {
             get{ return _DeltaECalculationSprayout;}
             set
@@ -857,7 +981,7 @@ namespace Org.OpenAPITools.Model
                 _flagDeltaECalculationSprayout = true;
             }
         }
-        private string _DeltaECalculationSprayout;
+        private Option<string> _DeltaECalculationSprayout;
         private bool _flagDeltaECalculationSprayout;
 
         /// <summary>
@@ -872,7 +996,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OwnColorVariantNumber
         /// </summary>
         [DataMember(Name = "ownColorVariantNumber", EmitDefaultValue = true)]
-        public int? OwnColorVariantNumber
+        public Option<int?> OwnColorVariantNumber
         {
             get{ return _OwnColorVariantNumber;}
             set
@@ -881,7 +1005,7 @@ namespace Org.OpenAPITools.Model
                 _flagOwnColorVariantNumber = true;
             }
         }
-        private int? _OwnColorVariantNumber;
+        private Option<int?> _OwnColorVariantNumber;
         private bool _flagOwnColorVariantNumber;
 
         /// <summary>
@@ -896,7 +1020,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PrimerProductId
         /// </summary>
         [DataMember(Name = "primerProductId", EmitDefaultValue = false)]
-        public string PrimerProductId
+        public Option<string> PrimerProductId
         {
             get{ return _PrimerProductId;}
             set
@@ -905,7 +1029,7 @@ namespace Org.OpenAPITools.Model
                 _flagPrimerProductId = true;
             }
         }
-        private string _PrimerProductId;
+        private Option<string> _PrimerProductId;
         private bool _flagPrimerProductId;
 
         /// <summary>
@@ -921,7 +1045,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>ProductId is only required for color mixes</value>
         [DataMember(Name = "productId", EmitDefaultValue = false)]
-        public string ProductId
+        public Option<string> ProductId
         {
             get{ return _ProductId;}
             set
@@ -930,7 +1054,7 @@ namespace Org.OpenAPITools.Model
                 _flagProductId = true;
             }
         }
-        private string _ProductId;
+        private Option<string> _ProductId;
         private bool _flagProductId;
 
         /// <summary>
@@ -946,7 +1070,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>ProductName is only required for color mixes</value>
         [DataMember(Name = "productName", EmitDefaultValue = false)]
-        public string ProductName
+        public Option<string> ProductName
         {
             get{ return _ProductName;}
             set
@@ -955,7 +1079,7 @@ namespace Org.OpenAPITools.Model
                 _flagProductName = true;
             }
         }
-        private string _ProductName;
+        private Option<string> _ProductName;
         private bool _flagProductName;
 
         /// <summary>
@@ -970,7 +1094,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SelectedVersionIndex
         /// </summary>
         [DataMember(Name = "selectedVersionIndex", EmitDefaultValue = false)]
-        public int SelectedVersionIndex
+        public Option<int> SelectedVersionIndex
         {
             get{ return _SelectedVersionIndex;}
             set
@@ -979,7 +1103,7 @@ namespace Org.OpenAPITools.Model
                 _flagSelectedVersionIndex = true;
             }
         }
-        private int _SelectedVersionIndex;
+        private Option<int> _SelectedVersionIndex;
         private bool _flagSelectedVersionIndex;
 
         /// <summary>
@@ -1007,35 +1131,155 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Description: ").Append(Description).Append("\n");
             sb.Append("  MixDate: ").Append(MixDate).Append("\n");
-            sb.Append("  ShopId: ").Append(ShopId).Append("\n");
-            sb.Append("  TotalPrice: ").Append(TotalPrice).Append("\n");
+            sb.Append("  ShopId: ");
+            if (ShopId.IsSet)
+            {
+                sb.Append(ShopId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  TotalPrice: ");
+            if (TotalPrice.IsSet)
+            {
+                sb.Append(TotalPrice.Value);
+            }
+            sb.Append("\n");
             sb.Append("  TotalRecalculations: ").Append(TotalRecalculations).Append("\n");
             sb.Append("  TotalOverPoors: ").Append(TotalOverPoors).Append("\n");
             sb.Append("  TotalSkips: ").Append(TotalSkips).Append("\n");
             sb.Append("  TotalUnderPours: ").Append(TotalUnderPours).Append("\n");
             sb.Append("  FormulaVersionDate: ").Append(FormulaVersionDate).Append("\n");
-            sb.Append("  SomeCode: ").Append(SomeCode).Append("\n");
-            sb.Append("  BatchNumber: ").Append(BatchNumber).Append("\n");
-            sb.Append("  BrandCode: ").Append(BrandCode).Append("\n");
-            sb.Append("  BrandId: ").Append(BrandId).Append("\n");
-            sb.Append("  BrandName: ").Append(BrandName).Append("\n");
-            sb.Append("  CategoryCode: ").Append(CategoryCode).Append("\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  ColorDescription: ").Append(ColorDescription).Append("\n");
-            sb.Append("  Comment: ").Append(Comment).Append("\n");
-            sb.Append("  CommercialProductCode: ").Append(CommercialProductCode).Append("\n");
-            sb.Append("  ProductLineCode: ").Append(ProductLineCode).Append("\n");
-            sb.Append("  Country: ").Append(Country).Append("\n");
-            sb.Append("  CreatedBy: ").Append(CreatedBy).Append("\n");
-            sb.Append("  CreatedByFirstName: ").Append(CreatedByFirstName).Append("\n");
-            sb.Append("  CreatedByLastName: ").Append(CreatedByLastName).Append("\n");
-            sb.Append("  DeltaECalculationRepaired: ").Append(DeltaECalculationRepaired).Append("\n");
-            sb.Append("  DeltaECalculationSprayout: ").Append(DeltaECalculationSprayout).Append("\n");
-            sb.Append("  OwnColorVariantNumber: ").Append(OwnColorVariantNumber).Append("\n");
-            sb.Append("  PrimerProductId: ").Append(PrimerProductId).Append("\n");
-            sb.Append("  ProductId: ").Append(ProductId).Append("\n");
-            sb.Append("  ProductName: ").Append(ProductName).Append("\n");
-            sb.Append("  SelectedVersionIndex: ").Append(SelectedVersionIndex).Append("\n");
+            sb.Append("  SomeCode: ");
+            if (SomeCode.IsSet)
+            {
+                sb.Append(SomeCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BatchNumber: ");
+            if (BatchNumber.IsSet)
+            {
+                sb.Append(BatchNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandCode: ");
+            if (BrandCode.IsSet)
+            {
+                sb.Append(BrandCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandId: ");
+            if (BrandId.IsSet)
+            {
+                sb.Append(BrandId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  BrandName: ");
+            if (BrandName.IsSet)
+            {
+                sb.Append(BrandName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CategoryCode: ");
+            if (CategoryCode.IsSet)
+            {
+                sb.Append(CategoryCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Color: ");
+            if (Color.IsSet)
+            {
+                sb.Append(Color.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ColorDescription: ");
+            if (ColorDescription.IsSet)
+            {
+                sb.Append(ColorDescription.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Comment: ");
+            if (Comment.IsSet)
+            {
+                sb.Append(Comment.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CommercialProductCode: ");
+            if (CommercialProductCode.IsSet)
+            {
+                sb.Append(CommercialProductCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductLineCode: ");
+            if (ProductLineCode.IsSet)
+            {
+                sb.Append(ProductLineCode.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Country: ");
+            if (Country.IsSet)
+            {
+                sb.Append(Country.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedBy: ");
+            if (CreatedBy.IsSet)
+            {
+                sb.Append(CreatedBy.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedByFirstName: ");
+            if (CreatedByFirstName.IsSet)
+            {
+                sb.Append(CreatedByFirstName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  CreatedByLastName: ");
+            if (CreatedByLastName.IsSet)
+            {
+                sb.Append(CreatedByLastName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeltaECalculationRepaired: ");
+            if (DeltaECalculationRepaired.IsSet)
+            {
+                sb.Append(DeltaECalculationRepaired.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeltaECalculationSprayout: ");
+            if (DeltaECalculationSprayout.IsSet)
+            {
+                sb.Append(DeltaECalculationSprayout.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  OwnColorVariantNumber: ");
+            if (OwnColorVariantNumber.IsSet)
+            {
+                sb.Append(OwnColorVariantNumber.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PrimerProductId: ");
+            if (PrimerProductId.IsSet)
+            {
+                sb.Append(PrimerProductId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductId: ");
+            if (ProductId.IsSet)
+            {
+                sb.Append(ProductId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ProductName: ");
+            if (ProductName.IsSet)
+            {
+                sb.Append(ProductName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  SelectedVersionIndex: ");
+            if (SelectedVersionIndex.IsSet)
+            {
+                sb.Append(SelectedVersionIndex.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -1091,13 +1335,13 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.MixDate.GetHashCode();
                 }
-                if (this.ShopId != null)
+                if (this.ShopId.IsSet && this.ShopId.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShopId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ShopId.Value.GetHashCode();
                 }
-                if (this.TotalPrice != null)
+                if (this.TotalPrice.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.TotalPrice.GetHashCode();
+                hashCode = (hashCode * 59) + this.TotalPrice.Value.GetHashCode();
                 }
                 hashCode = (hashCode * 59) + this.TotalRecalculations.GetHashCode();
                 hashCode = (hashCode * 59) + this.TotalOverPoors.GetHashCode();
@@ -1107,91 +1351,94 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.FormulaVersionDate.GetHashCode();
                 }
-                if (this.SomeCode != null)
+                if (this.SomeCode.IsSet && this.SomeCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SomeCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SomeCode.Value.GetHashCode();
                 }
-                if (this.BatchNumber != null)
+                if (this.BatchNumber.IsSet && this.BatchNumber.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.BatchNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BatchNumber.Value.GetHashCode();
                 }
-                if (this.BrandCode != null)
+                if (this.BrandCode.IsSet && this.BrandCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandCode.Value.GetHashCode();
                 }
-                if (this.BrandId != null)
+                if (this.BrandId.IsSet && this.BrandId.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandId.Value.GetHashCode();
                 }
-                if (this.BrandName != null)
+                if (this.BrandName.IsSet && this.BrandName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.BrandName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.BrandName.Value.GetHashCode();
                 }
-                if (this.CategoryCode != null)
+                if (this.CategoryCode.IsSet && this.CategoryCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CategoryCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CategoryCode.Value.GetHashCode();
                 }
-                if (this.Color != null)
+                if (this.Color.IsSet && this.Color.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Color.Value.GetHashCode();
                 }
-                if (this.ColorDescription != null)
+                if (this.ColorDescription.IsSet && this.ColorDescription.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ColorDescription.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ColorDescription.Value.GetHashCode();
                 }
-                if (this.Comment != null)
+                if (this.Comment.IsSet && this.Comment.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Comment.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Comment.Value.GetHashCode();
                 }
-                if (this.CommercialProductCode != null)
+                if (this.CommercialProductCode.IsSet && this.CommercialProductCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CommercialProductCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CommercialProductCode.Value.GetHashCode();
                 }
-                if (this.ProductLineCode != null)
+                if (this.ProductLineCode.IsSet && this.ProductLineCode.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductLineCode.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductLineCode.Value.GetHashCode();
                 }
-                if (this.Country != null)
+                if (this.Country.IsSet && this.Country.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Country.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Country.Value.GetHashCode();
                 }
-                if (this.CreatedBy != null)
+                if (this.CreatedBy.IsSet && this.CreatedBy.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedBy.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedBy.Value.GetHashCode();
                 }
-                if (this.CreatedByFirstName != null)
+                if (this.CreatedByFirstName.IsSet && this.CreatedByFirstName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedByFirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedByFirstName.Value.GetHashCode();
                 }
-                if (this.CreatedByLastName != null)
+                if (this.CreatedByLastName.IsSet && this.CreatedByLastName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.CreatedByLastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.CreatedByLastName.Value.GetHashCode();
                 }
-                if (this.DeltaECalculationRepaired != null)
+                if (this.DeltaECalculationRepaired.IsSet && this.DeltaECalculationRepaired.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationRepaired.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeltaECalculationRepaired.Value.GetHashCode();
                 }
-                if (this.DeltaECalculationSprayout != null)
+                if (this.DeltaECalculationSprayout.IsSet && this.DeltaECalculationSprayout.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DeltaECalculationSprayout.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeltaECalculationSprayout.Value.GetHashCode();
                 }
-                if (this.OwnColorVariantNumber != null)
+                if (this.OwnColorVariantNumber.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.OwnColorVariantNumber.GetHashCode();
+                hashCode = (hashCode * 59) + this.OwnColorVariantNumber.Value.GetHashCode();
                 }
-                if (this.PrimerProductId != null)
+                if (this.PrimerProductId.IsSet && this.PrimerProductId.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.PrimerProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PrimerProductId.Value.GetHashCode();
                 }
-                if (this.ProductId != null)
+                if (this.ProductId.IsSet && this.ProductId.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductId.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductId.Value.GetHashCode();
                 }
-                if (this.ProductName != null)
+                if (this.ProductName.IsSet && this.ProductName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ProductName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ProductName.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.SelectedVersionIndex.GetHashCode();
+                if (this.SelectedVersionIndex.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.SelectedVersionIndex.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateOnly dateOnlyProperty = default(DateOnly))
+        public DateOnlyClass(Option<DateOnly> dateOnlyProperty = default(Option<DateOnly>))
         {
+            // to ensure "dateOnlyProperty" (not nullable) is not null
+            if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
+            {
+                throw new ArgumentNullException("dateOnlyProperty isn't a nullable property for DateOnlyClass and cannot be null");
+            }
             this.DateOnlyProperty = dateOnlyProperty;
         }
 
@@ -46,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [DataMember(Name = "dateOnlyProperty", EmitDefaultValue = false)]
-        public DateOnly DateOnlyProperty { get; set; }
+        public Option<DateOnly> DateOnlyProperty { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,7 +62,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class DateOnlyClass {\n");
-            sb.Append("  DateOnlyProperty: ").Append(DateOnlyProperty).Append("\n");
+            sb.Append("  DateOnlyProperty: ");
+            if (DateOnlyProperty.IsSet)
+            {
+                sb.Append(DateOnlyProperty.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,9 +110,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.DateOnlyProperty != null)
+                if (this.DateOnlyProperty.IsSet && this.DateOnlyProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateOnlyProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateOnlyProperty.Value.GetHashCode();
                 }
                 return hashCode;
             }

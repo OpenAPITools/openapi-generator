@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter" /> class.
         /// </summary>
         /// <param name="values">values.</param>
-        public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string> values = default(List<string>))
+        public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(Option<List<string>> values = default(Option<List<string>>))
         {
+            // to ensure "values" (not nullable) is not null
+            if (values.IsSet && values.Value == null)
+            {
+                throw new ArgumentNullException("values isn't a nullable property for TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter and cannot be null");
+            }
             this.Values = values;
         }
 
@@ -45,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Values
         /// </summary>
         [DataMember(Name = "values", EmitDefaultValue = false)]
-        public List<string> Values { get; set; }
+        public Option<List<string>> Values { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,7 +61,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {\n");
-            sb.Append("  Values: ").Append(Values).Append("\n");
+            sb.Append("  Values: ");
+            if (Values.IsSet)
+            {
+                sb.Append(Values.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,10 +103,10 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Values == input.Values ||
-                    this.Values != null &&
-                    input.Values != null &&
-                    this.Values.SequenceEqual(input.Values)
+                    
+                    this.Values.IsSet && this.Values.Value != null &&
+                    input.Values.IsSet && input.Values.Value != null &&
+                    this.Values.Value.SequenceEqual(input.Values.Value)
                 );
         }
 
@@ -108,9 +119,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Values != null)
+                if (this.Values.IsSet && this.Values.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Values.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Values.Value.GetHashCode();
                 }
                 return hashCode;
             }

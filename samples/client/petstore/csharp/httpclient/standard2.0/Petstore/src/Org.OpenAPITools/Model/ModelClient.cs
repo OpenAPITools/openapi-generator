@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ModelClient" /> class.
         /// </summary>
         /// <param name="varClient">varClient.</param>
-        public ModelClient(string varClient = default(string))
+        public ModelClient(Option<string> varClient = default(Option<string>))
         {
+            // to ensure "varClient" (not nullable) is not null
+            if (varClient.IsSet && varClient.Value == null)
+            {
+                throw new ArgumentNullException("varClient isn't a nullable property for ModelClient and cannot be null");
+            }
             this.VarClient = varClient;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
-        public string VarClient { get; set; }
+        public Option<string> VarClient { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +69,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
-            sb.Append("  VarClient: ").Append(VarClient).Append("\n");
+            sb.Append("  VarClient: ");
+            if (VarClient.IsSet)
+            {
+                sb.Append(VarClient.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +118,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.VarClient != null)
+                if (this.VarClient.IsSet && this.VarClient.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarClient.GetHashCode();
+                    hashCode = (hashCode * 59) + this.VarClient.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -56,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustSymbol
         /// </summary>
         [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
-        public JustSymbolEnum? JustSymbol { get; set; }
+        public Option<JustSymbolEnum> JustSymbol { get; set; }
         /// <summary>
         /// Defines ArrayEnum
         /// </summary>
@@ -81,8 +82,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="justSymbol">justSymbol.</param>
         /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
+        public EnumArrays(Option<JustSymbolEnum> justSymbol = default(Option<JustSymbolEnum>), Option<List<EnumArrays.ArrayEnumEnum>> arrayEnum = default(Option<List<EnumArrays.ArrayEnumEnum>>))
         {
+            // to ensure "arrayEnum" (not nullable) is not null
+            if (arrayEnum.IsSet && arrayEnum.Value == null)
+            {
+                throw new ArgumentNullException("arrayEnum isn't a nullable property for EnumArrays and cannot be null");
+            }
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -92,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [DataMember(Name = "array_enum", EmitDefaultValue = false)]
-        public List<EnumArrays.ArrayEnumEnum> ArrayEnum { get; set; }
+        public Option<List<EnumArrays.ArrayEnumEnum>> ArrayEnum { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,8 +114,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class EnumArrays {\n");
-            sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
-            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("  JustSymbol: ");
+            if (JustSymbol.IsSet)
+            {
+                sb.Append(JustSymbol.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayEnum: ");
+            if (ArrayEnum.IsSet)
+            {
+                sb.Append(ArrayEnum.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -153,10 +169,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
+                if (this.JustSymbol.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayEnum.GetHashCode();
+                hashCode = (hashCode * 59) + this.JustSymbol.Value.GetHashCode();
+                }
+                if (this.ArrayEnum.IsSet && this.ArrayEnum.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.ArrayEnum.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

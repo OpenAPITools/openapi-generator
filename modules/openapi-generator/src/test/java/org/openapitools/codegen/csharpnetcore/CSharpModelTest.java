@@ -213,6 +213,7 @@ public class CSharpModelTest {
         final DefaultCodegen codegen = new CSharpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
+        codegen.additionalProperties().put(CodegenConstants.DOTNET_FRAMEWORK, "netstandard2.0");
         codegen.processOpts();
         final CodegenModel cm = codegen.fromModel("sample", model);
 
@@ -273,10 +274,10 @@ public class CSharpModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
-        Assert.assertEquals(property1.dataType, "long?");
+        Assert.assertEquals(property1.dataType, "long");
         Assert.assertEquals(property1.name, "Id");
         Assert.assertNull(property1.defaultValue);
-        Assert.assertEquals(property1.baseType, "long?");
+        Assert.assertEquals(property1.baseType, "long");
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
 

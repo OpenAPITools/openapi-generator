@@ -32,6 +32,7 @@ using FileIO = System.IO.File;
 using Polly;
 using Org.OpenAPITools.Client.Auth;
 using Org.OpenAPITools.Model;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Client
 {
@@ -51,7 +52,8 @@ namespace Org.OpenAPITools.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -185,7 +187,8 @@ namespace Org.OpenAPITools.Client
                 {
                     OverrideSpecifiedNames = false
                 }
-            }
+            },
+            Converters = new List<JsonConverter> { new OptionConverterFactory() }
         };
 
         /// <summary>

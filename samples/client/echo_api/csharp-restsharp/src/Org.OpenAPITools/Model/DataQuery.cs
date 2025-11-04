@@ -23,6 +23,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,8 +41,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="date">A date.</param>
         /// <param name="id">Query.</param>
         /// <param name="outcomes">outcomes.</param>
-        public DataQuery(string suffix = default(string), string text = default(string), DateTime date = default(DateTime), long id = default(long), List<OutcomesEnum> outcomes = default(List<OutcomesEnum>)) : base(id, outcomes)
+        public DataQuery(Option<string> suffix = default(Option<string>), Option<string> text = default(Option<string>), Option<DateTime> date = default(Option<DateTime>), Option<long> id = default(Option<long>), Option<List<DataQuery.OutcomesEnum>> outcomes = default(Option<List<DataQuery.OutcomesEnum>>)) : base(id, outcomes)
         {
+            // to ensure "suffix" (not nullable) is not null
+            if (suffix.IsSet && suffix.Value == null)
+            {
+                throw new ArgumentNullException("suffix isn't a nullable property for DataQuery and cannot be null");
+            }
+            // to ensure "text" (not nullable) is not null
+            if (text.IsSet && text.Value == null)
+            {
+                throw new ArgumentNullException("text isn't a nullable property for DataQuery and cannot be null");
+            }
+            // to ensure "date" (not nullable) is not null
+            if (date.IsSet && date.Value == null)
+            {
+                throw new ArgumentNullException("date isn't a nullable property for DataQuery and cannot be null");
+            }
             this.Suffix = suffix;
             this.Text = text;
             this.Date = date;
@@ -52,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test suffix</value>
         [DataMember(Name = "suffix", EmitDefaultValue = false)]
-        public string Suffix { get; set; }
+        public Option<string> Suffix { get; set; }
 
         /// <summary>
         /// Some text containing white spaces
@@ -60,14 +76,14 @@ namespace Org.OpenAPITools.Model
         /// <value>Some text containing white spaces</value>
         /// <example>Some text</example>
         [DataMember(Name = "text", EmitDefaultValue = false)]
-        public string Text { get; set; }
+        public Option<string> Text { get; set; }
 
         /// <summary>
         /// A date
         /// </summary>
         /// <value>A date</value>
         [DataMember(Name = "date", EmitDefaultValue = false)]
-        public DateTime Date { get; set; }
+        public Option<DateTime> Date { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,9 +94,24 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class DataQuery {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
-            sb.Append("  Suffix: ").Append(Suffix).Append("\n");
-            sb.Append("  Text: ").Append(Text).Append("\n");
-            sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  Suffix: ");
+            if (Suffix.IsSet)
+            {
+                sb.Append(Suffix.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Text: ");
+            if (Text.IsSet)
+            {
+                sb.Append(Text.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Date: ");
+            if (Date.IsSet)
+            {
+                sb.Append(Date.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -117,19 +148,16 @@ namespace Org.OpenAPITools.Model
             }
             return base.Equals(input) && 
                 (
-                    this.Suffix == input.Suffix ||
-                    (this.Suffix != null &&
-                    this.Suffix.Equals(input.Suffix))
+                    
+                    this.Suffix.Equals(input.Suffix)
                 ) && base.Equals(input) && 
                 (
-                    this.Text == input.Text ||
-                    (this.Text != null &&
-                    this.Text.Equals(input.Text))
+                    
+                    this.Text.Equals(input.Text)
                 ) && base.Equals(input) && 
                 (
-                    this.Date == input.Date ||
-                    (this.Date != null &&
-                    this.Date.Equals(input.Date))
+                    
+                    this.Date.Equals(input.Date)
                 );
         }
 
@@ -142,17 +170,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                if (this.Suffix != null)
+                if (this.Suffix.IsSet && this.Suffix.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Suffix.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Suffix.Value.GetHashCode();
                 }
-                if (this.Text != null)
+                if (this.Text.IsSet && this.Text.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Text.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Text.Value.GetHashCode();
                 }
-                if (this.Date != null)
+                if (this.Date.IsSet && this.Date.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Date.Value.GetHashCode();
                 }
                 return hashCode;
             }

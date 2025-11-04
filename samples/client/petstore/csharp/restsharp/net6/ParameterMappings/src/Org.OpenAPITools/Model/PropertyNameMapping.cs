@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,8 +39,28 @@ namespace Org.OpenAPITools.Model
         /// <param name="underscoreType">underscoreType.</param>
         /// <param name="type">type.</param>
         /// <param name="typeWithUnderscore">typeWithUnderscore.</param>
-        public PropertyNameMapping(string httpDebugOperation = default(string), string underscoreType = default(string), string type = default(string), string typeWithUnderscore = default(string))
+        public PropertyNameMapping(Option<string> httpDebugOperation = default(Option<string>), Option<string> underscoreType = default(Option<string>), Option<string> type = default(Option<string>), Option<string> typeWithUnderscore = default(Option<string>))
         {
+            // to ensure "httpDebugOperation" (not nullable) is not null
+            if (httpDebugOperation.IsSet && httpDebugOperation.Value == null)
+            {
+                throw new ArgumentNullException("httpDebugOperation isn't a nullable property for PropertyNameMapping and cannot be null");
+            }
+            // to ensure "underscoreType" (not nullable) is not null
+            if (underscoreType.IsSet && underscoreType.Value == null)
+            {
+                throw new ArgumentNullException("underscoreType isn't a nullable property for PropertyNameMapping and cannot be null");
+            }
+            // to ensure "type" (not nullable) is not null
+            if (type.IsSet && type.Value == null)
+            {
+                throw new ArgumentNullException("type isn't a nullable property for PropertyNameMapping and cannot be null");
+            }
+            // to ensure "typeWithUnderscore" (not nullable) is not null
+            if (typeWithUnderscore.IsSet && typeWithUnderscore.Value == null)
+            {
+                throw new ArgumentNullException("typeWithUnderscore isn't a nullable property for PropertyNameMapping and cannot be null");
+            }
             this.HttpDebugOperation = httpDebugOperation;
             this.UnderscoreType = underscoreType;
             this.Type = type;
@@ -50,25 +71,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HttpDebugOperation
         /// </summary>
         [DataMember(Name = "http_debug_operation", EmitDefaultValue = false)]
-        public string HttpDebugOperation { get; set; }
+        public Option<string> HttpDebugOperation { get; set; }
 
         /// <summary>
         /// Gets or Sets UnderscoreType
         /// </summary>
         [DataMember(Name = "_type", EmitDefaultValue = false)]
-        public string UnderscoreType { get; set; }
+        public Option<string> UnderscoreType { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
+        public Option<string> Type { get; set; }
 
         /// <summary>
         /// Gets or Sets TypeWithUnderscore
         /// </summary>
         [DataMember(Name = "type_", EmitDefaultValue = false)]
-        public string TypeWithUnderscore { get; set; }
+        public Option<string> TypeWithUnderscore { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,10 +99,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class PropertyNameMapping {\n");
-            sb.Append("  HttpDebugOperation: ").Append(HttpDebugOperation).Append("\n");
-            sb.Append("  UnderscoreType: ").Append(UnderscoreType).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  TypeWithUnderscore: ").Append(TypeWithUnderscore).Append("\n");
+            sb.Append("  HttpDebugOperation: ");
+            if (HttpDebugOperation.IsSet)
+            {
+                sb.Append(HttpDebugOperation.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnderscoreType: ");
+            if (UnderscoreType.IsSet)
+            {
+                sb.Append(UnderscoreType.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Type: ");
+            if (Type.IsSet)
+            {
+                sb.Append(Type.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  TypeWithUnderscore: ");
+            if (TypeWithUnderscore.IsSet)
+            {
+                sb.Append(TypeWithUnderscore.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,24 +159,20 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.HttpDebugOperation == input.HttpDebugOperation ||
-                    (this.HttpDebugOperation != null &&
-                    this.HttpDebugOperation.Equals(input.HttpDebugOperation))
+                    
+                    this.HttpDebugOperation.Equals(input.HttpDebugOperation)
                 ) && 
                 (
-                    this.UnderscoreType == input.UnderscoreType ||
-                    (this.UnderscoreType != null &&
-                    this.UnderscoreType.Equals(input.UnderscoreType))
+                    
+                    this.UnderscoreType.Equals(input.UnderscoreType)
                 ) && 
                 (
-                    this.Type == input.Type ||
-                    (this.Type != null &&
-                    this.Type.Equals(input.Type))
+                    
+                    this.Type.Equals(input.Type)
                 ) && 
                 (
-                    this.TypeWithUnderscore == input.TypeWithUnderscore ||
-                    (this.TypeWithUnderscore != null &&
-                    this.TypeWithUnderscore.Equals(input.TypeWithUnderscore))
+                    
+                    this.TypeWithUnderscore.Equals(input.TypeWithUnderscore)
                 );
         }
 
@@ -148,21 +185,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.HttpDebugOperation != null)
+                if (this.HttpDebugOperation.IsSet && this.HttpDebugOperation.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.HttpDebugOperation.GetHashCode();
+                    hashCode = (hashCode * 59) + this.HttpDebugOperation.Value.GetHashCode();
                 }
-                if (this.UnderscoreType != null)
+                if (this.UnderscoreType.IsSet && this.UnderscoreType.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.UnderscoreType.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UnderscoreType.Value.GetHashCode();
                 }
-                if (this.Type != null)
+                if (this.Type.IsSet && this.Type.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Type.Value.GetHashCode();
                 }
-                if (this.TypeWithUnderscore != null)
+                if (this.TypeWithUnderscore.IsSet && this.TypeWithUnderscore.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.TypeWithUnderscore.GetHashCode();
+                    hashCode = (hashCode * 59) + this.TypeWithUnderscore.Value.GetHashCode();
                 }
                 return hashCode;
             }

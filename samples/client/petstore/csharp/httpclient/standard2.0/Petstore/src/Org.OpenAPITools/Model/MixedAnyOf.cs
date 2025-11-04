@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="MixedAnyOf" /> class.
         /// </summary>
         /// <param name="content">content.</param>
-        public MixedAnyOf(MixedAnyOfContent content = default(MixedAnyOfContent))
+        public MixedAnyOf(Option<MixedAnyOfContent> content = default(Option<MixedAnyOfContent>))
         {
+            // to ensure "content" (not nullable) is not null
+            if (content.IsSet && content.Value == null)
+            {
+                throw new ArgumentNullException("content isn't a nullable property for MixedAnyOf and cannot be null");
+            }
             this.Content = content;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [DataMember(Name = "content", EmitDefaultValue = false)]
-        public MixedAnyOfContent Content { get; set; }
+        public Option<MixedAnyOfContent> Content { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +69,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class MixedAnyOf {\n");
-            sb.Append("  Content: ").Append(Content).Append("\n");
+            sb.Append("  Content: ");
+            if (Content.IsSet)
+            {
+                sb.Append(Content.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +118,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Content != null)
+                if (this.Content.IsSet && this.Content.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Content.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Content.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

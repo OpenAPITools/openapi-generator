@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -62,34 +63,74 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<uint> unsignedInteger = default(Option<uint>), Option<long> int64 = default(Option<long>), Option<ulong> unsignedLong = default(Option<ulong>), decimal number = default(decimal), Option<float> varFloat = default(Option<float>), Option<double> varDouble = default(Option<double>), Option<decimal> varDecimal = default(Option<decimal>), Option<string> varString = default(Option<string>), byte[] varByte = default(byte[]), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), DateTime date = default(DateTime), Option<DateTime> dateTime = default(Option<DateTime>), Option<Guid> uuid = default(Option<Guid>), string password = default(string), Option<string> patternWithDigits = default(Option<string>), Option<string> patternWithDigitsAndDelimiter = default(Option<string>), Option<string> patternWithBackslash = default(Option<string>))
         {
-            this.Number = number;
-            // to ensure "varByte" is required (not null)
+            // to ensure "varString" (not nullable) is not null
+            if (varString.IsSet && varString.Value == null)
+            {
+                throw new ArgumentNullException("varString isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "varByte" (not nullable) is not null
             if (varByte == null)
             {
-                throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("varByte isn't a nullable property for FormatTest and cannot be null");
             }
-            this.Byte = varByte;
-            this.Date = date;
-            // to ensure "password" is required (not null)
+            // to ensure "binary" (not nullable) is not null
+            if (binary.IsSet && binary.Value == null)
+            {
+                throw new ArgumentNullException("binary isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "date" (not nullable) is not null
+            if (date == null)
+            {
+                throw new ArgumentNullException("date isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "dateTime" (not nullable) is not null
+            if (dateTime.IsSet && dateTime.Value == null)
+            {
+                throw new ArgumentNullException("dateTime isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "uuid" (not nullable) is not null
+            if (uuid.IsSet && uuid.Value == null)
+            {
+                throw new ArgumentNullException("uuid isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "password" (not nullable) is not null
             if (password == null)
             {
-                throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
+                throw new ArgumentNullException("password isn't a nullable property for FormatTest and cannot be null");
             }
-            this.Password = password;
+            // to ensure "patternWithDigits" (not nullable) is not null
+            if (patternWithDigits.IsSet && patternWithDigits.Value == null)
+            {
+                throw new ArgumentNullException("patternWithDigits isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "patternWithDigitsAndDelimiter" (not nullable) is not null
+            if (patternWithDigitsAndDelimiter.IsSet && patternWithDigitsAndDelimiter.Value == null)
+            {
+                throw new ArgumentNullException("patternWithDigitsAndDelimiter isn't a nullable property for FormatTest and cannot be null");
+            }
+            // to ensure "patternWithBackslash" (not nullable) is not null
+            if (patternWithBackslash.IsSet && patternWithBackslash.Value == null)
+            {
+                throw new ArgumentNullException("patternWithBackslash isn't a nullable property for FormatTest and cannot be null");
+            }
             this.Integer = integer;
             this.Int32 = int32;
             this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
             this.UnsignedLong = unsignedLong;
+            this.Number = number;
             this.Float = varFloat;
             this.Double = varDouble;
             this.Decimal = varDecimal;
             this.String = varString;
+            this.Byte = varByte;
             this.Binary = binary;
+            this.Date = date;
             this.DateTime = dateTime;
             this.Uuid = uuid;
+            this.Password = password;
             this.PatternWithDigits = patternWithDigits;
             this.PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
             this.PatternWithBackslash = patternWithBackslash;
@@ -100,31 +141,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        public Option<int> Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        public Option<int> Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
-        public uint UnsignedInteger { get; set; }
+        public Option<uint> UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        public Option<long> Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
-        public ulong UnsignedLong { get; set; }
+        public Option<ulong> UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -136,25 +177,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float Float { get; set; }
+        public Option<float> Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double Double { get; set; }
+        public Option<double> Double { get; set; }
 
         /// <summary>
         /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal Decimal { get; set; }
+        public Option<decimal> Decimal { get; set; }
 
         /// <summary>
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string String { get; set; }
+        public Option<string> String { get; set; }
 
         /// <summary>
         /// Gets or Sets Byte
@@ -166,7 +207,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [DataMember(Name = "binary", EmitDefaultValue = false)]
-        public System.IO.Stream Binary { get; set; }
+        public Option<System.IO.Stream> Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
@@ -181,14 +222,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        public Option<DateTime> DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        public Option<Guid> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
@@ -201,21 +242,21 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [DataMember(Name = "pattern_with_digits", EmitDefaultValue = false)]
-        public string PatternWithDigits { get; set; }
+        public Option<string> PatternWithDigits { get; set; }
 
         /// <summary>
         /// A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
-        public string PatternWithDigitsAndDelimiter { get; set; }
+        public Option<string> PatternWithDigitsAndDelimiter { get; set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
         [DataMember(Name = "pattern_with_backslash", EmitDefaultValue = false)]
-        public string PatternWithBackslash { get; set; }
+        public Option<string> PatternWithBackslash { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -231,25 +272,100 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
-            sb.Append("  Integer: ").Append(Integer).Append("\n");
-            sb.Append("  Int32: ").Append(Int32).Append("\n");
-            sb.Append("  UnsignedInteger: ").Append(UnsignedInteger).Append("\n");
-            sb.Append("  Int64: ").Append(Int64).Append("\n");
-            sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
+            sb.Append("  Integer: ");
+            if (Integer.IsSet)
+            {
+                sb.Append(Integer.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Int32: ");
+            if (Int32.IsSet)
+            {
+                sb.Append(Int32.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnsignedInteger: ");
+            if (UnsignedInteger.IsSet)
+            {
+                sb.Append(UnsignedInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Int64: ");
+            if (Int64.IsSet)
+            {
+                sb.Append(Int64.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnsignedLong: ");
+            if (UnsignedLong.IsSet)
+            {
+                sb.Append(UnsignedLong.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  Float: ").Append(Float).Append("\n");
-            sb.Append("  Double: ").Append(Double).Append("\n");
-            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Float: ");
+            if (Float.IsSet)
+            {
+                sb.Append(Float.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Double: ");
+            if (Double.IsSet)
+            {
+                sb.Append(Double.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Decimal: ");
+            if (Decimal.IsSet)
+            {
+                sb.Append(Decimal.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  String: ");
+            if (String.IsSet)
+            {
+                sb.Append(String.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Byte: ").Append(Byte).Append("\n");
-            sb.Append("  Binary: ").Append(Binary).Append("\n");
+            sb.Append("  Binary: ");
+            if (Binary.IsSet)
+            {
+                sb.Append(Binary.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
-            sb.Append("  DateTime: ").Append(DateTime).Append("\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
+            sb.Append("  DateTime: ");
+            if (DateTime.IsSet)
+            {
+                sb.Append(DateTime.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
-            sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
-            sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
+            sb.Append("  PatternWithDigits: ");
+            if (PatternWithDigits.IsSet)
+            {
+                sb.Append(PatternWithDigits.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PatternWithDigitsAndDelimiter: ");
+            if (PatternWithDigitsAndDelimiter.IsSet)
+            {
+                sb.Append(PatternWithDigitsAndDelimiter.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PatternWithBackslash: ");
+            if (PatternWithBackslash.IsSet)
+            {
+                sb.Append(PatternWithBackslash.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -293,54 +409,78 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.Float.GetHashCode();
-                hashCode = (hashCode * 59) + this.Double.GetHashCode();
-                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
-                if (this.String != null)
+                if (this.Integer.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                hashCode = (hashCode * 59) + this.Integer.Value.GetHashCode();
+                }
+                if (this.Int32.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Int32.Value.GetHashCode();
+                }
+                if (this.UnsignedInteger.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.UnsignedInteger.Value.GetHashCode();
+                }
+                if (this.Int64.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Int64.Value.GetHashCode();
+                }
+                if (this.UnsignedLong.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.UnsignedLong.Value.GetHashCode();
+                }
+                hashCode = (hashCode * 59) + this.Number.GetHashCode();
+                if (this.Float.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Float.Value.GetHashCode();
+                }
+                if (this.Double.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Double.Value.GetHashCode();
+                }
+                if (this.Decimal.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Decimal.Value.GetHashCode();
+                }
+                if (this.String.IsSet && this.String.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.String.Value.GetHashCode();
                 }
                 if (this.Byte != null)
                 {
                     hashCode = (hashCode * 59) + this.Byte.GetHashCode();
                 }
-                if (this.Binary != null)
+                if (this.Binary.IsSet && this.Binary.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Binary.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Binary.Value.GetHashCode();
                 }
                 if (this.Date != null)
                 {
                     hashCode = (hashCode * 59) + this.Date.GetHashCode();
                 }
-                if (this.DateTime != null)
+                if (this.DateTime.IsSet && this.DateTime.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DateTime.Value.GetHashCode();
                 }
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
                 if (this.Password != null)
                 {
                     hashCode = (hashCode * 59) + this.Password.GetHashCode();
                 }
-                if (this.PatternWithDigits != null)
+                if (this.PatternWithDigits.IsSet && this.PatternWithDigits.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithDigits.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PatternWithDigits.Value.GetHashCode();
                 }
-                if (this.PatternWithDigitsAndDelimiter != null)
+                if (this.PatternWithDigitsAndDelimiter.IsSet && this.PatternWithDigitsAndDelimiter.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.Value.GetHashCode();
                 }
-                if (this.PatternWithBackslash != null)
+                if (this.PatternWithBackslash.IsSet && this.PatternWithBackslash.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
+                    hashCode = (hashCode * 59) + this.PatternWithBackslash.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -40,22 +41,22 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
-        public Category(long id = default(long), string name = @"default-name")
+        public Category(Option<long> id = default(Option<long>), string name = @"default-name")
         {
-            // to ensure "name" is required (not null)
+            // to ensure "name" (not nullable) is not null
             if (name == null)
             {
-                throw new ArgumentNullException("name is a required property for Category and cannot be null");
+                throw new ArgumentNullException("name isn't a nullable property for Category and cannot be null");
             }
-            this.Name = name;
             this.Id = id;
+            this.Name = name;
         }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public Option<long> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -71,7 +72,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -109,7 +115,6 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Id == input.Id ||
                     this.Id.Equals(input.Id)
                 ) && 
                 (
@@ -128,7 +133,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();

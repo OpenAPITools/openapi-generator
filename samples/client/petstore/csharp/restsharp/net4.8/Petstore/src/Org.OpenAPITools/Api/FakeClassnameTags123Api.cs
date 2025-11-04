@@ -228,9 +228,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -306,9 +304,7 @@ namespace Org.OpenAPITools.Api
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -34,8 +35,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString.</param>
-        public FooGetDefaultResponse(Foo varString = default(Foo))
+        public FooGetDefaultResponse(Option<Foo> varString = default(Option<Foo>))
         {
+            // to ensure "varString" (not nullable) is not null
+            if (varString.IsSet && varString.Value == null)
+            {
+                throw new ArgumentNullException("varString isn't a nullable property for FooGetDefaultResponse and cannot be null");
+            }
             this.String = varString;
         }
 
@@ -43,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo String { get; set; }
+        public Option<Foo> String { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +59,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  String: ");
+            if (String.IsSet)
+            {
+                sb.Append(String.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,9 +101,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.String == input.String ||
-                    (this.String != null &&
-                    this.String.Equals(input.String))
+                    
+                    this.String.Equals(input.String)
                 );
         }
 
@@ -105,9 +115,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.String != null)
+                if (this.String.IsSet && this.String.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.String.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.Value.GetHashCode();
                 }
                 return hashCode;
             }

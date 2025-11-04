@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,15 +38,25 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="prop1">prop1.</param>
         /// <param name="prop2">prop2.</param>
-        public ActivityOutputElementRepresentation(string prop1 = default(string), Object prop2 = default(Object))
+        public ActivityOutputElementRepresentation(Option<string> prop1 = default(Option<string>), Option<Object> prop2 = default(Option<Object>))
         {
+            // to ensure "prop1" (not nullable) is not null
+            if (prop1.IsSet && prop1.Value == null)
+            {
+                throw new ArgumentNullException("prop1 isn't a nullable property for ActivityOutputElementRepresentation and cannot be null");
+            }
+            // to ensure "prop2" (not nullable) is not null
+            if (prop2.IsSet && prop2.Value == null)
+            {
+                throw new ArgumentNullException("prop2 isn't a nullable property for ActivityOutputElementRepresentation and cannot be null");
+            }
             this._Prop1 = prop1;
-            if (this.Prop1 != null)
+            if (this.Prop1.IsSet)
             {
                 this._flagProp1 = true;
             }
             this._Prop2 = prop2;
-            if (this.Prop2 != null)
+            if (this.Prop2.IsSet)
             {
                 this._flagProp2 = true;
             }
@@ -56,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop1
         /// </summary>
         [DataMember(Name = "prop1", EmitDefaultValue = false)]
-        public string Prop1
+        public Option<string> Prop1
         {
             get{ return _Prop1;}
             set
@@ -65,7 +76,7 @@ namespace Org.OpenAPITools.Model
                 _flagProp1 = true;
             }
         }
-        private string _Prop1;
+        private Option<string> _Prop1;
         private bool _flagProp1;
 
         /// <summary>
@@ -80,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Prop2
         /// </summary>
         [DataMember(Name = "prop2", EmitDefaultValue = false)]
-        public Object Prop2
+        public Option<Object> Prop2
         {
             get{ return _Prop2;}
             set
@@ -89,7 +100,7 @@ namespace Org.OpenAPITools.Model
                 _flagProp2 = true;
             }
         }
-        private Object _Prop2;
+        private Option<Object> _Prop2;
         private bool _flagProp2;
 
         /// <summary>
@@ -114,8 +125,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ActivityOutputElementRepresentation {\n");
-            sb.Append("  Prop1: ").Append(Prop1).Append("\n");
-            sb.Append("  Prop2: ").Append(Prop2).Append("\n");
+            sb.Append("  Prop1: ");
+            if (Prop1.IsSet)
+            {
+                sb.Append(Prop1.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Prop2: ");
+            if (Prop2.IsSet)
+            {
+                sb.Append(Prop2.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -159,13 +180,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Prop1 != null)
+                if (this.Prop1.IsSet && this.Prop1.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Prop1.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Prop1.Value.GetHashCode();
                 }
-                if (this.Prop2 != null)
+                if (this.Prop2.IsSet && this.Prop2.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Prop2.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Prop2.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

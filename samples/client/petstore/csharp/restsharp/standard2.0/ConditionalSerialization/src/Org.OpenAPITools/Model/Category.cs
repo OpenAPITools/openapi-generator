@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -45,19 +46,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="id">id.</param>
         /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
-        public Category(long id = default(long), string name = @"default-name")
+        public Category(Option<long> id = default(Option<long>), string name = @"default-name")
         {
-            // to ensure "name" is required (not null)
+            // to ensure "name" (not nullable) is not null
             if (name == null)
             {
-                throw new ArgumentNullException("name is a required property for Category and cannot be null");
+                throw new ArgumentNullException("name isn't a nullable property for Category and cannot be null");
             }
-            this._Name = name;
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
+            this._Name = name;
+            this._flagName = true;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -65,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public Option<long> Id
         {
             get{ return _Id;}
             set
@@ -74,7 +76,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private Option<long> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -123,7 +125,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -168,7 +175,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                if (this.Id.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
+                }
                 if (this.Name != null)
                 {
                     hashCode = (hashCode * 59) + this.Name.GetHashCode();

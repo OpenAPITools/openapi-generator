@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -37,8 +38,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordList" /> class.
         /// </summary>
         /// <param name="value">value.</param>
-        public TestCollectionEndingWithWordList(string value = default(string))
+        public TestCollectionEndingWithWordList(Option<string> value = default(Option<string>))
         {
+            // to ensure "value" (not nullable) is not null
+            if (value.IsSet && value.Value == null)
+            {
+                throw new ArgumentNullException("value isn't a nullable property for TestCollectionEndingWithWordList and cannot be null");
+            }
             this.Value = value;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -47,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Value
         /// </summary>
         [DataMember(Name = "value", EmitDefaultValue = false)]
-        public string Value { get; set; }
+        public Option<string> Value { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -63,7 +69,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestCollectionEndingWithWordList {\n");
-            sb.Append("  Value: ").Append(Value).Append("\n");
+            sb.Append("  Value: ");
+            if (Value.IsSet)
+            {
+                sb.Append(Value.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -107,9 +118,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Value != null)
+                if (this.Value.IsSet && this.Value.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Value.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Value.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

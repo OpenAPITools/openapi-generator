@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -43,29 +44,29 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen.</param>
         /// <param name="hasTeeth">hasTeeth.</param>
         /// <param name="className">className (required).</param>
-        public Whale(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string))
+        public Whale(Option<bool> hasBaleen = default(Option<bool>), Option<bool> hasTeeth = default(Option<bool>), string className = default(string))
         {
-            // to ensure "className" is required (not null)
+            // to ensure "className" (not nullable) is not null
             if (className == null)
             {
-                throw new ArgumentNullException("className is a required property for Whale and cannot be null");
+                throw new ArgumentNullException("className isn't a nullable property for Whale and cannot be null");
             }
-            this.ClassName = className;
             this.HasBaleen = hasBaleen;
             this.HasTeeth = hasTeeth;
+            this.ClassName = className;
         }
 
         /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
-        public bool HasBaleen { get; set; }
+        public Option<bool> HasBaleen { get; set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
-        public bool HasTeeth { get; set; }
+        public Option<bool> HasTeeth { get; set; }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -81,8 +82,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Whale {\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
+            sb.Append("  HasBaleen: ");
+            if (HasBaleen.IsSet)
+            {
+                sb.Append(HasBaleen.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  HasTeeth: ");
+            if (HasTeeth.IsSet)
+            {
+                sb.Append(HasTeeth.Value);
+            }
+            sb.Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -126,8 +137,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
-                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
+                if (this.HasBaleen.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.HasBaleen.Value.GetHashCode();
+                }
+                if (this.HasTeeth.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.HasTeeth.Value.GetHashCode();
+                }
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();

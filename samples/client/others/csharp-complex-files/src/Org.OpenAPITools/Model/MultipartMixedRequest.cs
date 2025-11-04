@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -50,16 +51,26 @@ namespace Org.OpenAPITools.Model
         /// <param name="marker">marker.</param>
         /// <param name="file">a file (required).</param>
         /// <param name="statusArray">statusArray.</param>
-        public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), System.IO.Stream file = default(System.IO.Stream), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>))
+        public MultipartMixedRequest(MultipartMixedStatus status = default(MultipartMixedStatus), Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), System.IO.Stream file = default(System.IO.Stream), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>))
         {
-            this.Status = status;
-            // to ensure "file" is required (not null)
+            // to ensure "marker" (not nullable) is not null
+            if (marker.IsSet && marker.Value == null)
+            {
+                throw new ArgumentNullException("marker isn't a nullable property for MultipartMixedRequest and cannot be null");
+            }
+            // to ensure "file" (not nullable) is not null
             if (file == null)
             {
-                throw new ArgumentNullException("file is a required property for MultipartMixedRequest and cannot be null");
+                throw new ArgumentNullException("file isn't a nullable property for MultipartMixedRequest and cannot be null");
             }
-            this.File = file;
+            // to ensure "statusArray" (not nullable) is not null
+            if (statusArray.IsSet && statusArray.Value == null)
+            {
+                throw new ArgumentNullException("statusArray isn't a nullable property for MultipartMixedRequest and cannot be null");
+            }
+            this.Status = status;
             this.Marker = marker;
+            this.File = file;
             this.StatusArray = statusArray;
         }
 
@@ -67,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Marker
         /// </summary>
         [DataMember(Name = "marker", EmitDefaultValue = false)]
-        public MultipartMixedRequestMarker Marker { get; set; }
+        public Option<MultipartMixedRequestMarker> Marker { get; set; }
 
         /// <summary>
         /// a file
@@ -80,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StatusArray
         /// </summary>
         [DataMember(Name = "statusArray", EmitDefaultValue = false)]
-        public List<MultipartMixedStatus> StatusArray { get; set; }
+        public Option<List<MultipartMixedStatus>> StatusArray { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -91,9 +102,19 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class MultipartMixedRequest {\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Marker: ").Append(Marker).Append("\n");
+            sb.Append("  Marker: ");
+            if (Marker.IsSet)
+            {
+                sb.Append(Marker.Value);
+            }
+            sb.Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
-            sb.Append("  StatusArray: ").Append(StatusArray).Append("\n");
+            sb.Append("  StatusArray: ");
+            if (StatusArray.IsSet)
+            {
+                sb.Append(StatusArray.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -137,17 +158,17 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                if (this.Marker != null)
+                if (this.Marker.IsSet && this.Marker.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Marker.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Marker.Value.GetHashCode();
                 }
                 if (this.File != null)
                 {
                     hashCode = (hashCode * 59) + this.File.GetHashCode();
                 }
-                if (this.StatusArray != null)
+                if (this.StatusArray.IsSet && this.StatusArray.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.StatusArray.GetHashCode();
+                    hashCode = (hashCode * 59) + this.StatusArray.Value.GetHashCode();
                 }
                 return hashCode;
             }

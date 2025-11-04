@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,8 +37,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber.</param>
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
+        public ArrayOfArrayOfNumberOnly(Option<List<List<decimal>>> arrayArrayNumber = default(Option<List<List<decimal>>>))
         {
+            // to ensure "arrayArrayNumber" (not nullable) is not null
+            if (arrayArrayNumber.IsSet && arrayArrayNumber.Value == null)
+            {
+                throw new ArgumentNullException("arrayArrayNumber isn't a nullable property for ArrayOfArrayOfNumberOnly and cannot be null");
+            }
             this.ArrayArrayNumber = arrayArrayNumber;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -46,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [DataMember(Name = "ArrayArrayNumber", EmitDefaultValue = false)]
-        public List<List<decimal>> ArrayArrayNumber { get; set; }
+        public Option<List<List<decimal>>> ArrayArrayNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,7 +68,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayOfArrayOfNumberOnly {\n");
-            sb.Append("  ArrayArrayNumber: ").Append(ArrayArrayNumber).Append("\n");
+            sb.Append("  ArrayArrayNumber: ");
+            if (ArrayArrayNumber.IsSet)
+            {
+                sb.Append(ArrayArrayNumber.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -106,9 +117,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayArrayNumber != null)
+                if (this.ArrayArrayNumber.IsSet && this.ArrayArrayNumber.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayArrayNumber.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,8 +38,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="escapedLiteralString">escapedLiteralString (default to &quot;C:\\Users\\username&quot;).</param>
         /// <param name="unescapedLiteralString">unescapedLiteralString (default to &quot;C:\Users\username&quot;).</param>
-        public LiteralStringClass(string escapedLiteralString = @"C:\\Users\\username", string unescapedLiteralString = @"C:\Users\username")
+        public LiteralStringClass(Option<string> escapedLiteralString = default(Option<string>), Option<string> unescapedLiteralString = default(Option<string>))
         {
+            // to ensure "escapedLiteralString" (not nullable) is not null
+            if (escapedLiteralString.IsSet && escapedLiteralString.Value == null)
+            {
+                throw new ArgumentNullException("escapedLiteralString isn't a nullable property for LiteralStringClass and cannot be null");
+            }
+            // to ensure "unescapedLiteralString" (not nullable) is not null
+            if (unescapedLiteralString.IsSet && unescapedLiteralString.Value == null)
+            {
+                throw new ArgumentNullException("unescapedLiteralString isn't a nullable property for LiteralStringClass and cannot be null");
+            }
+            this._EscapedLiteralString = escapedLiteralString.IsSet ? escapedLiteralString : new Option<string>(@"C:\\Users\\username");
+            this._UnescapedLiteralString = unescapedLiteralString.IsSet ? unescapedLiteralString : new Option<string>(@"C:\Users\username");
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -46,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [DataMember(Name = "escapedLiteralString", EmitDefaultValue = false)]
-        public string EscapedLiteralString
+        public Option<string> EscapedLiteralString
         {
             get{ return _EscapedLiteralString;}
             set
@@ -55,7 +68,7 @@ namespace Org.OpenAPITools.Model
                 _flagEscapedLiteralString = true;
             }
         }
-        private string _EscapedLiteralString;
+        private Option<string> _EscapedLiteralString;
         private bool _flagEscapedLiteralString;
 
         /// <summary>
@@ -70,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [DataMember(Name = "unescapedLiteralString", EmitDefaultValue = false)]
-        public string UnescapedLiteralString
+        public Option<string> UnescapedLiteralString
         {
             get{ return _UnescapedLiteralString;}
             set
@@ -79,7 +92,7 @@ namespace Org.OpenAPITools.Model
                 _flagUnescapedLiteralString = true;
             }
         }
-        private string _UnescapedLiteralString;
+        private Option<string> _UnescapedLiteralString;
         private bool _flagUnescapedLiteralString;
 
         /// <summary>
@@ -104,8 +117,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class LiteralStringClass {\n");
-            sb.Append("  EscapedLiteralString: ").Append(EscapedLiteralString).Append("\n");
-            sb.Append("  UnescapedLiteralString: ").Append(UnescapedLiteralString).Append("\n");
+            sb.Append("  EscapedLiteralString: ");
+            if (EscapedLiteralString.IsSet)
+            {
+                sb.Append(EscapedLiteralString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UnescapedLiteralString: ");
+            if (UnescapedLiteralString.IsSet)
+            {
+                sb.Append(UnescapedLiteralString.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -149,13 +172,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.EscapedLiteralString != null)
+                if (this.EscapedLiteralString.IsSet && this.EscapedLiteralString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.EscapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.EscapedLiteralString.Value.GetHashCode();
                 }
-                if (this.UnescapedLiteralString != null)
+                if (this.UnescapedLiteralString.IsSet && this.UnescapedLiteralString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.UnescapedLiteralString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.UnescapedLiteralString.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="files">Many files (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void MultipartArray(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0);
+        void MultipartArray(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="files">Many files (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartArrayWithHttpInfo(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0);
+        ApiResponse<Object> MultipartArrayWithHttpInfo(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
+        void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0);
+        ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0);
         /// <summary>
         /// 
         /// </summary>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">One file (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void MultipartSingle(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
+        void MultipartSingle(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0);
 
         /// <summary>
         /// 
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">One file (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> MultipartSingleWithHttpInfo(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0);
+        ApiResponse<Object> MultipartSingleWithHttpInfo(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0);
         #endregion Synchronous Operations
     }
 
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartArrayAsync(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task MultipartArrayAsync(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartArrayWithHttpInfoAsync(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartArrayWithHttpInfoAsync(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task MultipartSingleAsync(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task MultipartSingleAsync(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// 
@@ -190,7 +190,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartSingleWithHttpInfoAsync(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> MultipartSingleWithHttpInfoAsync(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -318,7 +318,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="files">Many files (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void MultipartArray(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0)
+        public void MultipartArray(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0)
         {
             MultipartArrayWithHttpInfo(files);
         }
@@ -330,8 +330,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="files">Many files (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartArrayWithHttpInfo(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartArrayWithHttpInfo(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0)
         {
+            // verify the required parameter 'files' is set
+            if (files.IsSet && files.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'files' when calling MultipartApi->MultipartArray");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -354,9 +358,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (files != null)
+            if (files.IsSet)
             {
-                foreach (var file in files)
+                foreach (var file in files.Value)
                 {
                     localVarRequestOptions.FileParameters.Add("files", file);
                 }
@@ -388,7 +392,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartArrayAsync(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task MultipartArrayAsync(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await MultipartArrayWithHttpInfoAsync(files, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -401,8 +405,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartArrayWithHttpInfoAsync(List<System.IO.Stream> files = default(List<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartArrayWithHttpInfoAsync(Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'files' is set
+            if (files.IsSet && files.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'files' when calling MultipartApi->MultipartArray");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -426,9 +434,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (files != null)
+            if (files.IsSet)
             {
-                foreach (var file in files)
+                foreach (var file in files.Value)
                 {
                     localVarRequestOptions.FileParameters.Add("files", file);
                 }
@@ -463,7 +471,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
+        public void MultipartMixed(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0)
         {
             MultipartMixedWithHttpInfo(status, file, marker, statusArray);
         }
@@ -478,13 +486,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="statusArray"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartMixedWithHttpInfo(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0)
         {
             // verify the required parameter 'file' is set
             if (file == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'file' when calling MultipartApi->MultipartMixed");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'file' when calling MultipartApi->MultipartMixed");
+
+            // verify the required parameter 'marker' is set
+            if (marker.IsSet && marker.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'marker' when calling MultipartApi->MultipartMixed");
+
+            // verify the required parameter 'statusArray' is set
+            if (statusArray.IsSet && statusArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'statusArray' when calling MultipartApi->MultipartMixed");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -509,14 +523,14 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
-            if (marker != null)
+            if (marker.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
+                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker.Value)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
-            if (statusArray != null)
+            if (statusArray.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartMixed";
@@ -548,7 +562,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task MultipartMixedAsync(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await MultipartMixedWithHttpInfoAsync(status, file, marker, statusArray, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -564,13 +578,19 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = default(MultipartMixedRequestMarker), List<MultipartMixedStatus> statusArray = default(List<MultipartMixedStatus>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartMixedWithHttpInfoAsync(MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'file' is set
             if (file == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'file' when calling MultipartApi->MultipartMixed");
-            }
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'file' when calling MultipartApi->MultipartMixed");
+
+            // verify the required parameter 'marker' is set
+            if (marker.IsSet && marker.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'marker' when calling MultipartApi->MultipartMixed");
+
+            // verify the required parameter 'statusArray' is set
+            if (statusArray.IsSet && statusArray.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'statusArray' when calling MultipartApi->MultipartMixed");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -596,14 +616,14 @@ namespace Org.OpenAPITools.Api
             }
 
             localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
-            if (marker != null)
+            if (marker.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
+                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker.Value)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
-            if (statusArray != null)
+            if (statusArray.IsSet)
             {
-                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray.Value)); // form parameter
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartMixed";
@@ -632,7 +652,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">One file (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void MultipartSingle(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
+        public void MultipartSingle(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0)
         {
             MultipartSingleWithHttpInfo(file);
         }
@@ -644,8 +664,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="file">One file (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartSingleWithHttpInfo(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> MultipartSingleWithHttpInfo(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0)
         {
+            // verify the required parameter 'file' is set
+            if (file.IsSet && file.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'file' when calling MultipartApi->MultipartSingle");
+
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -668,9 +692,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (file != null)
+            if (file.IsSet)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
+                localVarRequestOptions.FileParameters.Add("file", file.Value);
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartSingle";
@@ -699,7 +723,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task MultipartSingleAsync(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task MultipartSingleAsync(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await MultipartSingleWithHttpInfoAsync(file, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -712,8 +736,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartSingleWithHttpInfoAsync(System.IO.Stream file = default(System.IO.Stream), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> MultipartSingleWithHttpInfoAsync(Option<System.IO.Stream> file = default(Option<System.IO.Stream>), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+            // verify the required parameter 'file' is set
+            if (file.IsSet && file.Value == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Null non nullable parameter 'file' when calling MultipartApi->MultipartSingle");
+
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -737,9 +765,9 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            if (file != null)
+            if (file.IsSet)
             {
-                localVarRequestOptions.FileParameters.Add("file", file);
+                localVarRequestOptions.FileParameters.Add("file", file.Value);
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartSingle";

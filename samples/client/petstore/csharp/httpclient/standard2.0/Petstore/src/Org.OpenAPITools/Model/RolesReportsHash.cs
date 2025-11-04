@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -38,8 +39,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="roleUuid">roleUuid.</param>
         /// <param name="role">role.</param>
-        public RolesReportsHash(Guid roleUuid = default(Guid), RolesReportsHashRole role = default(RolesReportsHashRole))
+        public RolesReportsHash(Option<Guid> roleUuid = default(Option<Guid>), Option<RolesReportsHashRole> role = default(Option<RolesReportsHashRole>))
         {
+            // to ensure "roleUuid" (not nullable) is not null
+            if (roleUuid.IsSet && roleUuid.Value == null)
+            {
+                throw new ArgumentNullException("roleUuid isn't a nullable property for RolesReportsHash and cannot be null");
+            }
+            // to ensure "role" (not nullable) is not null
+            if (role.IsSet && role.Value == null)
+            {
+                throw new ArgumentNullException("role isn't a nullable property for RolesReportsHash and cannot be null");
+            }
             this.RoleUuid = roleUuid;
             this.Role = role;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -49,13 +60,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RoleUuid
         /// </summary>
         [DataMember(Name = "role_uuid", EmitDefaultValue = false)]
-        public Guid RoleUuid { get; set; }
+        public Option<Guid> RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [DataMember(Name = "role", EmitDefaultValue = false)]
-        public RolesReportsHashRole Role { get; set; }
+        public Option<RolesReportsHashRole> Role { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -71,8 +82,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RolesReportsHash {\n");
-            sb.Append("  RoleUuid: ").Append(RoleUuid).Append("\n");
-            sb.Append("  Role: ").Append(Role).Append("\n");
+            sb.Append("  RoleUuid: ");
+            if (RoleUuid.IsSet)
+            {
+                sb.Append(RoleUuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Role: ");
+            if (Role.IsSet)
+            {
+                sb.Append(Role.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -116,13 +137,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.RoleUuid != null)
+                if (this.RoleUuid.IsSet && this.RoleUuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.RoleUuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.RoleUuid.Value.GetHashCode();
                 }
-                if (this.Role != null)
+                if (this.Role.IsSet && this.Role.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Role.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Role.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

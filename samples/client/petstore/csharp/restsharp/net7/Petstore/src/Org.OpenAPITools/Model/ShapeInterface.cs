@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -43,10 +44,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType (required).</param>
         public ShapeInterface(string shapeType = default(string))
         {
-            // to ensure "shapeType" is required (not null)
+            // to ensure "shapeType" (not nullable) is not null
             if (shapeType == null)
             {
-                throw new ArgumentNullException("shapeType is a required property for ShapeInterface and cannot be null");
+                throw new ArgumentNullException("shapeType isn't a nullable property for ShapeInterface and cannot be null");
             }
             this.ShapeType = shapeType;
         }

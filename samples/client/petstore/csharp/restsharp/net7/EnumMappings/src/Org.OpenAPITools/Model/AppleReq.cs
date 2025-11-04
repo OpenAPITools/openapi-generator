@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -42,12 +43,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="cultivar">cultivar (required).</param>
         /// <param name="mealy">mealy.</param>
-        public AppleReq(string cultivar = default(string), bool mealy = default(bool))
+        public AppleReq(string cultivar = default(string), Option<bool> mealy = default(Option<bool>))
         {
-            // to ensure "cultivar" is required (not null)
+            // to ensure "cultivar" (not nullable) is not null
             if (cultivar == null)
             {
-                throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
+                throw new ArgumentNullException("cultivar isn't a nullable property for AppleReq and cannot be null");
             }
             this.Cultivar = cultivar;
             this.Mealy = mealy;
@@ -63,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [DataMember(Name = "mealy", EmitDefaultValue = true)]
-        public bool Mealy { get; set; }
+        public Option<bool> Mealy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -74,7 +75,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class AppleReq {\n");
             sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Mealy: ").Append(Mealy).Append("\n");
+            sb.Append("  Mealy: ");
+            if (Mealy.IsSet)
+            {
+                sb.Append(Mealy.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -121,7 +127,10 @@ namespace Org.OpenAPITools.Model
                 {
                     hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+                if (this.Mealy.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Mealy.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

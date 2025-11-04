@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
+        public TestInlineFreeformAdditionalPropertiesRequest(Option<string> someProperty = default(Option<string>))
         {
+            // to ensure "someProperty" (not nullable) is not null
+            if (someProperty.IsSet && someProperty.Value == null)
+            {
+                throw new ArgumentNullException("someProperty isn't a nullable property for TestInlineFreeformAdditionalPropertiesRequest and cannot be null");
+            }
             this._SomeProperty = someProperty;
-            if (this.SomeProperty != null)
+            if (this.SomeProperty.IsSet)
             {
                 this._flagSomeProperty = true;
             }
@@ -50,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [DataMember(Name = "someProperty", EmitDefaultValue = false)]
-        public string SomeProperty
+        public Option<string> SomeProperty
         {
             get{ return _SomeProperty;}
             set
@@ -59,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagSomeProperty = true;
             }
         }
-        private string _SomeProperty;
+        private Option<string> _SomeProperty;
         private bool _flagSomeProperty;
 
         /// <summary>
@@ -84,7 +90,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-            sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
+            sb.Append("  SomeProperty: ");
+            if (SomeProperty.IsSet)
+            {
+                sb.Append(SomeProperty.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +139,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SomeProperty != null)
+                if (this.SomeProperty.IsSet && this.SomeProperty.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.SomeProperty.GetHashCode();
+                    hashCode = (hashCode * 59) + this.SomeProperty.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

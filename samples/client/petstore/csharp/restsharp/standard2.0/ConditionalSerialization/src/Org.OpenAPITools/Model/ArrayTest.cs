@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,20 +39,35 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayOfString">arrayOfString.</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        public ArrayTest(Option<List<string>> arrayOfString = default(Option<List<string>>), Option<List<List<long>>> arrayArrayOfInteger = default(Option<List<List<long>>>), Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default(Option<List<List<ReadOnlyFirst>>>))
         {
+            // to ensure "arrayOfString" (not nullable) is not null
+            if (arrayOfString.IsSet && arrayOfString.Value == null)
+            {
+                throw new ArgumentNullException("arrayOfString isn't a nullable property for ArrayTest and cannot be null");
+            }
+            // to ensure "arrayArrayOfInteger" (not nullable) is not null
+            if (arrayArrayOfInteger.IsSet && arrayArrayOfInteger.Value == null)
+            {
+                throw new ArgumentNullException("arrayArrayOfInteger isn't a nullable property for ArrayTest and cannot be null");
+            }
+            // to ensure "arrayArrayOfModel" (not nullable) is not null
+            if (arrayArrayOfModel.IsSet && arrayArrayOfModel.Value == null)
+            {
+                throw new ArgumentNullException("arrayArrayOfModel isn't a nullable property for ArrayTest and cannot be null");
+            }
             this._ArrayOfString = arrayOfString;
-            if (this.ArrayOfString != null)
+            if (this.ArrayOfString.IsSet)
             {
                 this._flagArrayOfString = true;
             }
             this._ArrayArrayOfInteger = arrayArrayOfInteger;
-            if (this.ArrayArrayOfInteger != null)
+            if (this.ArrayArrayOfInteger.IsSet)
             {
                 this._flagArrayArrayOfInteger = true;
             }
             this._ArrayArrayOfModel = arrayArrayOfModel;
-            if (this.ArrayArrayOfModel != null)
+            if (this.ArrayArrayOfModel.IsSet)
             {
                 this._flagArrayArrayOfModel = true;
             }
@@ -62,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayOfString
         /// </summary>
         [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
-        public List<string> ArrayOfString
+        public Option<List<string>> ArrayOfString
         {
             get{ return _ArrayOfString;}
             set
@@ -71,7 +87,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayOfString = true;
             }
         }
-        private List<string> _ArrayOfString;
+        private Option<List<string>> _ArrayOfString;
         private bool _flagArrayOfString;
 
         /// <summary>
@@ -86,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
-        public List<List<long>> ArrayArrayOfInteger
+        public Option<List<List<long>>> ArrayArrayOfInteger
         {
             get{ return _ArrayArrayOfInteger;}
             set
@@ -95,7 +111,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayArrayOfInteger = true;
             }
         }
-        private List<List<long>> _ArrayArrayOfInteger;
+        private Option<List<List<long>>> _ArrayArrayOfInteger;
         private bool _flagArrayArrayOfInteger;
 
         /// <summary>
@@ -110,7 +126,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel
+        public Option<List<List<ReadOnlyFirst>>> ArrayArrayOfModel
         {
             get{ return _ArrayArrayOfModel;}
             set
@@ -119,7 +135,7 @@ namespace Org.OpenAPITools.Model
                 _flagArrayArrayOfModel = true;
             }
         }
-        private List<List<ReadOnlyFirst>> _ArrayArrayOfModel;
+        private Option<List<List<ReadOnlyFirst>>> _ArrayArrayOfModel;
         private bool _flagArrayArrayOfModel;
 
         /// <summary>
@@ -144,9 +160,24 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ArrayTest {\n");
-            sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
-            sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
-            sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  ArrayOfString: ");
+            if (ArrayOfString.IsSet)
+            {
+                sb.Append(ArrayOfString.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayArrayOfInteger: ");
+            if (ArrayArrayOfInteger.IsSet)
+            {
+                sb.Append(ArrayArrayOfInteger.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ArrayArrayOfModel: ");
+            if (ArrayArrayOfModel.IsSet)
+            {
+                sb.Append(ArrayArrayOfModel.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -190,17 +221,17 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ArrayOfString != null)
+                if (this.ArrayOfString.IsSet && this.ArrayOfString.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayOfString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayOfString.Value.GetHashCode();
                 }
-                if (this.ArrayArrayOfInteger != null)
+                if (this.ArrayArrayOfInteger.IsSet && this.ArrayArrayOfInteger.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfInteger.Value.GetHashCode();
                 }
-                if (this.ArrayArrayOfModel != null)
+                if (this.ArrayArrayOfModel.IsSet && this.ArrayArrayOfModel.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ArrayArrayOfModel.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

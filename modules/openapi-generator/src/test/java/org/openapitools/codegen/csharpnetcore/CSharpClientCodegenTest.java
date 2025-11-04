@@ -128,6 +128,7 @@ public class CSharpClientCodegenTest {
         CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
         cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
         cSharpClientCodegen.setAutosetConstants(true);
+        cSharpClientCodegen.additionalProperties().put(CodegenConstants.DOTNET_FRAMEWORK, "netstandard2.0");
         clientOptInput.config(cSharpClientCodegen);
         defaultGenerator.opts(clientOptInput);
 

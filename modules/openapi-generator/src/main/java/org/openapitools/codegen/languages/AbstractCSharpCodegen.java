@@ -1157,23 +1157,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     }
 
     protected void processOperation(CodegenOperation operation) {
-        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+        if (operation.returnProperty == null || operation.returnProperty.items == null) {
+            return;
+        }
 
-        Arrays.stream(nestedTypes).forEach(nestedType -> {
-            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
-                String nestedReturnType = operation.returnProperty.items.dataType;
-                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+        String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
+        String dataType = getNullableTypeDeclaration(operation.returnProperty.items);
+
+        for (String nestedType : nestedTypes) {
+            if (operation.returnType.contains("<" + nestedType + ">")) {
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + dataType + ">");
                 operation.returnProperty.dataType = operation.returnType;
                 operation.returnProperty.datatypeWithEnum = operation.returnType;
             }
 
-            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
-                String nestedReturnType = operation.returnProperty.items.dataType;
-                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+            if (operation.returnType.contains(", " + nestedType + ">")) {
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + dataType + ">");
                 operation.returnProperty.dataType = operation.returnType;
                 operation.returnProperty.datatypeWithEnum = operation.returnType;
             }
-        });
+        }
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
@@ -1432,10 +1435,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         String arrayType = typeMapping.get("array");
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema<?> items = ModelUtils.getSchemaItems(arr);
-        String nestedType = getTypeDeclaration(items);
+
         // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
+        instantiationType.append("<").append(getNullableTypeDeclaration(items)).append(">");
         return instantiationType.toString();
+    }
+
+    protected String getNullableTypeDeclaration(CodegenProperty property) {
+        return property.dataType;
+    }
+
+    protected String getNullableTypeDeclaration(Schema<?> items) {
+        return getTypeDeclaration(items);
     }
 
     @Override
@@ -1453,7 +1464,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema<?> inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<string, " + getNullableTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }

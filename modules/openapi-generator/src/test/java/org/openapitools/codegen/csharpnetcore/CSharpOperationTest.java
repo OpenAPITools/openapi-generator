@@ -39,9 +39,9 @@ public class CSharpOperationTest {
         assertEquals(getOperationOptionalParameterDataType(new AspNetServerCodegen(), 3, true), "System.IO.Stream?");
 
         assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 2, true), "System.IO.Stream");
         assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 3, false), "System.IO.Stream");
-        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 3, true), "System.IO.Stream?");
+        assertEquals(getOperationOptionalParameterDataType(new CSharpClientCodegen(), 3, true), "System.IO.Stream");
     }
 
     public String getOperationOptionalParameterDataType(final AbstractCSharpCodegen codegen, final int openApiVersion, final Boolean nullableReferenceTypes){

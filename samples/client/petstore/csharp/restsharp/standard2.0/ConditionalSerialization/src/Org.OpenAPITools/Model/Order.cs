@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -65,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <value>Order Status</value>
 
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public StatusEnum? Status
+        public Option<StatusEnum> Status
         {
             get{ return _Status;}
             set
@@ -74,7 +75,7 @@ namespace Org.OpenAPITools.Model
                 _flagStatus = true;
             }
         }
-        private StatusEnum? _Status;
+        private Option<StatusEnum> _Status;
         private bool _flagStatus;
 
         /// <summary>
@@ -94,33 +95,39 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
+        public Order(Option<long> id = default(Option<long>), Option<long> petId = default(Option<long>), Option<int> quantity = default(Option<int>), Option<DateTime> shipDate = default(Option<DateTime>), Option<StatusEnum> status = default(Option<StatusEnum>), Option<bool> complete = default(Option<bool>))
         {
+            // to ensure "shipDate" (not nullable) is not null
+            if (shipDate.IsSet && shipDate.Value == null)
+            {
+                throw new ArgumentNullException("shipDate isn't a nullable property for Order and cannot be null");
+            }
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
             this._PetId = petId;
-            if (this.PetId != null)
+            if (this.PetId.IsSet)
             {
                 this._flagPetId = true;
             }
             this._Quantity = quantity;
-            if (this.Quantity != null)
+            if (this.Quantity.IsSet)
             {
                 this._flagQuantity = true;
             }
             this._ShipDate = shipDate;
-            if (this.ShipDate != null)
+            if (this.ShipDate.IsSet)
             {
                 this._flagShipDate = true;
             }
             this._Status = status;
-            if (this.Status != null)
+            if (this.Status.IsSet)
             {
                 this._flagStatus = true;
             }
+            this._Complete = complete.IsSet ? complete : new Option<bool>(false);
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -128,7 +135,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public Option<long> Id
         {
             get{ return _Id;}
             set
@@ -137,7 +144,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private Option<long> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -152,7 +159,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId
+        public Option<long> PetId
         {
             get{ return _PetId;}
             set
@@ -161,7 +168,7 @@ namespace Org.OpenAPITools.Model
                 _flagPetId = true;
             }
         }
-        private long _PetId;
+        private Option<long> _PetId;
         private bool _flagPetId;
 
         /// <summary>
@@ -176,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity
+        public Option<int> Quantity
         {
             get{ return _Quantity;}
             set
@@ -185,7 +192,7 @@ namespace Org.OpenAPITools.Model
                 _flagQuantity = true;
             }
         }
-        private int _Quantity;
+        private Option<int> _Quantity;
         private bool _flagQuantity;
 
         /// <summary>
@@ -201,7 +208,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [DataMember(Name = "shipDate", EmitDefaultValue = false)]
-        public DateTime ShipDate
+        public Option<DateTime> ShipDate
         {
             get{ return _ShipDate;}
             set
@@ -210,7 +217,7 @@ namespace Org.OpenAPITools.Model
                 _flagShipDate = true;
             }
         }
-        private DateTime _ShipDate;
+        private Option<DateTime> _ShipDate;
         private bool _flagShipDate;
 
         /// <summary>
@@ -225,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name = "complete", EmitDefaultValue = true)]
-        public bool Complete
+        public Option<bool> Complete
         {
             get{ return _Complete;}
             set
@@ -234,7 +241,7 @@ namespace Org.OpenAPITools.Model
                 _flagComplete = true;
             }
         }
-        private bool _Complete;
+        private Option<bool> _Complete;
         private bool _flagComplete;
 
         /// <summary>
@@ -259,12 +266,42 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  PetId: ").Append(PetId).Append("\n");
-            sb.Append("  Quantity: ").Append(Quantity).Append("\n");
-            sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  PetId: ");
+            if (PetId.IsSet)
+            {
+                sb.Append(PetId.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Quantity: ");
+            if (Quantity.IsSet)
+            {
+                sb.Append(Quantity.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ShipDate: ");
+            if (ShipDate.IsSet)
+            {
+                sb.Append(ShipDate.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Status: ");
+            if (Status.IsSet)
+            {
+                sb.Append(Status.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Complete: ");
+            if (Complete.IsSet)
+            {
+                sb.Append(Complete.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -308,15 +345,30 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
-                if (this.ShipDate != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                hashCode = (hashCode * 59) + this.Complete.GetHashCode();
+                if (this.PetId.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.PetId.Value.GetHashCode();
+                }
+                if (this.Quantity.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Quantity.Value.GetHashCode();
+                }
+                if (this.ShipDate.IsSet && this.ShipDate.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.ShipDate.Value.GetHashCode();
+                }
+                if (this.Status.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Status.Value.GetHashCode();
+                }
+                if (this.Complete.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Complete.Value.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();

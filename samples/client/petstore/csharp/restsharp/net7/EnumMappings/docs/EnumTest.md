@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **EnumInteger** | **int** |  | [optional] 
 **EnumIntegerOnly** | **int** |  | [optional] 
 **EnumNumber** | **double** |  | [optional] 
-**OuterEnum** | **OuterEnum** |  | [optional] 
+**OuterEnum** | **OuterEnum?** |  | [optional] 
 **OuterEnumInteger** | **OuterEnumInteger** |  | [optional] 
 **OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
 **OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] 

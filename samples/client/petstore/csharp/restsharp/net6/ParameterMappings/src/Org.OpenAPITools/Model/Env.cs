@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,8 +36,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Env" /> class.
         /// </summary>
         /// <param name="dummy">dummy.</param>
-        public Env(string dummy = default(string))
+        public Env(Option<string> dummy = default(Option<string>))
         {
+            // to ensure "dummy" (not nullable) is not null
+            if (dummy.IsSet && dummy.Value == null)
+            {
+                throw new ArgumentNullException("dummy isn't a nullable property for Env and cannot be null");
+            }
             this.Dummy = dummy;
         }
 
@@ -44,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Dummy
         /// </summary>
         [DataMember(Name = "dummy", EmitDefaultValue = false)]
-        public string Dummy { get; set; }
+        public Option<string> Dummy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -54,7 +60,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Env {\n");
-            sb.Append("  Dummy: ").Append(Dummy).Append("\n");
+            sb.Append("  Dummy: ");
+            if (Dummy.IsSet)
+            {
+                sb.Append(Dummy.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -91,9 +102,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Dummy == input.Dummy ||
-                    (this.Dummy != null &&
-                    this.Dummy.Equals(input.Dummy))
+                    
+                    this.Dummy.Equals(input.Dummy)
                 );
         }
 
@@ -106,9 +116,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Dummy != null)
+                if (this.Dummy.IsSet && this.Dummy.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Dummy.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Dummy.Value.GetHashCode();
                 }
                 return hashCode;
             }

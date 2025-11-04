@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -35,8 +36,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="varClass">varClass.</param>
-        public Model200Response(int name = default(int), string varClass = default(string))
+        public Model200Response(Option<int> name = default(Option<int>), Option<string> varClass = default(Option<string>))
         {
+            // to ensure "varClass" (not nullable) is not null
+            if (varClass.IsSet && varClass.Value == null)
+            {
+                throw new ArgumentNullException("varClass isn't a nullable property for Model200Response and cannot be null");
+            }
             this.Name = name;
             this.Class = varClass;
         }
@@ -45,13 +51,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public int Name { get; set; }
+        public Option<int> Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string Class { get; set; }
+        public Option<string> Class { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -61,8 +67,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  Class: ").Append(Class).Append("\n");
+            sb.Append("  Name: ");
+            if (Name.IsSet)
+            {
+                sb.Append(Name.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Class: ");
+            if (Class.IsSet)
+            {
+                sb.Append(Class.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,13 +115,11 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Name == input.Name ||
                     this.Name.Equals(input.Name)
                 ) && 
                 (
-                    this.Class == input.Class ||
-                    (this.Class != null &&
-                    this.Class.Equals(input.Class))
+                    
+                    this.Class.Equals(input.Class)
                 );
         }
 
@@ -118,10 +132,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.Class != null)
+                if (this.Name.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
+                hashCode = (hashCode * 59) + this.Name.Value.GetHashCode();
+                }
+                if (this.Class.IsSet && this.Class.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Class.Value.GetHashCode();
                 }
                 return hashCode;
             }

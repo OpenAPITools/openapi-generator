@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -46,10 +47,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="triangleType">triangleType (required).</param>
         public TriangleInterface(string triangleType = default(string))
         {
-            // to ensure "triangleType" is required (not null)
+            // to ensure "triangleType" (not nullable) is not null
             if (triangleType == null)
             {
-                throw new ArgumentNullException("triangleType is a required property for TriangleInterface and cannot be null");
+                throw new ArgumentNullException("triangleType isn't a nullable property for TriangleInterface and cannot be null");
             }
             this.TriangleType = triangleType;
             this.AdditionalProperties = new Dictionary<string, object>();

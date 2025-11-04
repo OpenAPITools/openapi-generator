@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -34,8 +35,13 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
         /// </summary>
         /// <param name="baz">baz.</param>
-        public ReadOnlyFirst(string baz = default(string))
+        public ReadOnlyFirst(Option<string> baz = default(Option<string>))
         {
+            // to ensure "baz" (not nullable) is not null
+            if (baz.IsSet && baz.Value == null)
+            {
+                throw new ArgumentNullException("baz isn't a nullable property for ReadOnlyFirst and cannot be null");
+            }
             this.Baz = baz;
         }
 
@@ -43,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
-        public string Bar { get; private set; }
+        public Option<string> Bar { get; private set; }
 
         /// <summary>
         /// Returns false as Bar should not be serialized given that it's read-only.
@@ -57,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Baz
         /// </summary>
         [DataMember(Name = "baz", EmitDefaultValue = false)]
-        public string Baz { get; set; }
+        public Option<string> Baz { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -67,8 +73,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ReadOnlyFirst {\n");
-            sb.Append("  Bar: ").Append(Bar).Append("\n");
-            sb.Append("  Baz: ").Append(Baz).Append("\n");
+            sb.Append("  Bar: ");
+            if (Bar.IsSet)
+            {
+                sb.Append(Bar.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Baz: ");
+            if (Baz.IsSet)
+            {
+                sb.Append(Baz.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -105,14 +121,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Bar == input.Bar ||
-                    (this.Bar != null &&
-                    this.Bar.Equals(input.Bar))
+                    
+                    this.Bar.Equals(input.Bar)
                 ) && 
                 (
-                    this.Baz == input.Baz ||
-                    (this.Baz != null &&
-                    this.Baz.Equals(input.Baz))
+                    
+                    this.Baz.Equals(input.Baz)
                 );
         }
 
@@ -125,13 +139,13 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
+                if (this.Bar.IsSet && this.Bar.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Bar.Value.GetHashCode();
                 }
-                if (this.Baz != null)
+                if (this.Baz.IsSet && this.Baz.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Baz.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Baz.Value.GetHashCode();
                 }
                 return hashCode;
             }

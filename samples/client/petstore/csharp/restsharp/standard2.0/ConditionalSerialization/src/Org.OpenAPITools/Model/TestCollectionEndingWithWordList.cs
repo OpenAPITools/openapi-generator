@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,10 +37,15 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestCollectionEndingWithWordList" /> class.
         /// </summary>
         /// <param name="value">value.</param>
-        public TestCollectionEndingWithWordList(string value = default(string))
+        public TestCollectionEndingWithWordList(Option<string> value = default(Option<string>))
         {
+            // to ensure "value" (not nullable) is not null
+            if (value.IsSet && value.Value == null)
+            {
+                throw new ArgumentNullException("value isn't a nullable property for TestCollectionEndingWithWordList and cannot be null");
+            }
             this._Value = value;
-            if (this.Value != null)
+            if (this.Value.IsSet)
             {
                 this._flagValue = true;
             }
@@ -50,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Value
         /// </summary>
         [DataMember(Name = "value", EmitDefaultValue = false)]
-        public string Value
+        public Option<string> Value
         {
             get{ return _Value;}
             set
@@ -59,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagValue = true;
             }
         }
-        private string _Value;
+        private Option<string> _Value;
         private bool _flagValue;
 
         /// <summary>
@@ -84,7 +90,12 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestCollectionEndingWithWordList {\n");
-            sb.Append("  Value: ").Append(Value).Append("\n");
+            sb.Append("  Value: ");
+            if (Value.IsSet)
+            {
+                sb.Append(Value.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +139,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Value != null)
+                if (this.Value.IsSet && this.Value.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Value.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Value.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

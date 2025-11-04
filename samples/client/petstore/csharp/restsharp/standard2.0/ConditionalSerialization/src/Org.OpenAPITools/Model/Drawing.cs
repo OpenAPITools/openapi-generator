@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,25 +40,35 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
+        public Drawing(Option<Shape> mainShape = default(Option<Shape>), Option<ShapeOrNull> shapeOrNull = default(Option<ShapeOrNull>), Option<NullableShape> nullableShape = default(Option<NullableShape>), Option<List<Shape>> shapes = default(Option<List<Shape>>))
         {
+            // to ensure "mainShape" (not nullable) is not null
+            if (mainShape.IsSet && mainShape.Value == null)
+            {
+                throw new ArgumentNullException("mainShape isn't a nullable property for Drawing and cannot be null");
+            }
+            // to ensure "shapes" (not nullable) is not null
+            if (shapes.IsSet && shapes.Value == null)
+            {
+                throw new ArgumentNullException("shapes isn't a nullable property for Drawing and cannot be null");
+            }
             this._MainShape = mainShape;
-            if (this.MainShape != null)
+            if (this.MainShape.IsSet)
             {
                 this._flagMainShape = true;
             }
             this._ShapeOrNull = shapeOrNull;
-            if (this.ShapeOrNull != null)
+            if (this.ShapeOrNull.IsSet)
             {
                 this._flagShapeOrNull = true;
             }
             this._NullableShape = nullableShape;
-            if (this.NullableShape != null)
+            if (this.NullableShape.IsSet)
             {
                 this._flagNullableShape = true;
             }
             this._Shapes = shapes;
-            if (this.Shapes != null)
+            if (this.Shapes.IsSet)
             {
                 this._flagShapes = true;
             }
@@ -68,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [DataMember(Name = "mainShape", EmitDefaultValue = false)]
-        public Shape MainShape
+        public Option<Shape> MainShape
         {
             get{ return _MainShape;}
             set
@@ -77,7 +88,7 @@ namespace Org.OpenAPITools.Model
                 _flagMainShape = true;
             }
         }
-        private Shape _MainShape;
+        private Option<Shape> _MainShape;
         private bool _flagMainShape;
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [DataMember(Name = "shapeOrNull", EmitDefaultValue = true)]
-        public ShapeOrNull ShapeOrNull
+        public Option<ShapeOrNull> ShapeOrNull
         {
             get{ return _ShapeOrNull;}
             set
@@ -101,7 +112,7 @@ namespace Org.OpenAPITools.Model
                 _flagShapeOrNull = true;
             }
         }
-        private ShapeOrNull _ShapeOrNull;
+        private Option<ShapeOrNull> _ShapeOrNull;
         private bool _flagShapeOrNull;
 
         /// <summary>
@@ -116,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableShape
         /// </summary>
         [DataMember(Name = "nullableShape", EmitDefaultValue = true)]
-        public NullableShape NullableShape
+        public Option<NullableShape> NullableShape
         {
             get{ return _NullableShape;}
             set
@@ -125,7 +136,7 @@ namespace Org.OpenAPITools.Model
                 _flagNullableShape = true;
             }
         }
-        private NullableShape _NullableShape;
+        private Option<NullableShape> _NullableShape;
         private bool _flagNullableShape;
 
         /// <summary>
@@ -140,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Shapes
         /// </summary>
         [DataMember(Name = "shapes", EmitDefaultValue = false)]
-        public List<Shape> Shapes
+        public Option<List<Shape>> Shapes
         {
             get{ return _Shapes;}
             set
@@ -149,7 +160,7 @@ namespace Org.OpenAPITools.Model
                 _flagShapes = true;
             }
         }
-        private List<Shape> _Shapes;
+        private Option<List<Shape>> _Shapes;
         private bool _flagShapes;
 
         /// <summary>
@@ -174,10 +185,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Drawing {\n");
-            sb.Append("  MainShape: ").Append(MainShape).Append("\n");
-            sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
-            sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
-            sb.Append("  Shapes: ").Append(Shapes).Append("\n");
+            sb.Append("  MainShape: ");
+            if (MainShape.IsSet)
+            {
+                sb.Append(MainShape.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ShapeOrNull: ");
+            if (ShapeOrNull.IsSet)
+            {
+                sb.Append(ShapeOrNull.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  NullableShape: ");
+            if (NullableShape.IsSet)
+            {
+                sb.Append(NullableShape.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Shapes: ");
+            if (Shapes.IsSet)
+            {
+                sb.Append(Shapes.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -221,21 +252,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.MainShape != null)
+                if (this.MainShape.IsSet && this.MainShape.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.MainShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.MainShape.Value.GetHashCode();
                 }
-                if (this.ShapeOrNull != null)
+                if (this.ShapeOrNull.IsSet && this.ShapeOrNull.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeOrNull.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ShapeOrNull.Value.GetHashCode();
                 }
-                if (this.NullableShape != null)
+                if (this.NullableShape.IsSet && this.NullableShape.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.NullableShape.GetHashCode();
+                    hashCode = (hashCode * 59) + this.NullableShape.Value.GetHashCode();
                 }
-                if (this.Shapes != null)
+                if (this.Shapes.IsSet && this.Shapes.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Shapes.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Shapes.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

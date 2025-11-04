@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,8 +40,23 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id.</param>
         /// <param name="deprecatedRef">deprecatedRef.</param>
         /// <param name="bars">bars.</param>
-        public ObjectWithDeprecatedFields(string uuid = default(string), decimal id = default(decimal), DeprecatedObject deprecatedRef = default(DeprecatedObject), List<string> bars = default(List<string>))
+        public ObjectWithDeprecatedFields(Option<string> uuid = default(Option<string>), Option<decimal> id = default(Option<decimal>), Option<DeprecatedObject> deprecatedRef = default(Option<DeprecatedObject>), Option<List<string>> bars = default(Option<List<string>>))
         {
+            // to ensure "uuid" (not nullable) is not null
+            if (uuid.IsSet && uuid.Value == null)
+            {
+                throw new ArgumentNullException("uuid isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
+            // to ensure "deprecatedRef" (not nullable) is not null
+            if (deprecatedRef.IsSet && deprecatedRef.Value == null)
+            {
+                throw new ArgumentNullException("deprecatedRef isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
+            // to ensure "bars" (not nullable) is not null
+            if (bars.IsSet && bars.Value == null)
+            {
+                throw new ArgumentNullException("bars isn't a nullable property for ObjectWithDeprecatedFields and cannot be null");
+            }
             this.Uuid = uuid;
             this.Id = id;
             this.DeprecatedRef = deprecatedRef;
@@ -52,28 +68,28 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public string Uuid { get; set; }
+        public Option<string> Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [Obsolete]
-        public decimal Id { get; set; }
+        public Option<decimal> Id { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [DataMember(Name = "deprecatedRef", EmitDefaultValue = false)]
         [Obsolete]
-        public DeprecatedObject DeprecatedRef { get; set; }
+        public Option<DeprecatedObject> DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Bars
         /// </summary>
         [DataMember(Name = "bars", EmitDefaultValue = false)]
         [Obsolete]
-        public List<string> Bars { get; set; }
+        public Option<List<string>> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,10 +105,30 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ObjectWithDeprecatedFields {\n");
-            sb.Append("  Uuid: ").Append(Uuid).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  DeprecatedRef: ").Append(DeprecatedRef).Append("\n");
-            sb.Append("  Bars: ").Append(Bars).Append("\n");
+            sb.Append("  Uuid: ");
+            if (Uuid.IsSet)
+            {
+                sb.Append(Uuid.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  DeprecatedRef: ");
+            if (DeprecatedRef.IsSet)
+            {
+                sb.Append(DeprecatedRef.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Bars: ");
+            if (Bars.IsSet)
+            {
+                sb.Append(Bars.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -136,18 +172,21 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Uuid != null)
+                if (this.Uuid.IsSet && this.Uuid.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Uuid.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.DeprecatedRef != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.DeprecatedRef.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                if (this.Bars != null)
+                if (this.DeprecatedRef.IsSet && this.DeprecatedRef.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Bars.GetHashCode();
+                    hashCode = (hashCode * 59) + this.DeprecatedRef.Value.GetHashCode();
+                }
+                if (this.Bars.IsSet && this.Bars.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.Bars.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

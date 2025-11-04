@@ -17,6 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Org.OpenAPITools.Client;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -43,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public BananaReq(decimal lengthCm = default(decimal), Option<bool> sweet = default(Option<bool>))
         {
             this.LengthCm = lengthCm;
             this.Sweet = sweet;
@@ -59,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
-        public bool Sweet { get; set; }
+        public Option<bool> Sweet { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -70,7 +71,12 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class BananaReq {\n");
             sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
-            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
+            sb.Append("  Sweet: ");
+            if (Sweet.IsSet)
+            {
+                sb.Append(Sweet.Value);
+            }
+            sb.Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -114,7 +120,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
-                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                if (this.Sweet.IsSet)
+                {
+                hashCode = (hashCode * 59) + this.Sweet.Value.GetHashCode();
+                }
                 return hashCode;
             }
         }

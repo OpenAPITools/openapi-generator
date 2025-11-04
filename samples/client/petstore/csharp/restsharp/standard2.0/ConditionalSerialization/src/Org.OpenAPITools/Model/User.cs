@@ -23,6 +23,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -47,65 +48,100 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value..</param>
         /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389.</param>
         /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values..</param>
-        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int), Object objectWithNoDeclaredProps = default(Object), Object objectWithNoDeclaredPropsNullable = default(Object), Object anyTypeProp = default(Object), Object anyTypePropNullable = default(Object))
+        public User(Option<long> id = default(Option<long>), Option<string> username = default(Option<string>), Option<string> firstName = default(Option<string>), Option<string> lastName = default(Option<string>), Option<string> email = default(Option<string>), Option<string> password = default(Option<string>), Option<string> phone = default(Option<string>), Option<int> userStatus = default(Option<int>), Option<Object> objectWithNoDeclaredProps = default(Option<Object>), Option<Object> objectWithNoDeclaredPropsNullable = default(Option<Object>), Option<Object> anyTypeProp = default(Option<Object>), Option<Object> anyTypePropNullable = default(Option<Object>))
         {
+            // to ensure "username" (not nullable) is not null
+            if (username.IsSet && username.Value == null)
+            {
+                throw new ArgumentNullException("username isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "firstName" (not nullable) is not null
+            if (firstName.IsSet && firstName.Value == null)
+            {
+                throw new ArgumentNullException("firstName isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "lastName" (not nullable) is not null
+            if (lastName.IsSet && lastName.Value == null)
+            {
+                throw new ArgumentNullException("lastName isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "email" (not nullable) is not null
+            if (email.IsSet && email.Value == null)
+            {
+                throw new ArgumentNullException("email isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "password" (not nullable) is not null
+            if (password.IsSet && password.Value == null)
+            {
+                throw new ArgumentNullException("password isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "phone" (not nullable) is not null
+            if (phone.IsSet && phone.Value == null)
+            {
+                throw new ArgumentNullException("phone isn't a nullable property for User and cannot be null");
+            }
+            // to ensure "objectWithNoDeclaredProps" (not nullable) is not null
+            if (objectWithNoDeclaredProps.IsSet && objectWithNoDeclaredProps.Value == null)
+            {
+                throw new ArgumentNullException("objectWithNoDeclaredProps isn't a nullable property for User and cannot be null");
+            }
             this._Id = id;
-            if (this.Id != null)
+            if (this.Id.IsSet)
             {
                 this._flagId = true;
             }
             this._Username = username;
-            if (this.Username != null)
+            if (this.Username.IsSet)
             {
                 this._flagUsername = true;
             }
             this._FirstName = firstName;
-            if (this.FirstName != null)
+            if (this.FirstName.IsSet)
             {
                 this._flagFirstName = true;
             }
             this._LastName = lastName;
-            if (this.LastName != null)
+            if (this.LastName.IsSet)
             {
                 this._flagLastName = true;
             }
             this._Email = email;
-            if (this.Email != null)
+            if (this.Email.IsSet)
             {
                 this._flagEmail = true;
             }
             this._Password = password;
-            if (this.Password != null)
+            if (this.Password.IsSet)
             {
                 this._flagPassword = true;
             }
             this._Phone = phone;
-            if (this.Phone != null)
+            if (this.Phone.IsSet)
             {
                 this._flagPhone = true;
             }
             this._UserStatus = userStatus;
-            if (this.UserStatus != null)
+            if (this.UserStatus.IsSet)
             {
                 this._flagUserStatus = true;
             }
             this._ObjectWithNoDeclaredProps = objectWithNoDeclaredProps;
-            if (this.ObjectWithNoDeclaredProps != null)
+            if (this.ObjectWithNoDeclaredProps.IsSet)
             {
                 this._flagObjectWithNoDeclaredProps = true;
             }
             this._ObjectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-            if (this.ObjectWithNoDeclaredPropsNullable != null)
+            if (this.ObjectWithNoDeclaredPropsNullable.IsSet)
             {
                 this._flagObjectWithNoDeclaredPropsNullable = true;
             }
             this._AnyTypeProp = anyTypeProp;
-            if (this.AnyTypeProp != null)
+            if (this.AnyTypeProp.IsSet)
             {
                 this._flagAnyTypeProp = true;
             }
             this._AnyTypePropNullable = anyTypePropNullable;
-            if (this.AnyTypePropNullable != null)
+            if (this.AnyTypePropNullable.IsSet)
             {
                 this._flagAnyTypePropNullable = true;
             }
@@ -116,7 +152,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public Option<long> Id
         {
             get{ return _Id;}
             set
@@ -125,7 +161,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private Option<long> _Id;
         private bool _flagId;
 
         /// <summary>
@@ -140,7 +176,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name = "username", EmitDefaultValue = false)]
-        public string Username
+        public Option<string> Username
         {
             get{ return _Username;}
             set
@@ -149,7 +185,7 @@ namespace Org.OpenAPITools.Model
                 _flagUsername = true;
             }
         }
-        private string _Username;
+        private Option<string> _Username;
         private bool _flagUsername;
 
         /// <summary>
@@ -164,7 +200,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name = "firstName", EmitDefaultValue = false)]
-        public string FirstName
+        public Option<string> FirstName
         {
             get{ return _FirstName;}
             set
@@ -173,7 +209,7 @@ namespace Org.OpenAPITools.Model
                 _flagFirstName = true;
             }
         }
-        private string _FirstName;
+        private Option<string> _FirstName;
         private bool _flagFirstName;
 
         /// <summary>
@@ -188,7 +224,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name = "lastName", EmitDefaultValue = false)]
-        public string LastName
+        public Option<string> LastName
         {
             get{ return _LastName;}
             set
@@ -197,7 +233,7 @@ namespace Org.OpenAPITools.Model
                 _flagLastName = true;
             }
         }
-        private string _LastName;
+        private Option<string> _LastName;
         private bool _flagLastName;
 
         /// <summary>
@@ -212,7 +248,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name = "email", EmitDefaultValue = false)]
-        public string Email
+        public Option<string> Email
         {
             get{ return _Email;}
             set
@@ -221,7 +257,7 @@ namespace Org.OpenAPITools.Model
                 _flagEmail = true;
             }
         }
-        private string _Email;
+        private Option<string> _Email;
         private bool _flagEmail;
 
         /// <summary>
@@ -236,7 +272,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name = "password", EmitDefaultValue = false)]
-        public string Password
+        public Option<string> Password
         {
             get{ return _Password;}
             set
@@ -245,7 +281,7 @@ namespace Org.OpenAPITools.Model
                 _flagPassword = true;
             }
         }
-        private string _Password;
+        private Option<string> _Password;
         private bool _flagPassword;
 
         /// <summary>
@@ -260,7 +296,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name = "phone", EmitDefaultValue = false)]
-        public string Phone
+        public Option<string> Phone
         {
             get{ return _Phone;}
             set
@@ -269,7 +305,7 @@ namespace Org.OpenAPITools.Model
                 _flagPhone = true;
             }
         }
-        private string _Phone;
+        private Option<string> _Phone;
         private bool _flagPhone;
 
         /// <summary>
@@ -285,7 +321,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name = "userStatus", EmitDefaultValue = false)]
-        public int UserStatus
+        public Option<int> UserStatus
         {
             get{ return _UserStatus;}
             set
@@ -294,7 +330,7 @@ namespace Org.OpenAPITools.Model
                 _flagUserStatus = true;
             }
         }
-        private int _UserStatus;
+        private Option<int> _UserStatus;
         private bool _flagUserStatus;
 
         /// <summary>
@@ -310,7 +346,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredProps", EmitDefaultValue = false)]
-        public Object ObjectWithNoDeclaredProps
+        public Option<Object> ObjectWithNoDeclaredProps
         {
             get{ return _ObjectWithNoDeclaredProps;}
             set
@@ -319,7 +355,7 @@ namespace Org.OpenAPITools.Model
                 _flagObjectWithNoDeclaredProps = true;
             }
         }
-        private Object _ObjectWithNoDeclaredProps;
+        private Option<Object> _ObjectWithNoDeclaredProps;
         private bool _flagObjectWithNoDeclaredProps;
 
         /// <summary>
@@ -335,7 +371,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [DataMember(Name = "objectWithNoDeclaredPropsNullable", EmitDefaultValue = true)]
-        public Object ObjectWithNoDeclaredPropsNullable
+        public Option<Object> ObjectWithNoDeclaredPropsNullable
         {
             get{ return _ObjectWithNoDeclaredPropsNullable;}
             set
@@ -344,7 +380,7 @@ namespace Org.OpenAPITools.Model
                 _flagObjectWithNoDeclaredPropsNullable = true;
             }
         }
-        private Object _ObjectWithNoDeclaredPropsNullable;
+        private Option<Object> _ObjectWithNoDeclaredPropsNullable;
         private bool _flagObjectWithNoDeclaredPropsNullable;
 
         /// <summary>
@@ -360,7 +396,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [DataMember(Name = "anyTypeProp", EmitDefaultValue = true)]
-        public Object AnyTypeProp
+        public Option<Object> AnyTypeProp
         {
             get{ return _AnyTypeProp;}
             set
@@ -369,7 +405,7 @@ namespace Org.OpenAPITools.Model
                 _flagAnyTypeProp = true;
             }
         }
-        private Object _AnyTypeProp;
+        private Option<Object> _AnyTypeProp;
         private bool _flagAnyTypeProp;
 
         /// <summary>
@@ -385,7 +421,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [DataMember(Name = "anyTypePropNullable", EmitDefaultValue = true)]
-        public Object AnyTypePropNullable
+        public Option<Object> AnyTypePropNullable
         {
             get{ return _AnyTypePropNullable;}
             set
@@ -394,7 +430,7 @@ namespace Org.OpenAPITools.Model
                 _flagAnyTypePropNullable = true;
             }
         }
-        private Object _AnyTypePropNullable;
+        private Option<Object> _AnyTypePropNullable;
         private bool _flagAnyTypePropNullable;
 
         /// <summary>
@@ -419,18 +455,78 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class User {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Username: ").Append(Username).Append("\n");
-            sb.Append("  FirstName: ").Append(FirstName).Append("\n");
-            sb.Append("  LastName: ").Append(LastName).Append("\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
-            sb.Append("  Phone: ").Append(Phone).Append("\n");
-            sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
-            sb.Append("  ObjectWithNoDeclaredProps: ").Append(ObjectWithNoDeclaredProps).Append("\n");
-            sb.Append("  ObjectWithNoDeclaredPropsNullable: ").Append(ObjectWithNoDeclaredPropsNullable).Append("\n");
-            sb.Append("  AnyTypeProp: ").Append(AnyTypeProp).Append("\n");
-            sb.Append("  AnyTypePropNullable: ").Append(AnyTypePropNullable).Append("\n");
+            sb.Append("  Id: ");
+            if (Id.IsSet)
+            {
+                sb.Append(Id.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Username: ");
+            if (Username.IsSet)
+            {
+                sb.Append(Username.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  FirstName: ");
+            if (FirstName.IsSet)
+            {
+                sb.Append(FirstName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  LastName: ");
+            if (LastName.IsSet)
+            {
+                sb.Append(LastName.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Email: ");
+            if (Email.IsSet)
+            {
+                sb.Append(Email.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Password: ");
+            if (Password.IsSet)
+            {
+                sb.Append(Password.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  Phone: ");
+            if (Phone.IsSet)
+            {
+                sb.Append(Phone.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  UserStatus: ");
+            if (UserStatus.IsSet)
+            {
+                sb.Append(UserStatus.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ObjectWithNoDeclaredProps: ");
+            if (ObjectWithNoDeclaredProps.IsSet)
+            {
+                sb.Append(ObjectWithNoDeclaredProps.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  ObjectWithNoDeclaredPropsNullable: ");
+            if (ObjectWithNoDeclaredPropsNullable.IsSet)
+            {
+                sb.Append(ObjectWithNoDeclaredPropsNullable.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  AnyTypeProp: ");
+            if (AnyTypeProp.IsSet)
+            {
+                sb.Append(AnyTypeProp.Value);
+            }
+            sb.Append("\n");
+            sb.Append("  AnyTypePropNullable: ");
+            if (AnyTypePropNullable.IsSet)
+            {
+                sb.Append(AnyTypePropNullable.Value);
+            }
+            sb.Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -474,47 +570,53 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Username != null)
+                if (this.Id.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.Username.GetHashCode();
+                hashCode = (hashCode * 59) + this.Id.Value.GetHashCode();
                 }
-                if (this.FirstName != null)
+                if (this.Username.IsSet && this.Username.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.FirstName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Username.Value.GetHashCode();
                 }
-                if (this.LastName != null)
+                if (this.FirstName.IsSet && this.FirstName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.LastName.GetHashCode();
+                    hashCode = (hashCode * 59) + this.FirstName.Value.GetHashCode();
                 }
-                if (this.Email != null)
+                if (this.LastName.IsSet && this.LastName.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Email.GetHashCode();
+                    hashCode = (hashCode * 59) + this.LastName.Value.GetHashCode();
                 }
-                if (this.Password != null)
+                if (this.Email.IsSet && this.Email.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Email.Value.GetHashCode();
                 }
-                if (this.Phone != null)
+                if (this.Password.IsSet && this.Password.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.Phone.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Password.Value.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.UserStatus.GetHashCode();
-                if (this.ObjectWithNoDeclaredProps != null)
+                if (this.Phone.IsSet && this.Phone.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Phone.Value.GetHashCode();
                 }
-                if (this.ObjectWithNoDeclaredPropsNullable != null)
+                if (this.UserStatus.IsSet)
                 {
-                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.GetHashCode();
+                hashCode = (hashCode * 59) + this.UserStatus.Value.GetHashCode();
                 }
-                if (this.AnyTypeProp != null)
+                if (this.ObjectWithNoDeclaredProps.IsSet && this.ObjectWithNoDeclaredProps.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.AnyTypeProp.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredProps.Value.GetHashCode();
                 }
-                if (this.AnyTypePropNullable != null)
+                if (this.ObjectWithNoDeclaredPropsNullable.IsSet && this.ObjectWithNoDeclaredPropsNullable.Value != null)
                 {
-                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.GetHashCode();
+                    hashCode = (hashCode * 59) + this.ObjectWithNoDeclaredPropsNullable.Value.GetHashCode();
+                }
+                if (this.AnyTypeProp.IsSet && this.AnyTypeProp.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.AnyTypeProp.Value.GetHashCode();
+                }
+                if (this.AnyTypePropNullable.IsSet && this.AnyTypePropNullable.Value != null)
+                {
+                    hashCode = (hashCode * 59) + this.AnyTypePropNullable.Value.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

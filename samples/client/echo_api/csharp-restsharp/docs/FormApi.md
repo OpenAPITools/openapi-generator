@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testformintegerbooleanstring"></a>
 # **TestFormIntegerBooleanString**
-> string TestFormIntegerBooleanString (int? integerForm = null, bool? booleanForm = null, string? stringForm = null)
+> string TestFormIntegerBooleanString (Option<int> integerForm = default(Option<int>), Option<bool> booleanForm = default(Option<bool>), Option<string> stringForm = default(Option<string>))
 
 Test form parameter(s)
 
@@ -33,9 +33,9 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new FormApi(config);
-            var integerForm = 56;  // int? |  (optional) 
-            var booleanForm = true;  // bool? |  (optional) 
-            var stringForm = "stringForm_example";  // string? |  (optional) 
+            var integerForm = 56;  // int |  (optional) 
+            var booleanForm = true;  // bool |  (optional) 
+            var stringForm = "stringForm_example";  // string |  (optional) 
 
             try
             {
@@ -78,9 +78,9 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **integerForm** | **int?** |  | [optional]  |
-| **booleanForm** | **bool?** |  | [optional]  |
-| **stringForm** | **string?** |  | [optional]  |
+| **integerForm** | **int** |  | [optional]  |
+| **booleanForm** | **bool** |  | [optional]  |
+| **stringForm** | **string** |  | [optional]  |
 
 ### Return type
 
@@ -196,7 +196,7 @@ No authorization required
 
 <a id="testformoneof"></a>
 # **TestFormOneof**
-> string TestFormOneof (string? form1 = null, int? form2 = null, string? form3 = null, bool? form4 = null, long? id = null, string? name = null)
+> string TestFormOneof (Option<string> form1 = default(Option<string>), Option<int> form2 = default(Option<int>), Option<string> form3 = default(Option<string>), Option<bool> form4 = default(Option<bool>), Option<long> id = default(Option<long>), Option<string> name = default(Option<string>))
 
 Test form parameter(s) for oneOf schema
 
@@ -219,12 +219,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new FormApi(config);
-            var form1 = "form1_example";  // string? |  (optional) 
-            var form2 = 56;  // int? |  (optional) 
-            var form3 = "form3_example";  // string? |  (optional) 
-            var form4 = true;  // bool? |  (optional) 
-            var id = 789L;  // long? |  (optional) 
-            var name = "name_example";  // string? |  (optional) 
+            var form1 = "form1_example";  // string |  (optional) 
+            var form2 = 56;  // int |  (optional) 
+            var form3 = "form3_example";  // string |  (optional) 
+            var form4 = true;  // bool |  (optional) 
+            var id = 789L;  // long |  (optional) 
+            var name = "name_example";  // string |  (optional) 
 
             try
             {
@@ -267,12 +267,12 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **form1** | **string?** |  | [optional]  |
-| **form2** | **int?** |  | [optional]  |
-| **form3** | **string?** |  | [optional]  |
-| **form4** | **bool?** |  | [optional]  |
-| **id** | **long?** |  | [optional]  |
-| **name** | **string?** |  | [optional]  |
+| **form1** | **string** |  | [optional]  |
+| **form2** | **int** |  | [optional]  |
+| **form3** | **string** |  | [optional]  |
+| **form4** | **bool** |  | [optional]  |
+| **id** | **long** |  | [optional]  |
+| **name** | **string** |  | [optional]  |
 
 ### Return type
 
