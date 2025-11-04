@@ -44,7 +44,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.languages.CSharpClientCodegen.GENERICHOST;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -1164,12 +1163,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         String[] nestedTypes = {"List", "Collection", "ICollection", "Dictionary"};
-        String dataType = operation.returnProperty.items.dataType;
-        if (!GENERICHOST.equals(getLibrary())) {
-            if (operation.returnProperty.items.isNullable && (this.nullReferenceTypesFlag || operation.returnProperty.items.isEnum || getValueTypes().contains(dataType)) && !dataType.endsWith("?")) {
-                dataType += "?";
-            }
-        }
+        String dataType = getNullablePropertyType(operation.returnProperty.items);
 
         for (String nestedType : nestedTypes) {
             if (operation.returnType.contains("<" + nestedType + ">")) {
@@ -1442,16 +1436,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         String arrayType = typeMapping.get("array");
         StringBuilder instantiationType = new StringBuilder(arrayType);
         Schema<?> items = ModelUtils.getSchemaItems(arr);
-        String nestedType = getTypeDeclaration(items);
+        String nestedType = getNullableSchemaType(items);
 
-        if (!GENERICHOST.equals(getLibrary())) {
-            if (ModelUtils.isNullable(items) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(items) || getValueTypes().contains(nestedType)) && !nestedType.endsWith("?")) {
-                nestedType += "?";
-            }
-        }
         // TODO: We may want to differentiate here between generics and primitive arrays.
         instantiationType.append("<").append(nestedType).append(">");
         return instantiationType.toString();
+    }
+
+    protected String getNullablePropertyType(CodegenProperty property) {
+        return property.dataType;
+    }
+
+    protected String getNullableSchemaType(Schema<?> items) {
+        return getTypeDeclaration(items);
     }
 
     @Override

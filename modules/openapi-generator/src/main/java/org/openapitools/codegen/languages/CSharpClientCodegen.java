@@ -1704,4 +1704,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         generateYAMLSpecFile(objs);
         return objs;
     }
+
+    protected String getNullablePropertyType(CodegenProperty property) {
+        String dataType = super.getNullablePropertyType(property);
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (property.isNullable && (this.nullReferenceTypesFlag || property.isEnum || getValueTypes().contains(dataType)) && !dataType.endsWith("?")) {
+                dataType += "?";
+            }
+        }
+        return dataType;
+    }
+
+    protected String getNullableSchemaType(Schema<?> items) {
+        String nestedType = super.getNullableSchemaType(items);
+        if (!GENERICHOST.equals(getLibrary())) {
+            if (ModelUtils.isNullable(items) && (this.nullReferenceTypesFlag || ModelUtils.isEnumSchema(items) || getValueTypes().contains(nestedType)) && !nestedType.endsWith("?")) {
+                nestedType += "?";
+            }
+        }
+        return nestedType;
+    }
 }
