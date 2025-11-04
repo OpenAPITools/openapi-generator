@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testformintegerbooleanstring"></a>
 # **TestFormIntegerBooleanString**
-> string TestFormIntegerBooleanString (int integerForm = null, bool booleanForm = null, string stringForm = null)
+> string TestFormIntegerBooleanString (Option<int> integerForm = default(Option<int>), Option<bool> booleanForm = default(Option<bool>), Option<string> stringForm = default(Option<string>))
 
 Test form parameter(s)
 
@@ -196,7 +196,7 @@ No authorization required
 
 <a id="testformoneof"></a>
 # **TestFormOneof**
-> string TestFormOneof (string form1 = null, int form2 = null, string form3 = null, bool form4 = null, long id = null, string name = null)
+> string TestFormOneof (Option<string> form1 = default(Option<string>), Option<int> form2 = default(Option<int>), Option<string> form3 = default(Option<string>), Option<bool> form4 = default(Option<bool>), Option<long> id = default(Option<long>), Option<string> name = default(Option<string>))
 
 Test form parameter(s) for oneOf schema
 

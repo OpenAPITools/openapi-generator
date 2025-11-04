@@ -10,7 +10,7 @@ All URIs are relative to *http://localhost*
 
 <a id="multipartarray"></a>
 # **MultipartArray**
-> void MultipartArray (List<System.IO.Stream> files = null)
+> void MultipartArray (Option<List<System.IO.Stream>> files = default(Option<List<System.IO.Stream>>))
 
 
 
@@ -95,7 +95,7 @@ No authorization required
 
 <a id="multipartmixed"></a>
 # **MultipartMixed**
-> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, MultipartMixedRequestMarker marker = null, List<MultipartMixedStatus> statusArray = null)
+> void MultipartMixed (MultipartMixedStatus status, System.IO.Stream file, Option<MultipartMixedRequestMarker> marker = default(Option<MultipartMixedRequestMarker>), Option<List<MultipartMixedStatus>> statusArray = default(Option<List<MultipartMixedStatus>>))
 
 
 
@@ -186,7 +186,7 @@ No authorization required
 
 <a id="multipartsingle"></a>
 # **MultipartSingle**
-> void MultipartSingle (System.IO.Stream file = null)
+> void MultipartSingle (Option<System.IO.Stream> file = default(Option<System.IO.Stream>))
 
 
 

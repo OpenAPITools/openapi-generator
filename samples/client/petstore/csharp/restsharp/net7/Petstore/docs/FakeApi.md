@@ -111,7 +111,7 @@ No authorization required
 
 <a id="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
-> bool FakeOuterBooleanSerialize (bool body = null)
+> bool FakeOuterBooleanSerialize (Option<bool> body = default(Option<bool>))
 
 
 
@@ -200,7 +200,7 @@ No authorization required
 
 <a id="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
+> OuterComposite FakeOuterCompositeSerialize (Option<OuterComposite> outerComposite = default(Option<OuterComposite>))
 
 
 
@@ -289,7 +289,7 @@ No authorization required
 
 <a id="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
-> decimal FakeOuterNumberSerialize (decimal body = null)
+> decimal FakeOuterNumberSerialize (Option<decimal> body = default(Option<decimal>))
 
 
 
@@ -378,7 +378,7 @@ No authorization required
 
 <a id="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, Option<string> body = default(Option<string>))
 
 
 
@@ -1067,7 +1067,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int integer = null, int int32 = null, long int64 = null, float varFloat = null, string varString = null, System.IO.Stream binary = null, DateOnly date = null, DateTime dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, Option<int> integer = default(Option<int>), Option<int> int32 = default(Option<int>), Option<long> int64 = default(Option<long>), Option<float> varFloat = default(Option<float>), Option<string> varString = default(Option<string>), Option<System.IO.Stream> binary = default(Option<System.IO.Stream>), Option<DateOnly> date = default(Option<DateOnly>), Option<DateTime> dateTime = default(Option<DateTime>), Option<string> password = default(Option<string>), Option<string> callback = default(Option<string>))
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -1185,7 +1185,7 @@ void (empty response body)
 
 <a id="testenumparameters"></a>
 # **TestEnumParameters**
-> void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int enumQueryInteger = null, double enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
+> void TestEnumParameters (Option<List<string>> enumHeaderStringArray = default(Option<List<string>>), Option<string> enumHeaderString = default(Option<string>), Option<List<string>> enumQueryStringArray = default(Option<List<string>>), Option<string> enumQueryString = default(Option<string>), Option<int> enumQueryInteger = default(Option<int>), Option<double> enumQueryDouble = default(Option<double>), Option<List<string>> enumFormStringArray = default(Option<List<string>>), Option<string> enumFormString = default(Option<string>))
 
 To test enum parameters
 
@@ -1287,7 +1287,7 @@ No authorization required
 
 <a id="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int stringGroup = null, bool booleanGroup = null, long int64Group = null)
+> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, Option<int> stringGroup = default(Option<int>), Option<bool> booleanGroup = default(Option<bool>), Option<long> int64Group = default(Option<long>))
 
 Fake endpoint to test group parameters (optional)
 
@@ -1644,7 +1644,7 @@ No authorization required
 
 <a id="testqueryparametercollectionformat"></a>
 # **TestQueryParameterCollectionFormat**
-> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, string notRequiredNotNullable = null, string notRequiredNullable = null)
+> void TestQueryParameterCollectionFormat (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable, Option<string> notRequiredNotNullable = default(Option<string>), Option<string> notRequiredNullable = default(Option<string>))
 
 
 

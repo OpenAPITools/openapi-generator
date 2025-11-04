@@ -108,7 +108,7 @@ catch (ApiException e)
 
 <a id="deletepet"></a>
 # **DeletePet**
-> void DeletePet (long petId, string apiKey = null)
+> void DeletePet (long petId, Option<string> apiKey = default(Option<string>))
 
 Deletes a pet
 
@@ -581,7 +581,7 @@ catch (ApiException e)
 
 <a id="updatepetwithform"></a>
 # **UpdatePetWithForm**
-> void UpdatePetWithForm (long petId, string name = null, string status = null)
+> void UpdatePetWithForm (long petId, Option<string> name = default(Option<string>), Option<string> status = default(Option<string>))
 
 Updates a pet in the store with form data
 
@@ -673,7 +673,7 @@ void (empty response body)
 
 <a id="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long petId, Option<string> additionalMetadata = default(Option<string>), Option<System.IO.Stream> file = default(Option<System.IO.Stream>))
 
 uploads an image
 

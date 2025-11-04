@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testheaderintegerbooleanstringenums"></a>
 # **TestHeaderIntegerBooleanStringEnums**
-> string TestHeaderIntegerBooleanStringEnums (int integerHeader = null, bool booleanHeader = null, string stringHeader = null, string enumNonrefStringHeader = null, StringEnumRef enumRefStringHeader = null)
+> string TestHeaderIntegerBooleanStringEnums (Option<int> integerHeader = default(Option<int>), Option<bool> booleanHeader = default(Option<bool>), Option<string> stringHeader = default(Option<string>), Option<string> enumNonrefStringHeader = default(Option<string>), Option<StringEnumRef> enumRefStringHeader = default(Option<StringEnumRef>))
 
 Test header parameter(s)
 

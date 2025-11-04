@@ -17,7 +17,7 @@ All URIs are relative to *http://localhost:3000*
 
 <a id="testenumrefstring"></a>
 # **TestEnumRefString**
-> string TestEnumRefString (string enumNonrefStringQuery = null, StringEnumRef enumRefStringQuery = null)
+> string TestEnumRefString (Option<string> enumNonrefStringQuery = default(Option<string>), Option<StringEnumRef> enumRefStringQuery = default(Option<StringEnumRef>))
 
 Test query parameter(s)
 
@@ -110,7 +110,7 @@ No authorization required
 
 <a id="testquerydatetimedatestring"></a>
 # **TestQueryDatetimeDateString**
-> string TestQueryDatetimeDateString (DateTime datetimeQuery = null, DateOnly dateQuery = null, string stringQuery = null)
+> string TestQueryDatetimeDateString (Option<DateTime> datetimeQuery = default(Option<DateTime>), Option<DateOnly> dateQuery = default(Option<DateOnly>), Option<string> stringQuery = default(Option<string>))
 
 Test query parameter(s)
 
@@ -205,7 +205,7 @@ No authorization required
 
 <a id="testqueryintegerbooleanstring"></a>
 # **TestQueryIntegerBooleanString**
-> string TestQueryIntegerBooleanString (int integerQuery = null, bool booleanQuery = null, string stringQuery = null)
+> string TestQueryIntegerBooleanString (Option<int> integerQuery = default(Option<int>), Option<bool> booleanQuery = default(Option<bool>), Option<string> stringQuery = default(Option<string>))
 
 Test query parameter(s)
 
@@ -300,7 +300,7 @@ No authorization required
 
 <a id="testquerystyledeepobjectexplodetrueobject"></a>
 # **TestQueryStyleDeepObjectExplodeTrueObject**
-> string TestQueryStyleDeepObjectExplodeTrueObject (Pet queryObject = null)
+> string TestQueryStyleDeepObjectExplodeTrueObject (Option<Pet> queryObject = default(Option<Pet>))
 
 Test query parameter(s)
 
@@ -391,7 +391,7 @@ No authorization required
 
 <a id="testquerystyledeepobjectexplodetrueobjectallof"></a>
 # **TestQueryStyleDeepObjectExplodeTrueObjectAllOf**
-> string TestQueryStyleDeepObjectExplodeTrueObjectAllOf (TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject = null)
+> string TestQueryStyleDeepObjectExplodeTrueObjectAllOf (Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter> queryObject = default(Option<TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter>))
 
 Test query parameter(s)
 
@@ -482,7 +482,7 @@ No authorization required
 
 <a id="testquerystyleformexplodefalsearrayinteger"></a>
 # **TestQueryStyleFormExplodeFalseArrayInteger**
-> string TestQueryStyleFormExplodeFalseArrayInteger (List<int> queryObject = null)
+> string TestQueryStyleFormExplodeFalseArrayInteger (Option<List<int>> queryObject = default(Option<List<int>>))
 
 Test query parameter(s)
 
@@ -573,7 +573,7 @@ No authorization required
 
 <a id="testquerystyleformexplodefalsearraystring"></a>
 # **TestQueryStyleFormExplodeFalseArrayString**
-> string TestQueryStyleFormExplodeFalseArrayString (List<string> queryObject = null)
+> string TestQueryStyleFormExplodeFalseArrayString (Option<List<string>> queryObject = default(Option<List<string>>))
 
 Test query parameter(s)
 
@@ -664,7 +664,7 @@ No authorization required
 
 <a id="testquerystyleformexplodetruearraystring"></a>
 # **TestQueryStyleFormExplodeTrueArrayString**
-> string TestQueryStyleFormExplodeTrueArrayString (TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = null)
+> string TestQueryStyleFormExplodeTrueArrayString (Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter> queryObject = default(Option<TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter>))
 
 Test query parameter(s)
 
@@ -755,7 +755,7 @@ No authorization required
 
 <a id="testquerystyleformexplodetrueobject"></a>
 # **TestQueryStyleFormExplodeTrueObject**
-> string TestQueryStyleFormExplodeTrueObject (Pet queryObject = null)
+> string TestQueryStyleFormExplodeTrueObject (Option<Pet> queryObject = default(Option<Pet>))
 
 Test query parameter(s)
 
@@ -846,7 +846,7 @@ No authorization required
 
 <a id="testquerystyleformexplodetrueobjectallof"></a>
 # **TestQueryStyleFormExplodeTrueObjectAllOf**
-> string TestQueryStyleFormExplodeTrueObjectAllOf (DataQuery queryObject = null)
+> string TestQueryStyleFormExplodeTrueObjectAllOf (Option<DataQuery> queryObject = default(Option<DataQuery>))
 
 Test query parameter(s)
 

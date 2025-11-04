@@ -15,7 +15,12 @@ All URIs are relative to *{{{basePath}}}*
 {{#operation}}
 <a id="{{{operationIdLowerCase}}}"></a>
 # **{{{operationId}}}**
-> {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}}{{^useGenericHost}}{{>NullConditionalParameter}}{{/useGenericHost}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{#useGenericHost}}
+> {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/useGenericHost}}
+{{^useGenericHost}}
+> {{returnType}}{{^returnType}}void{{/returnType}} {{operationId}} ({{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = {{>DefaultDataTypeParameter}}{{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+{{/useGenericHost}}
 
 {{{summary}}}{{#notes}}
 

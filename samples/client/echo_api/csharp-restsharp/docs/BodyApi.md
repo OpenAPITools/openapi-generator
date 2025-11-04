@@ -103,7 +103,7 @@ No authorization required
 
 <a id="testbodyapplicationoctetstreambinary"></a>
 # **TestBodyApplicationOctetstreamBinary**
-> string TestBodyApplicationOctetstreamBinary (System.IO.Stream body = null)
+> string TestBodyApplicationOctetstreamBinary (Option<System.IO.Stream> body = default(Option<System.IO.Stream>))
 
 Test body parameter(s)
 
@@ -285,7 +285,7 @@ No authorization required
 
 <a id="testbodymultipartformdatasinglebinary"></a>
 # **TestBodyMultipartFormdataSingleBinary**
-> string TestBodyMultipartFormdataSingleBinary (System.IO.Stream myFile = null)
+> string TestBodyMultipartFormdataSingleBinary (Option<System.IO.Stream> myFile = default(Option<System.IO.Stream>))
 
 Test single binary in multipart mime
 
@@ -376,7 +376,7 @@ No authorization required
 
 <a id="testechobodyallofpet"></a>
 # **TestEchoBodyAllOfPet**
-> Pet TestEchoBodyAllOfPet (Pet pet = null)
+> Pet TestEchoBodyAllOfPet (Option<Pet> pet = default(Option<Pet>))
 
 Test body parameter(s)
 
@@ -467,7 +467,7 @@ No authorization required
 
 <a id="testechobodyfreeformobjectresponsestring"></a>
 # **TestEchoBodyFreeFormObjectResponseString**
-> string TestEchoBodyFreeFormObjectResponseString (Object body = null)
+> string TestEchoBodyFreeFormObjectResponseString (Option<Object> body = default(Option<Object>))
 
 Test free form object
 
@@ -558,7 +558,7 @@ No authorization required
 
 <a id="testechobodypet"></a>
 # **TestEchoBodyPet**
-> Pet TestEchoBodyPet (Pet pet = null)
+> Pet TestEchoBodyPet (Option<Pet> pet = default(Option<Pet>))
 
 Test body parameter(s)
 
@@ -649,7 +649,7 @@ No authorization required
 
 <a id="testechobodypetresponsestring"></a>
 # **TestEchoBodyPetResponseString**
-> string TestEchoBodyPetResponseString (Pet pet = null)
+> string TestEchoBodyPetResponseString (Option<Pet> pet = default(Option<Pet>))
 
 Test empty response body
 
@@ -740,7 +740,7 @@ No authorization required
 
 <a id="testechobodystringenum"></a>
 # **TestEchoBodyStringEnum**
-> StringEnumRef TestEchoBodyStringEnum (string body = null)
+> StringEnumRef TestEchoBodyStringEnum (Option<string> body = default(Option<string>))
 
 Test string enum response body
 
@@ -831,7 +831,7 @@ No authorization required
 
 <a id="testechobodytagresponsestring"></a>
 # **TestEchoBodyTagResponseString**
-> string TestEchoBodyTagResponseString (Tag tag = null)
+> string TestEchoBodyTagResponseString (Option<Tag> tag = default(Option<Tag>))
 
 Test empty json (request body)
 
