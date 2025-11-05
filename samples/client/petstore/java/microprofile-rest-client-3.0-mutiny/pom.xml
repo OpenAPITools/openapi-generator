@@ -171,7 +171,7 @@
     <cxf.rt.rs.extension.providers.version>3.5.1</cxf.rt.rs.extension.providers.version>
     <jaxb.core.version>3.0.2</jaxb.core.version>
     <jaxb.impl.version>3.0.2</jaxb.impl.version>
-    <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
+    <hibernate.validator.version>8.0.4.Final</hibernate.validator.version>
     <jandex.maven.plugin.version>3.2.7</jandex.maven.plugin.version>
     <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
     <build.helper.maven.plugin.version>1.9.1</build.helper.maven.plugin.version>
