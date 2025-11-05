@@ -58,7 +58,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USER
     )
     ResponseEntity<Void> createUser(
-        @Parameter(name = "body", description = "Created user object", required = true) @Valid @RequestBody User body
+        @Parameter(name = "body", description = "Created user object", required = true) @NotNull @Valid @RequestBody User body
     );
 
 
@@ -82,7 +82,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> body
     );
 
 
@@ -106,7 +106,7 @@ public interface UserApi {
         value = UserApi.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
     ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "body", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @Parameter(name = "body", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> body
     );
 
 
@@ -274,7 +274,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> updateUser(
         @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "body", description = "Updated user object", required = true) @Valid @RequestBody User body
+        @Parameter(name = "body", description = "Updated user object", required = true) @NotNull @Valid @RequestBody User body
     );
 
 }

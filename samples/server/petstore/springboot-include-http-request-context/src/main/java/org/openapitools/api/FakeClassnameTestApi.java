@@ -61,7 +61,7 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
+        @ApiParam(value = "client model", required = true) @NotNull @Valid @RequestBody ClientDto clientDto,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {

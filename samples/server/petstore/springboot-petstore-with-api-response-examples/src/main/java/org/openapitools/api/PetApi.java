@@ -82,7 +82,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) {
         return getDelegate().addPet(pet);
     }
@@ -282,7 +282,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> updatePet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) {
         return getDelegate().updatePet(pet);
     }

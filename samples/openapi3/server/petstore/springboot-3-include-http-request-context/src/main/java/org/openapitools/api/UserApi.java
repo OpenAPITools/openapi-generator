@@ -66,7 +66,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUser(
-        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user,
+        @Parameter(name = "User", description = "Created user object", required = true) @NotNull @Valid @RequestBody User user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().createUser(user, servletRequest);
@@ -99,7 +99,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user,
+        @Parameter(name = "User", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().createUsersWithArrayInput(user, servletRequest);
@@ -132,7 +132,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user,
+        @Parameter(name = "User", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().createUsersWithListInput(user, servletRequest);
@@ -307,7 +307,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> updateUser(
         @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user,
+        @Parameter(name = "User", description = "Updated user object", required = true) @NotNull @Valid @RequestBody User user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().updateUser(username, user, servletRequest);
