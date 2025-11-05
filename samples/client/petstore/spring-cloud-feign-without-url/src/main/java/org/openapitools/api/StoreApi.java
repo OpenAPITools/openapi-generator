@@ -143,7 +143,7 @@ public interface StoreApi {
         consumes = "application/json"
     )
     ResponseEntity<Order> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @NotNull @Valid @RequestBody Order order
     );
 
 }

@@ -66,7 +66,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().addPet(pet, exchange);
@@ -267,7 +267,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default Mono<ResponseEntity<Void>> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Mono<Pet> pet,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePet(pet, exchange);

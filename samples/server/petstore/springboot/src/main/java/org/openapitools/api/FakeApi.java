@@ -67,7 +67,7 @@ public interface FakeApi {
         consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" }
     )
     default ResponseEntity<Void> createXmlItem(
-        @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItemDto xmlItemDto
+        @ApiParam(value = "XmlItem Body", required = true) @NotNull @Valid @RequestBody XmlItemDto xmlItemDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -273,7 +273,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClassDto fileSchemaTestClassDto
+        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody FileSchemaTestClassDto fileSchemaTestClassDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -304,7 +304,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @Valid @RequestBody UserDto userDto
+        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody UserDto userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -336,7 +336,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClientModel(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
+        @ApiParam(value = "client model", required = true) @NotNull @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -393,10 +393,10 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
+        @ApiParam(value = "None", required = true) @NotNull @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @NotNull @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
         @ApiParam(value = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
         @ApiParam(value = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
@@ -521,7 +521,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -552,8 +552,8 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testJsonFormData(
-        @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @ApiParam(value = "field1", required = true) @NotNull @Valid @RequestParam(value = "param", required = true) String param,
+        @ApiParam(value = "field2", required = true) @NotNull @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -583,7 +583,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testNullable(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullableDto childWithNullableDto
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody ChildWithNullableDto childWithNullableDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

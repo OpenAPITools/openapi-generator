@@ -47,7 +47,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> addPet(
-         @Valid @RequestBody Pet pet
+         @NotNull @Valid @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -221,7 +221,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Pet> updatePet(
-         @Valid @RequestBody Pet pet
+         @NotNull @Valid @RequestBody Pet pet
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

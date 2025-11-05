@@ -70,7 +70,7 @@ public interface PetApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Pet>> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     );
 
 
@@ -254,7 +254,7 @@ public interface PetApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Pet>> updatePet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     );
 
 

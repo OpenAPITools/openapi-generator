@@ -124,7 +124,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Order> placeOrder(
-         @Valid @RequestBody Order order
+         @NotNull @Valid @RequestBody Order order
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

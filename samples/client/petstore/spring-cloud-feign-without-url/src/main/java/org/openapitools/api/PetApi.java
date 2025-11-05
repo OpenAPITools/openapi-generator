@@ -59,7 +59,7 @@ public interface PetApi {
         consumes = "application/json"
     )
     ResponseEntity<Pet> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     );
 
 
@@ -245,7 +245,7 @@ public interface PetApi {
         consumes = "application/json"
     )
     ResponseEntity<Pet> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     );
 
 
