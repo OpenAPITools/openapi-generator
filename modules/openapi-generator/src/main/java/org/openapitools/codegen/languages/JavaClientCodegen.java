@@ -1090,6 +1090,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if(codegenModel.oneOf!= null && !codegenModel.oneOf.isEmpty() && codegenModel.discriminator!=null) {
             codegenModel.oneOf = null;
         }
+
+        if (!AnnotationLibrary.SWAGGER2.equals(getAnnotationLibrary())) {
+            codegenModel.imports.remove("Schema");
+        }
+
         return codegenModel;
     }
 

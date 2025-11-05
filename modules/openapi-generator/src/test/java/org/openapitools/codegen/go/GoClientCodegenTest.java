@@ -396,4 +396,46 @@ public class GoClientCodegenTest {
         Path goSumFile = Paths.get(output + "/go.sum");
         TestUtils.assertFileNotExists(goSumFile);
     }
+
+    @Test
+    public void testXmlOptionsBeingUsed() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(GoClientCodegen.STRUCT_PREFIX, true);
+        properties.put(GoClientCodegen.WITH_XML, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/model_pet.go"), "tags>tag");
+    }
+
+    @Test
+    public void testArrayDefaultValue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_1/issue_21077.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path apiPath = Paths.get(output + "/api_default.go");
+        String defaultArrayString = "var defaultValue []interface{} = []interface{}{\"test1\", \"test2\", 1}";
+        String defaultValueString = "var defaultValue string = \"test3\"";
+        TestUtils.assertFileContains(apiPath, defaultArrayString);
+        TestUtils.assertFileContains(apiPath, defaultValueString);
+    }
 }

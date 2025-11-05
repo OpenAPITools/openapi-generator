@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.DecimalMax
@@ -49,7 +50,7 @@ data class User(
 
     @Schema(example = "null", description = "User Status")
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
-    ) {
+) {
 
 }
 

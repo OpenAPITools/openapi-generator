@@ -13,3 +13,5 @@ nameMappings:
 modelNameMappings:
   # The OpenAPI spec ApiResponse conflicts with the internal ApiResponse
   ApiResponse: ModelApiResponse
+openapiNormalizer:
+  SIMPLIFY_ONEOF_ANYOF_ENUM: false

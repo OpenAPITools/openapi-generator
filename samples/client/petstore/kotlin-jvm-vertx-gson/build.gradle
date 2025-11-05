@@ -2,14 +2,14 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '8.7'
+    gradleVersion = '8.14.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.9.23'
-    ext.vertx_version = "4.5.6"
-    ext.spotless_version = "6.25.0"
+    ext.kotlin_version = '2.2.20'
+    ext.vertx_version = "5.0.4"
+    ext.spotless_version = "7.2.1"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -55,7 +55,7 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.google.code.gson:gson:2.10.1"
+    implementation "com.google.code.gson:gson:2.13.2"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"

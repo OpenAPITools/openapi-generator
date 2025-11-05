@@ -37,6 +37,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
+import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -47,7 +49,7 @@ public class OpenAPINormalizer {
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -88,6 +90,9 @@ public class OpenAPINormalizer {
     // when set to true, boolean enum will be converted to just boolean
     final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
 
+    // when set to true, oneOf/anyOf with enum sub-schemas containing single values will be converted to a single enum
+    final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
+
     // when set to a string value, tags in all operations will be reset to the string value provided
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
@@ -119,20 +124,18 @@ public class OpenAPINormalizer {
     // the allOf contains a new schema containing the properties in the top level
     final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
 
+    // when set to true, remove the "properties" of a schema with type other than "object"
+    final String REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT = "REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT";
+
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
     final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
     // when set to true, remove x-internal: true from models, operations
     final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
-    final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
-    HashSet<String> operationIdFilters = new HashSet<>();
-    HashSet<String> methodFilters = new HashSet<>();
-
-    HashSet<String> tagFilters = new HashSet<>();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -205,11 +208,14 @@ public class OpenAPINormalizer {
         ruleNames.add(FILTER);
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
-
+        ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
+        ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
+        rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
+        rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
 
         processRules(inputRules);
 
@@ -270,30 +276,7 @@ public class OpenAPINormalizer {
 
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
-
-            String[] filterStrs = inputRules.get(FILTER).split(":");
-            if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-            } else {
-                if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("method".equals(filterStrs[0])) {
-                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("tag".equals(filterStrs[0])) {
-                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-                }
-            }
+            // actual parsing is delayed to allow customization of the Filter processing
         }
 
         if (inputRules.get(SET_CONTAINER_TO_NULLABLE) != null) {
@@ -337,6 +320,19 @@ public class OpenAPINormalizer {
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
         }
+    }
+
+    /**
+     * Create the filter to process the FILTER normalizer.
+     * Override this to create a custom filter normalizer.
+     *
+     * @param openApi Contract used in the filtering (could be used for customization).
+     * @param filters full FILTER value
+     *
+     * @return a Filter containing the parsed filters.
+     */
+    protected Filter createFilter(OpenAPI openApi, String filters) {
+        return new Filter(filters);
     }
 
     /**
@@ -400,15 +396,15 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
-            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
-            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(path);
-                if (operation != null && !methodFilters.isEmpty()) {
-                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
-                    operation.addExtension("x-internal", !methodFilters.contains(method));
+            if (Boolean.TRUE.equals(getRule(FILTER))) {
+                String filters = inputRules.get(FILTER);
+                Filter filter = createFilter(this.openAPI, filters);
+                if (filter.parse()) {
+                    // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                    // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                    filter.apply(pathsEntry.getKey(), path, methodMap);
                 }
-            });
+            }
 
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
@@ -425,22 +421,6 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
-                if (operationIdFilters.size() > 0) {
-                    if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension("x-internal", false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
-                    }
-                } else if (!tagFilters.isEmpty()) {
-                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension("x-internal", false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension("x-internal", true);
-                    }
-                }
-
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation.getParameters());
@@ -719,15 +699,19 @@ public class OpenAPINormalizer {
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
+
+        if (ModelUtils.isNullTypeSchema(openAPI, schema)) {
+            return schema;
+        }
+
         markSchemaAsVisited(schema, visitedSchemas);
+
+        processNormalizeOtherThanObjectWithProperties(schema);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
             normalizeSchema(result.getItems(), visitedSchemas);
             return result;
-        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
-            normalizeMapSchema(schema);
-            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
         } else if (ModelUtils.isAnyOf(schema)) { // anyOf
@@ -764,6 +748,9 @@ public class OpenAPINormalizer {
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
+        } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            normalizeMapSchema(schema);
+            normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
             normalizeBooleanSchema(schema, visitedSchemas);
         } else if (schema instanceof IntegerSchema) {
@@ -845,6 +832,20 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
+            
+            // remove x-internal if needed (same logic as normalizeComponentsSchemas)
+            if (property.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
+                Object xInternalValue = property.getExtensions().get(X_INTERNAL);
+                boolean isInternal = false;
+                if (xInternalValue instanceof Boolean) {
+                    isInternal = (Boolean) xInternalValue;
+                } else if (xInternalValue instanceof String) {
+                    isInternal = Boolean.parseBoolean((String) xInternalValue);
+                }
+                if (isInternal) {
+                    property.getExtensions().remove(X_INTERNAL);
+                }
+            }
             Schema newProperty = normalizeSchema(property, new HashSet<>());
             propertiesEntry.setValue(newProperty);
         }
@@ -972,6 +973,8 @@ public class OpenAPINormalizer {
         // Remove duplicate oneOf entries
         ModelUtils.deduplicateOneOfSchema(schema);
 
+        schema = processSimplifyOneOfEnum(schema);
+
         // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
@@ -1000,6 +1003,12 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+        //transform anyOf into enums if needed
+        schema = processSimplifyAnyOfEnum(schema);
+        if (schema.getAnyOf() == null) {
+            return schema;
+        }
+
         for (int i = 0; i < schema.getAnyOf().size(); i++) {
             // normalize anyOf sub schemas one by one
             Object item = schema.getAnyOf().get(i);
@@ -1072,10 +1081,10 @@ public class OpenAPINormalizer {
                     refSchema.setExtensions(new HashMap<>());
                 }
 
-                if (refSchema.getExtensions().containsKey("x-parent")) {
+                if (refSchema.getExtensions().containsKey(X_PARENT)) {
                     // doing nothing as x-parent already exists
                 } else {
-                    refSchema.getExtensions().put("x-parent", true);
+                    refSchema.getExtensions().put(X_PARENT, true);
                 }
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
@@ -1097,7 +1106,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get(X_INTERNAL)))) {
             operation.getExtensions().remove(X_INTERNAL);
         }
     }
@@ -1272,6 +1281,161 @@ public class OpenAPINormalizer {
         }
 
         return result;
+    }
+
+
+    /**
+     * If the schema is anyOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyAnyOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
+        }
+
+        if (schema.getAnyOf() == null || schema.getAnyOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getOneOf() != null && !schema.getOneOf().isEmpty() ||
+            schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+            schema.getNot() != null) {
+            //only convert to enum if anyOf is the only composition
+            return schema;
+        }
+
+        return simplifyComposedSchemaWithEnums(schema, schema.getAnyOf(), "anyOf");
+    }
+
+    /**
+     * If the schema is oneOf and all sub-schemas are enums (with one or more values),
+     * then simplify it to a single enum schema containing all the values.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    protected Schema processSimplifyOneOfEnum(Schema schema) {
+        if (!getRule(SIMPLIFY_ONEOF_ANYOF_ENUM)) {
+            return schema;
+        }
+
+        if (schema.getOneOf() == null || schema.getOneOf().isEmpty()) {
+            return schema;
+        }
+        if(schema.getAnyOf() != null && !schema.getAnyOf().isEmpty() ||
+                schema.getAllOf() != null && !schema.getAllOf().isEmpty() ||
+                schema.getNot() != null) {
+            //only convert to enum if oneOf is the only composition
+            return schema;
+        }
+
+        return simplifyComposedSchemaWithEnums(schema, schema.getOneOf(), "oneOf");
+    }
+
+    /**
+     * Simplifies a composed schema (oneOf/anyOf) where all sub-schemas are enums
+     * to a single enum schema containing all the values.
+     *
+     * @param schema Schema to modify
+     * @param subSchemas List of sub-schemas to check
+     * @param composedType Type of composed schema ("oneOf" or "anyOf")
+     * @return Simplified schema
+     */
+    protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
+        Map<Object, String> enumValues = new LinkedHashMap<>();
+
+        if(schema.getTypes() != null && schema.getTypes().size() > 1) {
+            // we cannot handle enums with multiple types
+            return schema;
+        }
+
+        if(subSchemas.size() < 2) {
+            //do not process if there's less than 2 sub-schemas. It will be normalized later, and this prevents
+            //named enum schemas from being converted to inline enum schemas
+            return schema;
+        }
+        String schemaType = ModelUtils.getType(schema);
+
+        for (Object item : subSchemas) {
+            if (!(item instanceof Schema)) {
+                return schema;
+            }
+
+            Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
+
+            // Check if this sub-schema has an enum (with one or more values)
+            if (subSchema.getEnum() == null || subSchema.getEnum().isEmpty()) {
+                return schema;
+            }
+
+            // Ensure all sub-schemas have the same type (if type is specified)
+            if(subSchema.getTypes() != null && subSchema.getTypes().size() > 1) {
+                // we cannot handle enums with multiple types
+                return schema;
+            }
+            String subSchemaType = ModelUtils.getType(subSchema);
+            if (subSchemaType != null) {
+                if (schemaType == null) {
+                    schemaType = subSchemaType;
+                } else if (!schemaType.equals(subSchema.getType())) {
+                    return schema;
+                }
+            }
+            // Add all enum values from this sub-schema to our collection
+            if(subSchema.getEnum().size() == 1) {
+                String description = subSchema.getTitle() == null ? "" : subSchema.getTitle();
+                if(subSchema.getDescription() != null) {
+                    if(!description.isEmpty()) {
+                        description += " - ";
+                    }
+                    description += subSchema.getDescription();
+                }
+                enumValues.put(subSchema.getEnum().get(0), description);
+            } else {
+                for(Object e: subSchema.getEnum()) {
+                    enumValues.put(e, "");
+                }
+            }
+
+        }
+
+        return createSimplifiedEnumSchema(schema, enumValues, schemaType, composedType);
+    }
+
+
+    /**
+     * Creates a simplified enum schema from collected enum values.
+     *
+     * @param originalSchema Original schema to modify
+     * @param enumValues Collected enum values
+     * @param schemaType Consistent type across sub-schemas
+     * @param composedType Type of composed schema being simplified
+     * @return Simplified enum schema
+     */
+    protected Schema createSimplifiedEnumSchema(Schema originalSchema, Map<Object, String> enumValues, String schemaType, String composedType) {
+        // Clear the composed schema type
+        if ("oneOf".equals(composedType)) {
+            originalSchema.setOneOf(null);
+        } else if ("anyOf".equals(composedType)) {
+            originalSchema.setAnyOf(null);
+        }
+
+        if (ModelUtils.getType(originalSchema) == null && schemaType != null) {
+            //if type was specified in subschemas, keep it in the main schema
+            ModelUtils.setType(originalSchema, schemaType);
+        }
+
+        originalSchema.setEnum(new ArrayList<>(enumValues.keySet()));
+        if(enumValues.values().stream().anyMatch(e -> !e.isEmpty())) {
+            //set x-enum-descriptions only if there's at least one non-empty description
+            originalSchema.addExtension("x-enum-descriptions", new ArrayList<>(enumValues.values()));
+        }
+
+        LOGGER.debug("Simplified {} with enum sub-schemas to single enum: {}", composedType, originalSchema);
+
+        return originalSchema;
     }
 
 
@@ -1645,4 +1809,181 @@ public class OpenAPINormalizer {
     }
 
     // ===================== end of rules =====================
+
+    protected static class Filter {
+        public static final String OPERATION_ID = "operationId";
+        public static final String METHOD = "method";
+        public static final String TAG = "tag";
+        public static final String PATH = "path";
+        private final String filters;
+        protected Set<String> operationIdFilters = Collections.emptySet();
+        protected Set<String> methodFilters = Collections.emptySet();
+        protected Set<String> tagFilters = Collections.emptySet();
+        protected Set<String> pathStartingWithFilters = Collections.emptySet();
+        private boolean hasFilter;
+
+        protected Filter(String filters) {
+            this.filters = filters.trim();
+        }
+
+        /**
+         * Perform the parsing of the filter string.
+         *
+         * @return true if filters need to be processed
+         */
+        public boolean parse() {
+            if (StringUtils.isEmpty(filters)) {
+                return false;
+            }
+            try {
+                doParse();
+                return hasFilter();
+            } catch (RuntimeException e) {
+                String message = String.format(Locale.ROOT, "FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
+                        filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
+                // throw an exception. This is a breaking change compared to pre 7.16.0
+                // Workaround: fix the syntax!
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        private void doParse() {
+            for (String filter : filters.split(";")) {
+                filter = filter.trim();
+                String[] filterStrs = filter.split(":");
+                if (filterStrs.length != 2) { // only support filter with : at the moment
+                    throw new IllegalArgumentException("filter with no value not supported :[" + filter + "]");
+                } else {
+                    String filterKey = filterStrs[0].trim();
+                    String filterValue = filterStrs[1];
+                    Set<String> parsedFilters = splitByPipe(filterValue);
+                    hasFilter = true;
+                    if (OPERATION_ID.equals(filterKey)) {
+                        operationIdFilters = parsedFilters;
+                    } else if (METHOD.equals(filterKey)) {
+                        methodFilters = parsedFilters;
+                    } else if (TAG.equals(filterKey)) {
+                        tagFilters = parsedFilters;
+                    } else if (PATH.equals(filterKey)) {
+                        pathStartingWithFilters = parsedFilters;
+                    } else {
+                        parse(filterKey, filterValue);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Split the filterValue by pipe.
+         *
+         * @return the split values.
+         */
+        protected Set<String> splitByPipe(String filterValue) {
+            return Arrays.stream(filterValue.split("[|]"))
+                    .filter(Objects::nonNull)
+                    .map(String::trim)
+                    .collect(Collectors.toCollection(HashSet::new));
+        }
+
+        /**
+         * Parse non default filters.
+         *
+         * Override this method to add custom parsing logic.
+         *
+         * By default throws IllegalArgumentException.
+         *
+         * @param filterName name of the filter
+         * @param filterValue value of the filter
+         */
+        protected void parse(String filterName, String filterValue) {
+            parseFails(filterName, filterValue);
+        }
+
+        protected void parseFails(String filterName, String filterValue) {
+            throw new IllegalArgumentException("filter not supported :[" + filterName + ":" + filterValue + "]");
+        }
+
+        /**
+         * Test if the OpenAPI contract match an extra filter.
+         *
+         * Override this method to add custom logic.
+         *
+         * @param operation  Openapi Operation
+         * @param path  Path of the operation
+         *
+         * @return true if the operation of path match the filter
+         */
+        protected boolean hasCustomFilterMatch(String path, Operation operation) {
+            return false;
+        }
+
+        public boolean hasFilter() {
+            return hasFilter;
+        }
+
+        public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(pathItem);
+                if (operation != null) {
+                    boolean found = false;
+                    found |= logIfMatch(PATH, operation, hasPathStarting(path));
+                    found |= logIfMatch(TAG, operation, hasTag(operation));
+                    found |= logIfMatch(OPERATION_ID, operation, hasOperationId(operation));
+                    found |= logIfMatch(METHOD, operation, hasMethod(method));
+                    found |= hasCustomFilterMatch(path, operation);
+
+                    operation.addExtension(X_INTERNAL, !found);
+                }
+            });
+        }
+
+        protected boolean logIfMatch(String filterName, Operation operation, boolean filterMatched) {
+            if (filterMatched) {
+                logMatch(filterName, operation);
+            }
+            return filterMatched;
+        }
+
+        protected void logMatch(String filterName, Operation operation) {
+            getLogger().info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+        }
+
+        protected Logger getLogger() {
+            return OpenAPINormalizer.LOGGER;
+        }
+
+        private boolean hasPathStarting(String path) {
+            return pathStartingWithFilters.stream().anyMatch(filter -> path.startsWith(filter));
+        }
+
+        private boolean hasTag( Operation operation) {
+            return operation.getTags() != null && operation.getTags().stream().anyMatch(tagFilters::contains);
+        }
+
+        private boolean hasOperationId(Operation operation) {
+            return operationIdFilters.contains(operation.getOperationId());
+        }
+
+        private boolean hasMethod(String method) {
+            return methodFilters.contains(method);
+        }
+    }
+
+    /**
+     * When set to true, remove "properties" attribute on schema other than "object"
+     * since it should be ignored and may result in odd generated code
+     *
+     * @param schema         Schema
+     * @return Schema
+     */
+    protected void processNormalizeOtherThanObjectWithProperties(Schema schema) {
+        if (getRule(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT)) {
+            // Check object models / any type models / composed models for properties,
+            // if the schema has a type defined that is not "object" it should not define
+            // any properties
+            if (schema.getType() != null && !"object".equals(schema.getType())) {
+                schema.setProperties(null);
+            }
+        }
+    }
 }

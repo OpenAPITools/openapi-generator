@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -41,7 +42,7 @@ data class Pet(
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @get:JsonProperty("status") val status: Pet.Status? = null
-    ) : Serializable{
+) : Serializable {
 
     /**
     * pet status in the store

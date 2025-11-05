@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
       - name: Install validator
@@ -34,7 +34,9 @@ jobs:
           - "3.13"
         sample:
           - samples/openapi3/client/petstore/python-aiohttp
+          - samples/openapi3/client/petstore/python-httpx
           - samples/openapi3/client/petstore/python
+          - samples/openapi3/client/petstore/python-lazyImports
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -45,7 +47,7 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         id: py
         with:
           python-version: ${{ matrix.python-version }}

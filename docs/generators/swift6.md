@@ -7,7 +7,7 @@ title: Documentation for the swift6 Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | swift6 | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Swift | |
 | generator default templating engine | mustache | |

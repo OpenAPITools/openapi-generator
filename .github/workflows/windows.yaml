@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:
@@ -39,7 +40,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.18.0
+        uses: s4u/setup-maven-action@v1.19.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8

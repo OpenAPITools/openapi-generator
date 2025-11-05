@@ -1,11 +1,11 @@
 use std::{mem, str::FromStr};
 
-use base64::{engine::general_purpose, Engine};
+use base64::{Engine, engine::general_purpose};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[allow(dead_code)]
-pub struct Object(serde_json::Value);
+pub struct Object(pub serde_json::Value);
 
 impl validator::Validate for Object {
     fn validate(&self) -> Result<(), validator::ValidationErrors> {

@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
@@ -26,7 +27,7 @@ data class Tag(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("name") var name: kotlin.String? = null
-    ) : Serializable{
+) : Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

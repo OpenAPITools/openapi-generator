@@ -36,6 +36,7 @@ export class DefaultService extends BaseService {
     }
 
     /**
+     * @endpoint get /
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -82,6 +83,7 @@ export class DefaultService extends BaseService {
     }
 
     /**
+     * @endpoint put /
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

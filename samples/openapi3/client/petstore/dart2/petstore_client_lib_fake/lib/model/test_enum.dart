@@ -24,14 +24,14 @@ class TestEnum {
   String toJson() => value;
 
   static const empty = TestEnum._(r'');
-  static const n1 = TestEnum._(r'1');
-  static const n2 = TestEnum._(r'2');
+  static const valueOne = TestEnum._(r'value_one');
+  static const valueTwo = TestEnum._(r'value_two');
 
   /// List of all possible values in this [enum][TestEnum].
   static const values = <TestEnum>[
     empty,
-    n1,
-    n2,
+    valueOne,
+    valueTwo,
   ];
 
   static TestEnum? fromJson(dynamic value) => TestEnumTypeTransformer().decode(value);
@@ -71,8 +71,8 @@ class TestEnumTypeTransformer {
     if (data != null) {
       switch (data) {
         case r'': return TestEnum.empty;
-        case r'1': return TestEnum.n1;
-        case r'2': return TestEnum.n2;
+        case r'value_one': return TestEnum.valueOne;
+        case r'value_two': return TestEnum.valueTwo;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

@@ -99,6 +99,9 @@ pub enum {{{operationIdCamelCase}}}Error {
 {{#notes}}
 /// {{{.}}}
 {{/notes}}
+{{#isDeprecated}}
+#[deprecated]
+{{/isDeprecated}}
 {{#vendorExtensions.x-group-parameters}}
 pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: &configuration::Configuration{{#allParams}}{{#-first}}, {{!
 ### Params

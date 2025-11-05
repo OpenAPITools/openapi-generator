@@ -58,6 +58,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Setter private boolean preferUnsignedInt = false;
     @Setter private boolean bestFitInt = false;
     @Setter private boolean avoidBoxedModels = false;
+    private List<String> reqwestDefaultFeatures = Arrays.asList("native-tls");
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String EXTERN_CRATE_NAME = "externCrateName";
@@ -77,6 +78,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String TOP_LEVEL_API_CLIENT = "topLevelApiClient";
     public static final String MOCKALL = "mockall";
     public static final String BON_BUILDER = "useBonBuilder";
+    public static final String REQWEST_DEFAULT_FEATURES = "reqwestDefaultFeatures";
 
     @Setter protected String packageName = "openapi";
     @Setter protected String packageVersion = "1.0.0";
@@ -227,6 +229,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BON_BUILDER, "Use the bon crate for building parameter types. This option is for the 'reqwest-trait' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(REQWEST_DEFAULT_FEATURES, "Default features for the reqwest dependency (comma-separated). Use empty for no defaults. This option is for 'reqwest' and 'reqwest-trait' library only.")
+                .defaultValue("native-tls"));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper (v1.x).");
         supportedLibraries.put(HYPER0X_LIBRARY, "HTTP client: Hyper (v0.x).");
@@ -430,6 +434,21 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             this.setAvoidBoxedModels(convertPropertyToBoolean(AVOID_BOXED_MODELS));
         }
         writePropertyBack(AVOID_BOXED_MODELS, getAvoidBoxedModels());
+
+        if (additionalProperties.containsKey(REQWEST_DEFAULT_FEATURES)) {
+            Object value = additionalProperties.get(REQWEST_DEFAULT_FEATURES);
+            if (value instanceof List) {
+                reqwestDefaultFeatures = (List<String>) value;
+            } else if (value instanceof String) {
+                String str = (String) value;
+                if (str.isEmpty()) {
+                    reqwestDefaultFeatures = new ArrayList<>();
+                } else {
+                    reqwestDefaultFeatures = Arrays.asList(str.split(",\\s*"));
+                }
+            }
+        }
+        additionalProperties.put(REQWEST_DEFAULT_FEATURES, reqwestDefaultFeatures);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -708,9 +727,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             }
 
-            // If we use a file parameter, we need to include the imports and crates for it
+            // If we use a file body parameter, we need to include the imports and crates for it
             // But they should be added only once per file 
-            for (var param: operation.allParams) {
+            for (var param: operation.bodyParams) {
                 if (param.isFile && supportAsync && !useAsyncFileStream) {
                     useAsyncFileStream = true;
                     additionalProperties.put("useAsyncFileStream", Boolean.TRUE);

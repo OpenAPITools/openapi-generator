@@ -54,7 +54,9 @@ export 'package:openapi/src/model/number_only.dart';
 export 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 export 'package:openapi/src/model/object_with_deprecated_fields.dart';
 export 'package:openapi/src/model/object_with_duplicate_inline_enum.dart';
+export 'package:openapi/src/model/object_with_enum.dart';
 export 'package:openapi/src/model/object_with_inline_enum.dart';
+export 'package:openapi/src/model/object_with_inline_enum_default_value.dart';
 export 'package:openapi/src/model/order.dart';
 export 'package:openapi/src/model/outer_composite.dart';
 export 'package:openapi/src/model/outer_enum.dart';
@@ -70,6 +72,5 @@ export 'package:openapi/src/model/special_model_name.dart';
 export 'package:openapi/src/model/tag.dart';
 export 'package:openapi/src/model/test_enum.dart';
 export 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
-export 'package:openapi/src/model/test_item.dart';
 export 'package:openapi/src/model/user.dart';
 

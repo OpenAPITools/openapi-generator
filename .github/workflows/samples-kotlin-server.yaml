@@ -38,6 +38,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-source-swagger1
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-springfox
+          - samples/server/petstore/kotlin-springboot-x-kotlin-implements
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server/jaxrs-spec
@@ -58,7 +59,8 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: 8
+          java-version: 11
+          cache: gradle
       - name: Cache maven dependencies
         uses: actions/cache@v4
         env:

@@ -19,6 +19,56 @@ paths:
             "application/json":
               schema:
                 "$ref": "#/components/schemas/Message"
+  "/issue21143_1":
+    post:
+      operationId: i21143_1
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: array
+              items:
+                type: integer
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
+  "/issue21143_2":
+    post:
+      operationId: i21143_2
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
+  "/issue21143_3":
+    post:
+      operationId: i21143_3
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              type: integer
+      responses:
+        "200":
+          description: Re-serialize and echo the request data
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/Message"
 components:
   schemas:
     Message:
@@ -26,11 +76,14 @@ components:
       additionalProperties: false
       discriminator:
         propertyName: op
+        mapping:
+          yo: "#/components/schemas/YoMessage"
       oneOf:
         - "$ref": "#/components/schemas/Hello"
         - "$ref": "#/components/schemas/Greeting"
         - "$ref": "#/components/schemas/Goodbye"
         - "$ref": "#/components/schemas/SomethingCompletelyDifferent"
+        - "$ref": "#/components/schemas/YoMessage"
       title: Message
     Hello:
       type: object
@@ -87,7 +140,21 @@ components:
         - d
     SomethingCompletelyDifferent:
       oneOf:
-      - items:
+        - items:
+            type: object
+          type: array
+        - type: object
+    YoMessage:
+      type: object
+      title: Yo
+      properties:
+        d:
           type: object
-        type: array
-      - type: object
+          properties:
+            nickname:
+              type: string
+          required:
+            - nickname
+      required:
+        - op
+        - d

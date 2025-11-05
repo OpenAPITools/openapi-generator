@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -47,7 +48,7 @@ data class Pet(
 
     @Schema(example = "null", description = "pet status in the store")
     @get:JsonProperty("status") val status: Pet.Status? = null
-    ) {
+) {
 
     /**
     * pet status in the store

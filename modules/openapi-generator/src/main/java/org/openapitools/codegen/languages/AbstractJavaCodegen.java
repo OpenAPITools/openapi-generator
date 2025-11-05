@@ -1359,20 +1359,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(Locale.ROOT, "new %s<>()",
                     instantiationTypes().getOrDefault("map", "HashMap"));
-        } else if (ModelUtils.isIntegerSchema(schema)) {
+        } else if (ModelUtils.isIntegerSchema(schema) || cp.isInteger || cp.isLong) {
             if (schema.getDefault() != null) {
-                if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+                if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat()) || cp.isLong) {
                     return schema.getDefault().toString() + "l";
                 } else {
                     return schema.getDefault().toString();
                 }
             }
             return null;
-        } else if (ModelUtils.isNumberSchema(schema)) {
+        } else if (ModelUtils.isNumberSchema(schema) || cp.isFloat || cp.isDouble) {
             if (schema.getDefault() != null) {
-                if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+                if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat()) || cp.isFloat) {
                     return schema.getDefault().toString() + "f";
-                } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
+                } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat()) || cp.isDouble) {
                     return schema.getDefault().toString() + "d";
                 } else {
                     return "new BigDecimal(\"" + schema.getDefault().toString() + "\")";
@@ -1891,6 +1891,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("Arrays");
         } else if ("set".equals(property.containerType)) {
             model.imports.add("LinkedHashSet");
+            model.imports.add("Arrays");
             if ((!openApiNullable || !property.isNullable) && jackson) { // cannot be wrapped to nullable
                 model.imports.add("JsonDeserialize");
                 property.vendorExtensions.put("x-setter-extra-annotation", "@JsonDeserialize(as = LinkedHashSet.class)");

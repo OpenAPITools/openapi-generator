@@ -7,9 +7,9 @@ import copy
 import http.client as httplib
 import logging
 from logging import FileHandler
-{{^asyncio}}
+{{^async}}
 import multiprocessing
-{{/asyncio}}
+{{/async}}
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
@@ -186,6 +186,8 @@ class Configuration:
     :param retries: Number of retries for API requests.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
+    :param cert_file: the path to a client certificate file, for mTLS.
+    :param key_file: the path to a client key file, for mTLS. 
 
 {{#hasAuthMethods}}
     :Example:
@@ -293,6 +295,8 @@ conf = {{{packageName}}}.Configuration(
         ssl_ca_cert: Optional[str]=None,
         retries: Optional[int] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
+        cert_file: Optional[str]=None,
+        key_file: Optional[str]=None,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -381,10 +385,10 @@ conf = {{{packageName}}}.Configuration(
         """Set this to verify the peer using PEM (str) or DER (bytes)
            certificate data.
         """
-        self.cert_file = None
+        self.cert_file = cert_file
         """client certificate file
         """
-        self.key_file = None
+        self.key_file = key_file
         """client key file
         """
         self.assert_hostname = None
@@ -395,13 +399,13 @@ conf = {{{packageName}}}.Configuration(
            Set this to the SNI value expected by the server.
         """
 
-        {{#asyncio}}
+        {{#async}}
         self.connection_pool_maxsize = 100
         """This value is passed to the aiohttp to limit simultaneous connections.
            Default values is 100, None means no-limit.
         """
-        {{/asyncio}}
-        {{^asyncio}}
+        {{/async}}
+        {{^async}}
         self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
            per pool. urllib3 uses 1 connection as default value, but this is
@@ -409,7 +413,7 @@ conf = {{{packageName}}}.Configuration(
            requests to the same host, which is often the case here.
            cpu_count * 5 is used as default value to increase performance.
         """
-        {{/asyncio}}
+        {{/async}}
 
         self.proxy: Optional[str] = None
         """Proxy URL

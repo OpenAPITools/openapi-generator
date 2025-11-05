@@ -36,6 +36,33 @@ export interface AdditionalPropertiesClass {
     'empty_map'?: object;
     'map_with_undeclared_properties_string'?: { [key: string]: string; };
 }
+/**
+ * Object with allOf ref to double
+ */
+export interface AllOfRefToDouble {
+    /**
+     * Height as double
+     */
+    'height'?: number;
+}
+/**
+ * Object with allOf ref to float
+ */
+export interface AllOfRefToFloat {
+    /**
+     * Weight as float
+     */
+    'weight'?: number;
+}
+/**
+ * Object with allOf ref to long
+ */
+export interface AllOfRefToLong {
+    /**
+     * Id as long
+     */
+    'id'?: number;
+}
 export interface Animal {
     'className': string;
     'color'?: string;

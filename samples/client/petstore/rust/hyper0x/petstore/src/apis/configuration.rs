@@ -32,7 +32,7 @@ impl<C: hyper::client::connect::Connect> Configuration<C>
     where C: Clone + std::marker::Send + Sync {
     pub fn new(client: hyper::client::Client<C>) -> Configuration<C> {
         Configuration {
-            base_path: "http://petstore.swagger.io/v2".to_owned(),
+            base_path: "http://localhost/v2".to_owned(),
             user_agent: Some("OpenAPI-Generator/1.0.0/rust".to_owned()),
             client,
             basic_auth: None,

@@ -461,6 +461,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 }
             }
 
+            // backup path in extensions
+            op.vendorExtensions.put("x-path-from-spec", op.path);
+
             // Overwrite path to TypeScript template string, after applying everything we just did.
             op.path = pathBuffer.toString();
         }
