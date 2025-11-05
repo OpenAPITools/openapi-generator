@@ -3736,7 +3736,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
-                    addProperties(properties, required, (Schema) component, visitedSchemas);
+                  if(!supportsInheritance){
+                       addProperties(properties, required, (Schema) component, visitedSchemas);
+                  }
                 }
             }
 

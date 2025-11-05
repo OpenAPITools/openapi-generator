@@ -1063,9 +1063,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             model.imports.remove("JsonDeserialize");
             property.vendorExtensions.remove("x-setter-extra-annotation");
         }
-        if(model.oneOf!= null && !model.oneOf.isEmpty() && model.discriminator!=null) {
-            model.oneOf = null;
-        }
     }
 
     @Override
@@ -1090,7 +1087,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 codegenModel.imports.add("Schema");
             }
         }
-
+        if(codegenModel.oneOf!= null && !codegenModel.oneOf.isEmpty() && codegenModel.discriminator!=null) {
+            codegenModel.oneOf = null;
+        }
         return codegenModel;
     }
 
