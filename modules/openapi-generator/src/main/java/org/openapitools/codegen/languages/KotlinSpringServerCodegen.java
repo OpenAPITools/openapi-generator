@@ -70,6 +70,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
+    public static final String SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY = "spring-declarative-http-interface";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
@@ -223,6 +224,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+        supportedLibraries.put(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY,
+                "Spring Declarative Interface client");
         setLibrary(SPRING_BOOT);
 
         CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
@@ -519,6 +522,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
             }
         }
+        if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+            LOGGER.warn("Spring 6 declarative http interface does not support any annotation or documentation libraries. Both '{}' and '{}' will be set to 'none'", DOCUMENTATION_PROVIDER, ANNOTATION_LIBRARY);
+            this.setUseSpringBoot3(true);
+            this.setInterfaceOnly(true);
+            this.setUseFeignClient(false);
+            this.setSkipDefaultInterface(true);
+
+            writePropertyBack(USE_SPRING_BOOT3, useSpringBoot3);
+            writePropertyBack(INTERFACE_ONLY, interfaceOnly);
+            writePropertyBack(USE_FEIGN_CLIENT, useFeignClient);
+            writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
+        }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
         writePropertyBack(USE_FLOW_FOR_ARRAY_RETURN_TYPE, useFlowForArrayReturnType);
@@ -606,7 +621,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
 
-        if (this.exceptionHandler && !library.equals(SPRING_CLOUD_LIBRARY)) {
+        if (this.exceptionHandler && !(library.equals(SPRING_CLOUD_LIBRARY) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
@@ -699,8 +714,29 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
             apiTestTemplateFiles.clear();
         }
+        if (library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
+            LOGGER.info("Setup code generator for Kotlin Spring Declarative Http interface");
 
-        if (!reactive && !library.equals(SPRING_CLOUD_LIBRARY)) {
+            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+
+            if (this.gradleBuildFile) {
+                supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+            }
+
+            apiTemplateFiles.put("apiInterface.mustache", "Client.kt");
+            apiTestTemplateFiles.clear();
+        }
+
+        if (!reactive && !(library.equals(SPRING_CLOUD_LIBRARY) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),
