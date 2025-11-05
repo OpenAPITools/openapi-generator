@@ -11,3 +11,6 @@ additionalProperties:
   beanValidations: "true"
   interfaceOnly: false
   reactive: true
+  wrapResponsesForDeclarativeInterface: true
+  useFlowForArrayReturnType: false
+  declarativeModeReactiveMode: "reactor"

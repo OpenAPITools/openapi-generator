@@ -37,9 +37,10 @@ import {{javaxPackage}}.validation.Valid
 import {{javaxPackage}}.validation.constraints.*
 {{/useBeanValidation}}
 
-{{#reactive}}
-import kotlinx.coroutines.flow.Flow
-{{/reactive}}
+{{#reactiveModeReactor}}
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+{{/reactiveModeReactor}}
 
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -60,12 +61,12 @@ interface {{classname}} {
         method = "{{httpMethod}}"
     )
     {{/httpMethod}}{{!
-    }}{{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}{{!
+    }}{{#reactiveModeCoroutines}}suspend {{/reactiveModeCoroutines}}{{!
     }}fun {{operationId}}(
     {{#allParams}}
         {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}
     {{/allParams}}
-    ): ResponseEntity<{{>returnTypes}}>
+    ): {{>httpInterfaceReturnTypes}}
 
 {{/operation}}
     companion object {
