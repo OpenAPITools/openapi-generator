@@ -64,7 +64,7 @@ interface {{classname}} {
     }}{{#reactiveModeCoroutines}}suspend {{/reactiveModeCoroutines}}{{!
     }}fun {{operationId}}(
     {{#allParams}}
-        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>httpInterfaceBodyParams}}{{>formParams}}{{^-last}},{{/-last}}
     {{/allParams}}
     ): {{>httpInterfaceReturnTypes}}
 
