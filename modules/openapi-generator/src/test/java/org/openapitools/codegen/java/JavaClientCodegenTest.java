@@ -1486,8 +1486,13 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         assertThat(files).contains(output.resolve("pom.xml").toFile());
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiException.java")).doesNotExist();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiExceptionMapper.java")).doesNotExist();
         assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
-                .contains("import javax.");
+                .contains("import javax.")
+                .doesNotContain("ApiException")
+                .contains("WebApplicationException");
+        ;
         assertThat(output.resolve("pom.xml")).content()
                 .contains(
                         "<microprofile.rest.client.api.version>2.0</microprofile.rest.client.api.version>",
@@ -1500,7 +1505,11 @@ public class JavaClientCodegenTest {
     public void testMicroprofileRestClientVersion_1_4_1() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "1.4.1"))
+                .setAdditionalProperties(Map.of(
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "1.4.1",
+                        JavaClientCodegen.MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "true",
+                        USE_RUNTIME_EXCEPTION,"false"
+                ))
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
@@ -1510,8 +1519,12 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         assertThat(files).contains(output.resolve("pom.xml").toFile());
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiException.java")).exists();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiExceptionMapper.java")).exists();
         assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
-                .contains("import javax.");
+                .contains("import javax.")
+                .contains("ApiException")
+                .doesNotContain("WebApplicationException");
         assertThat(output.resolve("pom.xml")).content()
                 .contains(
                         "<microprofile.rest.client.api.version>1.4.1</microprofile.rest.client.api.version>",
@@ -1544,7 +1557,10 @@ public class JavaClientCodegenTest {
     public void testMicroprofileRestClientVersion_3_0() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"))
+                .setAdditionalProperties(Map.of(
+                        JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0",
+                        JavaClientCodegen.USE_RUNTIME_EXCEPTION, "false"
+                ))
                 .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
@@ -1554,8 +1570,12 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         assertThat(files).contains(output.resolve("pom.xml").toFile());
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiException.java")).exists();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/ApiExceptionMapper.java")).doesNotExist();
         assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
-                .contains("import jakarta.");
+                .contains("import jakarta.")
+                .contains("ApiException")
+                .doesNotContain("WebApplicationException");
         assertThat(output.resolve("pom.xml")).content()
                 .contains(
                         "<microprofile.rest.client.api.version>3.0</microprofile.rest.client.api.version>",
