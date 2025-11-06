@@ -54,7 +54,7 @@ final BarCreate barCreate = ; // BarCreate |
 try {
     final response = await api.createBar(barCreate);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print("Exception when calling BarApi->createBar: $e\n");
 }
 
