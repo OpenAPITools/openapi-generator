@@ -92,6 +92,7 @@ fn main() {
                 "XmlOtherPut",
                 "XmlPost",
                 "XmlPut",
+                "EnumInPathPathParamGet",
                 "MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet",
                 "CreateRepo",
                 "GetRepoInfo",
@@ -197,7 +198,8 @@ fn main() {
         },
         Some("FormTest") => {
             let result = rt.block_on(client.form_test(
-                  Some(&Vec::new())
+                  &Vec::new(),
+                  models::FormTestRequestEnumField::OneEnum
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -327,14 +329,12 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        /* Disabled because there's no example.
         Some("EnumInPathPathParamGet") => {
             let result = rt.block_on(client.enum_in_path_path_param_get(
-                  ???
+                  models::StringEnum::Foo
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        */
         Some("MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet") => {
             let result = rt.block_on(client.multiple_path_params_with_very_long_path_to_test_formatting_path_param_a_path_param_b_get(
                   "path_param_a_example".to_string(),

@@ -80,12 +80,17 @@
       {{/required}}
       {{#exts}}
         {{#x-consumes-plain-text}}
-          {{#isByteArray}}
-        let body = String::from_utf8(param_body.0).expect("Body was not valid UTF8");
-          {{/isByteArray}}
-          {{^isByteArray}}
+        {{^isByteArray}}
+        {{^isBinary}}
         let body = param_{{{paramName}}};
-          {{/isByteArray}}
+        {{/isBinary}}
+        {{/isByteArray}}
+        {{#isByteArray}}
+        let body = String::from_utf8(param_{{{paramName}}}.0).expect("Body was not valid UTF8");
+        {{/isByteArray}}
+        {{#isBinary}}
+        let body = String::from_utf8(param_{{{paramName}}}.0).expect("Body was not valid UTF8");
+        {{/isBinary}}
         {{/x-consumes-plain-text}}
         {{#x-consumes-xml}}
         let body = param_{{{paramName}}}.as_xml();
