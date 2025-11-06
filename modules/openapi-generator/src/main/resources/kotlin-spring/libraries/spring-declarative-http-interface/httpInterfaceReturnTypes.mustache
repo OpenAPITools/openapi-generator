@@ -1,47 +1,47 @@
 {{! handle reactive map and array}}
 {{#reactive}}
 {{#isMap}}
-{{#reactiveModeReactor}}Mono<{{/reactiveModeReactor}}{{#wrapResponsesForDeclarativeInterface}}ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}Map<String, {{{returnType}}}>{{#wrapResponsesForDeclarativeInterface}}>{{/wrapResponsesForDeclarativeInterface}}{{#reactiveModeReactor}}>{{/reactiveModeReactor}}
+{{#reactiveModeReactor}}Mono<{{/reactiveModeReactor}}{{#declarativeInterfaceWrapResponses}}ResponseEntity<{{/declarativeInterfaceWrapResponses}}Map<String, {{{returnType}}}>{{#declarativeInterfaceWrapResponses}}>{{/declarativeInterfaceWrapResponses}}{{#reactiveModeReactor}}>{{/reactiveModeReactor}}
 {{/isMap}}
 {{#isArray}}
 {{! array handle reactive - reactor with/without ResponseEntity wrapper}}
 {{#reactiveModeReactor}}
-{{#wrapResponsesForDeclarativeInterface}}Mono<ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}Flux<{{{returnType}}}>{{#wrapResponsesForDeclarativeInterface}}>>{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}Mono<ResponseEntity<{{/declarativeInterfaceWrapResponses}}Flux<{{{returnType}}}>{{#declarativeInterfaceWrapResponses}}>>{{/declarativeInterfaceWrapResponses}}
 {{/reactiveModeReactor}}
 {{! array handle reactive - coroutines with/without ResponseEntity wrapper}}
 {{#reactiveModeCoroutines}}
-{{#wrapResponsesForDeclarativeInterface}}ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}{{{returnContainer}}}<{{{returnType}}}>{{#wrapResponsesForDeclarativeInterface}}>{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}ResponseEntity<{{/declarativeInterfaceWrapResponses}}{{{returnContainer}}}<{{{returnType}}}>{{#declarativeInterfaceWrapResponses}}>{{/declarativeInterfaceWrapResponses}}
 {{/reactiveModeCoroutines}}
 {{/isArray}}
 {{! handle reactive non-container - with/without ResponseEntity wrapper}}
 {{^returnContainer}}
 {{#reactiveModeReactor}}
-Mono<{{#wrapResponsesForDeclarativeInterface}}ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}{{{returnType}}}{{#wrapResponsesForDeclarativeInterface}}>{{/wrapResponsesForDeclarativeInterface}}>
+Mono<{{#declarativeInterfaceWrapResponses}}ResponseEntity<{{/declarativeInterfaceWrapResponses}}{{{returnType}}}{{#declarativeInterfaceWrapResponses}}>{{/declarativeInterfaceWrapResponses}}>
 {{/reactiveModeReactor}}
 {{#reactiveModeCoroutines}}
-{{#wrapResponsesForDeclarativeInterface}}
-ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}{{{returnType}}}{{#wrapResponsesForDeclarativeInterface}}>
-{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}
+ResponseEntity<{{/declarativeInterfaceWrapResponses}}{{{returnType}}}{{#declarativeInterfaceWrapResponses}}>
+{{/declarativeInterfaceWrapResponses}}
 {{/reactiveModeCoroutines}}
 {{/returnContainer}}
 {{/reactive}}
 {{^reactive}}
 {{! handle non-reactive map and array}}
 {{#isMap}}
-{{#wrapResponsesForDeclarativeInterface}}
-ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}Map<String, {{{returnType}}}>{{#wrapResponsesForDeclarativeInterface}}>
-{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}
+ResponseEntity<{{/declarativeInterfaceWrapResponses}}Map<String, {{{returnType}}}>{{#declarativeInterfaceWrapResponses}}>
+{{/declarativeInterfaceWrapResponses}}
 {{/isMap}}
 {{#isArray}}
 {{! array handle non-reactive - with/without ResponseEntity wrapper}}
-{{#wrapResponsesForDeclarativeInterface}}
-ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}{{{returnContainer}}}<{{{returnType}}}>{{#wrapResponsesForDeclarativeInterface}}>
-{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}
+ResponseEntity<{{/declarativeInterfaceWrapResponses}}{{{returnContainer}}}<{{{returnType}}}>{{#declarativeInterfaceWrapResponses}}>
+{{/declarativeInterfaceWrapResponses}}
 {{/isArray}}
 {{! handle reactive non-container - with/without ResponseEntity wrapper}}
 {{^returnContainer}}
-{{#wrapResponsesForDeclarativeInterface}}
-ResponseEntity<{{/wrapResponsesForDeclarativeInterface}}{{{returnType}}}{{#wrapResponsesForDeclarativeInterface}}>
-{{/wrapResponsesForDeclarativeInterface}}
+{{#declarativeInterfaceWrapResponses}}
+ResponseEntity<{{/declarativeInterfaceWrapResponses}}{{{returnType}}}{{#declarativeInterfaceWrapResponses}}>
+{{/declarativeInterfaceWrapResponses}}
 {{/returnContainer}}
 {{/reactive}}

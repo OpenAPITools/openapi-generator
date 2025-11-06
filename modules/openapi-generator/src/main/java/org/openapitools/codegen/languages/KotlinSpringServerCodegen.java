@@ -85,8 +85,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
-    public static final String WRAP_RESPONSES_FOR_DECLARATIVE_INTERFACE = "wrapResponsesForDeclarativeInterface";
-    public static final String DECLARATIVE_MODE_REACTIVE_MODE = "declarativeModeReactiveMode";
+    public static final String DECLARATIVE_INTERFACE_WRAP_RESPONSES = "declarativeInterfaceWrapResponses";
+    public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
@@ -160,7 +160,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter
     private boolean beanQualifiers = false;
     @Setter
-    private boolean wrapResponsesForDeclarativeInterface = false;
+    private boolean declarativeInterfaceWrapResponses = false;
 
     @Getter
     @Setter
@@ -247,12 +247,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                                    " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
-        addSwitch(WRAP_RESPONSES_FOR_DECLARATIVE_INTERFACE,
+        addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
-                wrapResponsesForDeclarativeInterface);
-        addSwitch(WRAP_RESPONSES_FOR_DECLARATIVE_INTERFACE,
+                declarativeInterfaceWrapResponses);
+        addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
-                wrapResponsesForDeclarativeInterface);
+                declarativeInterfaceWrapResponses);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
@@ -564,15 +564,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         throw new IllegalArgumentException("Additional property '" + USE_FLOW_FOR_ARRAY_RETURN_TYPE + "' must be set to 'false' as it is not supported by Spring declarative HTTP interface");
                     }
                 }
-                if (additionalProperties.containsKey(DECLARATIVE_MODE_REACTIVE_MODE)) {
-                    this.reactiveMode = String.valueOf(additionalProperties.get(DECLARATIVE_MODE_REACTIVE_MODE));
+                if (additionalProperties.containsKey(DECLARATIVE_INTERFACE_REACTIVE_MODE)) {
+                    this.reactiveMode = String.valueOf(additionalProperties.get(DECLARATIVE_INTERFACE_REACTIVE_MODE));
                 }
                 if ("coroutines".equalsIgnoreCase(reactiveMode)) {
                     writePropertyBack("reactiveModeCoroutines", true);
                 } else if ("reactor".equalsIgnoreCase(reactiveMode)) {
                     writePropertyBack("reactiveModeReactor", true);
                 } else {
-                    throw new IllegalArgumentException("Invalid value for additional property '" + DECLARATIVE_MODE_REACTIVE_MODE + "'. Supported values are 'coroutines' and 'reactor'.");
+                    throw new IllegalArgumentException("Invalid value for additional property '" + DECLARATIVE_INTERFACE_REACTIVE_MODE + "'. Supported values are 'coroutines' and 'reactor'.");
                 }
             }
         }
@@ -832,7 +832,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (library.equals(SPRING_BOOT) && !useTags) {
+        if ((library.equals(SPRING_BOOT) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
