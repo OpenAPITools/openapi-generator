@@ -309,7 +309,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets bar
      *
-     * @param string|null $bar bar
+     * @param string $bar bar
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets baz
      *
-     * @param string|null $baz baz
+     * @param string $baz baz
      *
      * @return self
      */

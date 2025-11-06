@@ -324,7 +324,7 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets array_of_string
      *
-     * @param string[]|null $array_of_string array_of_string
+     * @param string[] $array_of_string array_of_string
      *
      * @return self
      */
@@ -358,7 +358,7 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets array_array_of_integer
      *
-     * @param int[][]|null $array_array_of_integer array_array_of_integer
+     * @param int[][] $array_array_of_integer array_array_of_integer
      *
      * @return self
      */
@@ -385,7 +385,7 @@ class ArrayTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets array_array_of_model
      *
-     * @param \OpenAPI\Client\Model\ReadOnlyFirst[][]|null $array_array_of_model array_array_of_model
+     * @param \OpenAPI\Client\Model\ReadOnlyFirst[][] $array_array_of_model array_array_of_model
      *
      * @return self
      */

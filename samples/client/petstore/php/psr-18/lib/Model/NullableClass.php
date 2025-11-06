@@ -651,7 +651,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets array_items_nullable
      *
-     * @param object[]|null $array_items_nullable array_items_nullable
+     * @param object[] $array_items_nullable array_items_nullable
      *
      * @return self
      */
@@ -746,7 +746,7 @@ class NullableClass implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets object_items_nullable
      *
-     * @param array<string,object>|null $object_items_nullable object_items_nullable
+     * @param array<string,object> $object_items_nullable object_items_nullable
      *
      * @return self
      */

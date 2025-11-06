@@ -309,7 +309,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets some_id
      *
-     * @param float|null $some_id some_id
+     * @param float $some_id some_id
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, \Json
     /**
      * Sets some_map
      *
-     * @param array<string,float>|null $some_map some_map
+     * @param array<string,float> $some_map some_map
      *
      * @return self
      */

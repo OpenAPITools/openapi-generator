@@ -303,7 +303,7 @@ class ModelReturn implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets return
      *
-     * @param int|null $return return
+     * @param int $return return
      *
      * @return self
      */

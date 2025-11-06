@@ -338,7 +338,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets map_map_of_string
      *
-     * @param array<string,array<string,string>>|null $map_map_of_string map_map_of_string
+     * @param array<string,array<string,string>> $map_map_of_string map_map_of_string
      *
      * @return self
      */
@@ -365,7 +365,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets map_of_enum_string
      *
-     * @param array<string,string>|null $map_of_enum_string map_of_enum_string
+     * @param array<string,string> $map_of_enum_string map_of_enum_string
      *
      * @return self
      */
@@ -401,7 +401,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets direct_map
      *
-     * @param array<string,bool>|null $direct_map direct_map
+     * @param array<string,bool> $direct_map direct_map
      *
      * @return self
      */
@@ -428,7 +428,7 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets indirect_map
      *
-     * @param array<string,bool>|null $indirect_map indirect_map
+     * @param array<string,bool> $indirect_map indirect_map
      *
      * @return self
      */

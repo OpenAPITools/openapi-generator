@@ -309,7 +309,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets username
      *
-     * @param string|null $username username
+     * @param string $username username
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
     /**
      * Sets single_ref_type
      *
-     * @param \OpenAPI\Client\Model\SingleRefType|null $single_ref_type single_ref_type
+     * @param \OpenAPI\Client\Model\SingleRefType $single_ref_type single_ref_type
      *
      * @return self
      */

@@ -323,7 +323,7 @@ class PropertyNameMapping implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets http_debug_operation
      *
-     * @param string|null $http_debug_operation http_debug_operation
+     * @param string $http_debug_operation http_debug_operation
      *
      * @return self
      */
@@ -350,7 +350,7 @@ class PropertyNameMapping implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets underscore_type
      *
-     * @param string|null $underscore_type underscore_type
+     * @param string $underscore_type underscore_type
      *
      * @return self
      */
@@ -377,7 +377,7 @@ class PropertyNameMapping implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets type
      *
-     * @param string|null $type type
+     * @param string $type type
      *
      * @return self
      */
@@ -404,7 +404,7 @@ class PropertyNameMapping implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets type_with_underscore
      *
-     * @param string|null $type_with_underscore type_with_underscore
+     * @param string $type_with_underscore type_with_underscore
      *
      * @return self
      */

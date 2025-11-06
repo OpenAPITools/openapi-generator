@@ -363,7 +363,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets id
      *
-     * @param int|null $id id
+     * @param int $id id
      *
      * @return self
      */
@@ -390,7 +390,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets pet_id
      *
-     * @param int|null $pet_id pet_id
+     * @param int $pet_id pet_id
      *
      * @return self
      */
@@ -417,7 +417,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets quantity
      *
-     * @param int|null $quantity quantity
+     * @param int $quantity quantity
      *
      * @return self
      */
@@ -444,7 +444,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets ship_date
      *
-     * @param \DateTime|null $ship_date ship_date
+     * @param \DateTime $ship_date ship_date
      *
      * @return self
      */
@@ -471,7 +471,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status Order Status
+     * @param string $status Order Status
      *
      * @return self
      */
@@ -508,7 +508,7 @@ class Order implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets complete
      *
-     * @param bool|null $complete complete
+     * @param bool $complete complete
      *
      * @return self
      */
