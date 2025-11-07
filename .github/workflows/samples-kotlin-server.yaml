@@ -39,10 +39,10 @@ jobs:
           - samples/server/petstore/kotlin-springboot-source-swagger2
           - samples/server/petstore/kotlin-springboot-springfox
           - samples/server/petstore/kotlin-springboot-x-kotlin-implements
-          - samples/server/petstore/kotlin-spring-declarative-interface.yaml
-          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines.yaml
-          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped.yaml
-          - samples/server/petstore/kotlin-spring-declarative-interface-wrapped.yaml
+          - samples/server/petstore/kotlin-spring-declarative-interface
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
+          - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-server/jaxrs-spec
