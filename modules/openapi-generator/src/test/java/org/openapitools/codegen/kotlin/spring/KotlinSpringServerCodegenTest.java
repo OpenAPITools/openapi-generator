@@ -1096,7 +1096,6 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
-
     @Test
     public void generateHttpInterfaceReactiveWithCoroutinesResponseEntity() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
