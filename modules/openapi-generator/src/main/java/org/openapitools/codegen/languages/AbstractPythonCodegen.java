@@ -108,6 +108,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
         languageSpecificPrimitives.add("bytes");
+        languageSpecificPrimitives.add("UUID");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -129,8 +130,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // mapped to String as a workaround
         typeMapping.put("binary", "str");
         typeMapping.put("ByteArray", "str");
-        // map uuid to string for the time being
-        typeMapping.put("UUID", "str");
+        typeMapping.put("UUID", "UUID");
         typeMapping.put("URI", "str");
         typeMapping.put("null", "none_type");
 
@@ -571,7 +571,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+        if (Boolean.TRUE.equals(p.isUuid)) {
+            if (example == null) {
+                example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+            }
+            example = "UUID('" + escapeTextInSingleQuotes(example) + "')";
+        } else if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
