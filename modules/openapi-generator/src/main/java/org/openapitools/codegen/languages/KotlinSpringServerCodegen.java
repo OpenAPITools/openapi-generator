@@ -94,6 +94,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
 
+    @Getter
+    public enum DeclarativeInterfaceReactiveMode {
+        coroutines("Use kotlin-idiomatic 'suspend' functions", "reactiveModeCoroutines"),
+        reactor("Use reactor return wrappers 'Mono' and 'Flux'", "reactiveModeReactor");
+
+        private final String description;
+        private final String additionalPropertyName;
+
+        DeclarativeInterfaceReactiveMode(String description, String additionalPropertyName) {
+            this.description = description;
+            this.additionalPropertyName = additionalPropertyName;
+        }
+    }
+
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
@@ -143,7 +157,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter
     private boolean reactive = false;
     @Setter
-    private String reactiveMode = "coroutines";
+    private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Getter
     @Setter
     private boolean useFlowForArrayReturnType = true;
@@ -250,10 +264,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
                 declarativeInterfaceWrapResponses);
-        addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
-                "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
-                declarativeInterfaceWrapResponses);
-
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -273,6 +283,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             requestMappingOpt.addEnum(mode.name(), mode.getDescription());
         }
         cliOptions.add(requestMappingOpt);
+
+        CliOption declarativeInterfaceReactiveModeOpt = new CliOption(DECLARATIVE_INTERFACE_REACTIVE_MODE,
+                "What type of reactive style to use in Spring Http declarative interface")
+                .defaultValue(declarativeInterfaceReactiveMode.name());
+        for (DeclarativeInterfaceReactiveMode mode : DeclarativeInterfaceReactiveMode.values()) {
+            declarativeInterfaceReactiveModeOpt.addEnum(mode.name(), mode.getDescription());
+        }
+        cliOptions.add(declarativeInterfaceReactiveModeOpt);
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -565,14 +583,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     }
                 }
                 if (additionalProperties.containsKey(DECLARATIVE_INTERFACE_REACTIVE_MODE)) {
-                    this.reactiveMode = String.valueOf(additionalProperties.get(DECLARATIVE_INTERFACE_REACTIVE_MODE));
-                }
-                if ("coroutines".equalsIgnoreCase(reactiveMode)) {
-                    writePropertyBack("reactiveModeCoroutines", true);
-                } else if ("reactor".equalsIgnoreCase(reactiveMode)) {
-                    writePropertyBack("reactiveModeReactor", true);
-                } else {
-                    throw new IllegalArgumentException("Invalid value for additional property '" + DECLARATIVE_INTERFACE_REACTIVE_MODE + "'. Supported values are 'coroutines' and 'reactor'.");
+                    try {
+                        DeclarativeInterfaceReactiveMode optValue = DeclarativeInterfaceReactiveMode.valueOf(
+                                String.valueOf(additionalProperties.get(DECLARATIVE_INTERFACE_REACTIVE_MODE)));
+                        setDeclarativeInterfaceReactiveMode(optValue);
+                        writePropertyBack(optValue.getAdditionalPropertyName(), true);
+                        additionalProperties.remove(DECLARATIVE_INTERFACE_REACTIVE_MODE);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException(
+                                "Invalid value for additional property '" + DECLARATIVE_INTERFACE_REACTIVE_MODE + "'. Supported values are " + Arrays.toString(DeclarativeInterfaceReactiveMode.values()) + "."
+                        );
+                    }
                 }
             }
         }
