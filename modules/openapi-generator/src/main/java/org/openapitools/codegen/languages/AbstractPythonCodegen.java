@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.DataTypeFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -71,7 +72,9 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 SecurityFeature.BearerToken,
                 SecurityFeature.ApiKey,
                 SecurityFeature.OAuth2_Implicit
-        )));
+        )).includeDataTypeFeatures(
+                DataTypeFeature.Uuid
+        ));
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
