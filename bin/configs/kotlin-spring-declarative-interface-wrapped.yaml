@@ -1,5 +1,5 @@
 generatorName: kotlin-spring
-outputDir: samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
+outputDir: samples/server/petstore/kotlin-spring-declarative-interface-wrapped
 library: spring-declarative-http-interface
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
