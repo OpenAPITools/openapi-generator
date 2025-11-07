@@ -10,6 +10,7 @@ additionalProperties:
   serializableModel: "true"
   beanValidations: "true"
   interfaceOnly: true
-  reactive: false
-  declarativeInterfaceWrapResponses: true
+  reactive: true
+  declarativeInterfaceWrapResponses: false
   useFlowForArrayReturnType: false
+  declarativeInterfaceReactiveMode: "coroutines"
