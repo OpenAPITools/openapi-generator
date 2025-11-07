@@ -576,7 +576,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
         if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
-            LOGGER.warn("Spring 6 declarative http interface does not support any annotation or documentation libraries. Both '{}' and '{}' will be set to 'none'", DOCUMENTATION_PROVIDER, ANNOTATION_LIBRARY);
             this.setUseSpringBoot3(true);
             this.setInterfaceOnly(true);
             this.setUseFeignClient(false);
