@@ -58,8 +58,8 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    implementation("org.springframework.cloud:spring-cloud-starter-openfeign"){{#hasAuthMethods}}
-        implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE"){{/hasAuthMethods}}
+{{#hasAuthMethods}}
+    implementation("org.springframework.cloud:spring-cloud-starter-oauth2:2.2.5.RELEASE"){{/hasAuthMethods}}
 
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
