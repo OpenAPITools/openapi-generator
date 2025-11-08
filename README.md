@@ -1182,6 +1182,7 @@ Here is a list of template creators:
    * Scala Finch: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Scala Lagom: @gmkumar2005
    * Scala Play: @adigerber
+   * TypeScript NestJS: @aryobenholzner
  * Documentation
    * AsciiDoc: @man-at-home
    * HTML Doc 2: @jhitchcock
