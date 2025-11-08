@@ -39,7 +39,7 @@ cd build
 ```
 
 ## Libraries required
-- [pistache](http://pistache.io/quickstart)
+- [pistache](https://pistacheio.github.io/pistache/docs/)
 - [JSON for Modern C++](https://github.com/nlohmann/json/#integration): Please download the `json.hpp` file and
 put it under the model/nlohmann folder
 
