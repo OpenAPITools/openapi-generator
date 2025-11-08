@@ -53,6 +53,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Dict</li>
 <li>List</li>
+<li>UUID</li>
 <li>bool</li>
 <li>bytearray</li>
 <li>bytes</li>
