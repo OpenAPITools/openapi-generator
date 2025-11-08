@@ -302,7 +302,7 @@ class ArrayOfArrayOfNumberOnly implements ModelInterface, ArrayAccess, \JsonSeri
     /**
      * Sets array_array_number
      *
-     * @param float[][]|null $array_array_number array_array_number
+     * @param float[][] $array_array_number array_array_number
      *
      * @return self
      */

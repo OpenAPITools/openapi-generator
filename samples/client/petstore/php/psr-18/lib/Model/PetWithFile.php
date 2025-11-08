@@ -383,7 +383,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets id
      *
-     * @param int|null $id id
+     * @param int $id id
      *
      * @return self
      */
@@ -410,7 +410,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets category
      *
-     * @param \OpenAPI\Client\Model\Category|null $category category
+     * @param \OpenAPI\Client\Model\Category $category category
      *
      * @return self
      */
@@ -493,7 +493,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets tags
      *
-     * @param \OpenAPI\Client\Model\Tag[]|null $tags tags
+     * @param \OpenAPI\Client\Model\Tag[] $tags tags
      *
      * @return self
      */
@@ -520,7 +520,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param string|null $status pet status in the store
+     * @param string $status pet status in the store
      *
      * @return self
      */
@@ -557,7 +557,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets file
      *
-     * @param \SplFileObject|null $file file to upload
+     * @param \SplFileObject $file file to upload
      *
      * @return self
      */
@@ -584,7 +584,7 @@ class PetWithFile implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets multiple_files
      *
-     * @param \SplFileObject[]|null $multiple_files multiple_files
+     * @param \SplFileObject[] $multiple_files multiple_files
      *
      * @return self
      */

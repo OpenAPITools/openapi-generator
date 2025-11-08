@@ -309,7 +309,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets map_property
      *
-     * @param array<string,string>|null $map_property map_property
+     * @param array<string,string> $map_property map_property
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets map_of_map_property
      *
-     * @param array<string,array<string,string>>|null $map_of_map_property map_of_map_property
+     * @param array<string,array<string,string>> $map_of_map_property map_of_map_property
      *
      * @return self
      */

@@ -309,7 +309,7 @@ class ErrorResponse implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets response_code
      *
-     * @param int|null $response_code response_code
+     * @param int $response_code response_code
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class ErrorResponse implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets error
      *
-     * @param string|null $error error
+     * @param string $error error
      *
      * @return self
      */

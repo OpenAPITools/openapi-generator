@@ -310,7 +310,7 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets name
      *
-     * @param int|null $name name
+     * @param int $name name
      *
      * @return self
      */
@@ -337,7 +337,7 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets class
      *
-     * @param string|null $class class
+     * @param string $class class
      *
      * @return self
      */

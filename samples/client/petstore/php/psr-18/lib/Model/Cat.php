@@ -296,7 +296,7 @@ class Cat extends Animal
     /**
      * Sets declawed
      *
-     * @param bool|null $declawed declawed
+     * @param bool $declawed declawed
      *
      * @return self
      */

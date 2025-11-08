@@ -316,7 +316,7 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param int|null $code code
+     * @param int $code code
      *
      * @return self
      */
@@ -343,7 +343,7 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets type
      *
-     * @param string|null $type type
+     * @param string $type type
      *
      * @return self
      */
@@ -370,7 +370,7 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets message
      *
-     * @param string|null $message message
+     * @param string $message message
      *
      * @return self
      */

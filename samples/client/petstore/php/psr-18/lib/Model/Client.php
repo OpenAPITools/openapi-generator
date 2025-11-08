@@ -302,7 +302,7 @@ class Client implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets client
      *
-     * @param string|null $client client
+     * @param string $client client
      *
      * @return self
      */

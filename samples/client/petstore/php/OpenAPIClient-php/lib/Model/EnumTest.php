@@ -454,7 +454,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets enum_string
      *
-     * @param string|null $enum_string enum_string
+     * @param string $enum_string enum_string
      *
      * @return self
      */
@@ -528,7 +528,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets enum_integer
      *
-     * @param int|null $enum_integer enum_integer
+     * @param int $enum_integer enum_integer
      *
      * @return self
      */
@@ -565,7 +565,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets enum_number
      *
-     * @param float|null $enum_number enum_number
+     * @param float $enum_number enum_number
      *
      * @return self
      */
@@ -636,7 +636,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets outer_enum_integer
      *
-     * @param \OpenAPI\Client\Model\OuterEnumInteger|null $outer_enum_integer outer_enum_integer
+     * @param \OpenAPI\Client\Model\OuterEnumInteger $outer_enum_integer outer_enum_integer
      *
      * @return self
      */
@@ -663,7 +663,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets outer_enum_default_value
      *
-     * @param \OpenAPI\Client\Model\OuterEnumDefaultValue|null $outer_enum_default_value outer_enum_default_value
+     * @param \OpenAPI\Client\Model\OuterEnumDefaultValue $outer_enum_default_value outer_enum_default_value
      *
      * @return self
      */
@@ -690,7 +690,7 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets outer_enum_integer_default_value
      *
-     * @param \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue|null $outer_enum_integer_default_value outer_enum_integer_default_value
+     * @param \OpenAPI\Client\Model\OuterEnumIntegerDefaultValue $outer_enum_integer_default_value outer_enum_integer_default_value
      *
      * @return self
      */
