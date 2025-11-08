@@ -21,7 +21,7 @@ export interface {{classname}} {{#allParents.0}}extends{{#allParents}} {{{.}}}{{
 {{#vars}}
     /**
      * {{{description}}}
-     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
     {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
