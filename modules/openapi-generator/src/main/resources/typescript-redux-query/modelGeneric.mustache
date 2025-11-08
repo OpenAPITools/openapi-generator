@@ -24,7 +24,7 @@ export interface {{classname}} {{#allParents.0}}extends{{#allParents}} {{{.}}}{{
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
-    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
 {{/vars}}
 }
 
@@ -53,15 +53,15 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
-        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{dataType}}{{/items}}FromJSON),
         {{/isArray}}
         {{#isMap}}
-        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON),
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}mapValues(json['{{baseName}}'], {{#items}}{{dataType}}{{/items}}FromJSON),
         {{/isMap}}
         {{^isArray}}
         {{^isMap}}
         {{^isFreeFormObject}}
-        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{dataType}}FromJSON(json['{{baseName}}']),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
@@ -96,15 +96,15 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isArray}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{dataType}}{{/items}}ToJSON),
         {{/isArray}}
         {{#isMap}}
-        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{dataType}}{{/items}}ToJSON),
         {{/isMap}}
         {{^isArray}}
         {{^isMap}}
         {{^isFreeFormObject}}
-        '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        '{{baseName}}': {{dataType}}ToJSON(value.{{name}}),
         {{/isFreeFormObject}}
         {{#isFreeFormObject}}
         '{{baseName}}': value.{{name}},
