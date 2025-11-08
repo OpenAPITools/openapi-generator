@@ -69,6 +69,7 @@ paths:
             type: integer
         - $ref: '#/components/parameters/offset'
         - name: status
+          x-role: admin
           in: query
           description: Status values that need to be considered for filter
           required: true
@@ -100,6 +101,7 @@ paths:
       tags:
         - pet
       operationId: findPetsByTags
+      x-role: guest
       parameters:
         - name: tags
           in: query
@@ -151,6 +153,7 @@ paths:
       tags:
         - pet
       operationId: updatePetWithForm
+      x-role: admin
       parameters:
         - name: petId
           in: path
@@ -180,6 +183,7 @@ paths:
       summary: Deletes a pet
       description: ''
       operationId: deletePet
+      x-role: admin
       parameters:
         - name: api_key
           in: header

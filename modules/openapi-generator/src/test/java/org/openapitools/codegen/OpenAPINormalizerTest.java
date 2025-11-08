@@ -702,7 +702,7 @@ public class OpenAPINormalizerTest {
         // extra spaces are trimmed
         filter = parseFilter("method:\n\t\t\t\tget");
         assertTrue(filter.hasFilter());
-        assertEquals(filter.methodFilters, Set.of("get"));
+        assertEquals(filter.methodFilters, Set.of(PathItem.HttpMethod.GET));
         assertTrue(filter.operationIdFilters.isEmpty());
         assertTrue(filter.tagFilters.isEmpty());
         assertTrue(filter.pathStartingWithFilters.isEmpty());

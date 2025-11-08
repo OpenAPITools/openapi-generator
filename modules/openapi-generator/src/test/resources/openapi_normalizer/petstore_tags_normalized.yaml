@@ -74,6 +74,7 @@ paths:
               type: string
             type: array
           style: form
+          x-role: admin
       responses:
         "200":
           content:
@@ -125,6 +126,7 @@ paths:
           description: Invalid tag value
       tags:
         - pet
+      x-role: guest
   /pet/{petId}:
     delete:
       description: ""
@@ -152,6 +154,7 @@ paths:
       summary: Deletes a pet
       tags:
         - pet
+      x-role: admin
     get:
       operationId: getPetById
       parameters:
@@ -206,6 +209,7 @@ paths:
           description: Invalid input
       tags:
         - pet
+      x-role: admin
 components:
   parameters:
     offset:

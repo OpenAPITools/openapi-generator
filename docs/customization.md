@@ -669,6 +669,9 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 - **`path`**  
   When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
 
+- **`x-`**  
+  When set to `x-role:admin|superuser`, operations or parameters having vendorExtension `x-role` with a value **not** in [`admin`,`superuser`] will be marked as internal (`x-internal: true`), and will not be generated.
+
 ### Example Usage
 
 ```sh

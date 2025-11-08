@@ -35,9 +35,9 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
 import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
@@ -69,38 +69,38 @@ public class OpenAPINormalizer {
 
     // when set to true, $ref in allOf is treated as parent so that x-parent: true will be added
     // to the schema in $ref (if x-parent is not present)
-    final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
+    static final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
 
     // when set to true, only keep the first tag in operation if there are more than one tag defined.
-    final String KEEP_ONLY_FIRST_TAG_IN_OPERATION = "KEEP_ONLY_FIRST_TAG_IN_OPERATION";
+    static final String KEEP_ONLY_FIRST_TAG_IN_OPERATION = "KEEP_ONLY_FIRST_TAG_IN_OPERATION";
 
     // when set to true, complex composed schemas (a mix of oneOf/anyOf/anyOf and properties) with
     // oneOf/anyOf containing only `required` and no properties (these are properties inter-dependency rules)
     // are removed as most generators cannot handle such case at the moment
-    final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
+    static final String REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY = "REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY";
 
     // when set to true, oneOf/anyOf with either string or enum string as sub schemas will be simplified
     // to just string
-    final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
+    static final String SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING = "SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING";
 
     // when set to true, oneOf/anyOf schema with only one sub-schema is simplified to just the sub-schema
     // and if sub-schema contains "null", remove it and set nullable to true instead
     // and if sub-schema contains enum of "null", remove it and set nullable to true instead
-    final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
+    static final String SIMPLIFY_ONEOF_ANYOF = "SIMPLIFY_ONEOF_ANYOF";
 
     // when set to true, boolean enum will be converted to just boolean
-    final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
+    static final String SIMPLIFY_BOOLEAN_ENUM = "SIMPLIFY_BOOLEAN_ENUM";
 
     // when set to true, oneOf/anyOf with enum sub-schemas containing single values will be converted to a single enum
-    final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
+    static final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";
 
     // when set to a string value, tags in all operations will be reset to the string value provided
-    final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
+    static final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
 
     // when set to true, tags in all operations will be set to operationId or "default" if operationId
     // is empty
-    final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
+    static final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
     String setTagsToOperationId;
 
     // when set to a string value, tags will be set to the value of the provided vendor extension
@@ -119,33 +119,34 @@ public class OpenAPINormalizer {
 
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
-    final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
+    static final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
 
     // when set to true, refactor schema with allOf and properties in the same level to a schema with allOf only and
     // the allOf contains a new schema containing the properties in the top level
-    final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
+    static final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
 
     // when set to true, remove the "properties" of a schema with type other than "object"
-    final String REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT = "REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT";
+    static final String REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT = "REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT";
 
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
-    final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
+    static final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
     // when set to true, remove x-internal: true from models, operations
     static final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
+    Filter filter = new Filter();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
-    final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
+    static final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
     HashSet<String> setContainerToNullable = new HashSet<>();
     boolean updateArrayToNullable;
     boolean updateSetToNullable;
     boolean updateMapToNullable;
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
-    final String SET_PRIMITIVE_TYPES_TO_NULLABLE = "SET_PRIMITIVE_TYPES_TO_NULLABLE";
+    static final String SET_PRIMITIVE_TYPES_TO_NULLABLE = "SET_PRIMITIVE_TYPES_TO_NULLABLE";
     HashSet<String> setPrimitiveTypesToNullable = new HashSet<>();
     boolean updateStringToNullable;
     boolean updateIntegerToNullable;
@@ -153,7 +154,7 @@ public class OpenAPINormalizer {
     boolean updateBooleanToNullable;
 
     // when set (e.g. internal:unused), remove the x-internalt:true elements and remove the unused elements
-    final String REMOVE_FILTER = "REMOVE_FILTER";
+    static final String REMOVE_FILTER = "REMOVE_FILTER";
     RemoveFilter removeFilter = new RemoveFilter();
 
     // ============= end of rules =============
@@ -326,23 +327,35 @@ public class OpenAPINormalizer {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
         }
 
-        String filter = inputRules.get(REMOVE_FILTER);
+        if (Boolean.TRUE.equals(getRule(FILTER))) {
+            String filters = inputRules.get(FILTER);
+            this.filter = createFilter(this.openAPI, filters);
+            this.filter.parse();
+        }
+
+        String removeFilter = inputRules.get(REMOVE_FILTER);
         // for backward compatibility
         if (getRule(REMOVE_X_INTERNAL)) {
-            filter = filter == null? REMOVE_X_INTERNAL : filter + " ; " + REMOVE_X_INTERNAL;
+            removeFilter = removeFilter == null? REMOVE_X_INTERNAL : removeFilter + " ; " + REMOVE_X_INTERNAL;
         }
         // for backward compatibility
         if (getRule(KEEP_ONLY_FIRST_TAG_IN_OPERATION)) {
-            filter = filter == null? KEEP_ONLY_FIRST_TAG_IN_OPERATION : filter + " ; " + KEEP_ONLY_FIRST_TAG_IN_OPERATION;
+            removeFilter = removeFilter == null? KEEP_ONLY_FIRST_TAG_IN_OPERATION : removeFilter + " ; " + KEEP_ONLY_FIRST_TAG_IN_OPERATION;
         }
-        if (filter != null) {
-            removeFilter = createRemoveFilter(filter);
-            removeFilter.parse();
+        if (removeFilter != null) {
+            this.removeFilter = createRemoveFilter(removeFilter);
+            this.removeFilter.parse();
             rules.put(REMOVE_FILTER, true);
         }
-
     }
 
+    /**
+     * create the remove filter to process the REMOVE_FILTER normalizer.
+     * Ovveride this to create a custom remove filter normalizer.
+     *
+     * @param filter full filter value, including REMOVE_X_INTERNAL and KEEP_ONLY_FIRST_TAG_IN_OPERATION
+     * @return a remove filter containing the parsed filters.
+     */
     protected RemoveFilter createRemoveFilter(String filter) {
         return new RemoveFilter(filter);
     }
@@ -566,25 +579,11 @@ public class OpenAPINormalizer {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
 
-            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
-                    "get", PathItem::getGet,
-                    "put", PathItem::getPut,
-                    "head", PathItem::getHead,
-                    "post", PathItem::getPost,
-                    "delete", PathItem::getDelete,
-                    "patch", PathItem::getPatch,
-                    "options", PathItem::getOptions,
-                    "trace", PathItem::getTrace
-            );
 
-            if (Boolean.TRUE.equals(getRule(FILTER))) {
-                String filters = inputRules.get(FILTER);
-                Filter filter = createFilter(this.openAPI, filters);
-                if (filter.parse()) {
-                    // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
-                    // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
-                    filter.apply(pathsEntry.getKey(), path, methodMap);
-                }
+            if (filter.hasFilter()) {
+                // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                filter.apply(pathsEntry.getKey(), path, path.readOperationsMap());
             }
 
             // Include callback operation as well
@@ -599,7 +598,7 @@ public class OpenAPINormalizer {
             }
 
             // normalize PathItem common parameters
-            normalizeParameters(pathsEntry.getKey(), path, null, path.getParameters());
+            normalizeParameters(pathsEntry.getKey(), path, null, null, path.getParameters());
             if (removeFilter.hasFilter()) {
                 // for backward compatibility, keep empty parameters if not removeFilter
                 if (path.getParameters() != null && path.getParameters().isEmpty()) {
@@ -615,10 +614,12 @@ public class OpenAPINormalizer {
                     }
                 }
             }
-            for (Operation operation : operations) {
+            for (Map.Entry<PathItem.HttpMethod, Operation> operationEntry : path.readOperationsMap().entrySet()) {
+                Operation operation = operationEntry.getValue();
+                PathItem.HttpMethod method = operationEntry.getKey();
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
-                normalizeParameters(pathsEntry.getKey(), path, operation, operation.getParameters());
+                normalizeParameters(pathsEntry.getKey(), path, method, operation, operation.getParameters());
                 if (removeFilter.hasFilter()) {
                     // just for backward compatibility
                     if (operation.getParameters() != null && operation.getParameters().isEmpty()) {
@@ -699,9 +700,18 @@ public class OpenAPINormalizer {
         normalizeContent(requestBody.getContent());
     }
 
-    protected void normalizeParameters(String path, PathItem pathItem, Operation operation, List<Parameter> parameters) {
+    protected void normalizeParameters(String path, PathItem pathItem, PathItem.HttpMethod method, Operation operation, List<Parameter> parameters) {
         if (parameters == null) {
             return;
+        }
+        if (filter.hasFilter()) {
+            for (Iterator<Parameter> it = parameters.iterator(); it.hasNext(); ) {
+                Parameter parameter = it.next();
+                if (parameter.get$ref() != null) {
+                    parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+                }
+                filter.applyParameter(path, pathItem, method, operation, parameter);
+            }
         }
         if (removeFilter.hasFilter()) {
             for (Iterator<Parameter> it = parameters.iterator(); it.hasNext(); ) {
@@ -2078,10 +2088,16 @@ public class OpenAPINormalizer {
         public static final String PATH = "path";
         private final String filters;
         protected Set<String> operationIdFilters = Collections.emptySet();
-        protected Set<String> methodFilters = Collections.emptySet();
+        protected Set<PathItem.HttpMethod> methodFilters = Collections.emptySet();
         protected Set<String> tagFilters = Collections.emptySet();
         protected Set<String> pathStartingWithFilters = Collections.emptySet();
+        protected Map<String, Set<String>> vendorExtensions = new HashMap<>();
         private boolean hasFilter;
+
+        Filter() {
+            this.filters = null;
+            this.hasFilter = false;
+        }
 
         protected Filter(String filters) {
             this.filters = filters.trim();
@@ -2122,11 +2138,16 @@ public class OpenAPINormalizer {
                     if (OPERATION_ID.equals(filterKey)) {
                         operationIdFilters = parsedFilters;
                     } else if (METHOD.equals(filterKey)) {
-                        methodFilters = parsedFilters;
+                        methodFilters = parsedFilters.stream()
+                                .map(String::toUpperCase)
+                                .map(PathItem.HttpMethod::valueOf)
+                                .collect(Collectors.toSet());
                     } else if (TAG.equals(filterKey)) {
                         tagFilters = parsedFilters;
                     } else if (PATH.equals(filterKey)) {
                         pathStartingWithFilters = parsedFilters;
+                    } else if (filterKey.startsWith("x-")) {
+                        vendorExtensions.put(filterKey, parsedFilters);
                     } else {
                         parse(filterKey, filterValue);
                     }
@@ -2174,31 +2195,86 @@ public class OpenAPINormalizer {
             return hasFilter;
         }
 
-        public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(pathItem);
-                if (operation != null) {
-                    boolean found = false;
-                    found |= logIfMatch(PATH, operation, hasPathStarting(path));
-                    found |= logIfMatch(TAG, operation, hasTag(operation));
-                    found |= logIfMatch(OPERATION_ID, operation, hasOperationId(operation));
-                    found |= logIfMatch(METHOD, operation, hasMethod(method));
-                    found |= hasCustomFilterMatch(path, operation);
+        public void apply(String path, PathItem pathItem, Map<PathItem.HttpMethod, Operation> methodMap) {
+            methodMap.forEach((method, operation) -> {
 
-                    operation.addExtension(X_INTERNAL, !found);
+                String operationInfo = getOperationInfo(path, pathItem, method, operation);
+                boolean found = false;
+                found |= logIfMatch(PATH, operationInfo, hasPathStarting(path));
+                found |= logIfMatch(TAG, operationInfo, hasTag(operation));
+                found |= logIfMatch(OPERATION_ID, operationInfo, hasOperationId(operation));
+                found |= logIfMatch(METHOD, operationInfo, hasMethod(method));
+                found |= hasCustomFilterMatch(path, operation);
+                found |= useVendorExtensions(operation) && logIfMatch(this.vendorExtensions, operationInfo, matchVendorExtension(path, method, operation));
+
+                if (!found) {
+                    logMismatch(operationInfo);
                 }
+                operation.addExtension(X_INTERNAL, !found);
             });
         }
 
-        protected boolean logIfMatch(String filterName, Operation operation, boolean filterMatched) {
+        private String getOperationInfo(String path, PathItem pathItem, PathItem.HttpMethod method, Operation operation) {
+            return String.format("%s %s (operationId: %s)", method, path, operation.getOperationId());
+        }
+
+        protected boolean useVendorExtensions(Operation operation) {
+            return !isEmpty(this.vendorExtensions);// && !isEmpty(operation.getExtensions());
+        }
+
+        protected boolean matchVendorExtension(String path, PathItem.HttpMethod method, Operation operation) {
+            return matchExtension(operation.getExtensions());
+        }
+
+        public void applyParameter(String path, PathItem pathItem, PathItem.HttpMethod method, Operation operation, Parameter parameter) {
+            Map<String, Object> parameterExtensions = parameter.getExtensions();
+            if (this.vendorExtensions == null || isEmpty(parameterExtensions)) {
+                return;
+            }
+            if (operation != null) {
+                if (!matchExtension(parameterExtensions)) {
+                    parameter.addExtension(X_INTERNAL, true);
+                    String operationInfo = getOperationInfo(path, pathItem, method, operation);
+                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by the {} FILTER", parameter.getName(), operationInfo, this.vendorExtensions);
+                }
+            } else {
+                if (!matchExtension(parameterExtensions)) {
+                    parameter.addExtension(X_INTERNAL, true);
+                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by the {} FILTER", parameter.getName(), path, this.vendorExtensions);
+                }
+            }
+        }
+
+        protected boolean logIfMatch(Object filterName, String operation, boolean filterMatched) {
             if (filterMatched) {
-                logMatch(filterName, operation);
+                logIfMatch(filterName, operation);
             }
             return filterMatched;
         }
 
-        protected void logMatch(String filterName, Operation operation) {
-            getLogger().info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+        protected void logMismatch(String operation) {
+            getLogger().info("operation `{}` marked as internal only (x-internal: true) by FILTER", operation);
+        }
+
+
+        protected void logIfMatch(Object filterName, String operation) {
+            getLogger().info("operation `{}` kept (x-internal: false) by the {} FILTER", operation, filterName);
+        }
+
+        protected boolean matchExtension(Map<String, Object> extensions) {
+            if ( isEmpty(extensions)) {
+                return true;
+            }
+            for (Map.Entry<String, Set<String>> entry : this.vendorExtensions.entrySet()) {
+                String key = entry.getKey();
+                if (extensions.containsKey(key)) {
+                    Set<String> filter = entry.getValue();
+                    if (!filter.contains(extensions.get(key))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         protected Logger getLogger() {
@@ -2217,9 +2293,10 @@ public class OpenAPINormalizer {
             return operationIdFilters.contains(operation.getOperationId());
         }
 
-        private boolean hasMethod(String method) {
+        private boolean hasMethod(PathItem.HttpMethod method) {
             return methodFilters.contains(method);
         }
+
     }
 
     /**
@@ -2245,25 +2322,25 @@ public class OpenAPINormalizer {
         private final String filters;
         private boolean hasFilter;
 
-        boolean removeXInternal;
-        Set<String> removeExtensions = Collections.emptySet();
+        protected boolean removeXInternal;
+        protected Set<String> removeExtensions = Collections.emptySet();
 
-        boolean internalOperations;
-        boolean internalSchemas;
-        boolean internalParameters;
-        boolean internalProperties;
+        protected boolean internalOperations;
+        protected boolean internalSchemas;
+        protected boolean internalParameters;
+        protected boolean internalProperties;
 
-        boolean unusedSchemas;
-        boolean unusedParameters;
-        boolean unusedTags;
-        boolean unusedRequestBodies;
-        boolean unusedResponses;
+        protected boolean unusedSchemas;
+        protected boolean unusedParameters;
+        protected boolean unusedTags;
+        protected boolean unusedRequestBodies;
+        protected boolean unusedResponses;
 
-        boolean keepOnlyFirstTagInOperation;
-        Set<String> removeTags = Collections.emptySet();
-        boolean deprecated;
-        Set<String> tags = Collections.emptySet();
-        Map<String, Set<String>> vendorExtensions = new HashMap<>();
+        protected boolean keepOnlyFirstTagInOperation;
+        protected Set<String> removeTags = Collections.emptySet();
+        protected boolean deprecated;
+        protected Set<String> tags = Collections.emptySet();
+        protected Map<String, Set<String>> vendorExtensions = new HashMap<>();
 
         RemoveFilter() {
             this.filters = null;
@@ -2300,15 +2377,26 @@ public class OpenAPINormalizer {
             for (String filter : filters.split(";")) {
                 filter = filter.trim();
                 String[] filterStrs = filter.split(":");
-                if (filterStrs.length==1) {
-                    filterStrs = new String[]{filterStrs[0], "true"};
+                boolean isTrue = false;
+                boolean isBoolean = false;
+                boolean isAny = filterStrs.length == 1;
+                Set<String> set;
+                String filterKey = filterStrs[0].trim();
+                String filterValue;
+                if (isAny) {
+                    filterStrs = new String[] { filterStrs[0], "true" };
+                    isTrue = true;
+                    isBoolean = true;
+                    set = Collections.emptySet();
+                    filterValue = null;
+                } else {
+                    filterValue = filterStrs[1];
+                    set = splitByPipe(filterValue);
+                    isTrue = Boolean.parseBoolean(filterValue);
+                    isBoolean = "false".equals(filterValue) || isTrue;
                 }
                 hasFilter = true;
-                String filterKey = filterStrs[0].trim();
-                String filterValue = filterStrs[1];
-                Set<String> set = splitByPipe(filterValue);
-                boolean isTrue = Boolean.valueOf(filterValue);
-                boolean isBoolean = isTrue || "false".equals(filterValue);
+ 
                 if ("internal".equals(filterKey)) {
                     if (isBoolean) {
                         internalOperations = isTrue;
@@ -2340,9 +2428,9 @@ public class OpenAPINormalizer {
                 } else if (REMOVE_X_INTERNAL.equals(filterKey)) {
                     removeXInternal = isTrue;
                 } else if ("removeVendorExtensions".equals(filterKey)) {
-                    if (isBoolean) {
+                    if (isAny) {
                         removeXInternal = isTrue;
-                        removeExtensions = ANYSET;
+                        removeExtensions = getAnySet(isTrue);
                     } else {
                         removeExtensions = set;
                     }
@@ -2352,7 +2440,7 @@ public class OpenAPINormalizer {
                     if ("keepOnlyFirstTag".equals(filterValue)) {
                         keepOnlyFirstTagInOperation = true;
                     } else {
-                        if (isBoolean) {
+                        if (isAny) {
                             removeTags = getAnySet(isTrue);
                         } else {
                             removeTags = set;
@@ -2361,17 +2449,12 @@ public class OpenAPINormalizer {
                 } else if ("tags".equals(filterKey)) {
                     tags = set;
                 } else if (filterKey.startsWith("x-")) {
-                    if (isBoolean) {
-                        vendorExtensions.put(filterKey, getAnySet(isTrue));
-                    } else {
-                        vendorExtensions.put(filterKey, set);
-                    }
+                    vendorExtensions.put(filterKey, isAny ? getAnySet(isTrue) : set);
                 } else {
                     parse(filterKey, filterValue);
                 }
             }
         }
-
 
         /**
          * Parse unknown filter.
@@ -2402,14 +2485,14 @@ public class OpenAPINormalizer {
          *
          * @return true if the vendorExtension needs to be removed
          */
-        protected boolean matchTagToRemove(Operation operation, int index, String tag) {
+        protected boolean matchTagToRemove(Operation operation, int index, String tagvalue) {
             if (removeTags == ANYSET) {
                 return true;
             }
             if (keepOnlyFirstTagInOperation) {
                 return index > 0;
             }
-            return removeTags.contains(tag);
+            return removeTags.contains(tagvalue);
         }
 
         /**

@@ -31,6 +31,7 @@ paths:
           description: Invalid input
       tags:
         - pet
+      x-internal: false
     put:
       externalDocs:
         description: API documentation for the updatePet operation
@@ -47,6 +48,94 @@ paths:
           description: successful operation
       tags:
         - pet
+      x-internal: false
+  /pet/findByStatus:
+    get:
+      deprecated: true
+      operationId: findPetsByStatus
+      parameters:
+        - deprecated: true
+          explode: true
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+          style: form
+          x-internal: true
+        - $ref: "#/components/parameters/offset"
+        - deprecated: true
+          description: Status values that need to be considered for filter
+          explode: false
+          in: query
+          name: status
+          required: true
+          schema:
+            items:
+              default: available
+              enum:
+                - available
+                - pending
+                - sold
+              type: string
+            type: array
+          style: form
+          x-role: admin
+          x-internal: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+        "400":
+          description: Invalid status value
+      tags:
+        - pet
+      x-internal: false
+    parameters:
+      - deprecated: true
+        explode: false
+        in: header
+        name: role
+        required: false
+        schema:
+          type: string
+        style: simple
+        x-internal: true
+  /pet/findByTags:
+    get:
+      deprecated: true
+      operationId: findPetsByTags
+      parameters:
+        - description: Tags to filter by
+          explode: false
+          in: query
+          name: tags
+          required: true
+          schema:
+            items:
+              type: string
+            type: array
+          style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+        "400":
+          description: Invalid tag value
+      tags:
+        - pet
+      x-role: guest
+      x-internal: false
   /pet/{petId}:
     delete:
       description: ""
@@ -75,6 +164,7 @@ paths:
       tags:
         - pet
       x-role: admin
+      x-internal: true
     get:
       operationId: getPetById
       parameters:
@@ -100,6 +190,7 @@ paths:
           description: Pet not found
       tags:
         - pet
+      x-internal: false
     post:
       operationId: updatePetWithForm
       parameters:
@@ -130,6 +221,24 @@ paths:
       tags:
         - pet
       x-role: admin
+      x-internal: true
+  /store/inventory:
+    get:
+      deprecated: true
+      operationId: getInventory
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  format: int32
+                  type: integer
+                type: object
+          description: successful operation
+      tags:
+        - store
+      x-internal: false
   /store/order:
     post:
       operationId: placeOrder
@@ -146,6 +255,7 @@ paths:
           description: Invalid Order
       tags:
         - store
+      x-internal: false
   /store/order/{orderId}:
     delete:
       operationId: deleteOrder
@@ -153,6 +263,7 @@ paths:
         - $ref: "#/components/parameters/orderId"
       tags:
         - store
+      x-internal: false
     get:
       operationId: getOrderById
       parameters:
@@ -162,6 +273,7 @@ paths:
           $ref: "#/components/responses/Order"
       tags:
         - store
+      x-internal: false
   /user:
     post:
       operationId: createUser
@@ -177,6 +289,7 @@ paths:
           description: successful operation
       tags:
         - user
+      x-internal: false
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -184,6 +297,7 @@ paths:
         $ref: "#/components/requestBodies/UserArray"
       tags:
         - user
+      x-internal: false
   /user/login:
     get:
       operationId: loginUser
@@ -225,11 +339,13 @@ paths:
           description: Invalid username/password supplied
       tags:
         - user
+      x-internal: false
   /user/logout:
     get:
       operationId: logoutUser
       tags:
         - user
+      x-internal: false
   /user/{username}:
     delete:
       operationId: deleteUser
@@ -244,6 +360,7 @@ paths:
           style: simple
       tags:
         - user
+      x-internal: false
     get:
       operationId: getUserByName
       parameters:
@@ -264,6 +381,7 @@ paths:
           description: successful operation
       tags:
         - user
+      x-internal: false
     put:
       operationId: updateUser
       parameters:
@@ -289,6 +407,7 @@ paths:
           description: User not found
       tags:
         - user
+      x-internal: false
 components:
   parameters:
     orderId:
@@ -299,6 +418,16 @@ components:
       schema:
         type: string
       style: simple
+    offset:
+      deprecated: true
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        type: integer
+      style: form
+      x-internal: true
   requestBodies:
     UserArray:
       content:
@@ -422,8 +551,28 @@ components:
           items:
             $ref: "#/components/schemas/Tag"
           type: array
+        status:
+          deprecated: true
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+          type: string
       required:
         - name
         - photoUrls
       title: a Pet
+      type: object
+    ApiResponse:
+      description: Describes the result of uploading an image resource
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      title: An uploaded response
       type: object

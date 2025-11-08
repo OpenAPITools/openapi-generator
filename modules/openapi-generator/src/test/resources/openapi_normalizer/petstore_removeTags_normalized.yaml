@@ -67,6 +67,7 @@ paths:
               type: string
             type: array
           style: form
+          x-role: admin
       responses:
         "200":
           content:
@@ -114,6 +115,7 @@ paths:
           description: successful operation
         "400":
           description: Invalid tag value
+      x-role: guest
   /pet/{petId}:
     delete:
       description: ""
@@ -139,6 +141,7 @@ paths:
         "400":
           description: Invalid pet value
       summary: Deletes a pet
+      x-role: admin
     get:
       operationId: getPetById
       parameters:
@@ -189,6 +192,7 @@ paths:
       responses:
         "405":
           description: Invalid input
+      x-role: admin
   /store/inventory:
     get:
       deprecated: true
