@@ -203,9 +203,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isDeepObject}}
     {{^isObject}}
     {{^isModel}}
+    {{^isEnum}}
+    {{#isPrimitiveType}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
     };
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+    };
+    {{/isPrimitiveType}}
+    {{/isEnum}}
     {{/isModel}}
     {{/isObject}}
     {{/isNullable}}
@@ -245,9 +254,19 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{#isModel}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
         {{/isModel}}
+        {{#isEnum}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isEnum}}
         {{^isObject}}
         {{^isModel}}
+        {{^isEnum}}
+        {{#isPrimitiveType}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        {{/isPrimitiveType}}
+        {{/isEnum}}
         {{/isModel}}
         {{/isObject}}
         {{/isDeepObject}}
