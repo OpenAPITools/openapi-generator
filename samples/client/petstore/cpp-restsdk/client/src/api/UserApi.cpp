@@ -126,7 +126,7 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> user) const
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
@@ -265,7 +265,7 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
@@ -404,7 +404,7 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
@@ -516,7 +516,7 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username) const
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
@@ -889,7 +889,7 @@ pplx::task<void> UserApi::logoutUser() const
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
@@ -1024,7 +1024,7 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
