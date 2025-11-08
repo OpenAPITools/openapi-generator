@@ -337,7 +337,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets small_camel
      *
-     * @param string $small_camel small_camel
+     * @param string|null $small_camel small_camel
      *
      * @return self
      */
@@ -364,7 +364,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets capital_camel
      *
-     * @param string $capital_camel capital_camel
+     * @param string|null $capital_camel capital_camel
      *
      * @return self
      */
@@ -391,7 +391,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets small_snake
      *
-     * @param string $small_snake small_snake
+     * @param string|null $small_snake small_snake
      *
      * @return self
      */
@@ -418,7 +418,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets capital_snake
      *
-     * @param string $capital_snake capital_snake
+     * @param string|null $capital_snake capital_snake
      *
      * @return self
      */
@@ -445,7 +445,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets sca_eth_flow_points
      *
-     * @param string $sca_eth_flow_points sca_eth_flow_points
+     * @param string|null $sca_eth_flow_points sca_eth_flow_points
      *
      * @return self
      */
@@ -472,7 +472,7 @@ class Capitalization implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets att_name
      *
-     * @param string $att_name Name of the pet
+     * @param string|null $att_name Name of the pet
      *
      * @return self
      */

@@ -302,7 +302,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets special_property_name
      *
-     * @param int $special_property_name special_property_name
+     * @param int|null $special_property_name special_property_name
      *
      * @return self
      */

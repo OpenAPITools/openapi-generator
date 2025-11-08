@@ -351,7 +351,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets id
      *
-     * @param int $id id
+     * @param int|null $id id
      *
      * @return self
      */
@@ -378,7 +378,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets username
      *
-     * @param string $username username
+     * @param string|null $username username
      *
      * @return self
      */
@@ -405,7 +405,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets first_name
      *
-     * @param string $first_name first_name
+     * @param string|null $first_name first_name
      *
      * @return self
      */
@@ -432,7 +432,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets last_name
      *
-     * @param string $last_name last_name
+     * @param string|null $last_name last_name
      *
      * @return self
      */
@@ -459,7 +459,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets email
      *
-     * @param string $email email
+     * @param string|null $email email
      *
      * @return self
      */
@@ -486,7 +486,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets password
      *
-     * @param string $password password
+     * @param string|null $password password
      *
      * @return self
      */
@@ -513,7 +513,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets phone
      *
-     * @param string $phone phone
+     * @param string|null $phone phone
      *
      * @return self
      */
@@ -540,7 +540,7 @@ class User implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets user_status
      *
-     * @param int $user_status User Status
+     * @param int|null $user_status User Status
      *
      * @return self
      */

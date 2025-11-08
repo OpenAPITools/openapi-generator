@@ -302,7 +302,7 @@ class TestInlineFreeformAdditionalPropertiesRequest implements ModelInterface, A
     /**
      * Sets some_property
      *
-     * @param string $some_property some_property
+     * @param string|null $some_property some_property
      *
      * @return self
      */

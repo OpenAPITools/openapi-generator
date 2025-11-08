@@ -354,7 +354,7 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets snake_case
      *
-     * @param int $snake_case snake_case
+     * @param int|null $snake_case snake_case
      *
      * @return self
      */
@@ -381,7 +381,7 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets property
      *
-     * @param string $property property
+     * @param string|null $property property
      *
      * @return self
      */
@@ -408,7 +408,7 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets _123_number
      *
-     * @param int $_123_number _123_number
+     * @param int|null $_123_number _123_number
      *
      * @return self
      */

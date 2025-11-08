@@ -302,7 +302,7 @@ class NumberOnly implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets just_number
      *
-     * @param float $just_number just_number
+     * @param float|null $just_number just_number
      *
      * @return self
      */

@@ -309,7 +309,7 @@ class Tag implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets id
      *
-     * @param int $id id
+     * @param int|null $id id
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class Tag implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets name
      *
-     * @param string $name name
+     * @param string|null $name name
      *
      * @return self
      */

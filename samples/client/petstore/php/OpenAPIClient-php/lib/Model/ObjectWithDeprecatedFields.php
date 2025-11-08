@@ -323,7 +323,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets uuid
      *
-     * @param string $uuid uuid
+     * @param string|null $uuid uuid
      *
      * @return self
      */
@@ -351,7 +351,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets id
      *
-     * @param float $id id
+     * @param float|null $id id
      *
      * @return self
      * @deprecated
@@ -380,7 +380,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets deprecated_ref
      *
-     * @param \OpenAPI\Client\Model\DeprecatedObject $deprecated_ref deprecated_ref
+     * @param \OpenAPI\Client\Model\DeprecatedObject|null $deprecated_ref deprecated_ref
      *
      * @return self
      * @deprecated
@@ -409,7 +409,7 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
     /**
      * Sets bars
      *
-     * @param string[] $bars bars
+     * @param string[]|null $bars bars
      *
      * @return self
      * @deprecated

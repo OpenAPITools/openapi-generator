@@ -303,7 +303,7 @@ class ClassModel implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets _class
      *
-     * @param string $_class _class
+     * @param string|null $_class _class
      *
      * @return self
      */

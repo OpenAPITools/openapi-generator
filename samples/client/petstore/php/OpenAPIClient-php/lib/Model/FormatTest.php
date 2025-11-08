@@ -479,7 +479,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets integer
      *
-     * @param int $integer integer
+     * @param int|null $integer integer
      *
      * @return self
      */
@@ -514,7 +514,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets int32
      *
-     * @param int $int32 int32
+     * @param int|null $int32 int32
      *
      * @return self
      */
@@ -549,7 +549,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets int64
      *
-     * @param int $int64 int64
+     * @param int|null $int64 int64
      *
      * @return self
      */
@@ -611,7 +611,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets float
      *
-     * @param float $float float
+     * @param float|null $float float
      *
      * @return self
      */
@@ -646,7 +646,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets double
      *
-     * @param float $double double
+     * @param float|null $double double
      *
      * @return self
      */
@@ -681,7 +681,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets decimal
      *
-     * @param float $decimal decimal
+     * @param float|null $decimal decimal
      *
      * @return self
      */
@@ -708,7 +708,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets string
      *
-     * @param string $string string
+     * @param string|null $string string
      *
      * @return self
      */
@@ -767,7 +767,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets binary
      *
-     * @param \SplFileObject $binary binary
+     * @param \SplFileObject|null $binary binary
      *
      * @return self
      */
@@ -821,7 +821,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets date_time
      *
-     * @param \DateTime $date_time date_time
+     * @param \DateTime|null $date_time date_time
      *
      * @return self
      */
@@ -848,7 +848,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets uuid
      *
-     * @param string $uuid uuid
+     * @param string|null $uuid uuid
      *
      * @return self
      */
@@ -909,7 +909,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets pattern_with_digits
      *
-     * @param string $pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
+     * @param string|null $pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
      *
      * @return self
      */
@@ -941,7 +941,7 @@ class FormatTest implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets pattern_with_digits_and_delimiter
      *
-     * @param string $pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+     * @param string|null $pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
      *
      * @return self
      */

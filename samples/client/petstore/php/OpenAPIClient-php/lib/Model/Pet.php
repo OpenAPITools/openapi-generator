@@ -369,7 +369,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets id
      *
-     * @param int $id id
+     * @param int|null $id id
      *
      * @return self
      */
@@ -396,7 +396,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets category
      *
-     * @param \OpenAPI\Client\Model\Category $category category
+     * @param \OpenAPI\Client\Model\Category|null $category category
      *
      * @return self
      */
@@ -479,7 +479,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets tags
      *
-     * @param \OpenAPI\Client\Model\Tag[] $tags tags
+     * @param \OpenAPI\Client\Model\Tag[]|null $tags tags
      *
      * @return self
      */
@@ -506,7 +506,7 @@ class Pet implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets status
      *
-     * @param string $status pet status in the store
+     * @param string|null $status pet status in the store
      *
      * @return self
      */

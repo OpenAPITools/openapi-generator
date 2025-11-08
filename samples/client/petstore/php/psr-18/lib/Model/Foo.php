@@ -302,7 +302,7 @@ class Foo implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets bar
      *
-     * @param string $bar bar
+     * @param string|null $bar bar
      *
      * @return self
      */
