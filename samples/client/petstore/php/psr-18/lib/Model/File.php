@@ -303,7 +303,7 @@ class File implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets source_uri
      *
-     * @param string $source_uri Test capitalization
+     * @param string|null $source_uri Test capitalization
      *
      * @return self
      */

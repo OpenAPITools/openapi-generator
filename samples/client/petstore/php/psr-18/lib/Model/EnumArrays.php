@@ -348,7 +348,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets just_symbol
      *
-     * @param string $just_symbol just_symbol
+     * @param string|null $just_symbol just_symbol
      *
      * @return self
      */
@@ -385,7 +385,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets array_enum
      *
-     * @param string[] $array_enum array_enum
+     * @param string[]|null $array_enum array_enum
      *
      * @return self
      */

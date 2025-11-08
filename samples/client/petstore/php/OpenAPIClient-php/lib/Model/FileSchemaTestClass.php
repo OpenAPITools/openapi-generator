@@ -309,7 +309,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets file
      *
-     * @param \OpenAPI\Client\Model\File $file file
+     * @param \OpenAPI\Client\Model\File|null $file file
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, \JsonSerializa
     /**
      * Sets files
      *
-     * @param \OpenAPI\Client\Model\File[] $files files
+     * @param \OpenAPI\Client\Model\File[]|null $files files
      *
      * @return self
      */

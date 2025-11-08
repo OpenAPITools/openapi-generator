@@ -342,7 +342,7 @@ class Animal implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets color
      *
-     * @param string $color color
+     * @param string|null $color color
      *
      * @return self
      */

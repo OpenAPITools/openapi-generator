@@ -302,7 +302,7 @@ class FooGetDefaultResponse implements ModelInterface, ArrayAccess, \JsonSeriali
     /**
      * Sets string
      *
-     * @param \OpenAPI\Client\Model\Foo $string string
+     * @param \OpenAPI\Client\Model\Foo|null $string string
      *
      * @return self
      */

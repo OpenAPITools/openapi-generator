@@ -309,7 +309,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets bar
      *
-     * @param string $bar bar
+     * @param string|null $bar bar
      *
      * @return self
      */
@@ -336,7 +336,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets foo
      *
-     * @param string $foo foo
+     * @param string|null $foo foo
      *
      * @return self
      */

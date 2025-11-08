@@ -316,7 +316,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets my_number
      *
-     * @param float $my_number my_number
+     * @param float|null $my_number my_number
      *
      * @return self
      */
@@ -343,7 +343,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets my_string
      *
-     * @param string $my_string my_string
+     * @param string|null $my_string my_string
      *
      * @return self
      */
@@ -370,7 +370,7 @@ class OuterComposite implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets my_boolean
      *
-     * @param bool $my_boolean my_boolean
+     * @param bool|null $my_boolean my_boolean
      *
      * @return self
      */
