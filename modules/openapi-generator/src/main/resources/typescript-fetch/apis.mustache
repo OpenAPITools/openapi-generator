@@ -133,6 +133,17 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{^isArray}}
         if (requestParameters['{{paramName}}'] != null) {
+            {{#isExplode}}
+            {{#isContainer}}
+            for (let key of Object.keys(requestParameters['{{paramName}}'])) {
+                queryParameters[key] = requestParameters['{{paramName}}'][key];
+            }
+            {{/isContainer}}
+            {{^isContainer}}
+            queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
+            {{/isContainer}}
+            {{/isExplode}}
+            {{^isExplode}}
             {{#isDateTimeType}}
             queryParameters['{{baseName}}'] = (requestParameters['{{paramName}}'] as any).toISOString();
             {{/isDateTimeType}}
@@ -144,6 +155,7 @@ export class {{classname}} extends runtime.BaseAPI {
             queryParameters['{{baseName}}'] = requestParameters['{{paramName}}'];
             {{/isDateType}}
             {{/isDateTimeType}}
+            {{/isExplode}}
         }
 
         {{/isArray}}

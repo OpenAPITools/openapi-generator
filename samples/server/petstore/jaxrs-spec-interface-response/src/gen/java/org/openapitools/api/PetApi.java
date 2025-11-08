@@ -19,9 +19,8 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
-@Path("/pet")
 @Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface PetApi {
 
     /**
@@ -32,6 +31,7 @@ public interface PetApi {
      * @return Invalid input
      */
     @POST
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Add a new pet to the store", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -53,7 +53,7 @@ public interface PetApi {
      * @return Invalid pet value
      */
     @DELETE
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @ApiOperation(value = "Deletes a pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
@@ -73,7 +73,7 @@ public interface PetApi {
      * @return Invalid status value
      */
     @GET
-    @Path("/findByStatus")
+    @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -94,7 +94,7 @@ public interface PetApi {
      * @return Invalid tag value
      */
     @GET
-    @Path("/findByTags")
+    @Path("/pet/findByTags")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -116,7 +116,7 @@ public interface PetApi {
      * @return Pet not found
      */
     @GET
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", authorizations = {
         
@@ -139,6 +139,7 @@ public interface PetApi {
      * @return Validation exception
      */
     @PUT
+    @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Update an existing pet", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -162,7 +163,7 @@ public interface PetApi {
      * @return Invalid input
      */
     @POST
-    @Path("/{petId}")
+    @Path("/pet/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Updates a pet in the store with form data", notes = "", authorizations = {
         @Authorization(value = "petstore_auth", scopes = {
@@ -183,7 +184,7 @@ public interface PetApi {
      * @return successful operation
      */
     @POST
-    @Path("/{petId}/uploadImage")
+    @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @ApiOperation(value = "uploads an image", notes = "", authorizations = {

@@ -61,7 +61,7 @@ import javax.annotation.Generated;
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
 @JsonTypeName("XmlItem")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 @Introspected
 public class XmlItem {
     public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";

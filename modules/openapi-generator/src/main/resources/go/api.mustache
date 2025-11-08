@@ -217,8 +217,16 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 		parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", r.{{paramName}}, "{{style}}", "{{collectionFormat}}")
 	{{/isCollectionFormatMulti}}
 	{{#defaultValue}}} else {
-		var defaultValue {{{dataType}}} = {{{.}}}
-		r.{{paramName}} = &defaultValue
+    {{#isArray}}
+        var defaultValue {{{dataType}}} = {{{dataType}}}{{{.}}}
+        parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", defaultValue, "{{style}}", "{{collectionFormat}}")
+        r.{{paramName}} = &defaultValue
+    {{/isArray}}
+    {{^isArray}}
+        var defaultValue {{{dataType}}} = {{{.}}}
+        parameterAddToHeaderOrQuery(localVarQueryParams, "{{{baseName}}}", defaultValue, "{{style}}", "{{collectionFormat}}")
+        r.{{paramName}} = &defaultValue
+    {{/isArray}}
 	{{/defaultValue}}}
 	{{/required}}
 	{{/queryParams}}
