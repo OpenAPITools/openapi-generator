@@ -53,7 +53,7 @@ final api = Openapi().getDefaultApi();
 try {
     final response = await api.binaryResponse();
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print("Exception when calling DefaultApi->binaryResponse: $e\n");
 }
 

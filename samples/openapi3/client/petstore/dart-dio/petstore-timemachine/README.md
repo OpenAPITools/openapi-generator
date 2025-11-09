@@ -54,7 +54,7 @@ final Pet pet = ; // Pet | Pet object that needs to be added to the store
 try {
     final response = await api.addPet(pet);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
 

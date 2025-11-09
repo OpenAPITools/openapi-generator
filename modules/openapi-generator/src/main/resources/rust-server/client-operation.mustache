@@ -1,11 +1,11 @@
     #[allow(clippy::vec_init_then_push)]
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
         param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
@@ -15,20 +15,20 @@
         #[allow(clippy::uninlined_format_args)]
         let mut uri = format!(
 {{#isCallbackRequest}}
-            "{{vendorExtensions.x-path-format-string}}"
+            "{{exts.x-path-format-string}}"
 {{/isCallbackRequest}}
 {{^isCallbackRequest}}
-            "{}{{^servers}}{{{basePathWithoutHost}}}{{/servers}}{{#servers.0}}{{{url}}}{{/servers.0}}{{vendorExtensions.x-path-format-string}}",
+            "{}{{^servers}}{{{basePathWithoutHost}}}{{/servers}}{{#servers.0}}{{{url}}}{{/servers.0}}{{exts.x-path-format-string}}",
             self.base_path
 {{/isCallbackRequest}}
 {{#pathParams}}
             ,{{{paramName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET)
 {{/pathParams}}
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
             ,{{.}}=callback_{{.}}
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
         );
 
         // Query parameters
@@ -39,7 +39,7 @@
             if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
   {{/required}}
                 query_string.append_pair("{{{baseName}}}",
-  {{#vendorExtensions}}
+  {{#exts}}
     {{#x-consumes-json}}
                     &match serde_json::to_string(&param_{{{paramName}}}) {
                         Ok(str) => str,
@@ -54,7 +54,7 @@
                     &param_{{{paramName}}}{{^isString}}.to_string(){{/isString}});
       {{/isArray}}
     {{/x-consumes-json}}
-  {{/vendorExtensions}}
+  {{/exts}}
   {{^required}}
             }
   {{/required}}
@@ -81,7 +81,7 @@
         };
 
         let mut request = match Request::builder()
-            .method("{{{vendorExtensions.x-http-method}}}")
+            .method("{{{exts.x-http-method}}}")
             .uri(uri)
             .body(BoxBody::new(http_body_util::Empty::new())) {
                 Ok(req) => req,
@@ -214,7 +214,7 @@
 {{>client-response-body-instance}}
 
 
-                Ok({{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                Ok({{{operationId}}}Response::{{#exts}}{{x-response-id}}{{/exts}}
 {{^headers}}
                     (body)
 {{/headers}}
@@ -232,7 +232,7 @@
 {{/dataType}}
 {{^dataType}}
                 Ok(
-                    {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                    {{{operationId}}}Response::{{#exts}}{{x-response-id}}{{/exts}}
 {{#headers}}
   {{#-first}}
                     {

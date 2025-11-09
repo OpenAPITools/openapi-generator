@@ -1,4 +1,4 @@
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-consumes-multipart-form}}
 
         // Consumes multipart/form body
@@ -42,7 +42,7 @@
         #[allow(clippy::uninlined_format_args)]
         params.push(("{{{baseName}}}",
       {{^isString}}
-            format!("{{{vendorExtensions.x-format-string}}}", param_{{{paramName}}})
+            format!("{{{exts.x-format-string}}}", param_{{{paramName}}})
       {{/isString}}
       {{#isString}}
         {{#isArray}}
@@ -78,7 +78,7 @@
       {{^required}}
         if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
       {{/required}}
-      {{#vendorExtensions}}
+      {{#exts}}
         {{#x-consumes-plain-text}}
           {{#isByteArray}}
         let body = String::from_utf8(param_body.0).expect("Body was not valid UTF8");
@@ -93,7 +93,7 @@
         {{#x-consumes-json}}
         let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");
         {{/x-consumes-json}}
-      {{/vendorExtensions}}
+      {{/exts}}
         *request.body_mut() = body_from_string(body);
       {{^required}}
         }
@@ -103,4 +103,4 @@
         request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
     {{/bodyParam}}
   {{/x-consumes-basic}}
-{{/vendorExtensions}}
+{{/exts}}
