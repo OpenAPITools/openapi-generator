@@ -2139,7 +2139,7 @@ public class OpenAPINormalizer {
                         operationIdFilters = parsedFilters;
                     } else if (METHOD.equals(filterKey)) {
                         methodFilters = parsedFilters.stream()
-                                .map(String::toUpperCase)
+                                .map(method -> method.toUpperCase(Locale.ROOT))
                                 .map(PathItem.HttpMethod::valueOf)
                                 .collect(Collectors.toSet());
                     } else if (TAG.equals(filterKey)) {
@@ -2215,7 +2215,7 @@ public class OpenAPINormalizer {
         }
 
         private String getOperationInfo(String path, PathItem pathItem, PathItem.HttpMethod method, Operation operation) {
-            return String.format("%s %s (operationId: %s)", method, path, operation.getOperationId());
+            return String.format(Locale.ROOT, "%s %s (operationId: %s)", method, path, operation.getOperationId());
         }
 
         protected boolean useVendorExtensions(Operation operation) {
