@@ -739,9 +739,9 @@ The `REMOVE_FILTER` parameter allows the removal of elements in an openAPI docum
 - **`deprecated`**  
   When specified as `deprecated` or set to `deprecated:true`, all operations, schemas, properties and parameters marked with `deprecated: true` are removed.
 
-- **`removeTags`**   
+- **`removeTags`**  
   When specified as `removeTags` or set to `removeTags:true`, all tags are removed from the operations.
-  When set to `removeTags:store|user` all tags whose name is `store` or `user` are removed.
+  When set to `removeTags:store|user` all tags named is `store` or `user` are removed.
   When set to `removeTags:keepOnlyFirstTag` perform the KEEP_ONLY_FIRST_TAG_IN_OPERATION normalization
 
 - **`removeVendorExtensions`**  
@@ -750,11 +750,22 @@ The `REMOVE_FILTER` parameter allows the removal of elements in an openAPI docum
 
 - **`x-`**  
   When specified as `x-role`, remove operations, schemas, properties and parameters having a vendor extension `x-role`.
-  When set to `x-role:admin|superuser`, remove operations, schemas, properties and parameters marked with vendorExtension `x-role:admin` or `x-role:superuser`.
+  When set to `x-role:admin|superuser`, remove operations, schemas, properties and parameters marked with vendorExtension `x-role: admin` or `x-role: superuser`.
 
 - **`tags`**  
   When set as `tags:user|store`, remove operations marked with tags: user or store.
 
+- **`headers`**  
+  When set as `headers`, remove all headers.
+  When set as `headers:x-api-key`, remove header parameters named `x-api-key`.
+
+- **`cookies`**  
+  When set as `cookies`, remove all cookies.
+  When set as `cookies:x-api-key`, remove cookie parameters named `x-api-key`.
+
+- **`queryParams`**   
+  When set as `queryParams:offset|limit`, remove request parameters named `offset` or `limit`.`.
+ 
 - **`unused`**  
   When specified as `unused` or set to `unused:true`, remove all unused schemas, tags, requestBodies, responses and parameters.
   Optionally set individual options like in `unused:schemas|tags|requestBodies|responses|parameters`

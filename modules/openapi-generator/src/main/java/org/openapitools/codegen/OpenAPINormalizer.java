@@ -436,6 +436,7 @@ public class OpenAPINormalizer {
         }
         processRemoveEmptyPath();
         processRemoveUnusedRequestBodies();
+        processRemoveEmptyResponseHeaders();
         processRemoveUnusedResponses();
         processRemoveUnusedParameters();
         processRemoveSchemas();
@@ -486,9 +487,25 @@ public class OpenAPINormalizer {
         }
     }
 
+    protected void processRemoveEmptyResponseHeaders() {
+        if (openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
+            openAPI.getComponents().getResponses()
+                    .forEach((key, value) -> processEmptyResponseHeaders(value));
+        }
+        if (openAPI.getPaths()!= null) {
+            openAPI.getPaths().values().stream()
+                    .flatMap(pathItem -> pathItem.readOperations().stream())
+                    .map(Operation::getResponses)
+                    .filter(Objects::nonNull)
+                    .map(ApiResponses::values)
+                    .flatMap(responses -> responses.stream())
+                    .forEach(this::processEmptyResponseHeaders);
+        }
+    }
+
     protected void processRemoveUnusedResponses() {
         if (removeFilter.unusedResponses) {
-            if (openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null) {
+            if (openAPI.getComponents() != null && openAPI.getComponents().getResponses() != null && openAPI.getPaths() != null) {
                 Set<String> unusedResponses = openAPI.getPaths().values().stream()
                         .flatMap(pathItem -> pathItem.readOperations().stream())
                         .map(Operation::getResponses)
@@ -506,6 +523,12 @@ public class OpenAPINormalizer {
                     openAPI.getComponents().setResponses(null);
                 }
             }
+        }
+    }
+
+    protected void processEmptyResponseHeaders(ApiResponse response) {
+        if (response.getHeaders() != null && response.getHeaders().isEmpty()) {
+            response.setHeaders(null);
         }
     }
 
@@ -788,6 +811,14 @@ public class OpenAPINormalizer {
     protected void normalizeHeaders(Map<String, Header> headers) {
         if (headers == null || headers.isEmpty()) {
             return;
+        }
+
+        if (removeFilter.hasFilter()) {
+            Set<String> headersToRemove = headers.entrySet().stream()
+                    .filter(entry -> removeFilter.matchHeader(entry.getKey(), ModelUtils.getReferencedHeader(openAPI, entry.getValue())))
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toSet());
+           headers.keySet().removeIf(key -> headersToRemove.contains(key));
         }
 
         for (String headerKey : headers.keySet()) {
@@ -2232,18 +2263,27 @@ public class OpenAPINormalizer {
                 return;
             }
             if (operation != null) {
-                if (!matchExtension(parameterExtensions)) {
+                if (!matchParameterExtension(path, method, operation, parameter)) {
                     parameter.addExtension(X_INTERNAL, true);
                     String operationInfo = getOperationInfo(path, pathItem, method, operation);
-                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by the {} FILTER", parameter.getName(), operationInfo, this.vendorExtensions);
+                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by FILTER", parameter.getName(), operationInfo);
                 }
             } else {
-                if (!matchExtension(parameterExtensions)) {
+                if (!matchParameterExtension(path, parameter)) {
                     parameter.addExtension(X_INTERNAL, true);
-                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by the {} FILTER", parameter.getName(), path, this.vendorExtensions);
+                    getLogger().info("Parameter `{}` in `{}` marked as internal (x-internal: true) by FILTER", parameter.getName(), path);
                 }
             }
         }
+
+        protected boolean matchParameterExtension(String path, PathItem.HttpMethod method, Operation operation, Parameter parameter) {
+            return matchExtension(parameter.getExtensions());
+        }
+
+        protected boolean matchParameterExtension(String path, Parameter parameter) {
+            return matchExtension(parameter.getExtensions());
+        }
+
 
         protected boolean logIfMatch(Object filterName, String operation, boolean filterMatched) {
             if (filterMatched) {
@@ -2253,7 +2293,7 @@ public class OpenAPINormalizer {
         }
 
         protected void logMismatch(String operation) {
-            getLogger().info("operation `{}` marked as internal only (x-internal: true) by FILTER", operation);
+            getLogger().debug("operation `{}` marked as internal only (x-internal: true) by FILTER", operation);
         }
 
 
@@ -2318,7 +2358,16 @@ public class OpenAPINormalizer {
     }
 
     public static class RemoveFilter {
-        private final static Set<String> ANYSET = new HashSet<>();
+        private final static Set<String> ANYSET = Collections.singleton("any");
+        public static final String REMOVE_TAGS = "removeTags";
+        public static final String REMOVE_VENDOR_EXTENSIONS = "removeVendorExtensions";
+        public static final String DEPRECATED = "deprecated";
+        public static final String UNUSED = "unused";
+        public static final String TAGS = "tags";
+        public static final String INTERNAL = "internal";
+        public static final String HEADERS = "headers";
+        private static final String QUERYPARAMS = "queryParams";
+        private static final String COOKIES = "cookies";
         private final String filters;
         private boolean hasFilter;
 
@@ -2338,6 +2387,9 @@ public class OpenAPINormalizer {
 
         protected boolean keepOnlyFirstTagInOperation;
         protected Set<String> removeTags = Collections.emptySet();
+        protected Set<String> headers = Collections.emptySet();
+        protected Set<String> cookies = Collections.emptySet();
+        protected Set<String> queryParams = Collections.emptySet();
         protected boolean deprecated;
         protected Set<String> tags = Collections.emptySet();
         protected Map<String, Set<String>> vendorExtensions = new HashMap<>();
@@ -2363,7 +2415,7 @@ public class OpenAPINormalizer {
                 doParse();
                 return hasFilter();
             } catch (RuntimeException e) {
-                String message = String.format(Locale.ROOT, "FILTER rule [%s] `. Error: %s",
+                String message = String.format(Locale.ROOT, "REMOVE_FILTER rule [%s] `. Error: %s",
                         filters, e.getMessage());
                 throw new IllegalArgumentException(message);
             }
@@ -2384,7 +2436,6 @@ public class OpenAPINormalizer {
                 String filterKey = filterStrs[0].trim();
                 String filterValue;
                 if (isAny) {
-                    filterStrs = new String[] { filterStrs[0], "true" };
                     isTrue = true;
                     isBoolean = true;
                     set = Collections.emptySet();
@@ -2395,9 +2446,11 @@ public class OpenAPINormalizer {
                     isTrue = Boolean.parseBoolean(filterValue);
                     isBoolean = "false".equals(filterValue) || isTrue;
                 }
+
+                Set<String> anyOrSet = isAny?  getAnySet(isTrue): set;
                 hasFilter = true;
  
-                if ("internal".equals(filterKey)) {
+                if (INTERNAL.equals(filterKey)) {
                     if (isBoolean) {
                         internalOperations = isTrue;
                         internalSchemas = isTrue;
@@ -2409,9 +2462,9 @@ public class OpenAPINormalizer {
                         internalProperties = set.contains("properties");
                         internalParameters = set.contains("parameters");
                     }
-                } else if ("deprecated".equals(filterKey)) {
+                } else if (DEPRECATED.equals(filterKey)) {
                     this.deprecated = isTrue;
-                } else if ("unused".equals(filterKey)) {
+                } else if (UNUSED.equals(filterKey)) {
                     if (isBoolean) {
                         unusedSchemas = isTrue;
                         unusedTags = isTrue;
@@ -2420,34 +2473,34 @@ public class OpenAPINormalizer {
                         unusedParameters = isTrue;
                     } else {
                         unusedSchemas = set.contains("schemas");
-                        unusedTags = set.contains("tags");
+                        unusedTags = set.contains(TAGS);
                         unusedRequestBodies =  set.contains("requestBodies");
                         unusedResponses = set.contains("responses");
                         unusedParameters = set.contains("parameters");
                     }
                 } else if (REMOVE_X_INTERNAL.equals(filterKey)) {
                     removeXInternal = isTrue;
-                } else if ("removeVendorExtensions".equals(filterKey)) {
+                } else if (REMOVE_VENDOR_EXTENSIONS.equals(filterKey)) {
                     if (isAny) {
                         removeXInternal = isTrue;
-                        removeExtensions = getAnySet(isTrue);
-                    } else {
-                        removeExtensions = set;
                     }
+                    removeExtensions = anyOrSet;
                 } else if (KEEP_ONLY_FIRST_TAG_IN_OPERATION.equals(filterKey)) {
                     keepOnlyFirstTagInOperation = isTrue;
-                } else if ("removeTags".equals(filterKey)) {
+                } else if (REMOVE_TAGS.equals(filterKey)) {
                     if ("keepOnlyFirstTag".equals(filterValue)) {
                         keepOnlyFirstTagInOperation = true;
                     } else {
-                        if (isAny) {
-                            removeTags = getAnySet(isTrue);
-                        } else {
-                            removeTags = set;
-                        }
+                        removeTags = anyOrSet;
                     }
-                } else if ("tags".equals(filterKey)) {
+                } else if (TAGS.equals(filterKey)) {
                     tags = set;
+                } else if (HEADERS.equals(filterKey)) {
+                    headers = anyOrSet;
+                } else if (QUERYPARAMS.equals(filterKey)) {
+                    queryParams = anyOrSet;
+                } else if (COOKIES.equals(filterKey)) {
+                    cookies = anyOrSet;
                 } else if (filterKey.startsWith("x-")) {
                     vendorExtensions.put(filterKey, isAny ? getAnySet(isTrue) : set);
                 } else {
@@ -2647,8 +2700,37 @@ public class OpenAPINormalizer {
             if (deprecated && Boolean.TRUE.equals(parameter.getDeprecated())) {
                 return true;
             }
+            String in = parameter.getIn();
+            if ("query".equals(in) && matchParameter(parameter, this.queryParams)) {
+                return true;
+            }
+            if ("cookie".equals(in) && matchParameter(parameter, this.cookies)) {
+                return true;
+            }
+            if ("header".equals(in) && matchParameter(parameter, this.headers)) {
+                return true;
+            }
 
             return matchExtension(parameter.getExtensions());
+        }
+
+        private boolean matchParameter(Parameter parameter, Set<String> params) {
+            return matchValue(parameter.getName(), params);
+        }
+
+        private boolean matchValue(Object value, Set<String> valuesToMatch) {
+            if (isEmpty(valuesToMatch)) {
+                return false;
+            }
+            if (valuesToMatch == ANYSET) {
+                return true;
+            }
+            return valuesToMatch.contains(value);
+
+        }
+
+        protected boolean matchHeader(String key, Header header) {
+            return matchValue(key, this.headers) || matchExtension(header.getExtensions());
         }
 
         private boolean matchExtension(Map<String, Object> extensions) {
@@ -2660,15 +2742,9 @@ public class OpenAPINormalizer {
                     .anyMatch(this::matchExtension);
         }
 
-        protected boolean matchExtension(Map.Entry<String, Object> entry) {
+        private boolean matchExtension(Map.Entry<String, Object> entry) {
             Set<String> set = vendorExtensions.get(entry.getKey());
-            if (set == null) {
-                return false;
-            }
-            if (set == ANYSET) {
-                return true;
-            }
-            return set.contains(entry.getValue());
+            return matchValue(entry.getValue(), set);
         }
 
         private Set<String> getAnySet(boolean isTrue) {
