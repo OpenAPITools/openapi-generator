@@ -1,5 +1,5 @@
 {{#dataType}}
-  {{#vendorExtensions}}
+  {{#exts}}
     {{^x-produces-multipart-related}}
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
@@ -43,6 +43,6 @@
                                                         .expect("Unable to create Content-Type header for multipart/related"));
       {{/formParams}}
     {{/x-produces-multipart-related}}
-  {{/vendorExtensions}}
+  {{/exts}}
                                                     *response.body_mut() = body_from_string(body);
 {{/dataType}}

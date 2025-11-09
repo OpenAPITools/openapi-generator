@@ -43,7 +43,7 @@ pub trait Api<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
@@ -70,7 +70,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
@@ -109,7 +109,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
@@ -117,7 +117,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
+        self.api().{{#exts}}{{{x-operation-id}}}{{/exts}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
     }
 
       {{/operation}}
@@ -159,13 +159,13 @@ pub trait CallbackApi<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
@@ -196,13 +196,13 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
@@ -246,25 +246,25 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
               {{#summary}}
     /// {{{.}}}
               {{/summary}}
-    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
         &self,
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
         callback_{{.}}: String,
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
-{{#vendorExtensions}}
+        self.api().{{#exts}}{{{x-operation-id}}}{{/exts}}(
+{{#exts}}
   {{#x-callback-params}}
             callback_{{.}},
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#allParams}}
             {{{paramName}}},
 {{/allParams}}
