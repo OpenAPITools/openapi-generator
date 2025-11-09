@@ -67,10 +67,10 @@ let param_{{{paramName}}} = match param_{{{paramName}}} {
 };
   {{/required}}
 {{/formParams}}
-  {{^vendorExtensions.x-consumes-basic}}
+  {{^exts.x-consumes-basic}}
               let body = {{{dataType}}} {
     {{#formParams}}
                   {{{paramName}}}: param_{{{paramName}}},
     {{/formParams}}
               };
-  {{/vendorExtensions.x-consumes-basic}}
+  {{/exts.x-consumes-basic}}
