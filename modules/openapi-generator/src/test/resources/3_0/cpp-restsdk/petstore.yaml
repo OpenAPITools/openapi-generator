@@ -677,7 +677,7 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: api_key_name
       in: header
   schemas:
     Order:

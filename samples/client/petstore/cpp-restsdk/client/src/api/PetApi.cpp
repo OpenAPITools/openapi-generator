@@ -761,7 +761,7 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId) const
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 

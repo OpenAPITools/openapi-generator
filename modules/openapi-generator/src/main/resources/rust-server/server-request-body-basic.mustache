@@ -1,4 +1,4 @@
-        {{#vendorExtensions}}
+        {{#exts}}
                                 let param_{{{paramName}}}: Option<{{{dataType}}}> = if !body.is_empty() {
           {{#x-consumes-xml}}
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
@@ -41,7 +41,7 @@
                                     }
             {{/isString}}
           {{/x-consumes-plain-text}}
-        {{/vendorExtensions}}
+        {{/exts}}
                                 } else {
                                     None
                                 };

@@ -113,12 +113,12 @@ enum Operation {
         {{/isBinary}}
         {{#isBoolean}}
           {{#isPrimitiveType}}
-            {{#vendorExtensions.x-provide-cli-short-opt}}
+            {{#exts.x-provide-cli-short-opt}}
         #[clap(short, long)]
-            {{/vendorExtensions.x-provide-cli-short-opt}}
-            {{^vendorExtensions.x-provide-cli-short-opt}}
+            {{/exts.x-provide-cli-short-opt}}
+            {{^exts.x-provide-cli-short-opt}}
         #[clap(long)]
-            {{/vendorExtensions.x-provide-cli-short-opt}}
+            {{/exts.x-provide-cli-short-opt}}
           {{/isPrimitiveType}}
         {{/isBoolean}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
@@ -216,9 +216,9 @@ async fn main() -> Result<()> {
             {{paramName}},
           {{/allParams}}
         } => {
-          {{#vendorExtensions.x-is-delete}}
+          {{#exts.x-is-delete}}
             prompt(args.force, "This will delete the given entry, are you sure?")?;
-          {{/vendorExtensions.x-is-delete}}
+          {{/exts.x-is-delete}}
             info!("Performing a {{operationId}} request{{^pathParams}}");{{/pathParams}}{{#pathParams}}{{#-first}} on {:?}", ({{/-first}}{{/pathParams}}
               {{#pathParams}}
                 &{{paramName}}{{^-last}},{{/-last}}
@@ -227,7 +227,7 @@ async fn main() -> Result<()> {
                 {{/-last}}
               {{/pathParams}}
 
-            let result = client.{{{vendorExtensions.x-operation-id}}}(
+            let result = client.{{{exts.x-operation-id}}}(
               {{#allParams}}
                 {{{paramName}}}{{#isArray}}.as_ref(){{/isArray}},
               {{/allParams}}
@@ -236,7 +236,7 @@ async fn main() -> Result<()> {
 
             match result {
               {{#responses}}
-                {{{operationId}}}Response::{{{vendorExtensions.x-response-id}}}
+                {{{operationId}}}Response::{{{exts.x-response-id}}}
                 {{#dataType}}
                   {{^hasHeaders}}
                 (body)
@@ -257,7 +257,7 @@ async fn main() -> Result<()> {
                 }
                   {{/-last}}
                 {{/headers}}
-                => "{{{vendorExtensions.x-response-id}}}\n".to_string()
+                => "{{{exts.x-response-id}}}\n".to_string()
                   {{#dataType}}
                    +
                   {{/dataType}}
