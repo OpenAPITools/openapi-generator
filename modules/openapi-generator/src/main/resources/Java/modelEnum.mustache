@@ -17,7 +17,8 @@ import java.util.Locale;
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
-{{#gson}}
+{{#isDeprecated}}@Deprecated
+{{/isDeprecated}}{{#gson}}
 @JsonAdapter({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Adapter.class)
 {{/gson}}
 {{#jsonb}}
