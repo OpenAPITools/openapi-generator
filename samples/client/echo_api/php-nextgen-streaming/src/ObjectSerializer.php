@@ -28,6 +28,7 @@
 
 namespace OpenAPI\Client;
 
+use BackedEnum;
 use DateTimeInterface;
 use DateTime;
 use GuzzleHttp\Psr7\Utils;
@@ -263,6 +264,11 @@ class ObjectSerializer
                         // push key itself
                         $result[] = $prop;
                     }
+
+                    if ($v instanceof BackedEnum) {
+                        $v = $v->value;
+                    }
+
                     $result[$prop] = $v;
                 }
             }
