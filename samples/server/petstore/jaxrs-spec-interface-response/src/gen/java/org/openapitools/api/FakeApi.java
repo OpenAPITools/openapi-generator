@@ -26,6 +26,7 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
+@Path("/fake")
 @Api(description = "the fake API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface FakeApi {
@@ -37,7 +38,7 @@ public interface FakeApi {
      * @return successful operation
      */
     @POST
-    @Path("/fake/create_xml_item")
+    @Path("/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
     @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake" })
     @ApiResponses(value = { 
@@ -52,7 +53,7 @@ public interface FakeApi {
      * @return Output boolean
      */
     @POST
-    @Path("/fake/outer/boolean")
+    @Path("/outer/boolean")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake" })
     @ApiResponses(value = { 
@@ -67,7 +68,7 @@ public interface FakeApi {
      * @return Output composite
      */
     @POST
-    @Path("/fake/outer/composite")
+    @Path("/outer/composite")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake" })
     @ApiResponses(value = { 
@@ -82,7 +83,7 @@ public interface FakeApi {
      * @return Output number
      */
     @POST
-    @Path("/fake/outer/number")
+    @Path("/outer/number")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake" })
     @ApiResponses(value = { 
@@ -97,7 +98,7 @@ public interface FakeApi {
      * @return Output string
      */
     @POST
-    @Path("/fake/outer/string")
+    @Path("/outer/string")
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake" })
     @ApiResponses(value = { 
@@ -112,7 +113,7 @@ public interface FakeApi {
      * @return Success
      */
     @PUT
-    @Path("/fake/body-with-file-schema")
+    @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake" })
     @ApiResponses(value = { 
@@ -128,7 +129,7 @@ public interface FakeApi {
      * @return Success
      */
     @PUT
-    @Path("/fake/body-with-query-params")
+    @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
@@ -143,7 +144,6 @@ public interface FakeApi {
      * @return successful operation
      */
     @PATCH
-    @Path("/fake")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake" })
@@ -173,7 +173,6 @@ public interface FakeApi {
      * @return User not found
      */
     @POST
-    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
         
@@ -200,7 +199,6 @@ public interface FakeApi {
      * @return Not found
      */
     @GET
-    @Path("/fake")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", tags={ "fake" })
     @ApiResponses(value = { 
@@ -221,7 +219,6 @@ public interface FakeApi {
      * @return Something wrong
      */
     @DELETE
-    @Path("/fake")
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Something wrong", response = Void.class) })
@@ -235,7 +232,7 @@ public interface FakeApi {
      * @return successful operation
      */
     @POST
-    @Path("/fake/inline-additionalProperties")
+    @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
@@ -251,7 +248,7 @@ public interface FakeApi {
      * @return successful operation
      */
     @GET
-    @Path("/fake/jsonFormData")
+    @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
@@ -270,7 +267,7 @@ public interface FakeApi {
      * @return Success
      */
     @PUT
-    @Path("/fake/test-query-parameters")
+    @Path("/test-query-parameters")
     @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
@@ -286,7 +283,7 @@ public interface FakeApi {
      * @return successful operation
      */
     @POST
-    @Path("/fake/{petId}/uploadImageWithRequiredFile")
+    @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @ApiOperation(value = "uploads an image (required)", notes = "", authorizations = {

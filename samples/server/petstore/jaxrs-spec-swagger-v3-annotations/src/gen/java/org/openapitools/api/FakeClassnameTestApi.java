@@ -20,7 +20,6 @@ import javax.validation.Valid;
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/fake_classname_test")
-
 @Tag(name = "fake_classname_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FakeClassnameTestApi {
