@@ -1,6 +1,9 @@
 {{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
+{{#useSwaggerV3Annotations}}
+import io.swagger.v3.oas.annotations.media.Schema;
+{{/useSwaggerV3Annotations}}
 import java.util.Objects;
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +24,8 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{.}}
  **/{{/description}}
-{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+@Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
 @org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
 {{#jackson}}@JsonTypeName("{{name}}"){{/jackson}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}
@@ -109,7 +113,8 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
       @XmlElement(name="{{baseName}}"{{#required}}, required = {{required}}{{/required}})
   {{/withXml}}
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
-  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useMicroProfileOpenAPIAnnotations}}
+  @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
+  @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
   @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useMicroProfileOpenAPIAnnotations}}
   {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}public {{>beanValidatedType}} {{getter}}() {

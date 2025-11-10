@@ -636,12 +636,12 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order
+     * @return \OpenAPI\Client\Model\Order|null
      */
     public function getOrderById(
         int $order_id,
         string $contentType = self::contentTypes['getOrderById'][0]
-    ): \OpenAPI\Client\Model\Order
+    ): ?\OpenAPI\Client\Model\Order
     {
         list($response) = $this->getOrderByIdWithHttpInfo($order_id, $contentType);
         return $response;
@@ -922,12 +922,12 @@ class StoreApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Order
+     * @return \OpenAPI\Client\Model\Order|null
      */
     public function placeOrder(
         \OpenAPI\Client\Model\Order $order,
         string $contentType = self::contentTypes['placeOrder'][0]
-    ): \OpenAPI\Client\Model\Order
+    ): ?\OpenAPI\Client\Model\Order
     {
         list($response) = $this->placeOrderWithHttpInfo($order, $contentType);
         return $response;
