@@ -17,36 +17,24 @@
 
 package org.openapitools.codegen.online.configuration;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
-import java.util.Set;
-
 
 @Configuration
-@EnableSwagger2
 public class OpenAPIDocumentationConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIDocumentationConfig.class);
 
-    ApiInfo apiInfo() {
+    @Bean
+    public OpenAPI customOpenAPI() {
         final Properties properties = new Properties();
         try (InputStream stream = this.getClass().getResourceAsStream("/version.properties")) {
             if (stream != null) {
@@ -58,53 +46,20 @@ public class OpenAPIDocumentationConfig {
 
         String version = properties.getProperty("version", "unknown");
 
-        return new ApiInfoBuilder()
-                .title("OpenAPI Generator Online")
-                .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
-                .license("Apache 2.0")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
-                .termsOfServiceUrl("")
-                .version(version)
-                .contact(new Contact("", "", ""))
-                .build();
+        return new OpenAPI()
+                .info(new Info()
+                        .title("OpenAPI Generator Online")
+                        .description("This is an online OpenAPI generator server. You can generate client libraries, server stubs, and API documentation from OpenAPI specifications. Find out more at https://github.com/OpenAPITools/openapi-generator.")
+                        .version(version)
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+                        .contact(new Contact()
+                                .name("OpenAPI Generator Team")
+                                .url("https://github.com/OpenAPITools/openapi-generator")))
+                .servers(List.of(
+                        new Server().url("http://localhost:8081").description("Local development server"),
+                        new Server().url("https://api.openapi-generator.tech").description("Production server")
+                ));
     }
-
-    @Bean
-    public Docket customImplementation() {
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
-                .build()
-                .forCodeGeneration(true)
-                .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
-                .directModelSubstitute(JsonNode.class, java.lang.Object.class)
-                .ignoredParameterTypes(Resource.class)
-                .ignoredParameterTypes(InputStream.class)
-                .apiInfo(apiInfo());
-
-        String hostString = System.getenv("GENERATOR_HOST");
-        if (!StringUtils.isBlank(hostString)) {
-            try {
-                URI hostURI = new URI(hostString);
-                String scheme = hostURI.getScheme();
-                if (scheme != null) {
-                    Set<String> protocols = new HashSet<String>();
-                    protocols.add(scheme);
-                    docket.protocols(protocols);
-                }
-                String authority = hostURI.getAuthority();
-                if (authority != null) {
-                    // In OpenAPI `host` refers to host _and_ port, a.k.a. the URI authority
-                    docket.host(authority);
-                }
-                docket.pathMapping(hostURI.getPath());
-            } catch (URISyntaxException e) {
-                LOGGER.warn("Could not parse configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
-            }
-        }
-
-        return docket;
-    }
-
 }
