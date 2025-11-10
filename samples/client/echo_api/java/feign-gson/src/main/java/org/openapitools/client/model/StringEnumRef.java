@@ -28,6 +28,7 @@ import java.util.Locale;
 /**
  * Gets or Sets StringEnumRef
  */
+
 @JsonAdapter(StringEnumRef.Adapter.class)
 public enum StringEnumRef {
   

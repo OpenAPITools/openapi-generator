@@ -28,6 +28,7 @@ import java.util.Locale;
 /**
  * Gets or Sets OuterEnum
  */
+
 @JsonAdapter(OuterEnum.Adapter.class)
 public enum OuterEnum {
   

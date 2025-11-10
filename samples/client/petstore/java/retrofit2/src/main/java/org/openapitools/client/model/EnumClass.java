@@ -28,6 +28,7 @@ import java.util.Locale;
 /**
  * Gets or Sets EnumClass
  */
+
 @JsonAdapter(EnumClass.Adapter.class)
 public enum EnumClass {
   
