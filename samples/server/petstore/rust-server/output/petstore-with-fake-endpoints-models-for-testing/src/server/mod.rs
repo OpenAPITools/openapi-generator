@@ -4,6 +4,8 @@ use http_body_util::{combinators::BoxBody, Full};
 use hyper::{body::{Body, Incoming}, HeaderMap, Request, Response, StatusCode};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
 use std::{convert::Infallible, error::Error};
@@ -167,6 +169,7 @@ where
     api_impl: T,
     multipart_form_size_limit: Option<u64>,
     marker: PhantomData<C>,
+    validation: bool
 }
 
 impl<T, C> MakeService<T, C>
@@ -178,7 +181,8 @@ where
         MakeService {
             api_impl,
             multipart_form_size_limit: Some(8 * 1024 * 1024),
-            marker: PhantomData
+            marker: PhantomData,
+            validation: false
         }
     }
 
@@ -190,6 +194,12 @@ where
     pub fn multipart_form_size_limit(mut self, multipart_form_size_limit: Option<u64>) -> Self {
         self.multipart_form_size_limit = multipart_form_size_limit;
         self
+    }
+
+    // Turn on/off validation for the service being made.
+    #[cfg(feature = "validate")]
+    pub fn set_validation(&mut self, validation: bool) {
+        self.validation = validation;
     }
 }
 
@@ -203,6 +213,7 @@ where
             api_impl: self.api_impl.clone(),
             multipart_form_size_limit: Some(8 * 1024 * 1024),
             marker: PhantomData,
+            validation: self.validation
         }
     }
 }
@@ -217,7 +228,7 @@ where
     type Future = future::Ready<Result<Self::Response, Self::Error>>;
 
     fn call(&self, target: Target) -> Self::Future {
-        let service = Service::new(self.api_impl.clone())
+        let service = Service::new(self.api_impl.clone(), self.validation)
             .multipart_form_size_limit(self.multipart_form_size_limit);
 
         future::ok(service)
@@ -232,6 +243,31 @@ fn method_not_allowed() -> Result<Response<BoxBody<Bytes, Infallible>>, crate::S
     )
 }
 
+#[allow(unused_macros)]
+#[cfg(not(feature = "validate"))]
+macro_rules! run_validation {
+    ($parameter:tt, $base_name:tt, $validation:tt) => ();
+}
+
+#[allow(unused_macros)]
+#[cfg(feature = "validate")]
+macro_rules! run_validation {
+    ($parameter:tt, $base_name:tt, $validation:tt) => {
+        let $parameter = if $validation {
+            match $parameter.validate() {
+            Ok(()) => $parameter,
+            Err(e) => return Ok(Response::builder()
+                                    .status(StatusCode::BAD_REQUEST)
+                                    .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
+                                    .body(BoxBody::new(format!("Invalid value in body parameter {}: {}", $base_name, e)))
+                                    .expect(&format!("Unable to create Bad Request response for invalid value in body parameter {}", $base_name))),
+            }
+        } else {
+            $parameter
+        };
+    }
+}
+
 pub struct Service<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
@@ -239,19 +275,27 @@ pub struct Service<T, C> where
     api_impl: T,
     multipart_form_size_limit: Option<u64>,
     marker: PhantomData<C>,
+    // Enable regex pattern validation of received JSON models
+    validation: bool,
 }
 
 impl<T, C> Service<T, C> where
     T: Api<C> + Clone + Send + 'static,
     C: Has<XSpanIdString> + Has<Option<Authorization>> + Send + Sync + 'static
 {
-    pub fn new(api_impl: T) -> Self {
+    pub fn new(api_impl: T, validation: bool) -> Self {
         Service {
             api_impl,
             multipart_form_size_limit: Some(8 * 1024 * 1024),
-            marker: PhantomData
+            marker: PhantomData,
+            validation,
         }
     }
+    #[cfg(feature = "validate")]
+    pub fn set_validation(&mut self, validation: bool) {
+        self.validation = validation
+    }
+
 
     /// Configure size limit when extracting a multipart/form body.
     ///
@@ -273,6 +317,7 @@ impl<T, C> Clone for Service<T, C> where
             api_impl: self.api_impl.clone(),
             multipart_form_size_limit: Some(8 * 1024 * 1024),
             marker: self.marker,
+            validation: self.validation,
         }
     }
 }
@@ -301,6 +346,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
         async fn run<T, C, ReqBody>(
             mut api_impl: T,
             req: (Request<ReqBody>, C),
+            validation: bool,
             multipart_form_size_limit: Option<u64>,
         ) -> Result<Response<BoxBody<Bytes, Infallible>>, crate::ServiceError>
         where
@@ -349,6 +395,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.test_special_tags(
@@ -448,6 +496,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.fake_outer_boolean_serialize(
@@ -517,6 +567,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.fake_outer_composite_serialize(
@@ -586,6 +638,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.fake_outer_number_serialize(
@@ -655,6 +709,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                 } else {
                                     None
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.fake_outer_string_serialize(
@@ -794,6 +850,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.test_body_with_query_params(
@@ -870,6 +928,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.test_client_model(
@@ -1089,6 +1149,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     },
                     None => None,
                 };
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_enum_query_string, "enum_query_string", validation);
                 let param_enum_query_integer = query_params.iter().filter(|e| e.0 == "enum_query_integer").map(|e| e.1.clone())
                     .next();
                 let param_enum_query_integer = match param_enum_query_integer {
@@ -1106,6 +1168,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     },
                     None => None,
                 };
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_enum_query_integer, "enum_query_integer", validation);
                 let param_enum_query_double = query_params.iter().filter(|e| e.0 == "enum_query_double").map(|e| e.1.clone())
                     .next();
                 let param_enum_query_double = match param_enum_query_double {
@@ -1123,6 +1187,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     },
                     None => None,
                 };
+    #[cfg(not(feature = "validate"))]
+                run_validation!(param_enum_query_double, "enum_query_double", validation);
 
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
@@ -1403,6 +1469,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.test_classname(
@@ -1515,6 +1583,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.add_pet(
@@ -1778,6 +1848,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.update_pet(
@@ -2406,6 +2478,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.place_order(
@@ -2623,6 +2697,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.create_user(
@@ -2698,6 +2774,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.create_users_with_array_input(
@@ -2773,6 +2851,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.create_users_with_list_input(
@@ -3164,6 +3244,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         .body(BoxBody::new("Missing required body parameter body".to_string()))
                                                         .expect("Unable to create Bad Request response for missing body parameter body")),
                                 };
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_body, "body", validation);
 
 
                                 let result = api_impl.update_user(
@@ -3248,7 +3330,8 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
         Box::pin(run(
             self.api_impl.clone(),
             req,
-            self.multipart_form_size_limit,
+            self.validation,
+            self.multipart_form_size_limit
         ))
     }
 }

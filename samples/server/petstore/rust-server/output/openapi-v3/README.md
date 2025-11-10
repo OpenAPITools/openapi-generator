@@ -143,6 +143,9 @@ The generated library has a few optional features that can be activated through 
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
     * This defaults to disabled and is required for building the included CLI tool.
+* `validate`
+    * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
+    * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 
