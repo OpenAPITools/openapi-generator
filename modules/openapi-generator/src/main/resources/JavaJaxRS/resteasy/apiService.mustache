@@ -2,10 +2,12 @@ package {{package}};
 
 import {{package}}.*;
 import {{modelPackage}}.*;
+{{#vendorExtensions.x-enable-mcp-server}}
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.AllArgsConstructor;
+{{/vendorExtensions.x-enable-mcp-server}}
 
 {{#operations}}
 {{#operation}}

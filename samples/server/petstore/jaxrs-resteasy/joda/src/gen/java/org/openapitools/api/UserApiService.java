@@ -2,10 +2,6 @@ package org.openapitools.api;
 
 import org.openapitools.api.*;
 import org.openapitools.model.*;
-import io.quarkiverse.mcp.server.Tool;
-import io.quarkiverse.mcp.server.ToolArg;
-import jakarta.enterprise.context.ApplicationScoped;
-import lombok.AllArgsConstructor;
 
 
 import org.joda.time.DateTime;
