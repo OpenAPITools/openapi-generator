@@ -200,9 +200,6 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{/consumes.0}}
 
     {{/bodyParam}}
-    {{#hasProduces}}
-            localVarHeaderParameter['Accept'] = {{#produces}}'{{{mediaType}}}'{{^-last}}; {{/-last}}{{/produces}};
-    {{/hasProduces}}
     {{#headerParams}}
             {{#isArray}}
             if ({{paramName}}) {
