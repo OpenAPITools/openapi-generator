@@ -29,10 +29,7 @@ import {{javaxPackage}}.validation.Valid;{{/useBeanValidation}}
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
-{{^interfaceOnly}}
-@Path("{{commonPath}}")
-{{/interfaceOnly}}
-{{#useSwaggerAnnotations}}
+@Path("{{commonPath}}"){{#useSwaggerAnnotations}}
 @Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
 @Tag(name = "{{{baseName}}}"){{/useSwaggerV3Annotations}}{{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
