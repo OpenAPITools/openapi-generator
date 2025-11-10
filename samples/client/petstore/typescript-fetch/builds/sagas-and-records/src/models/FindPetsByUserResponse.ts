@@ -45,7 +45,7 @@ export interface FindPetsByUserResponse {
      * @type {Array<User>}
      * @memberof FindPetsByUserResponse
      */
-    data?: Array<User>;
+    data?: Array<User> | undefined;
 }
 
 /**

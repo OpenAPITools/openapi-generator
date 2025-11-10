@@ -24,7 +24,7 @@ export interface DeprecatedObject {
      * @type {string}
      * @memberof DeprecatedObject
      */
-    name?: string;
+    name?: string | undefined;
 }
 
 /**

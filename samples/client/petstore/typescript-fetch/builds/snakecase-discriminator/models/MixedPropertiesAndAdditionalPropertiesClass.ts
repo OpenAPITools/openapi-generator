@@ -32,19 +32,19 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
      * @type {string}
      * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
-    uuid?: string;
+    uuid?: string | undefined;
     /**
      * 
      * @type {Date}
      * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
-    dateTime?: Date;
+    dateTime?: Date | undefined;
     /**
      * 
      * @type {{ [key: string]: Animal; }}
      * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
-    map?: { [key: string]: Animal; };
+    map?: { [key: string]: Animal; } | undefined;
 }
 
 /**

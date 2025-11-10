@@ -11,13 +11,13 @@ export interface Category {
      * @type {number}
      * @memberof Category
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Category
      */
-    name?: string;
+    name?: string | undefined;
 }
 /**
  * Describes the result of uploading an image resource
@@ -30,19 +30,19 @@ export interface ModelApiResponse {
      * @type {number}
      * @memberof ModelApiResponse
      */
-    code?: number;
+    code?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof ModelApiResponse
      */
-    type?: string;
+    type?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof ModelApiResponse
      */
-    message?: string;
+    message?: string | undefined;
 }
 /**
  * An order for a pets from the pet store
@@ -55,37 +55,37 @@ export interface Order {
      * @type {number}
      * @memberof Order
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    petId?: number;
+    petId?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    quantity?: number;
+    quantity?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Order
      */
-    shipDate?: string;
+    shipDate?: string | undefined;
     /**
      * Order Status
      * @type {string}
      * @memberof Order
      */
-    status?: OrderStatusEnum;
+    status?: OrderStatusEnum | undefined;
     /**
      * 
      * @type {boolean}
      * @memberof Order
      */
-    complete?: boolean;
+    complete?: boolean | undefined;
 }
 
 
@@ -110,13 +110,13 @@ export interface Pet {
      * @type {number}
      * @memberof Pet
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {Category}
      * @memberof Pet
      */
-    category?: Category;
+    category?: Category | undefined;
     /**
      * 
      * @type {string}
@@ -134,13 +134,13 @@ export interface Pet {
      * @type {Array<Tag>}
      * @memberof Pet
      */
-    tags?: Array<Tag>;
+    tags?: Array<Tag> | undefined;
     /**
      * pet status in the store
      * @type {string}
      * @memberof Pet
      */
-    status?: PetStatusEnum;
+    status?: PetStatusEnum | undefined;
 }
 
 
@@ -165,13 +165,13 @@ export interface Tag {
      * @type {number}
      * @memberof Tag
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Tag
      */
-    name?: string;
+    name?: string | undefined;
 }
 /**
  * A User who is purchasing from the pet store
@@ -184,47 +184,47 @@ export interface User {
      * @type {number}
      * @memberof User
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    username?: string;
+    username?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    firstName?: string;
+    firstName?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    lastName?: string;
+    lastName?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    email?: string;
+    email?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    password?: string;
+    password?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    phone?: string;
+    phone?: string | undefined;
     /**
      * User Status
      * @type {number}
      * @memberof User
      */
-    userStatus?: number;
+    userStatus?: number | undefined;
 }

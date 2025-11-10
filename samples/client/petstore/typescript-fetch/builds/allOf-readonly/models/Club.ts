@@ -32,7 +32,7 @@ export interface Club {
      * @type {Owner}
      * @memberof Club
      */
-    readonly owner?: Owner;
+    readonly owner?: Owner | undefined;
 }
 
 /**
