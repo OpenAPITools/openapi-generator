@@ -113,6 +113,7 @@ cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
 cargo run --example client XmlPost
 cargo run --example client XmlPut
+cargo run --example client EnumInPathPathParamGet
 cargo run --example client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
 cargo run --example client CreateRepo
 cargo run --example client GetRepoInfo
@@ -201,11 +202,13 @@ Method | HTTP request | Description
  - [EnumWithStarObject](docs/EnumWithStarObject.md)
  - [Err](docs/Err.md)
  - [Error](docs/Error.md)
+ - [FormTestRequestEnumField](docs/FormTestRequestEnumField.md)
  - [Model12345AnyOfObject](docs/Model12345AnyOfObject.md)
  - [Model12345AnyOfObjectAnyOf](docs/Model12345AnyOfObjectAnyOf.md)
  - [MultigetGet201Response](docs/MultigetGet201Response.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NoTypeObject](docs/NoTypeObject.md)
  - [NullableObject](docs/NullableObject.md)
  - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)

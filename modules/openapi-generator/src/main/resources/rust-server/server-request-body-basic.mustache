@@ -28,6 +28,9 @@
 
           {{/x-consumes-plain-text}}
           {{#x-consumes-plain-text}}
+            {{#isBinary}}
+                                    Some(swagger::ByteArray(body.to_vec()))
+            {{/isBinary}}
             {{#isByteArray}}
                                     Some(swagger::ByteArray(body.to_vec()))
             {{/isByteArray}}

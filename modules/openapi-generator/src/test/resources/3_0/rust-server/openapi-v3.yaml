@@ -500,6 +500,7 @@ paths:
       summary: Test a Form Post
       operationId: FormTest
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -509,7 +510,13 @@ paths:
                   type: array
                   items:
                     type: string
-        required: true
+                enum_field:
+                  type: string
+                  enum:
+                    - one_enum
+              required:
+                - requiredArray
+                - enum_field
       responses:
         '200':
           description: OK
@@ -728,6 +735,9 @@ components:
     NullableObject:
       type: string
       nullable: true
+    NoTypeObject:
+      title: an object with no type
+      description: An object with no type
     NullableTest:
       type: object
       required:
