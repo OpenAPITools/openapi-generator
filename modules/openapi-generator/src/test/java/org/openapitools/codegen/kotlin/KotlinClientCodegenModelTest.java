@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
@@ -616,6 +617,32 @@ public class KotlinClientCodegenModelTest {
         // derived doesn't contain disciminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }
+
+  @Test
+  public void testIntArrayToEnum() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-ktor")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+                put(ENUM_PROPERTY_NAMING, "UPPERCASE");
+              }})
+              .setInputSpec("src/test/resources/3_0/kotlin/issue15204-int-array-enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path modelKt = Paths.get(output + "/src/main/kotlin/model/ModelWithIntArrayEnum.kt");
+
+      TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(val value: kotlin.Int)");
+  }
 
     private static class ModelNameTest {
         private final String expectedName;
