@@ -19,5 +19,4 @@ ApiBase::ApiBase(const std::shared_ptr<Pistache::Rest::Router>& rtr) : router(rt
 }
 
 
-
 } // Namespace org::openapitools::server::api

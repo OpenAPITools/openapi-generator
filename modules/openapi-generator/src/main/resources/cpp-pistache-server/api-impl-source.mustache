@@ -8,7 +8,8 @@ namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
 {{#hasModelImport}}
-using namespace {{modelNamespace}};{{/hasModelImport}}
+using namespace {{modelNamespace}};
+{{/hasModelImport}}
 
 {{classname}}Impl::{{classname}}Impl(const std::shared_ptr<Pistache::Rest::Router>& rtr)
     : {{classname}}(rtr)
@@ -140,7 +141,7 @@ void {{classname}}Impl::{{operationIdSnakeCase}}({{#authMethods}}{{#isBasicBasic
 }
 {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}
 {{^vendorExtensions.x-codegen-pistache-is-parsing-supported}}
-void {{classname}}Impl::{{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
+void {{classname}}Impl::{{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 {{/vendorExtensions.x-codegen-pistache-is-parsing-supported}}

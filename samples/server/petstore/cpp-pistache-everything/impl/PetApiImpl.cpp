@@ -47,10 +47,10 @@ void PetApiImpl::get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWri
 void PetApiImpl::update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
+void PetApiImpl::update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::upload_file(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
+void PetApiImpl::upload_file(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
