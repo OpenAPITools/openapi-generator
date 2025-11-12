@@ -44,6 +44,7 @@ jobs:
           - samples/client/petstore/kotlin-threetenbp
           - samples/client/petstore/kotlin-kotlinx-datetime
           - samples/client/petstore/kotlin-uppercase-enum
+          - samples/client/petstore/kotlin-array-integer-enum
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
           - samples/client/petstore/kotlin-default-values-jvm-volley
