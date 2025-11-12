@@ -66,9 +66,9 @@ public class JSON {
                     public Class<? extends {{classname}}> getClassForElement(JsonElement readElement) {
                         Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
                         {{#mappedModels}}
-                        classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelName}}.class);
+                        classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelName}}.class);
                         {{/mappedModels}}
-                        classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{classname}}.class);
+                        classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}}, {{classname}}.class);
                         return getClassByDiscriminator(classByDiscriminatorValue,
                                 getDiscriminatorValue(readElement, "{{{propertyBaseName}}}"));
                     }
@@ -100,7 +100,7 @@ public class JSON {
      * @return The Java class that implements the OpenAPI schema
      */
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}});
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}});
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
