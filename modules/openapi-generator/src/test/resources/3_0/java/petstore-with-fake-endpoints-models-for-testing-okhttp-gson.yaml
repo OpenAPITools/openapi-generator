@@ -2075,6 +2075,7 @@ components:
         - s
         - S
     OuterEnumInteger:
+      deprecated: true
       type: integer
       enum:
       - 0
