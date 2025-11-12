@@ -45,6 +45,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Void> deleteOrder(
         @NotNull  @PathVariable("orderId") String orderId
+
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -88,6 +89,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Order> getOrderById(
         @NotNull @Min(value = 1L) @Max(value = 5L)  @PathVariable("orderId") Long orderId
+
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -125,6 +127,7 @@ public interface StoreApi {
     )
     default ResponseEntity<Order> placeOrder(
          @Valid @RequestBody Order order
+
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

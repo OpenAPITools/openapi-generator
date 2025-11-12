@@ -40,6 +40,7 @@ public interface AnotherFakeApi {
     )
     Mono<Client> call123testSpecialTags(
          @RequestBody Mono<Client> client
+
     );
 
 }
