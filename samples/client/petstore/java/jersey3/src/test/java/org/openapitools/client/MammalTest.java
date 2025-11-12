@@ -22,9 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.JSON;
-import org.openapitools.client.model.Pig;
-import org.openapitools.client.model.Whale;
-import org.openapitools.client.model.Zebra;
+import org.openapitools.client.model.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;

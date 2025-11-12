@@ -30,6 +30,7 @@ import org.openapitools.client.JSON;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.openapitools.client.model.Zebra;
 
 /**
  * Model tests for Zebra
