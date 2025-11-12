@@ -14,6 +14,7 @@ import org.openapitools.client.model.TestQueryStyleFormExplodeTrueArrayStringQue
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -313,7 +314,7 @@ public class QueryApi extends BaseApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(java.util.Locale.ROOT)), "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
         
 
         final String[] localVarAccepts = { 
@@ -357,7 +358,7 @@ public class QueryApi extends BaseApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(java.util.Locale.ROOT)), "query_object", queryObject));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
         
 
         final String[] localVarAccepts = { 
@@ -545,7 +546,7 @@ public class QueryApi extends BaseApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "json_serialized_object_ref_string_query", jsonSerializedObjectRefStringQuery));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(java.util.Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "json_serialized_object_array_ref_string_query", jsonSerializedObjectArrayRefStringQuery));
         
 
         final String[] localVarAccepts = { 

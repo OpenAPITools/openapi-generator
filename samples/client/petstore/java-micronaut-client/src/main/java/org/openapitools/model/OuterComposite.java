@@ -14,6 +14,7 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Locale;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.*;
 

@@ -36,6 +36,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 {{/jsr310}}
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -59,9 +60,9 @@ public class JSON {
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
                 {{#mappedModels}}
-                classByDiscriminatorValue.put("{{mappingName}}".toUpperCase(java.util.Locale.ROOT), {{modelName}}.class);
+                classByDiscriminatorValue.put("{{mappingName}}".toUpperCase(Locale.ROOT), {{modelName}}.class);
                 {{/mappedModels}}
-                classByDiscriminatorValue.put("{{classname}}".toUpperCase(java.util.Locale.ROOT), {{classname}}.class);
+                classByDiscriminatorValue.put("{{classname}}".toUpperCase(Locale.ROOT), {{classname}}.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "{{{propertyName}}}"));
@@ -81,7 +82,7 @@ public class JSON {
     }
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(java.util.Locale.ROOT));
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
         if(null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }

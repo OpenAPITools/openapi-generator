@@ -36,6 +36,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -52,10 +53,10 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("BigCat".toUpperCase(java.util.Locale.ROOT), BigCat.class);
-                classByDiscriminatorValue.put("Cat".toUpperCase(java.util.Locale.ROOT), Cat.class);
-                classByDiscriminatorValue.put("Dog".toUpperCase(java.util.Locale.ROOT), Dog.class);
-                classByDiscriminatorValue.put("Animal".toUpperCase(java.util.Locale.ROOT), Animal.class);
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
+                classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));
@@ -65,7 +66,7 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("BigCat".toUpperCase(java.util.Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));
@@ -75,8 +76,8 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("BigCat".toUpperCase(java.util.Locale.ROOT), BigCat.class);
-                classByDiscriminatorValue.put("Cat".toUpperCase(java.util.Locale.ROOT), Cat.class);
+                classByDiscriminatorValue.put("BigCat".toUpperCase(Locale.ROOT), BigCat.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));
@@ -86,7 +87,7 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("Dog".toUpperCase(java.util.Locale.ROOT), Dog.class);
+                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
                             getDiscriminatorValue(readElement, "className"));
@@ -106,7 +107,7 @@ public class JSON {
     }
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(java.util.Locale.ROOT));
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
         if(null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }

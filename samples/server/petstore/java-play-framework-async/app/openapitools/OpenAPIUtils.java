@@ -29,7 +29,7 @@ public class OpenAPIUtils {
         if (constraintViolations.size() > 0) {
             StringBuilder errors = new StringBuilder();
             for (ConstraintViolation<T> constraints : constraintViolations) {
-                errors.append(String.format(java.util.Locale.ROOT, "%s.%s %s\n",
+                errors.append(String.format(Locale.ROOT, "%s.%s %s\n",
                 constraints.getRootBeanClass().getSimpleName(),
                 constraints.getPropertyPath(),
                 constraints.getMessage()));
@@ -98,6 +98,6 @@ public class OpenAPIUtils {
     }
 
     public static String formatDatetime(Date date) {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", java.util.Locale.ROOT).format(date);
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT).format(date);
     }
 }
