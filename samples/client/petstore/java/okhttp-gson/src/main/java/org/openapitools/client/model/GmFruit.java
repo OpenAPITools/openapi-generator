@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -38,7 +37,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -118,7 +116,7 @@ public class GmFruit extends AbstractOpenApiSchema {
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
                     }
                     // deserialize Banana
@@ -131,11 +129,11 @@ public class GmFruit extends AbstractOpenApiSchema {
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
-                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for GmFruit: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for GmFruit: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -233,7 +231,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             Apple.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Banana
@@ -241,10 +239,10 @@ public class GmFruit extends AbstractOpenApiSchema {
             Banana.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
-        throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+        throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for GmFruit with anyOf schemas: Apple, Banana. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     }
 
     /**

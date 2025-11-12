@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -417,8 +416,8 @@ public class AdditionalPropertiesClass {
     // add `map_property` to the URL query string
     if (getMapProperty() != null) {
       for (String _key : getMapProperty().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapProperty().get(_key)))));
       }
     }
@@ -426,46 +425,46 @@ public class AdditionalPropertiesClass {
     // add `map_of_map_property` to the URL query string
     if (getMapOfMapProperty() != null) {
       for (String _key : getMapOfMapProperty().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapOfMapProperty().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapOfMapProperty().get(_key)))));
       }
     }
 
     // add `anytype_1` to the URL query string
     if (getAnytype1() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sanytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnytype1()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sanytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_1` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype1() != null) {
-      joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%smap_with_undeclared_properties_anytype_1%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype1()))));
     }
 
     // add `map_with_undeclared_properties_anytype_2` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype2() != null) {
-      joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%smap_with_undeclared_properties_anytype_2%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype2()))));
     }
 
     // add `map_with_undeclared_properties_anytype_3` to the URL query string
     if (getMapWithUndeclaredPropertiesAnytype3() != null) {
       for (String _key : getMapWithUndeclaredPropertiesAnytype3().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_with_undeclared_properties_anytype_3%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapWithUndeclaredPropertiesAnytype3().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesAnytype3().get(_key)))));
       }
     }
 
     // add `empty_map` to the URL query string
     if (getEmptyMap() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sempty_map%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmptyMap()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sempty_map%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmptyMap()))));
     }
 
     // add `map_with_undeclared_properties_string` to the URL query string
     if (getMapWithUndeclaredPropertiesString() != null) {
       for (String _key : getMapWithUndeclaredPropertiesString().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_with_undeclared_properties_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapWithUndeclaredPropertiesString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapWithUndeclaredPropertiesString().get(_key)))));
       }
     }

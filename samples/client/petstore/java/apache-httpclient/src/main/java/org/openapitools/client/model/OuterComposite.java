@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -204,7 +203,7 @@ public class OuterComposite {
     // add `my_number` to the URL query string
     if (getMyNumber() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -214,7 +213,7 @@ public class OuterComposite {
     // add `my_string` to the URL query string
     if (getMyString() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -224,7 +223,7 @@ public class OuterComposite {
     // add `my_boolean` to the URL query string
     if (getMyBoolean() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -299,7 +298,7 @@ public class Capitalization {
     // add `smallCamel` to the URL query string
     if (getSmallCamel() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallCamel()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%ssmallCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallCamel()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -309,7 +308,7 @@ public class Capitalization {
     // add `CapitalCamel` to the URL query string
     if (getCapitalCamel() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalCamel()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sCapitalCamel%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalCamel()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -319,7 +318,7 @@ public class Capitalization {
     // add `small_Snake` to the URL query string
     if (getSmallSnake() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallSnake()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%ssmall_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSmallSnake()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -329,7 +328,7 @@ public class Capitalization {
     // add `Capital_Snake` to the URL query string
     if (getCapitalSnake() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalSnake()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sCapital_Snake%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getCapitalSnake()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -339,7 +338,7 @@ public class Capitalization {
     // add `SCA_ETH_Flow_Points` to the URL query string
     if (getScAETHFlowPoints() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getScAETHFlowPoints()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getScAETHFlowPoints()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -349,7 +348,7 @@ public class Capitalization {
     // add `ATT_NAME` to the URL query string
     if (getATTNAME() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getATTNAME()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sATT_NAME%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getATTNAME()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

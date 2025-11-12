@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.*;
 

@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -248,14 +247,14 @@ public class EnumArrays {
 
     // add `just_symbol` to the URL query string
     if (getJustSymbol() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sjust_symbol%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getJustSymbol()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sjust_symbol%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getJustSymbol()))));
     }
 
     // add `array_enum` to the URL query string
     if (getArrayEnum() != null) {
       for (int i = 0; i < getArrayEnum().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_enum%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_enum%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayEnum().get(i)))));
       }
     }

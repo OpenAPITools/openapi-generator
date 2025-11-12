@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -37,7 +36,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -122,7 +120,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                                 newQuadrilateral.setActualInstance(deserialized);
                                 return newQuadrilateral;
                             default:
-                                log.log(Level.WARNING, String.format(Locale.ROOT, "Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", jsonObject.get("quadrilateralType").getAsString()));
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", jsonObject.get("quadrilateralType").getAsString()));
                         }
                     }
 
@@ -139,7 +137,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for SimpleQuadrilateral failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for SimpleQuadrilateral failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'SimpleQuadrilateral'", e);
                     }
                     // deserialize ComplexQuadrilateral
@@ -151,7 +149,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for ComplexQuadrilateral failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for ComplexQuadrilateral failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'ComplexQuadrilateral'", e);
                     }
 
@@ -161,7 +159,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for Quadrilateral: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Quadrilateral: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -260,7 +258,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             SimpleQuadrilateral.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for SimpleQuadrilateral failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for SimpleQuadrilateral failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with ComplexQuadrilateral
@@ -268,11 +266,11 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             ComplexQuadrilateral.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for ComplexQuadrilateral failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for ComplexQuadrilateral failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for Quadrilateral with oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for Quadrilateral with oneOf schemas: ComplexQuadrilateral, SimpleQuadrilateral. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 
