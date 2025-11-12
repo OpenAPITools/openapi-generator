@@ -28,6 +28,7 @@ import com.google.gson.stream.JsonWriter;
 /**
  * Gets or Sets OuterEnumInteger
  */
+@Deprecated
 @JsonAdapter(OuterEnumInteger.Adapter.class)
 public enum OuterEnumInteger {
   

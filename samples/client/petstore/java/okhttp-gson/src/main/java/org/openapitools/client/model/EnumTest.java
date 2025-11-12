@@ -352,6 +352,7 @@ public class EnumTest {
   private OuterEnum outerEnum;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM_INTEGER = "outerEnumInteger";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM_INTEGER)
   @javax.annotation.Nullable
   private OuterEnumInteger outerEnumInteger;
@@ -483,6 +484,7 @@ public class EnumTest {
   }
 
 
+  @Deprecated
   public EnumTest outerEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
     return this;
@@ -491,12 +493,15 @@ public class EnumTest {
   /**
    * Get outerEnumInteger
    * @return outerEnumInteger
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
   public OuterEnumInteger getOuterEnumInteger() {
     return outerEnumInteger;
   }
 
+  @Deprecated
   public void setOuterEnumInteger(@javax.annotation.Nullable OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
   }

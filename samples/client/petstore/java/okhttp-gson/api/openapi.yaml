@@ -2215,6 +2215,7 @@ components:
       nullable: true
       type: string
     OuterEnumInteger:
+      deprecated: true
       enum:
       - 0
       - 1
