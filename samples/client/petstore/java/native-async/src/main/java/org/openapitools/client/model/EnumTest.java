@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -596,47 +595,47 @@ public class EnumTest {
 
     // add `enum_string` to the URL query string
     if (getEnumString() != null) {
-      joiner.add(String.format(Locale.ROOT, "%senum_string%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumString()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%senum_string%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumString()))));
     }
 
     // add `enum_string_required` to the URL query string
     if (getEnumStringRequired() != null) {
-      joiner.add(String.format(Locale.ROOT, "%senum_string_required%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumStringRequired()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%senum_string_required%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumStringRequired()))));
     }
 
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
-      joiner.add(String.format(Locale.ROOT, "%senum_integer%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumInteger()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%senum_integer%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumInteger()))));
     }
 
     // add `enum_integer_only` to the URL query string
     if (getEnumIntegerOnly() != null) {
-      joiner.add(String.format(Locale.ROOT, "%senum_integer_only%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumIntegerOnly()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%senum_integer_only%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumIntegerOnly()))));
     }
 
     // add `enum_number` to the URL query string
     if (getEnumNumber() != null) {
-      joiner.add(String.format(Locale.ROOT, "%senum_number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumNumber()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%senum_number%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEnumNumber()))));
     }
 
     // add `outerEnum` to the URL query string
     if (getOuterEnum() != null) {
-      joiner.add(String.format(Locale.ROOT, "%souterEnum%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnum()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%souterEnum%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnum()))));
     }
 
     // add `outerEnumInteger` to the URL query string
     if (getOuterEnumInteger() != null) {
-      joiner.add(String.format(Locale.ROOT, "%souterEnumInteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumInteger()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumInteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumInteger()))));
     }
 
     // add `outerEnumDefaultValue` to the URL query string
     if (getOuterEnumDefaultValue() != null) {
-      joiner.add(String.format(Locale.ROOT, "%souterEnumDefaultValue%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumDefaultValue()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumDefaultValue%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumDefaultValue()))));
     }
 
     // add `outerEnumIntegerDefaultValue` to the URL query string
     if (getOuterEnumIntegerDefaultValue() != null) {
-      joiner.add(String.format(Locale.ROOT, "%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumIntegerDefaultValue()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getOuterEnumIntegerDefaultValue()))));
     }
 
     return joiner.toString();

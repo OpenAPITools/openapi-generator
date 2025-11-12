@@ -46,7 +46,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -684,7 +683,7 @@ public class ApiClient extends JavaTimeFormatter {
         if (serverIndex != null) {
             if (serverIndex < 0 || serverIndex >= servers.size()) {
                 throw new ArrayIndexOutOfBoundsException(String.format(
-                    Locale.ROOT,
+                    java.util.Locale.ROOT,
                     "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
                 ));
             }
@@ -780,7 +779,7 @@ public class ApiClient extends JavaTimeFormatter {
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(String.format(java.util.Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();

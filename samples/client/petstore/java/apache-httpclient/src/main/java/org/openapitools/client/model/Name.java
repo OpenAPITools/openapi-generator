@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -225,7 +224,7 @@ public class Name {
     // add `name` to the URL query string
     if (getName() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -235,7 +234,7 @@ public class Name {
     // add `snake_case` to the URL query string
     if (getSnakeCase() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSnakeCase()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%ssnake_case%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSnakeCase()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -245,7 +244,7 @@ public class Name {
     // add `property` to the URL query string
     if (getProperty() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sproperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProperty()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sproperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProperty()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -255,7 +254,7 @@ public class Name {
     // add `123Number` to the URL query string
     if (get123number() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%s123Number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123number()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%s123Number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123number()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

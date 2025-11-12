@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -172,7 +171,7 @@ public class AllOfWithSingleRef {
     // add `username` to the URL query string
     if (getUsername() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%susername%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUsername()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%susername%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUsername()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -182,7 +181,7 @@ public class AllOfWithSingleRef {
     // add `SingleRefType` to the URL query string
     if (getSingleRefType() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sSingleRefType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSingleRefType()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sSingleRefType%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSingleRefType()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

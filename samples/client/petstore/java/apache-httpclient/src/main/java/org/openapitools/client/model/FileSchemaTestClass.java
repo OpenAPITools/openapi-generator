@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -189,8 +188,8 @@ public class FileSchemaTestClass {
     if (getFiles() != null) {
       for (int i = 0; i < getFiles().size(); i++) {
         if (getFiles().get(i) != null) {
-          joiner.add(getFiles().get(i).toUrlQueryString(String.format(Locale.ROOT, "%sfiles%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add(getFiles().get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%sfiles%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }

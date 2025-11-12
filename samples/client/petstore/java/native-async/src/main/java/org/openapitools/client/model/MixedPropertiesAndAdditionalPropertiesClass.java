@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -218,20 +217,20 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format(Locale.ROOT, "%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
     }
 
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
     }
 
     // add `map` to the URL query string
     if (getMap() != null) {
       for (String _key : getMap().keySet()) {
         if (getMap().get(_key) != null) {
-          joiner.add(getMap().get(_key).toUrlQueryString(String.format(Locale.ROOT, "%smap%s%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
+          joiner.add(getMap().get(_key).toUrlQueryString(String.format(java.util.Locale.ROOT, "%smap%s%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix))));
         }
       }
     }

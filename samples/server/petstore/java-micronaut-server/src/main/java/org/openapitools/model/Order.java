@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 
