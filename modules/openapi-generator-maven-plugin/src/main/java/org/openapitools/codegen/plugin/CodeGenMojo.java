@@ -197,7 +197,7 @@ public class CodeGenMojo extends AbstractMojo {
     private String configurationFile;
 
     /**
-     * Skip the execution if the source file is older than the output folder.
+     * Skip the execution if the configuration file does not exist.
      */
     @Parameter(name = "skipIfConfigurationFileMissing", property = "codegen.skipIfConfigurationFileMissing", defaultValue = "false")
     private Boolean skipIfConfigurationFileMissing;
