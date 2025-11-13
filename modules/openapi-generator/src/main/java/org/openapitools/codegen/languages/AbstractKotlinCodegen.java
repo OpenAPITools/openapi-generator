@@ -855,6 +855,28 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
         allVarsMap.keySet()
                 .removeAll(m.vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toSet()));
+
+        // if there is a parent, find the redefined vars
+        if (m.parent != null && m.parentSchema != null) {
+
+            // get the parent schema
+            Schema<?> parentSchema = ModelUtils.getSchemas(this.openAPI).get(m.parentSchema);
+
+            // if parent schema has properties, find the intersection
+            if (parentSchema != null && parentSchema.getProperties() != null) {
+                Set<String> varNames = parentSchema.getProperties().keySet();
+
+                // compute intersection of m.allVars and parent properties, this will give us the overridden properties
+                Map<String, CodegenProperty> overriddenProperties = m.allVars.stream()
+                        .filter(p -> varNames.contains(p.getBaseName()))
+                        .collect(Collectors.toMap(CodegenProperty::getBaseName, Function.identity()));
+
+                // overridden properties contain the properties that are redefined in the child model.
+                // add them to allVarsMap so that they are marked as inherited.
+                allVarsMap.putAll(overriddenProperties);
+            }
+        }
+
         // Update the allVars
         allVarsMap.values().forEach(p -> p.isInherited = true);
         // Update any other vars (requiredVars, optionalVars)
