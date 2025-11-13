@@ -405,9 +405,9 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NullableMultipartfileArrayApiController.kt"),
                 "files: Array<org.springframework.web.multipart.MultipartFile>?)");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileApiController.kt"),
-                "file: org.springframework.web.multipart.MultipartFile)");
+                "file: org.springframework.web.multipart.MultipartFile?)");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileArrayApiController.kt"),
-                "files: Array<org.springframework.web.multipart.MultipartFile>)");
+                "files: Array<org.springframework.web.multipart.MultipartFile>?)");
     }
 
     @Test

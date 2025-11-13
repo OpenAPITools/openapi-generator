@@ -68,6 +68,6 @@ interface PetApiDelegate {
      */
     fun uploadFile(petId: kotlin.Long,
         additionalMetadata: kotlin.String?,
-        file: org.springframework.web.multipart.MultipartFile): ResponseEntity<ModelApiResponse>
+        file: org.springframework.web.multipart.MultipartFile?): ResponseEntity<ModelApiResponse>
 
 }
