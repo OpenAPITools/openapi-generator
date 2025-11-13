@@ -1,5 +1,5 @@
     #[allow(clippy::vec_init_then_push)]
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#exts}}
   {{#x-callback-params}}
@@ -7,7 +7,7 @@
   {{/x-callback-params}}
 {{/exts}}
 {{#allParams}}
-        param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>
     {

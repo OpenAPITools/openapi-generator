@@ -870,6 +870,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
+        if (op.allParams.stream()
+            .anyMatch(p -> p.isArray && !p.isPrimitiveType)) {
+            op.vendorExtensions.put("x-has-borrowed-params", Boolean.TRUE);
+            for (CodegenParameter param : op.allParams) {
+                if (param.isArray) {
+                    param.vendorExtensions.put("x-param-needs-lifetime", Boolean.TRUE);
+                }
+            }
+        }
+
         // The CLI generates a structopt structure for each operation. This can only have a single
         // use of a short option, which comes from the parameter name, so we need to police
         // against duplicates
