@@ -70,6 +70,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
+    public static final String SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY = "spring-declarative-http-interface";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
@@ -84,12 +85,28 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
+    public static final String DECLARATIVE_INTERFACE_WRAP_RESPONSES = "declarativeInterfaceWrapResponses";
+    public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
+
+    @Getter
+    public enum DeclarativeInterfaceReactiveMode {
+        coroutines("Use kotlin-idiomatic 'suspend' functions", "reactiveModeCoroutines"),
+        reactor("Use reactor return wrappers 'Mono' and 'Flux'", "reactiveModeReactor");
+
+        private final String description;
+        private final String additionalPropertyName;
+
+        DeclarativeInterfaceReactiveMode(String description, String additionalPropertyName) {
+            this.description = description;
+            this.additionalPropertyName = additionalPropertyName;
+        }
+    }
 
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
@@ -135,6 +152,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean delegatePattern = false;
     @Setter protected boolean useTags = false;
     @Setter private boolean beanQualifiers = false;
+    @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
+    @Setter private boolean declarativeInterfaceWrapResponses = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -220,9 +239,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
+        addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
+                "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
+                declarativeInterfaceWrapResponses);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
+        supportedLibraries.put(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY,
+                "Spring Declarative Interface client");
         setLibrary(SPRING_BOOT);
 
         CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
@@ -237,6 +261,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             requestMappingOpt.addEnum(mode.name(), mode.getDescription());
         }
         cliOptions.add(requestMappingOpt);
+
+        CliOption declarativeInterfaceReactiveModeOpt = new CliOption(DECLARATIVE_INTERFACE_REACTIVE_MODE,
+                "What type of reactive style to use in Spring Http declarative interface")
+                .defaultValue(declarativeInterfaceReactiveMode.name());
+        for (DeclarativeInterfaceReactiveMode mode : DeclarativeInterfaceReactiveMode.values()) {
+            declarativeInterfaceReactiveModeOpt.addEnum(mode.name(), mode.getDescription());
+        }
+        cliOptions.add(declarativeInterfaceReactiveModeOpt);
 
         if (null != defaultDocumentationProvider()) {
             CliOption documentationProviderCliOption = new CliOption(DOCUMENTATION_PROVIDER,
@@ -518,6 +550,41 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     this.setUseFlowForArrayReturnType(convertPropertyToBoolean(USE_FLOW_FOR_ARRAY_RETURN_TYPE));
                 }
             }
+            if (library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
+                this.setReactive(convertPropertyToBoolean(REACTIVE));
+                if (additionalProperties.containsKey(USE_FLOW_FOR_ARRAY_RETURN_TYPE)) {
+                    this.setUseFlowForArrayReturnType(convertPropertyToBoolean(USE_FLOW_FOR_ARRAY_RETURN_TYPE));
+                }
+                if (this.isUseFlowForArrayReturnType()) {
+                    {
+                        throw new IllegalArgumentException("Additional property '" + USE_FLOW_FOR_ARRAY_RETURN_TYPE + "' must be set to 'false' as it is not supported by Spring declarative HTTP interface");
+                    }
+                }
+                if (additionalProperties.containsKey(DECLARATIVE_INTERFACE_REACTIVE_MODE)) {
+                    try {
+                        DeclarativeInterfaceReactiveMode optValue = DeclarativeInterfaceReactiveMode.valueOf(
+                                String.valueOf(additionalProperties.get(DECLARATIVE_INTERFACE_REACTIVE_MODE)));
+                        setDeclarativeInterfaceReactiveMode(optValue);
+                        writePropertyBack(optValue.getAdditionalPropertyName(), true);
+                        additionalProperties.remove(DECLARATIVE_INTERFACE_REACTIVE_MODE);
+                    } catch (IllegalArgumentException e) {
+                        throw new IllegalArgumentException(
+                                "Invalid value for additional property '" + DECLARATIVE_INTERFACE_REACTIVE_MODE + "'. Supported values are " + Arrays.toString(DeclarativeInterfaceReactiveMode.values()) + "."
+                        );
+                    }
+                }
+            }
+        }
+        if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+            this.setUseSpringBoot3(true);
+            this.setInterfaceOnly(true);
+            this.setUseFeignClient(false);
+            this.setSkipDefaultInterface(true);
+
+            writePropertyBack(USE_SPRING_BOOT3, useSpringBoot3);
+            writePropertyBack(INTERFACE_ONLY, interfaceOnly);
+            writePropertyBack(USE_FEIGN_CLIENT, useFeignClient);
+            writePropertyBack(SKIP_DEFAULT_INTERFACE, skipDefaultInterface);
         }
         writePropertyBack(REACTIVE, reactive);
         writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
@@ -606,7 +673,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
 
-        if (this.exceptionHandler && !library.equals(SPRING_CLOUD_LIBRARY)) {
+        if (this.exceptionHandler && !(library.equals(SPRING_CLOUD_LIBRARY) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
@@ -699,8 +766,29 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
             apiTestTemplateFiles.clear();
         }
+        if (library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
+            LOGGER.info("Setup code generator for Kotlin Spring Declarative Http interface");
 
-        if (!reactive && !library.equals(SPRING_CLOUD_LIBRARY)) {
+            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+
+            if (this.gradleBuildFile) {
+                supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+
+                String gradleWrapperPackage = "gradle.wrapper";
+                supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
+                supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+                supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+            }
+
+            apiTemplateFiles.put("apiInterface.mustache", "Client.kt");
+            apiTestTemplateFiles.clear();
+        }
+
+        if (!reactive && !(library.equals(SPRING_CLOUD_LIBRARY) || library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY))) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 supportingFiles.add(new SupportingFile("springfoxDocumentationConfig.mustache",
                         (sourceFolder + File.separator + basePackage).replace(".", java.io.File.separator),

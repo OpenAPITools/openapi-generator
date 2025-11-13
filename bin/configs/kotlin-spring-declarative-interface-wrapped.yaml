@@ -1,0 +1,15 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-declarative-interface-wrapped
+library: spring-declarative-http-interface
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: springDoc
+  annotationLibrary: swagger2
+  useSwaggerUI: "false"
+  serializableModel: "true"
+  beanValidations: "true"
+  interfaceOnly: true
+  reactive: false
+  declarativeInterfaceWrapResponses: true
+  useFlowForArrayReturnType: false

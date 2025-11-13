@@ -42,6 +42,8 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.*;
+import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
@@ -1024,6 +1026,296 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
                 ") : Pet, Serializable,  com.some.pack.Fetchable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateHttpInterfaceReactiveWithReactorResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, true);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "import reactor.core.publisher.Flux\n"
+                + "import reactor.core.publisher.Mono",
+                "    @HttpExchange(\n"
+                + "        url = PATH_GET_INVENTORY,\n"
+                + "        method = \"GET\"\n"
+                + "    )\n"
+                + "    fun getInventory(\n"
+                + "    ): Mono<ResponseEntity<Map<String, kotlin.Int>>>",
+                "    @HttpExchange(\n"
+                + "        url = PATH_DELETE_ORDER,\n"
+                + "        method = \"DELETE\"\n"
+                + "    )\n"
+                + "    fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): Mono<ResponseEntity<Unit>>",
+                "    @HttpExchange(\n"
+                + "        url = PATH_PLACE_ORDER,\n"
+                + "        method = \"POST\"\n"
+                + "    )\n"
+                + "    fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): Mono<ResponseEntity<Order>>",
+                "    companion object {\n"
+                + "        //for your own safety never directly reuse these path definitions in tests\n"
+                + "        const val PATH_DELETE_ORDER: String = \"/store/order/{orderId}\"\n"
+                + "        const val PATH_GET_INVENTORY: String = \"/store/inventory\"\n"
+                + "        const val PATH_GET_ORDER_BY_ID: String = \"/store/order/{orderId}\"\n"
+                + "        const val PATH_PLACE_ORDER: String = \"/store/order\"\n"
+                + "    }"
+        );
+        assertFileNotContains(
+                path,
+                "suspend"
+        );
+    }
+
+    @Test
+    public void generateHttpInterfaceReactiveWithCoroutinesResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, true);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "coroutines");
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "    suspend fun getInventory(\n"
+                + "    ): ResponseEntity<Map<String, kotlin.Int>>",
+                "    suspend fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): ResponseEntity<Unit>",
+                "    suspend fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): ResponseEntity<Order>"
+        );
+    }
+
+    @Test
+    public void generateHttpInterfaceReactiveWithReactor() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, true);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "import reactor.core.publisher.Flux\n"
+                + "import reactor.core.publisher.Mono",
+                "    fun getInventory(\n"
+                + "    ): Mono<Map<String, kotlin.Int>>",
+                "    fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): Mono<Unit>",
+                "    fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): Mono<Order>"
+        );
+        assertFileNotContains(
+                path,
+                "suspend"
+        );
+    }
+
+
+    @Test
+    public void generateHttpInterfaceReactiveWithCoroutines() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, true);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "coroutines");
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "    suspend fun getInventory(\n"
+                + "    ): Map<String, kotlin.Int>",
+                "    suspend fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): Unit",
+                "    suspend fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): Order"
+        );
+    }
+
+    @Test
+    public void generateHttpInterfaceResponseEntity() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, false);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "    fun getInventory(\n"
+                + "    ): ResponseEntity<Map<String, kotlin.Int>>",
+                "    fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): ResponseEntity<Unit>",
+                "    fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): ResponseEntity<Order>"
+        );
+        assertFileNotContains(
+                path,
+                "suspend"
+        );
+    }
+
+    @Test
+    public void generateHttpInterface() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
+        codegen.additionalProperties().put(REACTIVE, false);
+        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        assertFileContains(
+                path,
+                "    fun getInventory(\n"
+                + "    ): Map<String, kotlin.Int>",
+                "    fun deleteOrder(\n"
+                + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
+                + "    ): Unit",
+                "    fun placeOrder(\n"
+                + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
+                + "    ): Order"
+        );
+        assertFileNotContains(
+                path,
+                "suspend"
         );
     }
 
