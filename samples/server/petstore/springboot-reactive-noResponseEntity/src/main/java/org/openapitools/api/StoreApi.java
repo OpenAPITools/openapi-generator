@@ -163,7 +163,7 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Order> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @NotNull @Valid @RequestBody Mono<Order> order,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().placeOrder(order, exchange);

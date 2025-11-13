@@ -155,7 +155,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<Order> placeOrder(
-        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order body
+        @Parameter(name = "body", description = "order placed for purchasing the pet", required = true) @NotNull @Valid @RequestBody Order body
     );
 
 }
