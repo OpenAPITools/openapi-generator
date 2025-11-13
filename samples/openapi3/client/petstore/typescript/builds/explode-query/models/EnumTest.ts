@@ -14,6 +14,7 @@ import { OuterEnum } from '../models/OuterEnum';
 import { OuterEnumDefaultValue } from '../models/OuterEnumDefaultValue';
 import { OuterEnumInteger } from '../models/OuterEnumInteger';
 import { OuterEnumIntegerDefaultValue } from '../models/OuterEnumIntegerDefaultValue';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class EnumTest {
@@ -30,54 +31,62 @@ export class EnumTest {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "enumString",
             "baseName": "enum_string",
             "type": "EnumTestEnumStringEnum",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "enumStringRequired",
             "baseName": "enum_string_required",
             "type": "EnumTestEnumStringRequiredEnum",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "enumInteger",
             "baseName": "enum_integer",
             "type": "EnumTestEnumIntegerEnum",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         },
         {
             "name": "enumNumber",
             "baseName": "enum_number",
             "type": "EnumTestEnumNumberEnum",
-            "format": "double"
+            "format": "double",
+            "required": false
         },
         {
             "name": "outerEnum",
             "baseName": "outerEnum",
             "type": "OuterEnum",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "outerEnumInteger",
             "baseName": "outerEnumInteger",
             "type": "OuterEnumInteger",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "outerEnumDefaultValue",
             "baseName": "outerEnumDefaultValue",
             "type": "OuterEnumDefaultValue",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "outerEnumIntegerDefaultValue",
             "baseName": "outerEnumIntegerDefaultValue",
             "type": "OuterEnumIntegerDefaultValue",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {
