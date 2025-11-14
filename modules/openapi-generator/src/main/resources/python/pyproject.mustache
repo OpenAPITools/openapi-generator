@@ -16,7 +16,12 @@ authors = [
 ]
 {{/poetry1}}
 {{#licenseInfo}}
+{{#poetry1}}
 license = "{{{licenseInfo}}}"
+{{/poetry1}}
+{{^poetry1}}
+license = { text = "{{{licenseInfo}}}" }
+{{/poetry1}}
 {{/licenseInfo}}
 readme = "README.md"
 {{#poetry1}}
@@ -34,6 +39,9 @@ python-dateutil = ">= 2.8.2"
 aiohttp = ">= 3.8.4"
 aiohttp-retry = ">= 2.8.3"
 {{/asyncio}}
+{{#httpx}}
+httpx = ">= 0.28.1"
+{{/httpx}}
 {{#tornado}}
 tornado = ">=4.2, <5"
 {{/tornado}}
@@ -43,7 +51,9 @@ pycryptodome = ">= 3.9.0"
 {{/hasHttpSignatureMethods}}
 pydantic = ">= 2"
 typing-extensions = ">= 4.7.1"
+{{#lazyImports}}
 lazy-imports = ">= 1, < 2"
+{{/lazyImports}}
 {{/poetry1}}
 {{^poetry1}}
 requires-python = ">=3.9"
@@ -51,6 +61,9 @@ requires-python = ">=3.9"
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",
   "python-dateutil (>=2.8.2)",
+{{#httpx}}
+  "httpx (>=0.28.1)",
+{{/httpx}}
 {{#asyncio}}
   "aiohttp (>=3.8.4)",
   "aiohttp-retry (>=2.8.3)",
@@ -64,7 +77,9 @@ dependencies = [
 {{/hasHttpSignatureMethods}}
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)",
+{{#lazyImports}}
   "lazy-imports (>=1,<2)"
+{{/lazyImports}}
 ]
 
 [project.urls]

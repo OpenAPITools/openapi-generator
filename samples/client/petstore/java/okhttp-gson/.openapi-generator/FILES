@@ -11,6 +11,9 @@ docs/AllOfModelArrayAnyOfAllOfAttributes.md
 docs/AllOfModelArrayAnyOfAllOfAttributesC.md
 docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md
 docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md
+docs/AllOfRefToDouble.md
+docs/AllOfRefToFloat.md
+docs/AllOfRefToLong.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/Apple.md
@@ -71,6 +74,7 @@ docs/ModelList.md
 docs/ModelReturn.md
 docs/ModelWithOneOfAnyOfProperties.md
 docs/Name.md
+docs/NestedArrayWithDefaultValues.md
 docs/NewPet.md
 docs/NewPetCategoryInlineAllof.md
 docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
@@ -160,6 +164,9 @@ src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributes.
 src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributesC.java
 src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1.java
 src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.java
+src/main/java/org/openapitools/client/model/AllOfRefToDouble.java
+src/main/java/org/openapitools/client/model/AllOfRefToFloat.java
+src/main/java/org/openapitools/client/model/AllOfRefToLong.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
@@ -216,6 +223,7 @@ src/main/java/org/openapitools/client/model/ModelList.java
 src/main/java/org/openapitools/client/model/ModelReturn.java
 src/main/java/org/openapitools/client/model/ModelWithOneOfAnyOfProperties.java
 src/main/java/org/openapitools/client/model/Name.java
+src/main/java/org/openapitools/client/model/NestedArrayWithDefaultValues.java
 src/main/java/org/openapitools/client/model/NewPet.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java

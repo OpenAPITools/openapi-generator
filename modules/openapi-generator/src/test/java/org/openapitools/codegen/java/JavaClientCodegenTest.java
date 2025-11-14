@@ -22,7 +22,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.visitor.*;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -46,6 +46,7 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.testutils.ConfigAssert;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -66,12 +67,16 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
 public class JavaClientCodegenTest {
+
+    private static final String JAVA_GENERATOR = "java";
 
     // This is the kind of information that ideally would be defined and available system-wide
     @Getter
@@ -299,7 +304,7 @@ public class JavaClientCodegenTest {
     public void testGeneratedAuthClassesJersey() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.JERSEY3)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml")
@@ -322,7 +327,7 @@ public class JavaClientCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addTypeMapping("OffsetDateTime", "Instant")
                 .addImportMapping("OffsetDateTime", "java.time.Instant")
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setInputSpec("src/test/resources/3_0/echo_api.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
@@ -414,7 +419,7 @@ public class JavaClientCodegenTest {
     public void testGeneratePing() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
@@ -471,7 +476,7 @@ public class JavaClientCodegenTest {
     public void testGeneratePingSomeObj() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "zz.yyyy.model.xxxx")
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "zz.yyyy.api.xxxx")
                 .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "zz.yyyy.invoker.xxxx")
@@ -534,7 +539,7 @@ public class JavaClientCodegenTest {
     public void testJdkHttpClient() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
@@ -561,7 +566,7 @@ public class JavaClientCodegenTest {
     public void testJdkHttpClientWithUseBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
@@ -580,7 +585,7 @@ public class JavaClientCodegenTest {
     public void testJdkHttpClientWithAndWithoutDiscriminator() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
@@ -603,7 +608,7 @@ public class JavaClientCodegenTest {
     public void testJdkHttpAsyncClient() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.ASYNC_NATIVE, true)
                 .setLibrary(JavaClientCodegen.NATIVE)
@@ -685,7 +690,7 @@ public class JavaClientCodegenTest {
     public void testAuthorizationScopeValues_Issue6733() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setValidateSpec(false)
                 .setInputSpec("src/test/resources/3_0/regression-6734.yaml")
@@ -709,7 +714,7 @@ public class JavaClientCodegenTest {
     public void testTypedAndNonTypedComposedSchemaGeneration_3_1() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setValidateSpec(false)
                 .setInputSpec("src/test/resources/3_1/composed-schemas-with-and-without-type.yaml")
@@ -732,7 +737,7 @@ public class JavaClientCodegenTest {
     public void testMultiPartSpecifiesFileName_Issue17367() throws IOException {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setValidateSpec(false)
                 .setInputSpec("src/test/resources/3_0/issue-17367.yaml")
@@ -818,7 +823,7 @@ public class JavaClientCodegenTest {
     public void testSchemaMapping() throws IOException {
         final Path output = newTempFolder();
         final ClientOptInput clientOptInput = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setSchemaMappings(Map.of("TypeAlias", "foo.bar.TypeAlias"))
@@ -868,7 +873,7 @@ public class JavaClientCodegenTest {
     public void testVertXAuthInfoWithHyphenSeparatedSecurityScheme() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.VERTX)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/ping-with-hyphen-separated-security-scheme.yaml")
@@ -1080,7 +1085,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateFormMultipart() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
@@ -1116,7 +1121,7 @@ public class JavaClientCodegenTest {
     public void testWebClientFormMultipart() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
@@ -1146,7 +1151,7 @@ public class JavaClientCodegenTest {
     public void shouldGenerateBlockingAndNoBlockingOperationsForWebClient() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.WEBCLIENT_BLOCKING_OPERATIONS, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
@@ -1176,7 +1181,7 @@ public class JavaClientCodegenTest {
     public void testAllowModelWithNoProperties() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setInputSpec("src/test/resources/2_0/emptyBaseModel.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1205,7 +1210,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
@@ -1292,7 +1297,7 @@ public class JavaClientCodegenTest {
     public void testCustomMethodParamsAreCamelizedWhenUsingFeign() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(FEIGN)
                 .setInputSpec("src/test/resources/3_0/issue_7791.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1320,7 +1325,7 @@ public class JavaClientCodegenTest {
     public void testCharsetInContentTypeCorrectlyEncodedForFeignApi_issue19895() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(FEIGN)
                 .setInputSpec("src/test/resources/3_0/issue_19895.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1353,7 +1358,7 @@ public class JavaClientCodegenTest {
     public void testWebClientWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
@@ -1386,7 +1391,8 @@ public class JavaClientCodegenTest {
     @Test
     public void testRestTemplateWithFreeFormInQueryParameters() {
         final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue8352.yaml")
@@ -1404,7 +1410,8 @@ public class JavaClientCodegenTest {
     @Test
     public void testWebClientWithFreeFormInQueryParameters() {
         final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue8352.yaml")
@@ -1424,7 +1431,7 @@ public class JavaClientCodegenTest {
     public void testNativeClientWhiteSpacePathParamEncoding() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue11242.yaml")
@@ -1447,7 +1454,7 @@ public class JavaClientCodegenTest {
     public void testNativeClientExplodedQueryParamObject() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue4808.yaml")
@@ -1470,7 +1477,7 @@ public class JavaClientCodegenTest {
     public void testDefaultMicroprofileRestClientVersion() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1494,7 +1501,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "1.4.1"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1523,7 +1530,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "incorrectVersion"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1538,7 +1545,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/3_0/petstore.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1562,7 +1569,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/bugs/issue_12622.json")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1593,9 +1600,8 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-
                 .setAdditionalProperties(properties)
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.MICROPROFILE)
                 .setInputSpec("src/test/resources/bugs/issue_18336.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
@@ -1620,7 +1626,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setOutputDir(output.toString().replace("\\", "/"))
                 .setInputSpec("src/test/resources/bugs/java-codegen-empty-array-as-default-value/issue_wrong-default.yaml");
@@ -1644,7 +1650,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setAdditionalProperties(Map.of(AbstractJavaCodegen.OPENAPI_NULLABLE, "true"))
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1665,7 +1671,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateResponseTypeWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
@@ -1689,7 +1695,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final String outputPath = output.toString().replace('\\', '/');
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.value)
                 .setAdditionalProperties(Map.of(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true"))
                 .setInputSpec("src/test/resources/3_0/issue_11772.yml")
@@ -1710,7 +1716,8 @@ public class JavaClientCodegenTest {
     @Test
     public void testReferencedHeader2() {
         final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
                 .setAdditionalProperties(Map.of(BeanValidationFeatures.USE_BEANVALIDATION, "true"))
                 .setInputSpec("src/test/resources/3_0/issue-11340.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -1733,7 +1740,7 @@ public class JavaClientCodegenTest {
     public void testReturnTypeMapping() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setInputSpec("src/test/resources/3_0/issue14525.yaml")
                 .addTypeMapping("array", "Stack")
                 .addImportMapping("Stack", "java.util.Stack")
@@ -1749,7 +1756,7 @@ public class JavaClientCodegenTest {
     public void testNativeClientExplodedQueryParamWithArrayProperty() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/exploded-query-param-array.yaml")
@@ -1767,7 +1774,7 @@ public class JavaClientCodegenTest {
     public void testJdkHttpClientWithAndWithoutParentExtension() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 // use default `okhttp-gson`
                 //.setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
@@ -1782,11 +1789,71 @@ public class JavaClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
-        assertThat(files).hasSize(33);
+        assertThat(files).hasSize(48);
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
                 .content().contains("public class Child extends Person {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
                 .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefs.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefs {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsAndRefAsParentInAllOfNormalizationIsTrue() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addOpenapiNormalizer("REF_AS_PARENT_IN_ALLOF", "true")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        // The class does not extend a parent since the REF_AS_PARENT_IN_ALLOF normalizer will assign it two parents
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
+                .content().contains("public class AnotherChild extends AnotherPerson {");
+    }
+
+    @Test
+    public void allOfWithSeveralRefsButOnlyOneIsMarkedAsParent() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .setInputSpec("src/test/resources/3_0/allOf_extension_parent.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(files).hasSize(48);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Child.java"))
+                .content().contains("public class Child extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Adult.java"))
+                .content().contains("public class Adult extends Person {");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/SchemaWithTwoAllOfRefsOneIsMarkedAsParent.java"))
+                .content().contains("public class SchemaWithTwoAllOfRefsOneIsMarkedAsParent extends PersonAExplicitParent {");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/AnotherChild.java"))
                 .content().contains("public class AnotherChild {");
     }
@@ -1966,7 +2033,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library)
                 .setAdditionalProperties(properties)
                 .setInputSpec(pathToSpecification)
@@ -2073,7 +2140,7 @@ public class JavaClientCodegenTest {
     public void testDeprecatedProperty() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -2093,7 +2160,7 @@ public class JavaClientCodegenTest {
     public void testDeprecatedPropertyJersey3() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.JERSEY3)
                 .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -2104,10 +2171,10 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
                 "@Deprecated\n public BigDog declawed(@jakarta.annotation.Nullable Boolean declawed) {", // deprecated builder method
-                "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                "@Deprecated\n @jakarta.annotation.Nullable\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n\n"
                         + " public Boolean getDeclawed() {", // deprecated getter
-                "@Deprecated\n @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
                         + " public void setDeclawed(@jakarta.annotation.Nullable Boolean declawed) {" // deprecated setter
         );
@@ -2122,7 +2189,7 @@ public class JavaClientCodegenTest {
     public void shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684(String library) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library)
                 .addAdditionalProperty(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@annotation1;@annotation2")
                 .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
@@ -2145,7 +2212,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithGeneratedClientAsBeanDisabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, false)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
@@ -2163,7 +2230,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithGeneratedClientAsBeanEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
@@ -2181,7 +2248,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithUseBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, true)
@@ -2199,7 +2266,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithUseBeanValidationDisabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_BEANVALIDATION, false)
@@ -2217,7 +2284,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithPerformBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.PERFORM_BEANVALIDATION, true)
@@ -2235,7 +2302,7 @@ public class JavaClientCodegenTest {
     public void testRestTemplateWithPerformBeanValidationDisabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.PERFORM_BEANVALIDATION, false)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
@@ -2252,7 +2319,7 @@ public class JavaClientCodegenTest {
     @Test
     public void testLogicToAvoidStackOverflow() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.GENERATE_CLIENT_AS_BEAN, true)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
@@ -2268,7 +2335,7 @@ public class JavaClientCodegenTest {
     public void testWebClientSupportListOfStringReturnType_issue7118() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
@@ -2346,7 +2413,7 @@ public class JavaClientCodegenTest {
     public void testWebClientResponseTypeWithUseAbstractionForFiles_issue16589() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
@@ -2502,7 +2569,7 @@ public class JavaClientCodegenTest {
     private void testHandleURIEnum(String library, String[] expectedInnerEnumLines, String[] expectedEnumLines) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library)
                 .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -2525,7 +2592,7 @@ public class JavaClientCodegenTest {
     public void testQueryParamsExploded_whenQueryParamIsNull() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
@@ -2602,7 +2669,7 @@ public class JavaClientCodegenTest {
     public void testRestClientFormMultipart() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
@@ -2632,7 +2699,7 @@ public class JavaClientCodegenTest {
     public void testRestClientWithUseAbstractionForFiles() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
@@ -2661,7 +2728,8 @@ public class JavaClientCodegenTest {
     @Test
     public void testRestClientWithFreeFormInQueryParameters() {
         final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(CodegenConstants.API_PACKAGE, "xyz.abcdef.api"))
                 .setInputSpec("src/test/resources/3_0/issue8352.yaml")
@@ -2678,7 +2746,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addAdditionalProperty(AbstractJavaCodegen.OPENAPI_NULLABLE, "true")
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setInputSpec("src/test/resources/bugs/issue_12790.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -2700,7 +2768,7 @@ public class JavaClientCodegenTest {
     public void testRestClientSupportListOfStringReturnType_issue7118() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
@@ -2727,7 +2795,7 @@ public class JavaClientCodegenTest {
     public void testRestClientResponseTypeWithUseAbstractionForFiles_issue16589() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
@@ -2797,7 +2865,7 @@ public class JavaClientCodegenTest {
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .addAdditionalProperty(SERIALIZATION_LIBRARY, Serializer.GSON)
                 .addAdditionalProperty(OPENAPI_NULLABLE, "false")
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.getValue())
                 .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
                 .setOutputDir(newTempFolder().toString());
@@ -2817,7 +2885,7 @@ public class JavaClientCodegenTest {
     @Test
     void doesNotGenerateJacksonJsonFormatAnnotation_whenLibraryIsGson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_GSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
@@ -2844,7 +2912,7 @@ public class JavaClientCodegenTest {
     @Test
     void generatesJacksonJsonFormatAnnotation_whenLibraryIsJackson_andSerializeBigDecimalAsStringIsTrue() {
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JACKSON)
                 .addAdditionalProperty(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, true)
@@ -2881,7 +2949,7 @@ public class JavaClientCodegenTest {
                 .addGlobalProperty(CodegenConstants.MODELS, "Pet")
                 .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
                 .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
                 .setLibrary(library.value)
                 .setOutputDir(newTempFolder().toString());
@@ -3021,7 +3089,7 @@ public class JavaClientCodegenTest {
                 .addGlobalProperty(CodegenConstants.MODELS, "Pet")
                 .addGlobalProperty(CodegenConstants.MODEL_DOCS, null)
                 .addGlobalProperty(CodegenConstants.MODEL_TESTS, null)
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.value)
                 .setInputSpec("src/test/resources/3_0/java/xml-annotations-test.yaml")
                 .setOutputDir(newTempFolder().toString());
@@ -3142,6 +3210,43 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testRestTemplateWithDefaultUserAgent() {
+
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/java/petstore.yaml",
+                JavaClientCodegen.RESTTEMPLATE
+        );
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"OpenAPI-Generator/1.0.0/java\");");
+    }
+
+    @Test
+    public void testRestTemplateWithCustomUserAgent() {
+
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setValidateSpec(false)
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setHttpUserAgent("MyAwesomeCustomService/0.0.1")
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));;
+
+        final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
+                .printFileContent();
+        apiClient
+                .assertMethod("init")
+                .bodyContainsLines("setUserAgent(\"MyAwesomeCustomService/0.0.1\");");
+    }
+
+    @Test
     public void testRestClientWithGeneratedOAuthTokenSuppliers() {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/java/oauth.yaml",
@@ -3166,7 +3271,7 @@ public class JavaClientCodegenTest {
     public void testRestClientWithXML_issue_19137() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3185,11 +3290,12 @@ public class JavaClientCodegenTest {
         );
     }
 
+
     @Test
     public void testRestClientWithUseSingleRequestParameter_issue_19406() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3216,7 +3322,7 @@ public class JavaClientCodegenTest {
     public void testRestClientWithUseSingleRequestParameter_static_issue_20668() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3252,7 +3358,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setValidateSpec(false)
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3288,7 +3394,7 @@ public class JavaClientCodegenTest {
     public void testWebClientWithUseSingleRequestParameter_issue_19407() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3318,7 +3424,7 @@ public class JavaClientCodegenTest {
     public void testWebClientWithUseSingleRequestParameter_static() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3348,7 +3454,7 @@ public class JavaClientCodegenTest {
     public void testWebClientWithUseSingleRequestParameter_static_issue_20668() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.WEBCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3381,7 +3487,7 @@ public class JavaClientCodegenTest {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setValidateSpec(false)
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api"
                 ))
@@ -3411,7 +3517,7 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
@@ -3433,6 +3539,64 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void annotationLibraryDoesNotCauseImportConflicts() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "none");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
+    @Test
+    public void annotationLibraryGeneratesCorrectImports() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("annotationLibrary", "swagger2");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName(JAVA_GENERATOR)
+            .setLibrary(JavaClientCodegen.NATIVE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        File apiFile = files.get("Schema.java");
+        assertNotNull(apiFile);
+
+        JavaFileAssert.assertThat(apiFile).fileContains(
+            "import io.swagger.v3.oas.annotations.media.Schema;"
+        );
+    }
+
 
     /**
      * This checks that the async client is not affected by this fix.
@@ -3448,7 +3612,7 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JavaClientCodegen.NATIVE)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/java/native/issue13968.yaml")
@@ -3493,7 +3657,7 @@ public class JavaClientCodegenTest {
     public void testClassesAreValidJavaJersey2() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JERSEY2)
                 .setSchemaMappings(Map.of(
                         "A", "some.pkg.A",
@@ -3530,7 +3694,7 @@ public class JavaClientCodegenTest {
     public void testClassesAreValidJavaJersey3() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(JERSEY3)
                 .setSchemaMappings(Map.of(
                         "A", "some.pkg.A",
@@ -3567,7 +3731,7 @@ public class JavaClientCodegenTest {
     public void testClassesAreValidJavaOkHttpGson() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(OKHTTP_GSON)
                 .setSchemaMappings(Map.of(
                         "A", "some.pkg.A",
@@ -3614,7 +3778,7 @@ public class JavaClientCodegenTest {
         Generator generator = new DefaultGenerator();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setInputSpec("src/test/resources/3_1/issue_21051.yaml")
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setAdditionalProperties(properties)
                 .setOutputDir(output.getAbsolutePath());
         ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -3670,7 +3834,7 @@ public class JavaClientCodegenTest {
     public void testNativeClientWithUseSingleRequestParameter() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(NATIVE)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
@@ -3710,7 +3874,7 @@ public class JavaClientCodegenTest {
         Generator generator = new DefaultGenerator();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setInputSpec("src/test/resources/3_0/oneOf.yaml")
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(library.value)
                 .setAdditionalProperties(properties)
                 .setOutputDir(output.getAbsolutePath());
@@ -3770,7 +3934,7 @@ public class JavaClientCodegenTest {
     public void sealedInterfaceScenariosRestClient(String apiFile, Map<String, String> definitions) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         USE_ONE_OF_INTERFACES, "true",
@@ -3789,7 +3953,7 @@ public class JavaClientCodegenTest {
     public void sealedInterfaceScenariosWebClient(String apiFile, Map<String, String> definitions) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("java")
+                .setGeneratorName(JAVA_GENERATOR)
                 .setLibrary(WEBCLIENT)
                 .setAdditionalProperties(Map.of(
                         USE_ONE_OF_INTERFACES, "true",
@@ -3804,5 +3968,93 @@ public class JavaClientCodegenTest {
                 assertFileContains(output.resolve("src/main/java/org/openapitools/client/model/" + file), check));
         assertFileContains(output.resolve("pom.xml"), "<source>17</source>");
         assertFileNotContains(output.resolve("pom.xml"), "<source>1.8</source>");
+    }
+
+    @Test(dataProvider = "springClients")
+    public void queryParameterJsonSerialization(String library) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
+                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(null, \"json_serialized_object_ref_string_query\", jsonSerializedObjectRefStringQuery));"
+        );
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
+                "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
+                ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
+        );
+    }
+
+    @DataProvider(name = "springClients")
+    public static Object[] springClients() {
+        return new Object[]{RESTCLIENT, WEBCLIENT};
+    }
+
+    @Test(description = "test oneOf (OAS3)")
+    public void oneOfTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruit = codegen.fromModel("Fruit", schema);
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Apple");
+        oneOf.add("Banana");
+        oneOf.add("Orange");
+        Assert.assertEquals(fruit.oneOf, oneOf);
+
+        assertEquals(4, fruit.optionalVars.size());
+        assertEquals(4, fruit.vars.size());
+    }
+
+    @Test
+    public void oneOfWithInnerModelTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/oneOf_innerModel.yaml");
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("RandomAnimalsResponse_animals_inner");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel randomAnimalsResponseInner = codegen.fromModel("RandomAnimalsResponse_animals_inner", schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Mouse");
+        oneOf.add("Cat");
+        oneOf.add("Dog");
+        assertEquals(oneOf, randomAnimalsResponseInner.oneOf);
+        assertEquals(4, randomAnimalsResponseInner.vars.size());
+        // make sure that RandomAnimalsResponseInner has the property species
+        boolean speciesSeen = false;
+        for (CodegenProperty cp : randomAnimalsResponseInner.vars) {
+            if ("species".equals(cp.name)) {
+                speciesSeen = true;
+                break;
+            }
+        }
+        assertTrue(speciesSeen);
+    }
+
+    @Test
+    public void testOneOfClassWithAnnotation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT);
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isNormalClass()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithAnnotation() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneOf-with-annotations.yaml", RESTCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
 }

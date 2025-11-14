@@ -12,6 +12,12 @@ use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{apis, models};
 
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
+
 /// Setup API Server.
 pub fn new<I, A, E>(api_impl: I) -> Router
 where
@@ -74,13 +80,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("*/*").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -280,13 +280,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/json").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {
@@ -358,13 +353,8 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("application/yaml").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers
+                        .insert(CONTENT_TYPE, HeaderValue::from_static("application/yaml"));
                 }
 
                 let body_content = body;
@@ -390,6 +380,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct HtmlPostBodyValidator<'a> {
+    #[validate(custom(function = "check_xss_string"))]
     body: &'a String,
 }
 
@@ -436,13 +427,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("text/html").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("text/html"));
                 }
 
                 let body_content = body;
@@ -468,6 +453,7 @@ where
 #[derive(validator::Validate)]
 #[allow(dead_code)]
 struct PostYamlBodyValidator<'a> {
+    #[validate(custom(function = "check_xss_string"))]
     body: &'a String,
 }
 
@@ -573,13 +559,7 @@ where
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
-                    response_headers.insert(
-                        CONTENT_TYPE,
-                        HeaderValue::from_str("*/*").map_err(|e| {
-                            error!(error = ?e);
-                            StatusCode::INTERNAL_SERVER_ERROR
-                        })?,
-                    );
+                    response_headers.insert(CONTENT_TYPE, HeaderValue::from_static("*/*"));
                 }
 
                 let body_content = tokio::task::spawn_blocking(move || {

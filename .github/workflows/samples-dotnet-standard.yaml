@@ -27,8 +27,8 @@ jobs:
           - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
           # - samples/client/petstore/csharp/unityWebRequest/standard2.0/Petstore/
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4.3.1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5.0.0
         with:
           dotnet-version: 3.1.*
       - name: Build

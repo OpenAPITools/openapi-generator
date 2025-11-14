@@ -905,25 +905,25 @@ class RegisterRoutes
                         $authenticatorConfig = [
                             'path' => '/',
                             'authenticator' => new ApiKeyAuthenticator,
-                            'regex' => '/\s+(.*)$/i',
+                            'regex' => '/\s*(.*)$/i',
                             'argument' => null,
                             'attribute' => 'authorization_token',
                             'error' => ['OpenAPIServer\Auth\ApiKeyAuthenticator', 'handleUnauthorized'],
                         ];
                         if ($authMethod['isKeyInHeader']) {
-                            $authenticatorConfig = [
+                            $authenticatorConfig += [
                                 'header' => $authMethod['keyParamName'],
                                 'parameter' => null,
                                 'cookie' => null,
                             ];
                         } else if ($authMethod['isKeyInQuery']) {
-                            $authenticatorConfig = [
+                            $authenticatorConfig += [
                                 'header' => null,
                                 'parameter' => $authMethod['keyParamName'],
                                 'cookie' => null,
                             ];
                         } else if ($authMethod['isKeyInCookie']) {
-                            $authenticatorConfig = [
+                            $authenticatorConfig += [
                                 'header' => null,
                                 'parameter' => null,
                                 'cookie' => $authMethod['keyParamName'],

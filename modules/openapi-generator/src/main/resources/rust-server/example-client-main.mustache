@@ -140,24 +140,24 @@ fn main() {
   {{#apis}}
     {{#operations}}
       {{#operation}}
-        {{#vendorExtensions}}
+        {{#exts}}
           {{#x-no-client-example}}
         /* Disabled because there's no example.
           {{/x-no-client-example}}
-        {{/vendorExtensions}}
+        {{/exts}}
         Some("{{{operationId}}}") => {
-            let result = rt.block_on(client.{{{vendorExtensions.x-operation-id}}}(
+            let result = rt.block_on(client.{{{exts.x-operation-id}}}(
                 {{#allParams}}
-                  {{{vendorExtensions.x-example}}}{{^-last}},{{/-last}}
+                  {{{exts.x-example}}}{{^-last}},{{/-last}}
                 {{/allParams}}
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
-        {{#vendorExtensions}}
+        {{#exts}}
           {{#x-no-client-example}}
         */
           {{/x-no-client-example}}
-        {{/vendorExtensions}}
+        {{/exts}}
       {{/operation}}
     {{/operations}}
   {{/apis}}

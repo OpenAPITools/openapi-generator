@@ -81,12 +81,12 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The template directory holding a custom template.
      */
-    val templateDir = project.objects.property<String?>()
+    val templateDir = project.objects.property<String>()
 
     /**
      * The template location (which may be a directory or a classpath location) holding custom templates.
      */
-    val templateResourcePath = project.objects.property<String?>()
+    val templateResourcePath = project.objects.property<String>()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -109,7 +109,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies if the existing files should be overwritten during the generation.
      */
-    val skipOverwrite = project.objects.property<Boolean?>()
+    val skipOverwrite = project.objects.property<Boolean>()
 
     /**
      * Package for generated classes (where supported)
@@ -244,32 +244,32 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Reference the library template (sub-template) of a generator.
      */
-    val library = project.objects.property<String?>()
+    val library = project.objects.property<String>()
 
     /**
      * Git host, e.g. gitlab.com.
      */
-    val gitHost = project.objects.property<String?>()
+    val gitHost = project.objects.property<String>()
 
     /**
      * Git user ID, e.g. openapitools.
      */
-    val gitUserId = project.objects.property<String?>()
+    val gitUserId = project.objects.property<String>()
 
     /**
      * Git repo ID, e.g. openapi-generator.
      */
-    val gitRepoId = project.objects.property<String?>()
+    val gitRepoId = project.objects.property<String>()
 
     /**
      * Release note, default to 'Minor update'.
      */
-    val releaseNote = project.objects.property<String?>()
+    val releaseNote = project.objects.property<String>()
 
     /**
      * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
-    val httpUserAgent = project.objects.property<String?>()
+    val httpUserAgent = project.objects.property<String>()
 
     /**
      * Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
@@ -279,17 +279,17 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
-    val ignoreFileOverride = project.objects.property<String?>()
+    val ignoreFileOverride = project.objects.property<String>()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
      */
-    val removeOperationIdPrefix = project.objects.property<Boolean?>()
+    val removeOperationIdPrefix = project.objects.property<Boolean>()
 
     /**
      * Skip examples defined in the operation
      */
-    val skipOperationExample = project.objects.property<Boolean?>()
+    val skipOperationExample = project.objects.property<Boolean>()
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -394,7 +394,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Templating engine: "mustache" (default) or "handlebars" (beta)
      */
-    val engine = project.objects.property<String?>()
+    val engine = project.objects.property<String>()
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.

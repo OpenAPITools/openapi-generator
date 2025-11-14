@@ -16,6 +16,7 @@ modules/openapi-generator-gradle-plugin/bin/
 .classpath
 lib/*
 build/*
+.kotlin
 generated-files/*
 generated-sources/*
 generated-code/*
@@ -47,6 +48,8 @@ nb-configuration.xml
 *.pm~
 *.xml~
 *.t~
+
+**/.angular
 
 /target
 /generated-files
@@ -91,6 +94,12 @@ samples/client/petstore/cpp-restsdk/client/Makefile
 samples/client/petstore/cpp-restsdk/client/cmake_install.cmake
 samples/client/petstore/cpp-restsdk/client/CppRestPetstoreClientConfig.cmake
 samples/client/petstore/cpp-restsdk/client/CMakeCache.txt
+
+# cpp-oatpp
+samples/client/petstore/cpp-oatpp/build
+samples/client/petstore/cpp-oatpp/external
+samples/server/petstore/cpp-oatpp/build
+samples/server/petstore/cpp-oatpp/external
 
 #Java/Android
 **/.gradle
@@ -290,6 +299,9 @@ samples/openapi3/client/petstore/go/privatekey.pem
 
 ## OCaml
 samples/client/petstore/ocaml/_build/
+samples/client/petstore/ocaml-fake-petstore/_build/
+samples/client/petstore/ocaml-oneOf-primitive/_build/
+samples/client/petstore/ocaml-additional-properties/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

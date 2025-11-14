@@ -146,11 +146,14 @@ components:
     allOfObject:
       allOf:
       - $ref: "#/components/schemas/baseAllOf"
+      - properties:
+          sampleProperty:
+            type: string
+        type: object
+        example: null
       example:
         sampleProperty: sampleProperty
-      properties:
-        sampleProperty:
-          type: string
+        sampleBaseProperty: sampleBaseProperty
     baseAllOf:
       properties:
         sampleBaseProperty:

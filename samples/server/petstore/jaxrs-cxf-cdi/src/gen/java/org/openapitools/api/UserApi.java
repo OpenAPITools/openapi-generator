@@ -24,10 +24,10 @@ import javax.validation.Valid;
 @Path("/user")
 @RequestScoped
 
-@Api(description = "the user API")
+@Api
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.15.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 
 public class UserApi  {
 

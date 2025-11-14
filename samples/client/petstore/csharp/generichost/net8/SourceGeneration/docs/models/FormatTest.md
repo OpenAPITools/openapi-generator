@@ -13,6 +13,8 @@ Name | Type | Description | Notes
 **DateTime** | **DateTime** |  | [optional] 
 **Decimal** | **decimal** |  | [optional] 
 **Double** | **double** |  | [optional] 
+**DuplicatePropertyName2** | **string** |  | [optional] 
+**DuplicatePropertyName** | **string** |  | [optional] 
 **Float** | **float** |  | [optional] 
 **Int32** | **int** |  | [optional] 
 **Int32Range** | **int** |  | [optional] 

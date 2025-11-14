@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -42,7 +43,7 @@ public class ModelList  {
    * Get _123list
    * @return _123list
    **/
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String get123list() {
     return _123list;
@@ -51,7 +52,7 @@ public class ModelList  {
   /**
    * Set _123list
    */
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set123list(String _123list) {
     this._123list = _123list;

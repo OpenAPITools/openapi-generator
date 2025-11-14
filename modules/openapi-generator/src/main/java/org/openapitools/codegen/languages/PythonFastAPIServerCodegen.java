@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -88,6 +89,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     public PythonFastAPIServerCodegen() {
         super();
+
+        // Skip sorting of operations to preserve the order found in the OpenAPI spec file.  See 
+        // https://fastapi.tiangolo.com/tutorial/path-params/?h=path#order-matters for details on why order matters.
+        LOGGER.info("Skipping sorting of path operations, order matters, let the developer decide via their specification file.");
+        setSkipSortingOperations(true);
 
         modifyFeatureSet(features -> features.includeSecurityFeatures(
                 SecurityFeature.OAuth2_AuthorizationCode,
@@ -198,7 +204,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String toModelImport(String name) {
         String modelImport;
-        if (StringUtils.startsWithAny(name, "import", "from")) {
+        if (Strings.CS.startsWithAny(name, "import", "from")) {
             modelImport = name;
         } else {
             modelImport = "from ";

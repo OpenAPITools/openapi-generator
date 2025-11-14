@@ -612,6 +612,19 @@ paths:
         - api_key_query: []
       requestBody:
         $ref: '#/components/requestBodies/Client'
+  /redirectOrDefault:
+    get:
+      operationId: redirectOrDefault
+      responses:
+        '301':
+          description: redirect
+          # response that does not provide any content
+        default:
+          description: default
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bar'
   /fake:
     patch:
       tags:
@@ -1780,6 +1793,10 @@ components:
         string_formatted_as_decimal_required:
           format: decimal
           type: string
+        duplicate_property_name:
+          type: string
+        '@duplicate_property_name':
+          type: string
     EnumClass:
       type: string
       default: '-efg'
@@ -2918,6 +2935,16 @@ components:
           description: list of named parameters for current message
           additionalProperties:
             type: string
+    ListAlias:
+      type: array
+      items:
+        type: string
+    DeepListAlias:
+      type: array
+      items:
+        type: array
+        items:
+          type: string
     TestResult:
       type: object
       allOf:

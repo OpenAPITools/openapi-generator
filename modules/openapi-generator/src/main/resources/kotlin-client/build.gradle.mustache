@@ -3,34 +3,34 @@ version '{{artifactVersion}}'
 {{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '8.7'
+    gradleVersion = '8.14.3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.9.23'
+    ext.kotlin_version = '2.2.20'
     {{#jvm-ktor}}
-    ext.ktor_version = '2.3.9'
+    ext.ktor_version = '3.2.3'
     {{/jvm-ktor}}
     {{#jvm-retrofit2}}
-    ext.retrofitVersion = '2.10.0'
+    ext.retrofitVersion = '3.0.0'
     {{/jvm-retrofit2}}
     {{#useRxJava3}}
-    ext.rxJava3Version = '3.1.8'
+    ext.rxJava3Version = '3.1.11'
     {{/useRxJava3}}
     {{#jvm-vertx}}
-    ext.vertx_version = "4.5.6"
+    ext.vertx_version = "5.0.4"
     {{/jvm-vertx}}
     {{#jvm-spring}}
     {{#useSpringBoot3}}
-    ext.spring_boot_version = "3.2.5"
+    ext.spring_boot_version = "3.5.5"
     {{/useSpringBoot3}}
     {{^useSpringBoot3}}
     ext.spring_boot_version = "2.7.18"
     {{/useSpringBoot3}}
     {{/jvm-spring}}
-    ext.spotless_version = "6.25.0"
+    ext.spotless_version = "7.2.1"
 
     repositories {
         maven { url "https://repo1.maven.org/maven2" }
@@ -41,12 +41,15 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         {{/kotlinx_serialization}}
         classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
+        {{#moshiCodeGen}}
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:2.2.20-2.0.3"
+        {{/moshiCodeGen}}
     }
 }
 
 apply plugin: 'kotlin'
 {{#moshiCodeGen}}
-apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.devtools.ksp'
 {{/moshiCodeGen}}
 {{#parcelizeModels}}
 apply plugin: 'kotlin-parcelize'
@@ -118,35 +121,46 @@ kotlin {
     }
 }
 {{/jvm-spring-restclient}}
+{{#kotlinx-datetime}}
+kotlin {
+    sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlin.time.ExperimentalTime")
+            }
+        }
+    }
+}
+{{/kotlinx-datetime}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
     {{#useCoroutines}}
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
     {{/useCoroutines}}
     {{/doNotUseRxAndCoroutines}}
     {{#moshi}}
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.15.1"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.1"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.2"
+    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
-    implementation "com.squareup.moshi:moshi:1.15.1"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.1"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.15.1"
+    implementation "com.squareup.moshi:moshi:1.15.2"
+    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:1.15.2"
     {{/moshiCodeGen}}
     {{/moshi}}
     {{#gson}}
-    implementation "com.google.code.gson:gson:2.10.1"
+    implementation "com.google.code.gson:gson:2.13.2"
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
     {{/jackson}}
     {{#kotlinx_serialization}}
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
     {{/kotlinx_serialization}}
     {{#jvm-ktor}}
     implementation "io.ktor:ktor-client-core:$ktor_version"
@@ -161,29 +175,29 @@ dependencies {
     {{/jackson}}
     {{/jvm-ktor}}
     {{#jvm-okhttp4}}
-    implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.squareup.okhttp3:okhttp:5.1.0"
     {{/jvm-okhttp4}}
     {{#jvm-spring-webclient}}
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
-    implementation "io.projectreactor:reactor-core:3.6.5"
+    implementation "io.projectreactor:reactor-core:3.7.11"
     {{/jvm-spring-webclient}}
     {{#jvm-spring-restclient}}
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     {{/jvm-spring-restclient}}
     {{#threetenbp}}
-    implementation "org.threeten:threetenbp:1.6.8"
+    implementation "org.threeten:threetenbp:1.7.2"
     {{/threetenbp}}
     {{#kotlinx-datetime}}
-    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1"
     {{/kotlinx-datetime}}
     {{#jvm-retrofit2}}
     {{#hasOAuthMethods}}
     implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
     {{/hasOAuthMethods}}
-    implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:5.1.0"
     {{#useRxJava3}}
     implementation "io.reactivex.rxjava3:rxjava:$rxJava3Version"
-    implementation "com.squareup.retrofit2:adapter-rxjava3:2.10.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
     {{/useRxJava3}}
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     {{#gson}}

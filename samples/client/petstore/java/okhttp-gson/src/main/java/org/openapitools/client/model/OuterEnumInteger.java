@@ -14,9 +14,11 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
+import java.util.Locale;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -26,6 +28,7 @@ import com.google.gson.stream.JsonWriter;
 /**
  * Gets or Sets OuterEnumInteger
  */
+@Deprecated
 @JsonAdapter(OuterEnumInteger.Adapter.class)
 public enum OuterEnumInteger {
   

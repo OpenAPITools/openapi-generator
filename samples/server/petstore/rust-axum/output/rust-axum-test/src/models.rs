@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -216,7 +223,7 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<FooANullable
 /// An additionalPropertiesObject
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct FooAdditionalPropertiesObject(std::collections::HashMap<String, String>);
+pub struct FooAdditionalPropertiesObject(pub std::collections::HashMap<String, String>);
 
 impl validator::Validate for FooAdditionalPropertiesObject {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
@@ -279,23 +286,23 @@ impl ::std::str::FromStr for FooAdditionalPropertiesObject {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FooAllOfObject {
-    #[serde(rename = "sampleProperty")]
-    #[validate(custom(function = "check_xss_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub sample_property: Option<String>,
-
     #[serde(rename = "sampleBaseProperty")]
     #[validate(custom(function = "check_xss_string"))]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sample_base_property: Option<String>,
+
+    #[serde(rename = "sampleProperty")]
+    #[validate(custom(function = "check_xss_string"))]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sample_property: Option<String>,
 }
 
 impl FooAllOfObject {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new() -> FooAllOfObject {
         FooAllOfObject {
-            sample_property: None,
             sample_base_property: None,
+            sample_property: None,
         }
     }
 }
@@ -306,9 +313,6 @@ impl FooAllOfObject {
 impl std::fmt::Display for FooAllOfObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
-            self.sample_property.as_ref().map(|sample_property| {
-                ["sampleProperty".to_string(), sample_property.to_string()].join(",")
-            }),
             self.sample_base_property
                 .as_ref()
                 .map(|sample_base_property| {
@@ -318,6 +322,9 @@ impl std::fmt::Display for FooAllOfObject {
                     ]
                     .join(",")
                 }),
+            self.sample_property.as_ref().map(|sample_property| {
+                ["sampleProperty".to_string(), sample_property.to_string()].join(",")
+            }),
         ];
 
         write!(
@@ -339,8 +346,8 @@ impl std::str::FromStr for FooAllOfObject {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub sample_property: Vec<String>,
             pub sample_base_property: Vec<String>,
+            pub sample_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -363,11 +370,11 @@ impl std::str::FromStr for FooAllOfObject {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "sampleProperty" => intermediate_rep.sample_property.push(
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     #[allow(clippy::redundant_clone)]
-                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(
+                    "sampleProperty" => intermediate_rep.sample_property.push(
                         <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
                     _ => {
@@ -384,8 +391,8 @@ impl std::str::FromStr for FooAllOfObject {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(FooAllOfObject {
-            sample_property: intermediate_rep.sample_property.into_iter().next(),
             sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
+            sample_property: intermediate_rep.sample_property.into_iter().next(),
         })
     }
 }

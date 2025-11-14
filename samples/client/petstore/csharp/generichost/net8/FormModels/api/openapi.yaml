@@ -639,6 +639,18 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
+  /redirectOrDefault:
+    get:
+      operationId: redirectOrDefault
+      responses:
+        "301":
+          description: redirect
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bar"
+          description: default
   /fake:
     delete:
       description: Fake endpoint to test group parameters (optional)
@@ -1673,6 +1685,10 @@ components:
         string_formatted_as_decimal_required:
           format: decimal
           type: string
+        duplicate_property_name:
+          type: string
+        '@duplicate_property_name':
+          type: string
       required:
       - byte
       - date
@@ -2635,17 +2651,18 @@ components:
     CopyActivity:
       allOf:
       - $ref: "#/components/schemas/EntityBase"
-      properties:
-        $schema:
-          enum:
-          - ScopeActivity
-          type: string
-        copyActivitytt:
-          type: string
-      required:
-      - $schema
-      - copyActivitytt
+      - properties:
+          $schema:
+            $ref: "#/components/schemas/CopyActivity_allOf__schema"
+          copyActivitytt:
+            type: string
+        required:
+        - $schema
+        - copyActivitytt
+        type: object
+        example: null
       type: object
+      example: null
     EntityBase:
       discriminator:
         mapping:
@@ -2671,13 +2688,26 @@ components:
           description: list of named parameters for current message
           type: object
       type: object
+    ListAlias:
+      items:
+        type: string
+      type: array
+    DeepListAlias:
+      items:
+        items:
+          type: string
+        type: array
+      type: array
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"
-      properties:
-        code:
-          $ref: "#/components/schemas/TestResultCode"
+      - properties:
+          code:
+            $ref: "#/components/schemas/TestResultCode"
+        type: object
+        example: null
       type: object
+      example: null
     TestResultCode:
       description: Result code
       enum:
@@ -3028,6 +3058,10 @@ components:
       enum:
       - Descendant1
       - Descendant2
+      type: string
+    CopyActivity_allOf__schema:
+      enum:
+      - ScopeActivity
       type: string
   securitySchemes:
     petstore_auth:

@@ -23,66 +23,25 @@ import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- * 
- * @export
- * @interface Bird
- */
 export interface Bird {
-    /**
-     * 
-     * @type {string}
-     * @memberof Bird
-     */
     'size'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Bird
-     */
     'color'?: string;
 }
-/**
- * 
- * @export
- * @interface Category
- */
 export interface Category {
-    /**
-     * 
-     * @type {number}
-     * @memberof Category
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Category
-     */
     'name'?: string;
 }
-/**
- * 
- * @export
- * @interface DataQuery
- */
 export interface DataQuery extends Query {
     /**
      * test suffix
-     * @type {string}
-     * @memberof DataQuery
      */
     'suffix'?: string;
     /**
      * Some text containing white spaces
-     * @type {string}
-     * @memberof DataQuery
      */
     'text'?: string;
     /**
      * A date
-     * @type {string}
-     * @memberof DataQuery
      */
     'date'?: string;
 }
@@ -90,57 +49,15 @@ export interface DataQuery extends Query {
 
 /**
  * to test the default value of properties
- * @export
- * @interface DefaultValue
  */
 export interface DefaultValue {
-    /**
-     * 
-     * @type {Array<StringEnumRef>}
-     * @memberof DefaultValue
-     */
     'array_string_enum_ref_default'?: Array<StringEnumRef>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof DefaultValue
-     */
     'array_string_enum_default'?: Array<DefaultValueArrayStringEnumDefaultEnum>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof DefaultValue
-     */
     'array_string_default'?: Array<string>;
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof DefaultValue
-     */
     'array_integer_default'?: Array<number>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof DefaultValue
-     */
     'array_string'?: Array<string>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof DefaultValue
-     */
     'array_string_nullable'?: Array<string> | null;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof DefaultValue
-     */
     'array_string_extension_nullable'?: Array<string> | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof DefaultValue
-     */
     'string_nullable'?: string | null;
 }
 
@@ -152,71 +69,19 @@ export const DefaultValueArrayStringEnumDefaultEnum = {
 
 export type DefaultValueArrayStringEnumDefaultEnum = typeof DefaultValueArrayStringEnumDefaultEnum[keyof typeof DefaultValueArrayStringEnumDefaultEnum];
 
-/**
- * 
- * @export
- * @interface NumberPropertiesOnly
- */
 export interface NumberPropertiesOnly {
-    /**
-     * 
-     * @type {number}
-     * @memberof NumberPropertiesOnly
-     */
     'number'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof NumberPropertiesOnly
-     */
     'float'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof NumberPropertiesOnly
-     */
     'double'?: number;
 }
-/**
- * 
- * @export
- * @interface Pet
- */
 export interface Pet {
-    /**
-     * 
-     * @type {number}
-     * @memberof Pet
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Pet
-     */
     'name': string;
-    /**
-     * 
-     * @type {Category}
-     * @memberof Pet
-     */
     'category'?: Category;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Pet
-     */
     'photoUrls': Array<string>;
-    /**
-     * 
-     * @type {Array<Tag>}
-     * @memberof Pet
-     */
     'tags'?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
-     * @memberof Pet
      */
     'status'?: PetStatusEnum;
 }
@@ -229,23 +94,11 @@ export const PetStatusEnum = {
 
 export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
 
-/**
- * 
- * @export
- * @interface Query
- */
 export interface Query {
     /**
      * Query
-     * @type {number}
-     * @memberof Query
      */
     'id'?: number;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof Query
-     */
     'outcomes'?: Array<QueryOutcomesEnum>;
 }
 
@@ -257,11 +110,6 @@ export const QueryOutcomesEnum = {
 
 export type QueryOutcomesEnum = typeof QueryOutcomesEnum[keyof typeof QueryOutcomesEnum];
 
-/**
- * 
- * @export
- * @enum {string}
- */
 
 export const StringEnumRef = {
     Success: 'success',
@@ -272,86 +120,25 @@ export const StringEnumRef = {
 export type StringEnumRef = typeof StringEnumRef[keyof typeof StringEnumRef];
 
 
-/**
- * 
- * @export
- * @interface Tag
- */
 export interface Tag {
-    /**
-     * 
-     * @type {number}
-     * @memberof Tag
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Tag
-     */
     'name'?: string;
 }
-/**
- * 
- * @export
- * @interface TestFormObjectMultipartRequestMarker
- */
 export interface TestFormObjectMultipartRequestMarker {
-    /**
-     * 
-     * @type {string}
-     * @memberof TestFormObjectMultipartRequestMarker
-     */
     'name'?: string;
 }
-/**
- * 
- * @export
- * @interface TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
- */
 export interface TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
-    /**
-     * 
-     * @type {string}
-     * @memberof TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-     */
     'size'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-     */
     'color'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-     */
     'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-     */
     'name'?: string;
 }
-/**
- * 
- * @export
- * @interface TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
- */
 export interface TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-     */
     'values'?: Array<string>;
 }
 
 /**
  * AuthApi - axios parameter creator
- * @export
  */
 export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -428,7 +215,6 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * AuthApi - functional programming interface
- * @export
  */
 export const AuthApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
@@ -462,7 +248,6 @@ export const AuthApiFp = function(configuration?: Configuration) {
 
 /**
  * AuthApi - factory interface
- * @export
  */
 export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AuthApiFp(configuration)
@@ -490,9 +275,6 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * AuthApi - object-oriented interface
- * @export
- * @class AuthApi
- * @extends {BaseAPI}
  */
 export class AuthApi extends BaseAPI {
     /**
@@ -500,7 +282,6 @@ export class AuthApi extends BaseAPI {
      * @summary To test HTTP basic authentication
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
      */
     public testAuthHttpBasic(options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).testAuthHttpBasic(options).then((request) => request(this.axios, this.basePath));
@@ -511,7 +292,6 @@ export class AuthApi extends BaseAPI {
      * @summary To test HTTP bearer authentication
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
      */
     public testAuthHttpBearer(options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).testAuthHttpBearer(options).then((request) => request(this.axios, this.basePath));
@@ -522,7 +302,6 @@ export class AuthApi extends BaseAPI {
 
 /**
  * BodyApi - axios parameter creator
- * @export
  */
 export const BodyApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -881,7 +660,6 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * BodyApi - functional programming interface
- * @export
  */
 export const BodyApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = BodyApiAxiosParamCreator(configuration)
@@ -1020,7 +798,6 @@ export const BodyApiFp = function(configuration?: Configuration) {
 
 /**
  * BodyApi - factory interface
- * @export
  */
 export const BodyApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = BodyApiFp(configuration)
@@ -1129,9 +906,6 @@ export const BodyApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * BodyApi - object-oriented interface
- * @export
- * @class BodyApi
- * @extends {BaseAPI}
  */
 export class BodyApi extends BaseAPI {
     /**
@@ -1139,7 +913,6 @@ export class BodyApi extends BaseAPI {
      * @summary Test binary (gif) response body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testBinaryGif(options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBinaryGif(options).then((request) => request(this.axios, this.basePath));
@@ -1151,7 +924,6 @@ export class BodyApi extends BaseAPI {
      * @param {File} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testBodyApplicationOctetstreamBinary(body?: File, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBodyApplicationOctetstreamBinary(body, options).then((request) => request(this.axios, this.basePath));
@@ -1163,7 +935,6 @@ export class BodyApi extends BaseAPI {
      * @param {Array<File>} files 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testBodyMultipartFormdataArrayOfBinary(files: Array<File>, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBodyMultipartFormdataArrayOfBinary(files, options).then((request) => request(this.axios, this.basePath));
@@ -1175,7 +946,6 @@ export class BodyApi extends BaseAPI {
      * @param {File} [myFile] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testBodyMultipartFormdataSingleBinary(myFile?: File, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBodyMultipartFormdataSingleBinary(myFile, options).then((request) => request(this.axios, this.basePath));
@@ -1187,7 +957,6 @@ export class BodyApi extends BaseAPI {
      * @param {Pet} [pet] Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyAllOfPet(pet?: Pet, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyAllOfPet(pet, options).then((request) => request(this.axios, this.basePath));
@@ -1199,7 +968,6 @@ export class BodyApi extends BaseAPI {
      * @param {object} [body] Free form object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyFreeFormObjectResponseString(body?: object, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyFreeFormObjectResponseString(body, options).then((request) => request(this.axios, this.basePath));
@@ -1211,7 +979,6 @@ export class BodyApi extends BaseAPI {
      * @param {Pet} [pet] Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyPet(pet?: Pet, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyPet(pet, options).then((request) => request(this.axios, this.basePath));
@@ -1223,7 +990,6 @@ export class BodyApi extends BaseAPI {
      * @param {Pet} [pet] Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyPetResponseString(pet?: Pet, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyPetResponseString(pet, options).then((request) => request(this.axios, this.basePath));
@@ -1235,7 +1001,6 @@ export class BodyApi extends BaseAPI {
      * @param {string} [body] String enum
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyStringEnum(body, options).then((request) => request(this.axios, this.basePath));
@@ -1247,7 +1012,6 @@ export class BodyApi extends BaseAPI {
      * @param {Tag} [tag] Tag object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BodyApi
      */
     public testEchoBodyTagResponseString(tag?: Tag, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyTagResponseString(tag, options).then((request) => request(this.axios, this.basePath));
@@ -1258,7 +1022,6 @@ export class BodyApi extends BaseAPI {
 
 /**
  * FormApi - axios parameter creator
- * @export
  */
 export const FormApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1421,7 +1184,6 @@ export const FormApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * FormApi - functional programming interface
- * @export
  */
 export const FormApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FormApiAxiosParamCreator(configuration)
@@ -1477,7 +1239,6 @@ export const FormApiFp = function(configuration?: Configuration) {
 
 /**
  * FormApi - factory interface
- * @export
  */
 export const FormApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = FormApiFp(configuration)
@@ -1524,9 +1285,6 @@ export const FormApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * FormApi - object-oriented interface
- * @export
- * @class FormApi
- * @extends {BaseAPI}
  */
 export class FormApi extends BaseAPI {
     /**
@@ -1537,7 +1295,6 @@ export class FormApi extends BaseAPI {
      * @param {string} [stringForm] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FormApi
      */
     public testFormIntegerBooleanString(integerForm?: number, booleanForm?: boolean, stringForm?: string, options?: RawAxiosRequestConfig) {
         return FormApiFp(this.configuration).testFormIntegerBooleanString(integerForm, booleanForm, stringForm, options).then((request) => request(this.axios, this.basePath));
@@ -1549,7 +1306,6 @@ export class FormApi extends BaseAPI {
      * @param {TestFormObjectMultipartRequestMarker} marker 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FormApi
      */
     public testFormObjectMultipart(marker: TestFormObjectMultipartRequestMarker, options?: RawAxiosRequestConfig) {
         return FormApiFp(this.configuration).testFormObjectMultipart(marker, options).then((request) => request(this.axios, this.basePath));
@@ -1566,7 +1322,6 @@ export class FormApi extends BaseAPI {
      * @param {string} [name] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof FormApi
      */
     public testFormOneof(form1?: string, form2?: number, form3?: string, form4?: boolean, id?: number, name?: string, options?: RawAxiosRequestConfig) {
         return FormApiFp(this.configuration).testFormOneof(form1, form2, form3, form4, id, name, options).then((request) => request(this.axios, this.basePath));
@@ -1577,7 +1332,6 @@ export class FormApi extends BaseAPI {
 
 /**
  * HeaderApi - axios parameter creator
- * @export
  */
 export const HeaderApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1642,7 +1396,6 @@ export const HeaderApiAxiosParamCreator = function (configuration?: Configuratio
 
 /**
  * HeaderApi - functional programming interface
- * @export
  */
 export const HeaderApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = HeaderApiAxiosParamCreator(configuration)
@@ -1669,7 +1422,6 @@ export const HeaderApiFp = function(configuration?: Configuration) {
 
 /**
  * HeaderApi - factory interface
- * @export
  */
 export const HeaderApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = HeaderApiFp(configuration)
@@ -1693,9 +1445,6 @@ export const HeaderApiFactory = function (configuration?: Configuration, basePat
 
 /**
  * HeaderApi - object-oriented interface
- * @export
- * @class HeaderApi
- * @extends {BaseAPI}
  */
 export class HeaderApi extends BaseAPI {
     /**
@@ -1708,16 +1457,12 @@ export class HeaderApi extends BaseAPI {
      * @param {StringEnumRef} [enumRefStringHeader] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof HeaderApi
      */
     public testHeaderIntegerBooleanStringEnums(integerHeader?: number, booleanHeader?: boolean, stringHeader?: string, enumNonrefStringHeader?: TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum, enumRefStringHeader?: StringEnumRef, options?: RawAxiosRequestConfig) {
         return HeaderApiFp(this.configuration).testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-/**
- * @export
- */
 export const TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = {
     Success: 'success',
     Failure: 'failure',
@@ -1728,7 +1473,6 @@ export type TestHeaderIntegerBooleanStringEnumsEnumNonrefStringHeaderEnum = type
 
 /**
  * PathApi - axios parameter creator
- * @export
  */
 export const PathApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -1783,7 +1527,6 @@ export const PathApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * PathApi - functional programming interface
- * @export
  */
 export const PathApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = PathApiAxiosParamCreator(configuration)
@@ -1809,7 +1552,6 @@ export const PathApiFp = function(configuration?: Configuration) {
 
 /**
  * PathApi - factory interface
- * @export
  */
 export const PathApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = PathApiFp(configuration)
@@ -1832,9 +1574,6 @@ export const PathApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * PathApi - object-oriented interface
- * @export
- * @class PathApi
- * @extends {BaseAPI}
  */
 export class PathApi extends BaseAPI {
     /**
@@ -1846,16 +1585,12 @@ export class PathApi extends BaseAPI {
      * @param {StringEnumRef} enumRefStringPath 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof PathApi
      */
     public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: RawAxiosRequestConfig) {
         return PathApiFp(this.configuration).testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-/**
- * @export
- */
 export const TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = {
     Success: 'success',
     Failure: 'failure',
@@ -1866,7 +1601,6 @@ export type TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumR
 
 /**
  * QueryApi - axios parameter creator
- * @export
  */
 export const QueryApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
@@ -2259,12 +1993,51 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Pet} [jsonSerializedObjectRefStringQuery] 
+         * @param {Array<Pet>} [jsonSerializedObjectArrayRefStringQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleJsonSerializationObject: async (jsonSerializedObjectRefStringQuery?: Pet, jsonSerializedObjectArrayRefStringQuery?: Array<Pet>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/query/style_jsonSerialization/object`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (jsonSerializedObjectRefStringQuery !== undefined) {
+                localVarQueryParameter['json_serialized_object_ref_string_query'] = jsonSerializedObjectRefStringQuery;
+            }
+
+            if (jsonSerializedObjectArrayRefStringQuery) {
+                localVarQueryParameter['json_serialized_object_array_ref_string_query'] = jsonSerializedObjectArrayRefStringQuery.join(COLLECTION_FORMATS.csv);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
 /**
  * QueryApi - functional programming interface
- * @export
  */
 export const QueryApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = QueryApiAxiosParamCreator(configuration)
@@ -2404,12 +2177,25 @@ export const QueryApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['QueryApi.testQueryStyleFormExplodeTrueObjectAllOf']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Pet} [jsonSerializedObjectRefStringQuery] 
+         * @param {Array<Pet>} [jsonSerializedObjectArrayRefStringQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery?: Pet, jsonSerializedObjectArrayRefStringQuery?: Array<Pet>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QueryApi.testQueryStyleJsonSerializationObject']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
 /**
  * QueryApi - factory interface
- * @export
  */
 export const QueryApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = QueryApiFp(configuration)
@@ -2519,14 +2305,22 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
         testQueryStyleFormExplodeTrueObjectAllOf(queryObject?: DataQuery, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.testQueryStyleFormExplodeTrueObjectAllOf(queryObject, options).then((request) => request(axios, basePath));
         },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Pet} [jsonSerializedObjectRefStringQuery] 
+         * @param {Array<Pet>} [jsonSerializedObjectArrayRefStringQuery] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery?: Pet, jsonSerializedObjectArrayRefStringQuery?: Array<Pet>, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
 /**
  * QueryApi - object-oriented interface
- * @export
- * @class QueryApi
- * @extends {BaseAPI}
  */
 export class QueryApi extends BaseAPI {
     /**
@@ -2536,7 +2330,6 @@ export class QueryApi extends BaseAPI {
      * @param {StringEnumRef} [enumRefStringQuery] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testEnumRefString(enumNonrefStringQuery?: TestEnumRefStringEnumNonrefStringQueryEnum, enumRefStringQuery?: StringEnumRef, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testEnumRefString(enumNonrefStringQuery, enumRefStringQuery, options).then((request) => request(this.axios, this.basePath));
@@ -2550,7 +2343,6 @@ export class QueryApi extends BaseAPI {
      * @param {string} [stringQuery] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryDatetimeDateString(datetimeQuery?: string, dateQuery?: string, stringQuery?: string, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryDatetimeDateString(datetimeQuery, dateQuery, stringQuery, options).then((request) => request(this.axios, this.basePath));
@@ -2564,7 +2356,6 @@ export class QueryApi extends BaseAPI {
      * @param {string} [stringQuery] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryIntegerBooleanString(integerQuery?: number, booleanQuery?: boolean, stringQuery?: string, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryIntegerBooleanString(integerQuery, booleanQuery, stringQuery, options).then((request) => request(this.axios, this.basePath));
@@ -2576,7 +2367,6 @@ export class QueryApi extends BaseAPI {
      * @param {Pet} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleDeepObjectExplodeTrueObject(queryObject?: Pet, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleDeepObjectExplodeTrueObject(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2588,7 +2378,6 @@ export class QueryApi extends BaseAPI {
      * @param {TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject?: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2600,7 +2389,6 @@ export class QueryApi extends BaseAPI {
      * @param {Array<number>} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleFormExplodeFalseArrayInteger(queryObject?: Array<number>, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleFormExplodeFalseArrayInteger(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2612,7 +2400,6 @@ export class QueryApi extends BaseAPI {
      * @param {Array<string>} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleFormExplodeFalseArrayString(queryObject?: Array<string>, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleFormExplodeFalseArrayString(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2624,7 +2411,6 @@ export class QueryApi extends BaseAPI {
      * @param {TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleFormExplodeTrueArrayString(queryObject?: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleFormExplodeTrueArrayString(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2636,7 +2422,6 @@ export class QueryApi extends BaseAPI {
      * @param {Pet} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleFormExplodeTrueObject(queryObject?: Pet, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleFormExplodeTrueObject(queryObject, options).then((request) => request(this.axios, this.basePath));
@@ -2648,16 +2433,24 @@ export class QueryApi extends BaseAPI {
      * @param {DataQuery} [queryObject] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof QueryApi
      */
     public testQueryStyleFormExplodeTrueObjectAllOf(queryObject?: DataQuery, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleFormExplodeTrueObjectAllOf(queryObject, options).then((request) => request(this.axios, this.basePath));
     }
+
+    /**
+     * Test query parameter(s)
+     * @summary Test query parameter(s)
+     * @param {Pet} [jsonSerializedObjectRefStringQuery] 
+     * @param {Array<Pet>} [jsonSerializedObjectArrayRefStringQuery] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery?: Pet, jsonSerializedObjectArrayRefStringQuery?: Array<Pet>, options?: RawAxiosRequestConfig) {
+        return QueryApiFp(this.configuration).testQueryStyleJsonSerializationObject(jsonSerializedObjectRefStringQuery, jsonSerializedObjectArrayRefStringQuery, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
-/**
- * @export
- */
 export const TestEnumRefStringEnumNonrefStringQueryEnum = {
     Success: 'success',
     Failure: 'failure',

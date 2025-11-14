@@ -8,6 +8,13 @@ use crate::header;
 use crate::{models, types::*};
 
 #[allow(dead_code)]
+fn from_validation_error(e: validator::ValidationError) -> validator::ValidationErrors {
+    let mut errs = validator::ValidationErrors::new();
+    errs.add("na", e);
+    errs
+}
+
+#[allow(dead_code)]
 pub fn check_xss_string(v: &str) -> std::result::Result<(), validator::ValidationError> {
     if ammonia::is_html(v) {
         std::result::Result::Err(validator::ValidationError::new("xss detected"))
@@ -91,8 +98,11 @@ impl Goodbye {
 
 impl Goodbye {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new(op: String, d: models::GoodbyeD) -> Goodbye {
-        Goodbye { op, d }
+    pub fn new(d: models::GoodbyeD) -> Goodbye {
+        Goodbye {
+            op: Self::_name_for_op(),
+            d,
+        }
     }
 }
 
@@ -394,7 +404,7 @@ impl Greeting {
     pub fn new(d: models::GreetingD) -> Greeting {
         Greeting {
             d,
-            op: r#"Greeting"#.to_string(),
+            op: Self::_name_for_op(),
         }
     }
 }
@@ -698,7 +708,7 @@ impl Hello {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
     pub fn new(d: models::HelloD) -> Hello {
         Hello {
-            op: r#"Hello"#.to_string(),
+            op: Self::_name_for_op(),
             d,
         }
     }
@@ -971,57 +981,29 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<HelloD> {
 
 #[derive(Debug, Clone, PartialEq, serde::Deserialize)]
 #[serde(tag = "op")]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum Message {
-    Hello(Box<models::Hello>),
-    Greeting(Box<models::Greeting>),
-    Goodbye(Box<models::Goodbye>),
-    SomethingCompletelyDifferent(Box<models::SomethingCompletelyDifferent>),
+    #[serde(alias = "Hello")]
+    Hello(models::Hello),
+    #[serde(alias = "Greeting")]
+    Greeting(models::Greeting),
+    #[serde(alias = "Goodbye")]
+    Goodbye(models::Goodbye),
+    #[serde(alias = "SomethingCompletelyDifferent")]
+    SomethingCompletelyDifferent(models::SomethingCompletelyDifferent),
+    #[serde(alias = "yo")]
+    YoMessage(models::YoMessage),
 }
 
 impl validator::Validate for Message {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
-            Self::Hello(x) => x.validate(),
-            Self::Greeting(x) => x.validate(),
-            Self::Goodbye(x) => x.validate(),
-            Self::SomethingCompletelyDifferent(x) => x.validate(),
+            Self::Hello(v) => v.validate(),
+            Self::Greeting(v) => v.validate(),
+            Self::Goodbye(v) => v.validate(),
+            Self::SomethingCompletelyDifferent(v) => v.validate(),
+            Self::YoMessage(v) => v.validate(),
         }
-    }
-}
-
-impl serde::Serialize for Message {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        match self {
-            Self::Hello(x) => x.serialize(serializer),
-            Self::Greeting(x) => x.serialize(serializer),
-            Self::Goodbye(x) => x.serialize(serializer),
-            Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
-        }
-    }
-}
-
-impl From<models::Hello> for Message {
-    fn from(value: models::Hello) -> Self {
-        Self::Hello(Box::new(value))
-    }
-}
-impl From<models::Greeting> for Message {
-    fn from(value: models::Greeting) -> Self {
-        Self::Greeting(Box::new(value))
-    }
-}
-impl From<models::Goodbye> for Message {
-    fn from(value: models::Goodbye) -> Self {
-        Self::Goodbye(Box::new(value))
-    }
-}
-impl From<models::SomethingCompletelyDifferent> for Message {
-    fn from(value: models::SomethingCompletelyDifferent) -> Self {
-        Self::SomethingCompletelyDifferent(Box::new(value))
     }
 }
 
@@ -1036,31 +1018,61 @@ impl std::str::FromStr for Message {
     }
 }
 
+impl serde::Serialize for Message {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Hello(x) => x.serialize(serializer),
+            Self::Greeting(x) => x.serialize(serializer),
+            Self::Goodbye(x) => x.serialize(serializer),
+            Self::SomethingCompletelyDifferent(x) => x.serialize(serializer),
+            Self::YoMessage(x) => x.serialize(serializer),
+        }
+    }
+}
+
+impl From<models::Hello> for Message {
+    fn from(value: models::Hello) -> Self {
+        Self::Hello(value)
+    }
+}
+impl From<models::Greeting> for Message {
+    fn from(value: models::Greeting) -> Self {
+        Self::Greeting(value)
+    }
+}
+impl From<models::Goodbye> for Message {
+    fn from(value: models::Goodbye) -> Self {
+        Self::Goodbye(value)
+    }
+}
+impl From<models::SomethingCompletelyDifferent> for Message {
+    fn from(value: models::SomethingCompletelyDifferent) -> Self {
+        Self::SomethingCompletelyDifferent(value)
+    }
+}
+impl From<models::YoMessage> for Message {
+    fn from(value: models::YoMessage) -> Self {
+        Self::YoMessage(value)
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(untagged)]
-#[allow(non_camel_case_types)]
+#[allow(non_camel_case_types, clippy::large_enum_variant)]
 pub enum SomethingCompletelyDifferent {
-    VecOfObject(Box<Vec<crate::types::Object>>),
-    Object(Box<crate::types::Object>),
+    VecOfObject(Vec<crate::types::Object>),
+    Object(crate::types::Object),
 }
 
 impl validator::Validate for SomethingCompletelyDifferent {
     fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
         match self {
             Self::VecOfObject(_) => std::result::Result::Ok(()),
-            Self::Object(x) => x.validate(),
+            Self::Object(_) => std::result::Result::Ok(()),
         }
-    }
-}
-
-impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
-    fn from(value: Vec<crate::types::Object>) -> Self {
-        Self::VecOfObject(Box::new(value))
-    }
-}
-impl From<crate::types::Object> for SomethingCompletelyDifferent {
-    fn from(value: crate::types::Object) -> Self {
-        Self::Object(Box::new(value))
     }
 }
 
@@ -1072,5 +1084,319 @@ impl std::str::FromStr for SomethingCompletelyDifferent {
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         serde_json::from_str(s)
+    }
+}
+
+impl From<Vec<crate::types::Object>> for SomethingCompletelyDifferent {
+    fn from(value: Vec<crate::types::Object>) -> Self {
+        Self::VecOfObject(value)
+    }
+}
+impl From<crate::types::Object> for SomethingCompletelyDifferent {
+    fn from(value: crate::types::Object) -> Self {
+        Self::Object(value)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct YoMessage {
+    #[serde(rename = "d")]
+    #[validate(nested)]
+    pub d: models::YoMessageD,
+
+    #[serde(default = "YoMessage::_name_for_op")]
+    #[serde(serialize_with = "YoMessage::_serialize_op")]
+    #[serde(rename = "op")]
+    pub op: String,
+}
+
+impl YoMessage {
+    fn _name_for_op() -> String {
+        String::from("yo")
+    }
+
+    fn _serialize_op<S>(_: &String, s: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        s.serialize_str(&Self::_name_for_op())
+    }
+}
+
+impl YoMessage {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(d: models::YoMessageD) -> YoMessage {
+        YoMessage {
+            d,
+            op: Self::_name_for_op(),
+        }
+    }
+}
+
+/// Converts the YoMessage value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for YoMessage {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            // Skipping d in query parameter serialization
+            Some("op".to_string()),
+            Some(self.op.to_string()),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a YoMessage value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for YoMessage {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub d: Vec<models::YoMessageD>,
+            pub op: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing YoMessage".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "d" => intermediate_rep.d.push(
+                        <models::YoMessageD as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
+                    #[allow(clippy::redundant_clone)]
+                    "op" => intermediate_rep.op.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing YoMessage".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(YoMessage {
+            d: intermediate_rep
+                .d
+                .into_iter()
+                .next()
+                .ok_or_else(|| "d missing in YoMessage".to_string())?,
+            op: intermediate_rep
+                .op
+                .into_iter()
+                .next()
+                .ok_or_else(|| "op missing in YoMessage".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<YoMessage> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<YoMessage>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<YoMessage>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for YoMessage - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<YoMessage> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <YoMessage as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into YoMessage - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct YoMessageD {
+    #[serde(rename = "nickname")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub nickname: String,
+}
+
+impl YoMessageD {
+    #[allow(clippy::new_without_default, clippy::too_many_arguments)]
+    pub fn new(nickname: String) -> YoMessageD {
+        YoMessageD { nickname }
+    }
+}
+
+/// Converts the YoMessageD value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::fmt::Display for YoMessageD {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let params: Vec<Option<String>> = vec![
+            Some("nickname".to_string()),
+            Some(self.nickname.to_string()),
+        ];
+
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a YoMessageD value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for YoMessageD {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub nickname: Vec<String>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => {
+                    return std::result::Result::Err(
+                        "Missing value while parsing YoMessageD".to_string(),
+                    );
+                }
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "nickname" => intermediate_rep.nickname.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
+                    _ => {
+                        return std::result::Result::Err(
+                            "Unexpected key while parsing YoMessageD".to_string(),
+                        );
+                    }
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(YoMessageD {
+            nickname: intermediate_rep
+                .nickname
+                .into_iter()
+                .next()
+                .ok_or_else(|| "nickname missing in YoMessageD".to_string())?,
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<YoMessageD> and HeaderValue
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<YoMessageD>> for HeaderValue {
+    type Error = String;
+
+    fn try_from(
+        hdr_value: header::IntoHeaderValue<YoMessageD>,
+    ) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match HeaderValue::from_str(&hdr_value) {
+            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Invalid header value for YoMessageD - value: {hdr_value} is invalid {e}"#
+            )),
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<YoMessageD> {
+    type Error = String;
+
+    fn try_from(hdr_value: HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+            std::result::Result::Ok(value) => {
+                match <YoMessageD as std::str::FromStr>::from_str(value) {
+                    std::result::Result::Ok(value) => {
+                        std::result::Result::Ok(header::IntoHeaderValue(value))
+                    }
+                    std::result::Result::Err(err) => std::result::Result::Err(format!(
+                        r#"Unable to convert header value '{value}' into YoMessageD - {err}"#
+                    )),
+                }
+            }
+            std::result::Result::Err(e) => std::result::Result::Err(format!(
+                r#"Unable to convert header: {hdr_value:?} to string: {e}"#
+            )),
+        }
     }
 }

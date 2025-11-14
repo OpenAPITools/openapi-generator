@@ -63,6 +63,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -144,7 +145,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         // Set default User-Agent.
-        setUserAgent("Java-SDK");
+        setUserAgent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
@@ -373,10 +374,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return ApiClient this client
      */
     public ApiClient addDefaultHeader(String name, String value) {
-        if (defaultHeaders.containsKey(name)) {
-            defaultHeaders.remove(name);
-        }
-        defaultHeaders.add(name, value);
+        defaultHeaders.set(name, value);
         return this;
     }
 
@@ -824,7 +822,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @param requestBuilder The current request
      */
     protected void addHeadersToRequest(HttpHeaders headers, BodyBuilder requestBuilder) {
+        {{#useJakartaEe}}
+        for (Entry<String, List<String>> entry : headers.headerSet()) {
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
         for (Entry<String, List<String>> entry : headers.entrySet()) {
+        {{/useJakartaEe}}
             List<String> values = entry.getValue();
             for (String value : values) {
                 if (value != null) {
@@ -858,7 +861,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();
@@ -937,7 +940,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return "";
             }
             StringBuilder builder = new StringBuilder();
+            {{#useJakartaEe}}
+            for (Entry<String, List<String>> entry : headers.headerSet()) {
+            {{/useJakartaEe}}
+            {{^useJakartaEe}}
             for (Entry<String, List<String>> entry : headers.entrySet()) {
+            {{/useJakartaEe}}
                 builder.append(entry.getKey()).append("=[");
                 for (String value : entry.getValue()) {
                     builder.append(value).append(",");

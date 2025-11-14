@@ -21,6 +21,9 @@ REQUIRES = [
     "aiohttp >= 3.8.4",
     "aiohttp-retry >= 2.8.3",
 {{/asyncio}}
+{{#httpx}}
+    "httpx >= 0.28.1",
+{{/httpx}}
 {{#tornado}}
     "tornado>=4.2, < 5",
 {{/tornado}}
@@ -30,7 +33,9 @@ REQUIRES = [
 {{/hasHttpSignatureMethods}}
     "pydantic >= 2",
     "typing-extensions >= 4.7.1",
+{{#lazyImports}}
     "lazy-imports >= 1, < 2",
+{{/lazyImports}}
 ]
 
 setup(

@@ -1,25 +1,28 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * Describes the result of uploading an image resource
- **/
+ * Describes the result of uploading an image resource
+ */
 @ApiModel(description="Describes the result of uploading an image resource")
 
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")
+
   private Integer code;
 
   @ApiModelProperty(value = "")
+
   private String type;
 
   @ApiModelProperty(value = "")
+
   private String message;
  /**
    * Get code

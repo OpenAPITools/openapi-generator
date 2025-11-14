@@ -1,3 +1,6 @@
+{{^skipCopyWith}}
+import 'package:copy_with_extension/copy_with_extension.dart';
+{{/skipCopyWith}}
 import 'package:json_annotation/json_annotation.dart';
 {{#useEquatable}}
 import 'package:equatable/src/equatable_utils.dart';
@@ -17,6 +20,9 @@ part '{{classFilename}}.g.dart';
 {{#isDeprecated}}
 @Deprecated('{{{classname}}} has been deprecated')
 {{/isDeprecated}}
+{{^skipCopyWith}}
+@CopyWith()
+{{/skipCopyWith}}
 @JsonSerializable(
   checked: true,
   createToJson: true,

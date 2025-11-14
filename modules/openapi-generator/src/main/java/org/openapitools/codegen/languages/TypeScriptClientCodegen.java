@@ -83,6 +83,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private final Map<String, String> frameworkToHttpLibMap;
 
+    @Setter
+    private boolean useRxJS;
+    @Setter
+    private boolean useInversify;
+
     // NPM Options
     private static final String NPM_REPOSITORY = "npmRepository";
 
@@ -94,6 +99,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     private final DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
     private final DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
+
+    protected String apiDocPath = "docs/";
 
     public TypeScriptClientCodegen() {
         super();
@@ -395,6 +402,11 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         return objs;
     }
 
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
         List<Map<String, String>> tsImports = new ArrayList<>();
         for (String im : imports) {
@@ -426,6 +438,8 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         // change package names
         apiPackage = this.apiPackage + ".apis";
         testPackage = this.testPackage + ".tests";
+
+        additionalProperties.put("apiDocPath", apiDocPath);
 
         additionalProperties.putIfAbsent(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
@@ -461,12 +475,12 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
             additionalProperties.put(IMPORT_FILE_EXTENSION_SWITCH, ".ts");
         }
 
-        final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH, this::setUseRxJS);
         if (!useRxJS) {
             supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
         }
 
-        final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
+        convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH, this::setUseInversify);
         if (useInversify) {
             supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));

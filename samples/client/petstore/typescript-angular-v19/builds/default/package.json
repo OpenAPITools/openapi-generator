@@ -13,6 +13,7 @@
   ],
   "license": "Unlicense",
   "scripts": {
+    "prepare": "npm run build",
     "build": "ng-packagr -p ng-package.json"
   },
   "peerDependencies": {

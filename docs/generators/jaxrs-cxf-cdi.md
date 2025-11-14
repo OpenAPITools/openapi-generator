@@ -64,6 +64,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|returnJBossResponse|Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x| |false|
 |returnResponse|Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
@@ -83,6 +84,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useMutiny|Whether to use Smallrye Mutiny instead of CompletionStage for asynchronous computation. Only valid when library is set to quarkus.| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
 |useSwaggerAnnotations|Whether to generate Swagger annotations.| |true|
+|useSwaggerV3Annotations|Whether to generate Swagger v3 (OpenAPI v3) annotations.| |false|
 |useTags|use tags for creating interface and controller classnames| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 

@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.DecimalMax
@@ -29,7 +30,7 @@ data class ModelApiResponse(
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("message") val message: kotlin.String? = null
-    ) {
+) {
 
 }
 

@@ -73,6 +73,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean withoutRuntimeChecks = false;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
+    protected String apiDocPath = "docs";
+    protected String modelDocPath = "docs";
 
     // "Saga and Record" mode.
     public static final String SAGAS_AND_RECORDS = "sagasAndRecords";
@@ -107,10 +109,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // at the moment
         importMapping.clear();
 
-        outputFolder = "generated-code/typescript-fetch";
+        outputFolder = "generated-code" + File.separator + "typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
 
         this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        this.modelDocTemplateFiles.put("model_doc.mustache", ".md");
 
         this.addExtraReservedWords();
 
@@ -136,6 +140,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String toModelFilename(String name) {
         return convertUsingFileNamingConvention(super.toModelFilename(name));
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
     }
 
     /**
@@ -242,6 +251,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.apiPackage = sourceDir + "apis";
         this.modelPackage = sourceDir + "models";
 
+        // make api and model doc path available in mustache template
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
         supportingFiles.add(new SupportingFile("index.mustache", sourceDir, "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", sourceDir, "runtime.ts"));
 
@@ -313,7 +326,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        setGenerateValidationAttributes(convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES));
+        convertPropertyToBooleanAndWriteBack(VALIDATION_ATTRIBUTES, this::setGenerateValidationAttributes);
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + File.separator + apiDocPath);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + File.separator + modelDocPath);
     }
 
     @Override
@@ -787,21 +810,26 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
+        // create a set of any non-primitive, non-array types used in the oneOf schemas which will
+        // need to be imported.
         cm.oneOfModels = oneOfsList.stream()
-                .filter(CodegenProperty::getIsModel)
+                .filter(cp -> !cp.getIsPrimitiveType() && !cp.getIsArray())
                 .map(CodegenProperty::getBaseType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        // create a set of any complex, inner types used by arrays in the oneOf schema (e.g. if
+        // the oneOf uses Array<Foo>, Foo needs to be imported).
         cm.oneOfArrays = oneOfsList.stream()
                 .filter(CodegenProperty::getIsArray)
                 .map(CodegenProperty::getComplexType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(TreeSet::new));
 
+        // create a set of primitive types used in the oneOf schemas for use in the to & from
+        // typed JSON methods.
         cm.oneOfPrimitives = oneOfsList.stream()
                 .filter(CodegenProperty::getIsPrimitiveType)
-                .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(HashSet::new));
 
         if (!cm.oneOf.isEmpty()) {
@@ -1485,17 +1513,25 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         @Getter @Setter
         public Set<String> modelImports = new TreeSet<String>();
 
+        // oneOfModels, oneOfArrays & oneOfPrimitives contain a list of types used in schemas
+        // composed with oneOf and are used to define the import list and the to & from
+        // 'TypedJSON' conversion methods in the composed model classes.
         @Getter @Setter
         public Set<String> oneOfModels = new TreeSet<>();
         @Getter @Setter
         public Set<String> oneOfArrays = new TreeSet<>();
         @Getter @Setter
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
-
+        @Getter @Setter
+        public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
+      
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
-
+        
+        public boolean hasSelfReferencingDiscriminatorMapping(){
+            return selfReferencingDiscriminatorMapping != null;
+        }
         public boolean isDateType() {
             return isDate && "Date".equals(dataType);
         }
@@ -1589,6 +1625,17 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setAdditionalProperties(cm.getAdditionalProperties());
             this.setIsModel(cm.getIsModel());
             this.setComposedSchemas(cm.getComposedSchemas());
+            if (this.discriminator != null) {
+                Set<CodegenDiscriminator.MappedModel> mappedModels = this.discriminator.getMappedModels();
+                for(CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
+                    if(mappedModel.getModelName().equals(cm.classname)) {
+                        this.selfReferencingDiscriminatorMapping = mappedModel;
+                    }
+                }
+                if(this.selfReferencingDiscriminatorMapping != null) {
+                    this.discriminator.getMappedModels().remove(this.selfReferencingDiscriminatorMapping);
+                }
+            }
         }
 
         @Override

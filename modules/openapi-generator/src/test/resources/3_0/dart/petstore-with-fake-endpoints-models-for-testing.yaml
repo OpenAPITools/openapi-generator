@@ -1303,6 +1303,19 @@ paths:
       responses:
         200:
           description: The instance started successfully
+  /fake/duplicate-inline-enums:
+    get:
+      tags:
+        - fake
+      summary: test objects with duplicate inline enums see issue# 21582
+      operationId: fake-duplicate-inline-enum
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectThatReferencesObjectsWithDuplicateInlineEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1915,8 +1928,9 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - ChildWithNullable
+          # comment out as it's causing compilation errors in Dart Dio client generator
+          #enum:
+          #  - ChildWithNullable
         nullableProperty:
           type: string
           nullable: true
@@ -2065,19 +2079,59 @@ components:
     TestEnum:
       type: string
       enum:
-        - ""
-        - "1"
-        - "2"
+        - ''
+        - 'value_one'
+        - 'value_two'
       title: TestEnum
-    TestItem:
+    ObjectWithEnum:
       type: object
-      required:
-        - test
       properties:
-        test:
-          type: integer
-          title: test
-        testEmum:
-          $ref: '#/components/schemas/TestEnum'
-          default: ""
-      title: TestItem
+        attribute:
+          allOf:
+            - $ref: '#/components/schemas/TestEnum'
+          default: ''
+      title: ObjectWithEnum
+    ObjectWithInlineEnumDefaultValue:
+      type: object
+      properties:
+        attribute:
+          description: 'Object one attribute enum with default value'
+          type: 'string'
+          enum: [
+            'value_one',
+            'value_two'
+          ]
+          default: 'value_one'
+    ObjectWithInlineEnum:
+      type: object
+      properties:
+        attribute:
+          description: 'Object one attribute enum'
+          type: 'array'
+          uniqueItems: true
+          items:
+            type: 'string'
+            enum: [
+              'value_one',
+              'value_two'
+            ]
+    ObjectWithDuplicateInlineEnum:
+      type: object
+      properties:
+        attribute:
+          description: 'Object two attribute enum'
+          type: 'array'
+          uniqueItems: true
+          items:
+            type: 'string'
+            enum: [
+              'value_one',
+              'value_two'
+            ]
+    ObjectThatReferencesObjectsWithDuplicateInlineEnums:
+      type: object
+      properties:
+        object_one:
+          $ref: '#/components/schemas/ObjectWithInlineEnum'
+        object_two:
+          $ref: '#/components/schemas/ObjectWithDuplicateInlineEnum'

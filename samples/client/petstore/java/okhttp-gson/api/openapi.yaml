@@ -2214,6 +2214,7 @@ components:
       nullable: true
       type: string
     OuterEnumInteger:
+      deprecated: true
       enum:
       - 0
       - 1
@@ -2712,7 +2713,7 @@ components:
       description: Value object
       example:
         name: variable_1
-        value: Scalar
+        value: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         name:
           example: variable_1
@@ -2729,12 +2730,16 @@ components:
     Scalar:
       description: Values of scalar type
       oneOf:
+      - format: uuid
+        type: string
       - maxLength: 1089
         type: string
       - type: number
       - type: boolean
     ScalarAnyOf:
       anyOf:
+      - format: uuid
+        type: string
       - maxLength: 1089
         type: string
       - type: number
@@ -2911,6 +2916,63 @@ components:
           $ref: "#/components/schemas/ArrayOneOf"
         anyof_prop:
           $ref: "#/components/schemas/ArrayAnyOf"
+      type: object
+    NestedArrayWithDefaultValues:
+      properties:
+        nestedArray:
+          default:
+          - - h1
+            - Header 1
+          - - h2
+            - Header 2
+          - - h3
+            - Header 3
+          - - h4
+            - Header 4
+          items:
+            default:
+            - value1
+            - value2
+            items:
+              type: string
+            type: array
+          type: array
+      type: object
+    LongId:
+      description: Id as long
+      format: int64
+      type: integer
+    Weight:
+      description: Weight as float
+      format: float
+      type: number
+    Height:
+      description: Height as double
+      format: double
+      type: number
+    AllOfRefToLong:
+      description: Object with allOf ref to long
+      properties:
+        id:
+          allOf:
+          - $ref: "#/components/schemas/LongId"
+          default: 10
+      type: object
+    AllOfRefToFloat:
+      description: Object with allOf ref to float
+      properties:
+        weight:
+          allOf:
+          - $ref: "#/components/schemas/Weight"
+          default: 7.89
+      type: object
+    AllOfRefToDouble:
+      description: Object with allOf ref to double
+      properties:
+        height:
+          allOf:
+          - $ref: "#/components/schemas/Height"
+          default: 32.1
       type: object
     _foo_get_default_response:
       example:

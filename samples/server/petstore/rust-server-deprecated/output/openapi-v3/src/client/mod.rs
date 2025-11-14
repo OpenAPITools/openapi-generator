@@ -744,7 +744,8 @@ impl<S, C> Api<C> for Client<S, C> where
     }
     async fn form_test(
         &self,
-        param_required_array: Option<&Vec<String>>,
+        param_required_array: &Vec<String>,
+        param_enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -779,7 +780,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         // Consumes form body
         let mut params = vec![];
-        if let Some(param_required_array) = param_required_array {
         // style=form,explode=true
         for param_required_array in param_required_array {
         #[allow(clippy::uninlined_format_args)]
@@ -787,17 +787,17 @@ impl<S, C> Api<C> for Client<S, C> where
             format!("{:?}", param_required_array)
         ));
         }
-        }
+        #[allow(clippy::uninlined_format_args)]
+        params.push(("enum_field",
+            format!("{:?}", param_enum_field)
+        ));
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         *request.body_mut() = Body::from(body.into_bytes());
 
         let header = "application/x-www-form-urlencoded";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -1792,10 +1792,7 @@ impl<S, C> Api<C> for Client<S, C> where
         *request.body_mut() = Body::from(body);
 
         let header = "application/octet-stream";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2239,10 +2236,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2393,10 +2387,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "application/xml";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2477,10 +2468,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "text/xml";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2573,10 +2561,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "application/xml";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2657,10 +2642,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "application/xml";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2741,10 +2723,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         let header = "application/xml";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,
@@ -2959,10 +2938,7 @@ impl<S, C> Api<C> for Client<S, C> where
         *request.body_mut() = Body::from(body);
 
         let header = "application/json";
-        request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(header) {
-            Ok(h) => h,
-            Err(e) => return Err(ApiError(format!("Unable to create header: {header} - {e}")))
-        });
+        request.headers_mut().insert(CONTENT_TYPE, HeaderValue::from_static(header));
         let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.as_str());
         request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
             Ok(h) => h,

@@ -1,5 +1,6 @@
 package org.openapitools.model
 
+import java.util.Locale
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -44,7 +45,7 @@ data class Order(
 
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-    ) : Serializable{
+) : Serializable {
 
     /**
     * Order Status

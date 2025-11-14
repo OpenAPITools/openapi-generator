@@ -300,6 +300,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestBodyApplicationOctetstreamBinary, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
@@ -400,6 +403,9 @@ BodyApi <- R6::R6Class(
         stop("Missing required parameter `files`.")
       }
 
+      if (!missing(`files`) && is.null(`files`)) {
+        stop("Invalid value for `files` when calling BodyApi$TestBodyMultipartFormdataArrayOfBinary, `files` is not nullable")
+      }
 
       file_params["files"] <- httr::upload_file(`files`)
       local_var_url_path <- "/body/application/octetstream/array_of_binary"
@@ -491,6 +497,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`my_file`) && is.null(`my_file`)) {
+        stop("Invalid value for `my_file` when calling BodyApi$TestBodyMultipartFormdataSingleBinary, `my_file` is not nullable")
+      }
 
       file_params["my-file"] <- httr::upload_file(`my_file`)
       local_var_url_path <- "/body/application/octetstream/single_binary"
@@ -582,6 +591,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyAllOfPet, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -678,6 +690,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestEchoBodyFreeFormObjectResponseString, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
@@ -774,6 +789,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyPet, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -870,6 +888,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`pet`) && is.null(`pet`)) {
+        stop("Invalid value for `pet` when calling BodyApi$TestEchoBodyPetResponseString, `pet` is not nullable")
+      }
 
       if (!is.null(`pet`)) {
         local_var_body <- `pet`$toJSONString()
@@ -966,6 +987,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`body`) && is.null(`body`)) {
+        stop("Invalid value for `body` when calling BodyApi$TestEchoBodyStringEnum, `body` is not nullable")
+      }
 
       if (!is.null(`body`)) {
         local_var_body <- `body`$toJSONString()
@@ -1062,6 +1086,9 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
+      if (!missing(`tag`) && is.null(`tag`)) {
+        stop("Invalid value for `tag` when calling BodyApi$TestEchoBodyTagResponseString, `tag` is not nullable")
+      }
 
       if (!is.null(`tag`)) {
         local_var_body <- `tag`$toJSONString()

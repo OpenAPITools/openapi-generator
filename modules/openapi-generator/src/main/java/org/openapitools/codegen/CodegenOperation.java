@@ -80,6 +80,15 @@ public class CodegenOperation {
     }
 
     /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
+
+    /**
      * Check if there's at least one parameter
      *
      * @return true if parameter exists, false otherwise
@@ -113,6 +122,15 @@ public class CodegenOperation {
      */
     public boolean getHasBodyParam() {
         return nonEmpty(bodyParams);
+    }
+
+    /**
+     * Check if there's at least one optional body parameter
+     *
+     * @return true if optional body parameter exists, false otherwise
+     */
+    public boolean getHasOptionalBodyParam() {
+        return nonEmpty(bodyParams) && nonEmpty(optionalParams) && bodyParams.stream().anyMatch(optionalParams::contains);
     }
 
     /**

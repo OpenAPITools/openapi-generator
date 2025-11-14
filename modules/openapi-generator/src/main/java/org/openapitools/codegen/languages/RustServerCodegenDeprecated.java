@@ -1229,6 +1229,9 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
                 && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
             toStringSupport = false;
             partialOrdSupport = false;
+        } else if (mdl.dataType != null && mdl.dataType.equals("serde_json::Value")) {
+            // Value doesn't implement PartialOrd
+            partialOrdSupport = false;
         } else if (mdl.getAdditionalPropertiesType() != null) {
             toStringSupport = false;
         } else if (model instanceof ComposedSchema) {
@@ -1408,6 +1411,7 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
      *
      * @deprecated Avoid using this - use a different mechanism instead.
      */
+    @Deprecated
     private static String stripNullable(String type) {
         if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
             return type.substring("swagger::Nullable<".length(), type.length() - 1);
@@ -1545,7 +1549,18 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
         }
             else {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.example != null) {
+            // Check if this is a model-type enum (allowableValues with values list)
+            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
+                List<?> values = (List<?>) param.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    // Use the first enum value as the example.
+                    String firstEnumValue = values.get(0).toString();
+                    String enumVariant = toEnumVarName(firstEnumValue, param.dataType);
+                    example = param.dataType + "::" + enumVariant;
+                } else if (param.example != null) {
+                    example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                }
+            } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }

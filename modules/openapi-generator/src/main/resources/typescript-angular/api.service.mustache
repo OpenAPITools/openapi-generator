@@ -74,6 +74,7 @@ export class {{classname}} extends BaseService {
 {{#notes}}
      * {{.}}
 {{/notes}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
      {{^useSingleRequestParameter}}
      {{#allParams}}
      * @param {{paramName}} {{description}}
@@ -302,7 +303,7 @@ export class {{classname}} extends BaseService {
                 headers: localVarHeaders,
                 observe: observe,
     {{#httpTransferCacheInOptions}}
-                transferCache: localVarTransferCache,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
     {{/httpTransferCacheInOptions}}
                 reportProgress: reportProgress
             }

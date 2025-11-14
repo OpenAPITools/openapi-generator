@@ -3,7 +3,6 @@ import * as FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
 import * as http from 'http';
 import * as https from 'https';
-import { AbortSignal } from "node-fetch/externals";
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';

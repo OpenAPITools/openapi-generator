@@ -4,7 +4,7 @@ ByRefOrValue
 
 - API version: 0.0.1
 
-- Generator version: 7.15.0-SNAPSHOT
+- Generator version: 7.18.0-SNAPSHOT
 
 This tests for a oneOf interface representation
 
@@ -124,12 +124,15 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Addressable](docs/Addressable.md)
+ - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [Banana](docs/Banana.md)
  - [Bar](docs/Bar.md)
  - [BarCreate](docs/BarCreate.md)
  - [BarRef](docs/BarRef.md)
  - [BarRefOrValue](docs/BarRefOrValue.md)
+ - [Cat](docs/Cat.md)
+ - [Dog](docs/Dog.md)
  - [Entity](docs/Entity.md)
  - [EntityRef](docs/EntityRef.md)
  - [Extensible](docs/Extensible.md)

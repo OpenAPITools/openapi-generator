@@ -735,11 +735,14 @@ components:
     ObjectParam:
       example:
         requiredParam: true
-        optionalParam: 0
+        optionalParam: 100
       properties:
         requiredParam:
           type: boolean
         optionalParam:
+          example: 100
+          maximum: 10000000000000000000
+          minimum: 1
           type: integer
       required:
       - requiredParam
@@ -778,6 +781,9 @@ components:
     NullableObject:
       nullable: true
       type: string
+    NoTypeObject:
+      description: An object with no type
+      title: an object with no type
     NullableTest:
       properties:
         nullable:
@@ -845,12 +851,21 @@ components:
       anyOf:
       - $ref: "#/components/schemas/StringObject"
       - $ref: "#/components/schemas/UuidObject"
+    FormTest_request_enum_field:
+      enum:
+      - one_enum
+      type: string
     FormTest_request:
       properties:
         requiredArray:
           items:
             type: string
           type: array
+        enum_field:
+          $ref: "#/components/schemas/FormTest_request_enum_field"
+      required:
+      - enum_field
+      - requiredArray
       type: object
     AnyOfObject_anyOf:
       enum:

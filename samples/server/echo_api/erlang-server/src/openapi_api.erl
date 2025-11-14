@@ -81,6 +81,7 @@ accept_callback(Class, OperationID, Req0, Context0) ->
     'test/query/style_form/explode_true/array_string' | %% Test query parameter(s)
     'test/query/style_form/explode_true/object' | %% Test query parameter(s)
     'test/query/style_form/explode_true/object/allOf' | %% Test query parameter(s)
+    'test/query/style_jsonSerialization/object' | %% Test query parameter(s)
     {error, unknown_operation}.
 
 -type request_param() :: atom().
@@ -206,6 +207,8 @@ validate_response('test/query/style_form/explode_true/array_string', 200, Body, 
 validate_response('test/query/style_form/explode_true/object', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
 validate_response('test/query/style_form/explode_true/object/allOf', 200, Body, ValidatorState) ->
+    validate_response_body('binary', 'string', Body, ValidatorState);
+validate_response('test/query/style_jsonSerialization/object', 200, Body, ValidatorState) ->
     validate_response_body('binary', 'string', Body, ValidatorState);
 validate_response(_OperationID, _Code, _Body, _ValidatorState) ->
     ok.
@@ -335,6 +338,11 @@ request_params('test/query/style_form/explode_true/object') ->
 request_params('test/query/style_form/explode_true/object/allOf') ->
     [
         'query_object'
+    ];
+request_params('test/query/style_jsonSerialization/object') ->
+    [
+        'json_serialized_object_ref_string_query',
+        'json_serialized_object_array_ref_string_query'
     ];
 request_params(_) ->
     error(unknown_operation).
@@ -669,6 +677,20 @@ request_param_info('test/query/style_form/explode_true/object', 'query_object') 
         ]
     };
 request_param_info('test/query/style_form/explode_true/object/allOf', 'query_object') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('test/query/style_jsonSerialization/object', 'json_serialized_object_ref_string_query') ->
+    #{
+        source => qs_val,
+        rules => [
+            not_required
+        ]
+    };
+request_param_info('test/query/style_jsonSerialization/object', 'json_serialized_object_array_ref_string_query') ->
     #{
         source => qs_val,
         rules => [
