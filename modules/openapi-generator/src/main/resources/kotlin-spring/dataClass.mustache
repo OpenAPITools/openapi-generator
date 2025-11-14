@@ -46,12 +46,12 @@
   }}{{/serializableModel}}{{! no newline
 }}{{/parent}} {
 {{#discriminator}}
-    {{#requiredVars}}
-        {{>interfaceReqVar}}{{! prevent indent}}
-    {{/requiredVars}}
-    {{#optionalVars}}
-        {{>interfaceOptVar}}{{! prevent indent}}
-    {{/optionalVars}}
+{{#requiredVars}}
+{{>interfaceReqVar}}{{! prevent indent}}
+{{/requiredVars}}
+{{#optionalVars}}
+{{>interfaceOptVar}}{{! prevent indent}}
+{{/optionalVars}}
 {{/discriminator}}
 {{#hasEnums}}{{#vars}}{{#isEnum}}
     /**

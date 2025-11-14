@@ -28,23 +28,29 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Order(
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("petId", required = false)
+    val petId: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("quantity", required = false)
+    val quantity: kotlin.Int? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("shipDate", required = false)
+    val shipDate: java.time.OffsetDateTime? = null,
 
-    @ApiModelProperty(example = "null", value = "Order Status")
-    @get:JsonProperty("status") val status: Order.Status? = null,
+    @ApiModelProperty(example = "null", required = false, value = "Order Status")
+    @get:JsonProperty("status", required = false)
+    val status: Order.Status? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("complete", required = false)
+    val complete: kotlin.Boolean = false
 ) : Serializable {
 
     /**

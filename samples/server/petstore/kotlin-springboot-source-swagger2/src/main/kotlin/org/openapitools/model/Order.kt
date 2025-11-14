@@ -28,23 +28,29 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Order(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("petId") val petId: kotlin.Long? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("petId", required = false)
+    val petId: kotlin.Long? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("quantity") val quantity: kotlin.Int? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("quantity", required = false)
+    val quantity: kotlin.Int? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("shipDate", required = false)
+    val shipDate: java.time.OffsetDateTime? = null,
 
-    @Schema(example = "null", description = "Order Status")
-    @get:JsonProperty("status") val status: Order.Status? = null,
+    @Schema(example = "null", required = false, description = "Order Status")
+    @get:JsonProperty("status", required = false)
+    val status: Order.Status? = null,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("complete", required = false)
+    val complete: kotlin.Boolean = false
 ) : Serializable {
 
     /**

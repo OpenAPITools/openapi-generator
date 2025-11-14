@@ -29,20 +29,26 @@ import jakarta.validation.Valid
  */
 data class Pet(
 
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true)
+    val name: kotlin.String,
 
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true)
+    val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
     @field:Valid
-    @get:JsonProperty("category") val category: Category? = null,
+    @get:JsonProperty("category", required = false)
+    val category: Category? = null,
 
     @field:Valid
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags", required = false)
+    val tags: kotlin.collections.List<Tag>? = null,
 
     @Deprecated(message = "")
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status", required = false)
+    val status: Pet.Status? = null
 ) : kotlin.collections.HashMap<String, kotlin.Any>(), Serializable {
 
     /**

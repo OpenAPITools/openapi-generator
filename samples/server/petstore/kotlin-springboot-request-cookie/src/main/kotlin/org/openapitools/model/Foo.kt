@@ -20,8 +20,9 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Foo(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("bar") val bar: kotlin.String? = "bar"
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("bar", required = false)
+    val bar: kotlin.String = "bar"
 ) {
 
 }

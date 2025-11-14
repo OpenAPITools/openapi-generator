@@ -22,11 +22,13 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Category(
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("name", required = false)
+    val name: kotlin.String? = null
 ) : Serializable {
 
     companion object {
