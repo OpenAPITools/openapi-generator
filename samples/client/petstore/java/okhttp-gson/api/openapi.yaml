@@ -1859,7 +1859,6 @@ components:
     Address:
       additionalProperties:
         type: integer
-      default: []
       type: object
     Animal:
       discriminator:
@@ -2259,7 +2258,6 @@ components:
     StringBooleanMap:
       additionalProperties:
         type: boolean
-      default: []
       type: object
     FileSchemaTestClass:
       example:
@@ -2598,7 +2596,6 @@ components:
       - $ref: "#/components/schemas/GrandparentAnimal"
       type: object
     ArrayOfEnums:
-      default: []
       items:
         $ref: "#/components/schemas/OuterEnum"
       type: array
@@ -2749,7 +2746,6 @@ components:
       - type: boolean
       description: Values of scalar type using anyOf
     Array:
-      default: []
       description: Values of array type
       items:
         $ref: "#/components/schemas/Scalar"

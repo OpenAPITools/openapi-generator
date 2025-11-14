@@ -1,0 +1,59 @@
+# src/test/resources/3_1/issue_20304_siblings.yaml
+openapi: 3.1.0
+info:
+  title: Test siblings
+  version: 1.0.0
+components:
+  schemas:
+    ModelWithTitledProperties:
+      type: object
+      properties:
+        # 1) simple $ref
+        simpleProperty:
+          $ref: '#/components/schemas/Inner'
+          title: Simple-Property-Title
+          description: Simple-Property-Description
+
+        # 2) allOf wrapping a $ref
+        allOfRefProperty:
+          allOf:
+            - $ref: '#/components/schemas/Inner'
+          title: All-Of-Ref-Property-Title
+          description: All-Of-Ref-Property-Description
+
+        # 3) array alias
+        arrayRefProperty:
+          $ref: '#/components/schemas/ArrayOfInner'
+          title: Array-Ref-Property-Title
+          description: Array-Ref-Property-Description
+
+        # 4) map alias
+        mapRefProperty:
+          $ref: '#/components/schemas/MapOfInner'
+          title: Map-Ref-Property-Title
+          description: Map-Ref-Property-Description
+
+        # 5) object-model alias
+        objectRefProperty:
+          $ref: '#/components/schemas/ObjectInner'
+          title: Object-Ref-Property-Title
+          description: Object-Ref-Property-Description
+
+    Inner:
+      type: string
+
+    ArrayOfInner:
+      type: array
+      items:
+        $ref: '#/components/schemas/Inner'
+
+    MapOfInner:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Inner'
+
+    ObjectInner:
+      type: object
+      properties:
+        foo:
+          type: integer
