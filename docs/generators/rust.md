@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |reqwestDefaultFeatures|Default features for the reqwest dependency (comma-separated). Use empty for no defaults. This option is for 'reqwest' and 'reqwest-trait' library only.| |native-tls|
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
 |supportMiddleware|If set, add support for reqwest-middleware. This option is for 'reqwest' and 'reqwest-trait' library only| |false|
+|useSerdePathToError|If set, use the serde_path_to_error library to enhance serde error messages. This option is for 'reqwest' and 'reqwest-trait' library only| |false|
 |supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' and 'reqwest-trait' library only| |false|
 |supportTokenSource|If set, add support for google-cloud-token. This option is for 'reqwest' and 'reqwest-trait' library only and requires the 'supportAsync' option| |false|
 |topLevelApiClient|Creates a top level `Api` trait and `ApiClient` struct that contain all Apis. This option is for 'reqwest-trait' library only| |false|
