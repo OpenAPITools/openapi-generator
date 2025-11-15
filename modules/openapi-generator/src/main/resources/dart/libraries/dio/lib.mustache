@@ -9,5 +9,6 @@ export 'package:{{pubName}}/{{sourceFolder}}/auth/oauth.dart';
 
 {{#apiInfo}}{{#apis}}export 'package:{{pubName}}/{{sourceFolder}}/{{apiPackage}}/{{classFilename}}.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
-{{/model}}{{/models}}
+{{^useFreezed}}{{#models}}{{#model}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/{{classFilename}}.dart';
+{{/model}}{{/models}}{{/useFreezed}}
+{{#useFreezed}}export 'package:{{pubName}}/{{sourceFolder}}/{{modelPackage}}/models.dart';{{/useFreezed}}
