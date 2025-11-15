@@ -488,7 +488,12 @@ impl {{classname}} for {{classname}}Client {
             {{/returnType}}
             {{#returnType}}
             match local_var_content_type {
+                {{^useSerdePathToError}}
                 ContentType::Json => serde_json::from_str(&local_var_content).map_err(Error::from),
+                {{/useSerdePathToError}}
+                {{#useSerdePathToError}}
+                ContentType::Json => serde_path_to_error::deserialize(&mut serde_json::Deserializer::from_str(&local_var_content)).map_err(Error::from),
+                {{/useSerdePathToError}}
                 {{#vendorExtensions.x-supports-plain-text}}
                 ContentType::Text => return Ok(local_var_content),
                 {{/vendorExtensions.x-supports-plain-text}}

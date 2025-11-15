@@ -1,8 +1,5 @@
 use std::error;
 use std::fmt;
-{{#withAWSV4Signature}}
-use aws_sigv4;
-{{/withAWSV4Signature}}
 
 #[derive(Debug, Clone)]
 pub struct ResponseContent<T> {
@@ -14,46 +11,20 @@ pub struct ResponseContent<T> {
 #[derive(Debug)]
 pub enum Error<T> {
     Reqwest(reqwest::Error),
-    {{#supportMiddleware}}
-    ReqwestMiddleware(reqwest_middleware::Error),
-    {{/supportMiddleware}}
     Serde(serde_json::Error),
-    {{#useSerdePathToError}}
     SerdePathToError(serde_path_to_error::Error<serde_json::Error>),
-    {{/useSerdePathToError}}
     Io(std::io::Error),
     ResponseError(ResponseContent<T>),
-    {{#withAWSV4Signature}}
-    AWSV4SignatureError(aws_sigv4::http_request::Error),
-    {{/withAWSV4Signature}}
-    {{#supportAsync}}
-    {{#supportTokenSource}}
-    TokenSource(Box<dyn std::error::Error + Send + Sync>),
-    {{/supportTokenSource}}
-    {{/supportAsync}}
 }
 
 impl <T> fmt::Display for Error<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let (module, e) = match self {
             Error::Reqwest(e) => ("reqwest", e.to_string()),
-            {{#supportMiddleware}}
-            Error::ReqwestMiddleware(e) => ("reqwest-middleware", e.to_string()),
-            {{/supportMiddleware}}
             Error::Serde(e) => ("serde", e.to_string()),
-            {{#useSerdePathToError}}
             Error::SerdePathToError(e) => ("serde", format!("{}: {}", e.path().to_string(), e.inner().to_string())),
-            {{/useSerdePathToError}}
             Error::Io(e) => ("IO", e.to_string()),
             Error::ResponseError(e) => ("response", format!("status code {}", e.status)),
-            {{#withAWSV4Signature}}
-            Error::AWSV4SignatureError(e) => ("aws v4 signature", e.to_string()),
-            {{/withAWSV4Signature}}
-            {{#supportAsync}}
-            {{#supportTokenSource}}
-            Error::TokenSource(e) => ("token source failure", e.to_string()),
-            {{/supportTokenSource}}
-            {{/supportAsync}}
         };
         write!(f, "error in {}: {}", module, e)
     }
@@ -63,23 +34,10 @@ impl <T: fmt::Debug> error::Error for Error<T> {
     fn source(&self) -> Option<&(dyn error::Error + 'static)> {
         Some(match self {
             Error::Reqwest(e) => e,
-            {{#supportMiddleware}}
-            Error::ReqwestMiddleware(e) => e,
-            {{/supportMiddleware}}
             Error::Serde(e) => e,
-            {{#useSerdePathToError}}
             Error::SerdePathToError(e) => e,
-            {{/useSerdePathToError}}
             Error::Io(e) => e,
             Error::ResponseError(_) => return None,
-            {{#withAWSV4Signature}}
-            Error::AWSV4SignatureError(_) => return None,
-            {{/withAWSV4Signature}}
-            {{#supportAsync}}
-            {{#supportTokenSource}}
-            Error::TokenSource(e) => &**e,
-            {{/supportTokenSource}}
-            {{/supportAsync}}
         })
     }
 }
@@ -90,28 +48,18 @@ impl <T> From<reqwest::Error> for Error<T> {
     }
 }
 
-{{#supportMiddleware}}
-impl<T> From<reqwest_middleware::Error> for Error<T> {
-    fn from(e: reqwest_middleware::Error) -> Self {
-        Error::ReqwestMiddleware(e)
-    }
-}
-
-{{/supportMiddleware}}
 impl <T> From<serde_json::Error> for Error<T> {
     fn from(e: serde_json::Error) -> Self {
         Error::Serde(e)
     }
 }
 
-{{#useSerdePathToError}}
 impl<T> From<serde_path_to_error::Error<serde_json::Error>> for Error<T> {
     fn from(e: serde_path_to_error::Error<serde_json::Error>) -> Self {
         Error::SerdePathToError(e)
     }
 }
 
-{{/useSerdePathToError}}
 impl <T> From<std::io::Error> for Error<T> {
     fn from(e: std::io::Error) -> Self {
         Error::Io(e)
@@ -172,10 +120,10 @@ impl From<&str> for ContentType {
     }
 }
 
-{{#apiInfo}}
-{{#apis}}
-pub mod {{{classFilename}}};
-{{/apis}}
-{{/apiInfo}}
+pub mod fake_api;
+pub mod pet_api;
+pub mod store_api;
+pub mod testing_api;
+pub mod user_api;
 
 pub mod configuration;

@@ -1,0 +1,10 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/petstore-serde-path-to-error
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  packageName: petstore-reqwest-serde-path-to-error
+  useSerdePathToError: true
+enumNameMappings:
+  delivered: shipped
