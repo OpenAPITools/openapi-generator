@@ -460,6 +460,14 @@ public class ApiClient {
     return connectTimeout;
   }
 
+  /**
+   * Returns the response body InputStream, transparently decoding gzip-compressed
+   * payloads when the server sets {@code Content-Encoding: gzip}.
+   *
+   * @param response HTTP response whose body should be consumed
+   * @return Original or decompressed InputStream for the response body
+   * @throws IOException if the response body cannot be accessed or wrapping fails
+   */
   public static InputStream getResponseBody(HttpResponse<InputStream> response) throws IOException {
     if (response == null) {
       return null;
@@ -480,6 +488,13 @@ public class ApiClient {
   }
 
 {{#useGzipFeature}}
+  /**
+   * Wraps a request body supplier with a streaming GZIP compressor so large payloads
+   * can be sent without buffering the entire contents in memory.
+   *
+   * @param bodySupplier Supplies the original request body InputStream
+   * @return BodyPublisher that emits gzip-compressed bytes from the supplied stream
+   */
   public static HttpRequest.BodyPublisher gzipRequestBody(Supplier<InputStream> bodySupplier) {
     Objects.requireNonNull(bodySupplier, "bodySupplier must not be null");
     return HttpRequest.BodyPublishers.ofInputStream(() -> new GzipCompressingInputStream(bodySupplier));
