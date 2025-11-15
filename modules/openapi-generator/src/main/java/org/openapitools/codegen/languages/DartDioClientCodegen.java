@@ -348,14 +348,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
                     return "MapBuilder()";
                 }
             }
-            if (ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)) {
-                // this is currently not supported and would create compile errors
-                return null;
-            }
-            if (ModelUtils.isStringSchema(schema)) {
-                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
-            }
-            return schema.getDefault().toString();
+            return super.toDefaultValue(schema);
         }
         return null;
     }
