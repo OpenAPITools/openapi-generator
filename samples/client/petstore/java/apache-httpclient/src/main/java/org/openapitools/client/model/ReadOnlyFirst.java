@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -170,7 +169,7 @@ public class ReadOnlyFirst {
     // add `bar` to the URL query string
     if (getBar() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBar()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -180,7 +179,7 @@ public class ReadOnlyFirst {
     // add `baz` to the URL query string
     if (getBaz() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sbaz%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBaz()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

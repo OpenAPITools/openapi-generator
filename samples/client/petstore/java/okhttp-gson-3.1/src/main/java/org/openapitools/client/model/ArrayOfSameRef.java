@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -46,7 +45,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Locale;
 
 import org.openapitools.client.JSON;
 
@@ -263,7 +261,7 @@ public class ArrayOfSameRef {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!ArrayOfSameRef.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format(Locale.ROOT, "The required field(s) %s in ArrayOfSameRef is not found in the empty JSON string", ArrayOfSameRef.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in ArrayOfSameRef is not found in the empty JSON string", ArrayOfSameRef.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -272,7 +270,7 @@ public class ArrayOfSameRef {
         if (jsonArrayarrayFooOne != null) {
           // ensure the json data is an array
           if (!jsonObj.get("arrayFooOne").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `arrayFooOne` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooOne").toString()));
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `arrayFooOne` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooOne").toString()));
           }
 
           // validate the optional field `arrayFooOne` (array)
@@ -286,7 +284,7 @@ public class ArrayOfSameRef {
         if (jsonArrayarrayFooTwo != null) {
           // ensure the json data is an array
           if (!jsonObj.get("arrayFooTwo").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `arrayFooTwo` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooTwo").toString()));
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `arrayFooTwo` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooTwo").toString()));
           }
 
           // validate the optional field `arrayFooTwo` (array)
@@ -300,7 +298,7 @@ public class ArrayOfSameRef {
         if (jsonArrayarrayFooThree != null) {
           // ensure the json data is an array
           if (!jsonObj.get("arrayFooThree").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(Locale.ROOT, "Expected the field `arrayFooThree` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooThree").toString()));
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `arrayFooThree` to be an array in the JSON string but got `%s`", jsonObj.get("arrayFooThree").toString()));
           }
 
           // validate the optional field `arrayFooThree` (array)
@@ -368,7 +366,7 @@ public class ArrayOfSameRef {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format(Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object
