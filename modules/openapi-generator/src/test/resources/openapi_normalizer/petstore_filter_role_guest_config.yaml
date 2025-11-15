@@ -1,0 +1,5 @@
+# remove the elements having deprecated: true
+inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_filter_role_guest.yaml
+inputRules:
+  FILTER: 'x-role: guest'
