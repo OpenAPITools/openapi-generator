@@ -62,7 +62,7 @@ public:
 	{{/isEnum}}
 	{{^isEnum}}
 	{{#description}}/* {{{.}}} */
-	{{/description}}{{^required}}TOptional<{{/required}}{{{datatype}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
+	{{/description}}{{^required}}TOptional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}};
 	{{/isEnum}}
     {{/vars}}
 };

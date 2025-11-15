@@ -128,13 +128,13 @@ static {{classname}}_t *{{classname}}_create_internal(
     {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{#isEnum}}
     {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
@@ -142,21 +142,21 @@ static {{classname}}_t *{{classname}}_create_internal(
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -165,34 +165,34 @@ static {{classname}}_t *{{classname}}_create_internal(
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}
@@ -218,13 +218,13 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{/isModel}}
     {{^isModel}}
     {{^isFreeFormObject}}
     {{^isEnum}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isEnum}}
     {{#isEnum}}
     {{projectName}}_{{dataType}}_{{enumName}}_e {{name}}{{^-last}},{{/-last}}
@@ -232,21 +232,21 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isFreeFormObject}}
     {{/isModel}}
     {{#isUuid}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isUuid}}
     {{#isEmail}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isEmail}}
     {{#isFreeFormObject}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -255,34 +255,34 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isString}}
     {{/isEnum}}
     {{#isByteArray}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isByteArray}}
     {{#isBinary}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isBinary}}
     {{#isDate}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isDate}}
     {{#isDateTime}}
-    {{datatype}} *{{name}}{{^-last}},{{/-last}}
+    {{dataType}} *{{name}}{{^-last}},{{/-last}}
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
     {{#isArray}}
     {{#isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{datatype}}_t *{{name}}{{^-last}},{{/-last}}
+    {{dataType}}_t *{{name}}{{^-last}},{{/-last}}
     {{/isPrimitiveType}}
     {{/isArray}}
     {{#isMap}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{dataType}} {{name}}{{^-last}},{{/-last}}
     {{/isMap}}
     {{/isContainer}}
     {{/vars}}

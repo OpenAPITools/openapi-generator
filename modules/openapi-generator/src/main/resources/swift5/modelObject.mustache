@@ -32,7 +32,7 @@
 {{^isEnum}}
     {{#description}}/** {{{.}}} */
     {{/description}}{{#deprecated}}@available(*, deprecated, message: "This property is deprecated.")
-    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{#vendorExtensions.x-null-encodable}}NullEncodable<{{{datatype}}}>{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{/vendorExtensions.x-null-encodable}}{{#defaultValue}} = {{#vendorExtensions.x-null-encodable}}{{{vendorExtensions.x-null-encodable-default-value}}}{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{.}}}{{/vendorExtensions.x-null-encodable}}{{/defaultValue}}
+    {{/deprecated}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} {{#readonlyProperties}}private(set) {{/readonlyProperties}}var {{{name}}}: {{#vendorExtensions.x-null-encodable}}NullEncodable<{{{dataType}}}>{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{/vendorExtensions.x-null-encodable}}{{#defaultValue}} = {{#vendorExtensions.x-null-encodable}}{{{vendorExtensions.x-null-encodable-default-value}}}{{/vendorExtensions.x-null-encodable}}{{^vendorExtensions.x-null-encodable}}{{{.}}}{{/vendorExtensions.x-null-encodable}}{{/defaultValue}}
     {{#objcCompatible}}
     {{#vendorExtensions.x-swift-optional-scalar}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var {{{name}}}Num: NSNumber? {
