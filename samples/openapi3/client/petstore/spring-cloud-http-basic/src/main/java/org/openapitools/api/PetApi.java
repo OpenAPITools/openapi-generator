@@ -54,7 +54,7 @@ public interface PetApi {
                 @Content(mediaType = "application/xml", schema = @Schema(implementation = Pet.class)),
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Pet.class))
             }),
-            @ApiResponse(responseCode = "405", description = "Invalid input")
+            @ApiResponse(responseCode = "405", description = "Invalid input", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "http_basic")
