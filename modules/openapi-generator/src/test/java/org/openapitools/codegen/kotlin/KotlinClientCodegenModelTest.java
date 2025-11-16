@@ -573,7 +573,7 @@ public class KotlinClientCodegenModelTest {
     @Test(description = "generate polymorphic jackson model")
     public void polymorphicJacksonSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
-//        output.deleteOnExit();
+        output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("kotlin")
@@ -643,6 +643,36 @@ public class KotlinClientCodegenModelTest {
 
       TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(val value: kotlin.Int)");
   }
+
+    @Test(description = "convert an empty model to object")
+    public void emptyModelKotlinxSerializationTest() throws IOException {
+        final Schema<?> schema = new ObjectSchema()
+                .description("an empty model");
+        final DefaultCodegen codegen = new KotlinClientCodegen();
+        codegen.processOpts();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("EmptyModel", schema);
+        codegen.setOpenAPI(openAPI);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.MODEL_PACKAGE, "model");
+                    put(SERIALIZATION_LIBRARY, "kotlinx_serialization");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/empty-model.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/model/EmptyModel.kt");
+        TestUtils.assertFileNotContains(modelKt, "data class EmptyModel");
+    }
 
     private static class ModelNameTest {
         private final String expectedName;
