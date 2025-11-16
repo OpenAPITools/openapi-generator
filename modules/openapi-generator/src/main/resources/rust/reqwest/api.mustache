@@ -528,7 +528,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{#returnType}}
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
         match content_type {
+            {{^useSerdePathToError}}
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
+            {{/useSerdePathToError}}
+            {{#useSerdePathToError}}
+            ContentType::Json => serde_path_to_error::deserialize(&mut serde_json::Deserializer::from_str(&content)).map_err(Error::from),
+            {{/useSerdePathToError}}
             {{#vendorExtensions.x-supports-plain-text}}
             ContentType::Text => return Ok(content),
             {{/vendorExtensions.x-supports-plain-text}}
