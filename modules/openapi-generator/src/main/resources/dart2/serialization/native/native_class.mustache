@@ -139,16 +139,27 @@ class {{{classname}}} {
         {{#complexType}}
           {{#isArray}}
             {{#items.isArray}}
-        {{{name}}}: json[r'{{{baseName}}}'] is List
-          ? (json[r'{{{baseName}}}'] as List).map((e) =>
-              {{#items.complexType}}
-              {{items.complexType}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}}
-              {{/items.complexType}}
-              {{^items.complexType}}
-              e == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const  <{{items.items.dataType}}>[]{{/items.isNullable}} : (e as List).cast<{{items.items.dataType}}>()
-              {{/items.complexType}}
-            ).toList()
-          :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
+              {{{name}}}: json[r'{{{baseName}}}'] is List
+              ? (json[r'{{{baseName}}}'] as List).map((level1) =>
+              (level1 as List).map((level2) =>
+              {{#items.items.isArray}}
+                (level2 as List).map((level3) =>
+                  {{#items.items.items.isArray}}
+                    (level3 as List).map((level4) =>
+                    level4 as {{items.items.items.items.dataType}}
+                    ).toList()
+                  {{/items.items.items.isArray}}
+                  {{^items.items.items.isArray}}
+                    level3 as {{items.items.items.dataType}}
+                  {{/items.items.items.isArray}}
+                  ).toList()
+                {{/items.items.isArray}}
+                {{^items.items.isArray}}
+                  level2 as {{items.items.dataType}}
+                {{/items.items.isArray}}
+                ).toList()
+              ).toList()
+              :  {{#isNullable}}null{{/isNullable}}{{^isNullable}}const []{{/isNullable}},
             {{/items.isArray}}
             {{^items.isArray}}
         {{{name}}}: {{{complexType}}}.listFromJson(json[r'{{{baseName}}}']){{#uniqueItems}}.toSet(){{/uniqueItems}},
