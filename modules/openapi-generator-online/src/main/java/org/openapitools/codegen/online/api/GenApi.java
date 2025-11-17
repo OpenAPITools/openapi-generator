@@ -86,7 +86,8 @@ public interface GenApi {
                                             summary = "Client generation with additional options",
                                             value = "{\"openAPIUrl\": \"https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml\", \"options\": {\"packageName\": \"com.example.petstore\", \"clientPackage\": \"com.example.petstore.client\", \"groupId\": \"com.example\", \"artifactId\": \"petstore-client\", \"artifactVersion\": \"1.0.0\"}}")
                             }))
-            @Valid GeneratorInput generatorInput) {
+            @Valid
+            @org.springframework.web.bind.annotation.RequestBody GeneratorInput generatorInput) {
         return getDelegate().generateClient(language, generatorInput);
     }
 
@@ -109,7 +110,9 @@ public interface GenApi {
                                             summary = "Spring Boot server generation with options",
                                             value = "{\"openAPIUrl\": \"https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml\", \"options\": {\"packageName\": \"com.example.petstore.server\", \"basePackage\": \"com.example.petstore\", \"groupId\": \"com.example\", \"artifactId\": \"petstore-server\", \"artifactVersion\": \"1.0.0\"}}")
                             }))
-            @Valid GeneratorInput generatorInput) {
+            @Valid
+            @org.springframework.web.bind.annotation.RequestBody
+            GeneratorInput generatorInput) {
         return getDelegate().generateServerForLanguage(framework, generatorInput);
     }
 

@@ -27,15 +27,14 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 @Setter
 @Schema(description = "Configuration for building the client library")
 public class GeneratorInput {
     
-    @Getter 
     @Schema(description = "OpenAPI specification as JSON object", example = "{\"openapi\": \"3.0.0\", \"info\": {\"title\": \"Sample API\", \"version\": \"1.0.0\"}}")
     private JsonNode spec;
     
-    @Getter 
     @Schema(description = "Generator-specific options", example = "{\"packageName\": \"com.example.client\", \"clientPackage\": \"com.example.client\"}")
     private Map<String, String> options;
     
@@ -43,15 +42,9 @@ public class GeneratorInput {
     @JsonProperty("openAPIUrl")
     private String openAPIUrl;
     
-    @Getter 
     @Schema(description = "Authorization value for accessing the OpenAPI specification")
     private AuthorizationValue authorizationValue;
     
-    @Getter 
     @Schema(description = "OpenAPI normalizer rules", example = "[\"FILTER=operationId:updatePet\"]")
     private List<String> openapiNormalizer;
-
-    public String getOpenAPIUrl() {
-        return openAPIUrl;
-    }
 }
