@@ -17,6 +17,7 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
+@Path("/another-fake/dummy")
 @Api(description = "the another-fake API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface AnotherFakeApi {
@@ -29,7 +30,6 @@ public interface AnotherFakeApi {
      * @return successful operation
      */
     @PATCH
-    @Path("/another-fake/dummy")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", tags={ "$another-fake?" })

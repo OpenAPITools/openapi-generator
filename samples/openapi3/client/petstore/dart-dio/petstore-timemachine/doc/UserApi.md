@@ -39,7 +39,7 @@ final User user = ; // User | Created user object
 
 try {
     api.createUser(user);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->createUser: $e\n');
 }
 ```
@@ -85,7 +85,7 @@ final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
 try {
     api.createUsersWithArrayInput(user);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
 ```
@@ -131,7 +131,7 @@ final BuiltList<User> user = ; // BuiltList<User> | List of user object
 
 try {
     api.createUsersWithListInput(user);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
 ```
@@ -177,7 +177,7 @@ final String username = username_example; // String | The name that needs to be 
 
 try {
     api.deleteUser(username);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->deleteUser: $e\n');
 }
 ```
@@ -220,7 +220,7 @@ final String username = username_example; // String | The name that needs to be 
 try {
     final response = api.getUserByName(username);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->getUserByName: $e\n');
 }
 ```
@@ -264,7 +264,7 @@ final String password = password_example; // String | The password for login in 
 try {
     final response = api.loginUser(username, password);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->loginUser: $e\n');
 }
 ```
@@ -310,7 +310,7 @@ final api = Openapi().getUserApi();
 
 try {
     api.logoutUser();
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->logoutUser: $e\n');
 }
 ```
@@ -354,7 +354,7 @@ final User user = ; // User | Updated user object
 
 try {
     api.updateUser(username, user);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling UserApi->updateUser: $e\n');
 }
 ```

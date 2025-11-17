@@ -188,15 +188,6 @@ end:
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{^isEnum}}{{paramName}}{{/isEnum}}{{#isEnum}}{{{operationId}}}_{{enumName}}_ToString({{paramName}}){{/isEnum}});
     {{/isString}}
-    {{#isUuid}}
-    if({{paramName}} == NULL) {
-        goto end;
-    }
-    char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
-    sprintf(localVarToReplace_{{paramName}}, "{%s}", "{{baseName}}");
-
-    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
-    {{/isUuid}}
     {{/pathParams}}
 
 

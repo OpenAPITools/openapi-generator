@@ -95,11 +95,11 @@ To run a client, follow one of the following simple steps:
   {{#apis}}
     {{#operations}}
       {{#operation}}
-        {{#vendorExtensions}}
+        {{#exts}}
           {{^x-no-client-example}}
 cargo run --example client {{{operationId}}}
           {{/x-no-client-example}}
-        {{/vendorExtensions}}
+        {{/exts}}
       {{/operation}}
     {{/operations}}
   {{/apis}}

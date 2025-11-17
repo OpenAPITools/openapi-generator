@@ -989,6 +989,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                         additionalProperties.discriminatorValue = mappedModel.getMappingName();
                         // Remove the discriminator property from the derived class, it is not needed in the generated code
                         getAllVarProperties(mappedModel.getModel()).forEach(list -> list.removeIf(prop -> prop.name.equals(discriminator.getPropertyName())));
+
+                        // If model has no properties after removing discriminator, mark it as empty
+                        // so it generates as a class instead of an empty data class
+                        if (mappedModel.getModel().vars.isEmpty() && !mappedModel.getModel().isEnum && !mappedModel.getModel().isAlias) {
+                            mappedModel.getModel().setHasVars(false);
+                        }
                     }
 
                 }

@@ -42,6 +42,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
     public static final String USE_MICROPROFILE_OPENAPI_ANNOTATIONS = "useMicroProfileOpenAPIAnnotations";
+    public static final String USE_SWAGGER_V3_ANNOTATIONS = "useSwaggerV3Annotations";
     public static final String USE_MUTINY = "useMutiny";
     public static final String OPEN_API_SPEC_FILE_LOCATION = "openApiSpecFileLocation";
     public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
@@ -57,6 +58,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean returnJbossResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
+    private boolean useSwaggerV3Annotations = false;
     private boolean useMicroProfileOpenAPIAnnotations = false;
     private boolean useMutiny = false;
 
@@ -133,6 +135,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
         cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_V3_ANNOTATIONS, "Whether to generate Swagger v3 (OpenAPI v3) annotations.", useSwaggerV3Annotations));
         cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
         cliOptions.add(CliOption.newString(OPEN_API_SPEC_FILE_LOCATION, "Location where the file containing the spec will be generated in the output folder. No file generated when set to null or empty string."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_ASYNC, "Wrap responses in CompletionStage type, allowing asynchronous computation (requires JAX-RS 2.1).", supportAsync));
@@ -149,12 +152,26 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(RETURN_JBOSS_RESPONSE, value -> returnJbossResponse = value);
         convertPropertyToBooleanAndWriteBack(SUPPORT_ASYNC, this::setSupportAsync);
         if (QUARKUS_LIBRARY.equals(library) || THORNTAIL_LIBRARY.equals(library) || HELIDON_LIBRARY.equals(library) || OPEN_LIBERTY_LIBRARY.equals(library) || KUMULUZEE_LIBRARY.equals(library)) {
+            // disable Swagger v2 annotations in library modes; MicroProfile or Swagger v3 may be used instead
             useSwaggerAnnotations = false;
         } else {
             convertPropertyToBooleanAndWriteBack(USE_SWAGGER_ANNOTATIONS, value -> useSwaggerAnnotations = value);
         }
+        // Swagger v3 can be used regardless of library
+        convertPropertyToBooleanAndWriteBack(USE_SWAGGER_V3_ANNOTATIONS, value -> useSwaggerV3Annotations = value);
+        // prefer v3 when requested
+        if (useSwaggerV3Annotations) {
+            useSwaggerAnnotations = false;
+        }
         if (KUMULUZEE_LIBRARY.equals(library)) {
             super.setSourceFolder("src/main/java");
+        }
+
+        if (useSwaggerAnnotations && useSwaggerV3Annotations) {
+            throw new IllegalArgumentException("Flags 'useSwaggerAnnotations' (v2) and 'useSwaggerV3Annotations' (v3) are mutually exclusive. Please enable only one.");
+        }
+        if (useSwaggerV3Annotations && useMicroProfileOpenAPIAnnotations) {
+            throw new IllegalArgumentException("Flags 'useSwaggerV3Annotations' and 'useMicroProfileOpenAPIAnnotations' are mutually exclusive. Please enable only one.");
         }
 
         if (QUARKUS_LIBRARY.equals(library)) {
@@ -183,6 +200,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
 
         super.processOpts();
+
+        // expose flags to templates
+        additionalProperties.put(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+        additionalProperties.put(USE_SWAGGER_V3_ANNOTATIONS, useSwaggerV3Annotations);
+        additionalProperties.put(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, useMicroProfileOpenAPIAnnotations);
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
