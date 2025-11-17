@@ -56,10 +56,6 @@ public class OpenAPIDocumentationConfig {
                                 .url("https://www.apache.org/licenses/LICENSE-2.0.html"))
                         .contact(new Contact()
                                 .name("OpenAPI Generator Team")
-                                .url("https://github.com/OpenAPITools/openapi-generator")))
-                .servers(List.of(
-                        new Server().url("http://localhost:8081").description("Local development server"),
-                        new Server().url("https://api.openapi-generator.tech").description("Production server")
-                ));
+                                .url("https://github.com/OpenAPITools/openapi-generator")));
     }
 }

@@ -12,6 +12,8 @@
     <packaging>jar</packaging>
     <name>openapi-generator-online</name>
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <spring-boot.version>3.5.7</spring-boot.version>
         <springdoc-version>2.8.14</springdoc-version>
         <sonar.exclusions>**/org/openapitools/codegen/online/**/*</sonar.exclusions>
