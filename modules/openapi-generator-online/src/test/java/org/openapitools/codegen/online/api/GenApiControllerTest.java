@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
@@ -90,7 +89,6 @@ public class GenApiControllerTest {
         String result = mockMvc.perform(post("http://test.com:1234/api/gen/" + type + "/" + name)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
