@@ -64,7 +64,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/myObject"
+                allOf:
+                - $ref: "#/components/schemas/myObject"
+                nullable: true
           description: ""
       tags:
       - fake
