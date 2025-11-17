@@ -59,7 +59,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/isEnum}}
 {{^isEnum}}
 {{#dataType}}
-#[derive(Debug, Clone, PartialEq, {{#vendorExtensions.x-partial-ord}}PartialOrd, {{/vendorExtensions.x-partial-ord}}serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, {{#exts.x-partial-ord}}PartialOrd, {{/exts.x-partial-ord}}serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
@@ -91,8 +91,8 @@ impl std::ops::DerefMut for {{{classname}}} {
     }
 }
 
-{{#vendorExtensions.x-to-string-support}}
-{{#vendorExtensions.x-is-string}}
+{{#exts.x-to-string-support}}
+{{#exts.x-is-string}}
 impl std::fmt::Display for {{{classname}}} {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0.clone())
@@ -105,8 +105,8 @@ impl std::str::FromStr for {{{classname}}} {
         std::result::Result::Ok({{{classname}}}(x.to_owned()))
     }
 }
-{{/vendorExtensions.x-is-string}}
-{{^vendorExtensions.x-is-string}}
+{{/exts.x-is-string}}
+{{^exts.x-is-string}}
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -129,9 +129,9 @@ impl ::std::str::FromStr for {{{classname}}} {
         }
     }
 }
-{{/vendorExtensions.x-is-string}}
-{{/vendorExtensions.x-to-string-support}}
-{{^vendorExtensions.x-to-string-support}}
+{{/exts.x-is-string}}
+{{/exts.x-to-string-support}}
+{{^exts.x-to-string-support}}
 /// Converts the {{{classname}}} value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -152,11 +152,11 @@ impl ::std::str::FromStr for {{{classname}}} {
         std::result::Result::Err("Parsing {{{classname}}} is not supported")
     }
 }
-{{/vendorExtensions.x-to-string-support}}
+{{/exts.x-to-string-support}}
 {{/dataType}}
 {{^dataType}}
 {{#arrayModelType}}
-{{#vendorExtensions}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
+{{#exts}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
 fn wrap_in_{{{x-item-xml-name}}}<S>(items: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
@@ -173,16 +173,16 @@ where
 }
 
 {{/x-item-xml-name}}
-{{/vendorExtensions}}
+{{/exts}}
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(
-{{#vendorExtensions}}
+{{#exts}}
 {{#x-item-xml-name}}
     #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
 {{/x-item-xml-name}}
-{{/vendorExtensions}}
+{{/exts}}
     Vec<{{{arrayModelType}}}>
 );
 
@@ -282,11 +282,11 @@ pub struct {{{classname}}} {
 {{/description}}{{#isEnum}}    // Note: inline enums are not fully supported by openapi-generator
 {{/isEnum}}
     #[serde(rename = "{{{baseName}}}")]
-{{#vendorExtensions}}
+{{#exts}}
 {{#x-item-xml-name}}
     #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
 {{/x-item-xml-name}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#hasValidation}}
     #[validate(
         {{#maxLength}}

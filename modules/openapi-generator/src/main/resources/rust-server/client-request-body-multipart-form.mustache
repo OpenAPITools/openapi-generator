@@ -1,7 +1,7 @@
         let (body_string, multipart_header) = {
             let mut multipart = Multipart::new();
 
-    {{#vendorExtensions}}
+    {{#exts}}
       {{#formParams}}
         {{#-first}}
             // For each parameter, encode as appropriate and add to the multipart body as a stream.
@@ -36,7 +36,7 @@
             multipart.add_stream("{{{paramName}}}",  {{{paramName}}}_cursor,  filename, Some({{{paramName}}}_mime));
         {{/isByteArray}}
       {{/formParams}}
-    {{/vendorExtensions}}
+    {{/exts}}
 
             let mut fields = match multipart.prepare() {
                 Ok(fields) => fields,

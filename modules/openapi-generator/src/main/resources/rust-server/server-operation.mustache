@@ -1,5 +1,5 @@
             // {{{operationId}}} - {{{httpMethod}}} {{{path}}}
-            hyper::Method::{{vendorExtensions.x-http-method}} if path.matched(paths::ID_{{vendorExtensions.x-path-id}}) => {
+            hyper::Method::{{exts.x-http-method}} if path.matched(paths::ID_{{exts.x-path-id}}) => {
 {{#hasAuthMethods}}
                 {
                     let authorization = match *(&context as &dyn Has<Option<Authorization>>).get() {
@@ -37,7 +37,7 @@
                 }
 
 {{/hasAuthMethods}}
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-has-path-params}}
                 // Path parameters
                 let path: &str = uri.path();
@@ -49,7 +49,7 @@
                     );
 
   {{/x-has-path-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#pathParams}}
                 let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
                     Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
@@ -66,11 +66,11 @@
                 };
 
 {{/pathParams}}
-{{#vendorExtensions}}
+{{#exts}}
   {{#x-callback-params}}
                 let callback_{{.}} = path_params["{{{.}}}"].to_string();
   {{/x-callback-params}}
-{{/vendorExtensions}}
+{{/exts}}
 {{#headerParams}}
   {{#-first}}
                 // Header parameters
@@ -117,7 +117,7 @@
   {{/-first}}
                 let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.clone())
   {{#isArray}}
-    {{^vendorExtensions.x-consumes-json}}
+    {{^exts.x-consumes-json}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
                     .collect::<Vec<_>>();
       {{^required}}
@@ -127,8 +127,8 @@
                     None
                 };
       {{/required}}
-    {{/vendorExtensions.x-consumes-json}}
-    {{#vendorExtensions.x-consumes-json}}
+    {{/exts.x-consumes-json}}
+    {{#exts.x-consumes-json}}
                     .next();
                 let param_{{{paramName}}} = match param_{{{paramName}}} {
                     Some(param_{{{paramName}}}) => {
@@ -154,19 +154,19 @@
                         .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
                 };
       {{/required}}
-    {{/vendorExtensions.x-consumes-json}}
+    {{/exts.x-consumes-json}}
   {{/isArray}}
   {{^isArray}}
                     .next();
                 let param_{{{paramName}}} = match param_{{{paramName}}} {
                     Some(param_{{{paramName}}}) => {
                         let param_{{{paramName}}} =
-    {{#vendorExtensions.x-consumes-json}}
+    {{#exts.x-consumes-json}}
                             serde_json::from_str::<{{{dataType}}}>
-    {{/vendorExtensions.x-consumes-json}}
-    {{^vendorExtensions.x-consumes-json}}
+    {{/exts.x-consumes-json}}
+    {{^exts.x-consumes-json}}
                             <{{{dataType}}} as std::str::FromStr>::from_str
-    {{/vendorExtensions.x-consumes-json}}
+    {{/exts.x-consumes-json}}
                                 (&param_{{{paramName}}});
                         match param_{{{paramName}}} {
                             Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
@@ -192,29 +192,29 @@
 
   {{/-last}}
 {{/queryParams}}
-{{#vendorExtensions.x-has-request-body}}
+{{#exts.x-has-request-body}}
                 // Handle body parameters (note that non-required body parameters will ignore garbage
                 // values, rather than causing a 400 response). Produce warning header and logs for
                 // any unused fields.
                 let result = http_body_util::BodyExt::collect(body).await.map(|f| f.to_bytes().to_vec());
                 match result {
                      Ok(body) => {
-  {{^vendorExtensions.x-consumes-multipart-form}}
-    {{^vendorExtensions.x-consumes-form}}
-      {{^bodyParam.vendorExtensions.x-consumes-plain-text}}
+  {{^exts.x-consumes-multipart-form}}
+    {{^exts.x-consumes-form}}
+      {{^bodyParam.exts.x-consumes-plain-text}}
                                 let mut unused_elements : Vec<String> = vec![];
-      {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
-    {{/vendorExtensions.x-consumes-form}}
-  {{/vendorExtensions.x-consumes-multipart-form}}
+      {{/bodyParam.exts.x-consumes-plain-text}}
+    {{/exts.x-consumes-form}}
+  {{/exts.x-consumes-multipart-form}}
 {{>server-request-body-instance}}
 
-{{/vendorExtensions.x-has-request-body}}
-                                let result = api_impl.{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
-                                        {{#vendorExtensions}}
+{{/exts.x-has-request-body}}
+                                let result = api_impl.{{#exts}}{{{x-operation-id}}}{{/exts}}(
+                                        {{#exts}}
                                           {{#x-callback-params}}
                                             callback_{{.}},
                                           {{/x-callback-params}}
-                                        {{/vendorExtensions}}
+                                        {{/exts}}
                                         {{#allParams}}
                                             param_{{{paramName}}}{{#isArray}}.as_ref(){{/isArray}},
                                         {{/allParams}}
@@ -226,24 +226,24 @@
                                             HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().as_str())
                                                 .expect("Unable to create X-Span-ID header value"));
 
-{{#vendorExtensions.x-has-request-body}}
-  {{^vendorExtensions.x-consumes-multipart-form}}
-    {{^vendorExtensions.x-consumes-form}}
-      {{^bodyParam.vendorExtensions.x-consumes-plain-text}}
+{{#exts.x-has-request-body}}
+  {{^exts.x-consumes-multipart-form}}
+    {{^exts.x-consumes-form}}
+      {{^bodyParam.exts.x-consumes-plain-text}}
                                         if !unused_elements.is_empty() {
                                             response.headers_mut().insert(
                                                 HeaderName::from_static("warning"),
                                                 HeaderValue::from_str(format!("Ignoring unknown fields in body: {unused_elements:?}").as_str())
                                                     .expect("Unable to create Warning header value"));
                                         }
-      {{/bodyParam.vendorExtensions.x-consumes-plain-text}}
-    {{/vendorExtensions.x-consumes-form}}
-  {{/vendorExtensions.x-consumes-multipart-form}}
-{{/vendorExtensions.x-has-request-body}}
+      {{/bodyParam.exts.x-consumes-plain-text}}
+    {{/exts.x-consumes-form}}
+  {{/exts.x-consumes-multipart-form}}
+{{/exts.x-has-request-body}}
                                         match result {
                                             Ok(rsp) => match rsp {
 {{#responses}}
-                                                {{{operationId}}}Response::{{#vendorExtensions}}{{x-response-id}}{{/vendorExtensions}}
+                                                {{{operationId}}}Response::{{#exts}}{{x-response-id}}{{/exts}}
 {{#dataType}}
 {{^headers}}
                                                     (body)
@@ -309,12 +309,12 @@
                                         }
 
                                         Ok(response)
-{{#vendorExtensions.x-has-request-body}}
+{{#exts.x-has-request-body}}
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
                                                 .body(body_from_string(format!("Unable to read body: {}", e.into())))
                                                 .expect("Unable to create Bad Request response due to unable to read body")),
                         }
-{{/vendorExtensions.x-has-request-body}}
+{{/exts.x-has-request-body}}
             },

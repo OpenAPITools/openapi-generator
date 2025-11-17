@@ -286,11 +286,11 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// To test enum parameters
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -352,9 +352,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Finds Pets by status
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         info!("find_pets_by_status({:?}) - X-Span-ID: {:?}", status, context.get().0.clone());
@@ -362,9 +362,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Finds Pets by tags
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        tags: &Vec<String>,
+        tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         info!("find_pets_by_tags({:?}) - X-Span-ID: {:?}", tags, context.get().0.clone());
@@ -476,9 +476,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         info!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
@@ -486,9 +486,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Creates list of users with given input array
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        body: &Vec<models::User>,
+        body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         info!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());

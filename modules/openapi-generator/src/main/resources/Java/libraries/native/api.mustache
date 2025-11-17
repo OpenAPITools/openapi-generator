@@ -49,6 +49,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Locale;
 import java.util.function.Consumer;
+{{#useGzipFeature}}
+import java.util.function.Supplier;
+{{/useGzipFeature}}
 {{#asyncNative}}
 
 import java.util.concurrent.CompletableFuture;
@@ -84,7 +87,7 @@ public class {{classname}} {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
@@ -102,15 +105,33 @@ public class {{classname}} {
 
   {{#asyncNative}}
 
-  private ApiException getApiException(String operationId, HttpResponse<String> response) {
-    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
-    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  private ApiException getApiException(String operationId, HttpResponse<InputStream> response) {
+    try {
+      InputStream responseBody = ApiClient.getResponseBody(response);
+      String body = null;
+      if (responseBody != null) {
+        body = new String(responseBody.readAllBytes());
+        responseBody.close();
+      }
+      String message = formatExceptionMessage(operationId, response.statusCode(), body);
+      return new ApiException(response.statusCode(), message, response.headers(), body);
+    } catch (IOException e) {
+      return new ApiException(e);
+    }
   }
   {{/asyncNative}}
   {{^asyncNative}}
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -130,10 +151,13 @@ public class {{classname}} {
    * @return File
    * @throws ApiException If fail to read file content from response and write to disk
    */
-  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
     try {
       File file = prepareDownloadFile(response);
-      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -349,27 +373,8 @@ public class {{classname}} {
     {{/asyncNative}}
     {{#asyncNative}}
     try {
-      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
-      return memberVarHttpClient.sendAsync(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-            if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
-            }
-            {{#returnType}}
-            try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {})
-              );
-            } catch (IOException e) {
-              return CompletableFuture.failedFuture(new ApiException(e));
-            }
-            {{/returnType}}
-            {{^returnType}}
-            return CompletableFuture.completedFuture(null);
-            {{/returnType}}
-      });
+      return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers)
+          .thenApply(ApiResponse::getData);
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -430,6 +435,7 @@ public class {{classname}} {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("{{operationId}}", localVarResponse);
@@ -438,7 +444,8 @@ public class {{classname}} {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -460,7 +467,8 @@ public class {{classname}} {
         {{! A fix for that problem is to read it into a string and remove those characters, but if we need to read it before giving it to jackson to fix the string then just reading it into a string as is to do an emptiness check is the cleaner solution. }}
         {{! We could also manipulate the inputstream to remove that bad character, but string manipulation is easier to read and this codepath is not asyncronus so we do not gain anything by reading the stream later. }}
         {{! This fix does make it unsuitable for large amounts of data because `InputStream.readAllbytes` is not meant for it, but a synchronous client is already not the right tool for that.}}
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<{{{returnType}}}>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -469,17 +477,16 @@ public class {{classname}} {
         }
 
         {{^isResponseFile}}{{#isResponseBinary}}
-        Byte[] responseValue = localVarResponse.body().readAllBytes();
+        Byte[] responseValue = localVarResponseBody.readAllBytes();
         {{/isResponseBinary}}{{/isResponseFile}}
         {{#isResponseFile}}
         // Handle file downloading.
-        File responseValue = downloadFileFromResponse(localVarResponse);
+        File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
         {{/isResponseFile}}
         {{^isResponseBinary}}{{^isResponseFile}}
-        String responseBody = new String(localVarResponse.body().readAllBytes());
+        String responseBody = new String(localVarResponseBody.readAllBytes());
         {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
         {{/isResponseFile}}{{/isResponseBinary}}
-        localVarResponse.body().close();
 
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
@@ -488,6 +495,10 @@ public class {{classname}} {
         );
         {{/returnType}}
         {{^returnType}}
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
+        }
         return new ApiResponse<{{{returnType}}}>(
             localVarResponse.statusCode(),
             localVarResponse.headers().map(),
@@ -496,13 +507,9 @@ public class {{classname}} {
         {{/returnType}}
         {{/vendorExtensions.x-java-text-plain-string}}
       } finally {
-        {{^returnType}}
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
-        {{/returnType}}
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -517,31 +524,78 @@ public class {{classname}} {
       HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
             }
-            {{#returnType}}
             try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  new ApiResponse<{{{returnType}}}>(
-                      localVarResponse.statusCode(),
-                      localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {}))
-              );
+              InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+              try {
+                {{#vendorExtensions.x-java-text-plain-string}}
+                if (localVarResponse.headers().map().containsKey("Content-Type") &&
+                        "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
+                  java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
+                  String responseBodyText = s.hasNext() ? s.next() : "";
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<String>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          responseBodyText
+                      )
+                  );
+                } else {
+                  return CompletableFuture.failedFuture(new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse));
+                }
+                {{/vendorExtensions.x-java-text-plain-string}}
+                {{^vendorExtensions.x-java-text-plain-string}}
+                {{#returnType}}
+                if (localVarResponseBody == null) {
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<{{{returnType}}}>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          null
+                      )
+                  );
+                }
+                {{^isResponseFile}}{{#isResponseBinary}}
+                Byte[] responseValue = localVarResponseBody.readAllBytes();
+                {{/isResponseBinary}}{{/isResponseFile}}
+                {{#isResponseFile}}
+                File responseValue = downloadFileFromResponse(localVarResponse, localVarResponseBody);
+                {{/isResponseFile}}
+                {{^isResponseBinary}}{{^isResponseFile}}
+                String responseBody = new String(localVarResponseBody.readAllBytes());
+                {{{returnType}}} responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<{{{returnType}}}>() {});
+                {{/isResponseFile}}{{/isResponseBinary}}
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<{{{returnType}}}>(
+                        localVarResponse.statusCode(),
+                        localVarResponse.headers().map(),
+                        responseValue
+                    )
+                );
+                {{/returnType}}
+                {{^returnType}}
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.readAllBytes();
+                }
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+                );
+                {{/returnType}}
+                {{/vendorExtensions.x-java-text-plain-string}}
+              } finally {
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.close();
+                }
+              }
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
-            {{/returnType}}
-            {{^returnType}}
-            return CompletableFuture.completedFuture(
-                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
-            );
-            {{/returnType}}
         }
       );
     }
@@ -644,15 +698,32 @@ public class {{classname}} {
     localVarRequestBuilder.header("Content-Type", "{{#hasConsumes}}{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{/hasConsumes}}{{#hasConsumes}}{{^consumes}}application/json{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}application/json{{/hasConsumes}}");
     {{/bodyParam}}
     localVarRequestBuilder.header("Accept", "{{#hasProduces}}{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}{{/hasProduces}}{{#hasProduces}}{{^produces}}application/json{{/produces}}{{/hasProduces}}{{^hasProduces}}application/json{{/hasProduces}}");
+    {{#useGzipFeature}}
+    localVarRequestBuilder.header("Accept-Encoding", "gzip");
+    {{/useGzipFeature}}
 
     {{#bodyParam}}
     {{#isString}}
+    {{#useGzipFeature}}
+    Supplier<InputStream> localVarRequestBodySupplier = () -> new ByteArrayInputStream({{paramName}}.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+    localVarRequestBuilder.header("Content-Encoding", "gzip");
+    localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofString({{paramName}}));
+    {{/useGzipFeature}}
     {{/isString}}
     {{^isString}}
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes({{paramName}});
+      {{#useGzipFeature}}
+      Supplier<InputStream> localVarRequestBodySupplier = () -> new ByteArrayInputStream(localVarPostBody);
+      localVarRequestBuilder.header("Content-Encoding", "gzip");
+      localVarRequestBuilder.method("{{httpMethod}}", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
+      {{/useGzipFeature}}
+      {{^useGzipFeature}}
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+      {{/useGzipFeature}}
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -690,6 +761,39 @@ public class {{classname}} {
     {{/isArray}}
     {{/formParams}}
     HttpEntity entity = multiPartBuilder.build();
+    {{#useGzipFeature}}
+    Supplier<InputStream> formDataSupplier;
+    if (hasFiles) {
+        Pipe pipe;
+        try {
+            pipe = Pipe.open();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        new Thread(() -> {
+            try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
+                entity.writeTo(outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        formDataSupplier = () -> Channels.newInputStream(pipe.source());
+    } else {
+        ByteArrayOutputStream formOutputStream = new ByteArrayOutputStream();
+        try {
+            entity.writeTo(formOutputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] formBytes = formOutputStream.toByteArray();
+        formDataSupplier = () -> new ByteArrayInputStream(formBytes);
+    }
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .header("Content-Encoding", "gzip")
+        .method("{{httpMethod}}", ApiClient.gzipRequestBody(formDataSupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     HttpRequest.BodyPublisher formDataPublisher;
     if (hasFiles) {
         Pipe pipe;
@@ -713,12 +817,14 @@ public class {{classname}} {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        byte[] formBytes = formOutputStream.toByteArray();
         formDataPublisher = HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray()));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes));
     }
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
         .method("{{httpMethod}}", formDataPublisher);
+    {{/useGzipFeature}}
     {{/isMultipart}}
     {{^isMultipart}}
     List<NameValuePair> formValues = new ArrayList<>();
@@ -743,10 +849,20 @@ public class {{classname}} {
     } catch (IOException e) {
         throw new RuntimeException(e);
     }
+    byte[] formBytes = formOutputStream.toByteArray();
+    {{#useGzipFeature}}
+    Supplier<InputStream> formDataSupplier = () -> new ByteArrayInputStream(formBytes);
+    localVarRequestBuilder
+        .header("Content-Type", entity.getContentType().getValue())
+        .header("Content-Encoding", "gzip")
+        .method("{{httpMethod}}", ApiClient.gzipRequestBody(formDataSupplier));
+    {{/useGzipFeature}}
+    {{^useGzipFeature}}
     localVarRequestBuilder
         .header("Content-Type", entity.getContentType().getValue())
         .method("{{httpMethod}}", HttpRequest.BodyPublishers
-            .ofInputStream(() -> new ByteArrayInputStream(formOutputStream.toByteArray())));
+            .ofInputStream(() -> new ByteArrayInputStream(formBytes)));
+    {{/useGzipFeature}}
     {{/isMultipart}}
     {{/hasFormParams}}
     {{^hasFormParams}}

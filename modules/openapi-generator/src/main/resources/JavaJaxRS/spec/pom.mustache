@@ -120,6 +120,14 @@
       <version>1.5.3</version>
     </dependency>
     {{/useSwaggerAnnotations}}
+    {{#useSwaggerV3Annotations}}
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <scope>provided</scope>
+      <version>${io.swagger.v3.annotations.version}</version>
+    </dependency>
+    {{/useSwaggerV3Annotations}}
     <!-- @Nullable annotation -->
     <dependency>
         <groupId>com.google.code.findbugs</groupId>
@@ -202,5 +210,8 @@
 {{#openApiNullable}}
     <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
 {{/openApiNullable}}
+{{#useSwaggerV3Annotations}}
+    <io.swagger.v3.annotations.version>2.2.21</io.swagger.v3.annotations.version>
+{{/useSwaggerV3Annotations}}
   </properties>
 </project>

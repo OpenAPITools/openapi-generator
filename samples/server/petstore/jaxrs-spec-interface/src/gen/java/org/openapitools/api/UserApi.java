@@ -17,6 +17,7 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
+@Path("/user")
 @Api(description = "the user API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface UserApi {
@@ -28,7 +29,6 @@ public interface UserApi {
      * @return successful operation
      */
     @POST
-    @Path("/user")
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -42,7 +42,7 @@ public interface UserApi {
      * @return successful operation
      */
     @POST
-    @Path("/user/createWithArray")
+    @Path("/createWithArray")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -56,7 +56,7 @@ public interface UserApi {
      * @return successful operation
      */
     @POST
-    @Path("/user/createWithList")
+    @Path("/createWithList")
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -71,7 +71,7 @@ public interface UserApi {
      * @return User not found
      */
     @DELETE
-    @Path("/user/{username}")
+    @Path("/{username}")
     @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
@@ -88,7 +88,7 @@ public interface UserApi {
      * @return User not found
      */
     @GET
-    @Path("/user/{username}")
+    @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Get user by user name", notes = "", tags={ "user" })
     @ApiResponses(value = { 
@@ -107,7 +107,7 @@ public interface UserApi {
      * @return Invalid username/password supplied
      */
     @GET
-    @Path("/user/login")
+    @Path("/login")
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Logs user into the system", notes = "", tags={ "user" })
     @ApiResponses(value = { 
@@ -122,7 +122,7 @@ public interface UserApi {
      * @return successful operation
      */
     @GET
-    @Path("/user/logout")
+    @Path("/logout")
     @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -138,7 +138,7 @@ public interface UserApi {
      * @return User not found
      */
     @PUT
-    @Path("/user/{username}")
+    @Path("/{username}")
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),

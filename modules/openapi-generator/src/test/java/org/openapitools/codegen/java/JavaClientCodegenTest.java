@@ -3533,8 +3533,9 @@ public class JavaClientCodegenTest {
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileContains(
-                //reading the body into a string, then checking if it is blank.
-                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+                // reading the body into a string after decompression, then checking if it is blank.
+                "localVarResponseBody = ApiClient.getResponseBody(localVarResponse);",
+                "String responseBody = new String(localVarResponseBody.readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }
@@ -3627,9 +3628,10 @@ public class JavaClientCodegenTest {
         File apiFile = files.get("DefaultApi.java");
         assertNotNull(apiFile);
 
-        JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
-                //reading the body into a string, then checking if it is blank.
-                "String responseBody = new String(localVarResponse.body().readAllBytes());",
+        JavaFileAssert.assertThat(apiFile).fileContains(
+                // async path should also decompress before reading the body.
+                "InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);",
+                "String responseBody = new String(localVarResponseBody.readAllBytes());",
                 "responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<LocationData>() {})"
         );
     }

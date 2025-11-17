@@ -1081,12 +1081,12 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\User
+     * @return \OpenAPI\Client\Model\User|null
      */
     public function getUserByName(
         string $username,
         string $contentType = self::contentTypes['getUserByName'][0]
-    ): \OpenAPI\Client\Model\User
+    ): ?\OpenAPI\Client\Model\User
     {
         list($response) = $this->getUserByNameWithHttpInfo($username, $contentType);
         return $response;
@@ -1362,13 +1362,13 @@ class UserApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return string
+     * @return string|null
      */
     public function loginUser(
         string $username,
         string $password,
         string $contentType = self::contentTypes['loginUser'][0]
-    ): string
+    ): ?string
     {
         list($response) = $this->loginUserWithHttpInfo($username, $password, $contentType);
         return $response;

@@ -34,6 +34,9 @@ jobs:
           - samples/server/petstore/jaxrs-cxf-cdi
           - samples/server/petstore/jaxrs-cxf-non-spring-app
           - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
+          - samples/server/petstore/jaxrs-spec-swagger-annotations
+          - samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
+          - samples/server/petstore/jaxrs-spec-swagger-v3-annotations
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
