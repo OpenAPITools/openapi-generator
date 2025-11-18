@@ -110,7 +110,7 @@ import java.io.IOException
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
 {{#discriminator.mappedModels}}
     @JvmInline
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}} value class {{modelName}}{{classname}}(val value: {{modelName}}) : {{classname}}
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}} value class {{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(val value: {{modelName}}) : {{classname}}
 
 {{/discriminator.mappedModels}}
 }
@@ -122,7 +122,7 @@ import java.io.IOException
         require(encoder is JsonEncoder)
         val jsonObject = when (value) {
 {{#discriminator.mappedModels}}
-            is {{classname}}.{{modelName}}{{classname}} -> {
+            is {{classname}}.{{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}} -> {
                 val jsonMap = encoder.json.encodeToJsonElement({{modelName}}.serializer(), value.value).jsonObject.toMutableMap()
                 jsonMap["{{discriminator.propertyBaseName}}"] = JsonPrimitive("{{mappingName}}")
                 JsonObject(jsonMap)
@@ -143,7 +143,7 @@ import java.io.IOException
 {{#discriminator.mappedModels}}
             "{{mappingName}}" -> {
                 val decoded = decoder.json.decodeFromJsonElement({{modelName}}.serializer(), element)
-                {{classname}}.{{modelName}}{{classname}}(decoded)
+                {{classname}}.{{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(decoded)
             }
 {{/discriminator.mappedModels}}
             else -> throw SerializationException("Unknown {{classname}} {{discriminator.propertyBaseName}}: $discriminatorValue")

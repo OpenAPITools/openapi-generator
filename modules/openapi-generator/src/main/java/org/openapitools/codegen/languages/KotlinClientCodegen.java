@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -40,10 +39,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.samskivert.mustache.Mustache;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -60,14 +57,7 @@ import org.openapitools.codegen.meta.features.ParameterFeature;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
-import org.openapitools.codegen.utils.ProcessUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static java.util.Collections.sort;
 
@@ -569,6 +559,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // as the parser interrupts that as a start of a multiline comment.
         // We replace paths like `/v1/foo/*` with `/v1/foo/<*>` to avoid this
         additionalProperties.put("sanitizePathComment", new ReplaceAllLambda("\\/\\*", "/<*>"));
+        additionalProperties.put("fnToOneOfWrapperName", new ToOneOfWrapperName());
     }
 
     private void processDateLibrary() {
@@ -1148,6 +1139,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         String type = StringUtils.defaultIfEmpty(param.datatypeWithEnum, param.dataType);
         param.enumDefaultValue = toEnumVarName(param.defaultValue, type);
         param.defaultValue = type + "." + param.enumDefaultValue;
+    }
+
+    private class ToOneOfWrapperName extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            return toModelName(StringUtils.lowerCase(fragment)) + "Wrapper";
+        }
     }
 
     @Override

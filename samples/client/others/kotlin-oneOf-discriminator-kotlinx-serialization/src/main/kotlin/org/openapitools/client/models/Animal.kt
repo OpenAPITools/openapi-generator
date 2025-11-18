@@ -43,10 +43,10 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable(with = AnimalSerializer::class)
 sealed interface Animal {
     @JvmInline
-     value class BirdAnimal(val value: Bird) : Animal
+     value class BirdWrapper(val value: Bird) : Animal
 
     @JvmInline
-     value class RobobirdAnimal(val value: Robobird) : Animal
+     value class RobobirdWrapper(val value: Robobird) : Animal
 
 }
 
@@ -56,12 +56,12 @@ object AnimalSerializer : KSerializer<Animal> {
     override fun serialize(encoder: Encoder, value: Animal) {
         require(encoder is JsonEncoder)
         val jsonObject = when (value) {
-            is Animal.BirdAnimal -> {
+            is Animal.BirdWrapper -> {
                 val jsonMap = encoder.json.encodeToJsonElement(Bird.serializer(), value.value).jsonObject.toMutableMap()
                 jsonMap["discriminator"] = JsonPrimitive("BIRD")
                 JsonObject(jsonMap)
             }
-            is Animal.RobobirdAnimal -> {
+            is Animal.RobobirdWrapper -> {
                 val jsonMap = encoder.json.encodeToJsonElement(Robobird.serializer(), value.value).jsonObject.toMutableMap()
                 jsonMap["discriminator"] = JsonPrimitive("ROBOBIRD")
                 JsonObject(jsonMap)
@@ -80,11 +80,11 @@ object AnimalSerializer : KSerializer<Animal> {
         return when (discriminatorValue) {
             "BIRD" -> {
                 val decoded = decoder.json.decodeFromJsonElement(Bird.serializer(), element)
-                Animal.BirdAnimal(decoded)
+                Animal.BirdWrapper(decoded)
             }
             "ROBOBIRD" -> {
                 val decoded = decoder.json.decodeFromJsonElement(Robobird.serializer(), element)
-                Animal.RobobirdAnimal(decoded)
+                Animal.RobobirdWrapper(decoded)
             }
             else -> throw SerializationException("Unknown Animal discriminator: $discriminatorValue")
         }
