@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Locale;
+import java.util.function.UnaryOperator;
 import java.util.function.Consumer;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
@@ -80,8 +81,8 @@ public class UserApi {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public UserApi() {
     this(Configuration.getDefaultApiClient());
@@ -217,7 +218,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -326,7 +327,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -435,7 +436,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -544,7 +545,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -651,7 +652,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -773,7 +774,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -904,7 +905,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -1007,7 +1008,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
+            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {

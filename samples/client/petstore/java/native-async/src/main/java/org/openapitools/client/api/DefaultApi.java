@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Locale;
+import java.util.function.UnaryOperator;
 import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
@@ -75,8 +76,8 @@ public class DefaultApi {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public DefaultApi() {
     this(Configuration.getDefaultApiClient());
@@ -217,7 +218,7 @@ public class DefaultApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarAsyncResponseInterceptor.accept(localVarResponse);
+              localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fooGet", localVarResponse));
