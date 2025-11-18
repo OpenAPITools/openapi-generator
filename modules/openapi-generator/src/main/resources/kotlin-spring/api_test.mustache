@@ -29,7 +29,8 @@ class {{classname}}Test {
         {{#allParams}}
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
-        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#includeHttpRequestContext}}val {{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}} = TODO(){{/includeHttpRequestContext}}
+        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
 
         // TODO: test validations
     }
