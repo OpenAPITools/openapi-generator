@@ -86,7 +86,8 @@ public class ApiClient {
     protected InputStream sslCaCert;
     protected boolean verifyingSsl;
     protected KeyManager[] keyManagers;
-
+    protected String tlsServerName;
+    
     protected OkHttpClient httpClient;
     protected JSON json;
 
