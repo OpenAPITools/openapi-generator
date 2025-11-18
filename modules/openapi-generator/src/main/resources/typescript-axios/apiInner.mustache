@@ -186,11 +186,18 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/isEnumRef}}{{^isEnumRef}}
                 localVarFormParams.append('{{baseName}}', new Blob([JSON.stringify({{paramName}})], { type: "application/json", }));{{/isEnumRef}}{{/isPrimitiveType}}{{/multipartFormData}}
             }{{/isArray}}
-    {{/formParams}}{{/vendorExtensions}}
-    {{#vendorExtensions}}{{#hasFormParams}}{{^multipartFormData}}
-            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';{{/multipartFormData}}
-    {{/hasFormParams}}{{/vendorExtensions}}
+    {{/formParams}}
+    {{/vendorExtensions}}
+    {{#vendorExtensions}}
+    {{#hasFormParams}}
+    {{^multipartFormData}}
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+    {{/multipartFormData}}
+    {{#multipartFormData}}
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    {{/multipartFormData}}
+    {{/hasFormParams}}
+    {{/vendorExtensions}}
     {{#bodyParam}}
             {{^consumes}}
             localVarHeaderParameter['Content-Type'] = 'application/json';
@@ -198,8 +205,11 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{#consumes.0}}
             localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
             {{/consumes.0}}
-
     {{/bodyParam}}
+    {{#hasProduces}}
+            localVarHeaderParameter['Accept'] = '{{#produces}}{{{mediaType}}}{{^-last}},{{/-last}}{{/produces}}';
+    {{/hasProduces}}
+
     {{#headerParams}}
             {{#isArray}}
             if ({{paramName}}) {

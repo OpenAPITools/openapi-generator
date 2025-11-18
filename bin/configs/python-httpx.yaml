@@ -6,7 +6,7 @@ library: httpx
 additionalProperties:
   packageName: petstore_api
   mapNumberTo: float
-  poetry1: true
+  poetry1: false
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore

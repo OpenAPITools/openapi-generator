@@ -3,6 +3,8 @@
 
 use async_trait::async_trait;
 use futures::Stream;
+#[cfg(feature = "mock")]
+use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
@@ -243,6 +245,7 @@ pub enum Op9GetResponse {
 }
 
 /// API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
@@ -397,9 +400,14 @@ pub trait Api<C: Send + Sync> {
 }
 
 /// API where `Context` isn't passed on every API call
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
+    // The std::task::Context struct houses a reference to std::task::Waker with the lifetime <'a>.
+    // Adding an anonymous lifetime `'a` to allow mockall to create a mock object with the right lifetimes.
+    // This is needed because the compiler is unable to determine the lifetimes on F's trait bound
+    // where F is the closure created by mockall. We use higher-rank trait bounds here to get around this.
 
     fn context(&self) -> &C;
 

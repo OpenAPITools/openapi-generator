@@ -112,7 +112,9 @@ enum Operation {
     /// Test a Form Post
     FormTest {
         #[clap(value_parser = parse_json::<Vec<String>>, long)]
-        required_array: Option<Vec<String>>,
+        required_array: Vec<String>,
+        #[clap(value_parser = parse_json::<models::FormTestRequestEnumField>)]
+        enum_field: models::FormTestRequestEnumField,
     },
     GetWithBooleanParameter {
         /// Let's check apostrophes get encoded properly!
@@ -352,11 +354,13 @@ async fn main() -> Result<()> {
         }
         Operation::FormTest {
             required_array,
+            enum_field,
         } => {
             info!("Performing a FormTest request");
 
             let result = client.form_test(
                 required_array.as_ref(),
+                enum_field,
             ).await?;
             debug!("Result: {:?}", result);
 

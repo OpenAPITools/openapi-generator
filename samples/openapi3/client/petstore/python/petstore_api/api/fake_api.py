@@ -4932,7 +4932,7 @@ class FakeApi:
 
 
         :param uuid_example: uuid example (required)
-        :type uuid_example: str
+        :type uuid_example: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4998,7 +4998,7 @@ class FakeApi:
 
 
         :param uuid_example: uuid example (required)
-        :type uuid_example: str
+        :type uuid_example: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5064,7 +5064,7 @@ class FakeApi:
 
 
         :param uuid_example: uuid example (required)
-        :type uuid_example: str
+        :type uuid_example: UUID
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

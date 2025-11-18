@@ -371,6 +371,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public String toParamName(String name) {
+        // rust-server doesn't support r# in param name.
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", false);
+    }
+
+    @Override
     public String toEnumValue(String value, String datatype) {
         // rust-server templates expect value to be in quotes
         return "\"" + super.toEnumValue(value, datatype) + "\"";
@@ -860,6 +870,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
+        if (op.allParams.stream()
+            .anyMatch(p -> p.isArray && !p.isPrimitiveType)) {
+            op.vendorExtensions.put("x-has-borrowed-params", Boolean.TRUE);
+            for (CodegenParameter param : op.allParams) {
+                if (param.isArray) {
+                    param.vendorExtensions.put("x-param-needs-lifetime", Boolean.TRUE);
+                }
+            }
+        }
+
         // The CLI generates a structopt structure for each operation. This can only have a single
         // use of a short option, which comes from the parameter name, so we need to police
         // against duplicates
@@ -1229,6 +1249,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
             toStringSupport = false;
             partialOrdSupport = false;
+        } else if (mdl.dataType != null && mdl.dataType.equals("serde_json::Value")) {
+            // Value doesn't implement PartialOrd
+            partialOrdSupport = false;
         } else if (mdl.getAdditionalPropertiesType() != null) {
             toStringSupport = false;
         } else if (model instanceof ComposedSchema) {
@@ -1545,7 +1568,18 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.example != null) {
+            // Check if this is a model-type enum (allowableValues with values list)
+            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
+                List<?> values = (List<?>) param.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    // Use the first enum value as the example.
+                    String firstEnumValue = values.get(0).toString();
+                    String enumVariant = toEnumVarName(firstEnumValue, param.dataType);
+                    example = param.dataType + "::" + enumVariant;
+                } else if (param.example != null) {
+                    example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                }
+            } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
