@@ -974,11 +974,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     if (discriminator == null) {
                         continue;
                     }
+
+                    // When using generateOneOfAnyOfWrappers and encountering oneOf, we keep discriminator properties,
+                    // because single entity can be referenced in multiple "parent" entities,
+                    // so discriminator for one might not be discriminator for another.
+                    boolean shouldKeepDiscriminatorField = generateOneOfAnyOfWrappers && cm.oneOf != null && !cm.oneOf.isEmpty();
+
+                    if (shouldKeepDiscriminatorField) {
+                        continue;
+                    }
+
                     // Remove discriminator property from the base class, it is not needed in the generated code
                     getAllVarProperties(cm).forEach(list -> list.removeIf(var -> var.name.equals(discriminator.getPropertyName())));
 
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
-                        // Add the mapping name to additionalProperties.disciminatorValue
+                        // Add the mapping name to additionalProperties.discriminatorValue
                         // The mapping name is used to define SerializedName, which in result makes derived classes
                         // found by kotlinx-serialization during deserialization
                         CodegenProperty additionalProperties = mappedModel.getModel().getAdditionalProperties();
@@ -996,7 +1006,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             mappedModel.getModel().setHasVars(false);
                         }
                     }
-
                 }
             }
         }
