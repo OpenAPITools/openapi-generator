@@ -109,6 +109,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
     }
 
+
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
