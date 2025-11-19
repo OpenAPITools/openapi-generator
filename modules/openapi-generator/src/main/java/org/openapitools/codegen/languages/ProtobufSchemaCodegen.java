@@ -139,7 +139,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         apiTemplateFiles.put("api.mustache", ".proto");
         embeddedTemplateDir = templateDir = "protobuf-schema";
         hideGenerationTimestamp = Boolean.TRUE;
-        modelPackage = "models";
+        super.setModelPackage("models");
         apiPackage = "services";
 
         defaultIncludes = new HashSet<>(
@@ -749,9 +749,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         String modelFileName = this.toModelFilename(importValue);
         boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
         if (!skipImport) {
-            this.addImport(cm, importValue);
+            // Use toModelImport to get the correct import path with model package prefix
+            String processedImport = this.toModelImport(importValue);
+            this.addImport(cm, processedImport);
             Map<String, String> importItem = new HashMap<>();
-            importItem.put(IMPORT, modelFileName);
+            importItem.put(IMPORT, processedImport);
             objs.get(cm.getName()).getImports().add(importItem);
         }
     }
@@ -1041,6 +1043,11 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if ("".equals(modelPackage())) {
             return name;
         } else {
+            // Check if the name already starts with the model package path to avoid duplication
+            String modelPath = modelPackage() + "/";
+            if (name.startsWith(modelPath)) {
+                return name;
+            }
             return modelPackage() + "/" + underscore(name);
         }
     }

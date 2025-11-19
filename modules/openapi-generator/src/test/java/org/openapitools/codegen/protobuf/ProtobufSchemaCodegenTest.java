@@ -296,4 +296,41 @@ public class ProtobufSchemaCodegenTest {
         Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("isString"), false);
     }
+
+    @Test(description = "Support multiple level of inheritance for discriminator - ensures properties from indirect children are included")
+    public void testCodeGenWithAllOfDiscriminatorMultipleLevels() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/allOf_composition_discriminator_multiple_inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "models/animal.proto");
+        Path path = Paths.get(output + "/models/animal.proto");
+
+        // Verify the generated file contains all expected properties from multi-level inheritance
+        String generatedContent = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        
+        // Properties from discriminated classes should be included:
+        // From Dog (direct child): bark
+        Assert.assertTrue(generatedContent.contains("string bark"), "Animal should contain 'bark' property from Dog");
+        // From Feline (direct child): name, furColor  
+        Assert.assertTrue(generatedContent.contains("string name"), "Animal should contain 'name' property from Feline");
+        Assert.assertTrue(generatedContent.contains("string fur_color"), "Animal should contain 'fur_color' property from Feline");
+        // From Cat (indirect child through Feline): isIndoor, careDetails
+        Assert.assertTrue(generatedContent.contains("bool is_indoor"), "Animal should contain 'is_indoor' property from Cat (indirect child)");
+        Assert.assertTrue(generatedContent.contains("CareDetails care_details"), "Animal should contain 'care_details' property from Cat (indirect child)");
+
+        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/animal.proto"));
+
+        output.deleteOnExit();
+    }
 }

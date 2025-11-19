@@ -48,6 +48,8 @@ components:
           properties:
             name:
               type: string
+            characteristics:
+              $ref: '#/components/schemas/Characteristics'
     Reptile:
       allOf:
         - $ref: '#/components/schemas/Pet'
