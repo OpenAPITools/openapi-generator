@@ -1,6 +1,8 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -12,6 +14,7 @@ import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -108,6 +111,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
@@ -127,6 +131,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("category")
   @Valid public Category getCategory() {
@@ -146,6 +151,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(example = "doggie", required = true, value = "")
   @Schema(example = "doggie", required = true, description = "")
   @JsonProperty(required = true, value = "name")
   @NotNull public String getName() {
@@ -165,6 +171,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(required = true, value = "")
   @Schema(required = true, description = "")
   @JsonProperty(required = true, value = "photoUrls")
   @NotNull public Set<String> getPhotoUrls() {
@@ -201,6 +208,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("tags")
   @Valid public List<@Valid Tag> getTags() {
@@ -237,6 +245,7 @@ public class Pet  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "pet status in the store")
   @Schema(description = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {

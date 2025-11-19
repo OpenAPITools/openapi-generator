@@ -1,10 +1,13 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -92,6 +95,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
@@ -111,6 +115,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("petId")
   public Long getPetId() {
@@ -130,6 +135,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -149,6 +155,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("shipDate")
   public Date getShipDate() {
@@ -169,6 +176,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "Order Status")
   @Schema(description = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -188,6 +196,7 @@ public class Order  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("complete")
   public Boolean getComplete() {

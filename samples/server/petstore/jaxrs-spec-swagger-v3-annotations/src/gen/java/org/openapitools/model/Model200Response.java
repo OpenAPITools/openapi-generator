@@ -1,10 +1,13 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Model for testing model name starting with number
  **/
-
+@ApiModel(description = "Model for testing model name starting with number")
 @Schema(description="Model for testing model name starting with number")
 @JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
@@ -39,6 +42,7 @@ public class Model200Response  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("name")
   public Integer getName() {
@@ -58,6 +62,7 @@ public class Model200Response  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("class")
   public String getPropertyClass() {

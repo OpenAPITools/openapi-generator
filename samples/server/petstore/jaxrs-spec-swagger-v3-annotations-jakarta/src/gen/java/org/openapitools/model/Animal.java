@@ -3,10 +3,13 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,6 +54,7 @@ public class Animal  implements Serializable {
   }
 
   
+  @ApiModelProperty(required = true, value = "")
   @Schema(required = true, description = "")
   @JsonProperty(required = true, value = "className")
   @NotNull public String getClassName() {
@@ -70,6 +74,7 @@ public class Animal  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("color")
   public String getColor() {

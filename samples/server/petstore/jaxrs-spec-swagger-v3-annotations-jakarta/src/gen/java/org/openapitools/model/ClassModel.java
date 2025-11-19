@@ -1,9 +1,12 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  **/
-
+@ApiModel(description = "Model for testing model with \"_class\" property")
 @Schema(description="Model for testing model with \"_class\" property")
 @JsonTypeName("ClassModel")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
@@ -36,6 +39,7 @@ public class ClassModel  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("_class")
   public String getPropertyClass() {

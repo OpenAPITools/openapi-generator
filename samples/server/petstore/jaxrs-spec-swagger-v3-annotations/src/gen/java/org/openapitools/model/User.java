@@ -1,9 +1,12 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,6 +51,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
@@ -67,6 +71,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("username")
   public String getUsername() {
@@ -86,6 +91,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("firstName")
   public String getFirstName() {
@@ -105,6 +111,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("lastName")
   public String getLastName() {
@@ -124,6 +131,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("email")
   public String getEmail() {
@@ -143,6 +151,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("password")
   public String getPassword() {
@@ -162,6 +171,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("phone")
   public String getPhone() {
@@ -182,6 +192,7 @@ public class User  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "User Status")
   @Schema(description = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {

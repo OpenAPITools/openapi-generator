@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +15,7 @@ import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,6 +53,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("integer_prop")
   public Integer getIntegerProp() {
@@ -69,6 +73,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("number_prop")
   @Valid public BigDecimal getNumberProp() {
@@ -88,6 +93,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("boolean_prop")
   public Boolean getBooleanProp() {
@@ -107,6 +113,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("string_prop")
   public String getStringProp() {
@@ -126,6 +133,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("date_prop")
   public LocalDate getDateProp() {
@@ -145,6 +153,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("datetime_prop")
   public Date getDatetimeProp() {
@@ -164,6 +173,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("array_nullable_prop")
   public List<Object> getArrayNullableProp() {
@@ -199,6 +209,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("array_and_items_nullable_prop")
   public List<Object> getArrayAndItemsNullableProp() {
@@ -234,6 +245,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("array_items_nullable")
   public List<Object> getArrayItemsNullable() {
@@ -269,6 +281,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("object_nullable_prop")
   public Map<String, Object> getObjectNullableProp() {
@@ -304,6 +317,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("object_and_items_nullable_prop")
   public Map<String, Object> getObjectAndItemsNullableProp() {
@@ -339,6 +353,7 @@ public class NullableClass extends HashMap<String, Object> implements Serializab
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("object_items_nullable")
   public Map<String, Object> getObjectItemsNullable() {

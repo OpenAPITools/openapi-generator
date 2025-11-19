@@ -1,9 +1,12 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,6 +47,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("smallCamel")
   public String getSmallCamel() {
@@ -63,6 +67,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("CapitalCamel")
   public String getCapitalCamel() {
@@ -82,6 +87,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("small_Snake")
   public String getSmallSnake() {
@@ -101,6 +107,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("Capital_Snake")
   public String getCapitalSnake() {
@@ -120,6 +127,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("SCA_ETH_Flow_Points")
   public String getScAETHFlowPoints() {
@@ -140,6 +148,7 @@ public class Capitalization  implements Serializable {
   }
 
   
+  @ApiModelProperty(value = "Name of the pet ")
   @Schema(description = "Name of the pet ")
   @JsonProperty("ATT_NAME")
   public String getATTNAME() {

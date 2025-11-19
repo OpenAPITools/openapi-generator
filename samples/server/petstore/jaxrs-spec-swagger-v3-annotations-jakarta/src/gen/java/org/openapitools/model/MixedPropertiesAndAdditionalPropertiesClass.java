@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,6 +46,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
@@ -62,6 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
@@ -81,6 +86,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("map")
   @Valid public Map<String, Animal> getMap() {
