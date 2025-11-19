@@ -67,5 +67,16 @@ for (let libName in libs) {
                     done();
             }).catch(done)
         })
+        
+        it("Case Insensitive Header Replacement", (done) => {
+            let requestContext = new petstore.RequestContext("http://httpbin.org/cookies", petstore.HttpMethod.GET);
+            requestContext.setHeaderParam("testkey1":"testvalue1");
+            expect(requestContext.getHeaders().testkey1).to.eq("testvalue1");
+
+            // replace with differently cased key
+            requestContext.setHeaderParam("tEsTkeY1":"testvalue2");
+            expect(requestContext.getHeaders().testkey1).to.be.undefined;
+            expect(requestContext.getHeaders().testkey1).to.eq("testvalue2");
+        })
     })
 }
