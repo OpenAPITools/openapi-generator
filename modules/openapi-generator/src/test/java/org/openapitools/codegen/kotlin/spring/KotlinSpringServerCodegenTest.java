@@ -1184,7 +1184,6 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
-
     @Test
     public void generateHttpInterfaceReactiveWithCoroutines() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1383,7 +1382,12 @@ public class KotlinSpringServerCodegenTest {
         for (var expectedSnippetsByPathToFile : expectedSnippetsByPathsToFiles.entrySet()) {
             assertFileContains(expectedSnippetsByPathToFile.getKey(), expectedSnippetsByPathToFile.getValue().toArray(new String[0]));
         }
+    }
 
+    private void verifyGeneratedFilesNotContain(Map<Path, List<String>> unexpectedSnippetsByPathsToFiles) {
+        for (var unexpectedSnippetsByPathToFile : unexpectedSnippetsByPathsToFiles.entrySet()) {
+            assertFileNotContains(unexpectedSnippetsByPathToFile.getKey(), unexpectedSnippetsByPathToFile.getValue().toArray(new String[0]));
+        }
     }
 
     @Test
@@ -1824,7 +1828,6 @@ public class KotlinSpringServerCodegenTest {
                 )
         );
     }
-
 
     @Test
     public void reactiveWithHttpRequestContextControllerImplAnnotationNoneNoDelegateWithApiTests() throws Exception {
@@ -2395,6 +2398,154 @@ public class KotlinSpringServerCodegenTest {
                                 "petId: kotlin.Long): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiDelegate.kt"), List.of(
                                 "(): ResponseEntity<Unit>")
+                )
+        );
+    }
+
+    @Test
+    public void reactiveWithoutResponseEntity() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.BAD_REQUEST)",
+                                "suspend fun deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): Unit",
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "suspend fun getPetById( @PathVariable(\"petId\") petId: kotlin.Long): Pet"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "suspend fun logoutUser(): Unit"
+                        ),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "suspend fun getInventory(): Map<String, kotlin.Int>")
+                )
+        );
+    }
+
+    @Test
+    public void nonReactiveWithoutResponseEntity() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.BAD_REQUEST)",
+                                "fun deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): Unit",
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "fun getPetById( @PathVariable(\"petId\") petId: kotlin.Long): Pet"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "fun logoutUser(): Unit"
+                        ),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "@ResponseStatus(HttpStatus.OK)",
+                                "fun getInventory(): Map<String, kotlin.Int>")
+                )
+        );
+
+        verifyGeneratedFilesNotContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of("suspend"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of("suspend"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of("suspend")
+                )
+        );
+    }
+
+    @Test
+    public void reactiveWithResponseEntity() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, true,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "suspend fun deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                                "suspend fun getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                "suspend fun logoutUser(): ResponseEntity<Unit>"
+                        ),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "suspend fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>")
+                )
+        );
+
+        verifyGeneratedFilesNotContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of("@ResponseStatus(HttpStatus."),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of("@ResponseStatus(HttpStatus."),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of("@ResponseStatus(HttpStatus.")
+                )
+        );
+    }
+
+    @Test
+    public void nonReactiveWithResponseEntity() throws Exception {
+        Path root = generateApiSources(Map.of(
+                KotlinSpringServerCodegen.REACTIVE, false,
+                KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "none",
+                KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "none",
+                KotlinSpringServerCodegen.INTERFACE_ONLY, true,
+                KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true
+        ), Map.of(
+                CodegenConstants.MODELS, "false",
+                CodegenConstants.MODEL_TESTS, "false",
+                CodegenConstants.MODEL_DOCS, "false",
+                CodegenConstants.APIS, "true",
+                CodegenConstants.SUPPORTING_FILES, "false"
+        ));
+        verifyGeneratedFilesContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of(
+                                "fun deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
+                                "fun getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
+                                    "fun logoutUser(): ResponseEntity<Unit>"
+                        ),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
+                                "fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>")
+                )
+        );
+
+        verifyGeneratedFilesNotContain(
+                Map.of(
+                        root.resolve("src/main/kotlin/org/openapitools/api/PetApi.kt"), List.of("suspend", "@ResponseStatus(HttpStatus."),
+                        root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of("suspend", "@ResponseStatus(HttpStatus."),
+                        root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of("suspend", "@ResponseStatus(HttpStatus.")
                 )
         );
     }
