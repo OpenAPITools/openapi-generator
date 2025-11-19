@@ -29,7 +29,6 @@ import kotlin.collections.Map
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/pet"],
@@ -40,7 +39,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = ["/pet/{petId}"]
@@ -50,7 +48,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/findByStatus"],
@@ -61,7 +58,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/findByTags"],
@@ -72,7 +68,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/pet/{petId}"],
@@ -83,7 +78,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = ["/pet"],
@@ -94,7 +88,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/pet/{petId}"],
@@ -105,7 +98,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/pet/{petId}/uploadImage"],

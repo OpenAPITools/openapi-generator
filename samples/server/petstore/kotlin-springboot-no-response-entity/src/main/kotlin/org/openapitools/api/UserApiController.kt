@@ -28,7 +28,6 @@ import kotlin.collections.Map
 class UserApiController(@Autowired(required = true) val service: UserApiService) {
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/user"]
@@ -38,7 +37,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/user/createWithArray"]
@@ -48,7 +46,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/user/createWithList"]
@@ -58,7 +55,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
@@ -68,7 +64,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/user/{username}"],
@@ -79,7 +74,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/user/login"],
@@ -90,7 +84,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/user/logout"]
@@ -100,7 +93,6 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = ["/user/{username}"]

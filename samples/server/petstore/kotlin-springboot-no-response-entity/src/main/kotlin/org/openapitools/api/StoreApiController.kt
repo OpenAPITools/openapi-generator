@@ -28,7 +28,6 @@ import kotlin.collections.Map
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
@@ -38,7 +37,6 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/store/inventory"],
@@ -49,7 +47,6 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/store/order/{orderId}"],
@@ -60,7 +57,6 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
         method = [RequestMethod.POST],
         value = ["/store/order"],
