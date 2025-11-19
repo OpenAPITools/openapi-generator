@@ -33,6 +33,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -473,6 +474,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseResponseEntity(Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+        additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         // Set basePackage from invokerPackage
         if (!additionalProperties.containsKey(BASE_PACKAGE)
