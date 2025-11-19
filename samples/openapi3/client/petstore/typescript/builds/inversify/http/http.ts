@@ -133,7 +133,7 @@ export class RequestContext {
     }
 
     public setHeaderParam(key: string, value: string): void  {
-        // Delete any existing headers with case-insensitive matching
+        // Delete any existing headers with case-insensitive matching keys
         const lowerKey = key.toLowerCase();
         for (const existingKey in this.headers) {
             if (existingKey.toLowerCase() === lowerKey) {
