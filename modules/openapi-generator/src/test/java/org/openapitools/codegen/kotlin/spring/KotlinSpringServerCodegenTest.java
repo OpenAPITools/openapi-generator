@@ -1038,7 +1038,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, true);
         codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
@@ -1105,7 +1105,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, true);
         codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "coroutines");
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
@@ -1147,7 +1147,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, true);
         codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "reactor");
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
@@ -1196,7 +1196,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, true);
         codegen.additionalProperties().put(DECLARATIVE_INTERFACE_REACTIVE_MODE, "coroutines");
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
@@ -1237,7 +1237,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, false);
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, true);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
@@ -1282,7 +1282,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, false);
-        codegen.additionalProperties().put(DECLARATIVE_INTERFACE_WRAP_RESPONSES, false);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
         codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 

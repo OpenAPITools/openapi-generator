@@ -25,7 +25,9 @@ import io.swagger.annotations.AuthorizationScope
 {{/swagger1AnnotationLibrary}}
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity
+{{/useResponseEntity}}
 
 import org.springframework.web.bind.annotation.*
 {{#useBeanValidation}}
@@ -74,6 +76,9 @@ interface {{classname}} {
 {{/isDelegate}}
 {{#operation}}
 
+    {{^useResponseEntity}}
+    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
+    {{/useResponseEntity}}
     {{#swagger2AnnotationLibrary}}
     @Operation(
         tags = [{{#tags}}"{{{name}}}",{{/tags}}],
@@ -102,7 +107,7 @@ interface {{classname}} {
             produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultApiInterface}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{^skipDefaultApiInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}

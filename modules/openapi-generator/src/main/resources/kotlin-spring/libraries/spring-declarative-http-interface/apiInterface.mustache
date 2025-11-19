@@ -29,7 +29,9 @@ import io.swagger.annotations.AuthorizationScope
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity
+{{/useResponseEntity}}
 
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated

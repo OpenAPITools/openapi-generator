@@ -7,7 +7,12 @@ import org.junit.jupiter.api.Test
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runBlockingTest
 {{/reactive}}
+{{^useResponseEntity}}
+import org.springframework.http.HttpStatus
+{{/useResponseEntity}}
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity
+{{/useResponseEntity}}
 
 class {{classname}}Test {
 
@@ -30,7 +35,7 @@ class {{classname}}Test {
         val {{{paramName}}}: {{>optionalDataType}} = TODO()
         {{/allParams}}
         {{#includeHttpRequestContext}}val {{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}} = TODO(){{/includeHttpRequestContext}}
-        val response: ResponseEntity<{{>returnTypes}}> = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
+        val response: {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} = api.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
 
         // TODO: test validations
     }
