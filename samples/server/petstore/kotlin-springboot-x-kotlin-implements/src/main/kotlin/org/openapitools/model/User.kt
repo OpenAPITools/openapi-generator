@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -27,27 +28,35 @@ import javax.validation.Valid
  */
 data class User(
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("id", required = false)
     val id: kotlin.Long? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("username", required = false)
     val username: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("firstName", required = false)
     val firstName: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("lastName", required = false)
     val lastName: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("email", required = false)
     val email: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("password", required = false)
     val password: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("phone", required = false)
     val phone: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("userStatus", required = false)
     val userStatus: kotlin.Int? = null
 ) : Serializable {

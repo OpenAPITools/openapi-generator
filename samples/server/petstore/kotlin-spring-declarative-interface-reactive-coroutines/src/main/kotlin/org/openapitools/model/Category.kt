@@ -22,12 +22,14 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class Category(
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
     @get:Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("name") val name: kotlin.String? = null
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("name", required = false)
+    val name: kotlin.String? = null
 ) : Serializable {
 
     companion object {

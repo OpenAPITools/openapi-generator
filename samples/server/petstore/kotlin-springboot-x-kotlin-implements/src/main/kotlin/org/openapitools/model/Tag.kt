@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -21,9 +22,11 @@ import javax.validation.Valid
  */
 data class Tag(
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("id", required = false)
     val id: kotlin.Long? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("name", required = false)
     val name: kotlin.String? = null
 ) : Serializable {

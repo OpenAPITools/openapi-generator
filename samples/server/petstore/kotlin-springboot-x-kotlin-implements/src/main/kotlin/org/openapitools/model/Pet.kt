@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -77,114 +78,151 @@ import javax.validation.Valid
 
 interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
 
+    @get:ApiModelProperty(example = "null", required = true, value = "")
     override val name: kotlin.String
 
 
+    @get:ApiModelProperty(example = "null", required = true, value = "")
     val photoUrls: kotlin.collections.List<kotlin.String>
 
 
+    @get:ApiModelProperty(example = "null", required = true, value = "")
     val petType: kotlin.String
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val id: kotlin.Long?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     override val category: Category?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultString: kotlin.String
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultInt: java.math.BigDecimal
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultLong: java.math.BigDecimal
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultFloat: kotlin.Float
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultDouble: kotlin.Double
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultEnum: SomeEnum
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullString: kotlin.String?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullString: kotlin.String?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val tags: kotlin.collections.List<Tag>?
 
 
+    @get:ApiModelProperty(example = "null", value = "")
     val color: Color?
 
 

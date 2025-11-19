@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -27,21 +28,27 @@ import javax.validation.Valid
  */
 data class Order(
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("id", required = false)
     val id: kotlin.Long? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("petId", required = false)
     val petId: kotlin.Long? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("quantity", required = false)
     val quantity: kotlin.Int? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("shipDate", required = false)
     val shipDate: java.time.OffsetDateTime? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("status", required = false)
     val status: Order.Status? = null,
 
+    @ApiModelProperty(example = "null", required = false, value = "")
     @get:JsonProperty("complete", required = false)
     val complete: kotlin.Boolean = false
 ) : Serializable {

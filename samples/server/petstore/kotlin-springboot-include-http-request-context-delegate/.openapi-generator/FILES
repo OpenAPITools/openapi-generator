@@ -25,6 +25,9 @@ src/main/kotlin/org/openapitools/model/Dog.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
+src/main/kotlin/org/openapitools/model/SomeEnum.kt
+src/main/kotlin/org/openapitools/model/SomeNullableEnumWithNonNullDefault.kt
+src/main/kotlin/org/openapitools/model/SomeNullableEnumWithNullDefault.kt
 src/main/kotlin/org/openapitools/model/Tag.kt
 src/main/kotlin/org/openapitools/model/User.kt
 src/main/resources/application.yaml
