@@ -19,7 +19,9 @@ import typetraits
 import uri
 
 import ../models/model_api_response
+import ../models/model_get_pet_stats200response
 import ../models/model_pet
+import ../models/model_unfavorite_pet_request
 
 const basepath = "http://petstore.swagger.io/v2"
 
@@ -53,6 +55,7 @@ proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response 
   httpClient.delete(basepath & fmt"/pet/{petId}")
 
 
+
 proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq[Pet]], Response) =
   ## Finds Pets by status
   let url_encoded_query_params = encodeQuery([
@@ -80,6 +83,20 @@ proc getPetById*(httpClient: HttpClient, petId: int64): (Option[Pet], Response) 
   constructResult[Pet](response)
 
 
+proc getPetStats*(httpClient: HttpClient): (Option[GetPetStats_200_response], Response) =
+  ## Get pet statistics (tests _200_ response normalization)
+
+  let response = httpClient.get(basepath & "/pet/stats")
+  constructResult[GetPetStats_200_response](response)
+
+
+proc unfavoritePet*(httpClient: HttpClient, petId: int64, unfavoritePetRequest: UnfavoritePetRequest): (Option[GetPetStats_200_response], Response) =
+  ## Remove pet from favorites (tests DELETE with body)
+  httpClient.headers["Content-Type"] = "application/json"
+  let response = httpClient.request(basepath & fmt"/pet/{petId}/favorite", httpMethod = HttpDelete, body = $(%unfavoritePetRequest))
+  constructResult[GetPetStats_200_response](response)
+
+
 proc updatePet*(httpClient: HttpClient, pet: Pet): (Option[Pet], Response) =
   ## Update an existing pet
   httpClient.headers["Content-Type"] = "application/json"
@@ -96,6 +113,7 @@ proc updatePetWithForm*(httpClient: HttpClient, petId: int64, name: string, stat
     ("status", $status), # Updated status of the pet
   ])
   httpClient.post(basepath & fmt"/pet/{petId}", $form_data)
+
 
 
 proc uploadFile*(httpClient: HttpClient, petId: int64, additionalMetadata: string, file: string): (Option[ApiResponse], Response) =

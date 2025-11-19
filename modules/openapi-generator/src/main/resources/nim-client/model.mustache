@@ -3,7 +3,18 @@ import json
 import tables
 
 {{#imports}}import {{import}}
-{{/imports}}{{#models}}{{#model}}{{#vars}}{{#isEnum}}
+{{/imports}}{{#models}}{{#model}}{{#isEnum}}
+type {{{classname}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
+  {{{name}}}{{/enumVars}}{{/allowableValues}}
+
+func `%`*(v: {{{classname}}}): JsonNode =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{classname}}}.{{{name}}}: %{{{value}}}{{/enumVars}}{{/allowableValues}}
+
+func `$`*(v: {{{classname}}}): string =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{classname}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}
 type {{{enumName}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
   {{{name}}}{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}{{/vars}}
@@ -12,12 +23,10 @@ type {{{classname}}}* = object
   {{{name}}}*: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{.}}}{{/description}}{{/vars}}
 {{#vars}}{{#isEnum}}
 func `%`*(v: {{{enumName}}}): JsonNode =
-  let str = case v:{{#allowableValues}}{{#enumVars}}
-    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
-
-  JsonNode(kind: JString, str: str)
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{enumName}}}.{{{name}}}: %{{{value}}}{{/enumVars}}{{/allowableValues}}
 
 func `$`*(v: {{{enumName}}}): string =
   result = case v:{{#allowableValues}}{{#enumVars}}
-    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
-{{/isEnum}}{{/vars}}{{/model}}{{/models}}
+    of {{{enumName}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{/vars}}{{/isEnum}}{{/model}}{{/models}}

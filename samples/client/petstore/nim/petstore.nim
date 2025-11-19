@@ -10,16 +10,30 @@
 # Models
 import petstore/models/model_api_response
 import petstore/models/model_category
+import petstore/models/model_get_pet_stats200response
 import petstore/models/model_order
 import petstore/models/model_pet
+import petstore/models/model_pet_config_any_of1
+import petstore/models/model_pet_metadata
+import petstore/models/model_pet_positions
+import petstore/models/model_pet_priority
+import petstore/models/model_record_string_before_string_or_null_after_string_or_null_value
 import petstore/models/model_tag
+import petstore/models/model_unfavorite_pet_request
 import petstore/models/model_user
 
 export model_api_response
 export model_category
+export model_get_pet_stats200response
 export model_order
 export model_pet
+export model_pet_config_any_of1
+export model_pet_metadata
+export model_pet_positions
+export model_pet_priority
+export model_record_string_before_string_or_null_after_string_or_null_value
 export model_tag
+export model_unfavorite_pet_request
 export model_user
 
 # APIs

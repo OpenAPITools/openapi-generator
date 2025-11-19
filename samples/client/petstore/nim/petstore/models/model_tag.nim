@@ -15,3 +15,4 @@ type Tag* = object
   ## A tag for a pet
   id*: int64
   name*: string
+

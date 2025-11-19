@@ -28,15 +28,14 @@ type Pet* = object
   status*: Status ## pet status in the store
 
 func `%`*(v: Status): JsonNode =
-  let str = case v:
-    of Status.Available: "available"
-    of Status.Pending: "pending"
-    of Status.Sold: "sold"
-
-  JsonNode(kind: JString, str: str)
+  result = case v:
+    of Status.Available: %"available"
+    of Status.Pending: %"pending"
+    of Status.Sold: %"sold"
 
 func `$`*(v: Status): string =
   result = case v:
-    of Status.Available: "available"
-    of Status.Pending: "pending"
-    of Status.Sold: "sold"
+    of Status.Available: $("available")
+    of Status.Pending: $("pending")
+    of Status.Sold: $("sold")
+

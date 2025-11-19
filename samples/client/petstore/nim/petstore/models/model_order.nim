@@ -26,15 +26,14 @@ type Order* = object
   complete*: bool
 
 func `%`*(v: Status): JsonNode =
-  let str = case v:
-    of Status.Placed: "placed"
-    of Status.Approved: "approved"
-    of Status.Delivered: "delivered"
-
-  JsonNode(kind: JString, str: str)
+  result = case v:
+    of Status.Placed: %"placed"
+    of Status.Approved: %"approved"
+    of Status.Delivered: %"delivered"
 
 func `$`*(v: Status): string =
   result = case v:
-    of Status.Placed: "placed"
-    of Status.Approved: "approved"
-    of Status.Delivered: "delivered"
+    of Status.Placed: $("placed")
+    of Status.Approved: $("approved")
+    of Status.Delivered: $("delivered")
+

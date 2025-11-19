@@ -10,9 +10,6 @@
 import json
 import tables
 
-
-type Category* = object
-  ## A category for a pet
-  id*: int64
-  name*: string
-
+# Object represents an arbitrary JSON object
+# Using JsonNode instead of the 'object' keyword to avoid Nim keyword conflicts
+type Object* = JsonNode

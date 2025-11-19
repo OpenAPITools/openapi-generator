@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -167,11 +168,63 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
         typeMapping.put("file", "string");
+        typeMapping.put("object", "JsonNode");
+        typeMapping.put("AnyType", "JsonNode");
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return postProcessModelsEnum(objs);
+        objs = postProcessModelsEnum(objs);
+
+        // Mark top-level string enums for proper enum generation in template
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey("enumVars")) {
+                cm.vendorExtensions.put("x-is-top-level-enum", true);
+            }
+
+            // Fix dataType fields that contain underscored type names
+            // This handles cases like Table[string, Record_string__foo__value]
+            for (CodegenProperty var : cm.vars) {
+                if (var.dataType != null && var.dataType.contains("Record_")) {
+                    var.dataType = fixRecordTypeReferences(var.dataType);
+                }
+                if (var.datatypeWithEnum != null && var.datatypeWithEnum.contains("Record_")) {
+                    var.datatypeWithEnum = fixRecordTypeReferences(var.datatypeWithEnum);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * Fix underscored Record type references in dataType strings.
+     * Converts Record_string__foo___value to RecordStringFooValue.
+     */
+    private String fixRecordTypeReferences(String typeString) {
+        if (typeString == null || !typeString.contains("Record_")) {
+            return typeString;
+        }
+
+        // Pattern to match Record_string_... type names with underscores
+        // These are embedded in strings like: Table[string, Record_string__foo__value]
+        String result = typeString;
+
+        // Match Record_ followed by any characters until end or comma/bracket
+        Pattern pattern = Pattern.compile("Record_[a-z_]+");
+        java.util.regex.Matcher matcher = pattern.matcher(result);
+
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            String matched = matcher.group();
+            // Camelize the matched Record type name
+            String camelized = camelize(matched);
+            matcher.appendReplacement(sb, camelized);
+        }
+        matcher.appendTail(sb);
+
+        return sb.toString();
     }
 
     @Override
@@ -192,6 +245,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = File.separator + packageName + File.separator + "apis";
         modelPackage = File.separator + packageName + File.separator + "models";
         supportingFiles.add(new SupportingFile("lib.mustache", "", packageName + ".nim"));
+        supportingFiles.add(new SupportingFile("model_any_type.mustache", packageName + File.separator + "models", "model_any_type.nim"));
+        supportingFiles.add(new SupportingFile("model_object.mustache", packageName + File.separator + "models", "model_object.nim"));
     }
 
     @Override
@@ -215,11 +270,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelImport(String name) {
+        name = normalizeSchemaName(name);
         name = name.replaceAll("-", "_");
+
         if (importMapping.containsKey(name)) {
-            return "model_" + StringUtils.underscore(importMapping.get(name));
+            return sanitizeNimIdentifier("model_" + StringUtils.underscore(importMapping.get(name)));
         } else {
-            return "model_" + StringUtils.underscore(name);
+            return sanitizeNimIdentifier("model_" + StringUtils.underscore(name));
         }
     }
 
@@ -227,22 +284,54 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toApiImport(String name) {
         name = name.replaceAll("-", "_");
         if (importMapping.containsKey(name)) {
-            return "api_" + StringUtils.underscore(importMapping.get(name));
+            return sanitizeNimIdentifier("api_" + StringUtils.underscore(importMapping.get(name)));
         } else {
-            return "api_" + StringUtils.underscore(name);
+            return sanitizeNimIdentifier("api_" + StringUtils.underscore(name));
         }
+    }
+
+    /**
+     * Normalize schema names to ensure consistency across filename, import, and type name generation.
+     * This is called early in the pipeline so downstream methods work with consistent names.
+     */
+    private String normalizeSchemaName(String name) {
+        if (name == null) {
+            return null;
+        }
+        // Remove underscores around and before digits (HTTP status codes, version numbers, etc.)
+        // e.g., "GetComments_200_response" -> "GetComments200response"
+        // e.g., "Config_anyOf_1" -> "ConfiganyOf1"
+        // This ensures consistent handling whether the name comes with or without underscores
+        name = name.replaceAll("_(\\d+)_", "$1");  // Underscores on both sides
+        name = name.replaceAll("_(\\d+)$", "$1");   // Trailing underscore before digits
+        return name;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        // Normalize the schema name before any processing
+        name = normalizeSchemaName(name);
+        return super.fromModel(name, schema);
+    }
+
+    @Override
+    public String toModelName(String name) {
+        // Name should be normalized by fromModel, but normalize again for safety
+        name = normalizeSchemaName(name);
+        return camelize(sanitizeName(name));
     }
 
     @Override
     public String toModelFilename(String name) {
+        name = normalizeSchemaName(name);
         name = name.replaceAll("-", "_");
-        return "model_" + StringUtils.underscore(name);
+        return sanitizeNimIdentifier("model_" + StringUtils.underscore(name));
     }
 
     @Override
     public String toApiFilename(String name) {
         name = name.replaceAll("-", "_");
-        return "api_" + StringUtils.underscore(name);
+        return sanitizeNimIdentifier("api_" + StringUtils.underscore(name));
     }
 
     @Override
@@ -262,6 +351,12 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+
+            // Set custom flag for DELETE operations with body to use different template logic
+            // Nim's httpClient.delete() doesn't support a body parameter
+            if ("delete".equals(operation.httpMethod) && operation.getHasBodyParam()) {
+                operation.vendorExtensions.put("x-nim-delete-with-body", true);
+            }
         }
 
         return objs;
@@ -358,6 +453,24 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean isValidIdentifier(String identifier) {
         //see https://nim-lang.org/docs/manual.html#lexical-analysis-identifiers-amp-keywords
         return identifier.matches("^(?:[A-Z]|[a-z]|[\\x80-\\xff])(_?(?:[A-Z]|[a-z]|[\\x80-\\xff]|[0-9]))*$");
+    }
+
+    /**
+     * Sanitize a Nim identifier by removing trailing underscores and collapsing multiple underscores.
+     * Nim does not allow identifiers to end with underscores.
+     *
+     * @param name the identifier to sanitize
+     * @return the sanitized identifier
+     */
+    private String sanitizeNimIdentifier(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+        // Remove trailing underscores (Nim identifiers cannot end with underscore)
+        name = name.replaceAll("_+$", "");
+        // Collapse multiple consecutive underscores to single underscore
+        name = name.replaceAll("_+", "_");
+        return name;
     }
 
     @Override

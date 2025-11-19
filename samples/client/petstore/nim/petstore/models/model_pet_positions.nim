@@ -10,9 +10,9 @@
 import json
 import tables
 
+import model_record_string_before_string_or_null_after_string_or_null_value
 
-type Category* = object
-  ## A category for a pet
-  id*: int64
-  name*: string
+type PetPositions* = object
+  ## 
+  positions*: Table[string, RecordStringBeforeStringOrNullAfterStringOrNullValue]
 

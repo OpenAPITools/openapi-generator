@@ -43,6 +43,7 @@ proc deleteOrder*(httpClient: HttpClient, orderId: string): Response =
   httpClient.delete(basepath & fmt"/store/order/{orderId}")
 
 
+
 proc getInventory*(httpClient: HttpClient): (Option[Table[string, int]], Response) =
   ## Returns pet inventories by status
 

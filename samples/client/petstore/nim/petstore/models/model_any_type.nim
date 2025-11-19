@@ -8,11 +8,7 @@
 #
 
 import json
-import tables
 
-
-type Category* = object
-  ## A category for a pet
-  id*: int64
-  name*: string
-
+# AnyType represents any JSON value
+# This is used for fields that can contain arbitrary JSON data
+type AnyType* = JsonNode

@@ -286,6 +286,54 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/favorite':
+    delete:
+      tags:
+        - pet
+      summary: Remove pet from favorites (tests DELETE with body)
+      description: 'Tests that DELETE operations with request bodies generate correct Nim code'
+      operationId: unfavoritePet
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to unfavorite
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Reason for unfavoriting
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetStats_200_response'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+  /pet/stats:
+    get:
+      tags:
+        - pet
+      summary: Get pet statistics (tests _200_ response normalization)
+      operationId: getPetStats
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetStats_200_response'
   /store/inventory:
     get:
       tags:
@@ -739,3 +787,42 @@ components:
           type: string
         message:
           type: string
+    # Test _200_ normalization in response schema names
+    GetPetStats_200_response:
+      type: object
+      properties:
+        totalPets:
+          type: integer
+        status:
+          type: string
+    # Test trailing underscores in schema names
+    PetMetadata_:
+      type: object
+      properties:
+        metadata:
+          type: string
+    # Test Record_string__ type patterns (complex generic types)
+    Record_string__before_string_or_null__after_string_or_null___value:
+      type: object
+      properties:
+        before:
+          type: string
+        after:
+          type: string
+    PetPositions:
+      type: object
+      properties:
+        positions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Record_string__before_string_or_null__after_string_or_null___value'
+    # Test numeric enums
+    PetPriority:
+      type: integer
+      enum: [0, 1, 2]
+    # Test anyOf with _1 suffix
+    PetConfig_anyOf_1:
+      type: object
+      properties:
+        version:
+          type: integer

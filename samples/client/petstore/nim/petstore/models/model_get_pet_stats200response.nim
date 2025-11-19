@@ -11,8 +11,8 @@ import json
 import tables
 
 
-type Category* = object
-  ## A category for a pet
-  id*: int64
-  name*: string
+type GetPetStats200response* = object
+  ## 
+  totalPets*: int
+  status*: string
 

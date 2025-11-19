@@ -16,3 +16,4 @@ type ApiResponse* = object
   code*: int
   `type`*: string
   message*: string
+

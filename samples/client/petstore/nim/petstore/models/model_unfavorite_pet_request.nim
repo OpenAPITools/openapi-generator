@@ -11,8 +11,7 @@ import json
 import tables
 
 
-type Category* = object
-  ## A category for a pet
-  id*: int64
-  name*: string
+type UnfavoritePetRequest* = object
+  ## 
+  reason*: string ## Reason for unfavoriting
 

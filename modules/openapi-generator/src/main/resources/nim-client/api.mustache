@@ -47,9 +47,15 @@ proc {{{operationId}}}*(httpClient: HttpClient{{#allParams}}, {{{paramName}}}: {
 {{#formParams}}    "{{{baseName}}}": ${{{paramName}}}{{#isArray}}.join(","){{/isArray}}, # {{{description}}}
 {{/formParams}}
   }){{/isMultipart}}{{/hasFormParams}}{{#returnType}}
-
+{{#vendorExtensions.x-nim-delete-with-body}}
+  let response = httpClient.request(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}, httpMethod = HttpDelete{{#bodyParams}}, body = $(%{{{paramName}}}){{/bodyParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{^vendorExtensions.x-nim-delete-with-body}}
   let response = httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}})
-  constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}
-  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}}){{/returnType}}
+{{/vendorExtensions.x-nim-delete-with-body}}
+  constructResult[{{{returnType}}}](response){{/returnType}}{{^returnType}}{{#vendorExtensions.x-nim-delete-with-body}}
+  httpClient.request(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}, httpMethod = HttpDelete{{#bodyParams}}, body = $(%{{{paramName}}}){{/bodyParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{^vendorExtensions.x-nim-delete-with-body}}
+  httpClient.{{{httpMethod}}}(basepath & {{^pathParams}}"{{{path}}}"{{/pathParams}}{{#hasPathParams}}fmt"{{{path}}}"{{/hasPathParams}}{{#hasQueryParams}} & "?" & url_encoded_query_params{{/hasQueryParams}}{{#hasBodyParam}}{{#bodyParams}}, $(%{{{paramName}}}){{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}, {{^isMultipart}}$form_data{{/isMultipart}}{{#isMultipart}}multipart=multipart_data{{/isMultipart}}{{/hasFormParams}})
+{{/vendorExtensions.x-nim-delete-with-body}}{{/returnType}}
 
 {{/operation}}{{/operations}}

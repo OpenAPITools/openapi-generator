@@ -44,10 +44,12 @@ proc createUser*(httpClient: HttpClient, user: User): Response =
   httpClient.post(basepath & "/user", $(%user))
 
 
+
 proc createUsersWithArrayInput*(httpClient: HttpClient, user: seq[User]): Response =
   ## Creates list of users with given input array
   httpClient.headers["Content-Type"] = "application/json"
   httpClient.post(basepath & "/user/createWithArray", $(%user))
+
 
 
 proc createUsersWithListInput*(httpClient: HttpClient, user: seq[User]): Response =
@@ -56,9 +58,11 @@ proc createUsersWithListInput*(httpClient: HttpClient, user: seq[User]): Respons
   httpClient.post(basepath & "/user/createWithList", $(%user))
 
 
+
 proc deleteUser*(httpClient: HttpClient, username: string): Response =
   ## Delete user
   httpClient.delete(basepath & fmt"/user/{username}")
+
 
 
 proc getUserByName*(httpClient: HttpClient, username: string): (Option[User], Response) =
@@ -84,8 +88,10 @@ proc logoutUser*(httpClient: HttpClient): Response =
   httpClient.get(basepath & "/user/logout")
 
 
+
 proc updateUser*(httpClient: HttpClient, username: string, user: User): Response =
   ## Updated user
   httpClient.headers["Content-Type"] = "application/json"
   httpClient.put(basepath & fmt"/user/{username}", $(%user))
+
 

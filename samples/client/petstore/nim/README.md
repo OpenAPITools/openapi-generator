@@ -30,6 +30,8 @@ api_pet | deletePet | **DELETE** /pet/{petId} | Deletes a pet
 api_pet | findPetsByStatus | **GET** /pet/findByStatus | Finds Pets by status
 api_pet | findPetsByTags | **GET** /pet/findByTags | Finds Pets by tags
 api_pet | getPetById | **GET** /pet/{petId} | Find pet by ID
+api_pet | getPetStats | **GET** /pet/stats | Get pet statistics (tests _200_ response normalization)
+api_pet | unfavoritePet | **DELETE** /pet/{petId}/favorite | Remove pet from favorites (tests DELETE with body)
 api_pet | updatePet | **PUT** /pet | Update an existing pet
 api_pet | updatePetWithForm | **POST** /pet/{petId} | Updates a pet in the store with form data
 api_pet | uploadFile | **POST** /pet/{petId}/uploadImage | uploads an image

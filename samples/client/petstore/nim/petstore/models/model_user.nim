@@ -21,3 +21,4 @@ type User* = object
   password*: string
   phone*: string
   userStatus*: int ## User Status
+
