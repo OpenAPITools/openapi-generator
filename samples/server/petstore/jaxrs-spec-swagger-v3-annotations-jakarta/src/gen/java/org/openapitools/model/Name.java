@@ -1,12 +1,9 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Model for testing model name same as property name
  **/
-@ApiModel(description = "Model for testing model name same as property name")
+
 @Schema(description="Model for testing model name same as property name")
 @JsonTypeName("Name")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
@@ -52,7 +49,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @Schema(required = true, description = "")
   @JsonProperty(required = true, value = "name")
   @NotNull public Integer getName() {
@@ -72,7 +68,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
@@ -92,7 +87,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -112,7 +106,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("123Number")
   public Integer get123number() {

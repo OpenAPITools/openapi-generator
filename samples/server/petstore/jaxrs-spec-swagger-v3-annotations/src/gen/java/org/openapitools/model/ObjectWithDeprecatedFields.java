@@ -1,7 +1,5 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +9,6 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,7 +45,6 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("uuid")
   public String getUuid() {
@@ -68,7 +64,6 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("id")
   @Valid public BigDecimal getId() {
@@ -88,7 +83,6 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("deprecatedRef")
   @Valid public DeprecatedObject getDeprecatedRef() {
@@ -108,7 +102,6 @@ public class ObjectWithDeprecatedFields  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @Schema(description = "")
   @JsonProperty("bars")
   public List<String> getBars() {

@@ -5,7 +5,6 @@ import org.openapitools.model.Client;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -21,7 +20,6 @@ import javax.validation.Valid;
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/another-fake/dummy")
-@Api(description = "the another-fake API")
 @Tag(name = "another-fake")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class AnotherFakeApi {
@@ -29,10 +27,6 @@ public class AnotherFakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     @Operation(summary = "To test special tags", description = "To test special tags and operation ID starting with number")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")

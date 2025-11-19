@@ -1,13 +1,10 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnumInteger;
 import java.io.Serializable;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,7 +42,6 @@ public class OuterObjectWithEnumProperty  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @Schema(required = true, description = "")
   @JsonProperty(required = true, value = "value")
   @NotNull public OuterEnumInteger getValue() {

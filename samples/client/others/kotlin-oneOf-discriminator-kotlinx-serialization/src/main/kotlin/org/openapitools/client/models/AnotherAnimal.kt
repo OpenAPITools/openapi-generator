@@ -43,10 +43,10 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable(with = AnotherAnimalSerializer::class)
 sealed interface AnotherAnimal {
     @JvmInline
-     value class (val value: Bird) : AnotherAnimal
+     value class AnotherBirdWrapper(val value: Bird) : AnotherAnimal
 
     @JvmInline
-     value class (val value: Robobird) : AnotherAnimal
+     value class AnotherRobobirdWrapper(val value: Robobird) : AnotherAnimal
 
 }
 
@@ -56,12 +56,12 @@ object AnotherAnimalSerializer : KSerializer<AnotherAnimal> {
     override fun serialize(encoder: Encoder, value: AnotherAnimal) {
         require(encoder is JsonEncoder)
         val jsonObject = when (value) {
-            is AnotherAnimal. -> {
+            is AnotherAnimal.AnotherBirdWrapper -> {
                 val jsonMap = encoder.json.encodeToJsonElement(Bird.serializer(), value.value).jsonObject.toMutableMap()
                 jsonMap["another_discriminator"] = JsonPrimitive("ANOTHER_BIRD")
                 JsonObject(jsonMap)
             }
-            is AnotherAnimal. -> {
+            is AnotherAnimal.AnotherRobobirdWrapper -> {
                 val jsonMap = encoder.json.encodeToJsonElement(Robobird.serializer(), value.value).jsonObject.toMutableMap()
                 jsonMap["another_discriminator"] = JsonPrimitive("ANOTHER_ROBOBIRD")
                 JsonObject(jsonMap)
@@ -80,11 +80,11 @@ object AnotherAnimalSerializer : KSerializer<AnotherAnimal> {
         return when (discriminatorValue) {
             "ANOTHER_BIRD" -> {
                 val decoded = decoder.json.decodeFromJsonElement(Bird.serializer(), element)
-                AnotherAnimal.(decoded)
+                AnotherAnimal.AnotherBirdWrapper(decoded)
             }
             "ANOTHER_ROBOBIRD" -> {
                 val decoded = decoder.json.decodeFromJsonElement(Robobird.serializer(), element)
-                AnotherAnimal.(decoded)
+                AnotherAnimal.AnotherRobobirdWrapper(decoded)
             }
             else -> throw SerializationException("Unknown AnotherAnimal another_discriminator: $discriminatorValue")
         }

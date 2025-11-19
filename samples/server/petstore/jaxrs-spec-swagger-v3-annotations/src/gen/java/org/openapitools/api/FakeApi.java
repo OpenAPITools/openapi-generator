@@ -22,7 +22,6 @@ import org.openapitools.model.User;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -38,7 +37,6 @@ import javax.validation.Valid;
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/fake")
-@Api(description = "the fake API")
 @Tag(name = "fake")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FakeApi {
@@ -46,10 +44,6 @@ public class FakeApi {
     @GET
     @Path("/BigDecimalMap")
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys", response = FakeBigDecimalMap200Response.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = FakeBigDecimalMap200Response.class)
-    })
     @Operation(summary = "", description = "for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -61,10 +55,6 @@ public class FakeApi {
     @GET
     @Path("/health")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class)
-    })
     @Operation(summary = "Health check endpoint", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "The instance started successfully")
@@ -76,18 +66,11 @@ public class FakeApi {
     @GET
     @Path("/http-signature-test")
     @Consumes({ "application/json", "application/xml" })
-    @ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, authorizations = {
-        
-        @Authorization(value = "http_signature_test")
-         }, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "The instance started successfully", response = Void.class)
-    })
     @Operation(summary = "test http signature authentication", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "The instance started successfully")
     })
-    public Response fakeHttpSignatureTest(@Valid @NotNull Pet pet,@QueryParam("query_1")  @ApiParam("query parameter")  String query1,@HeaderParam("header_1")   @ApiParam("header parameter") String header1) {
+    public Response fakeHttpSignatureTest(@Valid @NotNull Pet pet,@QueryParam("query_1")   String query1,@HeaderParam("header_1")   String header1) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -95,10 +78,6 @@ public class FakeApi {
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class)
-    })
     @Operation(summary = "", description = "Test serialization of outer boolean types")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output boolean")
@@ -111,10 +90,6 @@ public class FakeApi {
     @Path("/outer/composite")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
-    })
     @Operation(summary = "", description = "Test serialization of object with outer number type")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output composite")
@@ -127,10 +102,6 @@ public class FakeApi {
     @Path("/outer/number")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class)
-    })
     @Operation(summary = "", description = "Test serialization of outer number types")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output number")
@@ -143,10 +114,6 @@ public class FakeApi {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output string", response = String.class)
-    })
     @Operation(summary = "", description = "Test serialization of outer string types")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output string")
@@ -159,10 +126,6 @@ public class FakeApi {
     @Path("/property/enum-int")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    @ApiOperation(value = "", notes = "Test serialization of enum (int) properties with examples", response = OuterObjectWithEnumProperty.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output enum (int)", response = OuterObjectWithEnumProperty.class)
-    })
     @Operation(summary = "", description = "Test serialization of enum (int) properties with examples")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output enum (int)")
@@ -174,10 +137,6 @@ public class FakeApi {
     @GET
     @Path("/tests/defaults")
     @Produces({ "application/json" })
-    @ApiOperation(value = "test enum default in request body", notes = "", response = FakeTestsDefaultsDefaultResponse.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "response", response = FakeTestsDefaultsDefaultResponse.class)
-    })
     @Operation(summary = "test enum default in request body", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "response")
@@ -189,10 +148,6 @@ public class FakeApi {
     @POST
     @Path("/additionalProperties-reference")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test referenced additionalProperties", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test referenced additionalProperties", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -204,10 +159,6 @@ public class FakeApi {
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
-    @ApiOperation(value = "", notes = "For this test, the body has to be a binary file.", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success", response = Void.class)
-    })
     @Operation(summary = "", description = "For this test, the body has to be a binary file.")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Success")
@@ -219,10 +170,6 @@ public class FakeApi {
     @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "For this test, the body for this request must reference a schema named `File`.", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success", response = Void.class)
-    })
     @Operation(summary = "", description = "For this test, the body for this request must reference a schema named `File`.")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Success")
@@ -234,10 +181,6 @@ public class FakeApi {
     @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success", response = Void.class)
-    })
     @Operation(summary = "", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Success")
@@ -249,10 +192,6 @@ public class FakeApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     @Operation(summary = "To test \"client\" model", description = "To test \"client\" model")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -263,14 +202,6 @@ public class FakeApi {
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
-        
-        @Authorization(value = "http_basic_test")
-         }, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "User not found", response = Void.class)
-    })
     @Operation(summary = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", description = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -282,46 +213,27 @@ public class FakeApi {
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake" })
-    @io.swagger.annotations.ApiImplicitParams({
-        @io.swagger.annotations.ApiImplicitParam(name = "enum_header_string", value = "Header parameter enum test (string)",  dataType = "String", paramType = "header")
-    })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
-        @ApiResponse(code = 404, message = "Not found", response = Void.class)
-    })
     @Operation(summary = "To test enum parameters", description = "To test enum parameters")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "400", description = "Invalid request"),
         @ApiResponse(responseCode = "404", description = "Not found")
     })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")   List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")   String enumQueryString,@QueryParam("enum_query_integer")   Integer enumQueryInteger,@QueryParam("enum_query_double")   Double enumQueryDouble,@QueryParam("enum_query_model_array")   List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
     @DELETE
-    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, authorizations = {
-        
-        @Authorization(value = "bearer_test")
-         }, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Something wrong", response = Void.class)
-    })
     @Operation(summary = "Fake endpoint to test group parameters (optional)", description = "Fake endpoint to test group parameters (optional)")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "400", description = "Something wrong")
     })
-    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @ApiParam("Integer in group parameters")  Long int64Group) {
+    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull   Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   Long requiredInt64Group,@QueryParam("string_group")   Integer stringGroup,@HeaderParam("boolean_group")   Boolean booleanGroup,@QueryParam("int64_group")   Long int64Group) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test inline additionalProperties", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -333,10 +245,6 @@ public class FakeApi {
     @POST
     @Path("/inline-freeform-additionalProperties")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test inline free-form additionalProperties", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test inline free-form additionalProperties", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -348,10 +256,6 @@ public class FakeApi {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test json serialization of form data", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -363,10 +267,6 @@ public class FakeApi {
     @POST
     @Path("/nullable")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test nullable parent property", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test nullable parent property", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -377,10 +277,6 @@ public class FakeApi {
 
     @PUT
     @Path("/test-query-parameters")
-    @ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success", response = Void.class)
-    })
     @Operation(summary = "", description = "To test the collection format in query parameters")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Success")
@@ -392,10 +288,6 @@ public class FakeApi {
     @POST
     @Path("/stringMap-reference")
     @Consumes({ "application/json" })
-    @ApiOperation(value = "test referenced string map", notes = "", response = Void.class, tags={ "fake" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Void.class)
-    })
     @Operation(summary = "test referenced string map", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -408,19 +300,11 @@ public class FakeApi {
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "uploads an image (required)", notes = "", response = ModelApiResponse.class, authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         }, tags={ "pet" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
-    })
     @Operation(summary = "uploads an image (required)", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
+    public Response uploadFileWithRequiredFile(@PathParam("petId") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         return Response.ok().entity("magic!").build();
     }
 }

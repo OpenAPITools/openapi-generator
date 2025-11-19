@@ -5,7 +5,6 @@ import org.openapitools.model.Client;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -21,7 +20,6 @@ import javax.validation.Valid;
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/fake_classname_test")
-@Api(description = "the fake_classname_test API")
 @Tag(name = "fake_classname_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FakeClassnameTestApi {
@@ -29,13 +27,6 @@ public class FakeClassnameTestApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {
-        
-        @Authorization(value = "api_key_query")
-         }, tags={ "fake_classname_tags 123#$%^" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     @Operation(summary = "To test class name in snake case", description = "To test class name in snake case")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")

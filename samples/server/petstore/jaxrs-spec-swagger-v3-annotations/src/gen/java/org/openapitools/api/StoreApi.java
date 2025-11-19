@@ -6,7 +6,6 @@ import org.openapitools.model.Order;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.responses.*;
@@ -22,37 +21,24 @@ import javax.validation.Valid;
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/store")
-@Api(description = "the store API")
 @Tag(name = "store")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE
     @Path("/order/{order_id}")
-    @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class, tags={ "store" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "Order not found", response = Void.class)
-    })
     @Operation(summary = "Delete purchase order by ID", description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Order not found")
     })
-    public Response deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId) {
+    public Response deleteOrder(@PathParam("order_id") String orderId) {
         return Response.ok().entity("magic!").build();
     }
 
     @GET
     @Path("/inventory")
     @Produces({ "application/json" })
-    @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
-        
-        @Authorization(value = "api_key")
-         }, tags={ "store" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map")
-    })
     @Operation(summary = "Returns pet inventories by status", description = "Returns a map of status codes to quantities")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
@@ -64,19 +50,13 @@ public class StoreApi {
     @GET
     @Path("/order/{order_id}")
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions", response = Order.class, tags={ "store" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
-        @ApiResponse(code = 404, message = "Order not found", response = Void.class)
-    })
     @Operation(summary = "Find purchase order by ID", description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation"),
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Order not found")
     })
-    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId) {
+    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) Long orderId) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -84,11 +64,6 @@ public class StoreApi {
     @Path("/order")
     @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
-    @ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class, tags={ "store" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Order.class),
-        @ApiResponse(code = 400, message = "Invalid Order", response = Void.class)
-    })
     @Operation(summary = "Place an order for a pet", description = "")
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation"),
