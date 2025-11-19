@@ -34,7 +34,6 @@ interface StoreApi {
     fun getDelegate(): StoreApiDelegate = object: StoreApiDelegate {}
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/store/order/{orderId}"]
@@ -44,7 +43,6 @@ interface StoreApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/store/inventory"],
@@ -55,7 +53,6 @@ interface StoreApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/store/order/{orderId}"],
@@ -66,7 +63,6 @@ interface StoreApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/store/order"],

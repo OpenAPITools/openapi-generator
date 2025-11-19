@@ -35,7 +35,6 @@ interface PetApi {
     fun getDelegate(): PetApiDelegate = object: PetApiDelegate {}
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/pet"],
@@ -46,7 +45,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/pet/{petId}"]
@@ -56,7 +54,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/pet/findByStatus"],
@@ -67,7 +64,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/pet/findByTags"],
@@ -78,7 +74,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/pet/{petId}"],
@@ -89,7 +84,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
             method = [RequestMethod.PUT],
             value = ["/pet"],
@@ -100,7 +94,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/pet/{petId}"],
@@ -111,7 +104,6 @@ interface PetApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/pet/{petId}/uploadImage"],

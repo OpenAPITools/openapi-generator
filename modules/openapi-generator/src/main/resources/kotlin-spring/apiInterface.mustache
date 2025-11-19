@@ -76,11 +76,11 @@ interface {{classname}} {
 {{/isDelegate}}
 {{#operation}}
 
-    {{^useResponseEntity}}
-    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
-    {{/useResponseEntity}}
-    {{#swagger2AnnotationLibrary}}
-    @Operation(
+{{^useResponseEntity}}
+    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}}){{!
+}}{{/useResponseEntity}}{{!
+}}{{#swagger2AnnotationLibrary}}{{!
+}}    @Operation(
         tags = [{{#tags}}"{{{name}}}",{{/tags}}],
         summary = "{{{summary}}}",
         operationId = "{{{operationId}}}",

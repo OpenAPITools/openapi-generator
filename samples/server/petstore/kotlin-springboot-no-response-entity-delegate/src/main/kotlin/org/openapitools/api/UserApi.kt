@@ -34,7 +34,6 @@ interface UserApi {
     fun getDelegate(): UserApiDelegate = object: UserApiDelegate {}
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user"]
@@ -44,7 +43,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user/createWithArray"]
@@ -54,7 +52,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.POST],
             value = ["/user/createWithList"]
@@ -64,7 +61,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
             method = [RequestMethod.DELETE],
             value = ["/user/{username}"]
@@ -74,7 +70,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/{username}"],
@@ -85,7 +80,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/login"],
@@ -96,7 +90,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.OK)
-
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/user/logout"]
@@ -106,7 +99,6 @@ interface UserApi {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-
     @RequestMapping(
             method = [RequestMethod.PUT],
             value = ["/user/{username}"]
