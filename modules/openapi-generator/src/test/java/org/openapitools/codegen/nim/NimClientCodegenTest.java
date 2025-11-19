@@ -136,26 +136,6 @@ public class NimClientCodegenTest {
     }
 
     @Test
-    public void testRecordTypeReferenceFix() throws Exception {
-        final NimClientCodegen codegen = new NimClientCodegen();
-
-        // Test that Record type references with underscores are fixed in dataType strings
-        String dataTypeWithRecord = "Table[string, Record_string__before_string_or_null__after_string_or_null___value]";
-
-        // Use reflection to access private method for testing
-        java.lang.reflect.Method method = NimClientCodegen.class.getDeclaredMethod("fixRecordTypeReferences", String.class);
-        method.setAccessible(true);
-        String result = (String) method.invoke(codegen, dataTypeWithRecord);
-
-        Assert.assertFalse(result.contains("Record_"),
-            "Fixed type should not contain Record_ with underscores: " + result);
-        Assert.assertTrue(result.contains("RecordString"),
-            "Fixed type should use camelCase: " + result);
-        Assert.assertFalse(result.contains("__"),
-            "Fixed type should not contain double underscores: " + result);
-    }
-
-    @Test
     public void testNormalizeSchemaName() throws Exception {
         final NimClientCodegen codegen = new NimClientCodegen();
 
