@@ -1,7 +1,7 @@
 {{^reactive}}
 {{#examples}}
     {{#-first}}
-getRequest().ifPresent { request ->
+        getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
                 if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
@@ -12,6 +12,7 @@ getRequest().ifPresent { request ->
             }
         }
         return ResponseEntity({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}})
+
     {{/-last}}
 {{/examples}}
 {{^examples}}
