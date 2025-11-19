@@ -17,7 +17,10 @@
 package org.openapitools.codegen.protobuf;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.ClientOptInput;
@@ -295,5 +298,51 @@ public class ProtobufSchemaCodegenTest {
         Assert.assertEquals(enumVars1.get(1).get("name"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("isString"), false);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that enums in arrays are treated as complex types")
+    public void enumInArrayIsTreatedAsComplexType() {
+        final Schema enumSchema = new StringSchema()._enum(Arrays.asList("APPLE", "BANANA", "ORANGE"));
+        final ArraySchema arraySchema = new ArraySchema();
+        arraySchema.setItems(enumSchema);
+
+        final Schema model = new Schema()
+                .description("a sample model with enum array")
+                .addProperties("fruitList", arraySchema);
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "fruitList");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that enums in maps are treated as complex types")
+    public void enumInMapIsTreatedAsComplexType() {
+        final Schema enumSchema = new StringSchema()._enum(Arrays.asList("RED", "GREEN", "BLUE"));
+        final MapSchema mapSchema = new MapSchema();
+        mapSchema.setAdditionalProperties(enumSchema);
+
+        final Schema model = new Schema()
+                .description("a sample model with enum map")
+                .addProperties("colorMap", mapSchema);
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "colorMap");
     }
 }
