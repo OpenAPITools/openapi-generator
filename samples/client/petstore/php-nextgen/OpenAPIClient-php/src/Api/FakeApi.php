@@ -470,12 +470,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Error
+     * @return \OpenAPI\Client\Model\Error|null
      */
     public function fakeDeletePet(
         string $pet_id,
         string $contentType = self::contentTypes['fakeDeletePet'][0]
-    ): \OpenAPI\Client\Model\Error
+    ): ?\OpenAPI\Client\Model\Error
     {
         list($response) = $this->fakeDeletePetWithHttpInfo($pet_id, $contentType);
         return $response;
@@ -3225,12 +3225,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet
+     * @return \OpenAPI\Client\Model\Pet|null
      */
     public function fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint(
         \OpenAPI\Client\Model\Pet $pet,
         string $contentType = self::contentTypes['fakeWith400And4xxRangeResponseNo4xxDatatypeEndpoint'][0]
-    ): \OpenAPI\Client\Model\Pet
+    ): ?\OpenAPI\Client\Model\Pet
     {
         list($response) = $this->fakeWith400And4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet, $contentType);
         return $response;
@@ -4094,12 +4094,12 @@ class FakeApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \OpenAPI\Client\Model\Pet
+     * @return \OpenAPI\Client\Model\Pet|null
      */
     public function fakeWith4xxRangeResponseNo4xxDatatypeEndpoint(
         \OpenAPI\Client\Model\Pet $pet,
         string $contentType = self::contentTypes['fakeWith4xxRangeResponseNo4xxDatatypeEndpoint'][0]
-    ): \OpenAPI\Client\Model\Pet
+    ): ?\OpenAPI\Client\Model\Pet
     {
         list($response) = $this->fakeWith4xxRangeResponseNo4xxDatatypeEndpointWithHttpInfo($pet, $contentType);
         return $response;

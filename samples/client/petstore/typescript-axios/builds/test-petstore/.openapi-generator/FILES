@@ -6,6 +6,9 @@ common.ts
 configuration.ts
 docs/200Response.md
 docs/AdditionalPropertiesClass.md
+docs/AllOfRefToDouble.md
+docs/AllOfRefToFloat.md
+docs/AllOfRefToLong.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md

@@ -61,6 +61,7 @@ jobs:
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
           - samples/client/petstore/java/native-jakarta
+          - samples/client/petstore/java/native-useGzipFeature
           - samples/client/petstore/java/retrofit2
           - samples/client/petstore/java/retrofit2rx2
           - samples/client/petstore/java/retrofit2rx3

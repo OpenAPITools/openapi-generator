@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import lombok.Getter;
@@ -35,6 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -1171,5 +1175,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }
+    }
+
+    protected static abstract class CustomLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment frag, Writer out) throws IOException {
+            final StringWriter tempWriter = new StringWriter();
+            frag.execute(tempWriter);
+            out.write(formatFragment(tempWriter.toString()));
+        }
+
+        public abstract String formatFragment(String fragment);
     }
 }

@@ -12,6 +12,9 @@ import com.google.gson.stream.JsonWriter;
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
+{{#isDeprecated}}
+@Deprecated
+{{/isDeprecated}}
 @JsonAdapter({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Adapter.class)
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}{{#vendorExtensions.x-implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
   {{#allowableValues}}{{#enumVars}}

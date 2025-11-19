@@ -126,7 +126,7 @@ pplx::task<void> UserOrPetApi::createUserOrPet(std::shared_ptr<CreateUserOrPet_r
         utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("api_key"));
         if ( localVarApiKey.size() > 0 )
         {
-            localVarHeaderParams[utility::conversions::to_string_t("api_key")] = localVarApiKey;
+            localVarHeaderParams[utility::conversions::to_string_t("api_key_name")] = localVarApiKey;
         }
     }
 
