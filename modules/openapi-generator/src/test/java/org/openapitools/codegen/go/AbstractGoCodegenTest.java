@@ -19,14 +19,26 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.mockito.Answers;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.AbstractGoCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
@@ -107,5 +119,92 @@ public class AbstractGoCodegenTest {
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "map[string]interface{}");
+    }
+
+    @Test(description = "test that os import is added for array of binary parameters in operations")
+    public void testOsImportForArrayOfBinaryParametersInOperations() {
+        // Create OpenAPI spec with array of binary files
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        
+        // Create operation with array of binary parameter in request body
+        Operation operation = new Operation();
+        RequestBody requestBody = new RequestBody();
+        Content content = new Content();
+        MediaType mediaType = new MediaType();
+        
+        Schema<?> arraySchema = new ArraySchema().items(
+            new BinarySchema()
+        );
+        
+        ObjectSchema objectSchema = new ObjectSchema();
+        objectSchema.addProperty("files", arraySchema);
+        mediaType.setSchema(objectSchema);
+        content.addMediaType("multipart/form-data", mediaType);
+        requestBody.setContent(content);
+        operation.setRequestBody(requestBody);
+        
+        codegen.setOpenAPI(openAPI);
+        
+        // Convert to CodegenOperation
+        CodegenOperation codegenOperation = codegen.fromOperation("/upload", "post", operation, null);
+        
+        // Create OperationsMap structure
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(codegenOperation);
+        OperationsMap operationsMap = new OperationsMap();
+        operationsMap.setOperation(operationMap);
+        operationsMap.setImports(new ArrayList<>());
+        
+        // Post-process the operations
+        OperationsMap result = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
+        
+        // Assert that "os" import was added
+        List<Map<String, String>> imports = result.getImports();
+        boolean hasOsImport = imports.stream()
+            .anyMatch(imp -> "os".equals(imp.get("import")));
+        
+        Assert.assertTrue(hasOsImport, "Expected 'os' import to be added for array of binary files");
+    }
+    
+    @Test(description = "test that time import is added for array of date-time parameters in operations")
+    public void testTimeImportForArrayOfDateTimeParametersInOperations() {
+        // Create OpenAPI spec with array of date-time parameter
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.setComponents(new Components());
+        
+        Operation operation = new Operation();
+        Parameter parameter = new Parameter();
+        parameter.setName("timestamps");
+        parameter.setIn("query");
+        
+        ArraySchema arraySchema = new ArraySchema();
+        DateTimeSchema dateTimeSchema = new DateTimeSchema();
+        arraySchema.setItems(dateTimeSchema);
+        parameter.setSchema(arraySchema);
+        
+        operation.addParametersItem(parameter);
+        
+        codegen.setOpenAPI(openAPI);
+        
+        // Convert to CodegenOperation
+        CodegenOperation codegenOperation = codegen.fromOperation("/events", "get", operation, null);
+        
+        // Create OperationsMap structure
+        OperationMap operationMap = new OperationMap();
+        operationMap.setOperation(codegenOperation);
+        OperationsMap operationsMap = new OperationsMap();
+        operationsMap.setOperation(operationMap);
+        operationsMap.setImports(new ArrayList<>());
+        
+        // Post-process the operations
+        OperationsMap result = codegen.postProcessOperationsWithModels(operationsMap, Collections.emptyList());
+        
+        // Assert that "time" import was added
+        List<Map<String, String>> imports = result.getImports();
+        boolean hasTimeImport = imports.stream()
+            .anyMatch(imp -> "time".equals(imp.get("import")));
+        
+        Assert.assertTrue(hasTimeImport, "Expected 'time' import to be added for array of date-time parameters");
     }
 }
