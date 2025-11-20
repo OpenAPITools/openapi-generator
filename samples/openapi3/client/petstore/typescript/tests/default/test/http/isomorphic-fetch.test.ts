@@ -77,7 +77,6 @@ for (let libName in libs) {
             requestContext.setHeaderParam("testkey1","testvalue1");
             expect(requestContext.getHeaders().testkey1).to.eq("testvalue1");
 
-            // replace with differently cased key
             requestContext.setHeaderParam("tEsTkeY1","testvalue2");
             expect(requestContext.getHeaders().testkey1).to.be.undefined;
             expect(requestContext.getHeaders().tEsTkeY1).to.eq("testvalue2");
@@ -89,7 +88,6 @@ for (let libName in libs) {
             requestContext.setHeaderParam("testkey1","testvalue1");
             expect(requestContext.getHeaders().testkey1).to.eq("testvalue1");
 
-            // replace with differently cased key
             requestContext.setHeaderParam("testkey1","testvalue2");
             expect(requestContext.getHeaders().testkey1).to.eq("testvalue2");
         })
