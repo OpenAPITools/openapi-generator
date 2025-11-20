@@ -33,67 +33,80 @@ interface UserApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = ["/user"],
+        consumes = ["application/json"]
     )
-    fun createUser( @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun createUser(
+         @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user/createWithArray"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = ["/user/createWithArray"],
+        consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(
+         @Valid @RequestBody user: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user/createWithList"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = ["/user/createWithList"],
+        consumes = ["application/json"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(
+         @Valid @RequestBody user: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/user/{username}"]
+        method = [RequestMethod.DELETE],
+        value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(
+         @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/{username}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/user/{username}"],
+        produces = ["application/xml", "application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(
+         @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<User> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/login"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/user/login"],
+        produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/logout"]
+        method = [RequestMethod.GET],
+        value = ["/user/logout"]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -101,11 +114,14 @@ interface UserApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.PUT],
-            value = ["/user/{username}"],
-            consumes = ["application/json"]
+        method = [RequestMethod.PUT],
+        value = ["/user/{username}"],
+        consumes = ["application/json"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun updateUser(
+         @PathVariable("username") username: kotlin.String,
+         @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

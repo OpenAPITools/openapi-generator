@@ -36,81 +36,102 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet"],
-            consumes = ["application/json", "application/xml"]
+        method = [RequestMethod.POST],
+        value = ["/pet"],
+        consumes = ["application/json", "application/xml"]
     )
-    fun addPet( @Valid @RequestBody body: Pet): Unit {
+    fun addPet(
+         @Valid @RequestBody body: Pet
+    ): Unit {
         return getDelegate().addPet(body)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/pet/{petId}"]
+        method = [RequestMethod.DELETE],
+        value = ["/pet/{petId}"]
     )
-    fun deletePet( @PathVariable("petId") petId: kotlin.Long, @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): Unit {
+    fun deletePet(
+         @PathVariable("petId") petId: kotlin.Long,
+         @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+    ): Unit {
         return getDelegate().deletePet(petId, apiKey)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/findByStatus"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/pet/findByStatus"],
+        produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByStatus(
+        @NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+    ): List<Pet> {
         return getDelegate().findPetsByStatus(status)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/findByTags"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/pet/findByTags"],
+        produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByTags(
+        @NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
+    ): List<Pet> {
         return getDelegate().findPetsByTags(tags)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/{petId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/pet/{petId}"],
+        produces = ["application/xml", "application/json"]
     )
-    fun getPetById( @PathVariable("petId") petId: kotlin.Long): Pet {
+    fun getPetById(
+         @PathVariable("petId") petId: kotlin.Long
+    ): Pet {
         return getDelegate().getPetById(petId)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
-            method = [RequestMethod.PUT],
-            value = ["/pet"],
-            consumes = ["application/json", "application/xml"]
+        method = [RequestMethod.PUT],
+        value = ["/pet"],
+        consumes = ["application/json", "application/xml"]
     )
-    fun updatePet( @Valid @RequestBody body: Pet): Unit {
+    fun updatePet(
+         @Valid @RequestBody body: Pet
+    ): Unit {
         return getDelegate().updatePet(body)
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet/{petId}"],
-            consumes = ["application/x-www-form-urlencoded"]
+        method = [RequestMethod.POST],
+        value = ["/pet/{petId}"],
+        consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "name", required = false) name: kotlin.String? , @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ): Unit {
+    fun updatePetWithForm(
+         @PathVariable("petId") petId: kotlin.Long,
+         @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,
+         @Valid @RequestParam(value = "status", required = false) status: kotlin.String? 
+    ): Unit {
         return getDelegate().updatePetWithForm(petId, name, status)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet/{petId}/uploadImage"],
-            produces = ["application/json"],
-            consumes = ["multipart/form-data"]
+        method = [RequestMethod.POST],
+        value = ["/pet/{petId}/uploadImage"],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
+    fun uploadFile(
+         @PathVariable("petId") petId: kotlin.Long,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,
+         @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
+    ): ModelApiResponse {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
     }
 }

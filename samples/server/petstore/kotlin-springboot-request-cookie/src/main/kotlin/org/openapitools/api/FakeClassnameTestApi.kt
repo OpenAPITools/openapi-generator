@@ -48,12 +48,14 @@ interface FakeClassnameTestApi {
         security = [ SecurityRequirement(name = "api_key_query") ]
     )
     @RequestMapping(
-            method = [RequestMethod.PATCH],
-            value = ["/fake_classname_test"],
-            produces = ["application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.PATCH],
+        value = ["/fake_classname_test"],
+        produces = ["application/json"],
+        consumes = ["application/json"]
     )
-    fun testClassname(@Parameter(description = "client model", required = true) @Valid @RequestBody client: Client): ResponseEntity<Client> {
+    fun testClassname(
+        @Parameter(description = "client model", required = true) @Valid @RequestBody client: Client
+    ): ResponseEntity<Client> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

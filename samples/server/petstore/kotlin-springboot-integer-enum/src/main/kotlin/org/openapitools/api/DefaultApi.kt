@@ -34,9 +34,9 @@ interface DefaultApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/healthcheck"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = ["/healthcheck"],
+        produces = ["application/json"]
     )
     fun healthcheck(): ResponseEntity<Unit>
 }

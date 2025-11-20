@@ -35,18 +35,20 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/store/order/{orderId}"]
+        method = [RequestMethod.DELETE],
+        value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): Unit {
+    fun deleteOrder(
+         @PathVariable("orderId") orderId: kotlin.String
+    ): Unit {
         return getDelegate().deleteOrder(orderId)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/inventory"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = ["/store/inventory"],
+        produces = ["application/json"]
     )
     fun getInventory(): Map<String, kotlin.Int> {
         return getDelegate().getInventory()
@@ -54,21 +56,25 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/store/order/{orderId}"],
+        produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long): Order {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long
+    ): Order {
         return getDelegate().getOrderById(orderId)
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.POST],
+        value = ["/store/order"],
+        produces = ["application/xml", "application/json"]
     )
-    fun placeOrder( @Valid @RequestBody body: Order): Order {
+    fun placeOrder(
+         @Valid @RequestBody body: Order
+    ): Order {
         return getDelegate().placeOrder(body)
     }
 }

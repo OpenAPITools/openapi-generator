@@ -47,9 +47,9 @@ interface FooApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/foo"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = ["/foo"],
+        produces = ["application/json"]
     )
     fun fooGet(): ResponseEntity<FooGetDefaultResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)

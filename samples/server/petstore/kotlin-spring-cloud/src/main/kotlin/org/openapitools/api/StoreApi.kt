@@ -33,18 +33,20 @@ interface StoreApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/store/order/{orderId}"]
+        method = [RequestMethod.DELETE],
+        value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+         @PathVariable("orderId") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/inventory"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = ["/store/inventory"],
+        produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -52,22 +54,26 @@ interface StoreApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = ["/store/order/{orderId}"],
+        produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = ["/store/order"],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json"]
     )
-    fun placeOrder( @Valid @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(
+         @Valid @RequestBody order: Order
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
