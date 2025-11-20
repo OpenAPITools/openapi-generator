@@ -30,6 +30,9 @@ import org.springframework.validation.annotation.Validated
 {{/useBeanValidation}}
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+{{#useRequestMappingOnController}}
+import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}.Companion.BASE_PATH
+{{/useRequestMappingOnController}}
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid
@@ -58,13 +61,13 @@ import kotlin.collections.Map
 {{/swagger1AnnotationLibrary}}
 {{#useRequestMappingOnController}}
 {{=<% %>=}}
-@RequestMapping("\${api.base-path:<%contextPath%>}")
+@RequestMapping("\${api.<%title%>.base-path:api.base-path:$BASE_PATH}")
 <%={{ }}=%>
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
-{{#operation}}
 
+{{#operation}}
 {{^useResponseEntity}}
     @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}}){{!
 }}{{/useResponseEntity}}{{!
@@ -88,7 +91,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
-        value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
+        value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} /* "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}" */]{{#singleContentTypes}}{{#hasProduces}},
         produces = [{{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
@@ -100,6 +103,16 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} {
         return {{>returnValue}}
     }
+
 {{/operation}}
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+    {{#useRequestMappingOnController}}
+        const val BASE_PATH: String = "{{=<% %>=}}<%contextPath%><%={{ }}=%>"
+    {{/useRequestMappingOnController}}
+    {{#operation}}
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{{path}}}"
+    {{/operation}}
+    }
 }
 {{/operations}}

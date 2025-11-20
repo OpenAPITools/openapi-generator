@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.UserApi.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -30,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
 class UserApiController() {
 
     @Operation(
@@ -43,7 +44,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"],
+        value = [PATH_CREATE_USER /* "/user" */],
         consumes = ["application/json"]
     )
     fun createUser(
@@ -62,7 +63,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"],
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */],
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
@@ -81,7 +82,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"],
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */],
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
@@ -101,7 +102,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/user/{username}"]
+        value = [PATH_DELETE_USER /* "/user/{username}" */]
     )
     fun deleteUser(
         @Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
@@ -120,7 +121,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/{username}"],
+        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
@@ -139,7 +140,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/login"],
+        value = [PATH_LOGIN_USER /* "/user/login" */],
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
@@ -159,7 +160,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/logout"]
+        value = [PATH_LOGOUT_USER /* "/user/logout" */]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -176,7 +177,7 @@ class UserApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"],
+        value = [PATH_UPDATE_USER /* "/user/{username}" */],
         consumes = ["application/json"]
     )
     fun updateUser(
@@ -184,5 +185,18 @@ class UserApiController() {
         @Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_CREATE_USER: String = "/user"
+        const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
+        const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"
+        const val PATH_DELETE_USER: String = "/user/{username}"
+        const val PATH_GET_USER_BY_NAME: String = "/user/{username}"
+        const val PATH_LOGIN_USER: String = "/user/login"
+        const val PATH_LOGOUT_USER: String = "/user/logout"
+        const val PATH_UPDATE_USER: String = "/user/{username}"
     }
 }

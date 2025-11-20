@@ -35,6 +35,9 @@ import org.springframework.validation.annotation.Validated
 {{/useBeanValidation}}
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+{{#useRequestMappingOnInterface}}
+import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}.Companion.BASE_PATH
+{{/useRequestMappingOnInterface}}
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.DecimalMax
@@ -65,7 +68,7 @@ import kotlin.collections.Map
 {{/swagger1AnnotationLibrary}}
 {{#useRequestMappingOnInterface}}
 {{=<% %>=}}
-@RequestMapping("\${api.base-path:<%contextPath%>}")
+@RequestMapping("\${api.<%title%>.base-path:api.base-path:$BASE_PATH}")
 <%={{ }}=%>
 {{/useRequestMappingOnInterface}}
 {{#operations}}
@@ -74,8 +77,8 @@ interface {{classname}} {
 
     fun getDelegate(): {{classname}}Delegate{{^skipDefaultDelegateInterface}} = object: {{classname}}Delegate {}{{/skipDefaultDelegateInterface}}
 {{/isDelegate}}
-{{#operation}}
 
+{{#operation}}
 {{^useResponseEntity}}
     @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}}){{!
 }}{{/useResponseEntity}}{{!
@@ -103,7 +106,7 @@ interface {{classname}} {
     ){{/swagger1AnnotationLibrary}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
-        value = ["{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"]{{#singleContentTypes}}{{#hasProduces}},
+        value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} /* "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}" */]{{#singleContentTypes}}{{#hasProduces}},
         produces = [{{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
         produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
@@ -120,6 +123,16 @@ interface {{classname}} {
         return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
         {{/isDelegate}}
     }{{/skipDefaultApiInterface}}
+
 {{/operation}}
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+    {{#useRequestMappingOnInterface}}
+        const val BASE_PATH: String = "{{=<% %>=}}<%contextPath%><%={{ }}=%>"
+    {{/useRequestMappingOnInterface}}
+    {{#operation}}
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{{path}}}"
+    {{/operation}}
+    }
 }
 {{/operations}}

@@ -51,7 +51,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/store/order/{orderId}"]
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
     )
     fun deleteOrder(
         @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.String,
@@ -72,7 +72,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/inventory"],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
         produces = ["application/json"]
     )
     fun getInventory(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Map<String, kotlin.Int>>
@@ -89,7 +89,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/order/{orderId}"],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
         produces = ["application/json"]
     )
     fun getOrderById(
@@ -109,7 +109,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/store/order"],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
         produces = ["application/json"],
         consumes = ["application/json"]
     )
@@ -117,4 +117,12 @@ interface StoreApi {
         @ApiParam(value = "", required = true) @Valid @RequestBody order: Order,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<Order>
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
+    }
 }

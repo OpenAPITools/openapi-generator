@@ -27,32 +27,36 @@ import kotlin.collections.Map
 @Validated
 interface StoreApi {
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_ORDER,
+        url = PATH_DELETE_ORDER /* "/store/order/{orderId}" */,
         method = "DELETE"
     )
     suspend fun deleteOrder(
         @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_INVENTORY,
+        url = PATH_GET_INVENTORY /* "/store/inventory" */,
         method = "GET"
     )
     suspend fun getInventory(
     ): Map<String, kotlin.Int>
 
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_ORDER_BY_ID,
+        url = PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */,
         method = "GET"
     )
     suspend fun getOrderById(
         @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
     ): Order
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_PLACE_ORDER,
+        url = PATH_PLACE_ORDER /* "/store/order" */,
         method = "POST"
     )
     suspend fun placeOrder(

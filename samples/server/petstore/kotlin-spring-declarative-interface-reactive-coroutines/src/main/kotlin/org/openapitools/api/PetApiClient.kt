@@ -28,16 +28,18 @@ import kotlin.collections.Map
 @Validated
 interface PetApi {
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_ADD_PET,
+        url = PATH_ADD_PET /* "/pet" */,
         method = "POST"
     )
     suspend fun addPet(
         @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
     ): Pet
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_PET,
+        url = PATH_DELETE_PET /* "/pet/{petId}" */,
         method = "DELETE"
     )
     suspend fun deletePet(
@@ -45,8 +47,9 @@ interface PetApi {
         @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_STATUS,
+        url = PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */,
         method = "GET"
     )
     suspend fun findPetsByStatus(
@@ -54,8 +57,9 @@ interface PetApi {
     ): List<Pet>
 
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_TAGS,
+        url = PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */,
         method = "GET"
     )
     suspend fun findPetsByTags(
@@ -63,24 +67,27 @@ interface PetApi {
     ): List<Pet>
 
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_PET_BY_ID,
+        url = PATH_GET_PET_BY_ID /* "/pet/{petId}" */,
         method = "GET"
     )
     suspend fun getPetById(
         @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
     ): Pet
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPDATE_PET,
+        url = PATH_UPDATE_PET /* "/pet" */,
         method = "PUT"
     )
     suspend fun updatePet(
         @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
     ): Pet
 
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @HttpExchange(
-        url = PATH_UPDATE_PET_WITH_FORM,
+        url = PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */,
         method = "POST"
     )
     suspend fun updatePetWithForm(
@@ -89,8 +96,9 @@ interface PetApi {
         @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPLOAD_FILE,
+        url = PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */,
         method = "POST"
     )
     suspend fun uploadFile(

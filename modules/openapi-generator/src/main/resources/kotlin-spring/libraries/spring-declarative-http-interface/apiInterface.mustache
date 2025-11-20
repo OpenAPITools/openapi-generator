@@ -48,7 +48,7 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 {{#useRequestMappingOnInterface}}@HttpExchange(
-"{{=<% %>=}}\${api.base-path:$BASE_PATH}<%={{ }}=%>"
+"{{=<% %>=}}\${api.<%title%>.base-path:api.base-path:$BASE_PATH}<%={{ }}=%>"
 ){{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated
@@ -56,10 +56,11 @@ import kotlin.collections.Map
 {{#operations}}
 interface {{classname}} {
 
-{{#operation}}
-    {{#httpMethod}}
-    @HttpExchange(
-        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
+{{#operation}}{{!
+}}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
+{{/useResponseEntity}}{{!
+}}{{#httpMethod}}    @HttpExchange(
+        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} /* "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}" */,
         method = "{{httpMethod}}"
     )
     {{/httpMethod}}{{!

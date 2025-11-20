@@ -34,7 +34,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"],
+        value = [PATH_CREATE_USER /* "/user" */],
         consumes = ["application/json"]
     )
     fun createUser(
@@ -46,7 +46,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"],
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */],
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
@@ -58,7 +58,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"],
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */],
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
@@ -70,7 +70,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/user/{username}"]
+        value = [PATH_DELETE_USER /* "/user/{username}" */]
     )
     fun deleteUser(
         @PathVariable("username") username: kotlin.String
@@ -81,7 +81,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/{username}"],
+        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
@@ -93,7 +93,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/login"],
+        value = [PATH_LOGIN_USER /* "/user/login" */],
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
@@ -106,7 +106,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/logout"]
+        value = [PATH_LOGOUT_USER /* "/user/logout" */]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -115,7 +115,7 @@ interface UserApi {
 
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"],
+        value = [PATH_UPDATE_USER /* "/user/{username}" */],
         consumes = ["application/json"]
     )
     fun updateUser(
@@ -123,5 +123,17 @@ interface UserApi {
         @Valid @RequestBody user: User
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_CREATE_USER: String = "/user"
+        const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
+        const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"
+        const val PATH_DELETE_USER: String = "/user/{username}"
+        const val PATH_GET_USER_BY_NAME: String = "/user/{username}"
+        const val PATH_LOGIN_USER: String = "/user/login"
+        const val PATH_LOGOUT_USER: String = "/user/logout"
+        const val PATH_UPDATE_USER: String = "/user/{username}"
     }
 }

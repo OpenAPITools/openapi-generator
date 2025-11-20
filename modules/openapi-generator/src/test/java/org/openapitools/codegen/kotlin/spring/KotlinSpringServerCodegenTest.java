@@ -1065,20 +1065,20 @@ public class KotlinSpringServerCodegenTest {
                 "import reactor.core.publisher.Flux\n"
                 + "import reactor.core.publisher.Mono",
                 "    @HttpExchange(\n"
-                + "        url = PATH_GET_INVENTORY,\n"
+                + "        url = PATH_GET_INVENTORY /* \"/store/inventory\" */,\n"
                 + "        method = \"GET\"\n"
                 + "    )\n"
                 + "    fun getInventory(\n"
                 + "    ): Mono<ResponseEntity<Map<String, kotlin.Int>>>",
                 "    @HttpExchange(\n"
-                + "        url = PATH_DELETE_ORDER,\n"
+                + "        url = PATH_DELETE_ORDER /* \"/store/order/{orderId}\" */,\n"
                 + "        method = \"DELETE\"\n"
                 + "    )\n"
                 + "    fun deleteOrder(\n"
                 + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
                 + "    ): Mono<ResponseEntity<Unit>>",
                 "    @HttpExchange(\n"
-                + "        url = PATH_PLACE_ORDER,\n"
+                + "        url = PATH_PLACE_ORDER /* \"/store/order\" */,\n"
                 + "        method = \"POST\"\n"
                 + "    )\n"
                 + "    fun placeOrder(\n"

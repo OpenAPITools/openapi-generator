@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.PetApi.Companion.BASE_PATH
 
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -36,7 +37,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
 interface PetApi {
 
     fun getDelegate(): PetApiDelegate
@@ -54,7 +55,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet"],
+        value = [PATH_ADD_PET /* "/pet" */],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -76,7 +77,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/pet/{petId}"]
+        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
     )
     fun deletePet(
         @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
@@ -98,7 +99,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/findByStatus"],
+        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -120,7 +121,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/findByTags"],
+        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -143,7 +144,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/{petId}"],
+        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
@@ -167,7 +168,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/pet"],
+        value = [PATH_UPDATE_PET /* "/pet" */],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -189,7 +190,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet/{petId}"],
+        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
@@ -212,7 +213,7 @@ interface PetApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet/{petId}/uploadImage"],
+        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
@@ -222,5 +223,18 @@ interface PetApi {
         @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
     ): ResponseEntity<ModelApiResponse> {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_ADD_PET: String = "/pet"
+        const val PATH_DELETE_PET: String = "/pet/{petId}"
+        const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
+        const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
+        const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_UPDATE_PET: String = "/pet"
+        const val PATH_UPDATE_PET_WITH_FORM: String = "/pet/{petId}"
+        const val PATH_UPLOAD_FILE: String = "/pet/{petId}/uploadImage"
     }
 }

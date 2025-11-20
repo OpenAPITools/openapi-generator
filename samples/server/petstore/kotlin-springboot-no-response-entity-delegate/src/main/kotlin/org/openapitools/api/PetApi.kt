@@ -37,7 +37,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet"],
+        value = [PATH_ADD_PET /* "/pet" */],
         consumes = ["application/json", "application/xml"]
     )
     fun addPet(
@@ -49,7 +49,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/pet/{petId}"]
+        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
     )
     fun deletePet(
         @PathVariable("petId") petId: kotlin.Long,
@@ -61,7 +61,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/findByStatus"],
+        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -73,7 +73,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/findByTags"],
+        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -85,7 +85,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/pet/{petId}"],
+        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
@@ -97,7 +97,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/pet"],
+        value = [PATH_UPDATE_PET /* "/pet" */],
         consumes = ["application/json", "application/xml"]
     )
     fun updatePet(
@@ -109,7 +109,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet/{petId}"],
+        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
@@ -123,7 +123,7 @@ interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/pet/{petId}/uploadImage"],
+        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
@@ -133,5 +133,17 @@ interface PetApi {
         @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
     ): ModelApiResponse {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_ADD_PET: String = "/pet"
+        const val PATH_DELETE_PET: String = "/pet/{petId}"
+        const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
+        const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
+        const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_UPDATE_PET: String = "/pet"
+        const val PATH_UPDATE_PET_WITH_FORM: String = "/pet/{petId}"
+        const val PATH_UPLOAD_FILE: String = "/pet/{petId}/uploadImage"
     }
 }

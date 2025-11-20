@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.StoreApi.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -31,7 +32,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
     @Operation(
@@ -44,7 +45,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/store/order/{orderId}"]
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
     )
     suspend fun deleteOrder(
         @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
@@ -62,7 +63,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/inventory"],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
         produces = ["application/json"]
     )
     suspend fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
@@ -80,7 +81,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/order/{orderId}"],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
         produces = ["application/xml", "application/json"]
     )
     suspend fun getOrderById(
@@ -99,7 +100,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/store/order"],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json"]
     )
@@ -107,5 +108,14 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
     ): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(order), HttpStatus.valueOf(200))
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
     }
 }

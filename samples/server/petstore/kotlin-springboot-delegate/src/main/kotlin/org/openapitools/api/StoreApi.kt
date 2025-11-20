@@ -51,7 +51,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/store/order/{orderId}"]
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
     )
     fun deleteOrder(
         @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
@@ -71,7 +71,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/inventory"],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
         produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
@@ -91,7 +91,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/store/order/{orderId}"],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
@@ -112,7 +112,7 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/store/order"],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json"]
     )
@@ -120,5 +120,13 @@ interface StoreApi {
         @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
     ): ResponseEntity<Order> {
         return getDelegate().placeOrder(order)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
     }
 }

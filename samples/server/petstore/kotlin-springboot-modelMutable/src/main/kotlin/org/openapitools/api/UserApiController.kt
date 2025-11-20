@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.UserApi.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -30,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
 class UserApiController(@Autowired(required = true) val service: UserApiService) {
 
     @Operation(
@@ -42,7 +43,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user"]
+        value = [PATH_CREATE_USER /* "/user" */]
     )
     fun createUser(
         @Parameter(description = "Created user object", required = true) @Valid @RequestBody body: User
@@ -59,7 +60,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithArray"]
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */]
     )
     fun createUsersWithArrayInput(
         @Parameter(description = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
@@ -76,7 +77,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/user/createWithList"]
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */]
     )
     fun createUsersWithListInput(
         @Parameter(description = "List of user object", required = true) @Valid @RequestBody body: kotlin.collections.List<User>
@@ -94,7 +95,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = ["/user/{username}"]
+        value = [PATH_DELETE_USER /* "/user/{username}" */]
     )
     fun deleteUser(
         @Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
@@ -113,7 +114,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/{username}"],
+        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
@@ -132,7 +133,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/login"],
+        value = [PATH_LOGIN_USER /* "/user/login" */],
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
@@ -151,7 +152,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = ["/user/logout"]
+        value = [PATH_LOGOUT_USER /* "/user/logout" */]
     )
     fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(service.logoutUser(), HttpStatus.valueOf(200))
@@ -167,12 +168,25 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/user/{username}"]
+        value = [PATH_UPDATE_USER /* "/user/{username}" */]
     )
     fun updateUser(
         @Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,
         @Parameter(description = "Updated user object", required = true) @Valid @RequestBody body: User
     ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_CREATE_USER: String = "/user"
+        const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
+        const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"
+        const val PATH_DELETE_USER: String = "/user/{username}"
+        const val PATH_GET_USER_BY_NAME: String = "/user/{username}"
+        const val PATH_LOGIN_USER: String = "/user/login"
+        const val PATH_LOGOUT_USER: String = "/user/logout"
+        const val PATH_UPDATE_USER: String = "/user/{username}"
     }
 }
