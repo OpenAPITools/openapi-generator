@@ -32,7 +32,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user"]
     )
-    fun createUser( @Valid @RequestBody body: User): Unit {
+    fun createUser(
+        @Valid @RequestBody body: User
+    ): Unit {
         return service.createUser(body)
     }
 
@@ -41,7 +43,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user/createWithArray"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody body: kotlin.collections.List<User>): Unit {
+    fun createUsersWithArrayInput(
+        @Valid @RequestBody body: kotlin.collections.List<User>
+    ): Unit {
         return service.createUsersWithArrayInput(body)
     }
 
@@ -50,7 +54,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user/createWithList"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody body: kotlin.collections.List<User>): Unit {
+    fun createUsersWithListInput(
+        @Valid @RequestBody body: kotlin.collections.List<User>
+    ): Unit {
         return service.createUsersWithListInput(body)
     }
 
@@ -59,7 +65,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String): Unit {
+    fun deleteUser(
+        @PathVariable("username") username: kotlin.String
+    ): Unit {
         return service.deleteUser(username)
     }
 
@@ -69,7 +77,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String): User {
+    fun getUserByName(
+        @PathVariable("username") username: kotlin.String
+    ): User {
         return service.getUserByName(username)
     }
 
@@ -79,7 +89,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): kotlin.String {
+    fun loginUser(
+        @NotNull @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): kotlin.String {
         return service.loginUser(username, password)
     }
 
@@ -97,7 +110,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.PUT],
         value = ["/user/{username}"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody body: User): Unit {
+    fun updateUser(
+        @PathVariable("username") username: kotlin.String,
+        @Valid @RequestBody body: User
+    ): Unit {
         return service.updateUser(username, body)
     }
 }

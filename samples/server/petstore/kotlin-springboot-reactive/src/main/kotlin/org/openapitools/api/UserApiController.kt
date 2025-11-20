@@ -47,7 +47,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user"],
         consumes = ["application/json"]
     )
-    suspend fun createUser(@Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    suspend fun createUser(
+        @Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUser(user), HttpStatus.valueOf(200))
     }
 
@@ -64,7 +66,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithArray"],
         consumes = ["application/json"]
     )
-    suspend fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>): ResponseEntity<Unit> {
+    suspend fun createUsersWithArrayInput(
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
     }
 
@@ -81,7 +85,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/createWithList"],
         consumes = ["application/json"]
     )
-    suspend fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>): ResponseEntity<Unit> {
+    suspend fun createUsersWithListInput(
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: Flow<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
     }
 
@@ -98,7 +104,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
-    suspend fun deleteUser(@Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    suspend fun deleteUser(
+        @Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
     }
 
@@ -116,7 +124,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
-    suspend fun getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    suspend fun getUserByName(
+        @Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
     }
 
@@ -133,7 +143,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    suspend fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    suspend fun loginUser(
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
@@ -167,7 +180,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         consumes = ["application/json"]
     )
-    suspend fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    suspend fun updateUser(
+        @Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,
+        @Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, user), HttpStatus.valueOf(400))
     }
 }

@@ -46,7 +46,9 @@ class UserApiController() {
         value = ["/user"],
         consumes = ["application/json"]
     )
-    fun createUser(@Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun createUser(
+        @Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -63,7 +65,9 @@ class UserApiController() {
         value = ["/user/createWithArray"],
         consumes = ["application/json"]
     )
-    fun createUsersWithArrayInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -80,7 +84,9 @@ class UserApiController() {
         value = ["/user/createWithList"],
         consumes = ["application/json"]
     )
-    fun createUsersWithListInput(@Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -97,7 +103,9 @@ class UserApiController() {
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
-    fun deleteUser(@Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(
+        @Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -115,7 +123,9 @@ class UserApiController() {
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(
+        @Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<User> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -132,7 +142,10 @@ class UserApiController() {
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -166,7 +179,10 @@ class UserApiController() {
         value = ["/user/{username}"],
         consumes = ["application/json"]
     )
-    fun updateUser(@Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,@Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User): ResponseEntity<Unit> {
+    fun updateUser(
+        @Parameter(description = "name that need to be deleted", required = true) @PathVariable("username") username: kotlin.String,
+        @Parameter(description = "Updated user object", required = true) @Valid @RequestBody user: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

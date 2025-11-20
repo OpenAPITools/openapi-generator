@@ -37,7 +37,7 @@ interface StoreApi {
         value = ["/store/order/{orderId}"]
     )
     fun deleteOrder(
-         @PathVariable("orderId") orderId: kotlin.String
+        @PathVariable("orderId") orderId: kotlin.String
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -59,7 +59,7 @@ interface StoreApi {
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
-        @Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long
+        @Min(value=1L) @Max(value=5L) @PathVariable("orderId") orderId: kotlin.Long
     ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -72,7 +72,7 @@ interface StoreApi {
         consumes = ["application/json"]
     )
     fun placeOrder(
-         @Valid @RequestBody order: Order
+        @Valid @RequestBody order: Order
     ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

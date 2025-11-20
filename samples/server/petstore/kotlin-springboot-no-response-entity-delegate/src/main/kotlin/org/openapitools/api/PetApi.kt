@@ -41,7 +41,7 @@ interface PetApi {
         consumes = ["application/json", "application/xml"]
     )
     fun addPet(
-         @Valid @RequestBody body: Pet
+        @Valid @RequestBody body: Pet
     ): Unit {
         return getDelegate().addPet(body)
     }
@@ -52,8 +52,8 @@ interface PetApi {
         value = ["/pet/{petId}"]
     )
     fun deletePet(
-         @PathVariable("petId") petId: kotlin.Long,
-         @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+        @PathVariable("petId") petId: kotlin.Long,
+        @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
     ): Unit {
         return getDelegate().deletePet(petId, apiKey)
     }
@@ -65,7 +65,7 @@ interface PetApi {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
-        @NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+        @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
     ): List<Pet> {
         return getDelegate().findPetsByStatus(status)
     }
@@ -77,7 +77,7 @@ interface PetApi {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
-        @NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
+        @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
     ): List<Pet> {
         return getDelegate().findPetsByTags(tags)
     }
@@ -89,7 +89,7 @@ interface PetApi {
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
-         @PathVariable("petId") petId: kotlin.Long
+        @PathVariable("petId") petId: kotlin.Long
     ): Pet {
         return getDelegate().getPetById(petId)
     }
@@ -101,7 +101,7 @@ interface PetApi {
         consumes = ["application/json", "application/xml"]
     )
     fun updatePet(
-         @Valid @RequestBody body: Pet
+        @Valid @RequestBody body: Pet
     ): Unit {
         return getDelegate().updatePet(body)
     }
@@ -113,9 +113,9 @@ interface PetApi {
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
-         @PathVariable("petId") petId: kotlin.Long,
-         @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,
-         @Valid @RequestParam(value = "status", required = false) status: kotlin.String? 
+        @PathVariable("petId") petId: kotlin.Long,
+        @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
     ): Unit {
         return getDelegate().updatePetWithForm(petId, name, status)
     }
@@ -128,9 +128,9 @@ interface PetApi {
         consumes = ["multipart/form-data"]
     )
     fun uploadFile(
-         @PathVariable("petId") petId: kotlin.Long,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,
-         @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
+        @PathVariable("petId") petId: kotlin.Long,
+        @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
+        @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
     ): ModelApiResponse {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
     }

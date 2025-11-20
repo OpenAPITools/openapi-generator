@@ -34,7 +34,9 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet"],
         consumes = ["application/json", "application/xml"]
     )
-    fun addPet( @Valid @RequestBody body: Pet): Unit {
+    fun addPet(
+        @Valid @RequestBody body: Pet
+    ): Unit {
         return service.addPet(body)
     }
 
@@ -43,7 +45,10 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         method = [RequestMethod.DELETE],
         value = ["/pet/{petId}"]
     )
-    fun deletePet( @PathVariable("petId") petId: kotlin.Long, @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): Unit {
+    fun deletePet(
+        @PathVariable("petId") petId: kotlin.Long,
+        @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+    ): Unit {
         return service.deletePet(petId, apiKey)
     }
 
@@ -53,7 +58,9 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/findByStatus"],
         produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull  @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByStatus(
+        @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+    ): List<Pet> {
         return service.findPetsByStatus(status)
     }
 
@@ -63,7 +70,9 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/findByTags"],
         produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull  @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByTags(
+        @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
+    ): List<Pet> {
         return service.findPetsByTags(tags)
     }
 
@@ -73,7 +82,9 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/{petId}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getPetById( @PathVariable("petId") petId: kotlin.Long): Pet {
+    fun getPetById(
+        @PathVariable("petId") petId: kotlin.Long
+    ): Pet {
         return service.getPetById(petId)
     }
 
@@ -83,7 +94,9 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet"],
         consumes = ["application/json", "application/xml"]
     )
-    fun updatePet( @Valid @RequestBody body: Pet): Unit {
+    fun updatePet(
+        @Valid @RequestBody body: Pet
+    ): Unit {
         return service.updatePet(body)
     }
 
@@ -93,7 +106,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = ["/pet/{petId}"],
         consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "name", required = false) name: kotlin.String? , @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ): Unit {
+    fun updatePetWithForm(
+        @PathVariable("petId") petId: kotlin.Long,
+        @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
+    ): Unit {
         return service.updatePetWithForm(petId, name, status)
     }
 
@@ -104,7 +121,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )
-    fun uploadFile( @PathVariable("petId") petId: kotlin.Long, @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? , @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
+    fun uploadFile(
+        @PathVariable("petId") petId: kotlin.Long,
+        @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
+        @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
+    ): ModelApiResponse {
         return service.uploadFile(petId, additionalMetadata, file)
     }
 }

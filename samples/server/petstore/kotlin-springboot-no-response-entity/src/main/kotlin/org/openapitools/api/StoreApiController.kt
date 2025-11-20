@@ -32,7 +32,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): Unit {
+    fun deleteOrder(
+        @PathVariable("orderId") orderId: kotlin.String
+    ): Unit {
         return service.deleteOrder(orderId)
     }
 
@@ -52,7 +54,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order/{orderId}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long): Order {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @PathVariable("orderId") orderId: kotlin.Long
+    ): Order {
         return service.getOrderById(orderId)
     }
 
@@ -62,7 +66,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order"],
         produces = ["application/xml", "application/json"]
     )
-    fun placeOrder( @Valid @RequestBody body: Order): Order {
+    fun placeOrder(
+        @Valid @RequestBody body: Order
+    ): Order {
         return service.placeOrder(body)
     }
 }

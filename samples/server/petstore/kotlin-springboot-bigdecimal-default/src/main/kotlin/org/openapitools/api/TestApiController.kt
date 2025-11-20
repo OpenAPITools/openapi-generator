@@ -45,7 +45,9 @@ class TestApiController() {
         value = ["/test"],
         consumes = ["application/json"]
     )
-    fun testPost(@Parameter(description = "", required = true) @Valid @RequestBody apa: Apa): ResponseEntity<Unit> {
+    fun testPost(
+        @Parameter(description = "", required = true) @Valid @RequestBody apa: Apa
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

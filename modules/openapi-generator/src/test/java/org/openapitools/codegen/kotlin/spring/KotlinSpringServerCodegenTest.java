@@ -402,13 +402,17 @@ public class KotlinSpringServerCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NullableMultipartfileApiController.kt"),
-                "file: org.springframework.web.multipart.MultipartFile?)");
+                "file: org.springframework.web.multipart.MultipartFile?"
+                + "    )");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NullableMultipartfileArrayApiController.kt"),
-                "files: Array<org.springframework.web.multipart.MultipartFile>?)");
+                "files: Array<org.springframework.web.multipart.MultipartFile>?"
+                + "    )");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileApiController.kt"),
-                "file: org.springframework.web.multipart.MultipartFile)");
+                "file: org.springframework.web.multipart.MultipartFile"
+                + "    )");
         assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/NonNullableMultipartfileArrayApiController.kt"),
-                "files: Array<org.springframework.web.multipart.MultipartFile>)");
+                "files: Array<org.springframework.web.multipart.MultipartFile>"
+                + "    )");
     }
 
     @Test
@@ -1409,8 +1413,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
-                                "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(@Parameter(hidden = true) exchange: org.springframework.web.server.ServerWebExchange)")
                 )
@@ -1436,8 +1447,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
-                                "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange")
                 )
@@ -1463,8 +1481,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>")
                 )
@@ -1490,8 +1515,13 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(): ResponseEntity<Unit>")
                 )
@@ -1517,8 +1547,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet(@Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
-                                "getPetById(@Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @Parameter(description = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @Parameter(description = \"\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @Parameter(description = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(@Parameter(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>")
                 )
@@ -1544,8 +1581,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet(@ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,@ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
-                                "getPetById(@ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long, @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @ApiParam(value = \"Pet id to delete\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @ApiParam(value = \"\") @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @ApiParam(value = \"ID of pet to return\", required = true) @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>")
                 )
@@ -1571,8 +1615,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>")
                 )
@@ -1598,8 +1649,13 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(): ResponseEntity<Unit>")
                 )
@@ -1862,8 +1918,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, request: javax.servlet.http.HttpServletRequest): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        request: javax.servlet.http.HttpServletRequest"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(request: javax.servlet.http.HttpServletRequest): ResponseEntity<Unit>"),
                         root.resolve("src/test/kotlin/org/openapitools/api/PetApiTest.kt"), List.of(
@@ -1896,8 +1959,15 @@ public class KotlinSpringServerCodegenTest {
         verifyGeneratedFilesContain(
                 Map.of(
                         root.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"), List.of(
-                                "deletePet( @PathVariable(\"petId\") petId: kotlin.Long, @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit>",
-                                "getPetById( @PathVariable(\"petId\") petId: kotlin.Long, exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>"),
+                                "deletePet("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        @RequestHeader(value = \"api_key\", required = false) apiKey: kotlin.String?,"
+                                + "        exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Unit>",
+                                "getPetById("
+                                + "        @PathVariable(\"petId\") petId: kotlin.Long,"
+                                + "        exchange: org.springframework.web.server.ServerWebExchange"
+                                + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApiController.kt"), List.of(
                                 "logoutUser(exchange: org.springframework.web.server.ServerWebExchange)"),
                         root.resolve("src/test/kotlin/org/openapitools/api/PetApiTest.kt"), List.of(

@@ -39,7 +39,7 @@ interface StoreApi {
         value = ["/store/order/{orderId}"]
     )
     fun deleteOrder(
-         @PathVariable("orderId") orderId: kotlin.String
+        @PathVariable("orderId") orderId: kotlin.String
     ): Unit {
         return getDelegate().deleteOrder(orderId)
     }
@@ -61,7 +61,7 @@ interface StoreApi {
         produces = ["application/xml", "application/json"]
     )
     fun getOrderById(
-        @Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long
+        @Min(value=1L) @Max(value=5L) @PathVariable("orderId") orderId: kotlin.Long
     ): Order {
         return getDelegate().getOrderById(orderId)
     }
@@ -73,7 +73,7 @@ interface StoreApi {
         produces = ["application/xml", "application/json"]
     )
     fun placeOrder(
-         @Valid @RequestBody body: Order
+        @Valid @RequestBody body: Order
     ): Order {
         return getDelegate().placeOrder(body)
     }

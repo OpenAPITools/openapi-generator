@@ -38,7 +38,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUser(
-         @Valid @RequestBody user: User
+        @Valid @RequestBody user: User
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -50,7 +50,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-         @Valid @RequestBody user: kotlin.collections.List<User>
+        @Valid @RequestBody user: kotlin.collections.List<User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -62,7 +62,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-         @Valid @RequestBody user: kotlin.collections.List<User>
+        @Valid @RequestBody user: kotlin.collections.List<User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -73,7 +73,7 @@ interface UserApi {
         value = ["/user/{username}"]
     )
     fun deleteUser(
-         @PathVariable("username") username: kotlin.String
+        @PathVariable("username") username: kotlin.String
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -85,7 +85,7 @@ interface UserApi {
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
-         @PathVariable("username") username: kotlin.String
+        @PathVariable("username") username: kotlin.String
     ): ResponseEntity<User> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -97,8 +97,8 @@ interface UserApi {
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
-        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Valid @RequestParam(value = "password", required = true) password: kotlin.String
     ): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -119,8 +119,8 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun updateUser(
-         @PathVariable("username") username: kotlin.String,
-         @Valid @RequestBody user: User
+        @PathVariable("username") username: kotlin.String,
+        @Valid @RequestBody user: User
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

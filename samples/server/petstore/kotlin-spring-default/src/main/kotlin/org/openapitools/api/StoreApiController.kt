@@ -45,7 +45,9 @@ class StoreApiController() {
         method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+        @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -80,7 +82,9 @@ class StoreApiController() {
         value = ["/store/order/{orderId}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -98,7 +102,9 @@ class StoreApiController() {
         produces = ["application/xml", "application/json"],
         consumes = ["application/json"]
     )
-    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(
+        @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

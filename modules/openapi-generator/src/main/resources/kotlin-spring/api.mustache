@@ -94,7 +94,10 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
         consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}
+        {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
+        {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#hasParams}}
+    {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} {
         return {{>returnValue}}
     }
 {{/operation}}

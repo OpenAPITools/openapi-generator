@@ -45,7 +45,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         method = [RequestMethod.DELETE],
         value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+        @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteOrder(orderId), HttpStatus.valueOf(400))
     }
 
@@ -80,7 +82,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order/{orderId}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.valueOf(200))
     }
 
@@ -97,7 +101,9 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = ["/store/order"],
         produces = ["application/xml", "application/json"]
     )
-    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody body: Order): ResponseEntity<Order> {
+    fun placeOrder(
+        @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody body: Order
+    ): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(body), HttpStatus.valueOf(200))
     }
 }

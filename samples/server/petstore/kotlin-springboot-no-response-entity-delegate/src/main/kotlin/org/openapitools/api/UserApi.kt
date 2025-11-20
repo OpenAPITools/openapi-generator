@@ -39,7 +39,7 @@ interface UserApi {
         value = ["/user"]
     )
     fun createUser(
-         @Valid @RequestBody body: User
+        @Valid @RequestBody body: User
     ): Unit {
         return getDelegate().createUser(body)
     }
@@ -50,7 +50,7 @@ interface UserApi {
         value = ["/user/createWithArray"]
     )
     fun createUsersWithArrayInput(
-         @Valid @RequestBody body: kotlin.collections.List<User>
+        @Valid @RequestBody body: kotlin.collections.List<User>
     ): Unit {
         return getDelegate().createUsersWithArrayInput(body)
     }
@@ -61,7 +61,7 @@ interface UserApi {
         value = ["/user/createWithList"]
     )
     fun createUsersWithListInput(
-         @Valid @RequestBody body: kotlin.collections.List<User>
+        @Valid @RequestBody body: kotlin.collections.List<User>
     ): Unit {
         return getDelegate().createUsersWithListInput(body)
     }
@@ -72,7 +72,7 @@ interface UserApi {
         value = ["/user/{username}"]
     )
     fun deleteUser(
-         @PathVariable("username") username: kotlin.String
+        @PathVariable("username") username: kotlin.String
     ): Unit {
         return getDelegate().deleteUser(username)
     }
@@ -84,7 +84,7 @@ interface UserApi {
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
-         @PathVariable("username") username: kotlin.String
+        @PathVariable("username") username: kotlin.String
     ): User {
         return getDelegate().getUserByName(username)
     }
@@ -96,8 +96,8 @@ interface UserApi {
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
-        @NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
-        @NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+        @NotNull @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Valid @RequestParam(value = "password", required = true) password: kotlin.String
     ): kotlin.String {
         return getDelegate().loginUser(username, password)
     }
@@ -117,8 +117,8 @@ interface UserApi {
         value = ["/user/{username}"]
     )
     fun updateUser(
-         @PathVariable("username") username: kotlin.String,
-         @Valid @RequestBody body: User
+        @PathVariable("username") username: kotlin.String,
+        @Valid @RequestBody body: User
     ): Unit {
         return getDelegate().updateUser(username, body)
     }

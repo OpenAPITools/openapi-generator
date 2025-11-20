@@ -183,8 +183,8 @@ interface PetApi {
     )
     fun updatePetWithForm(
         @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ,
+        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<Unit>
 
@@ -207,7 +207,7 @@ interface PetApi {
     )
     fun uploadFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @ApiParam(value = "") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,
+        @ApiParam(value = "") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
         @ApiParam(value = "file detail") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<ModelApiResponse>

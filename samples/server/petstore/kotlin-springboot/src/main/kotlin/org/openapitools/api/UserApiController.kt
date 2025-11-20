@@ -33,7 +33,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user"]
     )
-    fun createUser( @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun createUser(
+        @Valid @RequestBody body: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUser(body), HttpStatus.valueOf(200))
     }
 
@@ -42,7 +44,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user/createWithArray"]
     )
-    fun createUsersWithArrayInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(
+        @Valid @RequestBody body: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
 
@@ -51,7 +55,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.POST],
         value = ["/user/createWithList"]
     )
-    fun createUsersWithListInput( @Valid @RequestBody body: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(
+        @Valid @RequestBody body: kotlin.collections.List<User>
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }
 
@@ -60,7 +66,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.DELETE],
         value = ["/user/{username}"]
     )
-    fun deleteUser( @PathVariable("username") username: kotlin.String): ResponseEntity<Unit> {
+    fun deleteUser(
+        @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteUser(username), HttpStatus.valueOf(400))
     }
 
@@ -70,7 +78,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/{username}"],
         produces = ["application/xml", "application/json"]
     )
-    fun getUserByName( @PathVariable("username") username: kotlin.String): ResponseEntity<User> {
+    fun getUserByName(
+        @PathVariable("username") username: kotlin.String
+    ): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.valueOf(200))
     }
 
@@ -80,7 +90,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = ["/user/login"],
         produces = ["application/xml", "application/json"]
     )
-    fun loginUser(@NotNull  @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull  @Valid @RequestParam(value = "password", required = true) password: kotlin.String): ResponseEntity<kotlin.String> {
+    fun loginUser(
+        @NotNull @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Valid @RequestParam(value = "password", required = true) password: kotlin.String
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
     }
 
@@ -98,7 +111,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         method = [RequestMethod.PUT],
         value = ["/user/{username}"]
     )
-    fun updateUser( @PathVariable("username") username: kotlin.String, @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun updateUser(
+        @PathVariable("username") username: kotlin.String,
+        @Valid @RequestBody body: User
+    ): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.valueOf(400))
     }
 }
