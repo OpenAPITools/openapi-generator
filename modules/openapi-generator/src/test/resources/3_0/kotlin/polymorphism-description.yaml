@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Example
+  version: '0.1'
+servers:
+  - url: http://example.org
+paths:
+  '/v1/bird':
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bird'
+      operationId: get-bird
+components:
+  schemas:
+    animal:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
+      discriminator:
+        propertyName: discriminator
+      description: 'Description on supertype'
+    bird:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/animal'
+        - properties:
+            featherType:
+              type: string
+          required:
+            - featherType
+          description: 'Description on subtype'

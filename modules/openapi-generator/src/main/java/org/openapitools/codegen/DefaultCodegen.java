@@ -2820,6 +2820,9 @@ public class DefaultCodegen implements CodegenConfig {
 
                     // includes child's properties (all, required) in allProperties, allRequired
                     addProperties(allProperties, allRequired, component, new HashSet<>());
+
+                    // use description from child schema
+                    m.description = escapeText(component.getDescription());
                 }
                 // in 7.0.0 release, we comment out below to allow more than 1 child schemas in allOf
                 //break; // at most one child only

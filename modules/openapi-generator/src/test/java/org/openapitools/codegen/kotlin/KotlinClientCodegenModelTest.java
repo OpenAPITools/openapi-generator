@@ -675,6 +675,36 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileNotContains(modelKt, "data class EmptyModel");
     }
 
+    @Test(description = "provide description in kdoc of polymorphic type")
+    public void testDescriptionOnPolymorphicType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-okhttp4")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                    put(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model");
+                }})
+                .setInputSpec("src/test/resources/3_0/kotlin/polymorphism-description.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 28);
+
+        final Path animalKt = Paths.get(output + "/src/main/kotlin/xyz/abcdef/model/Animal.kt");
+        // base has description
+        TestUtils.assertFileContains(animalKt, "Description on supertype");
+
+        final Path birdKt = Paths.get(output + "/src/main/kotlin/xyz/abcdef/model/Bird.kt");
+        // derived has description
+        TestUtils.assertFileContains(birdKt, "Description on subtype");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;
