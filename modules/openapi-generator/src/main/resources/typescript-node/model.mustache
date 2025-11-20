@@ -12,7 +12,7 @@ import { {{classname}} } from '{{filename}}';
 */
 {{/description}}
 {{^isEnum}}
-export class {{classname}} {{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}{{^-last}}, {{/-last}}{{/allParents}}{
+export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
     /**
@@ -53,12 +53,12 @@ export class {{classname}} {{#allParents}}{{#-first}} extends {{/-first}}{{{.}}}
     ];
 
     static getAttributeTypeMap() {
-        {{#allParents}}
+        {{#parent}}
         return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
-        {{/allParents}}
-        {{^allParents}}
+        {{/parent}}
+        {{^parent}}
         return {{classname}}.attributeTypeMap;
-        {{/allParents}}
+        {{/parent}}
     }
     {{/isArray}}
 }

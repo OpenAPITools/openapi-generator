@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /pet:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      title: a Pet with string additionalProperties
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      additionalProperties:
+        type: string
+    PetBoolean:
+      title: a Pet with boolean additionalProperties
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      additionalProperties:
+        type: boolean
+    PetNumber:
+      title: a Pet with number additionalProperties
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      additionalProperties:
+        type: number
+    PetAny:
+      title: a Pet with any additionalProperties
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      additionalProperties: true
+    PetArray:
+      title: a Pet with array additionalProperties
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+      additionalProperties:
+        type: array
+        items:
+          type: string
