@@ -8,12 +8,12 @@
     )
 
 {{#allVars}}
-    - {{{name}}}::{{datatype}}{{#description}} : {{description}}{{/description}}
+    - {{{name}}}::{{dataType}}{{#description}} : {{description}}{{/description}}
 {{/allVars}}
 """
 Base.@kwdef mutable struct {{classname}} <: OpenAPI.APIModel
 {{#allVars}}
-    {{{name}}}{{#isPrimitiveType}}::Union{Nothing, {{{datatype}}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isContainer}}::Union{Nothing, {{#isMap}}Dict{{/isMap}}{{^isMap}}Vector{{/isMap}}}{{/isContainer}}{{/isPrimitiveType}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}}{{^isPrimitiveType}} # spec type: Union{ Nothing, {{datatype}} }{{/isPrimitiveType}}
+    {{{name}}}{{#isPrimitiveType}}::Union{Nothing, {{{dataType}}}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isContainer}}::Union{Nothing, {{#isMap}}Dict{{/isMap}}{{^isMap}}Vector{{/isMap}}}{{/isContainer}}{{/isPrimitiveType}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}nothing{{/defaultValue}}{{^isPrimitiveType}} # spec type: Union{ Nothing, {{dataType}} }{{/isPrimitiveType}}
 {{/allVars}}
 
     function {{classname}}({{#allVars}}{{{name}}}, {{/allVars}})
@@ -23,7 +23,7 @@ Base.@kwdef mutable struct {{classname}} <: OpenAPI.APIModel
     end
 end # type {{classname}}
 
-const _property_types_{{classname}} = Dict{Symbol,String}({{#allVars}}Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")=>"{{datatype}}", {{/allVars}})
+const _property_types_{{classname}} = Dict{Symbol,String}({{#allVars}}Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")=>"{{dataType}}", {{/allVars}})
 OpenAPI.property_type(::Type{ {{classname}} }, name::Symbol) = Union{Nothing,eval(Base.Meta.parse(_property_types_{{classname}}[name]))}
 
 function OpenAPI.check_required(o::{{classname}})

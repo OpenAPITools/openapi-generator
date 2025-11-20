@@ -15,7 +15,7 @@ public struct {{{classname}}}: Codable {
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/// {{{.}}}
-    {{/description}}public var {{{name}}}: {{{datatype}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
+    {{/description}}public var {{{name}}}: {{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}
 {{/isEnum}}
 {{/allVars}}
 {{#hasVars}}

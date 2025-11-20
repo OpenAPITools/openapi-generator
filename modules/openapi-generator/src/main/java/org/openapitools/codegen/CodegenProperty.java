@@ -307,27 +307,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return complexType;
     }
 
-    /**
-     * @return dataType
-     * @deprecated since version 3.0.0, use {@link #getDataType()} instead.<br>
-     * May be removed with the next major release (4.0)
-     */
-    @Deprecated
-    public String getDatatype() {
-        return getDataType();
-    }
-
     @Override
     public String getDataType() {
         return dataType;
-    }
-
-    /**
-     * @deprecated use {@link #setDataType(String)} instead.
-     */
-    @Deprecated
-    public void setDatatype(String datatype) {
-        this.dataType = datatype;
     }
 
     @Override

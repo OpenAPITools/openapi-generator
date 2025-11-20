@@ -27,7 +27,7 @@ resourceTypes {
           type =  {{>prop_type}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
-          type = {{datatype}}
+          type = {{dataType}}
           {{/isPrimitiveType}}
           {{/isContainer}}
           {{#isArray}}
@@ -37,7 +37,7 @@ resourceTypes {
           items.type =  {{>prop_type}}
               {{/isPrimitiveType}}
               {{^isPrimitiveType}}
-          items.type = {{datatype}}
+          items.type = {{dataType}}
               {{/isPrimitiveType}}
             {{/items}}
           {{/isArray}}
