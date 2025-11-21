@@ -24,19 +24,19 @@ export interface FormatTest {
      * @type {number}
      * @memberof FormatTest
      */
-    integer?: number;
+    integer?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof FormatTest
      */
-    int32?: number;
+    int32?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof FormatTest
      */
-    int64?: number;
+    int64?: number | undefined;
     /**
      * 
      * @type {number}
@@ -48,25 +48,25 @@ export interface FormatTest {
      * @type {number}
      * @memberof FormatTest
      */
-    _float?: number;
+    _float?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof FormatTest
      */
-    _double?: number;
+    _double?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof FormatTest
      */
-    decimal?: string;
+    decimal?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof FormatTest
      */
-    string?: string;
+    string?: string | undefined;
     /**
      * 
      * @type {string}
@@ -78,7 +78,7 @@ export interface FormatTest {
      * @type {Blob}
      * @memberof FormatTest
      */
-    binary?: Blob;
+    binary?: Blob | undefined;
     /**
      * 
      * @type {Date}
@@ -90,13 +90,13 @@ export interface FormatTest {
      * @type {Date}
      * @memberof FormatTest
      */
-    dateTime?: Date;
+    dateTime?: Date | undefined;
     /**
      * 
      * @type {string}
      * @memberof FormatTest
      */
-    uuid?: string;
+    uuid?: string | undefined;
     /**
      * 
      * @type {string}
@@ -108,13 +108,13 @@ export interface FormatTest {
      * @type {string}
      * @memberof FormatTest
      */
-    patternWithDigits?: string;
+    patternWithDigits?: string | undefined;
     /**
      * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
      * @type {string}
      * @memberof FormatTest
      */
-    patternWithDigitsAndDelimiter?: string;
+    patternWithDigitsAndDelimiter?: string | undefined;
 }
 
 /**

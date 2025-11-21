@@ -24,13 +24,13 @@ export interface ReadOnlyFirst {
      * @type {string}
      * @memberof ReadOnlyFirst
      */
-    readonly bar?: string;
+    readonly bar?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof ReadOnlyFirst
      */
-    baz?: string;
+    baz?: string | undefined;
 }
 
 /**

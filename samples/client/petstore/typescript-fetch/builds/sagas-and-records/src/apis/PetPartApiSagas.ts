@@ -96,8 +96,8 @@ export interface PayloadGetMatchingPartsRequest {
     _long: boolean;
     smooth: boolean;
     _short: boolean;
-    name?: string;
-    connectedPart?: string;
+    name?: string | undefined;
+    connectedPart?: string | undefined;
 }
 
 export const getMatchingPartsRequest = createSagaAction<PayloadGetMatchingPartsRequest>("getMatchingPartsRequest");

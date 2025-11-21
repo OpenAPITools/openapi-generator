@@ -45,7 +45,7 @@ export interface FindPetsByStatusResponse {
      * @type {Array<Pet>}
      * @memberof FindPetsByStatusResponse
      */
-    data?: Array<Pet>;
+    data?: Array<Pet> | undefined;
 }
 
 /**

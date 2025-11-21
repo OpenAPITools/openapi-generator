@@ -16,12 +16,12 @@
 
 export interface AbstractFlatStockPickOrderBaseDto {
     'id': number;
-    'created'?: string;
-    'lastModified'?: string;
+    'created'?: string | undefined;
+    'lastModified'?: string | undefined;
     'warehouseId': number;
     'quantity': number;
-    'stockLocation'?: string;
-    'barcode'?: string;
+    'stockLocation'?: string | undefined;
+    'barcode'?: string | undefined;
     'pickedQuantity': number;
     'type': string;
 }

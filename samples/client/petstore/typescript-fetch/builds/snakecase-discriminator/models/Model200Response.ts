@@ -24,13 +24,13 @@ export interface Model200Response {
      * @type {number}
      * @memberof Model200Response
      */
-    name?: number;
+    name?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Model200Response
      */
-    _class?: string;
+    _class?: string | undefined;
 }
 
 /**

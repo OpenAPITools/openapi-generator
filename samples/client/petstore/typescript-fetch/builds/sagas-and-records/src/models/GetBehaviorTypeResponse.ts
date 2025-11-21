@@ -45,7 +45,7 @@ export interface GetBehaviorTypeResponse {
      * @type {BehaviorType}
      * @memberof GetBehaviorTypeResponse
      */
-    data?: BehaviorType;
+    data?: BehaviorType | undefined;
 }
 
 

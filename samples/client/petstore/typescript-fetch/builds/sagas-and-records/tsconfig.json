@@ -4,6 +4,8 @@
     "target": "es6",
     "strict": true,
     "module": "commonjs",
+    "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
     "moduleResolution": "node",
     "outDir": "dist",
     "typeRoots": [

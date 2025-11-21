@@ -38,19 +38,19 @@ export interface ModelError {
      * @type {ItemId}
      * @memberof ModelError
      */
-    itemInfo?: ItemId;
+    itemInfo?: ItemId | undefined;
     /**
      * Simple explanation of the error
      * @type {string}
      * @memberof ModelError
      */
-    details?: string;
+    details?: string | undefined;
     /**
      * Message of the exception that will help developer to debug this problem if needed
      * @type {string}
      * @memberof ModelError
      */
-    exception?: string;
+    exception?: string | undefined;
 }
 
 /**

@@ -3,6 +3,8 @@
     "declaration": true,
     "target": "es6",
     "module": "commonjs",
+    "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
     "moduleResolution": "node",
     "outDir": "dist",
     "typeRoots": [

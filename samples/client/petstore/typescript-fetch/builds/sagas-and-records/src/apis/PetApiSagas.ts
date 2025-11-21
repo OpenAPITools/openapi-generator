@@ -116,7 +116,7 @@ export interface PayloadDeletePet extends PayloadDeletePetRequest, BasePayloadAp
 
 export interface PayloadDeletePetRequest {
     petId: string;
-    apiKey?: string;
+    apiKey?: string | undefined;
 }
 
 export const deletePetRequest = createSagaAction<PayloadDeletePetRequest>("deletePetRequest");
@@ -559,8 +559,8 @@ export interface PayloadUpdatePetWithForm extends PayloadUpdatePetWithFormReques
 
 export interface PayloadUpdatePetWithFormRequest {
     petId: string;
-    name?: string;
-    status?: string;
+    name?: string | undefined;
+    status?: string | undefined;
 }
 
 export const updatePetWithFormRequest = createSagaAction<PayloadUpdatePetWithFormRequest>("updatePetWithFormRequest");
@@ -607,8 +607,8 @@ export interface PayloadUploadFile extends PayloadUploadFileRequest, BaseEntityS
 
 export interface PayloadUploadFileRequest {
     petId: string;
-    additionalMetadata?: string;
-    file?: Blob;
+    additionalMetadata?: string | undefined;
+    file?: Blob | undefined;
 }
 
 export const uploadFileRequest = createSagaAction<PayloadUploadFileRequest>("uploadFileRequest");

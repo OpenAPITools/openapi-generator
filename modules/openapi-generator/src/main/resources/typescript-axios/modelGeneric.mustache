@@ -24,7 +24,7 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
      */
     {{/deprecated}}
     {{/description}}
-    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
+    '{{baseName}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}}{{^required}} | undefined{{/required}};
 {{/vars}}
 }{{#hasEnums}}
 

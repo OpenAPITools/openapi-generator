@@ -24,7 +24,7 @@ export interface Foo {
      * @type {string}
      * @memberof Foo
      */
-    bar?: string;
+    bar?: string | undefined;
 }
 
 /**
