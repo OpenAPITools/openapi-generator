@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.*
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
+import org.springframework.http.HttpStatus
 
 import org.springframework.validation.annotation.Validated
 import jakarta.validation.Valid
