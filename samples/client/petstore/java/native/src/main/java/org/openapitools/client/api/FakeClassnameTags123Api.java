@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Locale;
-import java.util.function.UnaryOperator;
+
 import java.util.function.Consumer;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
@@ -80,8 +80,8 @@ public class FakeClassnameTags123Api {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-  private final UnaryOperator<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final UnaryOperator<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public FakeClassnameTags123Api() {
     this(Configuration.getDefaultApiClient());
@@ -220,7 +220,7 @@ public class FakeClassnameTags123Api {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
+            memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {

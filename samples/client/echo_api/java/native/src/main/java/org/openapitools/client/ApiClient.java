@@ -38,7 +38,7 @@ import java.util.function.Consumer;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 import java.util.stream.Collectors;
-import java.util.function.UnaryOperator;
+
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -64,8 +64,8 @@ public class ApiClient {
   protected int port;
   protected String basePath;
   protected Consumer<HttpRequest.Builder> interceptor;
-  protected UnaryOperator<HttpResponse<InputStream>> responseInterceptor;
-  protected UnaryOperator<HttpResponse<InputStream>> asyncResponseInterceptor;
+  protected Consumer<HttpResponse<InputStream>> responseInterceptor;
+  protected Consumer<HttpResponse<InputStream>> asyncResponseInterceptor;
 
   protected Duration readTimeout;
   protected Duration connectTimeout;
@@ -365,7 +365,7 @@ public class ApiClient {
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setResponseInterceptor(UnaryOperator<HttpResponse<InputStream>> interceptor) {
+  public ApiClient setResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
     this.responseInterceptor = interceptor;
     return this;
   }
@@ -375,7 +375,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public UnaryOperator<HttpResponse<InputStream>> getResponseInterceptor() {
+  public Consumer<HttpResponse<InputStream>> getResponseInterceptor() {
     return responseInterceptor;
   }
 
@@ -388,7 +388,7 @@ public class ApiClient {
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setAsyncResponseInterceptor(UnaryOperator<HttpResponse<InputStream>> interceptor) {
+  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
     this.asyncResponseInterceptor = interceptor;
     return this;
   }
@@ -398,7 +398,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public UnaryOperator<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
+  public Consumer<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
     return asyncResponseInterceptor;
   }
 

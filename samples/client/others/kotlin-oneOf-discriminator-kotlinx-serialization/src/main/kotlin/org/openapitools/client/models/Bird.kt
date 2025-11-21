@@ -28,13 +28,20 @@ import kotlinx.serialization.encoding.Encoder
 /**
  * 
  *
+ * @param discriminator 
+ * @param anotherDiscriminator 
  * @param propertyA 
  * @param sameNameProperty 
  */
 @Serializable
 
-@SerialName(value = "ANOTHER_BIRD")
 data class Bird (
+
+    @SerialName(value = "discriminator")
+    val discriminator: kotlin.String,
+
+    @SerialName(value = "another_discriminator")
+    val anotherDiscriminator: kotlin.String,
 
     @SerialName(value = "propertyA")
     val propertyA: kotlin.String? = null,
