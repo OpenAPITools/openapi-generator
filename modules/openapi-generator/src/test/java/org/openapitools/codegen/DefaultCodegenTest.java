@@ -1764,7 +1764,7 @@ public class DefaultCodegenTest {
         // for us to check a model's children we need to run generator.generateModels
         // because children are assigned in config.updateAllModels which is invoked in generator.generateModels
         List<File> files = new ArrayList<>();
-        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> filteredSchemas = ModelUtils.getUnusedSchemas(openAPI);
         List<ModelMap> allModels = new ArrayList<>();
         List<ModelMap> aliasModels = new ArrayList<>();
         generator.generateModels(files, allModels, filteredSchemas, aliasModels);
