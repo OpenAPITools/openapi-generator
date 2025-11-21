@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.MultipartMixedApi.Companion.BASE_PATH
+import org.openapitools.api.MultipartMixedApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
