@@ -228,7 +228,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("deleteOrder", localVarResponse));
@@ -336,7 +336,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
@@ -458,7 +458,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
@@ -585,7 +585,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));

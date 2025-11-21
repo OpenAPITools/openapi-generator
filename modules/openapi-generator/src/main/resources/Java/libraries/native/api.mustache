@@ -441,10 +441,10 @@ public class {{classname}} {
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         {{#useUnaryInterceptor}}
-            localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
+        localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
         {{/useUnaryInterceptor}}
         {{^useUnaryInterceptor}}
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
         {{/useUnaryInterceptor}}
       }
       InputStream localVarResponseBody = null;
@@ -539,10 +539,10 @@ public class {{classname}} {
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
               {{#useUnaryInterceptor}}
-              localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
+              localVarResponse = memberVarAsyncResponseInterceptor.apply(localVarResponse);
               {{/useUnaryInterceptor}}
               {{^useUnaryInterceptor}}
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
               {{/useUnaryInterceptor}}
             }
             if (localVarResponse.statusCode()/ 100 != 2) {

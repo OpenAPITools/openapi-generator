@@ -218,7 +218,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -327,7 +327,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -436,7 +436,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -545,7 +545,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -652,7 +652,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -774,7 +774,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -905,7 +905,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {
@@ -1008,7 +1008,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
-            memberVarResponseInterceptor.accept(localVarResponse);
+        memberVarResponseInterceptor.accept(localVarResponse);
       }
       InputStream localVarResponseBody = null;
       try {

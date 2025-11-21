@@ -222,7 +222,7 @@ public class AnotherFakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));

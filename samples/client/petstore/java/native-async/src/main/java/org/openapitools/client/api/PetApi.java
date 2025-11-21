@@ -230,7 +230,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("addPet", localVarResponse));
@@ -351,7 +351,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("deletePet", localVarResponse));
@@ -466,7 +466,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("findPetsByStatus", localVarResponse));
@@ -615,7 +615,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("findPetsByTags", localVarResponse));
@@ -756,7 +756,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("getPetById", localVarResponse));
@@ -883,7 +883,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("updatePet", localVarResponse));
@@ -1008,7 +1008,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("updatePetWithForm", localVarResponse));
@@ -1146,7 +1146,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("uploadFile", localVarResponse));
@@ -1318,7 +1318,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("uploadFileWithRequiredFile", localVarResponse));

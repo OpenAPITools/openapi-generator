@@ -235,7 +235,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeBigDecimalMap", localVarResponse));
@@ -353,7 +353,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeHealthGet", localVarResponse));
@@ -475,7 +475,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeOuterBooleanSerialize", localVarResponse));
@@ -603,7 +603,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeOuterCompositeSerialize", localVarResponse));
@@ -731,7 +731,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeOuterNumberSerialize", localVarResponse));
@@ -859,7 +859,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("fakeOuterStringSerialize", localVarResponse));
@@ -978,7 +978,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("getApplicationJsonUtf8", localVarResponse));
@@ -1096,7 +1096,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("getArrayOfEnums", localVarResponse));
@@ -1218,7 +1218,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testAdditionalPropertiesReference", localVarResponse));
@@ -1335,7 +1335,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testBodyWithFileSchema", localVarResponse));
@@ -1456,7 +1456,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testBodyWithQueryParams", localVarResponse));
@@ -1592,7 +1592,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testClientModel", localVarResponse));
@@ -1776,7 +1776,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testEndpointParameters", localVarResponse));
@@ -1981,7 +1981,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testEnumParameters", localVarResponse));
@@ -2219,7 +2219,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testGroupParameters", localVarResponse));
@@ -2454,7 +2454,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testInlineAdditionalProperties", localVarResponse));
@@ -2571,7 +2571,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testInlineFreeformAdditionalProperties", localVarResponse));
@@ -2692,7 +2692,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testJsonFormData", localVarResponse));
@@ -2841,7 +2841,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testQueryParameterCollectionFormat", localVarResponse));
@@ -2991,7 +2991,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
-              memberVarResponseInterceptor.accept(localVarResponse);
+              memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("testStringMapReference", localVarResponse));
