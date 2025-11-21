@@ -9,10 +9,12 @@
 
 import json
 import tables
+import marshal
+import options
 
 import model_record_string_before_string_or_null_after_string_or_null_value
 
 type PetPositions* = object
   ## 
-  positions*: Table[string, RecordStringBeforeStringOrNullAfterStringOrNullValue]
+  positions*: Option[Table[string, RecordStringBeforeStringOrNullAfterStringOrNullValue]]
 

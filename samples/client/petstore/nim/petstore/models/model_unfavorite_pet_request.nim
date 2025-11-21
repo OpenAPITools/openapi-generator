@@ -9,9 +9,11 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type UnfavoritePetRequest* = object
   ## 
-  reason*: string ## Reason for unfavoriting
+  reason*: Option[string] ## Reason for unfavoriting
 

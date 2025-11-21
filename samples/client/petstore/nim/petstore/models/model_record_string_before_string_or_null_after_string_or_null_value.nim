@@ -9,10 +9,12 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type RecordStringBeforeStringOrNullAfterStringOrNullValue* = object
   ## 
-  before*: string
-  after*: string
+  before*: Option[string]
+  after*: Option[string]
 

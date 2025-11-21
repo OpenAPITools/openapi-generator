@@ -9,6 +9,8 @@
 
 import json
 import tables
+import marshal
+import options
 
 import model_category
 import model_tag
@@ -20,11 +22,11 @@ type Status* {.pure.} = enum
 
 type Pet* = object
   ## A pet for sale in the pet store
-  id*: int64
-  category*: Category
+  id*: Option[int64]
+  category*: Option[Category]
   name*: string
   photoUrls*: seq[string]
-  tags*: seq[Tag]
+  tags*: Option[seq[Tag]]
   status*: Status ## pet status in the store
 
 func `%`*(v: Status): JsonNode =

@@ -9,6 +9,8 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type PetPriority* {.pure.} = enum

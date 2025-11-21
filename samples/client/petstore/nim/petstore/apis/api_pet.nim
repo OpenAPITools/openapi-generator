@@ -28,10 +28,7 @@ const basepath = "http://petstore.swagger.io/v2"
 template constructResult[T](response: Response): untyped =
   if response.code in {Http200, Http201, Http202, Http204, Http206}:
     try:
-      when name(stripGenericParams(T.typedesc).typedesc) == name(Table):
-        (some(json.to(parseJson(response.body), T.typedesc)), response)
-      else:
-        (some(marshal.to[T](response.body)), response)
+      (some(to(parseJson(response.body), T)), response)
     except JsonParsingError:
       # The server returned a malformed response though the response code is 2XX
       # TODO: need better error handling
@@ -58,9 +55,9 @@ proc deletePet*(httpClient: HttpClient, petId: int64, apiKey: string): Response 
 
 proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq[Pet]], Response) =
   ## Finds Pets by status
-  let url_encoded_query_params = encodeQuery([
-    ("status", $status.join(",")), # Status values that need to be considered for filter
-  ])
+  var query_params_list: seq[(string, string)] = @[]
+  query_params_list.add(("status", $status.join(",")))
+  let url_encoded_query_params = encodeQuery(query_params_list)
 
   let response = httpClient.get(basepath & "/pet/findByStatus" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)
@@ -68,9 +65,9 @@ proc findPetsByStatus*(httpClient: HttpClient, status: seq[Status]): (Option[seq
 
 proc findPetsByTags*(httpClient: HttpClient, tags: seq[string]): (Option[seq[Pet]], Response) {.deprecated.} =
   ## Finds Pets by tags
-  let url_encoded_query_params = encodeQuery([
-    ("tags", $tags.join(",")), # Tags to filter by
-  ])
+  var query_params_list: seq[(string, string)] = @[]
+  query_params_list.add(("tags", $tags.join(",")))
+  let url_encoded_query_params = encodeQuery(query_params_list)
 
   let response = httpClient.get(basepath & "/pet/findByTags" & "?" & url_encoded_query_params)
   constructResult[seq[Pet]](response)

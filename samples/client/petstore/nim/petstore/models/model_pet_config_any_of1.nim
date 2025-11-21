@@ -9,9 +9,11 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type PetConfigAnyOf1* = object
   ## 
-  version*: int
+  version*: Option[int]
 

@@ -9,10 +9,12 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type GetPetStats200response* = object
   ## 
-  totalPets*: int
-  status*: string
+  totalPets*: Option[int]
+  status*: Option[string]
 

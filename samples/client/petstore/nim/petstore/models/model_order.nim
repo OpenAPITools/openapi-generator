@@ -9,6 +9,8 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type Status* {.pure.} = enum
@@ -18,12 +20,12 @@ type Status* {.pure.} = enum
 
 type Order* = object
   ## An order for a pets from the pet store
-  id*: int64
-  petId*: int64
-  quantity*: int
-  shipDate*: string
+  id*: Option[int64]
+  petId*: Option[int64]
+  quantity*: Option[int]
+  shipDate*: Option[string]
   status*: Status ## Order Status
-  complete*: bool
+  complete*: Option[bool]
 
 func `%`*(v: Status): JsonNode =
   result = case v:

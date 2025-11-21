@@ -9,9 +9,11 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type PetMetadata* = object
   ## 
-  metadata*: string
+  metadata*: Option[string]
 
