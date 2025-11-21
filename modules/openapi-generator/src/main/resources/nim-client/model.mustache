@@ -1,6 +1,8 @@
 {{>header}}
 import json
 import tables
+import marshal
+import options
 
 {{#imports}}import {{import}}
 {{/imports}}{{#models}}{{#model}}{{#isEnum}}
@@ -14,7 +16,45 @@ func `%`*(v: {{{classname}}}): JsonNode =
 func `$`*(v: {{{classname}}}): string =
   result = case v:{{#allowableValues}}{{#enumVars}}
     of {{{classname}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
-{{/isEnum}}{{^isEnum}}{{#vars}}{{#isEnum}}
+{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of}}
+# OneOf type
+type {{{classname}}}Kind* {.pure.} = enum{{#composedSchemas.oneOf}}
+  {{{name}}}Variant{{/composedSchemas.oneOf}}
+
+type {{{classname}}}* = object
+  ## {{{description}}}
+  case kind*: {{{classname}}}Kind{{#composedSchemas.oneOf}}
+  of {{{classname}}}Kind.{{{name}}}Variant:
+    {{{baseName}}}Value*: {{{dataType}}}{{/composedSchemas.oneOf}}
+
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  ## Custom deserializer for oneOf type - tries each variant{{#composedSchemas.oneOf}}
+  try:
+    return {{{classname}}}(kind: {{{classname}}}Kind.{{{name}}}Variant, {{{baseName}}}Value: json.to(node, {{{dataType}}}))
+  except Exception as e:
+    when defined(debug):
+      echo "Failed to deserialize as {{{dataType}}}: ", e.msg{{/composedSchemas.oneOf}}
+  raise newException(ValueError, "Unable to deserialize into any variant of {{{classname}}}. JSON: " & $node)
+{{/vendorExtensions.x-is-one-of}}{{#vendorExtensions.x-is-any-of}}
+# AnyOf type
+type {{{classname}}}Kind* {.pure.} = enum{{#composedSchemas.anyOf}}
+  {{{name}}}Variant{{/composedSchemas.anyOf}}
+
+type {{{classname}}}* = object
+  ## {{{description}}}
+  case kind*: {{{classname}}}Kind{{#composedSchemas.anyOf}}
+  of {{{classname}}}Kind.{{{name}}}Variant:
+    {{{baseName}}}Value*: {{{dataType}}}{{/composedSchemas.anyOf}}
+
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  ## Custom deserializer for anyOf type - tries each variant{{#composedSchemas.anyOf}}
+  try:
+    return {{{classname}}}(kind: {{{classname}}}Kind.{{{name}}}Variant, {{{baseName}}}Value: json.to(node, {{{dataType}}}))
+  except Exception as e:
+    when defined(debug):
+      echo "Failed to deserialize as {{{dataType}}}: ", e.msg{{/composedSchemas.anyOf}}
+  raise newException(ValueError, "Unable to deserialize into any variant of {{{classname}}}. JSON: " & $node)
+{{/vendorExtensions.x-is-any-of}}{{^vendorExtensions.x-is-one-of}}{{^vendorExtensions.x-is-any-of}}{{#vars}}{{#isEnum}}
 type {{{enumName}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
   {{{name}}}{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}{{/vars}}
@@ -29,4 +69,4 @@ func `%`*(v: {{{enumName}}}): JsonNode =
 func `$`*(v: {{{enumName}}}): string =
   result = case v:{{#allowableValues}}{{#enumVars}}
     of {{{enumName}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
-{{/isEnum}}{{/vars}}{{/isEnum}}{{/model}}{{/models}}
+{{/isEnum}}{{/vars}}{{/vendorExtensions.x-is-any-of}}{{/vendorExtensions.x-is-one-of}}{{/isEnum}}{{/model}}{{/models}}

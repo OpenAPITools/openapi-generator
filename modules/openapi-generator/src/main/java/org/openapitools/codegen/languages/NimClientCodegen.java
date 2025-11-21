@@ -78,6 +78,10 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.anyOf
+                )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
@@ -172,6 +176,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("AnyType", "JsonNode");
     }
 
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
@@ -185,12 +190,25 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
             // Fix dataType fields that contain underscored type names
             // This handles cases like Table[string, Record_string__foo__value]
+            // Also wrap optional fields in Option[T]
             for (CodegenProperty var : cm.vars) {
                 if (var.dataType != null && var.dataType.contains("Record_")) {
                     var.dataType = fixRecordTypeReferences(var.dataType);
                 }
                 if (var.datatypeWithEnum != null && var.datatypeWithEnum.contains("Record_")) {
                     var.datatypeWithEnum = fixRecordTypeReferences(var.datatypeWithEnum);
+                }
+
+                // Wrap optional (non-required) or nullable fields in Option[T]
+                if ((!var.required || var.isNullable) && !var.isReadOnly) {
+                    String baseType = var.datatypeWithEnum != null ? var.datatypeWithEnum : var.dataType;
+                    if (baseType != null && !baseType.startsWith("Option[")) {
+                        var.dataType = "Option[" + baseType + "]";
+                        if (var.datatypeWithEnum != null) {
+                            var.datatypeWithEnum = "Option[" + var.datatypeWithEnum + "]";
+                        }
+                        var.vendorExtensions.put("x-is-optional", true);
+                    }
                 }
             }
         }
@@ -311,7 +329,75 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenModel fromModel(String name, Schema schema) {
         // Normalize the schema name before any processing
         name = normalizeSchemaName(name);
-        return super.fromModel(name, schema);
+        CodegenModel mdl = super.fromModel(name, schema);
+
+        // Handle oneOf/anyOf schemas to use Nim object variants
+        if (mdl.getComposedSchemas() != null) {
+            if (mdl.getComposedSchemas().getOneOf() != null && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
+                mdl.vendorExtensions.put("x-is-one-of", true);
+                processComposedSchemaVariants(mdl, mdl.getComposedSchemas().getOneOf(), schema);
+            } else if (mdl.getComposedSchemas().getAnyOf() != null && !mdl.getComposedSchemas().getAnyOf().isEmpty()) {
+                mdl.vendorExtensions.put("x-is-any-of", true);
+                processComposedSchemaVariants(mdl, mdl.getComposedSchemas().getAnyOf(), schema);
+            }
+        }
+
+        return mdl;
+    }
+
+    /**
+     * Process oneOf/anyOf schemas to generate proper variant names for Nim object variants.
+     */
+    private void processComposedSchemaVariants(CodegenModel mdl, List<CodegenProperty> variants, Schema schema) {
+        List<CodegenProperty> newVariants = new ArrayList<>();
+        List<Schema> schemas = ModelUtils.getInterfaces(schema);
+
+        if (variants.size() != schemas.size()) {
+            LOGGER.warn("Variant size does not match schema interfaces size for model " + mdl.name);
+            return;
+        }
+
+        for (int i = 0; i < variants.size(); i++) {
+            CodegenProperty variant = variants.get(i);
+            Schema variantSchema = schemas.get(i);
+
+            // Create a clone to avoid modifying the original
+            CodegenProperty newVariant = variant.clone();
+
+            // Sanitize dataType to remove trailing underscores (Nim doesn't allow them)
+            if (newVariant.dataType != null) {
+                newVariant.dataType = sanitizeNimIdentifier(newVariant.dataType);
+            }
+            if (newVariant.datatypeWithEnum != null) {
+                newVariant.datatypeWithEnum = sanitizeNimIdentifier(newVariant.datatypeWithEnum);
+            }
+
+            // Set variant name based on schema reference or type
+            if (variantSchema.get$ref() != null && !variantSchema.get$ref().isEmpty()) {
+                String refName = ModelUtils.getSimpleRef(variantSchema.get$ref());
+                if (refName != null) {
+                    newVariant.setName(toModelName(refName));
+                    newVariant.setBaseName(refName);
+                }
+            } else if (variantSchema.getType() != null) {
+                // For primitive types or inline schemas
+                String typeName = variantSchema.getType();
+                if (variantSchema.getTitle() != null && !variantSchema.getTitle().isEmpty()) {
+                    typeName = variantSchema.getTitle();
+                }
+                newVariant.setName(camelize(typeName));
+                newVariant.setBaseName(typeName);
+            }
+
+            newVariants.add(newVariant);
+        }
+
+        // Replace the original variants with the processed ones
+        if (mdl.getComposedSchemas().getOneOf() != null) {
+            mdl.getComposedSchemas().setOneOf(newVariants);
+        } else if (mdl.getComposedSchemas().getAnyOf() != null) {
+            mdl.getComposedSchemas().setAnyOf(newVariants);
+        }
     }
 
     @Override
