@@ -25,7 +25,9 @@ import {{rootJavaEEPackage}}.validation.Valid;
 {{#microprofileRegisterExceptionMapper}}
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 {{/microprofileRegisterExceptionMapper}}
+{{^microprofileServer}}
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+{{/microprofileServer}}
 
 
 {{#appName}}
@@ -75,10 +77,10 @@ public interface {{classname}}  {
     @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} })
 {{/hasProduces}}
 {{^singleRequestParameter}}
-    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileServer}}{{> server_operation}}{{/microprofileServer}}{{^microprofileServer}}{{> client_operation}}{{/microprofileServer}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws ApiException, ProcessingException;
+    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileServer}}{{> server_operation}}{{/microprofileServer}}{{^microprofileServer}}{{> client_operation}}{{/microprofileServer}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{^-last}}, {{/-last}}{{/allParams}}) throws {{#useRuntimeException}}WebApplicationException{{/useRuntimeException}}{{^useRuntimeException}}ApiException{{/useRuntimeException}}, ProcessingException;
 {{/singleRequestParameter}}
 {{#singleRequestParameter}}
-    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#hasNonBodyParams}}@BeanParam {{operationIdCamelCase}}Request request{{/hasNonBodyParams}}{{#bodyParams}}{{#hasNonBodyParams}}, {{/hasNonBodyParams}}{{>bodyParams}}{{/bodyParams}}) throws ApiException, ProcessingException;
+    {{^vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<{{{returnType}}}>{{/microprofileMutiny}}{{^microprofileMutiny}}{{{returnType}}}{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}}{{#vendorExtensions.x-java-is-response-void}}{{#microprofileMutiny}}Uni<Void>{{/microprofileMutiny}}{{^microprofileMutiny}}void{{/microprofileMutiny}}{{/vendorExtensions.x-java-is-response-void}} {{nickname}}({{#hasNonBodyParams}}@BeanParam {{operationIdCamelCase}}Request request{{/hasNonBodyParams}}{{#bodyParams}}{{#hasNonBodyParams}}, {{/hasNonBodyParams}}{{>bodyParams}}{{/bodyParams}}) throws {{#useRuntimeException}}WebApplicationException{{/useRuntimeException}}{{^useRuntimeException}}ApiException{{/useRuntimeException}}, ProcessingException;
     {{#hasNonBodyParams}}
     public class {{operationIdCamelCase}}Request {
 
