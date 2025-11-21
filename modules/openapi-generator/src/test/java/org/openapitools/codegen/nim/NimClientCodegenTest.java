@@ -1,7 +1,7 @@
 package org.openapitools.codegen.nim;
 
 import io.swagger.v3.oas.models.media.ObjectSchema;
-import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.NimClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;

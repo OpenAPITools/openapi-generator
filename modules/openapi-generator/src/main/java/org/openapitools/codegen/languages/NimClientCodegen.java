@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -178,15 +179,111 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> allModels) {
+        allModels = super.postProcessAllModels(allModels);
+
+        // First pass: identify all models that have fields with custom JSON names
+        Set<String> modelsWithCustomJson = new HashSet<>();
+
+        for (Map.Entry<String, ModelsMap> entry : allModels.entrySet()) {
+            ModelsMap modelsMap = entry.getValue();
+            for (ModelMap mo : modelsMap.getModels()) {
+                CodegenModel cm = mo.getModel();
+
+                // Check if this model has fields with custom JSON names
+                for (CodegenProperty var : cm.vars) {
+                    if (var.vendorExtensions.containsKey("x-json-name")) {
+                        modelsWithCustomJson.add(cm.classname);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Second pass: cascade custom JSON handling to parent models and mark array fields
+        // We need multiple passes to handle transitive dependencies
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            for (Map.Entry<String, ModelsMap> entry : allModels.entrySet()) {
+                ModelsMap modelsMap = entry.getValue();
+                for (ModelMap mo : modelsMap.getModels()) {
+                    CodegenModel cm = mo.getModel();
+
+                    // Check if any field's type needs custom JSON and mark array fields appropriately
+                    for (CodegenProperty var : cm.vars) {
+                        String fieldType = var.complexType != null ? var.complexType : var.baseType;
+
+                        // Handle arrays - check if the inner type has custom JSON
+                        if (var.isArray && var.items != null) {
+                            String innerType = var.items.complexType != null ? var.items.complexType : var.items.baseType;
+                            if (innerType != null && modelsWithCustomJson.contains(innerType)) {
+                                // Mark this array field as containing types with custom JSON
+                                var.vendorExtensions.put("x-is-array-with-custom-json", "true");
+                                var.vendorExtensions.put("x-array-inner-type", innerType);
+                            }
+                            fieldType = innerType;
+                        }
+
+                        // Cascade custom JSON to parent model if not already marked
+                        if (fieldType != null && modelsWithCustomJson.contains(fieldType)) {
+                            if (!cm.vendorExtensions.containsKey("x-has-custom-json-names")) {
+                                cm.vendorExtensions.put("x-has-custom-json-names", true);
+                                modelsWithCustomJson.add(cm.classname);
+                                changed = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return allModels;
+    }
+
+    /**
+     * Strips surrounding quotes from integer enum values.
+     * The base OpenAPI Generator stores all enum values as quoted strings (e.g., "0", "1", "2")
+     * regardless of the enum's actual type. For Nim integer enums, we need the raw numbers
+     * without quotes so they serialize correctly: %(0) instead of %("0")
+     */
+    private void stripQuotesFromIntegerEnumValues(Map<String, Object> allowableValues) {
+        if (allowableValues == null || !allowableValues.containsKey("enumVars")) {
+            return;
+        }
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+        for (Map<String, Object> enumVar : enumVars) {
+            Object value = enumVar.get("value");
+            if (value instanceof String) {
+                String strValue = (String) value;
+                // Remove surrounding quotes if present
+                if (strValue.startsWith("\"") && strValue.endsWith("\"")) {
+                    enumVar.put("value", strValue.substring(1, strValue.length() - 1));
+                }
+            }
+        }
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
 
-        // Mark top-level string enums for proper enum generation in template
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
+
             if (cm.isEnum && cm.allowableValues != null && cm.allowableValues.containsKey("enumVars")) {
                 cm.vendorExtensions.put("x-is-top-level-enum", true);
+
+                // For integer enums, strip quotes from enum values
+                if (cm.vendorExtensions.containsKey("x-is-integer-enum")) {
+                    stripQuotesFromIntegerEnumValues(cm.allowableValues);
+                }
             }
+
+            // Check if any fields need custom JSON name mapping
+            boolean hasCustomJsonNames = false;
 
             // Fix dataType fields that contain underscored type names
             // This handles cases like Table[string, Record_string__foo__value]
@@ -199,17 +296,47 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                     var.datatypeWithEnum = fixRecordTypeReferences(var.datatypeWithEnum);
                 }
 
+                // Check if the field name was changed from the original (baseName)
+                // This happens for fields like "_id" which are renamed to "id"
+                // But we need to exclude cases where the name is just escaped with backticks
+                // (e.g., "from" becomes "`from`" because it's a reserved word)
+                if (var.baseName != null && !var.baseName.equals(var.name)) {
+                    // Check if this is just a reserved word escaping (name is `baseName`)
+                    String escapedName = "`" + var.baseName + "`";
+                    if (!var.name.equals(escapedName)) {
+                        // This is a real rename, not just escaping
+                        var.vendorExtensions.put("x-json-name", var.baseName);
+                        hasCustomJsonNames = true;
+                    }
+                }
+
                 // Wrap optional (non-required) or nullable fields in Option[T]
-                if ((!var.required || var.isNullable) && !var.isReadOnly) {
-                    String baseType = var.datatypeWithEnum != null ? var.datatypeWithEnum : var.dataType;
+                // For non-enum fields only (enums are handled specially in the template)
+                if ((!var.required || var.isNullable) && !var.isReadOnly && !var.isEnum) {
+                    String baseType = var.dataType;
                     if (baseType != null && !baseType.startsWith("Option[")) {
                         var.dataType = "Option[" + baseType + "]";
                         if (var.datatypeWithEnum != null) {
                             var.datatypeWithEnum = "Option[" + var.datatypeWithEnum + "]";
                         }
-                        var.vendorExtensions.put("x-is-optional", true);
                     }
                 }
+
+                // For enum fields, set x-is-optional if they are not required
+                if (var.isEnum && (!var.required || var.isNullable)) {
+                    var.vendorExtensions.put("x-is-optional", true);
+                }
+
+                // Always set x-is-optional based on the final dataType (for non-enum fields)
+                // This ensures consistency between type declaration and JSON handling
+                if (!var.isEnum && var.dataType != null && var.dataType.startsWith("Option[")) {
+                    var.vendorExtensions.put("x-is-optional", true);
+                }
+            }
+
+            // Mark the model as needing custom JSON deserialization if any fields have custom names
+            if (hasCustomJsonNames) {
+                cm.vendorExtensions.put("x-has-custom-json-names", true);
             }
         }
 
@@ -231,7 +358,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // Match Record_ followed by any characters until end or comma/bracket
         Pattern pattern = Pattern.compile("Record_[a-z_]+");
-        java.util.regex.Matcher matcher = pattern.matcher(result);
+        Matcher matcher = pattern.matcher(result);
 
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
@@ -331,6 +458,14 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = normalizeSchemaName(name);
         CodegenModel mdl = super.fromModel(name, schema);
 
+        // Detect integer enums - check both the schema type and the dataType
+        if (mdl.isEnum) {
+            String schemaType = schema != null ? schema.getType() : null;
+            if ("integer".equals(schemaType) || "int".equals(mdl.dataType) || "int64".equals(mdl.dataType)) {
+                mdl.vendorExtensions.put("x-is-integer-enum", true);
+            }
+        }
+
         // Handle oneOf/anyOf schemas to use Nim object variants
         if (mdl.getComposedSchemas() != null) {
             if (mdl.getComposedSchemas().getOneOf() != null && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
@@ -364,12 +499,35 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             // Create a clone to avoid modifying the original
             CodegenProperty newVariant = variant.clone();
 
-            // Sanitize dataType to remove trailing underscores (Nim doesn't allow them)
+            // Sanitize baseName to remove underscores and properly format for Nim
+            if (newVariant.baseName != null) {
+                // Remove trailing underscores and convert to proper format
+                String sanitizedBase = newVariant.baseName.replaceAll("_+$", ""); // Remove trailing underscores
+                if (sanitizedBase.length() > 0 && Character.isUpperCase(sanitizedBase.charAt(0))) {
+                    newVariant.baseName = toModelName(sanitizedBase);
+                } else {
+                    newVariant.baseName = sanitizeNimIdentifier(sanitizedBase);
+                }
+            }
+
+            // Sanitize dataType to remove underscores and properly format for Nim
+            // For model types (not primitives), use toModelName to get the proper type name
             if (newVariant.dataType != null) {
-                newVariant.dataType = sanitizeNimIdentifier(newVariant.dataType);
+                // Check if this is a model type (starts with uppercase) vs primitive
+                if (newVariant.dataType.length() > 0 && Character.isUpperCase(newVariant.dataType.charAt(0))) {
+                    // This is likely a model type, use toModelName to properly format it
+                    newVariant.dataType = toModelName(newVariant.dataType);
+                } else {
+                    // Primitive type, just sanitize
+                    newVariant.dataType = sanitizeNimIdentifier(newVariant.dataType);
+                }
             }
             if (newVariant.datatypeWithEnum != null) {
-                newVariant.datatypeWithEnum = sanitizeNimIdentifier(newVariant.datatypeWithEnum);
+                if (newVariant.datatypeWithEnum.length() > 0 && Character.isUpperCase(newVariant.datatypeWithEnum.charAt(0))) {
+                    newVariant.datatypeWithEnum = toModelName(newVariant.datatypeWithEnum);
+                } else {
+                    newVariant.datatypeWithEnum = sanitizeNimIdentifier(newVariant.datatypeWithEnum);
+                }
             }
 
             // Set variant name based on schema reference or type

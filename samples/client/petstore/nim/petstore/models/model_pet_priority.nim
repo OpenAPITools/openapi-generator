@@ -20,13 +20,26 @@ type PetPriority* {.pure.} = enum
 
 func `%`*(v: PetPriority): JsonNode =
   result = case v:
-    of PetPriority.`0`: %"0"
-    of PetPriority.`1`: %"1"
-    of PetPriority.`2`: %"2"
+    of PetPriority.`0`: %(0)
+    of PetPriority.`1`: %(1)
+    of PetPriority.`2`: %(2)
 
 func `$`*(v: PetPriority): string =
   result = case v:
-    of PetPriority.`0`: $("0")
-    of PetPriority.`1`: $("1")
-    of PetPriority.`2`: $("2")
+    of PetPriority.`0`: $(0)
+    of PetPriority.`1`: $(1)
+    of PetPriority.`2`: $(2)
+proc to*(node: JsonNode, T: typedesc[PetPriority]): PetPriority =
+  if node.kind != JInt:
+    raise newException(ValueError, "Expected integer for enum PetPriority, got " & $node.kind)
+  let intVal = node.getInt()
+  case intVal:
+  of 0:
+    return PetPriority.`0`
+  of 1:
+    return PetPriority.`1`
+  of 2:
+    return PetPriority.`2`
+  else:
+    raise newException(ValueError, "Invalid enum value for PetPriority: " & $intVal)
 

@@ -27,17 +27,30 @@ type Pet* = object
   name*: string
   photoUrls*: seq[string]
   tags*: Option[seq[Tag]]
-  status*: Status ## pet status in the store
+  status*: Option[Status] ## pet status in the store
 
 func `%`*(v: Status): JsonNode =
   result = case v:
     of Status.Available: %"available"
     of Status.Pending: %"pending"
     of Status.Sold: %"sold"
-
 func `$`*(v: Status): string =
   result = case v:
     of Status.Available: $("available")
     of Status.Pending: $("pending")
     of Status.Sold: $("sold")
+
+proc to*(node: JsonNode, T: typedesc[Status]): Status =
+  if node.kind != JString:
+    raise newException(ValueError, "Expected string for enum Status, got " & $node.kind)
+  let strVal = node.getStr()
+  case strVal:
+  of $("available"):
+    return Status.Available
+  of $("pending"):
+    return Status.Pending
+  of $("sold"):
+    return Status.Sold
+  else:
+    raise newException(ValueError, "Invalid enum value for Status: " & strVal)
 

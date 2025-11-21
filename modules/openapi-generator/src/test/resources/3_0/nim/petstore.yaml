@@ -334,6 +334,114 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetPetStats_200_response'
+  /comments:
+    get:
+      tags:
+        - pet
+      summary: Get pet reviews (tests _id field mapping and arrays)
+      operationId: getPetReviews
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetReviewsResponse'
+    post:
+      tags:
+        - pet
+      summary: Add a pet review (tests _id field mapping)
+      operationId: addPetReview
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetReview'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetReview'
+  /comments/search:
+    get:
+      tags:
+        - pet
+      summary: Search pet reviews (tests anyOf with underscores)
+      operationId: searchPetReviews
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetReviews_200_response'
+  /notifications:
+    get:
+      tags:
+        - pet
+      summary: Get pet alerts (tests integer enum)
+      operationId: getPetAlerts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetAlert'
+    post:
+      tags:
+        - pet
+      summary: Create pet alert
+      operationId: createPetAlert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetAlert'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetAlert'
+  /audit:
+    get:
+      tags:
+        - pet
+      summary: Get pet audit logs (combined test)
+      operationId: getPetAuditLogs
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetAuditLog'
+  /ignored:
+    post:
+      tags:
+        - pet
+      summary: Mark as ignored (tests inline enum)
+      operationId: markIgnored
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IgnoredResponse'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IgnoredResponse'
   /store/inventory:
     get:
       tags:
@@ -826,3 +934,89 @@ components:
       properties:
         version:
           type: integer
+
+    # Fields named _id get renamed to id in Nim
+    PetReview:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB style ID field that should be renamed to id in Nim
+        author:
+          type: string
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    # Array deserialization with custom JSON
+    PetReviewsResponse:
+      type: object
+      properties:
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetReview'
+        totalCount:
+          type: integer
+
+    # Integer enum deserialization
+    PetAlertLevel:
+      type: integer
+      description: Alert priority level with integer values
+      enum: [0, 1, 2, 10, 99]
+
+    PetAlert:
+      type: object
+      properties:
+        id:
+          type: string
+        level:
+          $ref: '#/components/schemas/PetAlertLevel'
+        message:
+          type: string
+
+    # Composed schema type naming (anyOf/oneOf with underscores)
+    GetPetReviews_Response_WithPresence:
+      type: object
+      properties:
+        review:
+          type: string
+
+    GetPetReviews_200_response:
+      anyOf:
+        - $ref: '#/components/schemas/GetPetReviews_Response_WithPresence'
+        - $ref: '#/components/schemas/ApiResponse'
+
+    # Inline enum handling
+    IgnoredResponse:
+      type: object
+      properties:
+        reason:
+          type: string
+        note:
+          type: string
+          enum: ["0", "1", "2", "3"]
+          description: Inline enum that should use enum type name not base type
+
+    # Combined test: Model with _id field, arrays, and enums
+    PetAuditLog:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Audit log unique identifier
+        action:
+          type: string
+          enum: ["create", "update", "delete"]
+        priority:
+          $ref: '#/components/schemas/PetAlertLevel'
+        from:
+          type: string
+          enum: ["api", "web", "mobile"]
+          nullable: true
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetReview'
