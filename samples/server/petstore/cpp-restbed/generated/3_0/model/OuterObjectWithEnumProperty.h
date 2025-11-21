@@ -41,7 +41,7 @@ class  OuterObjectWithEnumProperty
 public:
     OuterObjectWithEnumProperty() = default;
     explicit OuterObjectWithEnumProperty(boost::property_tree::ptree const& pt);
-    virtual ~OuterObjectWithEnumProperty() = default;
+    virtual ~OuterObjectWithEnumProperty();
 
     OuterObjectWithEnumProperty(const OuterObjectWithEnumProperty& other) = default; // copy constructor
     OuterObjectWithEnumProperty(OuterObjectWithEnumProperty&& other) noexcept = default; // move constructor
