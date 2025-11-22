@@ -3,6 +3,7 @@
 {{>partial_header}}
 
 
+import base64
 import copy
 import http.client as httplib
 import logging
@@ -14,7 +15,9 @@ import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
 
+{{^async}}
 import urllib3
+{{/async}}
 
 {{#hasHttpSignatureMethods}}
 from {{packageName}}.signing import HttpSigningConfiguration
@@ -187,7 +190,7 @@ class Configuration:
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
-    :param key_file: the path to a client key file, for mTLS. 
+    :param key_file: the path to a client key file, for mTLS.
 
 {{#hasAuthMethods}}
     :Example:
@@ -353,7 +356,9 @@ conf = {{{packageName}}}.Configuration(
         """Logging Settings
         """
         self.logger["package_logger"] = logging.getLogger("{{packageName}}")
+        {{^async}}
         self.logger["urllib3_logger"] = logging.getLogger("urllib3")
+        {{/async}}
         self.logger_format = '%(asctime)s %(levelname)s %(message)s'
         """Log format
         """
@@ -615,9 +620,10 @@ conf = {{{packageName}}}.Configuration(
         password = ""
         if self.password is not None:
             password = self.password
-        return urllib3.util.make_headers(
-            basic_auth=username + ':' + password
-        ).get('authorization')
+
+        return "Basic " + base64.b64encode(
+            (username + ":" + password).encode('utf-8')
+        ).decode('utf-8')
 
     def auth_settings(self)-> AuthSettings:
         """Gets Auth Settings dict for api client.
