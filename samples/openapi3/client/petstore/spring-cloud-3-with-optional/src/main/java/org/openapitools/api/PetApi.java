@@ -41,6 +41,7 @@ public interface PetApi {
     )
     ResponseEntity<Pet> addPet(
          @Valid @RequestBody Pet pet
+
     );
 
 
@@ -58,8 +59,10 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     ResponseEntity<Void> deletePet(
-        @NotNull  @PathVariable("petId") Long petId,
+        @NotNull  @PathVariable("petId") Long petId
+,
          @RequestHeader(value = "api_key", required = false) Optional<String> apiKey
+
     );
 
 
@@ -79,6 +82,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @Valid @RequestParam(value = "status", required = true) @Deprecated List<String> status
+
     );
 
 
@@ -100,6 +104,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @Valid @RequestParam(value = "tags", required = true) List<String> tags
+
     );
 
 
@@ -120,6 +125,7 @@ public interface PetApi {
     )
     ResponseEntity<Pet> getPetById(
         @NotNull  @PathVariable("petId") Long petId
+
     );
 
 
@@ -144,6 +150,7 @@ public interface PetApi {
     )
     ResponseEntity<Pet> updatePet(
          @Valid @RequestBody Pet pet
+
     );
 
 
@@ -163,9 +170,12 @@ public interface PetApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @NotNull  @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "name", required = false) Optional<String> name,
+        @NotNull  @PathVariable("petId") Long petId
+,
+         @Valid @RequestParam(value = "name", required = false) Optional<String> name
+,
          @Valid @RequestParam(value = "status", required = false) Optional<String> status
+
     );
 
 
@@ -186,9 +196,12 @@ public interface PetApi {
         consumes = "multipart/form-data"
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-        @NotNull  @PathVariable("petId") Long petId,
-         @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
+        @NotNull  @PathVariable("petId") Long petId
+,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata
+,
          @RequestPart(value = "file", required = false) MultipartFile file
+
     );
 
 }

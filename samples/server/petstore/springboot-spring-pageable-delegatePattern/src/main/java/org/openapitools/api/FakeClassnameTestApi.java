@@ -56,6 +56,7 @@ public interface FakeClassnameTestApi {
     )
     default ResponseEntity<Client> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody Client body
+
     ) {
         return getDelegate().testClassname(body);
     }

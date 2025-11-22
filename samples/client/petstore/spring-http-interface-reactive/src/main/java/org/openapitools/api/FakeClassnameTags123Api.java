@@ -39,6 +39,7 @@ public interface FakeClassnameTags123Api {
     )
     Mono<ResponseEntity<Client>> testClassname(
          @RequestBody Mono<Client> client
+
     );
 
 }
