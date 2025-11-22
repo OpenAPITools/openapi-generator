@@ -3,7 +3,9 @@
 {{>partial_header}}
 
 
+{{#async}}
 import base64
+{{/async}}
 import copy
 import http.client as httplib
 import logging
@@ -621,9 +623,16 @@ conf = {{{packageName}}}.Configuration(
         if self.password is not None:
             password = self.password
 
+        {{#async}}
         return "Basic " + base64.b64encode(
             (username + ":" + password).encode('utf-8')
         ).decode('utf-8')
+        {{/async}}
+        {{^async}}
+        return urllib3.util.make_headers(
+            basic_auth=username + ':' + password
+        ).get('authorization')
+        {{/async}}
 
     def auth_settings(self)-> AuthSettings:
         """Gets Auth Settings dict for api client.
@@ -726,6 +735,11 @@ conf = {{{packageName}}}.Configuration(
                         ]
                         {{/-last}}
                         {{/enumValues}}
+                        {{^enumValues}}
+                        {{#async}}
+                        'enum_values': []
+                        {{/async}}
+                        {{/enumValues}}
                         }{{^-last}},{{/-last}}
                 {{#-last}}
                     }
@@ -768,6 +782,7 @@ conf = {{{packageName}}}.Configuration(
                 variable_name, variable['default_value'])
 
             if 'enum_values' in variable \
+                    and variable['enum_values'] \
                     and used_value not in variable['enum_values']:
                 raise ValueError(
                     "The variable `{0}` in the host URL has invalid value "
