@@ -757,8 +757,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 value.put("tag", tag);
                                 tags.add(value);
                             }
-                            if (!operation.getTags()
-                                          .isEmpty()) {
+                            if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
                                 operation.setTags(Collections.singletonList(tag));
                             }
