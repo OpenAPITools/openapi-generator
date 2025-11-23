@@ -9,13 +9,7 @@
 
 import json
 import tables
-import marshal
-import options
 
-
-type ApiResponse* = object
-  ## Describes the result of uploading an image resource
-  code*: Option[int]
-  `type`*: Option[string]
-  message*: Option[string]
-
+# Object represents an arbitrary JSON object
+# Using JsonNode instead of the 'object' keyword to avoid Nim keyword conflicts
+type Object* = JsonNode

@@ -12,10 +12,11 @@ import tables
 import marshal
 import options
 
+import model_pet_alert_level
 
-type ApiResponse* = object
-  ## Describes the result of uploading an image resource
-  code*: Option[int]
-  `type`*: Option[string]
+type PetAlert* = object
+  ## 
+  id*: Option[string]
+  level*: Option[PetAlertLevel]
   message*: Option[string]
 

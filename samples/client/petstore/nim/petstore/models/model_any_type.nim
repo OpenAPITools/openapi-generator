@@ -8,14 +8,7 @@
 #
 
 import json
-import tables
-import marshal
-import options
 
-
-type ApiResponse* = object
-  ## Describes the result of uploading an image resource
-  code*: Option[int]
-  `type`*: Option[string]
-  message*: Option[string]
-
+# AnyType represents any JSON value
+# This is used for fields that can contain arbitrary JSON data
+type AnyType* = JsonNode

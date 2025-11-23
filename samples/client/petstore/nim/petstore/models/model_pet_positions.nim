@@ -12,10 +12,9 @@ import tables
 import marshal
 import options
 
+import model_record_string_before_string_or_null_after_string_or_null_value
 
-type ApiResponse* = object
-  ## Describes the result of uploading an image resource
-  code*: Option[int]
-  `type`*: Option[string]
-  message*: Option[string]
+type PetPositions* = object
+  ## 
+  positions*: Option[Table[string, RecordStringBeforeStringOrNullAfterStringOrNullValue]]
 

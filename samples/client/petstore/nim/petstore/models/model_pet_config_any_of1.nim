@@ -13,9 +13,7 @@ import marshal
 import options
 
 
-type ApiResponse* = object
-  ## Describes the result of uploading an image resource
-  code*: Option[int]
-  `type`*: Option[string]
-  message*: Option[string]
+type PetConfigAnyOf1* = object
+  ## 
+  version*: Option[int]
 
