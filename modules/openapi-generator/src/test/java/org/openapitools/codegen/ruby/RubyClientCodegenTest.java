@@ -577,10 +577,10 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp1.name, "name");
         Assert.assertFalse(cp1.required);
 
-		CodegenProperty cp2 = superMan.getVars().get(2);
-		Assert.assertEquals(cp2.name, "nickname");
-		Assert.assertFalse(cp2.required);
-		Assert.assertTrue(cp2.deprecated);
+        CodegenProperty cp2 = superMan.getVars().get(2);
+        Assert.assertEquals(cp2.name, "nickname");
+        Assert.assertFalse(cp2.required);
+        Assert.assertTrue(cp2.deprecated);
 
         CodegenProperty cp3 = superMan.getVars().get(3);
         Assert.assertEquals(cp3.name, "reward");
@@ -606,10 +606,10 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp8.name, "name");
         Assert.assertFalse(cp8.required);
 
-		CodegenProperty cp9 = superMan.getAllVars().get(2);
-		Assert.assertEquals(cp9.name, "nickname");
-		Assert.assertFalse(cp9.required);
-		Assert.assertTrue(cp9.deprecated);
+        CodegenProperty cp9 = superMan.getAllVars().get(2);
+        Assert.assertEquals(cp9.name, "nickname");
+        Assert.assertFalse(cp9.required);
+        Assert.assertTrue(cp9.deprecated);
 
         CodegenProperty cp10 = superMan.getAllVars().get(3);
         Assert.assertEquals(cp10.name, "reward");
