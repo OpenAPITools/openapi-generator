@@ -21,7 +21,7 @@ import type {
 } from '../models';
 
 export interface AddPetRequest {
-    body: Pet;
+    pet: Pet;
 }
 
 export interface DeletePetRequest {
@@ -42,7 +42,7 @@ export interface GetPetByIdRequest {
 }
 
 export interface UpdatePetRequest {
-    body: Pet;
+    pet: Pet;
 }
 
 export interface UpdatePetWithFormRequest {
@@ -63,13 +63,13 @@ export interface UploadFileRequest {
 export class PetApi extends BaseAPI {
 
     /**
+     * 
      * Add a new pet to the store
      */
-    addPet({ body }: AddPetRequest): Observable<void>
-    addPet({ body }: AddPetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    addPet({ body }: AddPetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
-    addPet({ body }: AddPetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
-        throwIfNullOrUndefined(body, 'body', 'addPet');
+    addPet({ pet }: AddPetRequest): Observable<Pet>
+    addPet({ pet }: AddPetRequest, opts?: OperationOpts): Observable<AjaxResponse<Pet>>
+    addPet({ pet }: AddPetRequest, opts?: OperationOpts): Observable<Pet | AjaxResponse<Pet>> {
+        throwIfNullOrUndefined(pet, 'pet', 'addPet');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -82,20 +82,19 @@ export class PetApi extends BaseAPI {
             ),
         };
 
-        return this.request<void>({
+        return this.request<Pet>({
             url: '/pet',
             method: 'POST',
             headers,
-            body: body,
-            progressSubscriber: opts?.progressSubscriber,
+            body: pet,
         }, opts?.responseOpts);
     };
 
     /**
+     * 
      * Deletes a pet
      */
     deletePet({ petId, apiKey }: DeletePetRequest): Observable<void>
-    deletePet({ petId, apiKey }: DeletePetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     deletePet({ petId, apiKey }: DeletePetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
     deletePet({ petId, apiKey }: DeletePetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
         throwIfNullOrUndefined(petId, 'petId', 'deletePet');
@@ -115,7 +114,6 @@ export class PetApi extends BaseAPI {
             url: '/pet/{petId}'.replace('{petId}', encodeURI(petId)),
             method: 'DELETE',
             headers,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -124,7 +122,6 @@ export class PetApi extends BaseAPI {
      * Finds Pets by status
      */
     findPetsByStatus({ status }: FindPetsByStatusRequest): Observable<Array<Pet>>
-    findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Array<Pet>>
     findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: OperationOpts): Observable<AjaxResponse<Array<Pet>>>
     findPetsByStatus({ status }: FindPetsByStatusRequest, opts?: OperationOpts): Observable<Array<Pet> | AjaxResponse<Array<Pet>>> {
         throwIfNullOrUndefined(status, 'status', 'findPetsByStatus');
@@ -133,7 +130,7 @@ export class PetApi extends BaseAPI {
             // oauth required
             ...(this.configuration.accessToken != null
                 ? { Authorization: typeof this.configuration.accessToken === 'function'
-                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    ? this.configuration.accessToken('petstore_auth', ['read:pets'])
                     : this.configuration.accessToken }
                 : undefined
             ),
@@ -148,7 +145,6 @@ export class PetApi extends BaseAPI {
             method: 'GET',
             headers,
             query,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -158,7 +154,6 @@ export class PetApi extends BaseAPI {
      * @deprecated
      */
     findPetsByTags({ tags }: FindPetsByTagsRequest): Observable<Array<Pet>>
-    findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Array<Pet>>
     findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: OperationOpts): Observable<AjaxResponse<Array<Pet>>>
     findPetsByTags({ tags }: FindPetsByTagsRequest, opts?: OperationOpts): Observable<Array<Pet> | AjaxResponse<Array<Pet>>> {
         throwIfNullOrUndefined(tags, 'tags', 'findPetsByTags');
@@ -167,7 +162,7 @@ export class PetApi extends BaseAPI {
             // oauth required
             ...(this.configuration.accessToken != null
                 ? { Authorization: typeof this.configuration.accessToken === 'function'
-                    ? this.configuration.accessToken('petstore_auth', ['write:pets', 'read:pets'])
+                    ? this.configuration.accessToken('petstore_auth', ['read:pets'])
                     : this.configuration.accessToken }
                 : undefined
             ),
@@ -182,7 +177,6 @@ export class PetApi extends BaseAPI {
             method: 'GET',
             headers,
             query,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -191,7 +185,6 @@ export class PetApi extends BaseAPI {
      * Find pet by ID
      */
     getPetById({ petId }: GetPetByIdRequest): Observable<Pet>
-    getPetById({ petId }: GetPetByIdRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Pet>
     getPetById({ petId }: GetPetByIdRequest, opts?: OperationOpts): Observable<AjaxResponse<Pet>>
     getPetById({ petId }: GetPetByIdRequest, opts?: OperationOpts): Observable<Pet | AjaxResponse<Pet>> {
         throwIfNullOrUndefined(petId, 'petId', 'getPetById');
@@ -204,18 +197,17 @@ export class PetApi extends BaseAPI {
             url: '/pet/{petId}'.replace('{petId}', encodeURI(petId)),
             method: 'GET',
             headers,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
+     * 
      * Update an existing pet
      */
-    updatePet({ body }: UpdatePetRequest): Observable<void>
-    updatePet({ body }: UpdatePetRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
-    updatePet({ body }: UpdatePetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
-    updatePet({ body }: UpdatePetRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
-        throwIfNullOrUndefined(body, 'body', 'updatePet');
+    updatePet({ pet }: UpdatePetRequest): Observable<Pet>
+    updatePet({ pet }: UpdatePetRequest, opts?: OperationOpts): Observable<AjaxResponse<Pet>>
+    updatePet({ pet }: UpdatePetRequest, opts?: OperationOpts): Observable<Pet | AjaxResponse<Pet>> {
+        throwIfNullOrUndefined(pet, 'pet', 'updatePet');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',
@@ -228,20 +220,19 @@ export class PetApi extends BaseAPI {
             ),
         };
 
-        return this.request<void>({
+        return this.request<Pet>({
             url: '/pet',
             method: 'PUT',
             headers,
-            body: body,
-            progressSubscriber: opts?.progressSubscriber,
+            body: pet,
         }, opts?.responseOpts);
     };
 
     /**
+     * 
      * Updates a pet in the store with form data
      */
     updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest): Observable<void>
-    updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>>
     updatePetWithForm({ petId, name, status }: UpdatePetWithFormRequest, opts?: OperationOpts): Observable<void | AjaxResponse<void>> {
         throwIfNullOrUndefined(petId, 'petId', 'updatePetWithForm');
@@ -265,15 +256,14 @@ export class PetApi extends BaseAPI {
             method: 'POST',
             headers,
             body: formData,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
     /**
+     * 
      * uploads an image
      */
     uploadFile({ petId, additionalMetadata, file }: UploadFileRequest): Observable<ApiResponse>
-    uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<ApiResponse>
     uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: OperationOpts): Observable<AjaxResponse<ApiResponse>>
     uploadFile({ petId, additionalMetadata, file }: UploadFileRequest, opts?: OperationOpts): Observable<ApiResponse | AjaxResponse<ApiResponse>> {
         throwIfNullOrUndefined(petId, 'petId', 'uploadFile');
@@ -297,7 +287,6 @@ export class PetApi extends BaseAPI {
             method: 'POST',
             headers,
             body: formData,
-            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
