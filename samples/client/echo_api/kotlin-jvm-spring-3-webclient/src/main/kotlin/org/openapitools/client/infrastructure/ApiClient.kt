@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 open class ApiClient(protected val client: WebClient) {
 
-    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
+    protected inline fun <reified I : Any, reified T: Any> request(requestConfig: RequestConfig<I>): Mono<ResponseEntity<T>> {
         return prepare(defaults(requestConfig))
             .retrieve()
             .toEntity(object : ParameterizedTypeReference<T>() {})
@@ -34,7 +34,7 @@ open class ApiClient(protected val client: WebClient) {
             }
         }
 
-    private fun <I> WebClient.method(requestConfig: RequestConfig<I>)=
+    private fun <I> WebClient.method(requestConfig: RequestConfig<I>) =
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
