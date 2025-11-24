@@ -381,7 +381,7 @@ public class ApiClient {
    * Set a custom async response interceptor. Use this interceptor when asyncNative is set to 'true'.
    *
    * <p>This is useful for logging, monitoring or extraction of header variables</p>
-   * <p>If you are using the UnaryInterceptor you can even manipulate the response to a certain degree</p>
+   *
    * @param interceptor A function invoked before creating each request. A value
    *                    of null resets the interceptor to a no-op.
    * @return This object.
