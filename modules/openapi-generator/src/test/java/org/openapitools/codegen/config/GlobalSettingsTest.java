@@ -8,7 +8,6 @@ import java.util.Properties;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
-import org.junit.jupiter.api.Disabled;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,7 +28,7 @@ public class GlobalSettingsTest {
         System.getProperties().putAll(props);
     }
 
-    @Test @Disabled
+    @Test(enabled = false)
     // comment out the following tests as it generates false alarms from time to time
     // also using system property will eventually be decommissioned
     public void testNonStringSystemProperties() {
