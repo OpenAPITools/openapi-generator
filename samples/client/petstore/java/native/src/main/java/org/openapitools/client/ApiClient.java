@@ -38,7 +38,6 @@ import java.util.function.Consumer;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;
 import java.util.stream.Collectors;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
@@ -335,8 +334,7 @@ public class ApiClient {
    * request builder is passed into this function for further modification,
    * after which it is sent out.</p>
    *
-   * <p>This is useful for altering the requests in a custom manner, such as
-   * adding headers. It could also be used for logging and monitoring.</p>
+   *
    *
    * @param interceptor A function invoked before creating each request. A value
    *                    of null resets the interceptor to a no-op.
@@ -360,7 +358,7 @@ public class ApiClient {
    * Set a custom response interceptor.
    *
    * <p>This is useful for logging, monitoring or extraction of header variables</p>
-   * <p>If you are using the UnaryInterceptor you can even manipulate the response to a certain degree</p>
+   *
    * @param interceptor A function invoked before creating each request. A value
    *                    of null resets the interceptor to a no-op.
    * @return This object.
