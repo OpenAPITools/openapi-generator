@@ -10,7 +10,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient(protected val client: RestClient) {
 
-    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
+    protected inline fun <reified I : Any, reified T: Any> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
         return prepare(defaults(requestConfig))
             .retrieve()
             .toEntity(object : ParameterizedTypeReference<T>() {})
@@ -32,7 +32,7 @@ import org.springframework.util.LinkedMultiValueMap
             }
         }
 
-    private fun <I> RestClient.method(requestConfig: RequestConfig<I>)=
+    private fun <I> RestClient.method(requestConfig: RequestConfig<I>) =
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
