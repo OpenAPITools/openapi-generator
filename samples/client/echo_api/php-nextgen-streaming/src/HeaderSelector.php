@@ -195,12 +195,12 @@ class HeaderSelector
 
     /**
      * @param string $header
-     * @param int    $weight
+     * @param float  $weight
      * @return string
      */
-    private function buildAcceptHeader(string $header, int $weight): string
+    private function buildAcceptHeader(string $header, float $weight): string
     {
-        if($weight === 1000) {
+        if ($weight === 1000.0) {
             return $header;
         }
 
@@ -225,11 +225,11 @@ class HeaderSelector
      * if there is a maximum of 28 "Accept" headers. If we have more than that (which is extremely unlikely), then we fall back to a 1-by-1
      * decrement rule, which will result in quality codes like "q=0.999", "q=0.998" etc.
      *
-     * @param int  $currentWeight varying from 1 to 1000 (will be divided by 1000 to build the quality value)
-     * @param bool $hasMoreThan28Headers
-     * @return int
+     * @param float $currentWeight varying from 1 to 1000 (will be divided by 1000 to build the quality value)
+     * @param bool  $hasMoreThan28Headers
+     * @return float
      */
-    public function getNextWeight(int $currentWeight, bool $hasMoreThan28Headers): int
+    public function getNextWeight(float $currentWeight, bool $hasMoreThan28Headers): float
     {
         if ($currentWeight <= 1) {
             return 1;
