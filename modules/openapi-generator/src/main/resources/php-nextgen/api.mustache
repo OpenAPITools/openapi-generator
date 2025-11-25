@@ -786,11 +786,14 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#authMethods}}
         {{#isApiKey}}
+        {{^isKeyInCookie}}
         // this endpoint requires API key authentication
         $apiKey = $this->config->getApiKeyWithPrefix('{{keyParamName}}');
         if ($apiKey !== null) {
             {{#isKeyInHeader}}$headers['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
         }
+
+        {{/isKeyInCookie}}
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
@@ -798,12 +801,14 @@ use {{invokerPackage}}\ObjectSerializer;
         if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
             $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
         }
+
         {{/isBasicBasic}}
         {{#isBasicBearer}}
         // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
+
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
@@ -811,9 +816,9 @@ use {{invokerPackage}}\ObjectSerializer;
         if (!empty($this->config->getAccessToken())) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
+
         {{/isOAuth}}
         {{/authMethods}}
-
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();

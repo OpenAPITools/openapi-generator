@@ -382,7 +382,6 @@ class AnotherFakeApi
             }
         }
 
-
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();

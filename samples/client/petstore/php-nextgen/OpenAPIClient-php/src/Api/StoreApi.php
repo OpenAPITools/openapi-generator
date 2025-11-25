@@ -344,7 +344,6 @@ class StoreApi
             }
         }
 
-
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -890,7 +889,6 @@ class StoreApi
             }
         }
 
-
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
@@ -1168,7 +1166,6 @@ class StoreApi
                 $httpBody = ObjectSerializer::buildQuery($formParams);
             }
         }
-
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
