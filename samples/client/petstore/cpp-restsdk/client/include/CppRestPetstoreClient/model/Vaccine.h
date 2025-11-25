@@ -18,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Vaccine_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_Vaccine_H_
 
+#include <boost/optional.hpp>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
@@ -71,8 +72,7 @@ public:
 
 
 protected:
-    std::shared_ptr<AnyType> m_date;
-    bool m_dateIsSet;
+    boost::optional<std::shared_ptr<AnyType>> m_date;
 
     bool m_BoosterRequired;
     bool m_BoosterRequiredIsSet;

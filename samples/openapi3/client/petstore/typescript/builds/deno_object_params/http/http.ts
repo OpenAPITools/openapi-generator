@@ -122,7 +122,14 @@ export class RequestContext {
         this.headers["Cookie"] += name + "=" + value + "; ";
     }
 
-    public setHeaderParam(key: string, value: string): void {
+    public setHeaderParam(key: string, value: string): void  {
+        // Delete any existing headers with case-insensitive matching keys
+        const lowerKey = key.toLowerCase();
+        for (const existingKey in this.headers) {
+            if (existingKey.toLowerCase() === lowerKey) {
+                delete this.headers[existingKey];
+            }
+        }
         this.headers[key] = value;
     }
 
