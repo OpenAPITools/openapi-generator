@@ -31,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.demo.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.demo.base-path:\${api.base-path:$BASE_PATH}}")
 class TestApiController() {
 
     @Operation(

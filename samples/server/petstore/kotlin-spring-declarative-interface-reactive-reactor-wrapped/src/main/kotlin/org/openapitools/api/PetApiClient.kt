@@ -27,7 +27,6 @@ import reactor.core.publisher.Mono
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface PetApi {
 

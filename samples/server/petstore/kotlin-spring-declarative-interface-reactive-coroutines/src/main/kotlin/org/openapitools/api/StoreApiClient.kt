@@ -24,7 +24,6 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface StoreApi {
 

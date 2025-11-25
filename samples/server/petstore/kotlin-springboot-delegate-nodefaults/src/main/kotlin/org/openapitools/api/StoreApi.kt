@@ -36,7 +36,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 interface StoreApi {
 
     fun getDelegate(): StoreApiDelegate

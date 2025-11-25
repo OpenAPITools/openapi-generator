@@ -143,7 +143,11 @@ public class KotlinSpringServerCodegenTest {
         // Check that the @RequestMapping annotation is generated in the ApiController file
         assertFileContains(
                 Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
-                "@RequestMapping(\"\\${"
+                "@RequestMapping(\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\")",
+                "    companion object {\n"
+                + "    //for your own safety never directly reuse these path definitions in tests\n"
+                + "        const val BASE_PATH: String = \"/v2\"\n"
+                + "    }"
         );
     }
 
@@ -154,7 +158,10 @@ public class KotlinSpringServerCodegenTest {
         // Check that the @RequestMapping annotation is generated in the Api file
         assertFileContains(
                 Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
-                "@RequestMapping(\"\\${"
+                "@RequestMapping(\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\")",
+                "    companion object {\n"
+                + "        //for your own safety never directly reuse these path definitions in tests\n"
+                + "        const val BASE_PATH: String = \"/v2\""
         );
         // Check that the @RequestMapping annotation is not generated in the ApiController file
         assertFileNotContains(
@@ -1286,7 +1293,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, "spring-declarative-http-interface");
         codegen.additionalProperties().put(REACTIVE, false);
         codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
-        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "none");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
         codegen.additionalProperties().put(USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
 
         ClientOptInput input = new ClientOptInput()
@@ -1305,6 +1312,9 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
         assertFileContains(
                 path,
+                "@HttpExchange(\n"
+                + "\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\"\n"
+                + ")",
                 "    fun getInventory(\n"
                 + "    ): Map<String, kotlin.Int>",
                 "    fun deleteOrder(\n"

@@ -32,7 +32,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
     @Operation(

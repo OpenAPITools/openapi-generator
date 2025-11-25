@@ -61,7 +61,7 @@ import kotlin.collections.Map
 {{/swagger1AnnotationLibrary}}
 {{#useRequestMappingOnController}}
 {{=<% %>=}}
-@RequestMapping("\${api.<%title%>.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
 <%={{ }}=%>
 {{/useRequestMappingOnController}}
 {{#operations}}

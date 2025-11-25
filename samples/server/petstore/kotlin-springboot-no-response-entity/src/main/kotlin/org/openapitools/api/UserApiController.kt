@@ -25,7 +25,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 class UserApiController(@Autowired(required = true) val service: UserApiService) {
 
     @ResponseStatus(HttpStatus.OK)

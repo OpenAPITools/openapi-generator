@@ -50,9 +50,11 @@ import reactor.core.publisher.Mono
 import kotlin.collections.List
 import kotlin.collections.Map
 
-{{#useRequestMappingOnInterface}}@HttpExchange(
-"{{=<% %>=}}\${api.<%title%>.base-path:api.base-path:$BASE_PATH}<%={{ }}=%>"
-){{/useRequestMappingOnInterface}}
+{{#useRequestMappingOnInterface}}
+{{=<% %>=}}
+@HttpExchange("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
+<%={{ }}=%>
+{{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}

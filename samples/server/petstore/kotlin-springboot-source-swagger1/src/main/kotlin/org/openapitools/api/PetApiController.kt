@@ -35,7 +35,7 @@ import kotlin.collections.Map
 @RestController
 @Validated
 @Api(value = "pet", description = "The pet API")
-@RequestMapping("\${api.openAPIPetstore.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
 

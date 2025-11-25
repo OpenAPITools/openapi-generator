@@ -32,7 +32,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.multipartFileTest.base-path:api.base-path:$BASE_PATH}")
+@RequestMapping("\${openapi.multipartFileTest.base-path:\${api.base-path:$BASE_PATH}}")
 class MultipartMixedApiController() {
 
     @Operation(
