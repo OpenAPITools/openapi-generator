@@ -16,6 +16,7 @@
 #include <variant>
 {{/-first}}
 {{/oneOf}}
+#include <boost/optional.hpp>
 {{^parent}}
 {{{defaultInclude}}}
 #include "{{packageName}}/ModelBase.h"
@@ -264,6 +265,15 @@ public:
 protected:
     {{#vars}}
     {{^isInherited}}
+    {{#isNullable}}
+    {{^isEnum}}
+    boost::optional<{{{dataType}}}> m_{{name}};
+    {{/isEnum}}
+    {{#isEnum}}
+    boost::optional<{{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}}> m_{{name}};
+    {{/isEnum}}
+    {{/isNullable}}
+    {{^isNullable}}
     {{^isEnum}}
     {{{dataType}}} m_{{name}};
     {{/isEnum}}
@@ -271,6 +281,7 @@ protected:
     {{^isMap}}{{{datatypeWithEnum}}}{{/isMap}}{{#isMap}}{{{dataType}}}{{/isMap}} m_{{name}};
     {{/isEnum}}
     bool m_{{name}}IsSet;
+    {{/isNullable}}
     {{/isInherited}}
 
     {{/vars}}

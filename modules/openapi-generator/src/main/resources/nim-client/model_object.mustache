@@ -1,0 +1,7 @@
+{{>header}}
+import json
+import tables
+
+# Object represents an arbitrary JSON object
+# Using JsonNode instead of the 'object' keyword to avoid Nim keyword conflicts
+type Object* = JsonNode

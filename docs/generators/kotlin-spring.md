@@ -35,6 +35,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |exceptionHandler|generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )| |true|
 |gradleBuildFile|generate a gradle build file using the Kotlin DSL| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
+|includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.| |false|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dt>**spring-cloud**</dt><dd>Spring-Cloud-Feign client with Spring-Boot auto-configured settings.</dd><dt>**spring-declarative-http-interface**</dt><dd>Spring Declarative Interface client</dd></dl>|spring-boot|
 |modelMutable|Create mutable models| |false|

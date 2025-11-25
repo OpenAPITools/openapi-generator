@@ -219,7 +219,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **testDecodeArrayOfNullableObjectsGet**
-> Array<ComplexObject> testDecodeArrayOfNullableObjectsGet()
+> Array<ComplexObject | null> testDecodeArrayOfNullableObjectsGet()
 
 
 ### Example
@@ -244,7 +244,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Array<ComplexObject>**
+**Array<ComplexObject | null>**
 
 ### Authorization
 
@@ -892,12 +892,7 @@ const apiInstance = new DefaultApi(configuration);
 const request: DefaultApiTestEncodeArrayOfNullableObjectsPostRequest = {
   
   complexObject: [
-    {
-      requiredProperty: "requiredProperty_example",
-      requiredNullableProperty: "requiredNullableProperty_example",
-      optionalProperty: "optionalProperty_example",
-      optionalNullableProperty: "optionalNullableProperty_example",
-    },
+    null,
   ],
 };
 
@@ -910,7 +905,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **complexObject** | **Array<ComplexObject>**|  |
+ **complexObject** | **Array<ComplexObject | null>**|  |
 
 
 ### Return type
@@ -1059,12 +1054,7 @@ const apiInstance = new DefaultApi(configuration);
 const request: DefaultApiTestEncodeCompositeObjectsPostRequest = {
   
   compositeObject: {
-    optionalNullableInnerObject: {
-      requiredProperty: "requiredProperty_example",
-      requiredNullableProperty: "requiredNullableProperty_example",
-      optionalProperty: "optionalProperty_example",
-      optionalNullableProperty: "optionalNullableProperty_example",
-    },
+    optionalNullableInnerObject: null,
   },
 };
 
@@ -1179,12 +1169,7 @@ const apiInstance = new DefaultApi(configuration);
 const request: DefaultApiTestEncodeMapOfObjectsPostRequest = {
   
   requestBody: {
-    "key": {
-      requiredProperty: "requiredProperty_example",
-      requiredNullableProperty: "requiredNullableProperty_example",
-      optionalProperty: "optionalProperty_example",
-      optionalNullableProperty: "optionalNullableProperty_example",
-    },
+    "key": null,
   },
 };
 

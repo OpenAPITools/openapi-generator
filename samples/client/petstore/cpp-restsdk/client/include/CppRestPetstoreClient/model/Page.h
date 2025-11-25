@@ -18,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Page_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_Page_H_
 
+#include <boost/optional.hpp>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 
