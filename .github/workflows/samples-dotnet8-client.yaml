@@ -19,7 +19,7 @@ jobs:
           - samples/client/petstore/csharp/restsharp/net8/useVirtualForHooks/
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.0.0
+      - uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '8.0.x'
       - name: Build
