@@ -414,4 +414,20 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
   }
 {{/discriminator}}
+{{#composedSchemas}}
+{{#oneOf}}
+{{^vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
+  /**
+   * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
+   * the ClassCastException will be thrown.
+   *
+   * @return The actual instance of `{{{dataType}}}`
+   * @throws ClassCastException if the instance is not `{{{dataType}}}`
+   */
+  public {{{dataType}}} get{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() throws ClassCastException {
+      return ({{{dataType}}})this;
+  }
+{{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
+{{/oneOf}}
+{{/composedSchemas}}
 }
