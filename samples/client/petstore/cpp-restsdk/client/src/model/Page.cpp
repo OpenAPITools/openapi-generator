@@ -40,17 +40,17 @@ web::json::value Page::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_PageIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("page"))] = ModelBase::toJson(m_Page);
     }
     if(m_PerPageIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("perPage"))] = ModelBase::toJson(m_PerPage);
     }
     if(m_Reference_testIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("reference_test"))] = ModelBase::toJson(m_Reference_test);
     }

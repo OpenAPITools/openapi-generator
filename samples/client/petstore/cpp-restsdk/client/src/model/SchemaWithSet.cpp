@@ -37,12 +37,12 @@ web::json::value SchemaWithSet::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_CertificatesIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("certificates"))] = ModelBase::toJson(m_Certificates);
     }
     if(m_VaccinationBookIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("vaccinationBook"))] = ModelBase::toJson(m_VaccinationBook);
     }

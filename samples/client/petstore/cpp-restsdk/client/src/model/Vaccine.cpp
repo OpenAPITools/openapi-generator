@@ -20,7 +20,6 @@ namespace model {
 
 Vaccine::Vaccine()
 {
-    m_dateIsSet = false;
     m_BoosterRequired = false;
     m_BoosterRequiredIsSet = false;
 }
@@ -37,13 +36,13 @@ void Vaccine::validate()
 web::json::value Vaccine::toJson() const
 {
     web::json::value val = web::json::value::object();
-    if(m_dateIsSet)
-    {   
+    if(m_date.has_value())
+    {
         
-        val[utility::conversions::to_string_t(_XPLATSTR("date"))] = ModelBase::toJson(m_date);
+        val[utility::conversions::to_string_t(_XPLATSTR("date"))] = ModelBase::toJson(m_date.get());
     }
     if(m_BoosterRequiredIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("boosterRequired"))] = ModelBase::toJson(m_BoosterRequired);
     }
@@ -86,9 +85,9 @@ void Vaccine::toMultipart(std::shared_ptr<MultipartFormData> multipart, const ut
     {
         namePrefix += utility::conversions::to_string_t(_XPLATSTR("."));
     }
-    if(m_dateIsSet)
+    if(m_date.has_value())
     {
-        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("date")), m_date));
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t(_XPLATSTR("date")), m_date.get()));
     }
     if(m_BoosterRequiredIsSet)
     {
@@ -123,24 +122,23 @@ bool Vaccine::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const 
 
 std::shared_ptr<AnyType> Vaccine::getDate() const
 {
-    return m_date;
+    return m_date.get();
 }
 
 
 void Vaccine::setDate(const std::shared_ptr<AnyType>& value)
 {
     m_date = value;
-    m_dateIsSet = true;
 }
 
 bool Vaccine::dateIsSet() const
 {
-    return m_dateIsSet;
+    return m_date.has_value();
 }
 
 void Vaccine::unsetdate()
 {
-    m_dateIsSet = false;
+    m_date.reset();
 }
 bool Vaccine::isBoosterRequired() const
 {
