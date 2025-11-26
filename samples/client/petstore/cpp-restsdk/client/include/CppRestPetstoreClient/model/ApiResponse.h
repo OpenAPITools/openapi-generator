@@ -18,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_ApiResponse_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_ApiResponse_H_
 
+#include <boost/optional.hpp>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 

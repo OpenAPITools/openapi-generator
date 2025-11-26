@@ -37,6 +37,9 @@ import java.util.Objects;
 import java.util.zip.GZIPOutputStream;
 {{/useGzipFeature}}
 import java.util.stream.Collectors;
+{{#useUnaryInterceptor}}
+import java.util.function.UnaryOperator;
+{{/useUnaryInterceptor}}
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -64,8 +67,14 @@ public class ApiClient {
   protected int port;
   protected String basePath;
   protected Consumer<HttpRequest.Builder> interceptor;
+{{#useUnaryInterceptor}}
+  protected UnaryOperator<HttpResponse<InputStream>> responseInterceptor;
+  protected UnaryOperator<HttpResponse<InputStream>> asyncResponseInterceptor;
+{{/useUnaryInterceptor}}
+{{^useUnaryInterceptor}}
   protected Consumer<HttpResponse<InputStream>> responseInterceptor;
   protected Consumer<HttpResponse<InputStream>> asyncResponseInterceptor;
+{{/useUnaryInterceptor}}
   protected Duration readTimeout;
   protected Duration connectTimeout;
 
@@ -361,12 +370,12 @@ public class ApiClient {
    * Set a custom response interceptor.
    *
    * <p>This is useful for logging, monitoring or extraction of header variables</p>
-   *
+   *{{#useUnaryInterceptor}} <p>If you are using the UnaryInterceptor you can even manipulate the response to a certain degree</p>{{/useUnaryInterceptor}}
    * @param interceptor A function invoked before creating each request. A value
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
+  public ApiClient setResponseInterceptor({{#useUnaryInterceptor}}UnaryOperator{{/useUnaryInterceptor}}{{^useUnaryInterceptor}}Consumer{{/useUnaryInterceptor}}<HttpResponse<InputStream>> interceptor) {
     this.responseInterceptor = interceptor;
     return this;
   }
@@ -376,7 +385,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public Consumer<HttpResponse<InputStream>> getResponseInterceptor() {
+  public {{#useUnaryInterceptor}}UnaryOperator{{/useUnaryInterceptor}}{{^useUnaryInterceptor}}Consumer{{/useUnaryInterceptor}}<HttpResponse<InputStream>> getResponseInterceptor() {
     return responseInterceptor;
   }
 
@@ -384,12 +393,12 @@ public class ApiClient {
    * Set a custom async response interceptor. Use this interceptor when asyncNative is set to 'true'.
    *
    * <p>This is useful for logging, monitoring or extraction of header variables</p>
-   *
+   *{{#useUnaryInterceptor}} <p>If you are using the UnaryInterceptor you can even manipulate the response to a certain degree</p>{{/useUnaryInterceptor}}
    * @param interceptor A function invoked before creating each request. A value
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
+  public ApiClient setAsyncResponseInterceptor({{#useUnaryInterceptor}}UnaryOperator{{/useUnaryInterceptor}}{{^useUnaryInterceptor}}Consumer{{/useUnaryInterceptor}}<HttpResponse<InputStream>> interceptor) {
     this.asyncResponseInterceptor = interceptor;
     return this;
   }
@@ -399,7 +408,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public Consumer<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
+  public {{#useUnaryInterceptor}}UnaryOperator{{/useUnaryInterceptor}}{{^useUnaryInterceptor}}Consumer{{/useUnaryInterceptor}}<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
     return asyncResponseInterceptor;
   }
 

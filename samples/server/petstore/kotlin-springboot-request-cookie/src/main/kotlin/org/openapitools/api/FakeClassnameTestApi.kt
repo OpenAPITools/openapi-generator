@@ -48,12 +48,19 @@ interface FakeClassnameTestApi {
         security = [ SecurityRequirement(name = "api_key_query") ]
     )
     @RequestMapping(
-            method = [RequestMethod.PATCH],
-            value = ["/fake_classname_test"],
-            produces = ["application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.PATCH],
+        value = [PATH_TEST_CLASSNAME /* "/fake_classname_test" */],
+        produces = ["application/json"],
+        consumes = ["application/json"]
     )
-    fun testClassname(@Parameter(description = "client model", required = true) @Valid @RequestBody client: Client): ResponseEntity<Client> {
+    fun testClassname(
+        @Parameter(description = "client model", required = true) @Valid @RequestBody client: Client
+    ): ResponseEntity<Client> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_TEST_CLASSNAME: String = "/fake_classname_test"
     }
 }

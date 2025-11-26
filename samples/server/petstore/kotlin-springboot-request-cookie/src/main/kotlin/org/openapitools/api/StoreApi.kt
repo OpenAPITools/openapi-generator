@@ -48,10 +48,12 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/store/order/{order_id}"]
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_ORDER /* "/store/order/{order_id}" */]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+        @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -66,9 +68,9 @@ interface StoreApi {
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/inventory"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -86,11 +88,13 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/order/{order_id}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{order_id}" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -105,12 +109,22 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json"]
     )
-    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(
+        @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_DELETE_ORDER: String = "/store/order/{order_id}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{order_id}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
     }
 }

@@ -24,12 +24,11 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface UserApi {
 
     @HttpExchange(
-        url = PATH_CREATE_USER,
+        url = PATH_CREATE_USER /* "/user" */,
         method = "POST"
     )
     fun createUser(
@@ -38,7 +37,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT,
+        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */,
         method = "POST"
     )
     fun createUsersWithArrayInput(
@@ -47,7 +46,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_LIST_INPUT,
+        url = PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */,
         method = "POST"
     )
     fun createUsersWithListInput(
@@ -56,7 +55,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_DELETE_USER,
+        url = PATH_DELETE_USER /* "/user/{username}" */,
         method = "DELETE"
     )
     fun deleteUser(
@@ -65,7 +64,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_GET_USER_BY_NAME,
+        url = PATH_GET_USER_BY_NAME /* "/user/{username}" */,
         method = "GET"
     )
     fun getUserByName(
@@ -74,7 +73,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_LOGIN_USER,
+        url = PATH_LOGIN_USER /* "/user/login" */,
         method = "GET"
     )
     fun loginUser(
@@ -84,7 +83,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_LOGOUT_USER,
+        url = PATH_LOGOUT_USER /* "/user/logout" */,
         method = "GET"
     )
     fun logoutUser(
@@ -92,7 +91,7 @@ interface UserApi {
 
 
     @HttpExchange(
-        url = PATH_UPDATE_USER,
+        url = PATH_UPDATE_USER /* "/user/{username}" */,
         method = "PUT"
     )
     fun updateUser(

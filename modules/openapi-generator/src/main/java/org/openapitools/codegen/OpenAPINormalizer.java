@@ -696,6 +696,11 @@ public class OpenAPINormalizer {
      * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+        // normalize reference schema
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            normalizeReferenceSchema(schema);
+        }
+
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
@@ -763,6 +768,30 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+    /**
+     * Normalize reference schema with allOf to support sibling properties
+     *
+     * @param schema         Schema
+     */
+    protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getTitle() != null || schema.getDescription() != null
+                || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
+                || schema.getMaximum() != null || schema.getMinimum() != null
+                || schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null
+                || schema.getMaxItems() != null || schema.getMinItems() != null
+                || schema.getMaxProperties() != null || schema.getMinProperties() != null
+                || schema.getMaxLength() != null || schema.getMinLength() != null
+                || schema.getWriteOnly() != null || schema.getReadOnly() != null
+                || schema.getExample() != null || (schema.getExamples() != null && !schema.getExamples().isEmpty())
+                || schema.getMultipleOf() != null || schema.getPattern() != null
+                || (schema.getExtensions() != null && !schema.getExtensions().isEmpty())
+        ) {
+            // create allOf with a $ref schema
+            schema.addAllOfItem(new Schema<>().$ref(schema.get$ref()));
+            // clear $ref in original schema
+            schema.set$ref(null);
+        }
+    }
 
     /**
      * Check if normalization is needed.
