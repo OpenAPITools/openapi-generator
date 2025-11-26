@@ -29,7 +29,12 @@ import io.swagger.annotations.AuthorizationScope
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
+{{^useResponseEntity}}
+import org.springframework.http.HttpStatus
+{{/useResponseEntity}}
+{{#useResponseEntity}}
 import org.springframework.http.ResponseEntity
+{{/useResponseEntity}}
 
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated
@@ -45,19 +50,22 @@ import reactor.core.publisher.Mono
 import kotlin.collections.List
 import kotlin.collections.Map
 
-{{#useRequestMappingOnInterface}}@HttpExchange(
-"{{=<% %>=}}\${api.base-path:$BASE_PATH}<%={{ }}=%>"
-){{/useRequestMappingOnInterface}}
+{{#useRequestMappingOnInterface}}
+{{=<% %>=}}
+@HttpExchange("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
+<%={{ }}=%>
+{{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated
 {{/useBeanValidation}}
 {{#operations}}
 interface {{classname}} {
 
-{{#operation}}
-    {{#httpMethod}}
-    @HttpExchange(
-        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
+{{#operation}}{{!
+}}{{^useResponseEntity}}    @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
+{{/useResponseEntity}}{{!
+}}{{#httpMethod}}    @HttpExchange(
+        url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}} /* "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}" */,
         method = "{{httpMethod}}"
     )
     {{/httpMethod}}{{!

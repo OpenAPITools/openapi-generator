@@ -24,12 +24,11 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface StoreApi {
 
     @HttpExchange(
-        url = PATH_DELETE_ORDER,
+        url = PATH_DELETE_ORDER /* "/store/order/{orderId}" */,
         method = "DELETE"
     )
     fun deleteOrder(
@@ -38,7 +37,7 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_GET_INVENTORY,
+        url = PATH_GET_INVENTORY /* "/store/inventory" */,
         method = "GET"
     )
     fun getInventory(
@@ -46,7 +45,7 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_GET_ORDER_BY_ID,
+        url = PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */,
         method = "GET"
     )
     fun getOrderById(
@@ -55,7 +54,7 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_PLACE_ORDER,
+        url = PATH_PLACE_ORDER /* "/store/order" */,
         method = "POST"
     )
     fun placeOrder(

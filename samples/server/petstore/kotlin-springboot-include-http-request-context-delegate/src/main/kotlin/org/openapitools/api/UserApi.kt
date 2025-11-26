@@ -47,15 +47,20 @@ interface UserApi {
     @ApiOperation(
         value = "Create user",
         nickname = "createUser",
-        notes = "")
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
-    @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user"],
-            consumes = ["application/json"]
+        notes = ""
     )
-    suspend fun createUser(@ApiParam(value = "", required = true) @Valid @RequestBody user: User, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_CREATE_USER /* "/user" */],
+        consumes = ["application/json"]
+    )
+    suspend fun createUser(
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: User,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Unit> {
         return getDelegate().createUser(user, exchange)
     }
 
@@ -63,15 +68,20 @@ interface UserApi {
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithArrayInput",
-        notes = "")
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
-    @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user/createWithArray"],
-            consumes = ["application/json"]
+        notes = ""
     )
-    suspend fun createUsersWithArrayInput(@ApiParam(value = "", required = true) @Valid @RequestBody user: Flow<User>, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */],
+        consumes = ["application/json"]
+    )
+    suspend fun createUsersWithArrayInput(
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: Flow<User>,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Unit> {
         return getDelegate().createUsersWithArrayInput(user, exchange)
     }
 
@@ -79,15 +89,20 @@ interface UserApi {
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithListInput",
-        notes = "")
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
-    @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/user/createWithList"],
-            consumes = ["application/json"]
+        notes = ""
     )
-    suspend fun createUsersWithListInput(@ApiParam(value = "", required = true) @Valid @RequestBody user: Flow<User>, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */],
+        consumes = ["application/json"]
+    )
+    suspend fun createUsersWithListInput(
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: Flow<User>,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Unit> {
         return getDelegate().createUsersWithListInput(user, exchange)
     }
 
@@ -95,14 +110,19 @@ interface UserApi {
     @ApiOperation(
         value = "Delete user",
         nickname = "deleteUser",
-        notes = "")
-    @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid username supplied"), ApiResponse(code = 404, message = "User not found")])
-    @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/user/{username}"]
+        notes = ""
     )
-    suspend fun deleteUser(@ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
+    @ApiResponses(
+        value = [ApiResponse(code = 400, message = "Invalid username supplied"), ApiResponse(code = 404, message = "User not found")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_USER /* "/user/{username}" */]
+    )
+    suspend fun deleteUser(
+        @ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Unit> {
         return getDelegate().deleteUser(username, exchange)
     }
 
@@ -111,15 +131,20 @@ interface UserApi {
         value = "Get user by user name",
         nickname = "getUserByName",
         notes = "",
-        response = User::class)
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = User::class), ApiResponse(code = 400, message = "Invalid username supplied"), ApiResponse(code = 404, message = "User not found")])
-    @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/{username}"],
-            produces = ["application/json"]
+        response = User::class
     )
-    suspend fun getUserByName(@ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<User> {
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = User::class), ApiResponse(code = 400, message = "Invalid username supplied"), ApiResponse(code = 404, message = "User not found")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
+        produces = ["application/json"]
+    )
+    suspend fun getUserByName(
+        @ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<User> {
         return getDelegate().getUserByName(username, exchange)
     }
 
@@ -128,15 +153,21 @@ interface UserApi {
         value = "Logs user into the system",
         nickname = "loginUser",
         notes = "",
-        response = kotlin.String::class)
-    @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class), ApiResponse(code = 400, message = "Invalid username/password supplied")])
-    @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/login"],
-            produces = ["application/json"]
+        response = kotlin.String::class
     )
-    suspend fun loginUser(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<kotlin.String> {
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class), ApiResponse(code = 400, message = "Invalid username/password supplied")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_LOGIN_USER /* "/user/login" */],
+        produces = ["application/json"]
+    )
+    suspend fun loginUser(
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<kotlin.String> {
         return getDelegate().loginUser(username, password, exchange)
     }
 
@@ -144,12 +175,14 @@ interface UserApi {
     @ApiOperation(
         value = "Logs out current logged in user session",
         nickname = "logoutUser",
-        notes = "")
+        notes = ""
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/user/logout"]
+        method = [RequestMethod.GET],
+        value = [PATH_LOGOUT_USER /* "/user/logout" */]
     )
     suspend fun logoutUser(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
         return getDelegate().logoutUser(exchange)
@@ -159,15 +192,33 @@ interface UserApi {
     @ApiOperation(
         value = "Updated user",
         nickname = "updateUser",
-        notes = "")
-    @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid user supplied"), ApiResponse(code = 404, message = "User not found")])
-    @RequestMapping(
-            method = [RequestMethod.PUT],
-            value = ["/user/{username}"],
-            consumes = ["application/json"]
+        notes = ""
     )
-    suspend fun updateUser(@ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,@ApiParam(value = "", required = true) @Valid @RequestBody user: User, @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
+    @ApiResponses(
+        value = [ApiResponse(code = 400, message = "Invalid user supplied"), ApiResponse(code = 404, message = "User not found")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.PUT],
+        value = [PATH_UPDATE_USER /* "/user/{username}" */],
+        consumes = ["application/json"]
+    )
+    suspend fun updateUser(
+        @ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: User,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Unit> {
         return getDelegate().updateUser(username, user, exchange)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_CREATE_USER: String = "/user"
+        const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
+        const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"
+        const val PATH_DELETE_USER: String = "/user/{username}"
+        const val PATH_GET_USER_BY_NAME: String = "/user/{username}"
+        const val PATH_LOGIN_USER: String = "/user/login"
+        const val PATH_LOGOUT_USER: String = "/user/logout"
+        const val PATH_UPDATE_USER: String = "/user/{username}"
     }
 }

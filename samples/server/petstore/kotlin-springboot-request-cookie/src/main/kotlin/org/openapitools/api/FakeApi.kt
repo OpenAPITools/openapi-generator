@@ -47,11 +47,18 @@ interface FakeApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/fake/cookie-suggestion"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_FAKE_COOKIE_SUGGESTION /* "/fake/cookie-suggestion" */],
+        produces = ["application/json"]
     )
-    fun fakeCookieSuggestion(@NotNull @CookieValue(name = "category.history") categoryHistory: kotlin.String): ResponseEntity<List<Pet>> {
+    fun fakeCookieSuggestion(
+        @NotNull @CookieValue(name = "category.history") categoryHistory: kotlin.String
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_FAKE_COOKIE_SUGGESTION: String = "/fake/cookie-suggestion"
     }
 }
