@@ -39,7 +39,10 @@ jobs:
 
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: cargo build --all-targets --all-features
+        run: |
+          set -e
+          cargo build --all-targets --all-features
+          cargo build --all-targets --no-default-features
       - name: Tests
         working-directory: ${{ matrix.sample }}
         run: |
