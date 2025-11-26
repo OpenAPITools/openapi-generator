@@ -66,7 +66,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     ResponseEntity<Void> addPet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) throws Exception;
 
 
@@ -245,7 +245,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     ResponseEntity<Void> updatePet(
-        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) throws Exception;
 
 
