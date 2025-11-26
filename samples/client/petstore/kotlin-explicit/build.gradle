@@ -51,9 +51,11 @@ spotless {
 test {
     useJUnitPlatform()
 }
+
 kotlin {
     explicitApi()
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -65,7 +67,7 @@ dependencies {
 }
 
 java {
-  withSourcesJar()
+    withSourcesJar()
 }
 
 publishing {

@@ -55,6 +55,7 @@ test {
     useJUnitPlatform()
 }
 
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
@@ -73,7 +74,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 
 java {
-  withSourcesJar()
+    withSourcesJar()
 }
 
 publishing {
