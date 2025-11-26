@@ -60,3 +60,18 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:5.1.0"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
+
+java {
+  withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-petstore-string'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}

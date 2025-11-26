@@ -66,3 +66,18 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
+
+java {
+  withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-petstore-spring-restclient'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}
