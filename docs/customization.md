@@ -538,6 +538,7 @@ OpenAPI Normalizer transforms the input OpenAPI doc/spec (which may not perfectl
 
 - SIMPLIFY_ONEOF_ANYOF 
 - SIMPLIFY_BOOLEAN_ENUM
+- SIMPLIFY_ONEOF_ANYOF_ENUM
 - REFACTOR_ALLOF_WITH_PROPERTIES_ONLY
 
 (One can use `DISABLE_ALL=true` to disable all the rules)
@@ -565,8 +566,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/simplifyAnyOfStringAndEnumString_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING=true
 ```
 
-- `SIMPLIFY_ONEOF_ANYOF_ENUM`: when set to true, oneOf/anyOf with only enum sub-schemas all containing enum values will be converted to a single enum 
-This is enabled by default
+- `SIMPLIFY_ONEOF_ANYOF_ENUM`: when set to true, oneOf/anyOf with only enum sub-schemas all containing enum values will be converted to a single enum. This is enabled by default.
 
 Example:
 
