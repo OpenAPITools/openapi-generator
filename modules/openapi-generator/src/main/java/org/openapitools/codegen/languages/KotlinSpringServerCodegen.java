@@ -34,6 +34,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -998,6 +999,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                             }
                         });
                     });
+                }
+                if (operation.bodyParam != null && operation.bodyParam.getContent() != null && !operation.bodyParam.getContent().isEmpty()) {
+                    List<Map<String,Object>> contentList = new ArrayList<>();
+                    operation.bodyParam.getContent().forEach((mediaType, mediaTypeObject) -> {
+                        Map<String,Object> entry = new HashMap<>();
+                        entry.put("mediaType", mediaType);
+                        entry.put("schema", mediaTypeObject.getSchema());
+                        if (mediaTypeObject.getExamples() != null && !mediaTypeObject.getExamples().isEmpty()) {
+                            entry.put("examples", ExamplesUtils.unaliasExamples(openAPI, mediaTypeObject.getExamples()));
+                        }
+                        contentList.add(entry);
+                    });
+                    operation.bodyParam.vendorExtensions.put("content", contentList);
+
                 }
 
                 final List<CodegenParameter> allParams = operation.allParams;

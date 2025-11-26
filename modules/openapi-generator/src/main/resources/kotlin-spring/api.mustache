@@ -76,6 +76,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         summary = "{{{summary}}}",
         operationId = "{{{operationId}}}",
         description = """{{{unescapedNotes}}}""",
+        requestBody = {{>requestBody}},
         responses = [{{#responses}}
             ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}} ]{{#hasAuthMethods}},
         security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}

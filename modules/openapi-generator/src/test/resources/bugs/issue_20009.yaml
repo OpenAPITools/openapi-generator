@@ -1,0 +1,55 @@
+openapi: "3.0.0"
+info:
+  version: 2.0.0
+  title: test
+paths:
+  /pets:
+    post:
+      operationId: postPet
+      description: Creates a pet
+      requestBody:
+        description: Request body to create a pet
+        required: true
+        content:
+          application/vnd.api.v2+json:
+            schema:
+              $ref: '#/components/schemas/ObjectSchema'
+            examples:
+              V2ReferencedExample:
+                $ref: '#/components/examples/V2ReferencedExample'
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              NonReferencedExample:
+                description: "Non referenced Example"
+                value: 'example6 value'
+              ReferencedExample:
+                $ref: '#/components/examples/ReferencedExample'
+      responses:
+        '200':
+          description: successful operation
+
+components:
+  schemas:
+    ObjectSchema:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+  examples:
+    ReferencedExample:
+      summary: An example of ReferencedExample
+      value:
+        example_schema_property: example schema property value from referenced example
+        another_example_schema_property: another example schema property value from referenced example
+    V2ReferencedExample:
+      summary: An example of ReferencedExample for version 2
+      value:
+        v2_example_schema_property: example schema property value from referenced example
+        v2_another_example_schema_property: another example schema property value from referenced example
