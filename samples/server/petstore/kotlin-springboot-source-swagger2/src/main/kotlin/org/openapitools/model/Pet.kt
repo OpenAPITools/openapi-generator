@@ -31,24 +31,30 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Pet(
 
     @Schema(example = "doggie", required = true, description = "")
-    @get:JsonProperty("name", required = true) val name: kotlin.String,
+    @get:JsonProperty("name", required = true)
+    val name: kotlin.String,
 
     @Schema(example = "null", required = true, description = "")
-    @get:JsonProperty("photoUrls", required = true) val photoUrls: kotlin.collections.List<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true)
+    val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
-
-    @field:Valid
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("category") val category: Category? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
     @field:Valid
-    @Schema(example = "null", description = "")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("category", required = false)
+    val category: Category? = null,
 
-    @Schema(example = "null", description = "pet status in the store")
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @field:Valid
+    @Schema(example = "null", required = false, description = "")
+    @get:JsonProperty("tags", required = false)
+    val tags: kotlin.collections.List<Tag>? = null,
+
+    @Schema(example = "null", required = false, description = "pet status in the store")
+    @get:JsonProperty("status", required = false)
+    val status: Pet.Status? = null
 ) : Serializable {
 
     /**

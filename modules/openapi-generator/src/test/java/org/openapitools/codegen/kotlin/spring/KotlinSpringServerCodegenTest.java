@@ -2400,6 +2400,141 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateModelWithRequiredFalseWithDefaults() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path dogPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                dogPath,
+                // [not required, not nullable, no default ] => value is nullable
+                "@get:JsonProperty(\"category\", required = false)",
+                "override val category: Category? = null",
+                // [not required, not nullable, yes default ] => value is not nullable to disallow explicit passing of null
+                "@get:JsonProperty(\"nonRequiredWithDefaultList\", required = false)",
+                "override val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String> = arrayListOf(\"just some default string\",\"another default string\"),",
+                "@get:JsonProperty(\"nonRequiredWithDefaultSet\", required = false)",
+                "override val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String> = setOf(\"more strings\",\"look, it's a string!\")",
+                "@get:JsonProperty(\"nonRequiredWithDefaultString\", required = false)",
+                "override val nonRequiredWithDefaultString: kotlin.String = \"defaultValue\"",
+                "@get:JsonProperty(\"nonRequiredWithDefaultInt\", required = false)",
+                "override val nonRequiredWithDefaultInt: java.math.BigDecimal = java.math.BigDecimal(\"15\")",
+                "@get:JsonProperty(\"nonRequiredWithDefaultLong\", required = false)",
+                "override val nonRequiredWithDefaultLong: java.math.BigDecimal = java.math.BigDecimal(\"15\")",
+                "@get:JsonProperty(\"nonRequiredWithDefaultFloat\", required = false)",
+                "override val nonRequiredWithDefaultFloat: kotlin.Float = 15.45f",
+                "@get:JsonProperty(\"nonRequiredWithDefaultDouble\", required = false)",
+                "override val nonRequiredWithDefaultDouble: kotlin.Double = 15.45",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnum\", required = false)",
+                "override val nonRequiredWithDefaultEnum: SomeEnum = SomeEnum.ENUMVALUE1",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnumList\", required = false)",
+                "override val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum> = arrayListOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)",
+                "@get:JsonProperty(\"nonRequiredWithDefaultEnumSet\", required = false)",
+                "override val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum> = setOf(SomeEnum.ENUMVALUE3,SomeEnum.ENUMVALUE1)",
+                // [not required, yes nullable, yes default [null] ] => value is nullable to allow explicit passing of null
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullString\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullString: kotlin.String? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullInt\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullLong\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullFloat\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullFloat: kotlin.Float? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullDouble\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullDouble: kotlin.Double? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnum\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnumList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNullEnumSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>? = null",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullList\", required = false)",
+                // [not required, yes nullable, yes default [non null] ] => value is nullable to allow explicit passing of null
+                "override val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>? = arrayListOf(\"some string\",\"another string\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>? = setOf(\"some string\",\"another string\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullString\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullString: kotlin.String? = \"some string\"",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullInt\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal? = java.math.BigDecimal(\"42\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullLong\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal? = java.math.BigDecimal(\"42\")",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullFloat\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float? = 15.45f",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullDouble\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double? = 15.45",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnum\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault? = SomeNullableEnumWithNonNullDefault.ENUMVALUE1",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnumList\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>? = arrayListOf(SomeEnum.ENUMVALUE1)",
+                "@get:JsonProperty(\"nonRequiredNullableWithDefaultNonNullEnumSet\", required = false)",
+                "override val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>? = setOf(SomeEnum.ENUMVALUE1)"
+        );
+
+        Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(
+                petPath,
+                // [not required, not nullable, no default ] => value is nullable
+                "override val category: Category?",
+                // [not required, not nullable, yes default ] => value is not nullable to disallow explicit passing of null
+                "val nonRequiredWithDefaultList: kotlin.collections.List<kotlin.String>",
+                "val nonRequiredWithDefaultSet: kotlin.collections.Set<kotlin.String>",
+                "val nonRequiredWithDefaultString: kotlin.String",
+                "val nonRequiredWithDefaultInt: java.math.BigDecimal",
+                "val nonRequiredWithDefaultLong: java.math.BigDecimal",
+                "val nonRequiredWithDefaultFloat: kotlin.Float",
+                "val nonRequiredWithDefaultDouble: kotlin.Double",
+                "val nonRequiredWithDefaultEnum: SomeEnum",
+                "val nonRequiredWithDefaultEnumList: kotlin.collections.List<SomeEnum>",
+                "val nonRequiredWithDefaultEnumSet: kotlin.collections.Set<SomeEnum>",
+                // [not required, yes nullable, yes default [null] ] => value is nullable to allow explicit passing of null
+                "val nonRequiredNullableWithDefaultNullList: kotlin.collections.List<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNullSet: kotlin.collections.Set<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNullString: kotlin.String?",
+                "val nonRequiredNullableWithDefaultNullInt: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNullLong: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNullFloat: kotlin.Float?",
+                "val nonRequiredNullableWithDefaultNullDouble: kotlin.Double?",
+                "val nonRequiredNullableWithDefaultNullEnum: SomeNullableEnumWithNullDefault?",
+                "val nonRequiredNullableWithDefaultNullEnumList: kotlin.collections.List<SomeEnum>?",
+                "val nonRequiredNullableWithDefaultNullEnumSet: kotlin.collections.Set<SomeEnum>?",
+                // [not required, yes nullable, yes default [non null] ] => value is nullable to allow explicit passing of null
+                "val nonRequiredNullableWithDefaultNonNullList: kotlin.collections.List<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNonNullSet: kotlin.collections.Set<kotlin.String>?",
+                "val nonRequiredNullableWithDefaultNonNullString: kotlin.String?",
+                "val nonRequiredNullableWithDefaultNonNullInt: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNonNullLong: java.math.BigDecimal?",
+                "val nonRequiredNullableWithDefaultNonNullFloat: kotlin.Float?",
+                "val nonRequiredNullableWithDefaultNonNullDouble: kotlin.Double?",
+                "val nonRequiredNullableWithDefaultNonNullEnum: SomeNullableEnumWithNonNullDefault?",
+                "val nonRequiredNullableWithDefaultNonNullEnumList: kotlin.collections.List<SomeEnum>?",
+                "val nonRequiredNullableWithDefaultNonNullEnumSet: kotlin.collections.Set<SomeEnum>?"
+        );
+    }
+
+    @Test
     public void reactiveWithoutFlow() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();

@@ -28,29 +28,37 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class User(
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("username") val username: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("username", required = false)
+    val username: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("firstName", required = false)
+    val firstName: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("lastName", required = false)
+    val lastName: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("email") val email: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("email", required = false)
+    val email: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("password") val password: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("password", required = false)
+    val password: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("phone") val phone: kotlin.String? = null,
+    @ApiModelProperty(example = "null", required = false, value = "")
+    @get:JsonProperty("phone", required = false)
+    val phone: kotlin.String? = null,
 
-    @ApiModelProperty(example = "null", value = "User Status")
-    @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @ApiModelProperty(example = "null", required = false, value = "User Status")
+    @get:JsonProperty("userStatus", required = false)
+    val userStatus: kotlin.Int? = null
 ) : Serializable {
 
     companion object {

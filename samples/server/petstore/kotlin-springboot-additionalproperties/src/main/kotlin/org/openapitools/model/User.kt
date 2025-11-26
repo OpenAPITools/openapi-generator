@@ -27,21 +27,29 @@ import jakarta.validation.Valid
  */
 data class User(
 
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id", required = false)
+    val id: kotlin.Long? = null,
 
-    @get:JsonProperty("username") val username: kotlin.String? = null,
+    @get:JsonProperty("username", required = false)
+    val username: kotlin.String? = null,
 
-    @get:JsonProperty("firstName") val firstName: kotlin.String? = null,
+    @get:JsonProperty("firstName", required = false)
+    val firstName: kotlin.String? = null,
 
-    @get:JsonProperty("lastName") val lastName: kotlin.String? = null,
+    @get:JsonProperty("lastName", required = false)
+    val lastName: kotlin.String? = null,
 
-    @get:JsonProperty("email") val email: kotlin.String? = null,
+    @get:JsonProperty("email", required = false)
+    val email: kotlin.String? = null,
 
-    @get:JsonProperty("password") val password: kotlin.String? = null,
+    @get:JsonProperty("password", required = false)
+    val password: kotlin.String? = null,
 
-    @get:JsonProperty("phone") val phone: kotlin.String? = null,
+    @get:JsonProperty("phone", required = false)
+    val phone: kotlin.String? = null,
 
-    @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
+    @get:JsonProperty("userStatus", required = false)
+    val userStatus: kotlin.Int? = null
 ) : Serializable {
 
     companion object {
