@@ -68,3 +68,18 @@ dependencies {
     implementation "io.projectreactor:reactor-core:3.7.11"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
+
+java {
+  withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-client'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}
