@@ -654,6 +654,53 @@ paths:
         404:
           description: User not found
           content: { }
+  /items/{item$Id}:
+    get:
+      summary: "Retrieve item by $Id"
+      description: "Get an item using the $symbol in parameter and property names."
+      parameters:
+        - name: "item$Id"
+          in: path
+          required: true
+          description: "The $prefixed ID of the item."
+          schema:
+            type: string
+            example: "item$123"
+        - name: "filter$Type"
+          in: query
+          required: false
+          description: "Optional $filter for item type."
+          schema:
+            type: string
+            example: "type$A"
+      responses:
+        '200':
+          description: "Successful $response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item$Id:
+                    type: string
+                    description: "The $ID of the item."
+                    example: "item$123"
+                  name$Value:
+                    type: string
+                    description: "The $name of the item."
+                    example: "Item$Name"
+                  details$Info:
+                    type: object
+                    description: "Nested object with $keys."
+                    properties:
+                      detail$One:
+                        type: string
+                        description: "First $detail"
+                        example: "Detail$1"
+                      detail$Two:
+                        type: integer
+                        description: "Second $detail"
+                        example: 42
 components:
   schemas:
     Order:
@@ -786,6 +833,18 @@ components:
         message:
           type: string
       description: Describes the result of uploading an image resource
+    ItemWithDollarAttributesAndExamples:
+      type: object
+      description: "A schema demonstrating $usage in properties."
+      properties:
+        $id:
+          type: string
+          description: "$ID property"
+          example: "$item123"
+        $name:
+          type: string
+          description: "$Name property"
+          example: "$ItemName"
   securitySchemes:
     petstore_auth:
       type: oauth2
