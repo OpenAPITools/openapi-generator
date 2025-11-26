@@ -52,6 +52,7 @@ test {
     useJUnitPlatform()
 }
 
+
 kotlin {
     sourceSets {
         all {
@@ -61,6 +62,7 @@ kotlin {
         }
     }
 }
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -72,7 +74,7 @@ dependencies {
 }
 
 java {
-  withSourcesJar()
+    withSourcesJar()
 }
 
 publishing {
