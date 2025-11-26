@@ -103,3 +103,8 @@ components:
     C:
       allOf:
         - $ref: '#/components/schemas/B'
+    Characteristics:
+      type: object
+      properties:
+        canHunt:
+          type: boolean
