@@ -233,3 +233,18 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     }
 }
 {{/kotlinx_serialization}}
+
+java {
+  withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = '{{groupId}}'
+            artifactId = '{{artifactId}}'
+            version = '{{artifactVersion}}'
+            from components.java
+        }
+    }
+}
