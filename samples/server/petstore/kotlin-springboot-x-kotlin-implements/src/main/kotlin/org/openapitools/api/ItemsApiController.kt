@@ -81,8 +81,8 @@ class ItemsApiController() {
     )
     fun itemsPost(
         @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
-        @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some") @Valid @RequestParam(value = "form$Name", required = false) formDollarName: kotlin.String?,
-        @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some", defaultValue = ""SQ = \"; SBS = \\; DBS = \\\\; SD = $some"") @Valid @RequestParam(value = "form$Value", required = false) formDollarValue: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "form\$Name", required = false) formDollarName: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "form\$Value", required = false) formDollarValue: kotlin.String,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<ItemWithDollarAttributesAndExamples> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
