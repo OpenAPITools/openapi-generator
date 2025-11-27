@@ -2725,44 +2725,37 @@ public class KotlinSpringServerCodegenTest {
                         "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\""
                 )
         ));
-//        assertGeneratedFilesNotContain(Map.of(
-//                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
-//                List.of(
-//                        "SQ = \\\\\";",
-//                        "SBS = \\\\\\\\;",
-//                        "DBS = \\\\\\\\\\\\\\\\;",
-//                        "SD = \\\\$some",
-//                        "@PathVariable(\"item$Id\")",
-//                        "@PathVariable(\"item$SubId\")",
-//                        "@RequestParam(value = \"filter$Type\"",
-//                        "@RequestParam(value = \"filter$SubType\"",
-//                        "@CookieValue(name = \"session$Token\"",
-//                        "@CookieValue(name = \"session$TokenTwo\"",
-//                        "@RequestParam(value = \"form$Name\"",
-//                        "@RequestParam(value = \"form$Value\"",
-//                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item$Id}/something/{item$SubId}\"",
-//                        "/* \"/items/{item\\$Id}/something/{item\\$SubId}\" */"
-//                ),
-//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
-//                List.of(
-//                        "SQ = \\\\\";",
-//                        "SBS = \\\\\\\\;",
-//                        "DBS = \\\\\\\\\\\\\\\\;",
-//                        "SD = \\\\$some",
-//                        "item$Id",
-//                        "name$Value",
-//                        "details$Info"
-//                ),
-//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
-//                List.of(
-//                        "SQ = \\\\\";",
-//                        "SBS = \\\\\\\\;",
-//                        "DBS = \\\\\\\\\\\\\\\\;",
-//                        "SD = \\\\$some",
-//                        "\"$id\"",
-//                        "\"$name\""
-//                )
-//        ));
+        assertGeneratedFilesNotContain(Map.of(
+                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some",
+                        "@PathVariable(\"item$Id\") itemDollarId: kotlin.String",
+                        "@PathVariable(\"item$SubId\") itemDollarSubId: kotlin.String",
+                        "@RequestParam(value = \"filter$Type\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarType: kotlin.String",
+                        "@RequestParam(value = \"filter$SubType\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarSubType: kotlin.String",
+                        "@CookieValue(name = \"session$Token\"",
+                        "@CookieValue(name = \"session$TokenTwo\""
+                ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some",
+                        "* @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some",
+                        "* @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some"
+                ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some"
+                )
+        ));
     }
 
     private Path generateApiSources(
