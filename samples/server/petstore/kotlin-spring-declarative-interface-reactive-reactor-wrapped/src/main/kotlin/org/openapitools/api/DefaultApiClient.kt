@@ -53,7 +53,7 @@ interface DefaultApi {
     fun itemsPost(
         @Parameter(description = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", `in` = ParameterIn.HEADER) @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
         @Parameter(description = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "form\$Name", required = false) formDollarName: kotlin.String?,
-        @Parameter(description = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", schema = Schema(defaultValue = BUBU"SQ = \"; SBS = \\; DBS = \\\\; SD = $some")) @Valid @RequestParam(value = "form\$Value", required = false) formDollarValue: kotlin.String
+        @Parameter(description = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", schema = Schema(defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")) @Valid @RequestParam(value = "form\$Value", required = false) formDollarValue: kotlin.String
     ): Mono<ResponseEntity<ItemWithDollarAttributesAndExamples>>
 
 
