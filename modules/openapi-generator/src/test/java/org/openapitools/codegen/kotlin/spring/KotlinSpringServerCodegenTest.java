@@ -2586,179 +2586,180 @@ public class KotlinSpringServerCodegenTest {
         ));
     }
 
-    @Disabled
-    @Test
-    public void testDollarsAndQuotesSwagger1() {
-        Path apiSources = generateApiSources(
-                "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
-                Map.of(
-                        KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "springfox",
-                        KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
-                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true
-                ),
-                Map.of(
-                        CodegenConstants.MODELS, "true",
-                        CodegenConstants.MODEL_TESTS, "false",
-                        CodegenConstants.MODEL_DOCS, "false",
-                        CodegenConstants.APIS, "true",
-                        CodegenConstants.SUPPORTING_FILES, "false"
-                )
-        );
-        assertGeneratedFilesContain(Map.of(
-                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
-                List.of("value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "@PathVariable(\"item\\$Id\")",
-                        "@PathVariable(\"item\\$SubId\")",
-                        "@RequestParam(value = \"filter\\$Type\"",
-                        "@RequestParam(value = \"filter\\$SubType\"",
-                        "@CookieValue(name = \"session\\$Token\"",
-                        "@CookieValue(name = \"session\\$TokenTwo\"",
-                        "@RequestParam(value = \"form\\$Name\"",
-                        "@RequestParam(value = \"form\\$Value\"",
-                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item\\$Id}/something/{item\\$SubId}\"",
-                        "/* \"/items/{item$Id}/something/{item$SubId}\" */"
-                        ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
-                List.of(
-                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"item\\$Id\") val itemDollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "@get:JsonProperty(\"name\\$Value\") val nameDollarValue: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "@get:JsonProperty(\"details\\$Info\")",
-                        "@param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
-                        "@param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
-                        ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
-                List.of(
-                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"\\$id\") val dollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "* SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
-                        "* @param dollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
-                        "* @param dollarName SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
-                )
-        ));
-        assertGeneratedFilesNotContain(Map.of(
-                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some",
-                        "@PathVariable(\"item$Id\")",
-                        "@PathVariable(\"item$SubId\")",
-                        "@RequestParam(value = \"filter$Type\"",
-                        "@RequestParam(value = \"filter$SubType\"",
-                        "@CookieValue(name = \"session$Token\"",
-                        "@CookieValue(name = \"session$TokenTwo\"",
-                        "@RequestParam(value = \"form$Name\"",
-                        "@RequestParam(value = \"form$Value\"",
-                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item$Id}/something/{item$SubId}\"",
-                        "/* \"/items/{item\\$Id}/something/{item\\$SubId}\" */"
-                        ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some",
-                        "item$Id",
-                        "name$Value",
-                        "details$Info"
-                ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some",
-                        "\"$id\"",
-                        "\"$name\""
-                )
-        ));
-    }
-
-    @Disabled
-    @Test
-    public void testDollarsAndQuotesSwagger2() {
-        Path apiSources = generateApiSources(
-                "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
-                Map.of(
-                        KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "springdoc",
-                        KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
-                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true
-                ),
-                Map.of(
-                        CodegenConstants.MODELS, "true",
-                        CodegenConstants.MODEL_TESTS, "false",
-                        CodegenConstants.MODEL_DOCS, "false",
-                        CodegenConstants.APIS, "true",
-                        CodegenConstants.SUPPORTING_FILES, "false"
-                )
-        );
-        assertGeneratedFilesContain(Map.of(
-                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
-                List.of(
-                        "summary = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
-                        "description = \"\"\"SQ = \"; SBS = \\; DBS = \\\\; SD = ${'$'}some\"\"\"",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", required = true) @PathVariable(\"item\\$Id\") itemDollarId: kotlin.String",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", required = true) @PathVariable(\"item\\$SubId\") itemDollarSubId: kotlin.String",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", schema = Schema(defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")) @Valid @RequestParam(value = \"filter\\$Type\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\") filterDollarType: kotlin.String",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", schema = Schema(defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")) @Valid @RequestParam(value = \"filter\\$SubType\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\") filterDollarSubType: kotlin.String",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"X-Custom_Header\", required = false) xCustomHeader: kotlin.String?",
-                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"X-Custom_Header_two\", required = false) xCustomHeaderTwo: kotlin.String?",
-                        "@CookieValue(name = \"session\\$Token\", required = false) sessionDollarToken: kotlin.String?",
-                        "@CookieValue(name = \"session\\$TokenTwo\", required = false) sessionDollarTokenTwo: kotlin.String?"
-                ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
-                List.of(
-                        "* @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
-                        "* @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
-                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"item\\$Id\") val itemDollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
-                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"name\\$Value\") val nameDollarValue: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
-                        "@get:JsonProperty(\"details\\$Info\")"
-                ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
-                List.of(
-                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"\\$id\") val dollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
-                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
-                        "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\""
-                )
-        ));
-        assertGeneratedFilesNotContain(Map.of(
-                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some",
-                        "@PathVariable(\"item$Id\") itemDollarId: kotlin.String",
-                        "@PathVariable(\"item$SubId\") itemDollarSubId: kotlin.String",
-                        "@RequestParam(value = \"filter$Type\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarType: kotlin.String",
-                        "@RequestParam(value = \"filter$SubType\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarSubType: kotlin.String",
-                        "@CookieValue(name = \"session$Token\"",
-                        "@CookieValue(name = \"session$TokenTwo\""
-                ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some",
-                        "* @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some",
-                        "* @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some"
-                ),
-                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
-                List.of(
-                        "SQ = \\\\\";",
-                        "SBS = \\\\\\\\;",
-                        "DBS = \\\\\\\\\\\\\\\\;",
-                        "SD = \\\\$some"
-                )
-        ));
-    }
+//    @Disabled
+//    @Test
+//    public void testDollarsAndQuotesSwagger1() {
+//        Path apiSources = generateApiSources(
+//                "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
+//                Map.of(
+//                        KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "springfox",
+//                        KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+//                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true
+//                ),
+//                Map.of(
+//                        CodegenConstants.MODELS, "true",
+//                        CodegenConstants.MODEL_TESTS, "false",
+//                        CodegenConstants.MODEL_DOCS, "false",
+//                        CodegenConstants.APIS, "true",
+//                        CodegenConstants.SUPPORTING_FILES, "false"
+//                )
+//        );
+//        assertGeneratedFilesContain(Map.of(
+//                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+//                List.of("value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "@PathVariable(\"item\\$Id\")",
+//                        "@PathVariable(\"item\\$SubId\")",
+//                        "@RequestParam(value = \"filter\\$Type\"",
+//                        "@RequestParam(value = \"filter\\$SubType\"",
+//                        "@CookieValue(name = \"session\\$Token\"",
+//                        "@CookieValue(name = \"session\\$TokenTwo\"",
+//                        "@RequestParam(value = \"form\\$Name\"",
+//                        "@RequestParam(value = \"form\\$Value\"",
+//                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item\\$Id}/something/{item\\$SubId}\"",
+//                        "/* \"/items/{item$Id}/something/{item$SubId}\" */"
+//                        ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+//                List.of(
+//                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"item\\$Id\") val itemDollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "@get:JsonProperty(\"name\\$Value\") val nameDollarValue: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "@get:JsonProperty(\"details\\$Info\")",
+//                        "@param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+//                        "@param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+//                        ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+//                List.of(
+//                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"\\$id\") val dollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "* SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+//                        "* @param dollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+//                        "* @param dollarName SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+//                )
+//        ));
+//        assertGeneratedFilesNotContain(Map.of(
+//                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some",
+//                        "@PathVariable(\"item$Id\")",
+//                        "@PathVariable(\"item$SubId\")",
+//                        "@RequestParam(value = \"filter$Type\"",
+//                        "@RequestParam(value = \"filter$SubType\"",
+//                        "@CookieValue(name = \"session$Token\"",
+//                        "@CookieValue(name = \"session$TokenTwo\"",
+//                        "@RequestParam(value = \"form$Name\"",
+//                        "@RequestParam(value = \"form$Value\"",
+//                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item$Id}/something/{item$SubId}\"",
+//                        "/* \"/items/{item\\$Id}/something/{item\\$SubId}\" */"
+//                        ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some",
+//                        "item$Id",
+//                        "name$Value",
+//                        "details$Info"
+//                ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some",
+//                        "\"$id\"",
+//                        "\"$name\""
+//                )
+//        ));
+//    }
+//
+//    @org.junit.Test
+//    @Disabled
+//    @Test
+//    public void testDollarsAndQuotesSwagger2() {
+//        Path apiSources = generateApiSources(
+//                "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
+//                Map.of(
+//                        KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "springdoc",
+//                        KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger2",
+//                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true
+//                ),
+//                Map.of(
+//                        CodegenConstants.MODELS, "true",
+//                        CodegenConstants.MODEL_TESTS, "false",
+//                        CodegenConstants.MODEL_DOCS, "false",
+//                        CodegenConstants.APIS, "true",
+//                        CodegenConstants.SUPPORTING_FILES, "false"
+//                )
+//        );
+//        assertGeneratedFilesContain(Map.of(
+//                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+//                List.of(
+//                        "summary = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+//                        "description = \"\"\"SQ = \"; SBS = \\; DBS = \\\\; SD = ${'$'}some\"\"\"",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", required = true) @PathVariable(\"item\\$Id\") itemDollarId: kotlin.String",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", required = true) @PathVariable(\"item\\$SubId\") itemDollarSubId: kotlin.String",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", schema = Schema(defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")) @Valid @RequestParam(value = \"filter\\$Type\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\") filterDollarType: kotlin.String",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", schema = Schema(defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")) @Valid @RequestParam(value = \"filter\\$SubType\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\") filterDollarSubType: kotlin.String",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"X-Custom_Header\", required = false) xCustomHeader: kotlin.String?",
+//                        "@Parameter(description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", `in` = ParameterIn.HEADER) @RequestHeader(value = \"X-Custom_Header_two\", required = false) xCustomHeaderTwo: kotlin.String?",
+//                        "@CookieValue(name = \"session\\$Token\", required = false) sessionDollarToken: kotlin.String?",
+//                        "@CookieValue(name = \"session\\$TokenTwo\", required = false) sessionDollarTokenTwo: kotlin.String?"
+//                ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+//                List.of(
+//                        "* @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+//                        "* @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+//                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"item\\$Id\") val itemDollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
+//                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"name\\$Value\") val nameDollarValue: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
+//                        "@get:JsonProperty(\"details\\$Info\")"
+//                ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+//                List.of(
+//                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"\\$id\") val dollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\",",
+//                        "@Schema(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", description = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+//                        "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\""
+//                )
+//        ));
+//        assertGeneratedFilesNotContain(Map.of(
+//                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some",
+//                        "@PathVariable(\"item$Id\") itemDollarId: kotlin.String",
+//                        "@PathVariable(\"item$SubId\") itemDollarSubId: kotlin.String",
+//                        "@RequestParam(value = \"filter$Type\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarType: kotlin.String",
+//                        "@RequestParam(value = \"filter$SubType\", required = false, defaultValue = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some\") filterDollarSubType: kotlin.String",
+//                        "@CookieValue(name = \"session$Token\"",
+//                        "@CookieValue(name = \"session$TokenTwo\""
+//                ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some",
+//                        "* @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some",
+//                        "* @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = \\$some"
+//                ),
+//                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+//                List.of(
+//                        "SQ = \\\\\";",
+//                        "SBS = \\\\\\\\;",
+//                        "DBS = \\\\\\\\\\\\\\\\;",
+//                        "SD = \\\\$some"
+//                )
+//        ));
+//    }
 
     private Path generateApiSources(
             String specFilePath,
