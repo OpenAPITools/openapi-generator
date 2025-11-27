@@ -7,11 +7,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.0",
-    "@angular/common": "^17.0.0",
+    "@angular/common": "^21.0.1",
     "@angular/compiler": "^17.0.0",
     "@angular/core": "^17.0.0",
-    "@angular/platform-browser": "^17.0.0",
-    "@angular/platform-browser-dynamic": "^17.0.0",
+    "@angular/platform-browser": "^21.0.1",
+    "@angular/platform-browser-dynamic": "^21.0.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.5.3"
   },
