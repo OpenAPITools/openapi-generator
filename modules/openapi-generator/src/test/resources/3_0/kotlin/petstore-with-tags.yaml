@@ -271,12 +271,11 @@ paths:
                 additionalMetadata:
                   type: string
                   description: Additional data to pass to server
-                  required: false
                 image:
                   type: string
                   description: image to upload
                   format: binary
-                  required: true
+              required: [ image ]
       responses:
         200:
           description: successful operation
@@ -310,14 +309,13 @@ paths:
                 additionalMetadata:
                   type: string
                   description: Additional data to pass to server
-                  required: false
                 images:
                   type: array
                   items:
                     type: string
                     description: image to upload
                     format: binary
-                    required: true
+              required: [ images ]
       responses:
         200:
           description: successful operation

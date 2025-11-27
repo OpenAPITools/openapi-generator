@@ -6,10 +6,14 @@ gradlew
 gradlew.bat
 pom.xml
 settings.gradle
+src/main/kotlin/org/openapitools/api/DefaultApiClient.kt
 src/main/kotlin/org/openapitools/api/PetApiClient.kt
 src/main/kotlin/org/openapitools/api/StoreApiClient.kt
 src/main/kotlin/org/openapitools/api/UserApiClient.kt
 src/main/kotlin/org/openapitools/model/Category.kt
+src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt
+src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt
+src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
