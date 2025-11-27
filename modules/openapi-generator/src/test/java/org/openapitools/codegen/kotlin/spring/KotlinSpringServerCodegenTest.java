@@ -660,7 +660,7 @@ public class KotlinSpringServerCodegenTest {
                 Map.of(
                         apiSources.resolve("src/main/kotlin/org/openapitools/api/PetApiController.kt"),
                         List.of("@Parameter(description = \"Additional data to pass to server\") @Valid @RequestParam(value = \"additionalMetadata\", required = false) additionalMetadata: kotlin.String?",
-                                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = false) image: org.springframework.web.multipart.MultipartFile")
+                                "@Parameter(description = \"image to upload\") @Valid @RequestPart(\"image\", required = true) image: org.springframework.web.multipart.MultipartFile")
                 )
         );
     }
