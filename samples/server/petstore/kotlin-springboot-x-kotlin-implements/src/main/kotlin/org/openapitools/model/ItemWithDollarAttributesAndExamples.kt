@@ -16,17 +16,17 @@ import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
- * A schema \"demonstrating\" $usage in properties.
- * @param dollarId \"$ID property\"
- * @param dollarName $Name\" property\"
+ * SQ = \"; SBS = \\; DBS = \\\\; SD = $some
+ * @param dollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some
+ * @param dollarName SQ = \"; SBS = \\; DBS = \\\\; SD = $some
  */
 data class ItemWithDollarAttributesAndExamples(
 
-    @ApiModelProperty(example = "\$item\"123\"", value = "\"$ID property\"")
-    @get:JsonProperty("$id") val dollarId: kotlin.String? = "$item\"123Default\"",
+    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
+    @get:JsonProperty("$id") val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
 
-    @ApiModelProperty(example = "\$Item\"Name", value = "$Name\" property\"")
-    @get:JsonProperty("$name") val dollarName: kotlin.String? = "$ItemNameDefault\""
+    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
+    @get:JsonProperty("$name") val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
 ) : Serializable {
 
     companion object {

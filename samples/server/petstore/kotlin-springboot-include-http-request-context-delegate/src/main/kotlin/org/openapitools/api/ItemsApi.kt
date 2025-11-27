@@ -6,7 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.ItemWithDollarAttributesAndExamples
-import org.openapitools.model.ItemsItemIdGet200Response
+import org.openapitools.model.ItemsItemIdSomethingItemSubIdGet200Response
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -46,38 +46,42 @@ interface ItemsApi {
 
 
     @ApiOperation(
-        value = "Retrieve item \"by\" $Id",
-        nickname = "itemsItemIdGet",
-        notes = "Get an item using the $symbol in \"parameter\" and property names.",
-        response = ItemsItemIdGet200Response::class
+        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        nickname = "itemsItemIdSomethingItemSubIdGet",
+        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        response = ItemsItemIdSomethingItemSubIdGet200Response::class
     )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "\"Successful $response\"", response = ItemsItemIdGet200Response::class)]
+        value = [ApiResponse(code = 200, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", response = ItemsItemIdSomethingItemSubIdGet200Response::class)]
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_ITEMS_ITEM_ID_GET /* "/items/{item\$Id}" */],
+        value = [PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET /* "/items/{item\$Id}/something/{item\$SubId}" */],
         produces = ["application/json"]
     )
-    suspend fun itemsItemIdGet(
-        @ApiParam(value = "The $prefixed \"ID\" of the item.", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
-        @ApiParam(value = "Optional $filter \"for\" item type.", defaultValue = "\"type\"$ADefault") @Valid @RequestParam(value = "filter$Type", required = false, defaultValue = "\"type\"$ADefault") filterDollarType: kotlin.String,
-        @ApiParam(value = "Header \"param\" with $") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
+    suspend fun itemsItemIdSomethingItemSubIdGet(
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", required = true) @PathVariable("item$SubId") itemDollarSubId: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @Valid @RequestParam(value = "filter$Type", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") filterDollarType: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @Valid @RequestParam(value = "filter$SubType", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") filterDollarSubType: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Custom_Header_two", required = false) xCustomHeaderTwo: kotlin.String?,
         @CookieValue(name = "session$Token", required = false) sessionDollarToken: kotlin.String?,
+        @CookieValue(name = "session$TokenTwo", required = false) sessionDollarTokenTwo: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
-    ): ResponseEntity<ItemsItemIdGet200Response> {
-        return getDelegate().itemsItemIdGet(itemDollarId, filterDollarType, xCustomHeader, sessionDollarToken, exchange)
+    ): ResponseEntity<ItemsItemIdSomethingItemSubIdGet200Response> {
+        return getDelegate().itemsItemIdSomethingItemSubIdGet(itemDollarId, itemDollarSubId, filterDollarType, filterDollarSubType, xCustomHeader, xCustomHeaderTwo, sessionDollarToken, sessionDollarTokenTwo, exchange)
     }
 
 
     @ApiOperation(
-        value = "Create $it\"em\"",
+        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
         nickname = "itemsPost",
-        notes = "POST using form params and $every\"where\".",
+        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
         response = ItemWithDollarAttributesAndExamples::class
     )
     @ApiResponses(
-        value = [ApiResponse(code = 201, message = "$test \"created\"", response = ItemWithDollarAttributesAndExamples::class)]
+        value = [ApiResponse(code = 201, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", response = ItemWithDollarAttributesAndExamples::class)]
     )
     @RequestMapping(
         method = [RequestMethod.POST],
@@ -86,9 +90,9 @@ interface ItemsApi {
         consumes = ["application/x-www-form-urlencoded"]
     )
     suspend fun itemsPost(
-        @ApiParam(value = "Header \"param\" with $") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
-        @ApiParam(value = "Form field with $issue \\\"fdsfsd\\\"") @Valid @RequestParam(value = "form$Name", required = false) formDollarName: kotlin.String?,
-        @ApiParam(value = "Another $form \\\"field\\\"") @Valid @RequestParam(value = "form$Value", required = false) formDollarValue: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
+        @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some") @Valid @RequestParam(value = "form$Name", required = false) formDollarName: kotlin.String?,
+        @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some", defaultValue = ""SQ = \"; SBS = \\; DBS = \\\\; SD = $some"") @Valid @RequestParam(value = "form$Value", required = false) formDollarValue: kotlin.String,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<ItemWithDollarAttributesAndExamples> {
         return getDelegate().itemsPost(xPostHeader, formDollarName, formDollarValue, exchange)
@@ -96,7 +100,7 @@ interface ItemsApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
-        const val PATH_ITEMS_ITEM_ID_GET: String = "/items/{item$Id}"
+        const val PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = "/items/{item$Id}/something/{item$SubId}"
         const val PATH_ITEMS_POST: String = "/items"
     }
 }

@@ -19,8 +19,8 @@ src/main/kotlin/org/openapitools/model/Category.kt
 src/main/kotlin/org/openapitools/model/Color.kt
 src/main/kotlin/org/openapitools/model/Dog.kt
 src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt
-src/main/kotlin/org/openapitools/model/ItemsItemIdGet200Response.kt
-src/main/kotlin/org/openapitools/model/ItemsItemIdGet200ResponseDetailsInfo.kt
+src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt
+src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.kt
 src/main/kotlin/org/openapitools/model/ModelApiResponse.kt
 src/main/kotlin/org/openapitools/model/Order.kt
 src/main/kotlin/org/openapitools/model/Pet.kt
