@@ -2616,7 +2616,25 @@ public class KotlinSpringServerCodegenTest {
                         "@RequestParam(value = \"form\\$Value\"",
                         "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item\\$Id}/something/{item\\$SubId}\"",
                         "/* \"/items/{item$Id}/something/{item$SubId}\" */"
-                        )
+                        ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+                List.of(
+                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+                        "@get:JsonProperty(\"item\\$Id\") val itemDollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+                        "@get:JsonProperty(\"name\\$Value\") val nameDollarValue: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+                        "@get:JsonProperty(\"details\\$Info\")",
+                        "@param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+                        "@param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                        ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+                List.of(
+                        "@ApiModelProperty(example = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\", value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\")",
+                        "@get:JsonProperty(\"\\$id\") val dollarId: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+                        "@get:JsonProperty(\"\\$name\") val dollarName: kotlin.String? = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+                        "* SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+                        "* @param dollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+                        "* @param dollarName SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                )
         ));
         assertGeneratedFilesNotContain(Map.of(
                 apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
@@ -2635,7 +2653,26 @@ public class KotlinSpringServerCodegenTest {
                         "@RequestParam(value = \"form$Value\"",
                         "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item$Id}/something/{item$SubId}\"",
                         "/* \"/items/{item\\$Id}/something/{item\\$SubId}\" */"
-                        )
+                        ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemsItemIdSomethingItemSubIdGet200Response.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some",
+                        "item$Id",
+                        "name$Value",
+                        "details$Info"
+                ),
+                apiSources.resolve("src/main/kotlin/org/openapitools/model/ItemWithDollarAttributesAndExamples.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some",
+                        "\"$id\"",
+                        "\"$name\""
+                )
         ));
     }
 
