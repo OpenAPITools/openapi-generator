@@ -40,24 +40,24 @@ class ItemsApiController() {
 
 
     @ApiOperation(
-        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         nickname = "itemsItemIdSomethingItemSubIdGet",
-        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         response = ItemsItemIdSomethingItemSubIdGet200Response::class)
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", response = ItemsItemIdSomethingItemSubIdGet200Response::class)])
+        value = [ApiResponse(code = 200, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemsItemIdSomethingItemSubIdGet200Response::class)])
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET /* "/items/{item\$Id}/something/{item\$SubId}" */],
+        value = [PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET /* "/items/{item$Id}/something/{item$SubId}" */],
         produces = ["application/json"]
     )
     fun itemsItemIdSomethingItemSubIdGet(
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", required = true) @PathVariable("item$SubId") itemDollarSubId: kotlin.String,
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @Valid @RequestParam(value = "filter$Type", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") filterDollarType: kotlin.String,
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @Valid @RequestParam(value = "filter$SubType", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") filterDollarSubType: kotlin.String,
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Custom_Header_two", required = false) xCustomHeaderTwo: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", required = true) @PathVariable("item\$Id") itemDollarId: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", required = true) @PathVariable("item\$SubId") itemDollarSubId: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "filter\$Type", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") filterDollarType: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "filter\$SubType", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") filterDollarSubType: kotlin.String,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Custom_Header_two", required = false) xCustomHeaderTwo: kotlin.String?,
         @CookieValue(name = "session$Token", required = false) sessionDollarToken: kotlin.String?,
         @CookieValue(name = "session$TokenTwo", required = false) sessionDollarTokenTwo: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
@@ -67,12 +67,12 @@ class ItemsApiController() {
 
 
     @ApiOperation(
-        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         nickname = "itemsPost",
-        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+        notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         response = ItemWithDollarAttributesAndExamples::class)
     @ApiResponses(
-        value = [ApiResponse(code = 201, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", response = ItemWithDollarAttributesAndExamples::class)])
+        value = [ApiResponse(code = 201, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemWithDollarAttributesAndExamples::class)])
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_ITEMS_POST /* "/items" */],
@@ -80,7 +80,7 @@ class ItemsApiController() {
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun itemsPost(
-        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
+        @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
         @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some") @Valid @RequestParam(value = "form$Name", required = false) formDollarName: kotlin.String?,
         @ApiParam(value = "SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = $some", defaultValue = ""SQ = \"; SBS = \\; DBS = \\\\; SD = $some"") @Valid @RequestParam(value = "form$Value", required = false) formDollarValue: kotlin.String,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
@@ -91,7 +91,7 @@ class ItemsApiController() {
     companion object {
         //for your own safety never directly reuse these path definitions in tests
         const val BASE_PATH: String = "/v2"
-        const val PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = "/items/{item$Id}/something/{item$SubId}"
+        const val PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = "/items/{item\$Id}/something/{item\$SubId}"
         const val PATH_ITEMS_POST: String = "/items"
     }
 }

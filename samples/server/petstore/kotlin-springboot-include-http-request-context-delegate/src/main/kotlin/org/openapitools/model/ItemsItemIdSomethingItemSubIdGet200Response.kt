@@ -18,21 +18,21 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
- * @param itemDollarId SQ = \"; SBS = \\; DBS = \\\\; SD = $some
- * @param nameDollarValue SQ = \"; SBS = \\; DBS = \\\\; SD = $some
+ * @param itemDollarId SQ = "; SBS = \; DBS = \\; SD = $some
+ * @param nameDollarValue SQ = "; SBS = \; DBS = \\; SD = $some
  * @param detailsDollarInfo 
  */
 data class ItemsItemIdSomethingItemSubIdGet200Response(
 
-    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
-    @get:JsonProperty("item$Id") val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")
+    @get:JsonProperty("item\$Id") val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
-    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
-    @get:JsonProperty("name$Value") val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")
+    @get:JsonProperty("name\$Value") val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("details$Info") val detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null
+    @get:JsonProperty("details\$Info") val detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null
 ) : Serializable {
 
     companion object {

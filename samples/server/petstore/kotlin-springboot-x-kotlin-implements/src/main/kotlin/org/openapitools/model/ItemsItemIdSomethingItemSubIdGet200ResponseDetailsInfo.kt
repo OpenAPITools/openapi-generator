@@ -16,17 +16,17 @@ import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
- * SQ = \"; SBS = \\; DBS = \\\\; SD = $some
- * @param detailDollarOne SQ = \"; SBS = \\; DBS = \\\\; SD = $some
- * @param detailDollarTwo SQ = \"; SBS = \\; DBS = \\\\; SD = $some
+ * SQ = "; SBS = \; DBS = \\; SD = $some
+ * @param detailDollarOne SQ = "; SBS = \; DBS = \\; SD = $some
+ * @param detailDollarTwo SQ = "; SBS = \; DBS = \\; SD = $some
  */
 data class ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo(
 
-    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
-    @get:JsonProperty("detail$One") val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @ApiModelProperty(example = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")
+    @get:JsonProperty("detail\$One") val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
-    @ApiModelProperty(example = "42", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
-    @get:JsonProperty("detail$Two") val detailDollarTwo: kotlin.Int? = null
+    @ApiModelProperty(example = "42", value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")
+    @get:JsonProperty("detail\$Two") val detailDollarTwo: kotlin.Int? = null
 ) : Serializable {
 
     companion object {
