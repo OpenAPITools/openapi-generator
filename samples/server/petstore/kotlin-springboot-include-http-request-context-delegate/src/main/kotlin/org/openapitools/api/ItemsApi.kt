@@ -66,8 +66,8 @@ interface ItemsApi {
         @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @Valid @RequestParam(value = "filter\$SubType", required = false, defaultValue = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") filterDollarSubType: kotlin.String,
         @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
         @ApiParam(value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") @RequestHeader(value = "X-Custom_Header_two", required = false) xCustomHeaderTwo: kotlin.String?,
-        @CookieValue(name = "session$Token", required = false) sessionDollarToken: kotlin.String?,
-        @CookieValue(name = "session$TokenTwo", required = false) sessionDollarTokenTwo: kotlin.String?,
+        @CookieValue(name = "session\$Token", required = false) sessionDollarToken: kotlin.String?,
+        @CookieValue(name = "session\$TokenTwo", required = false) sessionDollarTokenTwo: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<ItemsItemIdSomethingItemSubIdGet200Response> {
         return getDelegate().itemsItemIdSomethingItemSubIdGet(itemDollarId, itemDollarSubId, filterDollarType, filterDollarSubType, xCustomHeader, xCustomHeaderTwo, sessionDollarToken, sessionDollarTokenTwo, exchange)
