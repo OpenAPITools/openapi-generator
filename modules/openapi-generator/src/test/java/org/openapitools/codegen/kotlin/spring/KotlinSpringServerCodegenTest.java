@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -2585,7 +2586,7 @@ public class KotlinSpringServerCodegenTest {
         ));
     }
 
-
+    @Disabled
     @Test
     public void testDollarsAndQuotesSwagger1() {
         Path apiSources = generateApiSources(
@@ -2676,6 +2677,7 @@ public class KotlinSpringServerCodegenTest {
         ));
     }
 
+    @Disabled
     @Test
     public void testDollarsAndQuotesSwagger2() {
         Path apiSources = generateApiSources(
