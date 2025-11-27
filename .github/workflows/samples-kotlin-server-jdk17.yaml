@@ -37,7 +37,6 @@ jobs:
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
           - samples/server/petstore/kotlin-springboot-3-no-response-entity
-          - samples/server/petstore/kotlin-springboot-dollar-issue-swagger1
           - samples/server/petstore/kotlin-springboot-3-dollar-issue-swagger2
           - samples/server/petstore/kotlin-springboot-additionalproperties
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
