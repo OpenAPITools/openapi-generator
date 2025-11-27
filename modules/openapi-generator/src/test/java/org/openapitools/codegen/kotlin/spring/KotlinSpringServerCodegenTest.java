@@ -2585,6 +2585,60 @@ public class KotlinSpringServerCodegenTest {
         ));
     }
 
+
+    @Test
+    public void testDollarsAndQuotesSwagger1() {
+        Path apiSources = generateApiSources(
+                "src/test/resources/3_0/kotlin/petstore-with-tags.yaml",
+                Map.of(
+                        KotlinSpringServerCodegen.DOCUMENTATION_PROVIDER, "springfox",
+                        KotlinSpringServerCodegen.ANNOTATION_LIBRARY, "swagger1",
+                        KotlinSpringServerCodegen.DELEGATE_PATTERN, true
+                ),
+                Map.of(
+                        CodegenConstants.MODELS, "true",
+                        CodegenConstants.MODEL_TESTS, "false",
+                        CodegenConstants.MODEL_DOCS, "false",
+                        CodegenConstants.APIS, "true",
+                        CodegenConstants.SUPPORTING_FILES, "false"
+                )
+        );
+        assertGeneratedFilesContain(Map.of(
+                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+                List.of("value = \"SQ = \\\"; SBS = \\\\; DBS = \\\\\\\\; SD = \\$some\"",
+                        "@PathVariable(\"item\\$Id\")",
+                        "@PathVariable(\"item\\$SubId\")",
+                        "@RequestParam(value = \"filter\\$Type\"",
+                        "@RequestParam(value = \"filter\\$SubType\"",
+                        "@CookieValue(name = \"session\\$Token\"",
+                        "@CookieValue(name = \"session\\$TokenTwo\"",
+                        "@RequestParam(value = \"form\\$Name\"",
+                        "@RequestParam(value = \"form\\$Value\"",
+                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item\\$Id}/something/{item\\$SubId}\"",
+                        "/* \"/items/{item$Id}/something/{item$SubId}\" */"
+                        )
+        ));
+        assertGeneratedFilesNotContain(Map.of(
+                apiSources.resolve("src/main/kotlin/org/openapitools/api/itemsApi.kt"),
+                List.of(
+                        "SQ = \\\\\";",
+                        "SBS = \\\\\\\\;",
+                        "DBS = \\\\\\\\\\\\\\\\;",
+                        "SD = \\\\$some",
+                        "@PathVariable(\"item$Id\")",
+                        "@PathVariable(\"item$SubId\")",
+                        "@RequestParam(value = \"filter$Type\"",
+                        "@RequestParam(value = \"filter$SubType\"",
+                        "@CookieValue(name = \"session$Token\"",
+                        "@CookieValue(name = \"session$TokenTwo\"",
+                        "@RequestParam(value = \"form$Name\"",
+                        "@RequestParam(value = \"form$Value\"",
+                        "PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET: String = \"/items/{item$Id}/something/{item$SubId}\"",
+                        "/* \"/items/{item\\$Id}/something/{item\\$SubId}\" */"
+                        )
+        ));
+    }
+
     private Path generateApiSources(
             String specFilePath,
             Map<String, Object> additionalProperties,

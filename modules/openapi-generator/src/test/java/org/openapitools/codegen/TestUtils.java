@@ -208,7 +208,7 @@ public class TestUtils {
         String file = linearize(generatedFile);
         assertNotNull(file);
         for (String line : lines)
-            assertFalse(file.contains(linearize(line)));
+            assertFalse(file.contains(linearize(line)), "File '" + path + "' contains line [" + line + "] when it should not");
     }
 
     public static void assertFileNotExists(Path path) {
