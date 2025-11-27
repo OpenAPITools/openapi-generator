@@ -21,11 +21,11 @@
     "rxjs": "^6.6.0"
   },
   "devDependencies": {
-    "@angular/common": "^12.2.0",
+    "@angular/common": "^21.0.1",
     "@angular/compiler": "^12.2.0",
     "@angular/compiler-cli": "^12.2.0",
     "@angular/core": "^12.2.0",
-    "@angular/platform-browser": "^12.2.0",
+    "@angular/platform-browser": "^21.0.1",
     "ng-packagr": "^12.2.1",
     "reflect-metadata": "^0.1.3",
     "rxjs": "^6.6.0",
