@@ -15,7 +15,9 @@ NAME = "{{{projectName}}}"
 VERSION = "{{packageVersion}}"
 PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
+{{^async}}
     "urllib3 >= 2.1.0, < 3.0.0",
+{{/async}}
     "python-dateutil >= 2.8.2",
 {{#asyncio}}
     "aiohttp >= 3.8.4",
