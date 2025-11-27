@@ -16,16 +16,16 @@ import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
- * Nested object with $keys.
- * @param detailDollarOne First $detail
- * @param detailDollarTwo Second $detail
+ * Nested \"object\" with $keys.
+ * @param detailDollarOne \"First $detail\"
+ * @param detailDollarTwo \"Second\" $detail
  */
 data class ItemsItemIdGet200ResponseDetailsInfo(
 
-    @ApiModelProperty(example = "Detail\$1", value = "First \$detail")
-    @get:JsonProperty("detail$One") val detailDollarOne: kotlin.String? = null,
+    @ApiModelProperty(example = "\"Detail\$1\"", value = "\"First $detail\"")
+    @get:JsonProperty("detail$One") val detailDollarOne: kotlin.String? = "\"Detail\"$1Default",
 
-    @ApiModelProperty(example = "42", value = "Second \$detail")
+    @ApiModelProperty(example = "42", value = "\"Second\" $detail")
     @get:JsonProperty("detail$Two") val detailDollarTwo: kotlin.Int? = null
 ) : Serializable {
 

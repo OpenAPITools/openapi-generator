@@ -16,17 +16,17 @@ import javax.validation.Valid
 import io.swagger.annotations.ApiModelProperty
 
 /**
- * A schema demonstrating $usage in properties.
- * @param dollarId $ID property
- * @param dollarName $Name property
+ * A schema \"demonstrating\" $usage in properties.
+ * @param dollarId \"$ID property\"
+ * @param dollarName $Name\" property\"
  */
 data class ItemWithDollarAttributesAndExamples(
 
-    @ApiModelProperty(example = "\$item123", value = "\$ID property")
-    @get:JsonProperty("$id") val dollarId: kotlin.String? = null,
+    @ApiModelProperty(example = "\$item\"123\"", value = "\"$ID property\"")
+    @get:JsonProperty("$id") val dollarId: kotlin.String? = "$item\"123Default\"",
 
-    @ApiModelProperty(example = "\$ItemName", value = "\$Name property")
-    @get:JsonProperty("$name") val dollarName: kotlin.String? = null
+    @ApiModelProperty(example = "\$Item\"Name", value = "$Name\" property\"")
+    @get:JsonProperty("$name") val dollarName: kotlin.String? = "$ItemNameDefault\""
 ) : Serializable {
 
     companion object {

@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.ItemWithDollarAttributesAndExamples
 import org.openapitools.model.ItemsItemIdGet200Response
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -22,7 +23,18 @@ interface ItemsApiDelegate {
      * @see ItemsApi#itemsItemIdGet
      */
     suspend fun itemsItemIdGet(itemDollarId: kotlin.String,
-        filterDollarType: kotlin.String?,
+        filterDollarType: kotlin.String,
+        xCustomDollarHeader: kotlin.String?,
+        sessionDollarToken: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ItemsItemIdGet200Response>
+
+
+    /**
+     * @see ItemsApi#itemsPost
+     */
+    suspend fun itemsPost(xPostDollarHeader: kotlin.String?,
+        formDollarName: kotlin.String?,
+        formDollarValue: kotlin.String?,
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ItemWithDollarAttributesAndExamples>
 
 }

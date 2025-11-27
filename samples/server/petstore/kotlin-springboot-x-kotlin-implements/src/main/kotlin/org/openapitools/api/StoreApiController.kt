@@ -1,0 +1,126 @@
+package org.openapitools.api
+
+import org.openapitools.model.Order
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
+import io.swagger.annotations.AuthorizationScope
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+
+import org.springframework.web.bind.annotation.*
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.context.request.NativeWebRequest
+import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.StoreApiController.Companion.BASE_PATH
+
+import javax.validation.Valid
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
+
+import kotlin.collections.List
+import kotlin.collections.Map
+
+@RestController
+@Validated
+@Api(value = "store", description = "The store API")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+class StoreApiController() {
+
+
+    @ApiOperation(
+        value = "Delete purchase order by ID",
+        nickname = "deleteOrder",
+        notes = "")
+    @ApiResponses(
+        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
+    )
+    fun deleteOrder(
+        @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.String,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @ApiOperation(
+        value = "Returns pet inventories by status",
+        nickname = "getInventory",
+        notes = "",
+        response = kotlin.Int::class,
+        responseContainer = "Map",
+        authorizations = [Authorization(value = "api_key")])
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        produces = ["application/json"]
+    )
+    fun getInventory(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest): ResponseEntity<Map<String, kotlin.Int>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @ApiOperation(
+        value = "Find purchase order by ID",
+        nickname = "getOrderById",
+        notes = "",
+        response = Order::class)
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        produces = ["application/json"]
+    )
+    fun getOrderById(
+        @Min(value=1) @Max(value=5) @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.Int,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
+    ): ResponseEntity<Order> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @ApiOperation(
+        value = "Place an order for a pet",
+        nickname = "placeOrder",
+        notes = "",
+        response = Order::class)
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        produces = ["application/json"],
+        consumes = ["application/json"]
+    )
+    fun placeOrder(
+        @ApiParam(value = "", required = true) @Valid @RequestBody order: Order,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
+    ): ResponseEntity<Order> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
+    }
+}

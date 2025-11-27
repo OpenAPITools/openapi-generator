@@ -18,17 +18,17 @@ import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
- * @param itemDollarId The $ID of the item.
- * @param nameDollarValue The $name of the item.
+ * @param itemDollarId The $ID of \"the\" item.
+ * @param nameDollarValue The $name \"of the \"item.
  * @param detailsDollarInfo 
  */
 data class ItemsItemIdGet200Response(
 
-    @ApiModelProperty(example = "item\$123", value = "The \$ID of the item.")
-    @get:JsonProperty("item$Id") val itemDollarId: kotlin.String? = null,
+    @ApiModelProperty(example = "\"item\$123\"", value = "The $ID of \"the\" item.")
+    @get:JsonProperty("item$Id") val itemDollarId: kotlin.String? = "Item$Id\"Default\"",
 
-    @ApiModelProperty(example = "Item\$Name", value = "The \$name of the item.")
-    @get:JsonProperty("name$Value") val nameDollarValue: kotlin.String? = null,
+    @ApiModelProperty(example = "\"Item\"\$Name", value = "The $name \"of the \"item.")
+    @get:JsonProperty("name$Value") val nameDollarValue: kotlin.String? = "Item$\"NameDefault\"",
 
     @field:Valid
     @ApiModelProperty(example = "null", value = "")

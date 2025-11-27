@@ -656,26 +656,41 @@ paths:
           content: { }
   /items/{item$Id}:
     get:
-      summary: "Retrieve item by $Id"
-      description: "Get an item using the $symbol in parameter and property names."
+      summary: "Retrieve item \"by\" $Id"
+      description: "Get an item using the $symbol in \"parameter\" and property names."
       parameters:
         - name: "item$Id"
           in: path
           required: true
-          description: "The $prefixed ID of the item."
+          description: "The $prefixed \"ID\" of the item."
           schema:
             type: string
-            example: "item$123"
+            example: "i\"te\"m$123"
         - name: "filter$Type"
           in: query
           required: false
-          description: "Optional $filter for item type."
+          description: "Optional $filter \"for\" item type."
           schema:
             type: string
-            example: "type$A"
+            example: "\"type$A\""
+            "default": "\"type\"$ADefault"
+        - name: "X-Custom$Header"
+          in: header
+          required: false
+          description: "Header param with $"
+          schema:
+            type: string
+            example: "hdr$val"
+        - name: "session$Token"
+          in: cookie
+          required: false
+          description: "Cookie param with $dol\"lar\""
+          schema:
+            type: string
+            example: "cookie$a\"bc\""
       responses:
         '200':
-          description: "Successful $response"
+          description: "\"Successful $response\""
           content:
             application/json:
               schema:
@@ -683,24 +698,62 @@ paths:
                 properties:
                   item$Id:
                     type: string
-                    description: "The $ID of the item."
-                    example: "item$123"
+                    description: "The $ID of \"the\" item."
+                    example: "\"item$123\""
+                    default: "Item$Id\"Default\""
                   name$Value:
                     type: string
-                    description: "The $name of the item."
-                    example: "Item$Name"
+                    description: "The $name \"of the \"item."
+                    example: "\"Item\"$Name"
+                    default: "Item$\"NameDefault\""
                   details$Info:
                     type: object
-                    description: "Nested object with $keys."
+                    description: "Nested \"object\" with $keys."
                     properties:
                       detail$One:
                         type: string
-                        description: "First $detail"
-                        example: "Detail$1"
+                        description: "\"First $detail\""
+                        example: "\"Detail$1\""
+                        default: "\"Detail\"$1Default"
                       detail$Two:
                         type: integer
-                        description: "Second $detail"
+                        description: "\"Second\" $detail"
                         example: 42
+  /items:
+    post:
+      summary: "Create $it\"em\""
+      description: "POST using form params and $every\"where\"."
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                form$Name:
+                  type: string
+                  description: "Form field with $issue \"fdsfsd\""
+                  example: "Name$X\"fsdfsd\""
+                form$Value:
+                  type: string
+                  description: "Another $form \"field\""
+                  example: "Val$Y\"fdfsdf\""
+      parameters:
+        - name: "X-Post$Header"
+          in: header
+          required: false
+          description: "Header \"param\" with $"
+          schema:
+            type: string
+            example: "hdr$po\"st\""
+      
+      responses:
+        "201":
+          description: "$test \"created\""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemWithDollarAttributesAndExamples"
 components:
   schemas:
     Order:
@@ -835,16 +888,18 @@ components:
       description: Describes the result of uploading an image resource
     ItemWithDollarAttributesAndExamples:
       type: object
-      description: "A schema demonstrating $usage in properties."
+      description: "A schema \"demonstrating\" $usage in properties."
       properties:
         $id:
           type: string
-          description: "$ID property"
-          example: "$item123"
+          description: "\"$ID property\""
+          example: "$item\"123\""
+          default: "$item\"123Default\""
         $name:
           type: string
-          description: "$Name property"
-          example: "$ItemName"
+          description: "$Name\" property\""
+          example: "$Item\"Name"
+          default: "$ItemNameDefault\""
   securitySchemes:
     petstore_auth:
       type: oauth2

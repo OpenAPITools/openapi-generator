@@ -9,7 +9,7 @@ additionalProperties:
   useSwaggerUI: false
   serviceImplementation: false
   skipDefaultInterface: true
-  interfaceOnly: true
+  interfaceOnly: false
   serializableModel: true
   beanValidations: true
   includeHttpRequestContext: true

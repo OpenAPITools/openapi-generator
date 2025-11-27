@@ -42,13 +42,13 @@ interface ItemsApi {
 
 
     @ApiOperation(
-        value = "Retrieve item by $Id",
+        value = "Retrieve item \"by\" $Id",
         nickname = "itemsItemIdGet",
-        notes = "Get an item using the $symbol in parameter and property names.",
+        notes = "Get an item using the $symbol in \"parameter\" and property names.",
         response = ItemsItemIdGet200Response::class
     )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "Successful $response", response = ItemsItemIdGet200Response::class)]
+        value = [ApiResponse(code = 200, message = "\"Successful $response\"", response = ItemsItemIdGet200Response::class)]
     )
     @RequestMapping(
         method = [RequestMethod.GET],
@@ -56,8 +56,8 @@ interface ItemsApi {
         produces = ["application/json"]
     )
     fun itemsItemIdGet(
-        @ApiParam(value = "The $prefixed ID of the item.", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
-        @ApiParam(value = "Optional $filter for item type.") @Valid @RequestParam(value = "filter$Type", required = false) filterDollarType: kotlin.String?,
+        @ApiParam(value = "The $prefixed \"ID\" of the item.", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
+        @ApiParam(value = "Optional $filter \"for\" item type.", defaultValue = "\"type\"$ADefault") @Valid @RequestParam(value = "filter$Type", required = false, defaultValue = "\"type\"$ADefault") filterDollarType: kotlin.String,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<ItemsItemIdGet200Response>
 
