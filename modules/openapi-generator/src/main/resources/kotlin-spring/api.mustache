@@ -75,7 +75,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
 }}    @Operation(
         summary = "{{#lambda.escapeDollar}}{{{summary}}}{{/lambda.escapeDollar}}",
         operationId = "{{{operationId}}}",
-        description = """{{{unescapedNotes}}}""",
+        description = """{{#lambda.escapeDollarInMultiline}}{{{unescapedNotes}}}{{/lambda.escapeDollarInMultiline}}""",
         responses = [{{#responses}}
             ApiResponse(responseCode = "{{{code}}}", description = "{{#lambda.escapeDollar}}{{{message}}}{{/lambda.escapeDollar}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}} ]{{#hasAuthMethods}},
         security = [ {{#authMethods}}SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = [ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} ]{{/isOAuth}}){{^-last}},{{/-last}}{{/authMethods}} ]{{/hasAuthMethods}}
