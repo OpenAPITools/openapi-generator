@@ -24,7 +24,7 @@ interface ItemsApiDelegate {
      */
     suspend fun itemsItemIdGet(itemDollarId: kotlin.String,
         filterDollarType: kotlin.String,
-        xCustomDollarHeader: kotlin.String?,
+        xCustomHeader: kotlin.String?,
         sessionDollarToken: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ItemsItemIdGet200Response>
 
@@ -32,7 +32,7 @@ interface ItemsApiDelegate {
     /**
      * @see ItemsApi#itemsPost
      */
-    suspend fun itemsPost(xPostDollarHeader: kotlin.String?,
+    suspend fun itemsPost(xPostHeader: kotlin.String?,
         formDollarName: kotlin.String?,
         formDollarValue: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<ItemWithDollarAttributesAndExamples>

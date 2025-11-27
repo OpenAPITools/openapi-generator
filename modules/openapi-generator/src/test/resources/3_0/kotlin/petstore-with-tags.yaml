@@ -674,13 +674,13 @@ paths:
             type: string
             example: "\"type$A\""
             "default": "\"type\"$ADefault"
-        - name: "X-Custom$Header"
+        - name: "X-Custom_Header"
           in: header
           required: false
-          description: "Header param with $"
+          description: "Header \"param\" with $"
           schema:
             type: string
-            example: "hdr$val"
+            example: "hdr$su\"val\""
         - name: "session$Token"
           in: cookie
           required: false
@@ -739,7 +739,7 @@ paths:
                   description: "Another $form \"field\""
                   example: "Val$Y\"fdfsdf\""
       parameters:
-        - name: "X-Post$Header"
+        - name: "X-Post_Header"
           in: header
           required: false
           description: "Header \"param\" with $"

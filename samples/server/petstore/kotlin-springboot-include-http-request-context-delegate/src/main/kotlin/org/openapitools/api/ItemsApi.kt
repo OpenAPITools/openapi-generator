@@ -62,11 +62,11 @@ interface ItemsApi {
     suspend fun itemsItemIdGet(
         @ApiParam(value = "The $prefixed \"ID\" of the item.", required = true) @PathVariable("item$Id") itemDollarId: kotlin.String,
         @ApiParam(value = "Optional $filter \"for\" item type.", defaultValue = "\"type\"$ADefault") @Valid @RequestParam(value = "filter$Type", required = false, defaultValue = "\"type\"$ADefault") filterDollarType: kotlin.String,
-        @ApiParam(value = "Header param with $") @RequestHeader(value = "X-Custom$Header", required = false) xCustomDollarHeader: kotlin.String?,
+        @ApiParam(value = "Header \"param\" with $") @RequestHeader(value = "X-Custom_Header", required = false) xCustomHeader: kotlin.String?,
         @CookieValue(name = "session$Token", required = false) sessionDollarToken: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<ItemsItemIdGet200Response> {
-        return getDelegate().itemsItemIdGet(itemDollarId, filterDollarType, xCustomDollarHeader, sessionDollarToken, exchange)
+        return getDelegate().itemsItemIdGet(itemDollarId, filterDollarType, xCustomHeader, sessionDollarToken, exchange)
     }
 
 
@@ -86,12 +86,12 @@ interface ItemsApi {
         consumes = ["application/x-www-form-urlencoded"]
     )
     suspend fun itemsPost(
-        @ApiParam(value = "Header \"param\" with $") @RequestHeader(value = "X-Post$Header", required = false) xPostDollarHeader: kotlin.String?,
+        @ApiParam(value = "Header \"param\" with $") @RequestHeader(value = "X-Post_Header", required = false) xPostHeader: kotlin.String?,
         @ApiParam(value = "Form field with $issue \\\"fdsfsd\\\"") @Valid @RequestParam(value = "form$Name", required = false) formDollarName: kotlin.String?,
         @ApiParam(value = "Another $form \\\"field\\\"") @Valid @RequestParam(value = "form$Value", required = false) formDollarValue: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<ItemWithDollarAttributesAndExamples> {
-        return getDelegate().itemsPost(xPostDollarHeader, formDollarName, formDollarValue, exchange)
+        return getDelegate().itemsPost(xPostHeader, formDollarName, formDollarValue, exchange)
     }
 
     companion object {
