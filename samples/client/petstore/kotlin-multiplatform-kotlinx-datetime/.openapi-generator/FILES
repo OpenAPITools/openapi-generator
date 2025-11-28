@@ -2,6 +2,10 @@ README.md
 build.gradle.kts
 docs/ApiResponse.md
 docs/Category.md
+docs/DefaultApi.md
+docs/ItemWithDollarAttributesAndExamples.md
+docs/ItemsItemIdSomethingItemSubIdGet200Response.md
+docs/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -14,6 +18,7 @@ gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
 settings.gradle.kts
+src/commonMain/kotlin/org/openapitools/client/apis/DefaultApi.kt
 src/commonMain/kotlin/org/openapitools/client/apis/PetApi.kt
 src/commonMain/kotlin/org/openapitools/client/apis/StoreApi.kt
 src/commonMain/kotlin/org/openapitools/client/apis/UserApi.kt
@@ -31,6 +36,9 @@ src/commonMain/kotlin/org/openapitools/client/infrastructure/PartConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestConfig.kt
 src/commonMain/kotlin/org/openapitools/client/infrastructure/RequestMethod.kt
 src/commonMain/kotlin/org/openapitools/client/models/Category.kt
+src/commonMain/kotlin/org/openapitools/client/models/ItemWithDollarAttributesAndExamples.kt
+src/commonMain/kotlin/org/openapitools/client/models/ItemsItemIdSomethingItemSubIdGet200Response.kt
+src/commonMain/kotlin/org/openapitools/client/models/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.kt
 src/commonMain/kotlin/org/openapitools/client/models/ModelApiResponse.kt
 src/commonMain/kotlin/org/openapitools/client/models/Order.kt
 src/commonMain/kotlin/org/openapitools/client/models/Pet.kt

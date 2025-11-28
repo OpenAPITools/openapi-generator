@@ -17,6 +17,27 @@ import org.openapitools.server.models.*
 
 object Paths {
     /**
+     * SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some
+     * SQ &#x3D; &quot;; SBS &#x3D; \; DBS &#x3D; \\; SD &#x3D; $some
+     * @param itemDollarId SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some 
+     * @param itemDollarSubId SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some 
+     * @param filterDollarType SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional, default to "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
+     * @param filterDollarSubType SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional, default to "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
+     * @param xCustomHeader SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
+     * @param xCustomHeaderTwo SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
+     */
+    @Resource("/items/{item$Id}/something/{item$SubId}") class itemsItemIdSomethingItemSubIdGet(val itemDollarId: kotlin.String, val itemDollarSubId: kotlin.String, val filterDollarType: kotlin.String? = null, val filterDollarSubType: kotlin.String? = null)
+
+    /**
+     * SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some
+     * SQ &#x3D; &quot;; SBS &#x3D; \; DBS &#x3D; \\; SD &#x3D; $some
+     * @param xPostHeader SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
+     * @param formDollarName SQ &#x3D; \\\&quot;; SBS &#x3D; \\\\; DBS &#x3D; \\\\\\\\; SD &#x3D; $some (optional)
+     * @param formDollarValue SQ &#x3D; \\\&quot;; SBS &#x3D; \\\\; DBS &#x3D; \\\\\\\\; SD &#x3D; $some (optional, default to "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
+     */
+    @Resource("/items") class itemsPost()
+
+    /**
      * Add a new pet to the store
      * 
      * @param body Pet object that needs to be added to the store 
