@@ -38,6 +38,7 @@ export class DefaultService extends BaseService {
     }
 
     /**
+     * @endpoint get /search_explode
      * @param ids Ids
      * @param filter Filter
      * @param country Filter
@@ -121,6 +122,7 @@ export class DefaultService extends BaseService {
     }
 
     /**
+     * @endpoint get /search_not_explode
      * @param ids Ids
      * @param filter Filter
      * @param country Filter
