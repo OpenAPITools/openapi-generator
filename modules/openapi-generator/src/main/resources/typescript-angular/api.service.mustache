@@ -3,10 +3,10 @@
 
 import { Inject, Injectable, Optional }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec{{#httpContextInOptions}}, HttpContext {{/httpContextInOptions}}
+         HttpResponse, HttpEvent{{#httpContextInOptions}}, HttpContext {{/httpContextInOptions}}
         }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
+import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 {{#imports}}
 // @ts-ignore
@@ -87,6 +87,7 @@ export class {{classname}} extends BaseService {
      {{/useSingleRequestParameter}}
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     * @param options additional options
      {{#isDeprecated}}
      * @deprecated
      {{/isDeprecated}}
@@ -107,32 +108,46 @@ export class {{classname}} extends BaseService {
 {{/allParams}}
 
 {{#hasQueryParamsOrAuth}}
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
 {{#queryParams}}
-        {{#isArray}}
-        if ({{paramName}}) {
-        {{#isQueryParamObjectFormatJson}}
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>{{paramName}}, '{{baseName}}');
-        {{/isQueryParamObjectFormatJson}}
-        {{^isQueryParamObjectFormatJson}}
-        {{#isCollectionFormatMulti}}
-            {{paramName}}.forEach((element) => {
-                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                  <any>element, '{{baseName}}');
-            })
-        {{/isCollectionFormatMulti}}
-        {{^isCollectionFormatMulti}}
-            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                [...{{paramName}}].join(COLLECTION_FORMATS['{{collectionFormat}}']), '{{baseName}}');
-        {{/isCollectionFormatMulti}}
-        {{/isQueryParamObjectFormatJson}}
-        }
-        {{/isArray}}
-        {{^isArray}}
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>{{paramName}}, '{{baseName}}'{{#isDeepObject}}, true{{/isDeepObject}});
-        {{/isArray}}
+
+        localVarQueryParameters = this.addToHttpParams(
+            localVarQueryParameters,
+            '{{baseName}}',
+            <any>{{paramName}},
+            {{#isQueryParamObjectFormatJson}}
+            QueryParamStyle.Json,
+            {{/isQueryParamObjectFormatJson}}
+            {{^isQueryParamObjectFormatJson}}
+            {{^style}}
+            {{#queryIsJsonMimeType}}
+            QueryParamStyle.Json,
+            {{/queryIsJsonMimeType}}
+            {{^queryIsJsonMimeType}}
+            QueryParamStyle.Form,
+            {{/queryIsJsonMimeType}}
+            {{/style}}
+            {{#style}}
+            {{#isDeepObject}}
+            QueryParamStyle.DeepObject,
+            {{/isDeepObject}}
+            {{#isFormStyle}}
+            QueryParamStyle.Form,
+            {{/isFormStyle}}
+            {{#isSpaceDelimited}}
+            QueryParamStyle.SpaceDelimited,
+            {{/isSpaceDelimited}}
+            {{#isPipeDelimited}}
+            QueryParamStyle.PipeDelimited,
+            {{/isPipeDelimited}}
+            {{#queryIsJsonMimeType}}
+            QueryParamStyle.Json,
+            {{/queryIsJsonMimeType}}
+            {{/style}}
+            {{/isQueryParamObjectFormatJson}}
+            {{isExplode}},
+        );
+
 {{/queryParams}}
 
 {{/hasQueryParamsOrAuth}}
@@ -291,7 +306,7 @@ export class {{classname}} extends BaseService {
     {{/hasFormParams}}
     {{/bodyParam}}
     {{#hasQueryParamsOrAuth}}
-                params: localVarQueryParameters,
+                params: localVarQueryParameters.toHttpParams(),
     {{/hasQueryParamsOrAuth}}
     {{#isResponseFile}}
                 responseType: "blob",

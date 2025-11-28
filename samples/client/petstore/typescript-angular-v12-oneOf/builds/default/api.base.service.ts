@@ -10,6 +10,7 @@
 import { HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
 import { CustomHttpParameterCodec } from './encoder';
 import { Configuration } from './configuration';
+import { OpenApiHttpParams, QueryParamStyle, concatHttpParamsObject} from './query.params';
 
 export class BaseService {
     protected basePath = 'http://localhost';
@@ -37,47 +38,58 @@ export class BaseService {
         return consumes.indexOf('multipart/form-data') !== -1;
     }
 
-    protected addToHttpParams(httpParams: HttpParams, value: any, key?: string, isDeep: boolean = false): HttpParams {
-        // If the value is an object (but not a Date), recursively add its keys.
-        if (typeof value === 'object' && !(value instanceof Date)) {
-            return this.addToHttpParamsRecursive(httpParams, value, isDeep ? key : undefined, isDeep);
-        }
-        return this.addToHttpParamsRecursive(httpParams, value, key);
-    }
-
-    protected addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string, isDeep: boolean = false): HttpParams {
+    protected addToHttpParams(httpParams: OpenApiHttpParams, key: string, value: any | null | undefined, paramStyle: QueryParamStyle, explode: boolean): OpenApiHttpParams {
         if (value === null || value === undefined) {
             return httpParams;
         }
-        if (typeof value === 'object') {
-            // If JSON format is preferred, key must be provided.
-            if (key != null) {
-                return isDeep
-                    ? Object.keys(value as Record<string, any>).reduce(
-                        (hp, k) => hp.append(`${key}[${k}]`, value[k]),
-                        httpParams,
-                    )
-                    : httpParams.append(key, JSON.stringify(value));
+
+        if (paramStyle === QueryParamStyle.DeepObject) {
+            if (typeof value !== 'object') {
+                throw Error(`An object must be provided for key ${key} as it is a deep object`);
             }
-            // Otherwise, if it's an array, add each element.
-            if (Array.isArray(value)) {
-                value.forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+
+            return Object.keys(value as Record<string, any>).reduce(
+                (hp, k) => hp.append(`${key}[${k}]`, value[k]),
+                httpParams,
+            );
+        } else if (paramStyle === QueryParamStyle.Json) {
+            return httpParams.append(key, JSON.stringify(value));
+        } else {
+            // Form-style, SpaceDelimited or PipeDelimited
+
+            if (Object(value) !== value) {
+                // If it is a primitive type, add its string representation
+                return httpParams.append(key, value.toString());
             } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, value.toISOString());
+                return httpParams.append(key, value.toISOString());
+            } else if (Array.isArray(value)) {
+                // Otherwise, if it's an array, add each element.
+                if (paramStyle === QueryParamStyle.Form) {
+                    return httpParams.set(key, value, {explode: explode, delimiter: ','});
+                } else if (paramStyle === QueryParamStyle.SpaceDelimited) {
+                    return httpParams.set(key, value, {explode: explode, delimiter: ' '});
                 } else {
-                    throw Error("key may not be null if value is Date");
+                    // PipeDelimited
+                    return httpParams.set(key, value, {explode: explode, delimiter: '|'});
                 }
             } else {
-                Object.keys(value).forEach(k => {
-                    const paramKey = key ? `${key}.${k}` : k;
-                    httpParams = this.addToHttpParamsRecursive(httpParams, value[k], paramKey);
-                });
+                // Otherwise, if it's an object, add each field.
+                if (paramStyle === QueryParamStyle.Form) {
+                    if (explode) {
+                        Object.keys(value).forEach(k => {
+                            httpParams = this.addToHttpParams(httpParams, k, value[k], paramStyle, explode);
+                        });
+                        return httpParams;
+                    } else {
+                        return concatHttpParamsObject(httpParams, key, value, ',');
+                    }
+                } else if (paramStyle === QueryParamStyle.SpaceDelimited) {
+                    return concatHttpParamsObject(httpParams, key, value, ' ');
+                } else {
+                    // PipeDelimited
+                    return concatHttpParamsObject(httpParams, key, value, '|');
+                }
             }
-            return httpParams;
-        } else if (key != null) {
-            return httpParams.append(key, value);
         }
-        throw Error("key may not be null if value is not object or array");
     }
 }
