@@ -33,7 +33,7 @@ public class CodegenOperation {
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+            returnContainer, summary, unescapedSummary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -429,6 +429,7 @@ public class CodegenOperation {
         sb.append(", returnBaseType='").append(returnBaseType).append('\'');
         sb.append(", returnContainer='").append(returnContainer).append('\'');
         sb.append(", summary='").append(summary).append('\'');
+        sb.append(", unescapedSummary='").append(unescapedSummary).append('\'');
         sb.append(", unescapedNotes='").append(unescapedNotes).append('\'');
         sb.append(", notes='").append(notes).append('\'');
         sb.append(", baseName='").append(baseName).append('\'');
@@ -502,6 +503,7 @@ public class CodegenOperation {
                 Objects.equals(returnBaseType, that.returnBaseType) &&
                 Objects.equals(returnContainer, that.returnContainer) &&
                 Objects.equals(summary, that.summary) &&
+                Objects.equals(unescapedSummary, that.unescapedSummary) &&
                 Objects.equals(unescapedNotes, that.unescapedNotes) &&
                 Objects.equals(notes, that.notes) &&
                 Objects.equals(baseName, that.baseName) &&
@@ -547,7 +549,7 @@ public class CodegenOperation {
                 returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
-                returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
+                returnBaseType, returnContainer, summary, unescapedSummary, unescapedNotes, notes, baseName, defaultResponse,
                 discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,
