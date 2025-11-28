@@ -9,3 +9,4 @@ additionalProperties:
   serverPort: "8082"
   dateLibrary: java8
   useOneOfDiscriminatorLookup: true
+  disallowAdditionalPropertiesIfNotPresent: true
