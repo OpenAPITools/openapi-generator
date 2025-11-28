@@ -486,7 +486,7 @@ public class TypeScriptAngularClientCodegenTest {
 
         // THEN
         final String fileContents = Files.readString(Paths.get(output + "/api/default.service.ts"));
-        assertThat(fileContents).containsOnlyOnce("<any>options, 'options', true);");
-        assertThat(fileContents).containsOnlyOnce("<any>inputOptions, 'inputOptions', true);");
+        assertThat(fileContents).containsSubsequence("'options',\n", "<any>options,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
+        assertThat(fileContents).containsSubsequence("'inputOptions',\n", "<any>inputOptions,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
     }
 }
