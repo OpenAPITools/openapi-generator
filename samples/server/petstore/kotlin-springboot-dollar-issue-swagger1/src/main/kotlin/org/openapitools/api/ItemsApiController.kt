@@ -41,9 +41,11 @@ class ItemsApiController(@Autowired(required = true) val service: ItemsApiServic
         value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         nickname = "itemsItemIdSomethingItemSubIdGet",
         notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
-        response = ItemsItemIdSomethingItemSubIdGet200Response::class)
+        response = ItemsItemIdSomethingItemSubIdGet200Response::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemsItemIdSomethingItemSubIdGet200Response::class)])
+        value = [ApiResponse(code = 200, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemsItemIdSomethingItemSubIdGet200Response::class)]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_ITEMS_ITEM_ID_SOMETHING_ITEM_SUB_ID_GET /* "/items/{item$Id}/something/{item$SubId}" */],
@@ -67,9 +69,11 @@ class ItemsApiController(@Autowired(required = true) val service: ItemsApiServic
         value = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
         nickname = "itemsPost",
         notes = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
-        response = ItemWithDollarAttributesAndExamples::class)
+        response = ItemWithDollarAttributesAndExamples::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 201, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemWithDollarAttributesAndExamples::class)])
+        value = [ApiResponse(code = 201, message = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", response = ItemWithDollarAttributesAndExamples::class)]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_ITEMS_POST /* "/items" */],

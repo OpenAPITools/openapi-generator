@@ -39,9 +39,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Create user",
         nickname = "createUser",
-        notes = "This can only be done by the logged in user.")
+        notes = "This can only be done by the logged in user."
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_CREATE_USER /* "/user" */]
@@ -56,9 +58,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithArrayInput",
-        notes = "")
+        notes = ""
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */]
@@ -73,9 +77,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Creates list of users with given input array",
         nickname = "createUsersWithListInput",
-        notes = "")
+        notes = ""
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */]
@@ -90,9 +96,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Delete user",
         nickname = "deleteUser",
-        notes = "This can only be done by the logged in user.")
+        notes = "This can only be done by the logged in user."
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
+        value = [ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = [PATH_DELETE_USER /* "/user/{username}" */]
@@ -108,9 +116,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = "Get user by user name",
         nickname = "getUserByName",
         notes = "",
-        response = User::class)
+        response = User::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
@@ -127,9 +137,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = "Logs user into the system",
         nickname = "loginUser",
         notes = "",
-        response = kotlin.String::class)
+        response = kotlin.String::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_LOGIN_USER /* "/user/login" */],
@@ -146,9 +158,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Logs out current logged in user session",
         nickname = "logoutUser",
-        notes = "")
+        notes = ""
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation")])
+        value = [ApiResponse(code = 200, message = "successful operation")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_LOGOUT_USER /* "/user/logout" */]
@@ -161,9 +175,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "logoutUserOptions",
         nickname = "logoutUserOptions",
-        notes = "")
+        notes = ""
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "endpoint configuration response")])
+        value = [ApiResponse(code = 200, message = "endpoint configuration response")]
+    )
     @RequestMapping(
         method = [RequestMethod.OPTIONS],
         value = [PATH_LOGOUT_USER_OPTIONS /* "/user/logout" */]
@@ -176,9 +192,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @ApiOperation(
         value = "Updated user",
         nickname = "updateUser",
-        notes = "This can only be done by the logged in user.")
+        notes = "This can only be done by the logged in user."
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")])
+        value = [ApiResponse(code = 400, message = "Invalid user supplied"),ApiResponse(code = 404, message = "User not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = [PATH_UPDATE_USER /* "/user/{username}" */]

@@ -39,9 +39,11 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @ApiOperation(
         value = "Delete purchase order by ID",
         nickname = "deleteOrder",
-        notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
+        notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
@@ -59,9 +61,11 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         notes = "Returns a map of status codes to quantities",
         response = kotlin.Int::class,
         responseContainer = "Map",
-        authorizations = [Authorization(value = "api_key")])
+        authorizations = [Authorization(value = "api_key")]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_GET_INVENTORY /* "/store/inventory" */],
@@ -76,9 +80,11 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = "Find purchase order by ID",
         nickname = "getOrderById",
         notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
-        response = Order::class)
+        response = Order::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
@@ -95,9 +101,11 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
         value = "Place an order for a pet",
         nickname = "placeOrder",
         notes = "",
-        response = Order::class)
+        response = Order::class
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_PLACE_ORDER /* "/store/order" */],
