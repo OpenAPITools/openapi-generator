@@ -20,7 +20,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.js"
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -32,9 +32,8 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "node-fetch": "^2.7.0",
-    "@types/node-fetch": "^2.6.13",
-    "@types/node": "^16.18.126",
+    "undici": "^7.16.0",
+    "@types/node": "^20.17.10",
     "form-data": "^4.0.4",
     "inversify": "^6.0.1",
     "es6-promise": "^4.2.4"

@@ -5,6 +5,9 @@
         "noImplicitAny": false,
         "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
         "module": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}commonjs{{/supportsES6}}",
+        {{^supportsES6}}
+        "downlevelIteration": true,
+        {{/supportsES6}}
         "moduleResolution": "node",
         "removeComments": true,
         "strictNullChecks": true,
