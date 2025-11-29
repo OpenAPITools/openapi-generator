@@ -655,7 +655,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 
 The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
 
-### Available Filters
+### Available FILTER filters
 
 - **`operationId`**  
   When set to `operationId:addPet|getPetById`, operations **not** matching `addPet` or `getPetById` will be marked as internal (`x-internal: true`), and excluded from generation. Matching operations will have `x-internal: false`.
@@ -668,6 +668,9 @@ The `FILTER` parameter allows selective inclusion of API operations based on spe
 
 - **`path`**  
   When set to `path:/v1|/v2`, operations on paths **not** starting with `/v1` or with `/v2` will be marked as internal (`x-internal: true`), and will not be generated.
+
+- **`x-`**  
+  When set to `x-role:admin|superuser`, operations or parameters having vendorExtension `x-role` with a value **not** in [`admin`,`superuser`] will be marked as internal (`x-internal: true`), and will not be generated.
 
 ### Example Usage
 
@@ -723,3 +726,52 @@ Into this securityScheme:
       scheme: bearer
       type: http
 ```
+
+- `REMOVE_FILTER`
+
+The `REMOVE_FILTER` parameter allows the removal of elements in an openAPI document. A semicolon can separate multiple filters.
+
+### Available REMOVE_FILTER filters
+
+- **`internal`**  
+  When specified as `internal` or set to `internal:true`, all operations, schemas, properties and parameters marked with `x-internal: true` are removed from the document. Optionally set individual options like in `internal:operations|schemas|properties|parameters`
+
+- **`deprecated`**  
+  When specified as `deprecated` or set to `deprecated:true`, all operations, schemas, properties and parameters marked with `deprecated: true` are removed.
+
+- **`removeTags`**  
+  When specified as `removeTags` or set to `removeTags:true`, all tags are removed from the operations.
+  When set to `removeTags:store|user` all tags named is `store` or `user` are removed.
+  When set to `removeTags:keepOnlyFirstTag` perform the KEEP_ONLY_FIRST_TAG_IN_OPERATION normalization
+
+- **`removeVendorExtensions`**  
+  When specified as `removeVendorExtensions` or set to `removeVendorExtensions:true`, remove all vendorExtensions (including x-internal).
+  When set to `removeVendorExtensions:x-role|x-groups`, remove all `x-role` and `x-groups` vendorExtensions. When set to `removeVendorExtensions:x-internal`, perform the REMOVE_X_INTERNAL normalization.
+
+- **`x-`**  
+  When specified as `x-role`, remove operations, schemas, properties and parameters having a vendor extension `x-role`.
+  When set to `x-role:admin|superuser`, remove operations, schemas, properties and parameters marked with vendorExtension `x-role: admin` or `x-role: superuser`.
+
+- **`tags`**  
+  When set as `tags:user|store`, remove operations marked with tags: user or store.
+
+- **`headers`**  
+  When set as `headers`, remove all headers.
+  When set as `headers:x-api-key`, remove header parameters named `x-api-key`.
+
+- **`cookies`**  
+  When set as `cookies`, remove all cookies.
+  When set as `cookies:x-api-key`, remove cookie parameters named `x-api-key`.
+
+- **`queryParams`**   
+  When set as `queryParams:offset|limit`, remove request parameters named `offset` or `limit`.`.
+ 
+- **`unused`**  
+  When specified as `unused` or set to `unused:true`, remove all unused schemas, tags, requestBodies, responses and parameters.
+  Optionally set individual options like in `unused:schemas|tags|requestBodies|responses|parameters`
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g openapi -i modules/openapi-generator/src/test/resources/3_1/java/petstore.yaml -o /tmp/openapi/ --openapi-normalizer FILTER=tag:pet --openapi-normalizer REMOVE_FILTER=internal;unused
+```
+generates an openapi.json without the store and user operations.
