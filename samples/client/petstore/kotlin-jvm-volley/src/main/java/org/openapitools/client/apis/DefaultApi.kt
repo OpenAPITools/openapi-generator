@@ -116,7 +116,7 @@ class DefaultApi (
      * @param formDollarValue SQ &#x3D; \\\&quot;; SBS &#x3D; \\\\; DBS &#x3D; \\\\\\\\; SD &#x3D; $some (optional, default to "SQ = \"; SBS = \\; DBS = \\\\; SD = $some")
      * @return ItemWithDollarAttributesAndExamples
      */
-    suspend fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"): ItemWithDollarAttributesAndExamples? {
+    suspend fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"): ItemWithDollarAttributesAndExamples? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf("application/x-www-form-urlencoded")
