@@ -62,7 +62,6 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.time.OffsetDateTime;
@@ -1051,7 +1050,7 @@ public class ApiClient extends JavaTimeFormatter {
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
-                Locale.ROOT,
+                java.util.Locale.ROOT,
                 "Invalid index %d when selecting the host settings. Must be less than %d",
                 index, serverConfigurations.size()));
       }

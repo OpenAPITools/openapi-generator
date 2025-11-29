@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -38,7 +37,6 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -134,7 +132,7 @@ public class Mammal extends AbstractOpenApiSchema {
                                 newMammal.setActualInstance(deserialized);
                                 return newMammal;
                             default:
-                                log.log(Level.WARNING, String.format(Locale.ROOT, "Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Mammal. Possible values: Pig whale zebra", jsonObject.get("className").getAsString()));
                         }
                     }
 
@@ -151,7 +149,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Whale'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
                     }
                     // deserialize Zebra
@@ -163,7 +161,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Zebra'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
                     }
                     // deserialize Pig
@@ -175,7 +173,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Pig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format(Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
                     }
 
@@ -185,7 +183,7 @@ public class Mammal extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format(Locale.ROOT, "Failed deserialization for Mammal: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Mammal: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -301,7 +299,7 @@ public class Mammal extends AbstractOpenApiSchema {
             Whale.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Zebra
@@ -309,7 +307,7 @@ public class Mammal extends AbstractOpenApiSchema {
             Zebra.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Pig
@@ -317,11 +315,11 @@ public class Mammal extends AbstractOpenApiSchema {
             Pig.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format(Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format(Locale.ROOT, "The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for Mammal with oneOf schemas: Pig, Whale, Zebra. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 
