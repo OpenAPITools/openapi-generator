@@ -31,7 +31,7 @@ import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 import org.openapitools.client.infrastructure.*
 
-class QueryApi(client: WebClient) : ApiClient(client) {
+open class QueryApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)

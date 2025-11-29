@@ -28,7 +28,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class FormApi(client: WebClient) : ApiClient(client) {
+open class FormApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
