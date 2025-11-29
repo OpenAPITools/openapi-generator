@@ -298,6 +298,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if th httpMethod is a GET
+     *
+     * @return true if httpMethod is a GET, false otherwise
+     */
+    public boolean isGet() {
+        return "GET".equalsIgnoreCase(httpMethod);
+    }
+
+    /**
      * Check if act as Restful index method
      *
      * @return true if act as Restful index method, false otherwise

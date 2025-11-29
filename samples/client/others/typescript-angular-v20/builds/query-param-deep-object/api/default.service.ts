@@ -37,68 +37,68 @@ export class DefaultService extends BaseService {
         super(basePath, configuration);
     }
 
-    /**
-     * @endpoint get /car
-     * @param filter 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     * @param options additional options
-     */
-    public getCars(filter?: CarFilter, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<Array<Car>>;
-    public getCars(filter?: CarFilter, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Car>>>;
-    public getCars(filter?: CarFilter, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Car>>>;
-    public getCars(filter?: CarFilter, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-
-        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
-
-        localVarQueryParameters = this.addToHttpParams(
-            localVarQueryParameters,
-            'filter',
-            <any>filter,
-            QueryParamStyle.DeepObject,
-            true,
-        );
-
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'text/plain'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-        const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
+        /**
+             * @endpoint get /car
+             * @param filter 
+                 * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+         * @param reportProgress flag to report request and response progress.
+         * @param options additional options
+         */
+        public getCars(filter?: CarFilter, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<Array<Car>>;
+        public getCars(filter?: CarFilter, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<Car>>>;
+        public getCars(filter?: CarFilter, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<Car>>>;
+        public getCars(filter?: CarFilter, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+                
+            let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+    
+            localVarQueryParameters = this.addToHttpParams(
+                localVarQueryParameters,
+                'filter',
+                <any>filter,
+                                QueryParamStyle.DeepObject,
+                                        true,
+            );
+    
+    
+            let localVarHeaders = this.defaultHeaders;
+    
+            const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+                'text/plain'
+            ]);
+            if (localVarHttpHeaderAcceptSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
             }
-        }
-
-        let localVarPath = `/car`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<Car>>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters.toHttpParams(),
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
-                reportProgress: reportProgress
+    
+            const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+        
+            const localVarTransferCache: boolean = options?.transferCache ?? true;
+    
+            
+                let responseType_: 'text' | 'json' | 'blob' = 'json';
+            if (localVarHttpHeaderAcceptSelected) {
+                if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                    responseType_ = 'text';
+                } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                    responseType_ = 'json';
+                } else {
+                    responseType_ = 'blob';
+                }
             }
-        );
-    }
+    
+            let localVarPath = `/car`;
+            const { basePath, withCredentials } = this.configuration;
+            return this.httpClient.request<Array<Car>>('get', `${basePath}${localVarPath}`,
+                {
+                    context: localVarHttpContext,
+                                        params: localVarQueryParameters.toHttpParams(),
+                            responseType: <any>responseType_,
+                    ...(withCredentials ? { withCredentials } : {}),
+                    headers: localVarHeaders,
+                    observe: observe,
+                    ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                    reportProgress: reportProgress
+                }
+            );
+        }
 
 }

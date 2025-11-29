@@ -35,110 +35,110 @@ export class DefaultService extends BaseService {
         super(basePath, configuration);
     }
 
-    /**
-     * @endpoint get /
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     * @param options additional options
-     */
-    public rootGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Fruit>;
-    public rootGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Fruit>>;
-    public rootGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Fruit>>;
-    public rootGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-            'application/json'
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
+        /**
+             * @endpoint get /
+                     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+         * @param reportProgress flag to report request and response progress.
+         * @param options additional options
+         */
+        public rootGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Fruit>;
+        public rootGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Fruit>>;
+        public rootGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Fruit>>;
+        public rootGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    
+            let localVarHeaders = this.defaultHeaders;
+    
+            const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+                'application/json'
+            ]);
+            if (localVarHttpHeaderAcceptSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
             }
-        }
-
-        let localVarPath = `/`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Fruit>('get', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
+    
+            const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+        
+            
+                let responseType_: 'text' | 'json' | 'blob' = 'json';
+            if (localVarHttpHeaderAcceptSelected) {
+                if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                    responseType_ = 'text';
+                } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                    responseType_ = 'json';
+                } else {
+                    responseType_ = 'blob';
+                }
             }
-        );
-    }
-
-    /**
-     * @endpoint put /
-     * @param body 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     * @param options additional options
-     */
-    public test(body?: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
-    public test(body?: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
-    public test(body?: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
-    public test(body?: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
-
-        let localVarHeaders = this.defaultHeaders;
-
-        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-        ]);
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    
+            let localVarPath = `/`;
+            const { basePath, withCredentials } = this.configuration;
+            return this.httpClient.request<Fruit>('get', `${basePath}${localVarPath}`,
+                {
+                    context: localVarHttpContext,
+                                                responseType: <any>responseType_,
+                    ...(withCredentials ? { withCredentials } : {}),
+                    headers: localVarHeaders,
+                    observe: observe,
+                    reportProgress: reportProgress
+                }
+            );
         }
 
-        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
+        /**
+             * @endpoint put /
+             * @param body 
+                 * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+         * @param reportProgress flag to report request and response progress.
+         * @param options additional options
+         */
+        public test(body?: any, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any>;
+        public test(body?: any, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpResponse<any>>;
+        public test(body?: any, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<HttpEvent<any>>;
+        public test(body?: any, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext}): Observable<any> {
+                
+            let localVarHeaders = this.defaultHeaders;
+    
+            const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            ]);
+            if (localVarHttpHeaderAcceptSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
             }
-        }
-
-        let localVarPath = `/`;
-        const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('put', `${basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: body,
-                responseType: <any>responseType_,
-                ...(withCredentials ? { withCredentials } : {}),
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
+    
+            const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+        
+    
+            // to determine the Content-Type header
+            const consumes: string[] = [
+                'application/json'
+            ];
+                    const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+            if (httpContentTypeSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
             }
-        );
-    }
+    
+                let responseType_: 'text' | 'json' | 'blob' = 'json';
+            if (localVarHttpHeaderAcceptSelected) {
+                if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                    responseType_ = 'text';
+                } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                    responseType_ = 'json';
+                } else {
+                    responseType_ = 'blob';
+                }
+            }
+    
+            let localVarPath = `/`;
+            const { basePath, withCredentials } = this.configuration;
+            return this.httpClient.request<any>('put', `${basePath}${localVarPath}`,
+                {
+                    context: localVarHttpContext,
+                        body: body,
+                                    responseType: <any>responseType_,
+                    ...(withCredentials ? { withCredentials } : {}),
+                    headers: localVarHeaders,
+                    observe: observe,
+                    reportProgress: reportProgress
+                }
+            );
+        }
 
 }
