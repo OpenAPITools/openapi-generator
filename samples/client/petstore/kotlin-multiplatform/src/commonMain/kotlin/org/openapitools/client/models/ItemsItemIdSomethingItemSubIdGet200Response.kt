@@ -33,10 +33,10 @@ import kotlinx.serialization.encoding.*
 data class ItemsItemIdSomethingItemSubIdGet200Response (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    @SerialName(value = "item\$Id") val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @SerialName(value = "item\$Id") val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    @SerialName(value = "name\$Value") val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @SerialName(value = "name\$Value") val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     @SerialName(value = "details\$Info") val detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null
 

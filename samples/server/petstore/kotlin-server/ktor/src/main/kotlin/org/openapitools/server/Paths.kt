@@ -26,7 +26,7 @@ object Paths {
      * @param xCustomHeader SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
      * @param xCustomHeaderTwo SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
      */
-    @Resource("/items/{item$Id}/something/{item$SubId}") class itemsItemIdSomethingItemSubIdGet(val itemDollarId: kotlin.String, val itemDollarSubId: kotlin.String, val filterDollarType: kotlin.String? = null, val filterDollarSubType: kotlin.String? = null)
+    @Resource("/items/{item\$Id}/something/{item\$SubId}") class itemsItemIdSomethingItemSubIdGet(val itemDollarId: kotlin.String, val itemDollarSubId: kotlin.String, val filterDollarType: kotlin.String? = null, val filterDollarSubType: kotlin.String? = null)
 
     /**
      * SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some

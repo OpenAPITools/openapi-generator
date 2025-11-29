@@ -27,12 +27,12 @@ data class ItemsItemIdSomethingItemSubIdGet200Response (
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
 
     @JsonProperty("item\$Id")
-    val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
 
     @JsonProperty("name\$Value")
-    val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
 
     @JsonProperty("details\$Info")

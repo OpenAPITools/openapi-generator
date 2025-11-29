@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo(
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     val detailDollarTwo: kotlin.Int? = null
 )

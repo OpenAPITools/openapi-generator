@@ -31,11 +31,11 @@ data class ItemWithDollarAttributesAndExamples (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "\$id")
-    var dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    var dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "\$name")
-    var dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+    var dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"
 
 ) {
 

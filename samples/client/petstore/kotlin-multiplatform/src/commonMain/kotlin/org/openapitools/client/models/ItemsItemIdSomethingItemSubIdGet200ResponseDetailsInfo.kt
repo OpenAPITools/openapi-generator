@@ -31,7 +31,7 @@ import kotlinx.serialization.encoding.*
 data class ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    @SerialName(value = "detail\$One") val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @SerialName(value = "detail\$One") val detailDollarOne: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @SerialName(value = "detail\$Two") val detailDollarTwo: kotlin.Int? = null

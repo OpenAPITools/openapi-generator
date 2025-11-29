@@ -58,8 +58,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
                     io.ktor.client.utils.EmptyContent
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
-            filterDollarType?.apply { localVariableQuery["filter$Type"] = listOf("$filterDollarType") }
-            filterDollarSubType?.apply { localVariableQuery["filter$SubType"] = listOf("$filterDollarSubType") }
+            filterDollarType?.apply { localVariableQuery["filter\$Type"] = listOf("$filterDollarType") }
+            filterDollarSubType?.apply { localVariableQuery["filter\$SubType"] = listOf("$filterDollarSubType") }
 
             val localVariableHeaders = mutableMapOf<String, String>()
             xCustomHeader?.apply { localVariableHeaders["X-Custom_Header"] = this.toString() }
@@ -67,7 +67,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
-            "/items/{item$Id}/something/{item$SubId}".replace("{" + "item$Id" + "}", "$itemDollarId").replace("{" + "item$SubId" + "}", "$itemDollarSubId"),
+            "/items/{item\$Id}/something/{item\$SubId}".replace("{" + "item\$Id" + "}", "$itemDollarId").replace("{" + "item\$SubId" + "}", "$itemDollarSubId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -96,8 +96,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
             val localVariableBody = 
                         ParametersBuilder().also {
-                        formDollarName?.apply { it.append("form$Name", formDollarName) }
-                        formDollarValue?.apply { it.append("form$Value", formDollarValue) }
+                        formDollarName?.apply { it.append("form\$Name", formDollarName) }
+                        formDollarValue?.apply { it.append("form\$Value", formDollarValue) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()

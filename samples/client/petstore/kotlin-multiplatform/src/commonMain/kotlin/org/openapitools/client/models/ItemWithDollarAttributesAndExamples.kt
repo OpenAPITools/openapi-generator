@@ -31,10 +31,10 @@ import kotlinx.serialization.encoding.*
 data class ItemWithDollarAttributesAndExamples (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    @SerialName(value = "\$id") val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    @SerialName(value = "\$id") val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    @SerialName(value = "\$name") val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+    @SerialName(value = "\$name") val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"
 
 ) {
 

@@ -23,9 +23,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ItemsItemIdSomethingItemSubIdGet200Response(
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    var itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    var itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    var nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    var nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
     var detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null
 )
 

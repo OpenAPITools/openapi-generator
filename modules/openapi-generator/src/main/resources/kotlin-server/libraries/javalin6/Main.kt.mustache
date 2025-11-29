@@ -23,7 +23,7 @@ fun main() {
                 {{#apis}}
                 {{#operations}}
                 {{#operation}}
-                path("{{path}}") { {{#lowercase}}{{httpMethod}}{{/lowercase}}({{#camelcase}}{{classname}}{{/camelcase}}::{{operationId}}) }
+                path("{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}") { {{#lowercase}}{{httpMethod}}{{/lowercase}}({{#camelcase}}{{classname}}{{/camelcase}}::{{operationId}}) }
                 {{/operation}}
                 {{/operations}}
 

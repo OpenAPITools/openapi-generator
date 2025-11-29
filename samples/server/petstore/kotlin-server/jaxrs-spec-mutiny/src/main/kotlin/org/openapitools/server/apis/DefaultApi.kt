@@ -16,9 +16,9 @@ import java.io.InputStream
 interface DefaultApi {
 
     @GET
-    @Path("/items/{item$Id}/something/{item$SubId}")
+    @Path("/items/{item\$Id}/something/{item\$SubId}")
     @Produces("application/json")
-    fun itemsItemIdSomethingItemSubIdGet(@PathParam("item\$Id") itemDollarId: kotlin.String,@PathParam("item\$SubId") itemDollarSubId: kotlin.String,@QueryParam("filter\$Type") @DefaultValue("SQ = \"; SBS = \\; DBS = \\\\; SD = $some")   filterDollarType: kotlin.String,@QueryParam("filter\$SubType") @DefaultValue("SQ = \"; SBS = \\; DBS = \\\\; SD = $some")   filterDollarSubType: kotlin.String,@HeaderParam("X-Custom_Header")   xCustomHeader: kotlin.String?,@HeaderParam("X-Custom_Header_two")   xCustomHeaderTwo: kotlin.String?): io.smallrye.mutiny.Uni<Response>
+    fun itemsItemIdSomethingItemSubIdGet(@PathParam("item\$Id") itemDollarId: kotlin.String,@PathParam("item\$SubId") itemDollarSubId: kotlin.String,@QueryParam("filter\$Type") @DefaultValue("SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")   filterDollarType: kotlin.String,@QueryParam("filter\$SubType") @DefaultValue("SQ = \"; SBS = \\; DBS = \\\\; SD = \$some")   filterDollarSubType: kotlin.String,@HeaderParam("X-Custom_Header")   xCustomHeader: kotlin.String?,@HeaderParam("X-Custom_Header_two")   xCustomHeaderTwo: kotlin.String?): io.smallrye.mutiny.Uni<Response>
 
     @POST
     @Path("/items")

@@ -33,11 +33,11 @@ internal data class ItemsItemIdSomethingItemSubIdGet200Response (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "item\$Id")
-    val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "name\$Value")
-    val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     @Json(name = "details\$Info")
     val detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null

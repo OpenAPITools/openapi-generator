@@ -30,11 +30,11 @@ data class ItemWithDollarAttributesAndExamples (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @SerializedName("\$id")
-    val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @SerializedName("\$name")
-    val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+    val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"
 
 ) {
 

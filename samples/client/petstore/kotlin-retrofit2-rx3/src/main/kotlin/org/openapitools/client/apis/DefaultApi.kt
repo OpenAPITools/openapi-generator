@@ -26,8 +26,8 @@ interface DefaultApi {
      * @param xCustomHeaderTwo SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
      * @return [Call]<[ItemsItemIdSomethingItemSubIdGet200Response]>
      */
-    @GET("items/{item$Id}/something/{item$SubId}")
-    fun itemsItemIdSomethingItemSubIdGet(@Path("item$Id") itemDollarId: kotlin.String, @Path("item$SubId") itemDollarSubId: kotlin.String, @Query("filter$Type") filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", @Query("filter$SubType") filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", @Header("X-Custom_Header") xCustomHeader: kotlin.String? = null, @Header("X-Custom_Header_two") xCustomHeaderTwo: kotlin.String? = null): Single<ItemsItemIdSomethingItemSubIdGet200Response>
+    @GET("items/{item\$Id}/something/{item\$SubId}")
+    fun itemsItemIdSomethingItemSubIdGet(@Path("item\$Id") itemDollarId: kotlin.String, @Path("item\$SubId") itemDollarSubId: kotlin.String, @Query("filter\$Type") filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", @Query("filter\$SubType") filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", @Header("X-Custom_Header") xCustomHeader: kotlin.String? = null, @Header("X-Custom_Header_two") xCustomHeaderTwo: kotlin.String? = null): Single<ItemsItemIdSomethingItemSubIdGet200Response>
 
     /**
      * POST items
@@ -43,6 +43,6 @@ interface DefaultApi {
      */
     @FormUrlEncoded
     @POST("items")
-    fun itemsPost(@Header("X-Post_Header") xPostHeader: kotlin.String? = null, @Field("form$Name") formDollarName: kotlin.String? = null, @Field("form$Value") formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"): Single<ItemWithDollarAttributesAndExamples>
+    fun itemsPost(@Header("X-Post_Header") xPostHeader: kotlin.String? = null, @Field("form\$Name") formDollarName: kotlin.String? = null, @Field("form\$Value") formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"): Single<ItemWithDollarAttributesAndExamples>
 
 }

@@ -65,7 +65,7 @@ public class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    public fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null) : ItemsItemIdSomethingItemSubIdGet200Response {
+    public fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null) : ItemsItemIdSomethingItemSubIdGet200Response {
         val localVarResponse = itemsItemIdSomethingItemSubIdGetWithHttpInfo(itemDollarId = itemDollarId, itemDollarSubId = itemDollarSubId, filterDollarType = filterDollarType, filterDollarSubType = filterDollarSubType, xCustomHeader = xCustomHeader, xCustomHeaderTwo = xCustomHeaderTwo)
 
         return when (localVarResponse.responseType) {
@@ -136,7 +136,7 @@ public class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/items/{item$Id}/something/{item$SubId}".replace("{"+"item\$Id"+"}", encodeURIComponent(itemDollarId.toString())).replace("{"+"item\$SubId"+"}", encodeURIComponent(itemDollarSubId.toString())),
+            path = "/items/{item\$Id}/something/{item\$SubId}".replace("{"+"item\$Id"+"}", encodeURIComponent(itemDollarId.toString())).replace("{"+"item\$SubId"+"}", encodeURIComponent(itemDollarSubId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -160,7 +160,7 @@ public class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    public fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some") : ItemWithDollarAttributesAndExamples {
+    public fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some") : ItemWithDollarAttributesAndExamples {
         val localVarResponse = itemsPostWithHttpInfo(xPostHeader = xPostHeader, formDollarName = formDollarName, formDollarValue = formDollarValue)
 
         return when (localVarResponse.responseType) {

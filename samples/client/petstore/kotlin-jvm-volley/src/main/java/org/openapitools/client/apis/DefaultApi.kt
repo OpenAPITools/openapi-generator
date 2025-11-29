@@ -46,7 +46,7 @@ class DefaultApi (
      * @param xCustomHeaderTwo SQ &#x3D; \&quot;; SBS &#x3D; \\; DBS &#x3D; \\\\; SD &#x3D; $some (optional)
      * @return ItemsItemIdSomethingItemSubIdGet200Response
      */
-    suspend fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null): ItemsItemIdSomethingItemSubIdGet200Response? {
+    suspend fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null): ItemsItemIdSomethingItemSubIdGet200Response? {
         val body: Any? = null
 
         val contentTypes : Array<String> = arrayOf()
@@ -58,7 +58,7 @@ class DefaultApi (
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "/items/{item$Id}/something/{item$SubId}".replace("{" + "item$Id" + "}", IRequestFactory.escapeString(itemDollarId.toString())).replace("{" + "item$SubId" + "}", IRequestFactory.escapeString(itemDollarSubId.toString()))
+        val path = "/items/{item\$Id}/something/{item\$SubId}".replace("{" + "item\$Id" + "}", IRequestFactory.escapeString(itemDollarId.toString())).replace("{" + "item\$SubId" + "}", IRequestFactory.escapeString(itemDollarSubId.toString()))
 
         val formParams = mapOf<String, String>()
 
@@ -67,8 +67,8 @@ class DefaultApi (
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>(
-                "filter$Type" to IRequestFactory.parameterToString(filterDollarType),
-                "filter$SubType" to IRequestFactory.parameterToString(filterDollarSubType)
+                "filter\$Type" to IRequestFactory.parameterToString(filterDollarType),
+                "filter\$SubType" to IRequestFactory.parameterToString(filterDollarSubType)
             )
             .filter { it.value.isNotEmpty() }
 
@@ -131,8 +131,8 @@ class DefaultApi (
         val path = "/items"
 
         val formParams = mapOf<String, String>(
-            "form$Name" to IRequestFactory.parameterToString(formDollarName),
-            "form$Value" to IRequestFactory.parameterToString(formDollarValue)
+            "form\$Name" to IRequestFactory.parameterToString(formDollarName),
+            "form\$Value" to IRequestFactory.parameterToString(formDollarValue)
         )
 
 

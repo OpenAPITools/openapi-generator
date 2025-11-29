@@ -21,9 +21,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ItemWithDollarAttributesAndExamples(
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    val dollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
-    val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+    val dollarName: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"
 )
 {
 }

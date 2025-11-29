@@ -55,7 +55,7 @@ open class DefaultApi : ApiClient {
      * @return ItemsItemIdSomethingItemSubIdGet200Response
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null): HttpResponse<ItemsItemIdSomethingItemSubIdGet200Response> {
+    open suspend fun itemsItemIdSomethingItemSubIdGet(itemDollarId: kotlin.String, itemDollarSubId: kotlin.String, filterDollarType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", filterDollarSubType: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some", xCustomHeader: kotlin.String? = null, xCustomHeaderTwo: kotlin.String? = null): HttpResponse<ItemsItemIdSomethingItemSubIdGet200Response> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -63,15 +63,15 @@ open class DefaultApi : ApiClient {
             io.ktor.client.utils.EmptyContent
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
-        filterDollarType?.apply { localVariableQuery["filter$Type"] = listOf("$filterDollarType") }
-        filterDollarSubType?.apply { localVariableQuery["filter$SubType"] = listOf("$filterDollarSubType") }
+        filterDollarType?.apply { localVariableQuery["filter\$Type"] = listOf("$filterDollarType") }
+        filterDollarSubType?.apply { localVariableQuery["filter\$SubType"] = listOf("$filterDollarSubType") }
         val localVariableHeaders = mutableMapOf<String, String>()
         xCustomHeader?.apply { localVariableHeaders["X-Custom_Header"] = this.toString() }
         xCustomHeaderTwo?.apply { localVariableHeaders["X-Custom_Header_two"] = this.toString() }
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
-            "/items/{item$Id}/something/{item$SubId}".replace("{" + "item$Id" + "}", "$itemDollarId").replace("{" + "item$SubId" + "}", "$itemDollarSubId"),
+            "/items/{item\$Id}/something/{item\$SubId}".replace("{" + "item\$Id" + "}", "$itemDollarId").replace("{" + "item\$SubId" + "}", "$itemDollarSubId"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -94,14 +94,14 @@ open class DefaultApi : ApiClient {
      * @return ItemWithDollarAttributesAndExamples
      */
     @Suppress("UNCHECKED_CAST")
-    open suspend fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"): HttpResponse<ItemWithDollarAttributesAndExamples> {
+    open suspend fun itemsPost(xPostHeader: kotlin.String? = null, formDollarName: kotlin.String? = null, formDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some"): HttpResponse<ItemWithDollarAttributesAndExamples> {
 
         val localVariableAuthNames = listOf<String>()
 
         val localVariableBody = 
             ParametersBuilder().also {
-                formDollarName?.apply { it.append("form$Name", formDollarName.toString()) }
-                formDollarValue?.apply { it.append("form$Value", formDollarValue.toString()) }
+                formDollarName?.apply { it.append("form\$Name", formDollarName.toString()) }
+                formDollarValue?.apply { it.append("form\$Value", formDollarValue.toString()) }
             }.build()
 
         val localVariableQuery = mutableMapOf<String, List<String>>()

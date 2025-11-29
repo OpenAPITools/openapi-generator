@@ -33,11 +33,11 @@ data class ItemsItemIdSomethingItemSubIdGet200Response (
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "item\$Id")
-    var itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    var itemDollarId: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     /* SQ = \"; SBS = \\; DBS = \\\\; SD = $some */
     @Json(name = "name\$Value")
-    var nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = $some",
+    var nameDollarValue: kotlin.String? = "SQ = \"; SBS = \\; DBS = \\\\; SD = \$some",
 
     @Json(name = "details\$Info")
     var detailsDollarInfo: ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo? = null
