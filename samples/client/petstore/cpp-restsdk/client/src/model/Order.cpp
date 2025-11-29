@@ -46,34 +46,34 @@ web::json::value Order::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_IdIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("id"))] = ModelBase::toJson(m_Id);
     }
     if(m_PetIdIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("petId"))] = ModelBase::toJson(m_PetId);
     }
     if(m_QuantityIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("quantity"))] = ModelBase::toJson(m_Quantity);
     }
     if(m_ShipDateIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("shipDate"))] = ModelBase::toJson(m_ShipDate);
     }
     if(m_StatusIsSet)
-    {   
+    {
         
         utility::string_t refVal = fromStatusEnum(m_Status);
         val[utility::conversions::to_string_t(_XPLATSTR("status"))] = ModelBase::toJson(refVal);
         
     }
     if(m_CompleteIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("complete"))] = ModelBase::toJson(m_Complete);
     }

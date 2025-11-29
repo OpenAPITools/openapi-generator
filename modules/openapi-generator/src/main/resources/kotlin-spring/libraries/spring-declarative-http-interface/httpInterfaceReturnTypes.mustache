@@ -1,0 +1,47 @@
+{{! handle reactive map and array}}
+{{#reactive}}
+{{#isMap}}
+{{#reactiveModeReactor}}Mono<{{/reactiveModeReactor}}{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}Map<String, {{{returnType}}}>{{#useResponseEntity}}>{{/useResponseEntity}}{{#reactiveModeReactor}}>{{/reactiveModeReactor}}
+{{/isMap}}
+{{#isArray}}
+{{! array handle reactive - reactor with/without ResponseEntity wrapper}}
+{{#reactiveModeReactor}}
+{{#useResponseEntity}}Mono<ResponseEntity<{{/useResponseEntity}}Flux<{{{returnType}}}>{{#useResponseEntity}}>>{{/useResponseEntity}}
+{{/reactiveModeReactor}}
+{{! array handle reactive - coroutines with/without ResponseEntity wrapper}}
+{{#reactiveModeCoroutines}}
+{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{{returnContainer}}}<{{{returnType}}}>{{#useResponseEntity}}>{{/useResponseEntity}}
+{{/reactiveModeCoroutines}}
+{{/isArray}}
+{{! handle reactive non-container - with/without ResponseEntity wrapper}}
+{{^returnContainer}}
+{{#reactiveModeReactor}}
+Mono<{{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{{returnType}}}{{#useResponseEntity}}>{{/useResponseEntity}}>
+{{/reactiveModeReactor}}
+{{#reactiveModeCoroutines}}
+{{#useResponseEntity}}
+ResponseEntity<{{/useResponseEntity}}{{{returnType}}}{{#useResponseEntity}}>
+{{/useResponseEntity}}
+{{/reactiveModeCoroutines}}
+{{/returnContainer}}
+{{/reactive}}
+{{^reactive}}
+{{! handle non-reactive map and array}}
+{{#isMap}}
+{{#useResponseEntity}}
+ResponseEntity<{{/useResponseEntity}}Map<String, {{{returnType}}}>{{#useResponseEntity}}>
+{{/useResponseEntity}}
+{{/isMap}}
+{{#isArray}}
+{{! array handle non-reactive - with/without ResponseEntity wrapper}}
+{{#useResponseEntity}}
+ResponseEntity<{{/useResponseEntity}}{{{returnContainer}}}<{{{returnType}}}>{{#useResponseEntity}}>
+{{/useResponseEntity}}
+{{/isArray}}
+{{! handle reactive non-container - with/without ResponseEntity wrapper}}
+{{^returnContainer}}
+{{#useResponseEntity}}
+ResponseEntity<{{/useResponseEntity}}{{{returnType}}}{{#useResponseEntity}}>
+{{/useResponseEntity}}
+{{/returnContainer}}
+{{/reactive}}

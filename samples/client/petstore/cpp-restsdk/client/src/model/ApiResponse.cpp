@@ -41,17 +41,17 @@ web::json::value ApiResponse::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_CodeIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("code"))] = ModelBase::toJson(m_Code);
     }
     if(m_TypeIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("type"))] = ModelBase::toJson(m_Type);
     }
     if(m_MessageIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("message"))] = ModelBase::toJson(m_Message);
     }

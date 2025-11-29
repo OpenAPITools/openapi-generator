@@ -91,7 +91,8 @@ public class ApiClient {
     protected InputStream sslCaCert;
     protected boolean verifyingSsl;
     protected KeyManager[] keyManagers;
-
+    protected String tlsServerName;
+    
     protected OkHttpClient httpClient;
     protected JSON json;
 
@@ -372,6 +373,29 @@ public class ApiClient {
      */
     public ApiClient setKeyManagers(KeyManager[] managers) {
         this.keyManagers = managers;
+        applySslSettings();
+        return this;
+    }
+
+    /**
+     * Get TLS server name for SNI (Server Name Indication).
+     *
+     * @return The TLS server name
+     */
+    public String getTlsServerName() {
+        return tlsServerName;
+    }
+
+    /**
+     * Set TLS server name for SNI (Server Name Indication).
+     * This is used to verify the server certificate against a specific hostname
+     * instead of the hostname in the URL.
+     *
+     * @param tlsServerName The TLS server name to use for certificate verification
+     * @return ApiClient
+     */
+    public ApiClient setTlsServerName(String tlsServerName) {
+        this.tlsServerName = tlsServerName;
         applySslSettings();
         return this;
     }
@@ -1635,7 +1659,17 @@ public class ApiClient {
                     trustManagerFactory.init(caKeyStore);
                 }
                 trustManagers = trustManagerFactory.getTrustManagers();
-                hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                if (tlsServerName != null && !tlsServerName.isEmpty()) {
+                    hostnameVerifier = new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String hostname, SSLSession session) {
+                            // Verify the certificate against tlsServerName instead of the actual hostname
+                            return OkHostnameVerifier.INSTANCE.verify(tlsServerName, session);
+                        }
+                    };
+                } else {
+                    hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                }
             }
 
             SSLContext sslContext = SSLContext.getInstance("TLS");

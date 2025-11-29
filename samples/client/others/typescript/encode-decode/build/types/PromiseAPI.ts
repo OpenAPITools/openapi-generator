@@ -84,7 +84,7 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<ComplexObject>>> {
+    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<ComplexObject | null>>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableObjectsGetWithHttpInfo(observableOptions);
         return result.toPromise();
@@ -92,7 +92,7 @@ export class PromiseDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGet(_options?: PromiseConfigurationOptions): Promise<Array<ComplexObject>> {
+    public testDecodeArrayOfNullableObjectsGet(_options?: PromiseConfigurationOptions): Promise<Array<ComplexObject | null>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testDecodeArrayOfNullableObjectsGet(observableOptions);
         return result.toPromise();
@@ -313,7 +313,7 @@ export class PromiseDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject | null>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, observableOptions);
         return result.toPromise();
@@ -322,7 +322,7 @@ export class PromiseDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: PromiseConfigurationOptions): Promise<void> {
+    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject | null>, _options?: PromiseConfigurationOptions): Promise<void> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.testEncodeArrayOfNullableObjectsPost(complexObject, observableOptions);
         return result.toPromise();

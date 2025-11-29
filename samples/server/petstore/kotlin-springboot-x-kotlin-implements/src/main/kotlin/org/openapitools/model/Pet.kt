@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -43,24 +44,31 @@ import javax.validation.Valid
 
 interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         override val name: kotlin.String
 
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val photoUrls: kotlin.collections.List<kotlin.String>
 
         
+        @get:ApiModelProperty(example = "null", required = true, value = "")
         val petType: kotlin.String
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         val id: kotlin.Long? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         override val category: Category? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         val tags: kotlin.collections.List<Tag>? 
 
         
+        @get:ApiModelProperty(example = "null", value = "")
         val color: Color? 
 
 

@@ -136,7 +136,7 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<ComplexObject>>> {
+    public testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options?: ConfigurationOptions): Observable<HttpInfo<Array<ComplexObject | null>>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.testDecodeArrayOfNullableObjectsGet(_config);
@@ -158,8 +158,8 @@ export class ObservableDefaultApi {
 
     /**
      */
-    public testDecodeArrayOfNullableObjectsGet(_options?: ConfigurationOptions): Observable<Array<ComplexObject>> {
-        return this.testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<ComplexObject>>) => apiResponse.data));
+    public testDecodeArrayOfNullableObjectsGet(_options?: ConfigurationOptions): Observable<Array<ComplexObject | null>> {
+        return this.testDecodeArrayOfNullableObjectsGetWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<ComplexObject | null>>) => apiResponse.data));
     }
 
     /**
@@ -533,7 +533,7 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+    public testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject: Array<ComplexObject | null>, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.testEncodeArrayOfNullableObjectsPost(complexObject, _config);
@@ -556,7 +556,7 @@ export class ObservableDefaultApi {
     /**
      * @param complexObject
      */
-    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject>, _options?: ConfigurationOptions): Observable<void> {
+    public testEncodeArrayOfNullableObjectsPost(complexObject: Array<ComplexObject | null>, _options?: ConfigurationOptions): Observable<void> {
         return this.testEncodeArrayOfNullableObjectsPostWithHttpInfo(complexObject, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
     }
 

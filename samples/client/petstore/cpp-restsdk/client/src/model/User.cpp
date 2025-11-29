@@ -51,42 +51,42 @@ web::json::value User::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_IdIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("id"))] = ModelBase::toJson(m_Id);
     }
     if(m_UsernameIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("username"))] = ModelBase::toJson(m_Username);
     }
     if(m_FirstNameIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("firstName"))] = ModelBase::toJson(m_FirstName);
     }
     if(m_LastNameIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("lastName"))] = ModelBase::toJson(m_LastName);
     }
     if(m_EmailIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("email"))] = ModelBase::toJson(m_Email);
     }
     if(m_PasswordIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("password"))] = ModelBase::toJson(m_Password);
     }
     if(m_PhoneIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("phone"))] = ModelBase::toJson(m_Phone);
     }
     if(m_UserStatusIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("userStatus"))] = ModelBase::toJson(m_UserStatus);
     }

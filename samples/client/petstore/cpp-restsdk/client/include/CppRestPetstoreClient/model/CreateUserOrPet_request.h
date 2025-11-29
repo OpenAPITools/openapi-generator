@@ -20,6 +20,7 @@
 
 #include <stdexcept>
 #include <variant>
+#include <boost/optional.hpp>
 
 #include "CppRestPetstoreClient/ModelBase.h"
 

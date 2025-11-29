@@ -53,6 +53,7 @@ test {
     useJUnitPlatform()
 }
 
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.google.code.gson:gson:2.13.2"
@@ -61,4 +62,19 @@ dependencies {
     implementation "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-petstore-jvm-vertx'
+            version = '1.0.0'
+            from components.java
+        }
+    }
 }

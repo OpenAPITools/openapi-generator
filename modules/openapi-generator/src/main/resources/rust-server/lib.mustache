@@ -3,6 +3,8 @@
 
 use async_trait::async_trait;
 use futures::Stream;
+#[cfg(feature = "mock")]
+use mockall::automock;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
@@ -33,6 +35,7 @@ pub use auth::{AuthenticationApi, Claims};
   {{/apis}}
 {{/apiInfo}}
 /// API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait Api<C: Send + Sync> {
@@ -43,10 +46,10 @@ pub trait Api<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -57,9 +60,14 @@ pub trait Api<C: Send + Sync> {
 }
 
 /// API where `Context` isn't passed on every API call
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 #[allow(clippy::too_many_arguments, clippy::ptr_arg)]
 pub trait ApiNoContext<C: Send + Sync> {
+    // The std::task::Context struct houses a reference to std::task::Waker with the lifetime <'a>.
+    // Adding an anonymous lifetime `'a` to allow mockall to create a mock object with the right lifetimes.
+    // This is needed because the compiler is unable to determine the lifetimes on F's trait bound
+    // where F is the closure created by mockall. We use higher-rank trait bounds here to get around this.
 
     fn context(&self) -> &C;
 
@@ -70,10 +78,10 @@ pub trait ApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -109,10 +117,10 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
@@ -146,6 +154,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{/apiInfo}}
 
 /// Callback API
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApi<C: Send + Sync> {
 
@@ -159,7 +168,7 @@ pub trait CallbackApi<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#exts}}
   {{#x-callback-params}}
@@ -167,7 +176,7 @@ pub trait CallbackApi<C: Send + Sync> {
   {{/x-callback-params}}
 {{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         context: &C) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -181,6 +190,7 @@ pub trait CallbackApi<C: Send + Sync> {
 }
 
 /// Callback API without a `Context`
+#[cfg_attr(feature = "mock", automock)]
 #[async_trait]
 pub trait CallbackApiNoContext<C: Send + Sync> {
 
@@ -196,7 +206,7 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{.}}}
 {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#exts}}
   {{#x-callback-params}}
@@ -204,7 +214,7 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
   {{/x-callback-params}}
 {{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>;
 
@@ -246,7 +256,7 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
               {{#summary}}
     /// {{{.}}}
               {{/summary}}
-    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}(
+    async fn {{#exts}}{{{x-operation-id}}}{{/exts}}{{#exts.x-has-borrowed-params}}<'a>{{/exts.x-has-borrowed-params}}(
         &self,
 {{#exts}}
   {{#x-callback-params}}
@@ -254,7 +264,7 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
   {{/x-callback-params}}
 {{/exts}}
 {{#allParams}}
-        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{{dataType}}}{{^required}}>{{/required}},
+        {{{paramName}}}: {{^required}}Option<{{/required}}{{#isArray}}&{{/isArray}}{{#exts.x-param-needs-lifetime}}'a {{/exts.x-param-needs-lifetime}}{{{dataType}}}{{^required}}>{{/required}},
 {{/allParams}}
         ) -> Result<{{{operationId}}}Response, ApiError>
     {

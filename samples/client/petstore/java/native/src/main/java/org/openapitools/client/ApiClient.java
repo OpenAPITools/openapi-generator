@@ -20,6 +20,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.InputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -34,6 +35,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
+import java.util.Optional;
+import java.util.zip.GZIPInputStream;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -62,7 +65,7 @@ public class ApiClient {
   protected String basePath;
   protected Consumer<HttpRequest.Builder> interceptor;
   protected Consumer<HttpResponse<InputStream>> responseInterceptor;
-  protected Consumer<HttpResponse<String>> asyncResponseInterceptor;
+  protected Consumer<HttpResponse<InputStream>> asyncResponseInterceptor;
   protected Duration readTimeout;
   protected Duration connectTimeout;
 
@@ -384,7 +387,7 @@ public class ApiClient {
    *                    of null resets the interceptor to a no-op.
    * @return This object.
    */
-  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<String>> interceptor) {
+  public ApiClient setAsyncResponseInterceptor(Consumer<HttpResponse<InputStream>> interceptor) {
     this.asyncResponseInterceptor = interceptor;
     return this;
   }
@@ -394,7 +397,7 @@ public class ApiClient {
    *
    * @return The custom interceptor that was set, or null if there isn't any.
    */
-  public Consumer<HttpResponse<String>> getAsyncResponseInterceptor() {
+  public Consumer<HttpResponse<InputStream>> getAsyncResponseInterceptor() {
     return asyncResponseInterceptor;
   }
 
@@ -454,4 +457,32 @@ public class ApiClient {
   public Duration getConnectTimeout() {
     return connectTimeout;
   }
+
+  /**
+   * Returns the response body InputStream, transparently decoding gzip-compressed
+   * payloads when the server sets {@code Content-Encoding: gzip}.
+   *
+   * @param response HTTP response whose body should be consumed
+   * @return Original or decompressed InputStream for the response body
+   * @throws IOException if the response body cannot be accessed or wrapping fails
+   */
+  public static InputStream getResponseBody(HttpResponse<InputStream> response) throws IOException {
+    if (response == null) {
+      return null;
+    }
+    InputStream body = response.body();
+    if (body == null) {
+      return null;
+    }
+    Optional<String> encoding = response.headers().firstValue("Content-Encoding");
+    if (encoding.isPresent()) {
+      for (String token : encoding.get().split(",")) {
+        if ("gzip".equalsIgnoreCase(token.trim())) {
+          return new GZIPInputStream(body);
+        }
+      }
+    }
+    return body;
+  }
+
 }

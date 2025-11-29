@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -21,10 +22,13 @@ import javax.validation.Valid
  */
 data class ModelApiResponse(
 
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("code") val code: kotlin.Int? = null,
 
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("type") val type: kotlin.String? = null,
 
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("message") val message: kotlin.String? = null
 ) : Serializable {
 

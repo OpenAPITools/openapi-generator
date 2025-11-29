@@ -26,10 +26,19 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 Module | Proc | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 api_pet | addPet | **POST** /pet | Add a new pet to the store
+api_pet | addPetReview | **POST** /comments | Add a pet review (tests _id field mapping)
+api_pet | createPetAlert | **POST** /notifications | Create pet alert
 api_pet | deletePet | **DELETE** /pet/{petId} | Deletes a pet
 api_pet | findPetsByStatus | **GET** /pet/findByStatus | Finds Pets by status
 api_pet | findPetsByTags | **GET** /pet/findByTags | Finds Pets by tags
+api_pet | getPetAlerts | **GET** /notifications | Get pet alerts (tests integer enum)
+api_pet | getPetAuditLogs | **GET** /audit | Get pet audit logs (combined test)
 api_pet | getPetById | **GET** /pet/{petId} | Find pet by ID
+api_pet | getPetReviews | **GET** /comments | Get pet reviews (tests _id field mapping and arrays)
+api_pet | getPetStats | **GET** /pet/stats | Get pet statistics (tests _200_ response normalization)
+api_pet | markIgnored | **POST** /ignored | Mark as ignored (tests inline enum)
+api_pet | searchPetReviews | **GET** /comments/search | Search pet reviews (tests anyOf with underscores)
+api_pet | unfavoritePet | **DELETE** /pet/{petId}/favorite | Remove pet from favorites (tests DELETE with body)
 api_pet | updatePet | **PUT** /pet | Update an existing pet
 api_pet | updatePetWithForm | **POST** /pet/{petId} | Updates a pet in the store with form data
 api_pet | uploadFile | **POST** /pet/{petId}/uploadImage | uploads an image

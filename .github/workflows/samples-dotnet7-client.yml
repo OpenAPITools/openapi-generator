@@ -43,7 +43,7 @@ jobs:
           - samples/client/petstore/csharp/restsharp/standard2.0/ConditionalSerialization/
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.0.0
+      - uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '7.0.x'
       - name: Build

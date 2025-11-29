@@ -33,7 +33,9 @@ include = ["{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+{{^async}}
 urllib3 = ">= 2.1.0, < 3.0.0"
+{{/async}}
 python-dateutil = ">= 2.8.2"
 {{#asyncio}}
 aiohttp = ">= 3.8.4"
@@ -59,7 +61,9 @@ lazy-imports = ">= 1, < 2"
 requires-python = ">=3.9"
 
 dependencies = [
+{{^async}}
   "urllib3 (>=2.1.0,<3.0.0)",
+{{/async}}
   "python-dateutil (>=2.8.2)",
 {{#httpx}}
   "httpx (>=0.28.1)",

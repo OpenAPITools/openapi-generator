@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 import javax.validation.Valid
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * 
@@ -27,27 +28,37 @@ import javax.validation.Valid
  */
 data class Dog(
 
+    @ApiModelProperty(example = "null", required = true, value = "")
     @get:JsonProperty("bark", required = true) val bark: kotlin.Boolean,
 
+    @ApiModelProperty(example = "null", required = true, value = "")
     @get:JsonProperty("breed", required = true) val breed: Dog.Breed,
 
+    @ApiModelProperty(example = "null", required = true, value = "Whether the dog enjoys fetching")
     @get:JsonProperty("likesFetch", required = true) override val likesFetch: kotlin.Boolean,
 
+    @ApiModelProperty(example = "null", required = true, value = "")
     @get:JsonProperty("name", required = true) override val name: kotlin.String,
 
+    @ApiModelProperty(example = "null", required = true, value = "")
     @get:JsonProperty("photoUrls", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,
 
+    @ApiModelProperty(example = "null", required = true, value = "")
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String,
 
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @field:Valid
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("category") override val category: Category? = null,
 
     @field:Valid
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
 
     @field:Valid
+    @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("color") override val color: Color? = null
 ) : Pet, Serializable,  com.some.pack.Fetchable {
 

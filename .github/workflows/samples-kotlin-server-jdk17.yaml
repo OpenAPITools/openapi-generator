@@ -8,6 +8,7 @@ on:
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-spring-declarative*/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -17,6 +18,7 @@ on:
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
+      - 'samples/server/petstore/kotlin-spring-declarative*/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -34,6 +36,7 @@ jobs:
           # server
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-3-no-response-entity
           - samples/server/petstore/kotlin-springboot-additionalproperties
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request-cookie
@@ -44,6 +47,10 @@ jobs:
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
           - samples/server/petstore/kotlin-misk
+          - samples/server/petstore/kotlin-spring-declarative-interface
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
+          - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
+          - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

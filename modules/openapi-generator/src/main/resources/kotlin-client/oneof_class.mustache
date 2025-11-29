@@ -37,6 +37,28 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
+{{^enumUnknownDefaultCase}}
+{{#generateOneOfAnyOfWrappers}}
+{{#discriminator}}
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+{{/discriminator}}
+{{/generateOneOfAnyOfWrappers}}
+{{/enumUnknownDefaultCase}}
+{{#generateOneOfAnyOfWrappers}}
+{{#discriminator}}
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.JsonEncoder
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+{{/discriminator}}
+{{/generateOneOfAnyOfWrappers}}
 {{#hasEnums}}
 {{/hasEnums}}
 {{/kotlinx_serialization}}
@@ -57,7 +79,9 @@ import java.io.Serializable
 import {{roomModelPackage}}.{{classname}}RoomModel
 import {{packageName}}.infrastructure.ITransformForStorage
 {{/generateRoomModels}}
+{{^kotlinx_serialization}}
 import java.io.IOException
+{{/kotlinx_serialization}}
 
 /**
  * {{{description}}}
@@ -66,12 +90,68 @@ import java.io.IOException
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
+{{^generateOneOfAnyOfWrappers}}
+{{^discriminator}}
 {{#multiplatform}}{{^discriminator}}@Serializable{{/discriminator}}{{/multiplatform}}{{#kotlinx_serialization}}{{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{/serializableModel}}{{/kotlinx_serialization}}{{#moshi}}{{#moshiCodeGen}}@JsonClass(generateAdapter = true){{/moshiCodeGen}}{{/moshi}}{{#jackson}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{/jackson}}
+{{/discriminator}}
+{{/generateOneOfAnyOfWrappers}}
+{{#kotlinx_serialization}}
+{{#generateOneOfAnyOfWrappers}}
+{{#discriminator}}
+@Serializable(with = {{classname}}Serializer::class)
+{{/discriminator}}
+{{/generateOneOfAnyOfWrappers}}
+{{/kotlinx_serialization}}
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
+{{#kotlinx_serialization}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
+{{#discriminator.mappedModels}}
+    @JvmInline
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}} value class {{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(val value: {{modelName}}) : {{classname}}
 
+{{/discriminator.mappedModels}}
+}
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("{{classname}}")
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        require(encoder is JsonEncoder)
+        val jsonObject = when (value) {
+{{#discriminator.mappedModels}}
+            is {{classname}}.{{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}} -> {
+                val jsonMap = encoder.json.encodeToJsonElement({{modelName}}.serializer(), value.value).jsonObject.toMutableMap()
+                jsonMap["{{discriminator.propertyBaseName}}"] = JsonPrimitive("{{mappingName}}")
+                JsonObject(jsonMap)
+            }
+{{/discriminator.mappedModels}}
+        }
+        encoder.encodeJsonElement(jsonObject)
+    }
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        require(decoder is JsonDecoder)
+        val element = decoder.decodeJsonElement().jsonObject
+
+        val discriminatorValue = element["{{discriminator.propertyBaseName}}"]?.jsonPrimitive?.content
+            ?: throw SerializationException("Missing {{discriminator.propertyBaseName}} field")
+
+        return when (discriminatorValue) {
+{{#discriminator.mappedModels}}
+            "{{mappingName}}" -> {
+                val decoded = decoder.json.decodeFromJsonElement({{modelName}}.serializer(), element)
+                {{classname}}.{{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(decoded)
+            }
+{{/discriminator.mappedModels}}
+            else -> throw SerializationException("Unknown {{classname}} {{discriminator.propertyBaseName}}: $discriminatorValue")
+        }
+    }
+}
+{{/kotlinx_serialization}}
+{{^kotlinx_serialization}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
 
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -333,3 +413,4 @@ import java.io.IOException
         }
     }
 }
+{{/kotlinx_serialization}}
