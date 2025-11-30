@@ -397,13 +397,20 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isNullable}}
     {{/required}}
     {{^required}}
-    if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         multipart_form = multipart_form.file("{{{baseName}}}", param_value)?;
     }
     {{/required}}
     {{/supportAsync}}
     {{#supportAsync}}
-    // TODO: support file upload for '{{{baseName}}}' parameter
+    {{^required}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+       multipart_form = multipart_form.file("{{{baseName}}}", param_value.as_os_str()).await?;
+    }
+    {{/required}}
+    {{#required}}
+    multipart_form = multipart_form.file("{{{baseName}}}", {{{vendorExtensions.x-rust-param-identifier}}}.as_os_str()).await?;
+    {{/required}}
     {{/supportAsync}}
     {{/isFile}}
     {{^isFile}}
@@ -420,7 +427,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/required}}
     {{^required}}
     if let Some(param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-        multipart_form = multipart_form.text("{{{baseName}}}", param_value{{#isArray}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isArray}}.to_string());
+    {{#isPrimitiveType}}
+        multipart_form = multipart_form.text("{{{baseName}}}", param_value.to_string());
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+        multipart_form = multipart_form.text("{{{baseName}}}", serde_json::to_string(&param_value)?);
+    {{/isPrimitiveType}}
     }
     {{/required}}
     {{/isFile}}
