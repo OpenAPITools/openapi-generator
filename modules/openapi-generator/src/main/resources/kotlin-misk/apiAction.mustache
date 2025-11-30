@@ -45,7 +45,7 @@ class {{classname}}Action @Inject constructor(
 {{#operation}}
 
     @{{httpMethod}}("{{{actionPathPrefix}}}{{path}}")
-    @Description("{{{summary}}}"){{#hasConsumes}}
+    @Description("{{#lambda.escapeDollar}}{{{summary}}}{{/lambda.escapeDollar}}"){{#hasConsumes}}
     {{{actionRequestContentType}}}({{#consumes}}{{{actionRequestContentTypePrefix}}}.{{{mediaType}}}{{^-last}}, {{/-last}}{{/consumes}}){{/hasConsumes}}{{#hasProduces}}
     @ResponseContentType({{#produces}}MediaTypes.{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}){{/hasProduces}}
 {{#actionAnnotations}}

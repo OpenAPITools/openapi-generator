@@ -15,7 +15,7 @@ import java.io.InputStream
 import {{javaxPackage}}.validation.Valid{{/useBeanValidation}}
 
 {{#useSwaggerAnnotations}}
-@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
+@Api(description = "the {{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}} }){{/hasProduces}}
 @Path("/")

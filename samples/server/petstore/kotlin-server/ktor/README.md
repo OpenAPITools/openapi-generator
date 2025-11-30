@@ -49,6 +49,8 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**itemsItemIdSomethingItemSubIdGet**](docs/DefaultApi.md#itemsitemidsomethingitemsubidget) | **GET** /items/{item$Id}/something/{item$SubId} | SQ = \"; SBS = \\; DBS = \\\\; SD = $some
+*DefaultApi* | [**itemsPost**](docs/DefaultApi.md#itemspost) | **POST** /items | SQ = \"; SBS = \\; DBS = \\\\; SD = $some
 *PetApi* | [**addPet**](docs/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
@@ -75,6 +77,9 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [org.openapitools.server.models.Category](docs/Category.md)
+ - [org.openapitools.server.models.ItemWithDollarAttributesAndExamples](docs/ItemWithDollarAttributesAndExamples.md)
+ - [org.openapitools.server.models.ItemsItemIdSomethingItemSubIdGet200Response](docs/ItemsItemIdSomethingItemSubIdGet200Response.md)
+ - [org.openapitools.server.models.ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo](docs/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.md)
  - [org.openapitools.server.models.ModelApiResponse](docs/ModelApiResponse.md)
  - [org.openapitools.server.models.Order](docs/Order.md)
  - [org.openapitools.server.models.Pet](docs/Pet.md)

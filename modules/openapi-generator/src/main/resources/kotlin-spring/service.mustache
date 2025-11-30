@@ -11,22 +11,22 @@ interface {{classname}}Service {
 {{#operation}}
 
     /**
-     * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
-    {{#notes}}
-     * {{.}}
-    {{/notes}}
+     * {{httpMethod}} {{{path}}}{{#unescapedSummary}} : {{{.}}}{{/unescapedSummary}}
+    {{#unescapedNotes}}
+     * {{{.}}}
+    {{/unescapedNotes}}
      *
     {{#allParams}}
-     * @param {{{paramName}}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
+     * @param {{{paramName}}} {{{unescapedDescription}}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{^isString}}{{{.}}}{{/isString}}{{#isString}}{{#lambda.escapeDollar}}{{{.}}}{{/lambda.escapeDollar}}{{/isString}}{{/defaultValue}}){{/required}}
     {{/allParams}}
-     * @return {{#responses}}{{message}} (status code {{code}}){{^-last}}
+     * @return {{#responses}}{{{unescapedMessage}}} (status code {{code}}){{^-last}}
      *         or {{/-last}}{{/responses}}
     {{#isDeprecated}}
      * @deprecated
     {{/isDeprecated}}
     {{#externalDocs}}
      * {{description}}
-     * @see <a href="{{url}}">{{summary}} Documentation</a>
+     * @see <a href="{{url}}">{{{summary}}} Documentation</a>
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */

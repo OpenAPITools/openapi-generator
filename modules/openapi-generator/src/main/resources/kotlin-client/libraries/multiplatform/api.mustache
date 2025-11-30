@@ -64,7 +64,7 @@ import kotlinx.serialization.encoding.*
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#required}}{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{#lambda.escapeDollar}}{{{defaultValue}}}{{/lambda.escapeDollar}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{/required}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{#lambda.escapeDollar}}{{{defaultValue}}}{{/lambda.escapeDollar}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): HttpResponse<{{{returnType}}}{{^returnType}}Unit{{/returnType}}> {
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{^-last}}, {{/-last}}{{/authMethods}})
 
@@ -76,11 +76,11 @@ import kotlinx.serialization.encoding.*
                 {{#formParams}}
                 {{#isArray}}
                 {{{paramName}}}?.onEach {
-                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it){{/isFile}}
+                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", it){{/isFile}}
                 }
                 {{/isArray}}
                 {{^isArray}}
-                {{{paramName}}}?.apply { {{#isFile}}append({{{baseName}}}){{/isFile}}{{^isFile}}append("{{{baseName}}}", {{^isEnumOrRef}}{{{paramName}}}{{/isEnumOrRef}}{{#isEnumOrRef}}{{{paramName}}}.value{{/isEnumOrRef}}){{/isFile}} }
+                {{{paramName}}}?.apply { {{#isFile}}append({{{baseName}}}){{/isFile}}{{^isFile}}append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{^isEnumOrRef}}{{{paramName}}}{{/isEnumOrRef}}{{#isEnumOrRef}}{{{paramName}}}.value{{/isEnumOrRef}}){{/isFile}} }
                 {{/isArray}}
                 {{/formParams}}
             }
@@ -88,7 +88,7 @@ import kotlinx.serialization.encoding.*
             {{^isMultipart}}
             ParametersBuilder().also {
                 {{#formParams}}
-                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{{paramName}}}?.apply { it.append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                 {{/formParams}}
             }.build()
             {{/isMultipart}}
@@ -99,13 +99,13 @@ import kotlinx.serialization.encoding.*
             {{/hasBodyParam}}
 
         val localVariableQuery = mutableMapOf<String, List<String>>(){{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}){{/isContainer}} }{{/queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}){{/isContainer}} }{{/queryParams}}
         val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
-        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
+        {{{paramName}}}?.apply { localVariableHeaders["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{/isContainer}}){{/pathParams}},
+            "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},

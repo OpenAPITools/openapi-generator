@@ -19,6 +19,7 @@ import io.ktor.client.engine.apache.Apache
 import io.ktor.server.config.HoconApplicationConfig
 import io.ktor.server.auth.*
 import org.openapitools.server.infrastructure.*
+import org.openapitools.server.apis.DefaultApi
 import org.openapitools.server.apis.PetApi
 import org.openapitools.server.apis.StoreApi
 import org.openapitools.server.apis.UserApi
@@ -61,6 +62,7 @@ fun Application.main() {
         }
     }
     routing {
+        DefaultApi()
         PetApi()
         StoreApi()
         UserApi()
