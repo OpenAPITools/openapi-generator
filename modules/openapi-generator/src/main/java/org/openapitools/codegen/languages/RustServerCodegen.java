@@ -1233,6 +1233,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesUuid", true);
             }
 
+            if (prop.isByteArray) {
+                additionalProperties.put("apiUsesByteArray", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);
@@ -1533,6 +1537,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // If a parameter uses UUIDs, we need to import the UUID package.
         if (uuidType.equals(param.dataType)) {
             additionalProperties.put("apiUsesUuid", true);
+        }
+
+        // If a parameter uses byte arrays, we need to set a flag.
+        if (param.isByteArray) {
+            additionalProperties.put("apiUsesByteArray", true);
         }
 
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
