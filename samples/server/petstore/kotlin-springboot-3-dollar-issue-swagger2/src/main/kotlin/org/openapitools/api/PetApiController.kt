@@ -1,0 +1,253 @@
+package org.openapitools.api
+
+import org.openapitools.model.ModelApiResponse
+import org.openapitools.model.Pet
+import io.swagger.v3.oas.annotations.*
+import io.swagger.v3.oas.annotations.enums.*
+import io.swagger.v3.oas.annotations.media.*
+import io.swagger.v3.oas.annotations.responses.*
+import io.swagger.v3.oas.annotations.security.*
+import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+
+import org.springframework.web.bind.annotation.*
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.context.request.NativeWebRequest
+import org.springframework.beans.factory.annotation.Autowired
+
+import jakarta.validation.Valid
+import jakarta.validation.constraints.DecimalMax
+import jakarta.validation.constraints.DecimalMin
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Pattern
+import jakarta.validation.constraints.Size
+
+import kotlin.collections.List
+import kotlin.collections.Map
+
+@RestController
+@Validated
+class PetApiController(@Autowired(required = true) val service: PetApiService) {
+
+    @Operation(
+        summary = "Add a new pet to the store",
+        operationId = "addPet",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "405", description = "Invalid input") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_ADD_PET /* "/pet" */],
+        consumes = ["application/json", "application/xml"]
+    )
+    fun addPet(
+        @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody body: Pet
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
+    }
+
+    @Operation(
+        summary = "Deletes a pet",
+        operationId = "deletePet",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "400", description = "Invalid pet value") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
+    )
+    fun deletePet(
+        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
+    }
+
+    @Operation(
+        summary = "Finds Pets by status",
+        operationId = "findPetsByStatus",
+        description = """Multiple status values can be provided with comma separated strings""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
+            ApiResponse(responseCode = "400", description = "Invalid status value") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        produces = ["application/xml", "application/json"]
+    )
+    fun findPetsByStatus(
+        @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+    ): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        summary = "Finds Pets by tags",
+        operationId = "findPetsByTags",
+        description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
+            ApiResponse(responseCode = "400", description = "Invalid tag value") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        produces = ["application/xml", "application/json"]
+    )
+    fun findPetsByTags(
+        @NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
+    ): ResponseEntity<List<Pet>> {
+        return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        summary = "Get an image",
+        operationId = "getImage",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = org.springframework.core.io.Resource::class))]) ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_GET_IMAGE /* "/pet/{petId}/getImage" */],
+        produces = ["application/octet-stream"]
+    )
+    fun getImage(
+        @Parameter(description = "ID of pet to get image", required = true) @PathVariable("petId") petId: kotlin.Long
+    ): ResponseEntity<org.springframework.core.io.Resource> {
+        return ResponseEntity(service.getImage(petId), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        summary = "Find pet by ID",
+        operationId = "getPetById",
+        description = """Returns a single pet""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            ApiResponse(responseCode = "404", description = "Pet not found") ],
+        security = [ SecurityRequirement(name = "api_key") ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        produces = ["application/xml", "application/json"]
+    )
+    fun getPetById(
+        @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
+    ): ResponseEntity<Pet> {
+        return ResponseEntity(service.getPetById(petId), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        summary = "Update an existing pet",
+        operationId = "updatePet",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+            ApiResponse(responseCode = "404", description = "Pet not found"),
+            ApiResponse(responseCode = "405", description = "Validation exception") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.PUT],
+        value = [PATH_UPDATE_PET /* "/pet" */],
+        consumes = ["application/json", "application/xml"]
+    )
+    fun updatePet(
+        @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody body: Pet
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
+    }
+
+    @Operation(
+        summary = "Updates a pet in the store with form data",
+        operationId = "updatePetWithForm",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "405", description = "Invalid input") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        consumes = ["application/x-www-form-urlencoded"]
+    )
+    fun updatePetWithForm(
+        @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
+    }
+
+    @Operation(
+        summary = "uploads an image",
+        operationId = "uploadFile",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = ModelApiResponse::class))]) ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"]
+    )
+    fun uploadFile(
+        @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "image to upload") @Valid @RequestPart("image", required = true) image: org.springframework.web.multipart.MultipartFile,
+        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?
+    ): ResponseEntity<ModelApiResponse> {
+        return ResponseEntity(service.uploadFile(petId, image, additionalMetadata), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        summary = "uploads multiple images",
+        operationId = "uploadMultipleFile",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = ModelApiResponse::class))]) ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.POST],
+        value = [PATH_UPLOAD_MULTIPLE_FILE /* "/pet/{petId}/uploadMultipleImage" */],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"]
+    )
+    fun uploadMultipleFile(
+        @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "") @Valid @RequestPart("images", required = true) images: Array<org.springframework.web.multipart.MultipartFile>,
+        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?
+    ): ResponseEntity<ModelApiResponse> {
+        return ResponseEntity(service.uploadMultipleFile(petId, images, additionalMetadata), HttpStatus.valueOf(200))
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_ADD_PET: String = "/pet"
+        const val PATH_DELETE_PET: String = "/pet/{petId}"
+        const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
+        const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
+        const val PATH_GET_IMAGE: String = "/pet/{petId}/getImage"
+        const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_UPDATE_PET: String = "/pet"
+        const val PATH_UPDATE_PET_WITH_FORM: String = "/pet/{petId}"
+        const val PATH_UPLOAD_FILE: String = "/pet/{petId}/uploadImage"
+        const val PATH_UPLOAD_MULTIPLE_FILE: String = "/pet/{petId}/uploadMultipleImage"
+    }
+}

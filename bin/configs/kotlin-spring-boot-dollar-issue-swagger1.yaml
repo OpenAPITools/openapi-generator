@@ -1,0 +1,13 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-dollar-issue-swagger1
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with-tags.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: springFox
+  annotationLibrary: swagger1
+  useSwaggerUI: "false"
+  serviceImplementation: "true"
+  serializableModel: "true"
+  beanValidations: "true"
+  requestMappingMode: api_interface
