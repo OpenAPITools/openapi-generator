@@ -1,0 +1,116 @@
+{{#vendorExtensions.x-is-pure}}
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+        factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+        factory {{classname}}.fromJson(Map<String, dynamic> json) {
+            {{#discriminator}}
+                switch(json['{{propertyBaseName}}']){
+                    {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                }
+                return {{classname}}.unknown(json: json);
+            {{/discriminator}}
+            {{^discriminator}}
+                {{#vendorExtensions.x-parent-discriminator}}
+                    // So we try to parse the json based on the discriminator value and try to
+                    // return one of the valid model. Note: this approach tries
+                    // to return one valid model and if more than one model
+                    // is valid it then returns unknown type along with the json so the
+                    // consumer can decide which model it is.
+                    switch(json['{{propertyBaseName}}']){
+                        {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                        default:
+                            /// If deserializedModel is still null, then we try to parse
+                            /// the json against all the models and try to return one of the valid model.
+                            /// Note: this approach tries to return one valid model and if more than one model
+                            /// is valid it then returns unknown type along with the json so
+                            /// the consumer can decide which model it is.
+                            {{classname}}? deserializedModel;
+                            {{>serialization/freezed/additional_templates/parse_json_iteratively}}
+                            return deserializedModel ?? {{classname}}.unknown(json: json);
+                            }
+                {{/vendorExtensions.x-parent-discriminator}}
+            {{/discriminator}}
+        }
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+{{/vendorExtensions.x-is-pure}}
+{{^vendorExtensions.x-is-pure}}
+    {{#vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}
+
+{{^vendorExtensions.x-is-pure}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+        factory {{classname}}.fromJson(Map<String, dynamic> json) {
+            {{#discriminator}}
+                switch(json['{{propertyBaseName}}']){
+                    {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                }
+                return {{classname}}.unknown(json: json);
+            {{/discriminator}}
+            {{^discriminator}}
+                {{#vendorExtensions.x-parent-discriminator}}
+                    // So we try to parse the json based on the discriminator value and try to
+                    // return one of the valid model. Note: this approach tries
+                    // to return one valid model and if more than one model
+                    // is valid it then returns unknown type along with the json so the
+                    // consumer can decide which model it is.
+                    switch(json['{{propertyBaseName}}']){
+                        {{>serialization/freezed/additional_templates/case_parse_json_using_discriminator_mapping_value}}
+                        default:
+                            /// If deserializedModel is still null, then we try to parse
+                            /// the json against all the models and try to return one of the valid model.
+                            /// Note: this approach tries to return one valid model and if more than one model
+                            /// is valid it then returns unknown type along with the json so
+                            /// the consumer can decide which model it is.
+                            {{classname}}? deserializedModel;
+                            {{>serialization/freezed/additional_templates/parse_json_iteratively}}
+                            return deserializedModel ?? {{classname}}.unknown(json: json);
+                    }
+                {{/vendorExtensions.x-parent-discriminator}}
+            {{/discriminator}}
+        }
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+{{/vendorExtensions.x-is-pure}}
+
+{{^vendorExtensions.x-is-pure}}
+    {{^vendorExtensions.x-is-child}}
+        {{^hasDiscriminatorWithNonEmptyMapping}}
+            factory {{classname}}.fromJson(Map<String, dynamic> json) {
+                {{#discriminator}}
+                    {{classname}}? deserializedModel;
+                    // A discriminator property is specified but no mapping
+                    // is provided in the spec, so we expect the property to
+                    // have the value of the name of the model. Model prefix &
+                    // suffix are ignored, as this is not known by the api provider
+                    switch(json['{{propertyBaseName}}']){
+                        {{>serialization/freezed/additional_templates/case_parse_json_using_model_name}}
+                        default:
+                            /// If deserializedModel is still null, then we try to parse
+                            /// the json against all the models and try to return one of the valid model.
+                            /// Note: this approach tries to return one valid model and if more than one model
+                            /// is valid it then returns unknown type along with the json so
+                            /// the consumer can decide which model it is.
+                            {{>serialization/freezed/additional_templates/parse_json_iteratively}}
+                            break;
+                    }
+                    return deserializedModel ?? {{classname}}.unknown(json: json);
+                {{/discriminator}}
+                {{^discriminator}}
+                    // A discriminator property is not defined in the spec so
+                    // we try to parse the json against all the models and try to
+                    // return one of the valid model. Note: this approach tries
+                    // to return one valid model and if more than one model
+                    // is valid it then returns unknown type along with the json so
+                    // the consumer can decide which model it is.
+                    {{classname}}? deserializedModel;
+                    {{>serialization/freezed/additional_templates/parse_json_iteratively}}
+                    return deserializedModel ?? {{classname}}.unknown(json: json);
+                {{/discriminator}}
+            }
+        {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{/vendorExtensions.x-is-child}}
+{{/vendorExtensions.x-is-pure}}

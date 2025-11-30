@@ -11,6 +11,8 @@ on:
       - '[5-9]+.[0-9]+.x'
     paths:
       - 'samples/openapi3/client/petstore/dart*/**'
+      - '!samples/openapi3/client/petstore/dart*/freezed'
+
 
 jobs:
   tests-dart:
