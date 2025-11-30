@@ -20,7 +20,7 @@ jobs:
           - 18
           - 20
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v5
         with:
