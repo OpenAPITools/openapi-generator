@@ -29,7 +29,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.infrastructure.*
 
-class HeaderApi(client: WebClient) : ApiClient(client) {
+open class HeaderApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)

@@ -23,7 +23,7 @@ import org.openapitools.client.infrastructure.CollectionFormats.*
 * can pass that to the request queue like:
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
-class DefaultApi (
+open class DefaultApi (
     private val context: Context,
     private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)

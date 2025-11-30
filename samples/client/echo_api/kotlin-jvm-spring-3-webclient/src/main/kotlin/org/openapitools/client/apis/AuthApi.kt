@@ -28,7 +28,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class AuthApi(client: WebClient) : ApiClient(client) {
+open class AuthApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
