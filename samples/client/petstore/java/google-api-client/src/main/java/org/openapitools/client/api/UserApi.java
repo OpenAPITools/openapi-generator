@@ -76,7 +76,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse createUserForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -92,7 +93,8 @@ public class UserApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse createUserForHttpResponse(@javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
@@ -124,7 +126,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -160,7 +169,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse createUsersWithArrayInputForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -176,7 +186,8 @@ public class UserApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse createUsersWithArrayInputForHttpResponse(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
@@ -208,7 +219,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -244,7 +262,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse createUsersWithListInputForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -260,7 +279,8 @@ public class UserApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse createUsersWithListInputForHttpResponse(@javax.annotation.Nonnull List<User> body, Map<String, Object> params) throws IOException {
@@ -292,7 +312,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -335,7 +362,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse deleteUserForHttpResponse(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
@@ -370,7 +398,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -419,7 +454,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse getUserByNameForHttpResponse(@javax.annotation.Nonnull String username, Map<String, Object> params) throws IOException {
@@ -454,7 +490,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -524,7 +567,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse loginUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull String password, Map<String, Object> params) throws IOException {
@@ -563,7 +607,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -594,7 +645,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse logoutUserForHttpResponse(Map<String, Object> params) throws IOException {
@@ -623,7 +675,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -671,7 +730,8 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse updateUserForHttpResponse(@javax.annotation.Nonnull String username, java.io.InputStream body, String mediaType) throws IOException {
@@ -693,7 +753,8 @@ public class UserApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse updateUserForHttpResponse(@javax.annotation.Nonnull String username, @javax.annotation.Nonnull User body, Map<String, Object> params) throws IOException {
@@ -731,7 +792,14 @@ public class UserApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 

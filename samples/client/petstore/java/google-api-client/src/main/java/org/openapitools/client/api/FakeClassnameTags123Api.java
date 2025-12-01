@@ -81,7 +81,8 @@ public class FakeClassnameTags123Api {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse testClassnameForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -97,7 +98,8 @@ public class FakeClassnameTags123Api {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse testClassnameForHttpResponse(@javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
@@ -129,7 +131,14 @@ public class FakeClassnameTags123Api {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 

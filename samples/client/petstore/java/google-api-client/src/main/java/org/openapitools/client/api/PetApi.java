@@ -78,7 +78,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse addPetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -94,7 +95,8 @@ public class PetApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse addPetForHttpResponse(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
@@ -126,7 +128,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -168,7 +177,11 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        if (apiKey != null) {
+            httpRequest.getHeaders().set("api_key", apiKey);
+        }
+        return httpRequest.execute();
     }
 
     public HttpResponse deletePetForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
@@ -203,7 +216,17 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+            if ("api_key".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+        }
+        return httpRequest.execute();
     }
 
 
@@ -260,7 +283,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse findPetsByStatusForHttpResponse(@javax.annotation.Nonnull List<String> status, Map<String, Object> params) throws IOException {
@@ -294,7 +318,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -358,7 +389,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     @Deprecated
@@ -393,7 +425,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -444,7 +483,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse getPetByIdForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
@@ -479,7 +519,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -521,7 +568,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse updatePetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -537,7 +585,8 @@ public class PetApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse updatePetForHttpResponse(@javax.annotation.Nonnull Pet body, Map<String, Object> params) throws IOException {
@@ -569,7 +618,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -610,7 +666,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse updatePetWithFormForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
@@ -645,7 +702,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -692,7 +756,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse uploadFileForHttpResponse(@javax.annotation.Nonnull Long petId, Map<String, Object> params) throws IOException {
@@ -727,7 +792,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
@@ -778,7 +850,8 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse uploadFileWithRequiredFileForHttpResponse(@javax.annotation.Nonnull Long petId, @javax.annotation.Nonnull File requiredFile, Map<String, Object> params) throws IOException {
@@ -816,7 +889,14 @@ public class PetApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = new EmptyContent();
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+        }
+        return httpRequest.execute();
     }
 
 
