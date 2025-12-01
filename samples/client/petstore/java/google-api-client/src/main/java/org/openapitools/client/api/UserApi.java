@@ -127,12 +127,6 @@ public class UserApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -220,12 +214,6 @@ public class UserApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -313,12 +301,6 @@ public class UserApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -399,12 +381,6 @@ public class UserApi {
 
         HttpContent content = null;
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -491,12 +467,6 @@ public class UserApi {
 
         HttpContent content = null;
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -608,12 +578,6 @@ public class UserApi {
 
         HttpContent content = null;
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -676,12 +640,6 @@ public class UserApi {
 
         HttpContent content = null;
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 
@@ -793,12 +751,6 @@ public class UserApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content);
-        // Note: Header params passed via 'params' map are handled below
-        for (Map.Entry<String, Object> entry: params.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            // Check if this is a header parameter by name
-        }
         return httpRequest.execute();
     }
 

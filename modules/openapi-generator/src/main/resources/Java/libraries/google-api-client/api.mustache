@@ -214,6 +214,7 @@ public class {{classname}} {
 
         HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
         com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content);
+        {{#hasHeaderParams}}
         // Note: Header params passed via 'params' map are handled below
         for (Map.Entry<String, Object> entry: params.entrySet()) {
             String key = entry.getKey();
@@ -225,6 +226,7 @@ public class {{classname}} {
             }
             {{/headerParams}}
         }
+        {{/hasHeaderParams}}
         return httpRequest.execute();
     }
 
