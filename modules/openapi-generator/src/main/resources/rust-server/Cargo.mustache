@@ -44,7 +44,7 @@ client = [
     "serde_urlencoded",
 {{/usesUrlEncodedForm}}
 {{#hasCallbacks}}
-    "serde_ignored", "percent-encoding", {{^apiUsesByteArray}}"lazy_static", "regex"{{/apiUsesByteArray}}
+    "serde_ignored", "percent-encoding", {{^apiUsesByteArray}}"lazy_static", "regex",{{/apiUsesByteArray}}
 {{/hasCallbacks}}
 {{! Anything added to the list below, should probably be added to the callbacks list below }}
     "hyper", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"

@@ -795,8 +795,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_static("application/octet-stream"));
                                                     // Binary Body
-                                                    let body = String::from_utf8(body.0).expect("Error converting octet stream to string");
-                                                    *response.body_mut() = body_from_string(body);
+                                                    *response.body_mut() = BoxBody::new(Full::new(Bytes::from(body.0)));
 
                                                 },
                                                 MultigetGetResponse::StringRsp
