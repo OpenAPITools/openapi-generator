@@ -26,6 +26,7 @@ pub struct FooRef {
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
     /// When sub-classing, this defines the sub-class Extensible name
+    #[serde(default = "FooRef::_default_for_at_type")]
     #[serde(rename = "@type")]
     pub at_type: String,
     /// Name of the related entity.
@@ -50,6 +51,12 @@ impl FooRef {
             at_referred_type: None,
             fooref_prop_a: None,
         }
+    }
+}
+
+impl FooRef {
+    fn _default_for_at_type() -> String {
+        String::from("FooRef")
     }
 }
 
