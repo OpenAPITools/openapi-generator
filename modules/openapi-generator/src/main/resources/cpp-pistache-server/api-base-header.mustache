@@ -14,14 +14,47 @@
 namespace {{apiNamespace}}
 {
 
+
+    {{#authMethods}}{{#isBasicBasic}}
+    typedef struct
+    {
+        std::string user;
+        std::string password;
+        std::unique_ptr<void, std::function<void(void*)>> userdata;
+    } HttpBasicCredentials;
+
+    typedef std::function<bool(HttpBasicCredentials &)> BasicCredentialsAuthenticator;
+    {{/isBasicBasic}}
+
+    {{#isBasicBearer}}
+    typedef struct
+    {
+        std::string token;
+        std::unique_ptr<void, std::function<void(void*)>> userdata;
+    } HttpBearerToken;
+
+    typedef std::function<bool(HttpBearerToken &)> BearerTokenAuthenticator;
+    {{/isBasicBearer}}
+    {{/authMethods}}
+
+
+
 class ApiBase {
 public:
-    explicit ApiBase(const std::shared_ptr<Pistache::Rest::Router>& rtr) : router(rtr) {};
+    explicit ApiBase(const std::shared_ptr<Pistache::Rest::Router>& rtr);
     virtual ~ApiBase() = default;
     virtual void init() = 0;
 
+    {{#authMethods}}{{#isBasicBasic}}void setBasicCredentialsAuthenticator( const BasicCredentialsAuthenticator &newBasicCredentialsAuthenticator);{{/isBasicBasic}}{{/authMethods}}
+    {{#authMethods}}{{#isBasicBearer}}void setBearerTokenAuthenticator( const BearerTokenAuthenticator &newbearerTokenAuthenticator);{{/isBasicBearer}}{{/authMethods}}
+
+
 protected:
     const std::shared_ptr<Pistache::Rest::Router> router;
+    {{#authMethods}}{{#isBasicBasic}}std::optional<BasicCredentialsAuthenticator> basicCredentialsAuthenticator;{{/isBasicBasic}}{{/authMethods}}
+    {{#authMethods}}{{#isBasicBearer}}std::optional<BearerTokenAuthenticator> bearerTokenAuthenticator;{{/isBasicBearer}}{{/authMethods}}
+
+
 };
 
 } // namespace {{apiNamespace}}
