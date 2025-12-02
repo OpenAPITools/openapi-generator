@@ -147,7 +147,7 @@ module {{moduleName}}
         form: form_or_body,
         logging: @config.debugging,
         handle_errors: false,
-        params_encoder: Crest::NestedParamsEncoder
+        params_encoder: {{{paramsEncoder}}}
       )
 
       response = request.execute
