@@ -57,7 +57,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
+        @ApiParam(value = "Created user object", required = true) @NotNull @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUser(user, exchange);
@@ -88,7 +88,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithArrayInput(user, exchange);
@@ -119,7 +119,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody Flux<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().createUsersWithListInput(user, exchange);
@@ -286,7 +286,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
+        @ApiParam(value = "Updated user object", required = true) @NotNull @Valid @RequestBody Mono<User> user,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updateUser(username, user, exchange);

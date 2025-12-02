@@ -44,7 +44,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUser(
-         @Valid @RequestBody User user
+         @NotNull @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -65,7 +65,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-         @Valid @RequestBody List<@Valid User> user
+         @NotNull @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -86,7 +86,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-         @Valid @RequestBody List<@Valid User> user
+         @NotNull @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -211,7 +211,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> updateUser(
         @NotNull  @PathVariable("username") String username,
-         @Valid @RequestBody User user
+         @NotNull @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
