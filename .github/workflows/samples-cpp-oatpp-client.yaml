@@ -24,7 +24,7 @@ jobs:
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: cmake -B build && cmake --build build --verbose

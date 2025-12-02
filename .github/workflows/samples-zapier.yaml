@@ -18,7 +18,7 @@ jobs:
         sample:
           - samples/client/petstore/zapier
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Setup node
       uses: actions/setup-node@v5
     - name: Install dependencies

@@ -23,7 +23,7 @@ jobs:
           - samples/server/petstore/rust-server-deprecated/
           - samples/server/petstore/rust-axum/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
