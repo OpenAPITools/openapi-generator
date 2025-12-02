@@ -30,7 +30,7 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
       - name: Shards Install
-        run: crystal shards install
+        run: shards install
         working-directory: ${{ matrix.sample }}
       - name: Run tests
         run: crystal spec
