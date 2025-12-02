@@ -1,0 +1,21 @@
+Map<String, dynamic> toJson() {
+    return when(
+        {{#anyOf}}
+            as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}: (as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) => as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.toJson(),
+        {{/anyOf}}
+        {{#oneOf}}
+            as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}: (as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) => as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{{.}}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.toJson(),
+        {{/oneOf}}
+        {{! Sometimes discrintors are mentioned in parent classes}}
+        {{! TODO: Following block is doesn't handle duplicated mapping of models. Not sure how to handle that yet. For example red_apple and green_apple both mapping to Apple model.}}
+        {{^anyOf}}
+            {{^oneOf}}
+                {{#mappedModels}}
+                    as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}: (as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}) => as{{#lambda.titlecase}}{{#PrimitiveInUnion}}{{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}}{{/PrimitiveInUnion}}{{/lambda.titlecase}}.toJson(),
+                {{/mappedModels}}
+            {{/oneOf}}
+        {{/anyOf}}
+        {{! adds an unknown case to handle one Of}}
+        unknown: (message, json, errorType, possibleTypes, deserializedModels) => <String, dynamic>{},
+    );
+}
