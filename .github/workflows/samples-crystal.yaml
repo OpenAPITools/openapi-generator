@@ -29,6 +29,9 @@ jobs:
       - uses: actions/checkout@v5
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
+      - name: Shards Install
+        run: crystal shards install
+        working-directory: ${{ matrix.sample }}
       - name: Run tests
         run: crystal spec
         working-directory: ${{ matrix.sample }}
