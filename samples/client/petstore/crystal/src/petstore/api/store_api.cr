@@ -45,7 +45,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -100,7 +100,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -171,7 +171,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -234,7 +234,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new

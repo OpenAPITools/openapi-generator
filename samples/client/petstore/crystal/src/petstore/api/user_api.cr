@@ -45,7 +45,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -108,7 +108,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -171,7 +171,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -234,7 +234,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -295,7 +295,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -369,7 +369,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
       query_params["username"] = username.to_s unless username.nil?
       query_params["password"] = password.to_s unless password.nil?
 
@@ -428,7 +428,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
@@ -495,7 +495,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
 
       # header parameters
       header_params = Hash(String, String).new
