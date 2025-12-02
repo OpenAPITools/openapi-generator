@@ -67,7 +67,7 @@ module Petstore
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
       query_params["type"] = _type.to_s unless _type.nil?
       query_params["http_debug_option"] = http_debug_option.to_s unless http_debug_option.nil?
 
