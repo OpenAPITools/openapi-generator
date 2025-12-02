@@ -14,7 +14,9 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import io.helidon.config.Config;
 {{#jsonb}}
+{{#x-helidon-v3}}
 import io.helidon.media.jsonb.JsonbSupport;
+{{/x-helidon-v3}}
 {{/jsonb}}
 {{#jackson}}{{#x-helidon-v3}}{{!
 }}import io.helidon.media.jackson.JacksonSupport;
@@ -260,9 +262,11 @@ public class ApiClient {
                   .baseUri("{{basePath}}")
                   .config(clientConfig());
       {{#jsonb}}
+      {{#x-helidon-v3}}
       defaultWebClientBuilder.addMediaSupport(jsonbConfig == null
                 ? JsonbSupport.create()
                 : JsonbSupport.create(JsonbBuilder.create(jsonbConfig)));
+      {{/x-helidon-v3}}
       {{/jsonb}}
       {{#jackson}}
       defaultWebClientBuilder.addMediaSupport(objectMapper == null
