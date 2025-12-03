@@ -2,6 +2,10 @@ README.md
 build.gradle
 docs/ApiResponse.md
 docs/Category.md
+docs/DefaultApi.md
+docs/ItemWithDollarAttributesAndExamples.md
+docs/ItemsItemIdSomethingItemSubIdGet200Response.md
+docs/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -16,6 +20,7 @@ gradlew
 gradlew.bat
 settings.gradle
 src/main/AndroidManifest.xml
+src/main/java/org/openapitools/client/apis/DefaultApi.kt
 src/main/java/org/openapitools/client/apis/PetApi.kt
 src/main/java/org/openapitools/client/apis/StoreApi.kt
 src/main/java/org/openapitools/client/apis/UserApi.kt
@@ -27,12 +32,18 @@ src/main/java/org/openapitools/client/infrastructure/LocalDateAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/LocalDateTimeAdapter.kt
 src/main/java/org/openapitools/client/infrastructure/OffsetDateTimeAdapter.kt
 src/main/java/org/openapitools/client/models/Category.kt
+src/main/java/org/openapitools/client/models/ItemWithDollarAttributesAndExamples.kt
+src/main/java/org/openapitools/client/models/ItemsItemIdSomethingItemSubIdGet200Response.kt
+src/main/java/org/openapitools/client/models/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfo.kt
 src/main/java/org/openapitools/client/models/ModelApiResponse.kt
 src/main/java/org/openapitools/client/models/Order.kt
 src/main/java/org/openapitools/client/models/Pet.kt
 src/main/java/org/openapitools/client/models/Tag.kt
 src/main/java/org/openapitools/client/models/User.kt
 src/main/java/org/openapitools/client/models/room/CategoryRoomModel.kt
+src/main/java/org/openapitools/client/models/room/ItemWithDollarAttributesAndExamplesRoomModel.kt
+src/main/java/org/openapitools/client/models/room/ItemsItemIdSomethingItemSubIdGet200ResponseDetailsInfoRoomModel.kt
+src/main/java/org/openapitools/client/models/room/ItemsItemIdSomethingItemSubIdGet200ResponseRoomModel.kt
 src/main/java/org/openapitools/client/models/room/ModelApiResponseRoomModel.kt
 src/main/java/org/openapitools/client/models/room/OrderRoomModel.kt
 src/main/java/org/openapitools/client/models/room/PetRoomModel.kt

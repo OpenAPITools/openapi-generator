@@ -23,7 +23,7 @@ data class {{classname}}(
     {{#description}}
     /** {{description}} */
     {{/description}}
-    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}}{{#isNumber}} = {{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{^isNumber}} = {{{defaultValue}}}{{/isNumber}}{{/defaultValue}}{{^defaultValue}}{{^required}} = null{{/required}}{{/defaultValue}}{{^-last}},{{/-last}}
+    val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{#defaultValue}}{{#isNumber}} = {{{dataType}}}("{{{defaultValue}}}"){{/isNumber}}{{^isNumber}} = {{#lambda.escapeDollar}}{{{defaultValue}}}{{/lambda.escapeDollar}}{{/isNumber}}{{/defaultValue}}{{^defaultValue}}{{^required}} = null{{/required}}{{/defaultValue}}{{^-last}},{{/-last}}
     {{/vars}}
 )
 {{/isEnum}}

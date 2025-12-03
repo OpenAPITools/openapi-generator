@@ -31,7 +31,7 @@ fun Route.{{classname}}() {
         {{/authMethods}}
     {{/hasAuthMethods}}
     {{^featureResources}}
-    route("{{path}}") {
+    route("{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}") {
         {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}} {
             {{#lambda.indented_12}}{{>libraries/ktor/_api_body}}{{/lambda.indented_12}}
         }

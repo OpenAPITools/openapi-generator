@@ -1131,7 +1131,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"))
+                .put("escapeDollarInMultiline", new EscapeChar("(?<!\\\\)\\$", "\\${'\\$'}"));
     }
 
     protected interface DataTypeAssigner {

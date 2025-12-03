@@ -23,8 +23,8 @@ data class {{classname}}(
     {{#allVars}}
     @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     val {{{name}}}: {{{dataType}}}{{^required}}?{{/required}}{{!
-    !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}{{/required}}{{!
-    }}{{#required}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/required}},
+    !}}{{^required}} = {{^defaultValue}}null{{/defaultValue}}{{#defaultValue}}{{#lambda.escapeDollar}}{{{.}}}{{/lambda.escapeDollar}}{{/defaultValue}}{{/required}}{{!
+    }}{{#required}}{{#defaultValue}} = {{#lambda.escapeDollar}}{{{.}}}{{/lambda.escapeDollar}}{{/defaultValue}}{{/required}},
 
     {{/allVars}}
 )

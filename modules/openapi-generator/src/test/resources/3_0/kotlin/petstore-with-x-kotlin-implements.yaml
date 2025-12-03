@@ -486,7 +486,136 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-
+  /items/{item$Id}/something/{item$SubId}:
+    get:
+      summary: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      parameters:
+        - name: "item$Id"
+          in: path
+          required: true
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          schema:
+            type: string
+            example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+        - name: "item$SubId"
+          in: path
+          required: true
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          schema:
+            type: string
+            example: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+        - name: "filter$Type"
+          in: query
+          required: false
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          schema:
+            type: string
+            example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+            "default": "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+        - name: "filter$SubType"
+          in: query
+          required: false
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          schema:
+            type: string
+            example: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+            "default": 'SQ = "; SBS = \; DBS = \\; SD = $some'
+        - name: "X-Custom_Header"
+          in: header
+          required: false
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          schema:
+            type: string
+            example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+        - name: "X-Custom_Header_two"
+          in: header
+          required: false
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          schema:
+            type: string
+            example: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+        - name: "session$Token"
+          in: cookie
+          required: false
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          schema:
+            type: string
+            example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+        - name: "session$TokenTwo"
+          in: cookie
+          required: false
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          schema:
+            type: string
+            example: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+      responses:
+        '200':
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  item$Id:
+                    type: string
+                    description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                    example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                    default: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                  name$Value:
+                    type: string
+                    description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+                    example: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+                    default: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+                  details$Info:
+                    type: object
+                    description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                    properties:
+                      detail$One:
+                        type: string
+                        description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                        example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                        default: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                      detail$Two:
+                        type: integer
+                        description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                        example: 42
+  /items:
+    post:
+      summary: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                form$Name:
+                  type: string
+                  description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                  example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                form$Value:
+                  type: string
+                  description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                  example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+                  default: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      parameters:
+        - name: "X-Post_Header"
+          in: header
+          required: false
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          schema:
+            type: string
+            example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      
+      responses:
+        "201":
+          description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemWithDollarAttributesAndExamples"
 components:
   securitySchemes:
     petstore_auth:
@@ -644,3 +773,17 @@ components:
           type: string
         message:
           type: string
+    ItemWithDollarAttributesAndExamples:
+      type: object
+      description: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+      properties:
+        $id:
+          type: string
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          default: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+        $name:
+          type: string
+          description: 'SQ = "; SBS = \; DBS = \\; SD = $some'
+          example: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
+          default: "SQ = \"; SBS = \\; DBS = \\\\; SD = $some"
