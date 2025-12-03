@@ -105,6 +105,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
+    public static final String USE_ONE_OF_POJO = "useOneOfPojo";
     public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
     public static final String GENERATE_CONSTRUCTOR_WITH_ALL_ARGS = "generateConstructorWithAllArgs";
@@ -321,6 +322,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(USE_ONE_OF_INTERFACES, "whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface"));
+        cliOptions.add(CliOption.newBoolean(USE_ONE_OF_POJO, "Generate real POJO classes for oneOf schemas instead of wrapper models").defaultValue("false"));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -376,12 +378,46 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
     }
+    
+    /**
+     * Do not merge properties for ComposedSchema avec schema.getOneOf() not empty
+     * 
+     * {@inheritDoc}
+     * @see org.openapitools.codegen.DefaultCodegen#updateModelForComposedSchema(org.openapitools.codegen.CodegenModel, io.swagger.v3.oas.models.media.Schema, java.util.Map)
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected void updateModelForComposedSchema(CodegenModel m, Schema schema, Map<String, Schema> allDefinitions)
+    {
+        final List<CodegenProperty> varsOrigin = new ArrayList<>(m.vars);  
+        final List<CodegenProperty> optionalVarsOrigin = new ArrayList<>(m.optionalVars);  
+        
+        super.updateModelForComposedSchema(m, schema, allDefinitions);
+
+       if(schema.getOneOf() != null && !schema.getOneOf().isEmpty()  ) {
+           LOGGER.info("Do not merge properties for ComposedSchema avec schema.getOneOf() not empty {} -> {} ", m.getClassname(), schema.getOneOf());
+           if (Boolean.TRUE.equals(additionalProperties.get(USE_ONE_OF_POJO))) {
+               m.vars = varsOrigin;
+               m.optionalVars = optionalVarsOrigin;
+               m.oneOf = new TreeSet<>();
+           }
+       }
+    }
 
     @Override
     public void processOpts() {
         useCodegenAsMustacheParentContext();
         super.processOpts();
-
+        // -----------------------------------------------------------------
+        // `useOneOfPojo` – backward compatibility switch.
+        // set to true to get the POJO
+        // -----------------------------------------------------------------
+        if (additionalProperties.containsKey(USE_ONE_OF_POJO)) {
+            Boolean flag = Boolean.valueOf(additionalProperties.get(USE_ONE_OF_POJO).toString());
+            additionalProperties.put(USE_ONE_OF_POJO, flag);
+        } else {
+            additionalProperties.put(USE_ONE_OF_POJO, Boolean.FALSE);
+        }
         if (null != defaultDocumentationProvider()) {
             documentationProvider = DocumentationProvider.ofCliOption(
                     (String) additionalProperties.getOrDefault(DOCUMENTATION_PROVIDER,
