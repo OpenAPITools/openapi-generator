@@ -15,8 +15,8 @@ namespace Org.OpenAPITools.Client
 
 
         internal TimeSpan? Timeout { get; set; }
-        internal delegate void TokenBecameAvailableEventHandler(object sender);
-        internal event TokenBecameAvailableEventHandler TokenBecameAvailable;
+        public delegate void TokenBecameAvailableEventHandler(object sender);
+        public event TokenBecameAvailableEventHandler TokenBecameAvailable;
 
 
         /// <summary>
