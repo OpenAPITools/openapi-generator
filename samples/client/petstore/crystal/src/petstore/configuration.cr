@@ -130,7 +130,7 @@ module Petstore
     # Create a new `Configuration`.
     def initialize
       @scheme = "http"
-      @host = "petstore.swagger.io"
+      @host = "localhost"
       @base_path = "/v2"
       @server_index = 0
       @server_operation_index = {} of Symbol => String
@@ -237,7 +237,7 @@ module Petstore
     def server_settings
       [
         {
-          url: "http://petstore.swagger.io/v2",
+          url: "http://localhost/v2",
           description: "No description provided",
         }
       ]

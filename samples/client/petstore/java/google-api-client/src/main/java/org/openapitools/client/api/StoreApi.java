@@ -80,7 +80,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse deleteOrderForHttpResponse(@javax.annotation.Nonnull String orderId, Map<String, Object> params) throws IOException {
@@ -115,7 +116,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -154,7 +156,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse getInventoryForHttpResponse(Map<String, Object> params) throws IOException {
@@ -183,7 +186,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -234,7 +238,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
     public HttpResponse getOrderByIdForHttpResponse(@javax.annotation.Nonnull Long orderId, Map<String, Object> params) throws IOException {
@@ -269,7 +274,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = null;
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content);
+        return httpRequest.execute();
     }
 
 
@@ -313,7 +319,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse placeOrderForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -329,7 +336,8 @@ public class StoreApi {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse placeOrderForHttpResponse(@javax.annotation.Nonnull Order body, Map<String, Object> params) throws IOException {
@@ -361,7 +369,8 @@ public class StoreApi {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content);
+        return httpRequest.execute();
     }
 
 

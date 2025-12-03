@@ -533,7 +533,7 @@ pub fn check_xss_map<T>(v: &std::collections::HashMap<String, T>) -> std::result
 /// which helps with FFI.
 #[allow(non_camel_case_types, clippy::large_enum_variant)]
 #[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, {{^isAnyType}}PartialOrd, Ord,{{/isAnyType}} serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum {{{classname}}} {
 {{#allowableValues}}
@@ -584,7 +584,7 @@ impl std::str::FromStr for {{{classname}}} {
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 {{^isMap}}
-#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, {{^isAnyType}}PartialOrd, {{/isAnyType}} serde::Serialize, serde::Deserialize)]
 {{/isMap}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(pub {{{dataType}}});

@@ -30,7 +30,7 @@ import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 import org.openapitools.client.infrastructure.*
 
-class BodyApi(client: WebClient) : ApiClient(client) {
+open class BodyApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)

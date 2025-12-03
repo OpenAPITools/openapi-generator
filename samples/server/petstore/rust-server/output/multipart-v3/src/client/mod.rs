@@ -590,7 +590,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         // Consumes multipart/form body
-        let (body_string, multipart_header) = {
+        let (body_bytes, multipart_header) = {
             let mut multipart = Multipart::new();
 
             // For each parameter, encode as appropriate and add to the multipart body as a stream.
@@ -649,9 +649,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 Err(err) => return Err(ApiError(format!("Unable to build request: {err}"))),
             };
 
-            let mut body_string = String::new();
+            let mut body_bytes = Vec::new();
 
-            match fields.read_to_string(&mut body_string) {
+            match fields.read_to_end(&mut body_bytes) {
                 Ok(_) => (),
                 Err(err) => return Err(ApiError(format!("Unable to build body: {err}"))),
             }
@@ -660,10 +660,10 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             let multipart_header = format!("multipart/form-data;boundary={boundary}");
 
-            (body_string, multipart_header)
-        };
+            (body_bytes, multipart_header)
+          };
 
-        *request.body_mut() = body_from_string(body_string);
+        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body_bytes)));
 
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,

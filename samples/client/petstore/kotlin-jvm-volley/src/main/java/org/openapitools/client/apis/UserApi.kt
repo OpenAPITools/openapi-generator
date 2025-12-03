@@ -24,7 +24,7 @@ import org.openapitools.client.models.User
 * can pass that to the request queue like:
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
-class UserApi (
+open class UserApi (
     private val context: Context,
     private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)

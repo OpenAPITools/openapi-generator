@@ -391,7 +391,14 @@ impl {{classname}} for {{classname}}Client {
         let mut local_var_form = reqwest::multipart::Form::new();
         {{#formParams}}
         {{#isFile}}
-        // TODO: support file upload for '{{{baseName}}}' parameter
+        {{^isRequired}}
+        if let Some(ref path) = {{{baseName}}} {
+            local_var_form = local_var_form.file("{{{baseName}}}", path.as_os_str()).await?;
+        }
+        {{/isRequired}}
+        {{#isRequired}}
+            local_var_form = local_var_form.file("{{{baseName}}}", {{{baseName}}}.as_os_str()).await?;
+        {{/isRequired}}
         {{/isFile}}
         {{^isFile}}
         {{#required}}
