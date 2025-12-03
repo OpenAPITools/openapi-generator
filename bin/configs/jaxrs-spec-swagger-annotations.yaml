@@ -9,3 +9,4 @@ additionalProperties:
   implicitHeadersRegex: (api_key|enum_header_string)
   generateBuilders: "true"
   useSwaggerAnnotations: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

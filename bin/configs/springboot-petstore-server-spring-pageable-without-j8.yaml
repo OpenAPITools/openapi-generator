@@ -8,3 +8,4 @@ additionalProperties:
   documentationProvider: springfox
   artifactId: springboot-spring-pageable-withoutj8
   hideGenerationTimestamp: 'true'
+  disallowAdditionalPropertiesIfNotPresent: true

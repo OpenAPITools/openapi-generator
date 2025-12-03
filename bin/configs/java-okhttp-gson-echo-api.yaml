@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   artifactId: echo-api-okhttp-gson
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
