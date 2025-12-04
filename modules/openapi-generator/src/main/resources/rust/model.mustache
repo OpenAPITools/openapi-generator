@@ -131,6 +131,11 @@ pub struct {{{classname}}} {
     {{#isByteArray}}
     {{#vendorExtensions.isMandatory}}#[serde_as(as = "serde_with::base64::Base64")]{{/vendorExtensions.isMandatory}}{{^vendorExtensions.isMandatory}}#[serde_as(as = "{{^serdeAsDoubleOption}}Option{{/serdeAsDoubleOption}}{{#serdeAsDoubleOption}}super::DoubleOption{{/serdeAsDoubleOption}}<serde_with::base64::Base64>")]{{/vendorExtensions.isMandatory}}
     {{/isByteArray}}
+    {{#isDiscriminator}}
+    {{#required}}
+    #[serde(default = "{{{classname}}}::_default_for_{{#lambda.escapeRawIdentifier}}{{{name}}}{{/lambda.escapeRawIdentifier}}")]
+    {{/required}}
+    {{/isDiscriminator}}
     #[serde(rename = "{{{baseName}}}"{{^required}}{{#isNullable}}, default{{^isByteArray}}, with = "::serde_with::rust::double_option"{{/isByteArray}}{{/isNullable}}{{/required}}{{^required}}, skip_serializing_if = "Option::is_none"{{/required}}{{#required}}{{#isNullable}}, deserialize_with = "Option::deserialize"{{/isNullable}}{{/required}})]
     pub {{{name}}}: {{!
     ### Option Start
@@ -172,6 +177,18 @@ impl {{{classname}}} {
         }
     }
 }
+{{#vars}}
+{{#isDiscriminator}}
+{{#required}}
+
+impl {{{classname}}} {
+    fn _default_for_{{#lambda.escapeRawIdentifier}}{{{name}}}{{/lambda.escapeRawIdentifier}}() -> String {
+        String::from("{{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}{{classname}}{{/defaultValue}}")
+    }
+}
+{{/required}}
+{{/isDiscriminator}}
+{{/vars}}
 {{/oneOf.isEmpty}}
 {{^oneOf.isEmpty}}
 {{! TODO: add other vars that are not part of the oneOf}}
