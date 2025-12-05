@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+paths:
+  /pet:
+    post:
+      x-role: admin
+      tags:
+        - pet
+      operationId: addPet
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+  '/pet/{petId}':
+    get:
+      operationId: getPetById
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+    put:
+      x-role: superuser
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+components:
+  responses:
+    Order:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      description: List of user object
+      required: true
+    Pet:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+      required: true
+    Order:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Order'
+      description: order placed for purchasing the pet
+      required: true
+  schemas:
+    Order:
+      title: Pet Order
+      description: An order for a pets from the pet store
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
+        complete:
+          type: boolean
+          default: false
+    Category:
+      title: Pet category
+      description: A category for a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    User:
+      title: a User
+      description: A User who is purchasing from the pet store
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    Tag:
+      title: Pet Tag
+      description: A tag for a pet
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Pet:
+      title: a Pet
+      description: A pet for sale in the pet store
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          type: string
+        tags:
+          x-role: admin
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    ApiResponse:
+      title: An uploaded response
+      description: Describes the result of uploading an image resource
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  parameters:
+    orderId:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: string
+    offset:
+      in: query
+      name: offset
+      required: false
+      x-internal: true
+      deprecated: true
+      schema:
+        type: integer

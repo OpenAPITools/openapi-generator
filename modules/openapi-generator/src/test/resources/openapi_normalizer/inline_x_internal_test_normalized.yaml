@@ -1,0 +1,14 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test inline x-internal
+components:
+  schemas:
+    ParentSchema:
+      description: Schema with inline x-internal property
+      type: object
+      properties:
+        normalProperty:
+          type: string
+          description: A normal property without x-internal
+

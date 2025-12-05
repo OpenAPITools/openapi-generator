@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+paths:
+  /pet/{petId}:
+    get:
+      operationId: getPetById
+      parameters:
+        - description: ID of pet to return
+          explode: false
+          in: path
+          name: petId
+          required: true
+          schema:
+            format: int64
+            type: integer
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+          description: successful operation
+components:
+  schemas:
+    Category:
+      description: A category for a pet
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      title: Pet category
+      type: object
+    Pet:
+      description: A pet for sale in the pet store
+      properties:
+        id:
+          format: int64
+          type: integer
+        category:
+          $ref: "#/components/schemas/Category"
+        name:
+          type: string
+      required:
+        - name
+        - photoUrls
+      title: a Pet
+      type: object

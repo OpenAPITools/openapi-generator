@@ -1,0 +1,5 @@
+# remove elements having x-role:admin or x-role:superuser
+inputSpec: src/test/resources/openapi_normalizer/petstore_with_roles.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_with_role_admin_normalized.yaml
+inputRules:
+  REMOVE_FILTER: 'x-role:admin|superuser ; unused'

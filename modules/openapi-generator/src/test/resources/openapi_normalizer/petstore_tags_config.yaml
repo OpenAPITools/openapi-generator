@@ -1,0 +1,5 @@
+# remove the operations having tag name user or store
+inputSpec: src/test/resources/openapi_normalizer/petstore.yaml
+normalizedSpec: src/test/resources/openapi_normalizer/petstore_tags_normalized.yaml
+inputRules:
+  REMOVE_FILTER: 'unused; tags:user|store'
