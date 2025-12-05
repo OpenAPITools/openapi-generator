@@ -122,6 +122,8 @@ UserResource::UserResource(const std::string& context /* = "/v2" */)
 			std::placeholders::_1));
 }
 
+UserResource::~UserResource() = default;
+
 std::pair<int, std::string> UserResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -235,6 +237,8 @@ UserCreateWithArrayResource::UserCreateWithArrayResource(const std::string& cont
 			std::placeholders::_1));
 }
 
+UserCreateWithArrayResource::~UserCreateWithArrayResource() = default;
+
 std::pair<int, std::string> UserCreateWithArrayResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -347,6 +351,8 @@ UserCreateWithListResource::UserCreateWithListResource(const std::string& contex
 		std::bind(&UserCreateWithListResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+UserCreateWithListResource::~UserCreateWithListResource() = default;
 
 std::pair<int, std::string> UserCreateWithListResource::handleUserApiException(const UserApiException& e)
 {
@@ -466,6 +472,8 @@ UserUsernameResource::UserUsernameResource(const std::string& context /* = "/v2"
 		std::bind(&UserUsernameResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
+
+UserUsernameResource::~UserUsernameResource() = default;
 
 std::pair<int, std::string> UserUsernameResource::handleUserApiException(const UserApiException& e)
 {
@@ -706,6 +714,8 @@ UserLoginResource::UserLoginResource(const std::string& context /* = "/v2" */)
 			std::placeholders::_1));
 }
 
+UserLoginResource::~UserLoginResource() = default;
+
 std::pair<int, std::string> UserLoginResource::handleUserApiException(const UserApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -832,6 +842,8 @@ UserLogoutResource::UserLogoutResource(const std::string& context /* = "/v2" */)
 		std::bind(&UserLogoutResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
+
+UserLogoutResource::~UserLogoutResource() = default;
 
 std::pair<int, std::string> UserLogoutResource::handleUserApiException(const UserApiException& e)
 {
