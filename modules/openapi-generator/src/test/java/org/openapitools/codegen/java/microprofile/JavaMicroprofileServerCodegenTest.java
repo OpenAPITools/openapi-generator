@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 public class JavaMicroprofileServerCodegenTest {
@@ -138,6 +139,7 @@ public class JavaMicroprofileServerCodegenTest {
                 .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "true");
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -165,7 +167,6 @@ public class JavaMicroprofileServerCodegenTest {
                 .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "false");
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -192,6 +193,7 @@ public class JavaMicroprofileServerCodegenTest {
                 .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "true");
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -218,7 +220,8 @@ public class JavaMicroprofileServerCodegenTest {
                 .readLocation("src/test/resources/bugs/microprofile_cookie.yaml", null, new ParseOptions()).getOpenAPI();
 
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(JavaClientCodegen.MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "false");
+        codegen.additionalProperties().put(JavaClientCodegen.USE_RUNTIME_EXCEPTION, "true");
+
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -231,9 +234,8 @@ public class JavaMicroprofileServerCodegenTest {
 
         validateJavaSourceFiles(files);
 
-        JavaFileAssert.assertThat(filesMap.get("ApiExceptionMapper.java"))
-                .assertTypeAnnotations()
-                .doesNotContainWithName("Provider");
+        assertThat(filesMap.get("ApiException.java")).isNull();
+        assertThat(filesMap.get("ApiExceptionMapper.java")).isNull();
     }
 }
 
