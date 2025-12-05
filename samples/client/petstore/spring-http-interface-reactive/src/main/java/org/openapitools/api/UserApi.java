@@ -40,6 +40,7 @@ public interface UserApi {
     )
     Mono<ResponseEntity<Void>> createUser(
          @RequestBody Mono<User> user
+
     );
 
 
@@ -58,6 +59,7 @@ public interface UserApi {
     )
     Mono<ResponseEntity<Void>> createUsersWithArrayInput(
          @RequestBody Flux<User> user
+
     );
 
 
@@ -76,6 +78,7 @@ public interface UserApi {
     )
     Mono<ResponseEntity<Void>> createUsersWithListInput(
          @RequestBody Flux<User> user
+
     );
 
 
@@ -94,6 +97,7 @@ public interface UserApi {
     )
     Mono<ResponseEntity<Void>> deleteUser(
          @PathVariable("username") String username
+
     );
 
 
@@ -113,6 +117,7 @@ public interface UserApi {
     )
     Mono<ResponseEntity<User>> getUserByName(
          @PathVariable("username") String username
+
     );
 
 
@@ -131,8 +136,10 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<String>> loginUser(
-         @RequestParam(value = "username", required = true) String username,
+         @RequestParam(value = "username", required = true) String username
+,
          @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -168,8 +175,10 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updateUser(
-         @PathVariable("username") String username,
+         @PathVariable("username") String username
+,
          @RequestBody Mono<User> user
+
     );
 
 }
