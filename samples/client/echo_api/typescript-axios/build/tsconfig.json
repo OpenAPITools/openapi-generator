@@ -3,6 +3,8 @@
     "declaration": true,
     "target": "ES5",
     "module": "commonjs",
+    "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
     "noImplicitAny": true,
     "outDir": "dist",
     "rootDir": ".",

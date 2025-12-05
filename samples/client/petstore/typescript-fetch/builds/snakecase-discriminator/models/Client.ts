@@ -24,7 +24,7 @@ export interface Client {
      * @type {string}
      * @memberof Client
      */
-    client?: string;
+    client?: string | undefined;
 }
 
 /**

@@ -24,13 +24,13 @@ export interface Category {
      * @type {number}
      * @memberof Category
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {string}
      * @memberof Category
      */
-    name?: string;
+    name?: string | undefined;
 }
 
 /**
