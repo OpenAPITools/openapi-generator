@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -535,7 +534,7 @@ public class EnumTest {
     // add `enum_string` to the URL query string
     if (getEnumString() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumString()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -545,7 +544,7 @@ public class EnumTest {
     // add `enum_string_required` to the URL query string
     if (getEnumStringRequired() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_string_required%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumStringRequired()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -555,7 +554,7 @@ public class EnumTest {
     // add `enum_integer` to the URL query string
     if (getEnumInteger() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_integer%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -565,7 +564,7 @@ public class EnumTest {
     // add `enum_number` to the URL query string
     if (getEnumNumber() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%senum_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEnumNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -575,7 +574,7 @@ public class EnumTest {
     // add `outerEnum` to the URL query string
     if (getOuterEnum() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnum%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnum()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -585,7 +584,7 @@ public class EnumTest {
     // add `outerEnumInteger` to the URL query string
     if (getOuterEnumInteger() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumInteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumInteger()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -595,7 +594,7 @@ public class EnumTest {
     // add `outerEnumDefaultValue` to the URL query string
     if (getOuterEnumDefaultValue() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -605,7 +604,7 @@ public class EnumTest {
     // add `outerEnumIntegerDefaultValue` to the URL query string
     if (getOuterEnumIntegerDefaultValue() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%souterEnumIntegerDefaultValue%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOuterEnumIntegerDefaultValue()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

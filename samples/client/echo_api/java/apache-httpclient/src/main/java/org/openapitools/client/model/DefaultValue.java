@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -509,8 +508,8 @@ public class DefaultValue {
       for (int i = 0; i < getArrayStringEnumRefDefault().size(); i++) {
         if (getArrayStringEnumRefDefault().get(i) != null) {
           try {
-            joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_enum_ref_default%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(getArrayStringEnumRefDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported
@@ -524,8 +523,8 @@ public class DefaultValue {
     if (getArrayStringEnumDefault() != null) {
       for (int i = 0; i < getArrayStringEnumDefault().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string_enum_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_enum_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringEnumDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -538,8 +537,8 @@ public class DefaultValue {
     if (getArrayStringDefault() != null) {
       for (int i = 0; i < getArrayStringDefault().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -552,8 +551,8 @@ public class DefaultValue {
     if (getArrayIntegerDefault() != null) {
       for (int i = 0; i < getArrayIntegerDefault().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_integer_default%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_integer_default%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayIntegerDefault().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -566,8 +565,8 @@ public class DefaultValue {
     if (getArrayString() != null) {
       for (int i = 0; i < getArrayString().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayString().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -580,8 +579,8 @@ public class DefaultValue {
     if (getArrayStringNullable() != null) {
       for (int i = 0; i < getArrayStringNullable().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string_nullable%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_nullable%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringNullable().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -594,8 +593,8 @@ public class DefaultValue {
     if (getArrayStringExtensionNullable() != null) {
       for (int i = 0; i < getArrayStringExtensionNullable().size(); i++) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sarray_string_extension_nullable%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
               URLEncoder.encode(String.valueOf(getArrayStringExtensionNullable().get(i)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -607,7 +606,7 @@ public class DefaultValue {
     // add `string_nullable` to the URL query string
     if (getStringNullable() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringNullable()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sstring_nullable%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStringNullable()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

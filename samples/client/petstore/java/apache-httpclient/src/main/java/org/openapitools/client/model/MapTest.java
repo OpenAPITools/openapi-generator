@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -305,8 +304,8 @@ public class MapTest {
     if (getMapMapOfString() != null) {
       for (String _key : getMapMapOfString().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%smap_map_of_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%smap_map_of_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapMapOfString().get(_key), URLEncoder.encode(String.valueOf(getMapMapOfString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -319,8 +318,8 @@ public class MapTest {
     if (getMapOfEnumString() != null) {
       for (String _key : getMapOfEnumString().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%smap_of_enum_string%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%smap_of_enum_string%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapOfEnumString().get(_key), URLEncoder.encode(String.valueOf(getMapOfEnumString().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -333,8 +332,8 @@ public class MapTest {
     if (getDirectMap() != null) {
       for (String _key : getDirectMap().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sdirect_map%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sdirect_map%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getDirectMap().get(_key), URLEncoder.encode(String.valueOf(getDirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -347,8 +346,8 @@ public class MapTest {
     if (getIndirectMap() != null) {
       for (String _key : getIndirectMap().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%sindirect_map%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%sindirect_map%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getIndirectMap().get(_key), URLEncoder.encode(String.valueOf(getIndirectMap().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported

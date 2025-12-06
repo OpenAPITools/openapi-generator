@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -166,12 +165,12 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
     }
 
     return joiner.toString();
