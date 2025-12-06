@@ -947,8 +947,12 @@ public class ApiClient {
         try {
             if (isJsonMime(contentType)) {
                 if (returnType.equals(String.class)) {
+                    String respBodyString = respBody.string();
+                    if (respBodyString.isEmpty()) {
+                        return null;
+                    }
                     // Use String-based deserialize for String return type with fallback
-                    return JSON.deserialize(respBody.string(), returnType);
+                    return JSON.deserialize(respBodyString, returnType);
                 } else {
                     // Use InputStream-based deserialize which supports responses > 2GB
                     return JSON.deserialize(respBody.byteStream(), returnType);
