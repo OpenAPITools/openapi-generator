@@ -22,7 +22,7 @@ namespace {{packageName}}.{{clientPackage}}
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
         /// </summary>
         /// <param name="container"></param>
-        public RateLimitProvider(TokenContainer<TTokenBase> container) : base()
+        public RateLimitProvider(TokenContainer<TTokenBase> container)
         {
             foreach(TTokenBase token in container.Tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
