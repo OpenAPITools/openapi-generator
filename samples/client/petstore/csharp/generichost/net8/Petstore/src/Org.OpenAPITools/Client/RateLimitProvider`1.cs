@@ -26,9 +26,9 @@ namespace Org.OpenAPITools.Client
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
         /// </summary>
         /// <param name="container"></param>
-        public RateLimitProvider(TokenContainer<TTokenBase> container) : base(container.Tokens)
+        public RateLimitProvider(TokenContainer<TTokenBase> container)
         {
-            foreach(TTokenBase token in _tokens)
+            foreach(TTokenBase token in container.Tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
 
             if (container is TokenContainer<ApiKeyToken> apiKeyTokenContainer)
@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(_tokens.Length)
+                global::System.Threading.Channels.BoundedChannelOptions options = new global::System.Threading.Channels.BoundedChannelOptions(container.Tokens.Count)
                 {
                     FullMode = global::System.Threading.Channels.BoundedChannelFullMode.DropWrite
                 };
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Client
             }
 
             foreach (var availableToken in AvailableTokens)
-                foreach(TTokenBase token in _tokens)
+                foreach(TTokenBase token in container.Tokens)
                 {
                     if (token is ApiKeyToken apiKeyToken)
                     {
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Client
                 }
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
+        public override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase> tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
