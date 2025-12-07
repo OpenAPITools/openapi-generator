@@ -58,7 +58,7 @@ public class TypescriptAngularArrayAndObjectIntegrationTest extends AbstractInte
         return new IntegrationTestPathsConfig("typescript/array-and-object");
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void generatesCorrectDirectoryStructure() throws IOException {
         // test are currently disabled in Superclass

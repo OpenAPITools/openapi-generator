@@ -58,7 +58,7 @@ public class TypescriptAngularPetstoreIntegrationTest extends AbstractIntegratio
         return new IntegrationTestPathsConfig("typescript/petstore");
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void generatesCorrectDirectoryStructure() throws IOException {
         // test are currently disabled in Superclass
