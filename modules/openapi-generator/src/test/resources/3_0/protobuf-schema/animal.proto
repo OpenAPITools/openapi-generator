@@ -18,8 +18,6 @@ message Animal {
 
   string pet_type = 482112090;
 
-  string bark = 3016376;
-
   string name = 3373707;
 
   string fur_color = 478695002;
@@ -27,5 +25,7 @@ message Animal {
   bool is_indoor = 183319801;
 
   CareDetails care_details = 176721135;
+
+  string bark = 3016376;
 
 }

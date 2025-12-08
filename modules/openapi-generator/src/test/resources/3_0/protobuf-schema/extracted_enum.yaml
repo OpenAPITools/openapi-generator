@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Enum extraction test
+  version: '2.0'
+paths: {}
+components:
+  schemas:
+    SeparatedEnum:
+      type: string
+      enum:
+        - VALUE1
+        - VALUE2
+    ModelWithEnums:
+      properties:
+        referenceEnumProperty:
+          $ref: "#/components/schemas/SeparatedEnum"
+        inlineEnumProperty:
+          type: string
+          enum:
+            - VALUE2
+            - VALUE3
+            - VALUE4
+    AllOfModelWithEnums:
+      allOf:
+        - $ref: "#/components/schemas/ModelWithEnums"
+        - type: object
+          properties:
+            anotherInlineEnumProperty:
+              type: string
+              enum:
+                - VALUE5
+                - VALUE6

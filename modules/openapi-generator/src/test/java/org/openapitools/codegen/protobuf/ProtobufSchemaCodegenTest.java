@@ -48,6 +48,7 @@ import java.util.Map;
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.USE_SIMPLIFIED_ENUM_NAMES;
 import static org.testng.Assert.assertEquals;
+import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.EXTRACT_ENUMS_TO_SEPARATE_FILES;
 import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.START_ENUMS_WITH_UNSPECIFIED;
 
 public class ProtobufSchemaCodegenTest {
@@ -316,23 +317,53 @@ public class ProtobufSchemaCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
+        // Verify Animal proto file (discriminator parent)
         TestUtils.ensureContainsFile(files, output, "models/animal.proto");
-        Path path = Paths.get(output + "/models/animal.proto");
-
-        // Verify the generated file contains all expected properties from multi-level inheritance
-        String generatedContent = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
+        Path animalPath = Paths.get(output + "/models/animal.proto");
+        String animalContent = new String(Files.readAllBytes(animalPath), StandardCharsets.UTF_8);
         
-        // Properties from discriminated classes should be included:
-        // From Dog (direct child): bark
-        Assert.assertTrue(generatedContent.contains("string bark"), "Animal should contain 'bark' property from Dog");
-        // From Feline (direct child): name, furColor  
-        Assert.assertTrue(generatedContent.contains("string name"), "Animal should contain 'name' property from Feline");
-        Assert.assertTrue(generatedContent.contains("string fur_color"), "Animal should contain 'fur_color' property from Feline");
-        // From Cat (indirect child through Feline): isIndoor, careDetails
-        Assert.assertTrue(generatedContent.contains("bool is_indoor"), "Animal should contain 'is_indoor' property from Cat (indirect child)");
-        Assert.assertTrue(generatedContent.contains("CareDetails care_details"), "Animal should contain 'care_details' property from Cat (indirect child)");
+        // Properties from discriminated classes should be included in Animal:
+        // From Dog (direct child in discriminator mapping): bark
+        Assert.assertTrue(animalContent.contains("string bark"), "Animal should contain 'bark' property from Dog");
+        // From Feline (intermediate parent, NOT in discriminator mapping): name, furColor  
+        Assert.assertTrue(animalContent.contains("string name"), "Animal should contain 'name' property from Feline");
+        Assert.assertTrue(animalContent.contains("string fur_color"), "Animal should contain 'fur_color' property from Feline");
+        // From Cat (indirect child through Feline, IN discriminator mapping): isIndoor, careDetails
+        Assert.assertTrue(animalContent.contains("bool is_indoor"), "Animal should contain 'is_indoor' property from Cat (indirect child)");
+        Assert.assertTrue(animalContent.contains("CareDetails care_details"), "Animal should contain 'care_details' property from Cat (indirect child)");
 
-        assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/animal.proto"));
+        assertFileEquals(animalPath, Paths.get("src/test/resources/3_0/protobuf-schema/animal.proto"));
+
+        // Verify Cat proto file (indirect child in discriminator mapping)
+        TestUtils.ensureContainsFile(files, output, "models/cat.proto");
+        Path catPath = Paths.get(output + "/models/cat.proto");
+        String catContent = new String(Files.readAllBytes(catPath), StandardCharsets.UTF_8);
+        
+        // Cat should import Animal (the discriminator parent), not Feline (its immediate allOf parent)
+        Assert.assertTrue(catContent.contains("import public \"models/animal.proto\";"), 
+            "Cat should import Animal (discriminator parent)");
+        // Cat should also import CareDetails (its dependency)
+        Assert.assertTrue(catContent.contains("import public \"models/care_details.proto\";"), 
+            "Cat should import CareDetails");
+        
+        // Verify Feline proto file (intermediate parent, NOT in discriminator mapping)
+        TestUtils.ensureContainsFile(files, output, "models/feline.proto");
+        Path felinePath = Paths.get(output + "/models/feline.proto");
+        String felineContent = new String(Files.readAllBytes(felinePath), StandardCharsets.UTF_8);
+        
+        // According to requirements: Feline inherits from Animal but is NOT in discriminator mapping
+        // So Feline should NOT import Animal
+        Assert.assertFalse(felineContent.contains("import public \"models/animal.proto\";"), 
+            "Feline should NOT import Animal (not in discriminator mapping)");
+        
+        // Verify Dog proto file (direct child in discriminator mapping)
+        TestUtils.ensureContainsFile(files, output, "models/dog.proto");
+        Path dogPath = Paths.get(output + "/models/dog.proto");
+        String dogContent = new String(Files.readAllBytes(dogPath), StandardCharsets.UTF_8);
+        
+        // Dog should import Animal (the discriminator parent)
+        Assert.assertTrue(dogContent.contains("import public \"models/animal.proto\";"), 
+            "Dog should import Animal (discriminator parent)");
 
         output.deleteOnExit();
     }
@@ -381,5 +412,246 @@ public class ProtobufSchemaCodegenTest {
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "colorMap");
+    }
+
+    @Test(description = "Validate that a model referenced multiple times is imported only once in generated protobuf files")
+    public void testModelImportedOnlyOnce() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/model_imported_once.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that the main model file was generated
+        TestUtils.ensureContainsFile(files, output, "models/model.proto");
+        Path modelPath = Paths.get(output + "/models/model.proto");
+        String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8);
+
+        // Count occurrences of the import statement for model A (using "public" keyword as generated)
+        String importStatement = "import public \"models/a.proto\";";
+        int importCount = countOccurrences(modelContent, importStatement);
+        
+        // Assert that model A is imported exactly once despite being used in:
+        // - direct field in Model (directA)
+        // - field in SubModel which is nested in Model (SubModel.aReference)
+        Assert.assertEquals(importCount, 1, "Model A should be imported exactly once in model.proto");
+
+        // Check the SubModel file - it also references A directly
+        TestUtils.ensureContainsFile(files, output, "models/sub_model.proto");
+        Path subModelPath = Paths.get(output + "/models/sub_model.proto");
+        String subModelContent = new String(Files.readAllBytes(subModelPath), StandardCharsets.UTF_8);
+        int subModelImportCount = countOccurrences(subModelContent, importStatement);
+        Assert.assertEquals(subModelImportCount, 1, "Model A should be imported exactly once in sub_model.proto");
+
+        // Check the ExtensibleModel file
+        TestUtils.ensureContainsFile(files, output, "models/extensible_model.proto");
+        Path extensiblePath = Paths.get(output + "/models/extensible_model.proto");
+        String extensibleContent = new String(Files.readAllBytes(extensiblePath), StandardCharsets.UTF_8);
+
+        // Count occurrences in ExtensibleModel
+        int extensibleImportCount = countOccurrences(extensibleContent, importStatement);
+        
+        // Assert that model A is imported exactly once in ExtensibleModel despite being used in:
+        // - direct field in ExtensibleModel (extensibleA)
+        // - field in ChildModel_1 (childA) which extends ExtensibleModel via discriminator
+        // - field in ChildModel_2 (directA) which also extends ExtensibleModel via discriminator
+        Assert.assertEquals(extensibleImportCount, 1, "Model A should be imported exactly once in extensible_model.proto");
+
+        output.deleteOnExit();
+    }
+
+    private int countOccurrences(String content, String substring) {
+        int count = 0;
+        int index = 0;
+        while ((index = content.indexOf(substring, index)) != -1) {
+            count++;
+            index += substring.length();
+        }
+        return count;
+    }
+
+    @Test(description = "Validate that enums are extracted to separate files when extractEnumsToSeparateFiles option is enabled")
+    public void testExtractEnumsToSeparateFiles() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that separate enum files were generated
+        TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
+        TestUtils.ensureContainsFile(files, output, "models/inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/another_inline_enum_property.proto");
+        
+        // Check that the model file was generated
+        TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
+        Path modelPath = Paths.get(output + "/models/model_with_enums.proto");
+        String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8);
+
+        // Verify that enums are NOT defined inline in the model
+        Assert.assertFalse(modelContent.contains("enum Inline_enum_property"), 
+            "Inline enum should be extracted to separate file");
+        
+        // Verify that the model imports the separated enum files
+        Assert.assertTrue(modelContent.contains("import public \"models/separated_enum.proto\";"), 
+            "Model should import the separated enum file");
+        Assert.assertTrue(modelContent.contains("import public \"models/inline_enum_property.proto\";"), 
+            "Model should import the inline enum file");
+
+        // Check the AllOfModel file
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
+        Path allOfModelPath = Paths.get(output + "/models/all_of_model_with_enums.proto");
+        String allOfModelContent = new String(Files.readAllBytes(allOfModelPath), StandardCharsets.UTF_8);
+
+        // Verify that the allOf model imports the separated enum files
+        Assert.assertTrue(allOfModelContent.contains("import public \"models/another_inline_enum_property.proto\";"), 
+            "AllOf model should import its inline enum file");
+
+        // Verify the separated enum file content
+        Path separatedEnumPath = Paths.get(output + "/models/separated_enum.proto");
+        String separatedEnumContent = new String(Files.readAllBytes(separatedEnumPath), StandardCharsets.UTF_8);
+        Assert.assertTrue(separatedEnumContent.contains("package openapitools;"), 
+            "Separated enum file should contain a valid package declaration");
+        Assert.assertTrue(separatedEnumContent.contains("enum SeparatedEnum"), 
+            "Separated enum file should contain the enum definition");
+        Assert.assertTrue(separatedEnumContent.contains("VALUE1"), 
+            "Separated enum should contain VALUE1");
+        Assert.assertTrue(separatedEnumContent.contains("VALUE2"), 
+            "Separated enum should contain VALUE2");
+
+        // Verify the inline enum file content
+        Path inlineEnumPath = Paths.get(output + "/models/inline_enum_property.proto");
+        String inlineEnumContent = new String(Files.readAllBytes(inlineEnumPath), StandardCharsets.UTF_8);
+        Assert.assertTrue(inlineEnumContent.contains("package openapitools;"), 
+            "Inline enum file should contain a valid package declaration");
+        Assert.assertTrue(inlineEnumContent.contains("enum InlineEnumProperty"), 
+            "Inline enum file should contain the enum definition");
+        Assert.assertTrue(inlineEnumContent.contains("VALUE3"), 
+            "Inline enum should contain VALUE3");
+        Assert.assertTrue(inlineEnumContent.contains("VALUE4"), 
+            "Inline enum should contain VALUE4");
+
+        output.deleteOnExit();
+    }
+
+    @Test(description = "Validate that enums are extracted to separate files when extractEnumsToSeparateFiles option is enabled")
+    public void testExtractEnumsToSeparateFilesWithOtherEnumOptions() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true)
+                .addAdditionalProperty(USE_SIMPLIFIED_ENUM_NAMES, true)
+                .addAdditionalProperty(START_ENUMS_WITH_UNSPECIFIED, true);
+
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that separate enum files were generated
+        TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
+        TestUtils.ensureContainsFile(files, output, "models/inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/another_inline_enum_property.proto");
+        
+        // Check that the model file was generated
+        TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
+        Path modelPath = Paths.get(output + "/models/model_with_enums.proto");
+        String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8);
+
+        // Verify that enums are NOT defined inline in the model
+        Assert.assertFalse(modelContent.contains("enum Inline_enum_property"), 
+            "Inline enum should be extracted to separate file");
+        
+        // Verify that the model imports the separated enum files
+        Assert.assertTrue(modelContent.contains("import public \"models/separated_enum.proto\";"), 
+            "Model should import the separated enum file");
+        Assert.assertTrue(modelContent.contains("import public \"models/inline_enum_property.proto\";"), 
+            "Model should import the inline enum file");
+
+        // Check the AllOfModel file
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
+        Path allOfModelPath = Paths.get(output + "/models/all_of_model_with_enums.proto");
+        String allOfModelContent = new String(Files.readAllBytes(allOfModelPath), StandardCharsets.UTF_8);
+
+        // Verify that the allOf model imports the separated enum files
+        Assert.assertTrue(allOfModelContent.contains("import public \"models/another_inline_enum_property.proto\";"), 
+            "AllOf model should import its inline enum file");
+
+        // Verify the separated enum file content
+        Path separatedEnumPath = Paths.get(output + "/models/separated_enum.proto");
+        String separatedEnumContent = new String(Files.readAllBytes(separatedEnumPath), StandardCharsets.UTF_8);
+        Assert.assertTrue(separatedEnumContent.contains("package openapitools;"), 
+            "Separated enum file should contain a valid package declaration");
+        Assert.assertTrue(separatedEnumContent.contains("enum SeparatedEnum"), 
+            "Separated enum file should contain the enum definition");
+          Assert.assertTrue(separatedEnumContent.contains("UNSPECIFIED"), 
+            "Separated enum should contain UNSPECIFIED");
+        Assert.assertTrue(separatedEnumContent.contains("VALUE1"), 
+            "Separated enum should contain VALUE1");
+        Assert.assertTrue(separatedEnumContent.contains("VALUE2"), 
+            "Separated enum should contain VALUE2");
+
+        // Verify the inline enum file content
+        Path inlineEnumPath = Paths.get(output + "/models/inline_enum_property.proto");
+        String inlineEnumContent = new String(Files.readAllBytes(inlineEnumPath), StandardCharsets.UTF_8);
+        Assert.assertTrue(inlineEnumContent.contains("package openapitools;"), 
+            "Inline enum file should contain a valid package declaration");
+        Assert.assertTrue(inlineEnumContent.contains("enum InlineEnumProperty"), 
+            "Inline enum file should contain the enum definition");
+        Assert.assertTrue(inlineEnumContent.contains("UNSPECIFIED"), 
+            "Inline enum should contain UNSPECIFIED");
+        Assert.assertTrue(inlineEnumContent.contains("VALUE2"), 
+            "Inline enum should contain VALUE2");
+        Assert.assertTrue(inlineEnumContent.contains("VALUE3"), 
+            "Inline enum should contain VALUE3");
+        Assert.assertTrue(inlineEnumContent.contains("VALUE4"), 
+            "Inline enum should contain VALUE4");
+
+        output.deleteOnExit();
+    }
+
+    @Test(description = "Test toModelImport with various input formats")
+    public void testToModelImportVariations() {
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        codegen.setModelPackage("models");
+        
+        // Normal case
+        Assert.assertEquals(codegen.toModelImport("Pet"), "models/pet");
+        
+        // Already prefixed - should not duplicate
+        Assert.assertEquals(codegen.toModelImport("models/pet"), "models/pet");
+        
+        // With different casing
+        Assert.assertEquals(codegen.toModelImport("PetStore"), "models/pet_store");
+        
+        // With numbers
+        Assert.assertEquals(codegen.toModelImport("Pet123"), "models/pet123");
+        
+        // Empty model package
+        codegen.setModelPackage("");
+        Assert.assertEquals(codegen.toModelImport("Pet"), "Pet");
     }
 }

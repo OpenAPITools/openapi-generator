@@ -26,4 +26,6 @@ message Pet {
 
   bool loves_rocks = 465093427;
 
+  bool has_legs = 140596906;
+
 }

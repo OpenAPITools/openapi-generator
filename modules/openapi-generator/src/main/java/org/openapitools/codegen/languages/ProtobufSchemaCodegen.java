@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.exceptions.ProtoBufIndexComputationException;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
@@ -76,6 +77,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
+    public static final String EXTRACT_ENUMS_TO_SEPARATE_FILES = "extractEnumsToSeparateFiles";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
@@ -99,6 +102,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     private boolean useSimplifiedEnumNames = false;
 
     private boolean supportMultipleResponses = true;
+
+    private boolean extractEnumsToSeparateFiles = false;
 
     @Override
     public CodegenType getTag() {
@@ -212,6 +217,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         addSwitch(WRAP_COMPLEX_TYPE, "Generate Additional message for complex type", wrapComplexType);
         addSwitch(USE_SIMPLIFIED_ENUM_NAMES, "Use a simple name for enums", useSimplifiedEnumNames);
         addSwitch(SUPPORT_MULTIPLE_RESPONSES, "Support multiple responses", supportMultipleResponses);
+        addSwitch(EXTRACT_ENUMS_TO_SEPARATE_FILES, "Extract enums to separate protobuf files and import them in models", extractEnumsToSeparateFiles);
         addOption(AGGREGATE_MODELS_NAME, "Aggregated model filename. If set, all generated models will be combined into this single file.", null);
         addOption(CUSTOM_OPTIONS_API, "Custom options for the api files.", null);
         addOption(CUSTOM_OPTIONS_MODEL, "Custom options for the model files.", null);
@@ -277,6 +283,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             this.supportMultipleResponses = convertPropertyToBooleanAndWriteBack(SUPPORT_MULTIPLE_RESPONSES);
         } else {
             additionalProperties.put(this.SUPPORT_MULTIPLE_RESPONSES, this.supportMultipleResponses);
+        }
+
+        if (additionalProperties.containsKey(EXTRACT_ENUMS_TO_SEPARATE_FILES)) {
+            this.extractEnumsToSeparateFiles = convertPropertyToBooleanAndWriteBack(EXTRACT_ENUMS_TO_SEPARATE_FILES);
+        } else {
+            additionalProperties.put(EXTRACT_ENUMS_TO_SEPARATE_FILES, this.extractEnumsToSeparateFiles);
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -666,6 +678,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
                         addEnumIndexes(enumVars);
                     }
+                    
+                    // If extractEnumsToSeparateFiles is enabled, mark this enum property for extraction
+                    // and set the vendor extension to prevent inline enum rendering
+                    if (this.extractEnumsToSeparateFiles) {
+                        var.vendorExtensions.put("x-protobuf-enum-extracted-to-file", true);
+                        var.vendorExtensions.put("x-protobuf-enum-reference-import", true);
+                    }
                 }
 
                 // Add x-protobuf-index, unless already specified
@@ -686,6 +705,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
             }
         }
+        
+        // Extract enums to separate files if the option is enabled
+        if (this.extractEnumsToSeparateFiles) {
+            objs = extractEnumsToSeparateFiles(objs);
+        }
+        
         return objs;
     }
 
@@ -698,23 +723,469 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         Map<String, CodegenModel> allModels = this.getAllModels(objs);
 
-        for (CodegenModel cm : allModels.values()) {
-            // Replicate all attributes from children to parents in case of allof, as there is no inheritance
-            if (!cm.allOf.isEmpty() && cm.getParentModel() != null) {
-                CodegenModel parentCM = cm.getParentModel();
-                for (CodegenProperty var : cm.getVars()) {
-                    if (!parentVarsContainsVar(parentCM.vars, var)) {
-                        parentCM.vars.add(var);
-                    }
+        // Ensure models in discriminator mappings import the discriminator parent
+        this.addDiscriminatorParentImports(objs, allModels);
+
+        // Manage children properties for inheritance (must be done before enum extraction)
+        this.manageChildrenProperties(objs, allModels);
+
+        // Extract enum properties to separate files if enabled
+        if (this.extractEnumsToSeparateFiles) {
+            Map<String, ModelsMap> extractedEnums = new HashMap<>();
+            
+            for (Entry<String, ModelsMap> entry : objs.entrySet()) {
+                ModelsMap modelsMap = entry.getValue();
+
+                Map<String, CodegenModel> extractedCodegenModelEnums = this.extractEnums(modelsMap);
+                for (String enumName : extractedCodegenModelEnums.keySet()) {
+                  CodegenModel enumModel = extractedCodegenModelEnums.get(enumName);
+
+                  ModelsMap enumModelsMap = new ModelsMap();
+                  ModelMap enumModelMap = new ModelMap();
+                  enumModelMap.setModel(enumModel);
+                  enumModelsMap.setModels(Arrays.asList(enumModelMap));
+                  enumModelsMap.setImports(new ArrayList<>());
+                  
+                  enumModelsMap.putAll(additionalProperties);
+                  extractedEnums.put(enumName, enumModelsMap);
                 }
-                // add all imports from child
-                cm.getImports().stream()
-                        // Filter self import && child import
-                        .filter(importFromList -> !parentCM.getClassname().equalsIgnoreCase(importFromList) && !cm.getClassname().equalsIgnoreCase(importFromList))
-                        .forEach(importFromList -> this.addImport(objs, parentCM, importFromList));
+            }
+            
+            // Add all extracted enums to the objs map so they get generated
+            objs.putAll(extractedEnums);
+        }
+
+        return aggregateModelsName == null ? objs : aggregateModels(objs);
+    }
+
+    /**
+     * Ensures that all models in discriminator mappings import the discriminator parent.
+     * In protobuf, a child model needs to import the discriminator parent (root of the hierarchy),
+     * not just its immediate allOf parent.
+     * 
+     * This method only adds imports FROM children TO the discriminator parent,
+     * not the other way around.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param allModels map of all CodegenModels by name
+     */
+    private void addDiscriminatorParentImports(Map<String, ModelsMap> objs, Map<String, CodegenModel> allModels) {
+        for (CodegenModel model : allModels.values()) {
+            if (isDiscriminatorParent(model)) {
+                // For each child in the discriminator mapping
+                for (MappedModel mappedModel : model.discriminator.getMappedModels()) {
+                    String childName = mappedModel.getModelName();
+                    CodegenModel childModel = allModels.get(childName);
+                    
+                    if (childModel == null) {
+                        LOGGER.warn("Discriminator mapping references model '{}' which was not found", childName);
+                        continue;
+                    }
+                    
+                    // Add import FROM child TO discriminator parent
+                    // This ensures D imports A (not just C) in multi-level inheritance
+                    // DO NOT add imports from parent to child (that would create circular references)
+                    this.addImport(objs, childModel, model.getClassname());
+                }
             }
         }
-        return aggregateModelsName == null ? objs : aggregateModels(objs);
+    }
+
+    /**
+     * Manages property and import propagation from child models to parent models.
+     * In protobuf, inheritance doesn't exist, so all descendant properties must be
+     * copied to parent models to achieve pseudo-inheritance.
+     * 
+     * This method uses a two-phase approach:
+     * 1. Bottom-up propagation: Each model copies properties to all its ancestors
+     * 2. Discriminator aggregation: Discriminator parents recursively collect from ALL descendants
+     * 
+     * @param objs the complete models map for import tracking
+     * @param allModels map of all CodegenModels by name
+     */
+    public void manageChildrenProperties(Map<String, ModelsMap> objs, Map<String, CodegenModel> allModels) {
+        // Phase 1: Bottom-up property propagation
+        // Each child copies its properties to all ancestors in the chain
+        for (CodegenModel model : allModels.values()) {
+            if (!model.allOf.isEmpty() && model.getParentModel() != null) {
+                // Walk up the entire parent chain
+                CodegenModel currentAncestor = model.getParentModel();
+                
+                while (currentAncestor != null) {
+                    // Copy properties from this model to the current ancestor
+                    copyPropertiesToParent(model, currentAncestor);
+                    
+                    // Copy imports from this model to the current ancestor
+                    copyImportsToParent(objs, model, currentAncestor);
+                    
+                    // Move to the next ancestor in the chain
+                    currentAncestor = currentAncestor.getParentModel();
+                }
+            }
+        }
+        
+        // Phase 2: Discriminator parent aggregation
+        // For models with discriminators, recursively collect properties from ALL descendants
+        // This handles multi-level inheritance (grandchildren, great-grandchildren, etc.)
+        for (CodegenModel model : allModels.values()) {
+            if (isDiscriminatorParent(model)) {
+                Set<String> visited = new HashSet<>();
+                collectAllDescendantProperties(objs, model, allModels, visited);
+            }
+        }
+        
+        // Phase 3: Clean up parent imports for models NOT in discriminator mappings
+        // In protobuf, we copy properties instead of using inheritance, so models shouldn't import their parents
+        // UNLESS they're explicitly in a discriminator mapping (handled by addDiscriminatorParentImports)
+        for (CodegenModel model : allModels.values()) {
+            if (model.getParentModel() != null) {
+                // Check if this model is in any discriminator mapping
+                boolean isInDiscriminatorMapping = false;
+                for (CodegenModel potentialParent : allModels.values()) {
+                    if (isDiscriminatorParent(potentialParent)) {
+                        for (MappedModel mappedModel : potentialParent.discriminator.getMappedModels()) {
+                            if (mappedModel.getModelName().equals(model.getClassname())) {
+                                isInDiscriminatorMapping = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isInDiscriminatorMapping) break;
+                }
+                
+                // If NOT in discriminator mapping, remove parent imports
+                // (These were added by base OpenAPI processing but aren't needed in protobuf)
+                if (!isInDiscriminatorMapping) {
+                    CodegenModel parent = model.getParentModel();
+                    while (parent != null) {
+                        // Capture parent's classname for use in lambda
+                        final String parentClassname = parent.getClassname();
+                        
+                        // Remove imports matching the parent's name from both model.imports and ModelsMap
+                        model.getImports().removeIf(importName -> {
+                            String modelNameFromImport = importName;
+                            if (importName.contains("/")) {
+                                modelNameFromImport = importName.substring(importName.lastIndexOf('/') + 1);
+                            }
+                            return parentClassname.equalsIgnoreCase(modelNameFromImport);
+                        });
+                        
+                        // Also remove from ModelsMap
+                        ModelsMap modelsMap = objs.get(model.getClassname());
+                        if (modelsMap != null && modelsMap.getImports() != null) {
+                            modelsMap.getImports().removeIf(importDef -> {
+                                String modelNameFromImport = importDef.get("import");
+                                if (modelNameFromImport != null && modelNameFromImport.contains("/")) {
+                                    modelNameFromImport = modelNameFromImport.substring(modelNameFromImport.lastIndexOf('/') + 1);
+                                }
+                                return parentClassname.equalsIgnoreCase(modelNameFromImport);
+                            });
+                        }
+                        
+                        parent = parent.getParentModel();
+                    }
+                }
+            }
+        }
+        
+        // Phase 4: Remove self-imports from ALL models
+        // A model should never import itself (circular reference)
+        for (CodegenModel model : allModels.values()) {
+            final String modelClassname = model.getClassname();
+            
+            // Remove self-imports from model.imports
+            model.getImports().removeIf(importName -> {
+                String modelNameFromImport = importName;
+                if (importName.contains("/")) {
+                    modelNameFromImport = importName.substring(importName.lastIndexOf('/') + 1);
+                }
+                // Normalize for comparison (convert snake_case to PascalCase)
+                String normalizedImportName = org.openapitools.codegen.utils.StringUtils.camelize(modelNameFromImport);
+                return modelClassname.equalsIgnoreCase(normalizedImportName);
+            });
+            
+            // Also remove from ModelsMap
+            ModelsMap modelsMap = objs.get(model.getClassname());
+            if (modelsMap != null && modelsMap.getImports() != null) {
+                modelsMap.getImports().removeIf(importDef -> {
+                    String modelNameFromImport = importDef.get("import");
+                    if (modelNameFromImport != null && modelNameFromImport.contains("/")) {
+                        modelNameFromImport = modelNameFromImport.substring(modelNameFromImport.lastIndexOf('/') + 1);
+                    }
+                    // Normalize for comparison (convert snake_case to PascalCase)
+                    String normalizedImportName = org.openapitools.codegen.utils.StringUtils.camelize(modelNameFromImport);
+                    return modelClassname.equalsIgnoreCase(normalizedImportName);
+                });
+            }
+        }
+    }
+    
+    /**
+     * Checks if a model is a discriminator parent (has a discriminator with mapped models).
+     * 
+     * @param model the model to check
+     * @return true if the model has a discriminator with mapped models
+     */
+    private boolean isDiscriminatorParent(CodegenModel model) {
+        return model != null
+                && model.discriminator != null 
+                && model.discriminator.getMappedModels() != null 
+                && !model.discriminator.getMappedModels().isEmpty();
+    }
+    
+    /**
+     * Normalizes a model name for case-insensitive comparison.
+     * 
+     * In protobuf generation, import paths often use snake_case format
+     *  while classnames use PascalCase. This method
+     * normalizes both formats to PascalCase for accurate comparison
+     * 
+     * @param modelName the model name or import path to normalize
+     * @return normalized PascalCase model name, or empty string if input is null/empty
+     */
+    private String normalizeModelNameForComparison(String modelName) {
+        if (modelName == null || modelName.isEmpty()) {
+            return "";
+        }
+        
+        // Extract model name from path if present
+        String extractedName = modelName;
+        if (modelName.contains("/")) {
+            extractedName = modelName.substring(modelName.lastIndexOf('/') + 1);
+        } else if (modelName.contains("\\")) {  // Windows path support
+            extractedName = modelName.substring(modelName.lastIndexOf('\\') + 1);
+        }
+        
+        // Convert to PascalCase (handles snake_case, kebab-case, etc.)
+        return org.openapitools.codegen.utils.StringUtils.camelize(extractedName);
+    }
+    
+    /**
+     * Recursively collects properties and imports from all descendants of a discriminator parent.
+     * This ensures that grandchildren, great-grandchildren, etc. all have their properties
+     * included in the discriminator parent.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param discriminatorParent the discriminator parent model
+     * @param allModels map of all CodegenModels by name
+     * @param visited set of already processed model names to prevent infinite loops
+     */
+    private void collectAllDescendantProperties(Map<String, ModelsMap> objs, 
+                                               CodegenModel discriminatorParent,
+                                               Map<String, CodegenModel> allModels,
+                                               Set<String> visited) {
+        if (objs == null || discriminatorParent == null || allModels == null || visited == null) {
+            LOGGER.warn("Skipping descendant property collection due to null parameter");
+            return;
+        }
+        
+        // Mark this discriminator parent as visited to prevent infinite recursion
+        if (!visited.add(discriminatorParent.getClassname())) {
+            return; // Already processed
+        }
+        
+        // Get all direct children from discriminator mappings
+        if (discriminatorParent.discriminator == null || 
+            discriminatorParent.discriminator.getMappedModels() == null) {
+            return;
+        }
+        
+        for (MappedModel mappedModel : discriminatorParent.discriminator.getMappedModels()) {
+            String childName = mappedModel.getModelName();
+            CodegenModel childModel = allModels.get(childName);
+            
+            if (childModel == null) {
+                LOGGER.warn("Discriminator references model '{}' which was not found in allModels", childName);
+                continue;
+            }
+            
+            // Recursively collect from this child and all its descendants
+            collectDescendantPropertiesRecursive(objs, discriminatorParent, childModel, allModels, visited);
+        }
+    }
+    
+    /**
+     * Recursively collects properties from a descendant and all its children.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param discriminatorParent the root discriminator parent receiving all properties
+     * @param descendant the current descendant being processed
+     * @param allModels map of all CodegenModels by name
+     * @param visited set of already processed model names
+     */
+    private void collectDescendantPropertiesRecursive(Map<String, ModelsMap> objs,
+                                                     CodegenModel discriminatorParent,
+                                                     CodegenModel descendant,
+                                                     Map<String, CodegenModel> allModels,
+                                                     Set<String> visited) {
+        // Prevent infinite loops
+        if (visited.contains(descendant.getClassname())) {
+            return;
+        }
+        
+        visited.add(descendant.getClassname());
+        
+        // Copy this descendant's properties to the discriminator parent
+        copyPropertiesToParent(descendant, discriminatorParent);
+        
+        // Copy imports from descendant to discriminator parent
+        // Filter out models that are in the discriminator mapping (they're siblings, not dependencies)
+        copyImportsToDiscriminatorParent(objs, descendant, discriminatorParent);
+        
+        // Recursively process this descendant's children
+        if (descendant.getChildren() != null) {
+            for (CodegenModel grandchild : descendant.getChildren()) {
+                collectDescendantPropertiesRecursive(objs, discriminatorParent, grandchild, allModels, visited);
+            }
+        }
+    }
+    
+    /**
+     * Copies imports from a descendant to a discriminator parent.
+     * Filters out self-references and models that are in the discriminator's mapping
+     * (those are siblings in the polymorphic hierarchy, not dependencies).
+     * Also filters out the discriminator parent itself and any intermediate parents.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param descendant the descendant model whose imports are being copied
+     * @param discriminatorParent the discriminator parent receiving the imports
+     */
+    private void copyImportsToDiscriminatorParent(Map<String, ModelsMap> objs,
+                                                  CodegenModel descendant,
+                                                  CodegenModel discriminatorParent) {
+        if (objs == null || descendant == null || discriminatorParent == null) {
+            LOGGER.warn("Skipping import copy due to null parameter");
+            return;
+        }
+        
+        // Additional safety: check if descendant has imports
+        if (descendant.getImports() == null || descendant.getImports().isEmpty()) {
+            LOGGER.debug("Descendant {} has no imports to copy", descendant.getClassname());
+            return;
+        }
+        
+        // Build set of model names that are in the discriminator mapping
+        Set<String> modelsInDiscriminatorMapping = new HashSet<>();
+        if (discriminatorParent.discriminator != null && 
+            discriminatorParent.discriminator.getMappedModels() != null) {
+            for (MappedModel mappedModel : discriminatorParent.discriminator.getMappedModels()) {
+                modelsInDiscriminatorMapping.add(mappedModel.getModelName());
+            }
+        }
+        
+        // Build set of all parents in the chain from descendant to discriminator parent
+        Set<String> parentsInChain = new HashSet<>();
+        parentsInChain.add(discriminatorParent.getClassname());
+        CodegenModel currentParent = descendant.getParentModel();
+        while (currentParent != null) {
+            parentsInChain.add(currentParent.getClassname());
+            if (currentParent == discriminatorParent) {
+                break;
+            }
+            currentParent = currentParent.getParentModel();
+        }
+        
+        // Copy imports, filtering out:
+        // - self-references (descendant's own name)
+        // - discriminator siblings (other models in the discriminator mapping)
+        // - any parent in the inheritance chain (to avoid circular references)
+        descendant.getImports().stream()
+                .filter(importName -> {
+                    // Normalize the import name for comparison using the helper method
+                    String normalizedImportName = normalizeModelNameForComparison(importName);
+                    
+                    // Filter out self-references
+                    if (descendant.getClassname().equalsIgnoreCase(normalizedImportName)) {
+                        return false;
+                    }
+                    // Filter out discriminator siblings
+                    for (String siblingName : modelsInDiscriminatorMapping) {
+                        if (siblingName.equalsIgnoreCase(normalizedImportName)) {
+                            return false;
+                        }
+                    }
+                    // Filter out any parent in the chain
+                    for (String parentName : parentsInChain) {
+                        if (parentName.equalsIgnoreCase(normalizedImportName)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .forEach(importName -> this.addImport(objs, discriminatorParent, importName));
+    }
+
+    /**
+     * Copies properties from a child model to a parent model if they don't already exist.
+     * 
+     * @param child the child model whose properties are being copied
+     * @param parent the parent model receiving the properties
+     */
+    private void copyPropertiesToParent(CodegenModel child, CodegenModel parent) {
+        if (child == null || parent == null) {
+            LOGGER.warn("Skipping property copy due to null parameter");
+            return;
+        }
+        
+        for (CodegenProperty var : child.getVars()) {
+            if (!parentVarsContainsVar(parent.vars, var)) {
+                parent.vars.add(var);
+            }
+        }
+    }
+
+    /**
+     * Copies imports from a child model to a parent model.
+     * Filters out self-references, circular imports, and intermediate parents in the inheritance chain.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param child the child model whose imports are being copied
+     * @param parent the parent model receiving the imports
+     */
+    private void copyImportsToParent(Map<String, ModelsMap> objs, CodegenModel child, CodegenModel parent) {
+        if (objs == null || child == null || parent == null) {
+            LOGGER.warn("Skipping import copy due to null parameter");
+            return;
+        }
+        
+        // Build set of model names to filter out:
+        // 1. Child's own name
+        // 2. Parent's name  
+        // 3. All models in the inheritance chain from child to parent (intermediate parents)
+        // 4. All ancestors of parent (grandparents, great-grandparents, etc.)
+        Set<String> modelsToFilter = new HashSet<>();
+        modelsToFilter.add(child.getClassname());
+        modelsToFilter.add(parent.getClassname());
+        
+        // Add all models in the chain from child up to (but not including) parent
+        CodegenModel current = child.getParentModel();
+        while (current != null && current != parent) {
+            modelsToFilter.add(current.getClassname());
+            current = current.getParentModel();
+        }
+        
+        // Add all ancestors of the parent to the filter set
+        CodegenModel currentAncestor = parent.getParentModel();
+        while (currentAncestor != null) {
+            modelsToFilter.add(currentAncestor.getClassname());
+            currentAncestor = currentAncestor.getParentModel();
+        }
+        
+        // Copy imports, filtering out the models in our filter set
+        child.getImports().stream()
+                .filter(importName -> {
+                    // Normalize the import name for comparison using the helper method
+                    String normalizedImportName = normalizeModelNameForComparison(importName);
+                    
+                    // Filter out any model in our filter set
+                    for (String filterName : modelsToFilter) {
+                        if (filterName.equalsIgnoreCase(normalizedImportName)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .forEach(importName -> this.addImport(objs, parent, importName));
     }
 
     /**
@@ -745,12 +1216,27 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         return objects;
     }
 
+    /**
+     * Adds an import to a CodegenModel, preventing duplicate imports.
+     * 
+     * @param objs the complete models map for import tracking
+     * @param cm the CodegenModel to add the import to
+     * @param importValue the import path (e.g., "models/pet" or "Pet")
+     * 
+     * @implNote This method uses toModelImport() to normalize the import path,
+     *           preventing duplicate model package prefixes that can occur when
+     *           imports are propagated through discriminator inheritance chains.
+     */
     public void addImport(Map<String, ModelsMap> objs, CodegenModel cm, String importValue) {
-        String modelFileName = this.toModelFilename(importValue);
-        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, modelFileName);
+        // Use toModelImport to get the correct import path with model package prefix
+        if (importValue == null || importValue.trim().isEmpty()) {
+          LOGGER.warn("Attempted to add null or empty import to model: {}", cm.getName());
+          return;
+        }
+
+        String processedImport = this.toModelImport(importValue);
+        boolean skipImport = isImportAlreadyPresentInModel(objs, cm, processedImport);
         if (!skipImport) {
-            // Use toModelImport to get the correct import path with model package prefix
-            String processedImport = this.toModelImport(importValue);
             this.addImport(cm, processedImport);
             Map<String, String> importItem = new HashMap<>();
             importItem.put(IMPORT, processedImport);
@@ -1048,6 +1534,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             if (name.startsWith(modelPath)) {
                 return name;
             }
+            // Also check if it's already a full path (contains "/")
+            if (name.contains("/")) {
+                // Extract just the model name from the path
+                String[] parts = name.split("/");
+                String modelName = parts[parts.length - 1];
+                return modelPackage() + "/" + underscore(modelName);
+            }
             return modelPackage() + "/" + underscore(name);
         }
     }
@@ -1072,6 +1565,102 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             throw new ProtoBufIndexComputationException("Generated field number is in reserved range (19000, 19999).");
         }
         return fieldNumber;
+    }
+
+    /**
+     * Extracts enum properties from models and creates separate enum model files.
+     * Also adds imports to the parent models for the extracted enums.
+     *
+     * @param objs the models map containing all models
+     * @return the modified models map with extracted enum models added
+     */
+    private ModelsMap extractEnumsToSeparateFiles(ModelsMap objs) {
+        List<Map<String, String>> enumImports = new ArrayList<>();
+
+        Map<String, CodegenModel> extractedEnums = this.extractEnums(objs);
+        for (String enumName : extractedEnums.keySet()) {
+          // Add an import for this enum to the parent model
+          String enumImportPath = toModelImport(toModelName(enumName));
+          Map<String, String> importItem = new HashMap<>();
+          importItem.put(IMPORT, enumImportPath);
+          
+          // Add to the list if not already present
+          boolean alreadyImported = enumImports.stream()
+                  .anyMatch(imp -> imp.get(IMPORT).equals(enumImportPath));
+          
+          if (!alreadyImported) {
+              enumImports.add(importItem);
+          }
+        }
+          
+        // Add all the enum imports to the model's imports
+        if (!enumImports.isEmpty()) {
+            List<Map<String, String>> existingImports = objs.getImports();
+            if (existingImports == null) {
+                existingImports = new ArrayList<>();
+                objs.setImports(existingImports);
+            }
+            
+            for (Map<String, String> enumImport : enumImports) {
+                boolean alreadyExists = existingImports.stream()
+                        .anyMatch(imp -> imp.get(IMPORT).equals(enumImport.get(IMPORT)));
+                if (!alreadyExists) {
+                    existingImports.add(enumImport);
+                }
+            }
+        }
+        
+        return objs;
+    }
+
+    /**
+     * Extracts enum properties from models to be used in other process.
+     *
+     * @param objs the models map containing all models
+     * @return the models map with extracted enum models
+     */
+    private Map<String, CodegenModel> extractEnums(ModelsMap objs) {
+        Map<String, CodegenModel> extractedEnums = new HashMap<>();
+
+        for (ModelMap mo : objs.getModels()) {
+          CodegenModel cm = mo.getModel();
+
+          // Skip if this model itself is an enum (standalone enums are already separate files)
+          if (cm.isEnum) {
+              continue; 
+          }
+
+          // Find all enum properties in this model
+          for (CodegenProperty var : cm.vars) {
+            if (var.isEnum && var.vendorExtensions.containsKey("x-protobuf-enum-extracted-to-file")) {
+              // Create a new CodegenModel for the extracted enum
+              CodegenModel enumModel = new CodegenModel();
+              // Use toModelName to get the properly formatted enum name in CamelCase (e.g., InlineEnumProperty)
+              String enumKey = toModelName(toEnumName(var));
+              if (enumKey == null || enumKey.isEmpty()) {
+                LOGGER.warn("Enum property {} has no enum name, skipping extraction", var.getName());
+                continue;
+              }
+              
+              if (var.allowableValues == null || var.allowableValues.isEmpty()) {
+                LOGGER.warn("Enum {} has no allowable values, skipping extraction", enumKey);
+                continue;
+              }
+
+              if (!extractedEnums.containsKey(enumKey)) {
+                enumModel.setName(enumKey);
+                enumModel.setClassname(enumKey);
+                enumModel.setIsEnum(true);
+                enumModel.setAllowableValues(var.allowableValues);
+                // Set the base data type for the enum (string, int32, etc.)
+                enumModel.setDataType(var.baseType != null ? var.baseType : var.dataType);
+                
+                extractedEnums.put(enumKey, enumModel);
+              }
+            }
+          }
+        }
+        return extractedEnums;
     }
 
     /**

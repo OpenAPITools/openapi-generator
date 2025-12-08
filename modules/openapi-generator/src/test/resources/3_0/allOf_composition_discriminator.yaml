@@ -80,7 +80,7 @@ components:
         - $ref: '#/components/schemas/Lizard'
       discriminator:
         propertyName: petType
-        # per https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject
+        # per https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminator-object
         # this discriminator must be included to use it as a hint to pick a schema
     MyPetsNoDisc:
       oneOf:
