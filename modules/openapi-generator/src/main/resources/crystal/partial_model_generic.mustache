@@ -99,44 +99,44 @@
       {{#vars}}
       {{#hasValidation}}
       {{#maxLength}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.to_s.try &.size.try &.> {{{maxLength}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be smaller than or equal to {{{maxLength}}}.")
       end
 
       {{/maxLength}}
       {{#minLength}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.to_s.try &.size.try &.< {{{minLength}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", the character length must be greater than or equal to {{{minLength}}}.")
       end
 
       {{/minLength}}
       {{#maximum}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.>{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}.")
       end
 
       {{/maximum}}
       {{#minimum}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.<{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}.")
       end
 
       {{/minimum}}
       {{#pattern}}
-      pattern = Regexp.new({{{pattern}}})
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ pattern
+      pattern = {{{pattern}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.!~ pattern
         invalid_properties.push("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
       {{#maxItems}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.size.try &.> {{{maxItems}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be less than or equal to {{{maxItems}}}."
       end
 
       {{/maxItems}}
       {{#minItems}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.size.try &.< {{{minItems}}}
         invalid_properties.push("invalid value for \"{{{name}}}\", number of items must be greater than or equal to {{{minItems}}}."
       end
 
@@ -158,25 +158,25 @@
       {{/isEnum}}
       {{#hasValidation}}
       {{#maxLength}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size > {{{maxLength}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.to_s.try &.size.try &.> {{{maxLength}}}
       {{/maxLength}}
       {{#minLength}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.to_s.size < {{{minLength}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.to_s.try &.size.try &.< {{{minLength}}}
       {{/minLength}}
       {{#maximum}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.>{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{{maximum}}}
       {{/maximum}}
       {{#minimum}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.<{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{{minimum}}}
       {{/minimum}}
       {{#pattern}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.!~ {{{pattern}}}
       {{/pattern}}
       {{#maxItems}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size > {{{maxItems}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.size.try &.> {{{maxItems}}}
       {{/maxItems}}
       {{#minItems}}
-      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.size < {{{minItems}}}
+      return false if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.size.try &.< {{{minItems}}}
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
