@@ -39,28 +39,41 @@ module Petstore
     @[JSON::Field(key: "complete", type: Bool?, default: false, nillable: true, emit_null: false)]
     property complete : Bool?
 
-    class EnumAttributeValidator
-      getter datatype : String
-      getter allowable_values : Array(String)
+    abstract class EnumAttributeValidator
+      def valid?(value)
+        !value || @allowable_values.includes?(value)
+      end
 
-      def initialize(datatype, allowable_values)
-        @datatype = datatype
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
+      def message
+        "invalid value for \"#{@attribute}\", must be one of #{@allowable_values}."
+      end
+
+      def to(_type, value)
+        case _type
+        when Int32
+          value.to_i32
+        when Int64
+          value.to_i64
+        when Float32
+          value.to_f32
+        when Float64
+          value.to_f64
+        else
+          value.to_s
         end
       end
+    end
 
-      def valid?(value)
-        !value || allowable_values.includes?(value)
+    class EnumAttributeValidatorForStatus < EnumAttributeValidator
+      @attribute : String
+      @allowable_values : Array(Int32 | Int64 | Float32 | Float64 | String)
+
+      def initialize
+        @attribute = "status"
+        @allowable_values = ["placed", "approved", "delivered"].map { |value| to(String, value)}
       end
     end
+
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
@@ -71,13 +84,19 @@ module Petstore
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
+      status_validator = EnumAttributeValidatorForStatus.new
+      if !status_validator.valid?(@status)
+        message = status_validator.message
+        invalid_properties.push(message)
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      status_validator = EnumAttributeValidator.new("String", ["placed", "approved", "delivered"])
+      status_validator = EnumAttributeValidatorForStatus.new
       return false unless status_validator.valid?(@status)
       true
     end
@@ -85,9 +104,9 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new("String", ["placed", "approved", "delivered"])
+      validator = EnumAttributeValidatorForStatus.new
       unless validator.valid?(status)
-        raise ArgumentError.new("invalid value for \"status\", must be one of #{validator.allowable_values}.")
+        raise ArgumentError.new(validator.message)
       end
       @status = status
     end

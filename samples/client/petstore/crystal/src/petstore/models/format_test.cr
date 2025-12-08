@@ -79,66 +79,66 @@ module Petstore
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
-      if !@integer.nil? && @integer > 100
+      if !@integer.nil? && @integer.try &.> 100
         invalid_properties.push("invalid value for \"integer\", must be smaller than or equal to 100.")
       end
 
-      if !@integer.nil? && @integer < 10
+      if !@integer.nil? && @integer.try &.< 10
         invalid_properties.push("invalid value for \"integer\", must be greater than or equal to 10.")
       end
 
-      if !@int32.nil? && @int32 > 200
+      if !@int32.nil? && @int32.try &.> 200
         invalid_properties.push("invalid value for \"int32\", must be smaller than or equal to 200.")
       end
 
-      if !@int32.nil? && @int32 < 20
+      if !@int32.nil? && @int32.try &.< 20
         invalid_properties.push("invalid value for \"int32\", must be greater than or equal to 20.")
       end
 
-      if @number > 543.2
+      if @number.try &.> 543.2
         invalid_properties.push("invalid value for \"number\", must be smaller than or equal to 543.2.")
       end
 
-      if @number < 32.1
+      if @number.try &.< 32.1
         invalid_properties.push("invalid value for \"number\", must be greater than or equal to 32.1.")
       end
 
-      if !@float.nil? && @float > 987.6
+      if !@float.nil? && @float.try &.> 987.6
         invalid_properties.push("invalid value for \"float\", must be smaller than or equal to 987.6.")
       end
 
-      if !@float.nil? && @float < 54.3
+      if !@float.nil? && @float.try &.< 54.3
         invalid_properties.push("invalid value for \"float\", must be greater than or equal to 54.3.")
       end
 
-      if !@double.nil? && @double > 123.4
+      if !@double.nil? && @double.try &.> 123.4
         invalid_properties.push("invalid value for \"double\", must be smaller than or equal to 123.4.")
       end
 
-      if !@double.nil? && @double < 67.8
+      if !@double.nil? && @double.try &.< 67.8
         invalid_properties.push("invalid value for \"double\", must be greater than or equal to 67.8.")
       end
 
-      pattern = Regexp.new(/[a-z]/i)
-      if !@string.nil? && @string !~ pattern
+      pattern = /[a-z]/i
+      if !@string.nil? && @string.try &.!~ pattern
         invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
 
-      if @password.to_s.size > 64
+      if @password.try &.to_s.try &.size.try &.> 64
         invalid_properties.push("invalid value for \"password\", the character length must be smaller than or equal to 64.")
       end
 
-      if @password.to_s.size < 10
+      if @password.try &.to_s.try &.size.try &.< 10
         invalid_properties.push("invalid value for \"password\", the character length must be greater than or equal to 10.")
       end
 
-      pattern = Regexp.new(/^\d{10}$/)
-      if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
+      pattern = /^\d{10}$/
+      if !@pattern_with_digits.nil? && @pattern_with_digits.try &.!~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
 
-      pattern = Regexp.new(/^image_\d{1,3}$/i)
-      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
+      pattern = /^image_\d{1,3}$/i
+      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter.try &.!~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
 
@@ -148,21 +148,21 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@integer.nil? && @integer > 100
-      return false if !@integer.nil? && @integer < 10
-      return false if !@int32.nil? && @int32 > 200
-      return false if !@int32.nil? && @int32 < 20
-      return false if @number > 543.2
-      return false if @number < 32.1
-      return false if !@float.nil? && @float > 987.6
-      return false if !@float.nil? && @float < 54.3
-      return false if !@double.nil? && @double > 123.4
-      return false if !@double.nil? && @double < 67.8
-      return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
-      return false if @password.to_s.size > 64
-      return false if @password.to_s.size < 10
-      return false if !@pattern_with_digits.nil? && @pattern_with_digits !~ Regexp.new(/^\d{10}$/)
-      return false if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ Regexp.new(/^image_\d{1,3}$/i)
+      return false if !@integer.nil? && @integer.try &.> 100
+      return false if !@integer.nil? && @integer.try &.< 10
+      return false if !@int32.nil? && @int32.try &.> 200
+      return false if !@int32.nil? && @int32.try &.< 20
+      return false if @number.try &.> 543.2
+      return false if @number.try &.< 32.1
+      return false if !@float.nil? && @float.try &.> 987.6
+      return false if !@float.nil? && @float.try &.< 54.3
+      return false if !@double.nil? && @double.try &.> 123.4
+      return false if !@double.nil? && @double.try &.< 67.8
+      return false if !@string.nil? && @string.try &.!~ /[a-z]/i
+      return false if @password.try &.to_s.try &.size.try &.> 64
+      return false if @password.try &.to_s.try &.size.try &.< 10
+      return false if !@pattern_with_digits.nil? && @pattern_with_digits.try &.!~ /^\d{10}$/
+      return false if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter.try &.!~ /^image_\d{1,3}$/i
       true
     end
 
@@ -239,7 +239,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
-      pattern = Regexp.new(/[a-z]/i)
+      pattern = /[a-z]/i
       if !string.nil? && string !~ pattern
         raise ArgumentError.new("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
@@ -264,7 +264,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits Value to be assigned
     def pattern_with_digits=(pattern_with_digits)
-      pattern = Regexp.new(/^\d{10}$/)
+      pattern = /^\d{10}$/
       if !pattern_with_digits.nil? && pattern_with_digits !~ pattern
         raise ArgumentError.new("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
@@ -275,7 +275,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits_and_delimiter Value to be assigned
     def pattern_with_digits_and_delimiter=(pattern_with_digits_and_delimiter)
-      pattern = Regexp.new(/^image_\d{1,3}$/i)
+      pattern = /^image_\d{1,3}$/i
       if !pattern_with_digits_and_delimiter.nil? && pattern_with_digits_and_delimiter !~ pattern
         raise ArgumentError.new("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
