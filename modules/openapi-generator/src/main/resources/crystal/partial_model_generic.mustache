@@ -273,7 +273,7 @@
 
       {{/minimum}}
       {{#pattern}}
-      pattern = Regexp.new({{{pattern}}})
+      pattern = {{{pattern}}}
       if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
         raise ArgumentError.new("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
       end
