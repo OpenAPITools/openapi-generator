@@ -213,7 +213,7 @@
       {{#-first}}
       _any_of_found = false
       self.class.openapi_any_of.each do |_class|
-        _any_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_hash)
+        _any_of = {{moduleName}}.const_get(_class).build_from_hash(self.to_h)
         if _any_of.valid?
           _any_of_found = true
         end
