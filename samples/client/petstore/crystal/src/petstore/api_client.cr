@@ -117,8 +117,7 @@ module Petstore
       when :pipes
         param.join("|")
       when :multi
-        # TODO: Need to fix this
-        raise "multi is not supported yet"
+        param
       else
         raise "unknown collection format: #{collection_format.inspect}"
       end
@@ -155,7 +154,8 @@ module Petstore
         cookies: cookie_params,
         form: form_or_body,
         logging: @config.debugging,
-        handle_errors: false
+        handle_errors: false,
+        params_encoder: Crest::NestedParamsEncoder
       )
 
       response = request.execute

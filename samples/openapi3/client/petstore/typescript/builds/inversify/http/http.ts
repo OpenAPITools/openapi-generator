@@ -1,8 +1,7 @@
 // TODO: evaluate if we can easily get rid of this library
 import  FormData from "form-data";
 import { URL, URLSearchParams } from 'url';
-import * as http from 'http';
-import * as https from 'https';
+import { type Dispatcher } from 'undici';
 import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
@@ -58,7 +57,7 @@ export class RequestContext {
     private body: RequestBody = undefined;
     private url: URL;
     private signal: AbortSignal | undefined = undefined;
-    private agent: http.Agent | https.Agent | undefined = undefined;
+    private dispatcher: Dispatcher | undefined = undefined;
 
     /**
      * Creates the request context using a http method and request resource url
@@ -151,13 +150,12 @@ export class RequestContext {
         return this.signal;
     }
 
-
-    public setAgent(agent: http.Agent | https.Agent) {
-        this.agent = agent;
+    public setDispatcher(dispatcher: Dispatcher): void {
+        this.dispatcher = dispatcher;
     }
 
-    public getAgent(): http.Agent | https.Agent | undefined {
-        return this.agent;
+    public getDispatcher(): Dispatcher | undefined {
+        return this.dispatcher;
     }
 }
 

@@ -52,12 +52,14 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json", "application/xml"]
+        method = [RequestMethod.POST],
+        value = [PATH_ADD_PET /* "/pet" */],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json", "application/xml"]
     )
-    fun addPet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
+    fun addPet(
+        @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
+    ): ResponseEntity<Pet> {
         return getDelegate().addPet(pet)
     }
 
@@ -72,10 +74,13 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/pet/{petId}"]
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
     )
-    fun deletePet(@Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?): ResponseEntity<Unit> {
+    fun deletePet(
+        @Parameter(description = "Pet id to delete", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
+    ): ResponseEntity<Unit> {
         return getDelegate().deletePet(petId, apiKey)
     }
 
@@ -91,11 +96,13 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/findByStatus"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(
+        @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
+    ): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByStatus(status)
     }
 
@@ -111,11 +118,13 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/findByTags"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(
+        @NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
+    ): ResponseEntity<List<Pet>> {
         return getDelegate().findPetsByTags(tags)
     }
 
@@ -132,11 +141,13 @@ interface PetApi {
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/pet/{petId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun getPetById(@Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long): ResponseEntity<Pet> {
+    fun getPetById(
+        @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
+    ): ResponseEntity<Pet> {
         return getDelegate().getPetById(petId)
     }
 
@@ -154,12 +165,14 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.PUT],
-            value = ["/pet"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json", "application/xml"]
+        method = [RequestMethod.PUT],
+        value = [PATH_UPDATE_PET /* "/pet" */],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json", "application/xml"]
     )
-    fun updatePet(@Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet): ResponseEntity<Pet> {
+    fun updatePet(
+        @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
+    ): ResponseEntity<Pet> {
         return getDelegate().updatePet(pet)
     }
 
@@ -174,11 +187,15 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet/{petId}"],
-            consumes = ["application/x-www-form-urlencoded"]
+        method = [RequestMethod.POST],
+        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String? ): ResponseEntity<Unit> {
+    fun updatePetWithForm(
+        @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
+    ): ResponseEntity<Unit> {
         return getDelegate().updatePetWithForm(petId, name, status)
     }
 
@@ -193,12 +210,28 @@ interface PetApi {
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/pet/{petId}/uploadImage"],
-            produces = ["application/json"],
-            consumes = ["multipart/form-data"]
+        method = [RequestMethod.POST],
+        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"]
     )
-    fun uploadFile(@Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,@Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile): ResponseEntity<ModelApiResponse> {
+    fun uploadFile(
+        @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
+        @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
+    ): ResponseEntity<ModelApiResponse> {
         return getDelegate().uploadFile(petId, additionalMetadata, file)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_ADD_PET: String = "/pet"
+        const val PATH_DELETE_PET: String = "/pet/{petId}"
+        const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
+        const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
+        const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_UPDATE_PET: String = "/pet"
+        const val PATH_UPDATE_PET_WITH_FORM: String = "/pet/{petId}"
+        const val PATH_UPLOAD_FILE: String = "/pet/{petId}/uploadImage"
     }
 }

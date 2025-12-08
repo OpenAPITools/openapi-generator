@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.TestApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -30,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:}")
+@RequestMapping("\${openapi.demo.base-path:\${api.base-path:$BASE_PATH}}")
 class TestApiController() {
 
     @Operation(
@@ -42,10 +43,18 @@ class TestApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/test"],
+        value = [PATH_TEST_POST /* "/test" */],
         consumes = ["application/json"]
     )
-    fun testPost(@Parameter(description = "", required = true) @Valid @RequestBody apa: Apa): ResponseEntity<Unit> {
+    fun testPost(
+        @Parameter(description = "", required = true) @Valid @RequestBody apa: Apa
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = ""
+        const val PATH_TEST_POST: String = "/test"
     }
 }

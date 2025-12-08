@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.FakeApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -30,7 +31,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 class FakeApiController() {
 
     @Operation(
@@ -42,10 +43,12 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/fake/annotations"],
+        value = [PATH_ANNOTATIONS /* "/fake/annotations" */],
         consumes = ["application/json"]
     )
-    fun annotations(@Parameter(description = "", required = true) @Valid @RequestBody `annotation`: Annotation): ResponseEntity<Unit> {
+    fun annotations(
+        @Parameter(description = "", required = true) @Valid @RequestBody `annotation`: Annotation
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -59,10 +62,22 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = ["/fake/annotations"],
+        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER /* "/fake/annotations" */],
         consumes = ["application/x-www-form-urlencoded"]
     )
-    fun updatePetWithFormNumber(@Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,@Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,@Parameter(description = "integer type") @Valid @RequestParam(value = "status", required = false) status: kotlin.Int? ,@Parameter(description = "number type") @Valid @RequestParam(value = "status2", required = false) status2: java.math.BigDecimal? ): ResponseEntity<Unit> {
+    fun updatePetWithFormNumber(
+        @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "integer type") @Valid @RequestParam(value = "status", required = false) status: kotlin.Int?,
+        @Parameter(description = "number type") @Valid @RequestParam(value = "status2", required = false) status2: java.math.BigDecimal?
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_ANNOTATIONS: String = "/fake/annotations"
+        const val PATH_UPDATE_PET_WITH_FORM_NUMBER: String = "/fake/annotations"
     }
 }

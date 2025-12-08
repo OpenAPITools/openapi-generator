@@ -131,7 +131,7 @@ module {{moduleName}}
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
       {{#queryParams}}
       query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s unless {{{paramName}}}.nil?{{/collectionFormat}}
       {{/queryParams}}

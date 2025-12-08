@@ -29,7 +29,7 @@ import org.springframework.util.LinkedMultiValueMap
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
-class UserApi(client: WebClient) : ApiClient(client) {
+open class UserApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -184,7 +184,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getUserByName(username: kotlin.String): Mono<User> {
         return getUserByNameWithHttpInfo(username = username)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -220,7 +220,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String): Mono<kotlin.String> {
         return loginUserWithHttpInfo(username = username, password = password)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

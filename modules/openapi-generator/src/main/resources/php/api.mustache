@@ -711,11 +711,13 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#authMethods}}
         {{#isApiKey}}
+        {{^isKeyInCookie}}
         // this endpoint requires API key authentication
         $apiKey = $this->config->getApiKeyWithPrefix('{{keyParamName}}');
         if ($apiKey !== null) {
             {{#isKeyInHeader}}$headers['{{keyParamName}}'] = $apiKey;{{/isKeyInHeader}}{{#isKeyInQuery}}$queryParams['{{keyParamName}}'] = $apiKey;{{/isKeyInQuery}}
         }
+        {{/isKeyInCookie}}
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}

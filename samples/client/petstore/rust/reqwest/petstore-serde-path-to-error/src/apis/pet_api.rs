@@ -493,7 +493,9 @@ pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i
     if let Some(param_value) = p_form_additional_metadata {
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
-    // TODO: support file upload for 'file' parameter
+    if let Some(ref param_value) = p_form_file {
+       multipart_form = multipart_form.file("file", param_value.as_os_str()).await?;
+    }
     req_builder = req_builder.multipart(multipart_form);
 
     let req = req_builder.build()?;

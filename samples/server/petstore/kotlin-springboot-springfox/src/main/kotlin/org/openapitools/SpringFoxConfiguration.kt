@@ -34,7 +34,7 @@ class SpringFoxConfiguration {
     }
 
     @Bean
-    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.openAPIPetstore.base-path:/v2}") basePath: String): Docket {
+    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.openAPIPetstore.base-path:\${api.base-path:/v2}}") basePath: String): Docket {
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.api"))

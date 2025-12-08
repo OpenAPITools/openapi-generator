@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.security.*
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
-import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpStatus
 
 import org.springframework.validation.annotation.Validated
 import jakarta.validation.Valid
@@ -24,52 +24,57 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface UserApi {
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USER,
+        url = PATH_CREATE_USER /* "/user" */,
         method = "POST"
     )
     suspend fun createUser(
         @Parameter(description = "Created user object", required = true) @Valid @RequestBody user: User
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT,
+        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */,
         method = "POST"
     )
     suspend fun createUsersWithArrayInput(
         @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_LIST_INPUT,
+        url = PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */,
         method = "POST"
     )
     suspend fun createUsersWithListInput(
         @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
     ): Unit
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_USER,
+        url = PATH_DELETE_USER /* "/user/{username}" */,
         method = "DELETE"
     )
     suspend fun deleteUser(
         @Parameter(description = "The name that needs to be deleted", required = true) @PathVariable("username") username: kotlin.String
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_USER_BY_NAME,
+        url = PATH_GET_USER_BY_NAME /* "/user/{username}" */,
         method = "GET"
     )
     suspend fun getUserByName(
         @Parameter(description = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") username: kotlin.String
     ): User
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_LOGIN_USER,
+        url = PATH_LOGIN_USER /* "/user/login" */,
         method = "GET"
     )
     suspend fun loginUser(
@@ -77,15 +82,17 @@ interface UserApi {
         @NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
     ): kotlin.String
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_LOGOUT_USER,
+        url = PATH_LOGOUT_USER /* "/user/logout" */,
         method = "GET"
     )
     suspend fun logoutUser(
     ): Unit
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_UPDATE_USER,
+        url = PATH_UPDATE_USER /* "/user/{username}" */,
         method = "PUT"
     )
     suspend fun updateUser(

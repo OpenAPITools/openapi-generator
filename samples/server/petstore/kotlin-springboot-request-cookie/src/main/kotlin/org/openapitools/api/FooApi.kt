@@ -47,11 +47,16 @@ interface FooApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/foo"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_FOO_GET /* "/foo" */],
+        produces = ["application/json"]
     )
     fun fooGet(): ResponseEntity<FooGetDefaultResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_FOO_GET: String = "/foo"
     }
 }

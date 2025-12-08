@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.StoreApi.Companion.BASE_PATH
 
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -35,7 +36,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:/v2}")
+@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
 interface StoreApi {
 
     fun getDelegate(): StoreApiDelegate
@@ -51,10 +52,12 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/store/order/{orderId}"]
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+        @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return getDelegate().deleteOrder(orderId)
     }
 
@@ -69,9 +72,9 @@ interface StoreApi {
         security = [ SecurityRequirement(name = "api_key") ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/inventory"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return getDelegate().getInventory()
@@ -89,11 +92,13 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return getDelegate().getOrderById(orderId)
     }
 
@@ -108,12 +113,23 @@ interface StoreApi {
         ]
     )
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json"]
     )
-    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(
+        @Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody order: Order
+    ): ResponseEntity<Order> {
         return getDelegate().placeOrder(order)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
     }
 }
