@@ -12,7 +12,7 @@ default = ["client", "server"]
 client = [
     "serde_urlencoded",
     "serde_ignored", "percent-encoding", 
-    "hyper", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
     "native-tls", "hyper-openssl", "hyper-tls", "openssl",
