@@ -28,28 +28,47 @@
 
     {{/optionalVars}}
 {{#hasEnums}}
-    class EnumAttributeValidator
-      getter datatype : String
-      getter allowable_values : Array(String)
+    abstract class EnumAttributeValidator
+      def valid?(value)
+        !value || @allowable_values.includes?(value)
+      end
 
-      def initialize(datatype, allowable_values)
-        @datatype = datatype
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
+      def message
+        "invalid value for \"#{@attribute}\", must be one of #{@allowable_values}."
+      end
+
+      def to(_type, value)
+        case _type
+        when Int32
+          value.to_i32
+        when Int64
+          value.to_i64
+        when Float32
+          value.to_f32
+        when Float64
+          value.to_f64
+        else
+          value.to_s
         end
       end
+    end
 
-      def valid?(value)
-        !value || allowable_values.includes?(value)
+    {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+    class EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}} < EnumAttributeValidator
+      @attribute : String
+      @allowable_values : Array(Int32 | Int64 | Float32 | Float64 | String)
+
+      def initialize
+        @attribute = "{{{name}}}"
+        @allowable_values = [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}].map { |value| to({{{dataType}}}, value)}
       end
     end
+
+    {{/isContainer}}
+    {{/isEnum}}
+    {{/vars}}
 
 {{/hasEnums}}
     {{#anyOf}}
@@ -97,6 +116,16 @@
     def list_invalid_properties
       invalid_properties = {{^parent}}Array(String).new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
+      {{#isEnum}}
+      {{^isContainer}}
+      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
+      if !{{{name}}}_validator.valid?(@{{{name}}})
+        message = {{{name}}}_validator.message
+        invalid_properties.push(message)
+      end
+
+      {{/isContainer}}
+      {{/isEnum}}
       {{#hasValidation}}
       {{#maxLength}}
       if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}}.try &.to_s.try &.size.try &.> {{{maxLength}}}
@@ -152,7 +181,7 @@
       {{#vars}}
       {{#isEnum}}
       {{^isContainer}}
-      {{{name}}}_validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
       return false unless {{{name}}}_validator.valid?(@{{{name}}})
       {{/isContainer}}
       {{/isEnum}}
@@ -205,9 +234,9 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      validator = EnumAttributeValidator.new("{{{dataType}}}", [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
+      validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
       unless validator.valid?({{{name}}})
-        raise ArgumentError.new("invalid value for \"{{{name}}}\", must be one of #{validator.allowable_values}.")
+        raise ArgumentError.new(validator.message)
       end
       @{{{name}}} = {{{name}}}
     end

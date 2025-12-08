@@ -29,6 +29,8 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.PrefixWithHashLambda;
+import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -297,6 +299,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
+        additionalProperties.put("lambdaUppercase", new UppercaseLambda());
+        additionalProperties.put("lambdaTitlecase", new TitlecaseLambda());
 
     }
 
