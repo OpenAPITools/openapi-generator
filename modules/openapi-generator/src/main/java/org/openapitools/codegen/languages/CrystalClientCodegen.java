@@ -284,6 +284,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("api_error.mustache", shardFolder, "api_error.cr"));
         supportingFiles.add(new SupportingFile("configuration.mustache", shardFolder, "configuration.cr"));
         supportingFiles.add(new SupportingFile("api_client.mustache", shardFolder, "api_client.cr"));
+        supportingFiles.add(new SupportingFile("recursive_hash.mustache", shardFolder, "recursive_hash.cr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
