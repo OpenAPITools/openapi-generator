@@ -53,7 +53,7 @@ open class HeaderApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testHeaderIntegerBooleanStringEnums(integerHeader: kotlin.Int? = null, booleanHeader: kotlin.Boolean? = null, stringHeader: kotlin.String? = null, enumNonrefStringHeader: EnumNonrefStringHeaderTestHeaderIntegerBooleanStringEnums? = null, enumRefStringHeader: StringEnumRef? = null): Mono<kotlin.String> {
         return testHeaderIntegerBooleanStringEnumsWithHttpInfo(integerHeader = integerHeader, booleanHeader = booleanHeader, stringHeader = stringHeader, enumNonrefStringHeader = enumNonrefStringHeader, enumRefStringHeader = enumRefStringHeader)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
