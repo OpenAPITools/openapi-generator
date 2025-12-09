@@ -942,9 +942,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         // string
+        // Handle + and - signs to prevent duplicate enum keys (e.g., "Etc/GMT+12" vs "Etc/GMT-12")
+        // Replace them with descriptive names before sanitization to avoid collisions
+        varName = varName.replaceAll("\\+", "Plus");
+        varName = varName.replaceAll("-", "Minus");
+        
         if (isEnumPropertyNamingReplaceSpecialChar()) {
-            varName = varName.replaceAll("-", "_minus_");
-            varName = varName.replaceAll("\\+", "_plus_");
+            // Apply additional special character replacements if the option is enabled
             varName = varName.replaceAll("_+", "_");
         }
         varName = sanitizeName(varName);
