@@ -3,6 +3,7 @@ package org.openapitools.codegen.kotlin.assertions;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
+import org.jetbrains.kotlin.psi.KtAnnotationEntry;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
 import org.jetbrains.kotlin.psi.KtParameter;
 
@@ -28,6 +29,19 @@ public class MethodAssert extends AbstractAssert<MethodAssert, KtNamedFunction> 
                 .hasSize(1);
 
         return new ParameterAssert(this, parameters.get(0));
+    }
+
+    public MethodAnnotationAssert assertAnnotation(final String annotationName) {
+        final List<KtAnnotationEntry> annotations = actual.getAnnotationEntries().stream()
+                .filter(
+                        p -> Objects.equals(p.getTypeReference() != null ? p.getTypeReference().getText() : null, annotationName)
+                )
+                .collect(Collectors.toList());
+        Assertions.assertThat(annotations)
+                .withFailMessage("Expected class to have a single annotation %s, but found %s", annotationName, annotations.size())
+                .hasSize(1);
+
+        return new MethodAnnotationAssert(this, annotations.get(0));
     }
 
     public ClassAssert toClass() {
