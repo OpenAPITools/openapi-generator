@@ -9,6 +9,7 @@
 #
 
 # Dependencies
+require "any_hash"
 require "crest"
 require "log"
 

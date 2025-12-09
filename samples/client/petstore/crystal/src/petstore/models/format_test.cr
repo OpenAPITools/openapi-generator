@@ -72,73 +72,73 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@number : Float64, @byte : String, @date : Time, @password : String, @integer : Int32?, @int32 : Int32?, @int64 : Int64?, @float : Float32?, @double : Float64?, @decimal : BigDecimal?, @string : String?, @binary : ::File?, @date_time : Time?, @uuid : String?, @pattern_with_digits : String?, @pattern_with_digits_and_delimiter : String?)
+    def initialize(@number : Float64, @byte : String, @date : Time, @password : String, @integer : Int32? = nil, @int32 : Int32? = nil, @int64 : Int64? = nil, @float : Float32? = nil, @double : Float64? = nil, @decimal : BigDecimal? = nil, @string : String? = nil, @binary : ::File? = nil, @date_time : Time? = nil, @uuid : String? = nil, @pattern_with_digits : String? = nil, @pattern_with_digits_and_delimiter : String? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
-      if !@integer.nil? && @integer > 100
+      if !@integer.nil? && @integer.try &.> 100
         invalid_properties.push("invalid value for \"integer\", must be smaller than or equal to 100.")
       end
 
-      if !@integer.nil? && @integer < 10
+      if !@integer.nil? && @integer.try &.< 10
         invalid_properties.push("invalid value for \"integer\", must be greater than or equal to 10.")
       end
 
-      if !@int32.nil? && @int32 > 200
+      if !@int32.nil? && @int32.try &.> 200
         invalid_properties.push("invalid value for \"int32\", must be smaller than or equal to 200.")
       end
 
-      if !@int32.nil? && @int32 < 20
+      if !@int32.nil? && @int32.try &.< 20
         invalid_properties.push("invalid value for \"int32\", must be greater than or equal to 20.")
       end
 
-      if @number > 543.2
+      if @number.try &.> 543.2
         invalid_properties.push("invalid value for \"number\", must be smaller than or equal to 543.2.")
       end
 
-      if @number < 32.1
+      if @number.try &.< 32.1
         invalid_properties.push("invalid value for \"number\", must be greater than or equal to 32.1.")
       end
 
-      if !@float.nil? && @float > 987.6
+      if !@float.nil? && @float.try &.> 987.6
         invalid_properties.push("invalid value for \"float\", must be smaller than or equal to 987.6.")
       end
 
-      if !@float.nil? && @float < 54.3
+      if !@float.nil? && @float.try &.< 54.3
         invalid_properties.push("invalid value for \"float\", must be greater than or equal to 54.3.")
       end
 
-      if !@double.nil? && @double > 123.4
+      if !@double.nil? && @double.try &.> 123.4
         invalid_properties.push("invalid value for \"double\", must be smaller than or equal to 123.4.")
       end
 
-      if !@double.nil? && @double < 67.8
+      if !@double.nil? && @double.try &.< 67.8
         invalid_properties.push("invalid value for \"double\", must be greater than or equal to 67.8.")
       end
 
-      pattern = Regexp.new(/[a-z]/i)
-      if !@string.nil? && @string !~ pattern
+      pattern = /[a-z]/i
+      if !@string.nil? && @string.try &.!~ pattern
         invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
 
-      if @password.to_s.size > 64
+      if @password.try &.to_s.try &.size.try &.> 64
         invalid_properties.push("invalid value for \"password\", the character length must be smaller than or equal to 64.")
       end
 
-      if @password.to_s.size < 10
+      if @password.try &.to_s.try &.size.try &.< 10
         invalid_properties.push("invalid value for \"password\", the character length must be greater than or equal to 10.")
       end
 
-      pattern = Regexp.new(/^\d{10}$/)
-      if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
+      pattern = /^\d{10}$/
+      if !@pattern_with_digits.nil? && @pattern_with_digits.try &.!~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
 
-      pattern = Regexp.new(/^image_\d{1,3}$/i)
-      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
+      pattern = /^image_\d{1,3}$/i
+      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter.try &.!~ pattern
         invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
 
@@ -148,21 +148,21 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@integer.nil? && @integer > 100
-      return false if !@integer.nil? && @integer < 10
-      return false if !@int32.nil? && @int32 > 200
-      return false if !@int32.nil? && @int32 < 20
-      return false if @number > 543.2
-      return false if @number < 32.1
-      return false if !@float.nil? && @float > 987.6
-      return false if !@float.nil? && @float < 54.3
-      return false if !@double.nil? && @double > 123.4
-      return false if !@double.nil? && @double < 67.8
-      return false if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
-      return false if @password.to_s.size > 64
-      return false if @password.to_s.size < 10
-      return false if !@pattern_with_digits.nil? && @pattern_with_digits !~ Regexp.new(/^\d{10}$/)
-      return false if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ Regexp.new(/^image_\d{1,3}$/i)
+      return false if !@integer.nil? && @integer.try &.> 100
+      return false if !@integer.nil? && @integer.try &.< 10
+      return false if !@int32.nil? && @int32.try &.> 200
+      return false if !@int32.nil? && @int32.try &.< 20
+      return false if @number.try &.> 543.2
+      return false if @number.try &.< 32.1
+      return false if !@float.nil? && @float.try &.> 987.6
+      return false if !@float.nil? && @float.try &.< 54.3
+      return false if !@double.nil? && @double.try &.> 123.4
+      return false if !@double.nil? && @double.try &.< 67.8
+      return false if !@string.nil? && @string.try &.!~ /[a-z]/i
+      return false if @password.try &.to_s.try &.size.try &.> 64
+      return false if @password.try &.to_s.try &.size.try &.< 10
+      return false if !@pattern_with_digits.nil? && @pattern_with_digits.try &.!~ /^\d{10}$/
+      return false if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter.try &.!~ /^image_\d{1,3}$/i
       true
     end
 
@@ -239,7 +239,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
-      pattern = Regexp.new(/[a-z]/i)
+      pattern = /[a-z]/i
       if !string.nil? && string !~ pattern
         raise ArgumentError.new("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
@@ -264,7 +264,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits Value to be assigned
     def pattern_with_digits=(pattern_with_digits)
-      pattern = Regexp.new(/^\d{10}$/)
+      pattern = /^\d{10}$/
       if !pattern_with_digits.nil? && pattern_with_digits !~ pattern
         raise ArgumentError.new("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
@@ -275,7 +275,7 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits_and_delimiter Value to be assigned
     def pattern_with_digits_and_delimiter=(pattern_with_digits_and_delimiter)
-      pattern = Regexp.new(/^image_\d{1,3}$/i)
+      pattern = /^image_\d{1,3}$/i
       if !pattern_with_digits_and_delimiter.nil? && pattern_with_digits_and_delimiter !~ pattern
         raise ArgumentError.new("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
@@ -393,44 +393,51 @@ module Petstore
     # Returns the string representation of the object
     # @return [String] String presentation of the object
     def to_s
-      to_hash.to_s
+      to_h.to_s
     end
 
-    # to_body is an alias to to_hash (backward compatibility)
+    # to_body is an alias to to_h (backward compatibility)
     # @return [Hash] Returns the object in the form of hash
     def to_body
-      to_hash
+      to_h
     end
 
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
-    def to_hash
-      hash = {} of Symbol => String
-      self.class.attribute_map.each_pair do |attr, param|
-        value = self.send(attr)
-        if value.nil?
-          is_nullable = self.class.openapi_nullable.includes?(attr)
-          next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
-        end
-
-        hash[param] = _to_hash(value)
-      end
-      hash
+    def to_h
+      hash = NetboxClient::RecursiveHash.new
+      hash["integer"] = _to_h(integer)
+      hash["int32"] = _to_h(int32)
+      hash["int64"] = _to_h(int64)
+      hash["number"] = _to_h(number)
+      hash["float"] = _to_h(float)
+      hash["double"] = _to_h(double)
+      hash["decimal"] = _to_h(decimal)
+      hash["string"] = _to_h(string)
+      hash["byte"] = _to_h(byte)
+      hash["binary"] = _to_h(binary)
+      hash["date"] = _to_h(date)
+      hash["dateTime"] = _to_h(date_time)
+      hash["uuid"] = _to_h(uuid)
+      hash["password"] = _to_h(password)
+      hash["pattern_with_digits"] = _to_h(pattern_with_digits)
+      hash["pattern_with_digits_and_delimiter"] = _to_h(pattern_with_digits_and_delimiter)
+      hash.to_h
     end
 
     # Outputs non-array value in the form of hash
-    # For object, use to_hash. Otherwise, just return the value
+    # For object, use to_h. Otherwise, just return the value
     # @param [Object] value Any valid value
     # @return [Hash] Returns the value in the form of hash
-    def _to_hash(value)
-      if value.is_a?(Array)
-        value.compact.map { |v| _to_hash(v) }
-      elsif value.is_a?(Hash)
-        ({} of Symbol => String).tap do |hash|
-          value.each { |k, v| hash[k] = _to_hash(v) }
-        end
-      elsif value.respond_to? :to_hash
-        value.to_hash
+    private def _to_h(value)
+      if value.is_a?(Hash)
+        hash = NetboxClient::RecursiveHash.new
+        value.each { |k, v| hash[k] = _to_h(v) }
+        hash
+      elsif value.is_a?(Array)
+        value.compact.map { |v| _to_h(v) }
+      elsif value.responds_to?(:to_h)
+        value.to_h
       else
         value
       end

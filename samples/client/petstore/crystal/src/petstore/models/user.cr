@@ -47,7 +47,7 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64?, @username : String?, @first_name : String?, @last_name : String?, @email : String?, @password : String?, @phone : String?, @user_status : Int32?)
+    def initialize(@id : Int64? = nil, @username : String? = nil, @first_name : String? = nil, @last_name : String? = nil, @email : String? = nil, @password : String? = nil, @phone : String? = nil, @user_status : Int32? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -165,44 +165,43 @@ module Petstore
     # Returns the string representation of the object
     # @return [String] String presentation of the object
     def to_s
-      to_hash.to_s
+      to_h.to_s
     end
 
-    # to_body is an alias to to_hash (backward compatibility)
+    # to_body is an alias to to_h (backward compatibility)
     # @return [Hash] Returns the object in the form of hash
     def to_body
-      to_hash
+      to_h
     end
 
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
-    def to_hash
-      hash = {} of Symbol => String
-      self.class.attribute_map.each_pair do |attr, param|
-        value = self.send(attr)
-        if value.nil?
-          is_nullable = self.class.openapi_nullable.includes?(attr)
-          next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
-        end
-
-        hash[param] = _to_hash(value)
-      end
-      hash
+    def to_h
+      hash = NetboxClient::RecursiveHash.new
+      hash["id"] = _to_h(id)
+      hash["username"] = _to_h(username)
+      hash["firstName"] = _to_h(first_name)
+      hash["lastName"] = _to_h(last_name)
+      hash["email"] = _to_h(email)
+      hash["password"] = _to_h(password)
+      hash["phone"] = _to_h(phone)
+      hash["userStatus"] = _to_h(user_status)
+      hash.to_h
     end
 
     # Outputs non-array value in the form of hash
-    # For object, use to_hash. Otherwise, just return the value
+    # For object, use to_h. Otherwise, just return the value
     # @param [Object] value Any valid value
     # @return [Hash] Returns the value in the form of hash
-    def _to_hash(value)
-      if value.is_a?(Array)
-        value.compact.map { |v| _to_hash(v) }
-      elsif value.is_a?(Hash)
-        ({} of Symbol => String).tap do |hash|
-          value.each { |k, v| hash[k] = _to_hash(v) }
-        end
-      elsif value.respond_to? :to_hash
-        value.to_hash
+    private def _to_h(value)
+      if value.is_a?(Hash)
+        hash = NetboxClient::RecursiveHash.new
+        value.each { |k, v| hash[k] = _to_h(v) }
+        hash
+      elsif value.is_a?(Array)
+        value.compact.map { |v| _to_h(v) }
+      elsif value.responds_to?(:to_h)
+        value.to_h
       else
         value
       end
