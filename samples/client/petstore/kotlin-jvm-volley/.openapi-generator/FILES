@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle
 docs/ApiResponse.md
@@ -41,3 +42,12 @@ src/main/java/org/openapitools/client/models/room/UserRoomModel.kt
 src/main/java/org/openapitools/client/request/GsonRequest.kt
 src/main/java/org/openapitools/client/request/IRequestFactory.kt
 src/main/java/org/openapitools/client/request/RequestFactory.kt
+src/test/kotlin/org/openapitools/client/apis/PetApiTest.kt
+src/test/kotlin/org/openapitools/client/apis/StoreApiTest.kt
+src/test/kotlin/org/openapitools/client/apis/UserApiTest.kt
+src/test/kotlin/org/openapitools/client/models/ApiResponseTest.kt
+src/test/kotlin/org/openapitools/client/models/CategoryTest.kt
+src/test/kotlin/org/openapitools/client/models/OrderTest.kt
+src/test/kotlin/org/openapitools/client/models/PetTest.kt
+src/test/kotlin/org/openapitools/client/models/TagTest.kt
+src/test/kotlin/org/openapitools/client/models/UserTest.kt
