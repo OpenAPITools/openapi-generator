@@ -12,7 +12,7 @@ default = ["client", "server"]
 client = [
     "multipart", "multipart/client", "swagger/multipart_form",
     "mime_multipart", "swagger/multipart_related",
-    "hyper", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
     "multipart", "multipart/server", "swagger/multipart_form",
