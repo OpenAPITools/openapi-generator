@@ -103,6 +103,7 @@ export class RequestContext {
     private body: RequestBody = undefined;
     private url: URL;
     private signal: AbortSignal | undefined = undefined;
+    private timeout?: number;
     {{#platforms}}
     {{#node}}
     private dispatcher: Dispatcher | undefined = undefined;
@@ -170,6 +171,13 @@ export class RequestContext {
         this.url.searchParams.append(name, value);
     }
 
+    public setTimeout(timeout: number) {
+        this.timeout = timeout;
+    }
+
+    public getTimeout(): number | undefined {
+        return this.timeout;
+    }
     /**
      * Sets a cookie with the name and value. NO check  for duplicate cookies is performed
      *
