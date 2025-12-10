@@ -6,7 +6,6 @@
   allowSetters = true // allows the {{{discriminator.propertyBaseName}}} to be set during deserialization
 )
 {{/disableDiscriminatorFieldIgnore}}
-
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminator.propertyBaseName}}}", visible = true)
 {{#discriminator.mappedModels}}
 {{#-first}}
