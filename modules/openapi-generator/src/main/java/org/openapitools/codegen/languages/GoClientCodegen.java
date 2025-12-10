@@ -520,7 +520,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 addedFmtImport = true;
             }
 
-            if (model.hasRequired) {
+            if (generateUnmarshalJSON && model.hasRequired) {
                 if (!model.isAdditionalPropertiesTrue &&
                         (model.oneOf == null || model.oneOf.isEmpty()) &&
                         (model.anyOf == null || model.anyOf.isEmpty())) {
