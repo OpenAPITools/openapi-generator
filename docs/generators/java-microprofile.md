@@ -109,6 +109,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|discriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
 
 ## SUPPORTED VENDOR EXTENSIONS
 

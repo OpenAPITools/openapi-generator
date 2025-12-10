@@ -81,6 +81,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSwaggerUI|Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies| |true|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |wrapCalls|Add a wrapper to each controller function to handle things like metrics, response modification, etc..| |true|
+|discriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
 
 ## SUPPORTED VENDOR EXTENSIONS
 
