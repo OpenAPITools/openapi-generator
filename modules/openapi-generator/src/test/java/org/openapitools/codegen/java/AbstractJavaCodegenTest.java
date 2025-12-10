@@ -970,7 +970,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void discriminatorFieldIgnoreFlagTest() {
+    public void disableDiscriminatorFieldIgnoreFlagTest() {
         codegen.additionalProperties().put(DISCRIMINATOR_FIELD_IGNORE, true);
 
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));

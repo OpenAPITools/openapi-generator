@@ -91,7 +91,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |visitable|Generate visitor for subtypes with a discriminator| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |wrapInHttpResponse|Wrap the response in HttpResponse object| |false|
-|discriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
+|disableDiscriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
 
 ## SUPPORTED VENDOR EXTENSIONS
 
