@@ -68,7 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |x-helidon-groupBy|Selects how to group operations into APIs|<dl><dt>**tags**</dt><dd>Use the 'tags' settings on each operation</dd><dt>**first-path-segment**</dt><dd>Use the first segment of the path</dd></dl>|tags|
 |x-helidon-useOptional|Wrap optional parameters in an Optional (Helidon 4 and later)| |true|
-|discriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
+|disableDiscriminatorFieldIgnore| whether to add jackson @JsonIgnoreProperties for discriminator in base class                                                                                                                                                                                                                                                                       | |false|
 
 ## SUPPORTED VENDOR EXTENSIONS
 

@@ -46,7 +46,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISCRIMINATOR_FIELD_IGNORE;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_FIELD_IGNORE;
 
 public class AbstractJavaCodegenTest {
 
@@ -970,12 +970,12 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void discriminatorFieldIgnoreFlagTest() {
-        codegen.additionalProperties().put(DISCRIMINATOR_FIELD_IGNORE, true);
+    public void disableDiscriminatorFieldIgnoreFlagTest() {
+        codegen.additionalProperties().put(DISABLE_DISCRIMINATOR_FIELD_IGNORE, true);
 
         codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
 
-        Assert.assertTrue((boolean) codegen.additionalProperties().get(DISCRIMINATOR_FIELD_IGNORE));
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(DISABLE_DISCRIMINATOR_FIELD_IGNORE));
     }
 
     @Test

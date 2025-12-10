@@ -4066,17 +4066,17 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void discriminatorFieldIgnoreIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() {
+    public void disableDiscriminatorFieldIgnoreIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
-                Map.of(DISCRIMINATOR_FIELD_IGNORE, "true"));
+                Map.of(DISABLE_DISCRIMINATOR_FIELD_IGNORE, "true"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
                 .assertTypeAnnotations().doesNotContainWithName("JsonIgnoreProperties");
     }
 
     @Test
-    public void discriminatorFieldIgnoreIsTrueThenJsonIgnorePropertiesShouldBeAdded() {
+    public void disableDiscriminatorFieldIgnoreIsTrueThenJsonIgnorePropertiesShouldBeAdded() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
-                Map.of(DISCRIMINATOR_FIELD_IGNORE, "false"));
+                Map.of(DISABLE_DISCRIMINATOR_FIELD_IGNORE, "false"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
                 .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
     }
