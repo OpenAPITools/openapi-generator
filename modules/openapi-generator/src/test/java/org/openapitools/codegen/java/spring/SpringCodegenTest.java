@@ -4688,8 +4688,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testSSEOperationSupport() throws Exception {
-
+    public void testSSEOperationSupportReactive() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -4745,7 +4744,66 @@ public class SpringCodegenTest {
                 .assertMethod("nonSSE", "ServerWebExchange")
                 .isNotNull()
                 .hasReturnType("Mono<ResponseEntity<String>>")
-                .bodyContainsLines("return result.then(Mono.empty());")
+                .bodyContainsLines("return result.then(Mono.empty());");
+    }
+
+    @Test
+    public void testSSEOperationSupportBlocking() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/sse.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SSE, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGenerateMetadata(false);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        MapAssert.assertThatMap(files).isNotEmpty();
+        File api = files.get("PathApi.java");
+        File delegate = files.get("PathApiDelegate.java");
+
+        JavaFileAssert.assertThat(api)
+                .assertMethod("sseVariant1")
+                .isNotNull()
+                .hasReturnType("SseEmitter")
+                .toFileAssert()
+                .assertMethod("sseVariant2")
+                .isNotNull()
+                .hasReturnType("SseEmitter")
+                .toFileAssert()
+                .assertMethod("nonSSE")
+                .isNotNull()
+                .hasReturnType("ResponseEntity<String>");
+
+        JavaFileAssert.assertThat(delegate)
+                .assertMethod("sseVariant1")
+                .isNotNull()
+                .hasReturnType("SseEmitter")
+                .bodyContainsLines("return new SseEmitter<>();")
+                .toFileAssert()
+                .assertMethod("sseVariant2")
+                .isNotNull()
+                .hasReturnType("SseEmitter")
+                .bodyContainsLines("return new SseEmitter<>();")
+                .toFileAssert()
+                .assertMethod("nonSSE")
+                .isNotNull()
+                .hasReturnType("ResponseEntity<String>")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);")
         ;
 
     }
