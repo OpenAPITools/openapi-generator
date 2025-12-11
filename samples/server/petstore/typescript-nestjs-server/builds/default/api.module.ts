@@ -7,22 +7,34 @@ import { StoreApiController } from './controllers';
 import { UserApi } from './api';
 import { UserApiController } from './controllers';
 
+export type ApiModuleConfiguration = {
+  /**
+  * your Api implementations
+  */
+  apiImplementations: ApiImplementations,
+  /**
+  * additional Providers that may be used by your implementations
+  */
+  providers?: Provider[],
+}
+
 @Module({})
 export class ApiModule {
-  static forRoot(apiImplementations: ApiImplementations): DynamicModule {
+  static forRoot(configuration: ApiModuleConfiguration): DynamicModule {
       const providers: Provider[] = [
         {
           provide: PetApi,
-          useClass: apiImplementations.petApi
+          useClass: configuration.apiImplementations.petApi
         },
         {
           provide: StoreApi,
-          useClass: apiImplementations.storeApi
+          useClass: configuration.apiImplementations.storeApi
         },
         {
           provide: UserApi,
-          useClass: apiImplementations.userApi
+          useClass: configuration.apiImplementations.userApi
         },
+        ...(configuration.providers || []),
       ];
 
       return {

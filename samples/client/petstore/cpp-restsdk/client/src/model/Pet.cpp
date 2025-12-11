@@ -44,39 +44,39 @@ web::json::value Pet::toJson() const
 {
     web::json::value val = web::json::value::object();
     if(m_IdIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("id"))] = ModelBase::toJson(m_Id);
     }
     if(m_CategoryIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("category"))] = ModelBase::toJson(m_Category);
     }
     if(m_NameIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("name"))] = ModelBase::toJson(m_Name);
     }
     if(m_PhotoUrlsIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("photoUrls"))] = ModelBase::toJson(m_PhotoUrls);
     }
     if(m_TagsIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("tags"))] = ModelBase::toJson(m_Tags);
     }
     if(m_StatusIsSet)
-    {   
+    {
         
         utility::string_t refVal = fromStatusEnum(m_Status);
         val[utility::conversions::to_string_t(_XPLATSTR("status"))] = ModelBase::toJson(refVal);
         
     }
     if(m_MetadataIsSet)
-    {   
+    {
         
         val[utility::conversions::to_string_t(_XPLATSTR("metadata"))] = ModelBase::toJson(m_Metadata);
     }

@@ -33,6 +33,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -85,7 +86,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
-    public static final String DECLARATIVE_INTERFACE_WRAP_RESPONSES = "declarativeInterfaceWrapResponses";
+    public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
@@ -108,6 +109,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.additionalPropertyName = additionalPropertyName;
         }
     }
+
 
     public enum RequestMappingMode {
         api_interface("Generate the @RequestMapping annotation on the generated Api Interface."),
@@ -155,7 +157,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter protected boolean useTags = false;
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
-    @Setter private boolean declarativeInterfaceWrapResponses = false;
+    @Setter private boolean useResponseEntity = true;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -242,9 +244,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
-        addSwitch(DECLARATIVE_INTERFACE_WRAP_RESPONSES,
-                "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non 2xx responses via exceptions or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>)",
-                declarativeInterfaceWrapResponses);
+        addSwitch(USE_RESPONSE_ENTITY,
+                "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
+                useResponseEntity);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -467,6 +469,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             additionalProperties.put(CodegenConstants.LIBRARY, library);
         }
+
+        if(additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+            this.setUseResponseEntity(Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
+        }
+        writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+        additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         // Set basePackage from invokerPackage
         if (!additionalProperties.containsKey(BASE_PACKAGE)

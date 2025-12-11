@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: query-param-json-test
+  version: 1.0.0
+paths:
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - in: query
+          name: filter
+          description: Filter
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Filter'
+
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - name
+        - age
+      properties:
+        name:
+          type: string
+          description: The name
+        age:
+          type: integer
+          minimum: 0
+          default: 5
+          nullable: false
+          description: The age
+
+    Response:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: Array of items.
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Item'
+
+    Filter:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: number
+        name:
+          type: string
+          description: The name
+        age:
+          type: integer
+          minimum: 0
+          default: 5
+          nullable: false
+          description: The age

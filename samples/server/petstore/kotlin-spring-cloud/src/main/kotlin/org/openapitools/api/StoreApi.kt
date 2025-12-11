@@ -33,18 +33,20 @@ interface StoreApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.DELETE],
-            value = ["/store/order/{orderId}"]
+        method = [RequestMethod.DELETE],
+        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
     )
-    fun deleteOrder( @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(
+        @PathVariable("orderId") orderId: kotlin.String
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/inventory"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        produces = ["application/json"]
     )
     fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -52,22 +54,34 @@ interface StoreApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(value=1L) @Max(value=5L)  @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(
+        @Min(value=1L) @Max(value=5L) @PathVariable("orderId") orderId: kotlin.Long
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
 
     @RequestMapping(
-            method = [RequestMethod.POST],
-            value = ["/store/order"],
-            produces = ["application/xml", "application/json"],
-            consumes = ["application/json"]
+        method = [RequestMethod.POST],
+        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        produces = ["application/xml", "application/json"],
+        consumes = ["application/json"]
     )
-    fun placeOrder( @Valid @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(
+        @Valid @RequestBody order: Order
+    ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
+        const val PATH_GET_INVENTORY: String = "/store/inventory"
+        const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"
+        const val PATH_PLACE_ORDER: String = "/store/order"
     }
 }

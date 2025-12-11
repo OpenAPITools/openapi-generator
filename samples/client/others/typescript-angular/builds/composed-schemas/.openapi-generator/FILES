@@ -22,4 +22,5 @@ model/petWithSimpleDiscriminator.ts
 model/petWithoutDiscriminator.ts
 param.ts
 provide-api.ts
+query.params.ts
 variables.ts

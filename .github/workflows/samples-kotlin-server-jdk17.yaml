@@ -36,6 +36,7 @@ jobs:
           # server
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
+          - samples/server/petstore/kotlin-springboot-3-no-response-entity
           - samples/server/petstore/kotlin-springboot-additionalproperties
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request-cookie

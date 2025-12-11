@@ -34,9 +34,14 @@ interface DefaultApi {
 
 
     @RequestMapping(
-            method = [RequestMethod.GET],
-            value = ["/healthcheck"],
-            produces = ["application/json"]
+        method = [RequestMethod.GET],
+        value = [PATH_HEALTHCHECK /* "/healthcheck" */],
+        produces = ["application/json"]
     )
     fun healthcheck(): ResponseEntity<Unit>
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val PATH_HEALTHCHECK: String = "/healthcheck"
+    }
 }

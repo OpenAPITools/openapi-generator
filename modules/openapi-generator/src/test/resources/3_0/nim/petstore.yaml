@@ -286,6 +286,162 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/favorite':
+    delete:
+      tags:
+        - pet
+      summary: Remove pet from favorites (tests DELETE with body)
+      description: 'Tests that DELETE operations with request bodies generate correct Nim code'
+      operationId: unfavoritePet
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to unfavorite
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: Reason for unfavoriting
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetStats_200_response'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+  /pet/stats:
+    get:
+      tags:
+        - pet
+      summary: Get pet statistics (tests _200_ response normalization)
+      operationId: getPetStats
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetStats_200_response'
+  /comments:
+    get:
+      tags:
+        - pet
+      summary: Get pet reviews (tests _id field mapping and arrays)
+      operationId: getPetReviews
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetReviewsResponse'
+    post:
+      tags:
+        - pet
+      summary: Add a pet review (tests _id field mapping)
+      operationId: addPetReview
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetReview'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetReview'
+  /comments/search:
+    get:
+      tags:
+        - pet
+      summary: Search pet reviews (tests anyOf with underscores)
+      operationId: searchPetReviews
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPetReviews_200_response'
+  /notifications:
+    get:
+      tags:
+        - pet
+      summary: Get pet alerts (tests integer enum)
+      operationId: getPetAlerts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetAlert'
+    post:
+      tags:
+        - pet
+      summary: Create pet alert
+      operationId: createPetAlert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetAlert'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetAlert'
+  /audit:
+    get:
+      tags:
+        - pet
+      summary: Get pet audit logs (combined test)
+      operationId: getPetAuditLogs
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PetAuditLog'
+  /ignored:
+    post:
+      tags:
+        - pet
+      summary: Mark as ignored (tests inline enum)
+      operationId: markIgnored
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IgnoredResponse'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IgnoredResponse'
   /store/inventory:
     get:
       tags:
@@ -739,3 +895,128 @@ components:
           type: string
         message:
           type: string
+    # Test _200_ normalization in response schema names
+    GetPetStats_200_response:
+      type: object
+      properties:
+        totalPets:
+          type: integer
+        status:
+          type: string
+    # Test trailing underscores in schema names
+    PetMetadata_:
+      type: object
+      properties:
+        metadata:
+          type: string
+    # Test Record_string__ type patterns (complex generic types)
+    Record_string__before_string_or_null__after_string_or_null___value:
+      type: object
+      properties:
+        before:
+          type: string
+        after:
+          type: string
+    PetPositions:
+      type: object
+      properties:
+        positions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Record_string__before_string_or_null__after_string_or_null___value'
+    # Test numeric enums
+    PetPriority:
+      type: integer
+      enum: [0, 1, 2]
+    # Test anyOf with _1 suffix
+    PetConfig_anyOf_1:
+      type: object
+      properties:
+        version:
+          type: integer
+
+    # Fields named _id get renamed to id in Nim
+    PetReview:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB style ID field that should be renamed to id in Nim
+        author:
+          type: string
+        content:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    # Array deserialization with custom JSON
+    PetReviewsResponse:
+      type: object
+      properties:
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetReview'
+        totalCount:
+          type: integer
+
+    # Integer enum deserialization
+    PetAlertLevel:
+      type: integer
+      description: Alert priority level with integer values
+      enum: [0, 1, 2, 10, 99]
+
+    PetAlert:
+      type: object
+      properties:
+        id:
+          type: string
+        level:
+          $ref: '#/components/schemas/PetAlertLevel'
+        message:
+          type: string
+
+    # Composed schema type naming (anyOf/oneOf with underscores)
+    GetPetReviews_Response_WithPresence:
+      type: object
+      properties:
+        review:
+          type: string
+
+    GetPetReviews_200_response:
+      anyOf:
+        - $ref: '#/components/schemas/GetPetReviews_Response_WithPresence'
+        - $ref: '#/components/schemas/ApiResponse'
+
+    # Inline enum handling
+    IgnoredResponse:
+      type: object
+      properties:
+        reason:
+          type: string
+        note:
+          type: string
+          enum: ["0", "1", "2", "3"]
+          description: Inline enum that should use enum type name not base type
+
+    # Combined test: Model with _id field, arrays, and enums
+    PetAuditLog:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Audit log unique identifier
+        action:
+          type: string
+          enum: ["create", "update", "delete"]
+        priority:
+          $ref: '#/components/schemas/PetAlertLevel'
+        from:
+          type: string
+          enum: ["api", "web", "mobile"]
+          nullable: true
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetReview'

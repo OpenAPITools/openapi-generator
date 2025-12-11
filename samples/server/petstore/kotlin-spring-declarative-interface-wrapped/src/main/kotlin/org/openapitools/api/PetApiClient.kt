@@ -25,12 +25,11 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface PetApi {
 
     @HttpExchange(
-        url = PATH_ADD_PET,
+        url = PATH_ADD_PET /* "/pet" */,
         method = "POST"
     )
     fun addPet(
@@ -39,7 +38,7 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_DELETE_PET,
+        url = PATH_DELETE_PET /* "/pet/{petId}" */,
         method = "DELETE"
     )
     fun deletePet(
@@ -49,7 +48,7 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_STATUS,
+        url = PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */,
         method = "GET"
     )
     fun findPetsByStatus(
@@ -58,7 +57,7 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_TAGS,
+        url = PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */,
         method = "GET"
     )
     fun findPetsByTags(
@@ -67,7 +66,7 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_GET_PET_BY_ID,
+        url = PATH_GET_PET_BY_ID /* "/pet/{petId}" */,
         method = "GET"
     )
     fun getPetById(
@@ -76,7 +75,7 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_UPDATE_PET,
+        url = PATH_UPDATE_PET /* "/pet" */,
         method = "PUT"
     )
     fun updatePet(
@@ -85,23 +84,23 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_UPDATE_PET_WITH_FORM,
+        url = PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */,
         method = "POST"
     )
     fun updatePetWithForm(
         @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,
-        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String? 
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
     ): ResponseEntity<Unit>
 
 
     @HttpExchange(
-        url = PATH_UPLOAD_FILE,
+        url = PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */,
         method = "POST"
     )
     fun uploadFile(
         @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,
+        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
         @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
     ): ResponseEntity<ModelApiResponse>
 

@@ -11,6 +11,6 @@ additionalProperties:
   beanValidations: "true"
   interfaceOnly: true
   reactive: true
-  declarativeInterfaceWrapResponses: false
+  useResponseEntity: false
   useFlowForArrayReturnType: false
   declarativeInterfaceReactiveMode: "coroutines"

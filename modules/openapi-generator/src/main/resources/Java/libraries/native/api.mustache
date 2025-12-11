@@ -48,6 +48,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Locale;
+{{#useUnaryInterceptor}}
+import java.util.function.UnaryOperator;
+{{/useUnaryInterceptor}}
 import java.util.function.Consumer;
 {{#useGzipFeature}}
 import java.util.function.Supplier;
@@ -86,8 +89,14 @@ public class {{classname}} {
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
+{{#useUnaryInterceptor}}
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  private final UnaryOperator<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+{{/useUnaryInterceptor}}
+{{^useUnaryInterceptor}}
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
   private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
+{{/useUnaryInterceptor}}
 
   public {{classname}}() {
     this(Configuration.getDefaultApiClient());
@@ -433,7 +442,12 @@ public class {{classname}} {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
+        {{#useUnaryInterceptor}}
+        localVarResponse = memberVarResponseInterceptor.apply(localVarResponse);
+        {{/useUnaryInterceptor}}
+        {{^useUnaryInterceptor}}
         memberVarResponseInterceptor.accept(localVarResponse);
+        {{/useUnaryInterceptor}}
       }
       InputStream localVarResponseBody = null;
       try {
@@ -526,7 +540,12 @@ public class {{classname}} {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
+              {{#useUnaryInterceptor}}
+              localVarResponse = memberVarAsyncResponseInterceptor.apply(localVarResponse);
+              {{/useUnaryInterceptor}}
+              {{^useUnaryInterceptor}}
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
+              {{/useUnaryInterceptor}}
             }
             if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));

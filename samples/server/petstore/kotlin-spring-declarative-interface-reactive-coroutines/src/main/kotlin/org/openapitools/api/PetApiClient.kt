@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.security.*
 
 import org.springframework.web.service.annotation.*
 import org.springframework.web.bind.annotation.*
-import org.springframework.http.ResponseEntity
+import org.springframework.http.HttpStatus
 
 import org.springframework.validation.annotation.Validated
 import jakarta.validation.Valid
@@ -25,20 +25,21 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
-
 @Validated
 interface PetApi {
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_ADD_PET,
+        url = PATH_ADD_PET /* "/pet" */,
         method = "POST"
     )
     suspend fun addPet(
         @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
     ): Pet
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_PET,
+        url = PATH_DELETE_PET /* "/pet/{petId}" */,
         method = "DELETE"
     )
     suspend fun deletePet(
@@ -46,8 +47,9 @@ interface PetApi {
         @Parameter(description = "", `in` = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_STATUS,
+        url = PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */,
         method = "GET"
     )
     suspend fun findPetsByStatus(
@@ -55,8 +57,9 @@ interface PetApi {
     ): List<Pet>
 
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_TAGS,
+        url = PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */,
         method = "GET"
     )
     suspend fun findPetsByTags(
@@ -64,39 +67,43 @@ interface PetApi {
     ): List<Pet>
 
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_PET_BY_ID,
+        url = PATH_GET_PET_BY_ID /* "/pet/{petId}" */,
         method = "GET"
     )
     suspend fun getPetById(
         @Parameter(description = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long
     ): Pet
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPDATE_PET,
+        url = PATH_UPDATE_PET /* "/pet" */,
         method = "PUT"
     )
     suspend fun updatePet(
         @Parameter(description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody pet: Pet
     ): Pet
 
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @HttpExchange(
-        url = PATH_UPDATE_PET_WITH_FORM,
+        url = PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */,
         method = "POST"
     )
     suspend fun updatePetWithForm(
         @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String? ,
-        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String? 
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
     ): Unit
 
+    @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPLOAD_FILE,
+        url = PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */,
         method = "POST"
     )
     suspend fun uploadFile(
         @Parameter(description = "ID of pet to update", required = true) @PathVariable("petId") petId: kotlin.Long,
-        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String? ,
+        @Parameter(description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
         @Parameter(description = "file to upload") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
     ): ModelApiResponse
 
