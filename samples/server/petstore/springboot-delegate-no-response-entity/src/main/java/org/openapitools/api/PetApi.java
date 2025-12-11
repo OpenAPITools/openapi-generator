@@ -63,7 +63,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) {
         return getDelegate().addPet(pet);
     }
@@ -264,7 +264,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
     ) {
         return getDelegate().updatePet(pet);
     }
