@@ -7,6 +7,8 @@ from datetime import date
 import os
 import time
 import unittest
+import json
+import uuid
 
 from pydantic import ValidationError
 
@@ -283,3 +285,8 @@ class ModelTests(unittest.TestCase):
             self.fail("invalid validation")
         except ValidationError as e:
             self.assertIn("String should have at most 7 characters", str(e))
+
+    def test_uuid(self):
+        a = petstore_api.MixedPropertiesAndAdditionalPropertiesClass(uuid=uuid.UUID('16ce5deb-4464-4712-bff9-1e795a43cc75'))
+        self.assertEqual(a.to_dict(), {'uuid': uuid.UUID('16ce5deb-4464-4712-bff9-1e795a43cc75')})
+        self.assertEqual(json.loads(a.to_json()), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
