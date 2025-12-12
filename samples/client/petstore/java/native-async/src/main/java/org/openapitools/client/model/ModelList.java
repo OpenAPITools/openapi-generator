@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -143,7 +142,7 @@ public class ModelList {
 
     // add `123-list` to the URL query string
     if (get123list() != null) {
-      joiner.add(String.format(Locale.ROOT, "%s123-list%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123list()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%s123-list%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(get123list()))));
     }
 
     return joiner.toString();

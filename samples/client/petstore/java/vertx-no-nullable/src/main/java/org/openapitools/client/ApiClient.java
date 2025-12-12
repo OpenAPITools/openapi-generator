@@ -526,7 +526,7 @@ public class ApiClient extends JavaTimeFormatter {
       String delimiter = "";
       for (final Map.Entry<String, String> entry : cookies.entries()) {
           if (entry.getValue() != null) {
-              cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
+              cookieValue.append(String.format(java.util.Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), entry.getValue()));
               delimiter = "; ";
           }
       }

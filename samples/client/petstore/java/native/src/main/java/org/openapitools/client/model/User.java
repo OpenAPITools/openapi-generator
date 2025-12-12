@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -504,62 +503,62 @@ public class User {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `username` to the URL query string
     if (getUsername() != null) {
-      joiner.add(String.format(Locale.ROOT, "%susername%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUsername()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%susername%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUsername()))));
     }
 
     // add `firstName` to the URL query string
     if (getFirstName() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sfirstName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFirstName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sfirstName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFirstName()))));
     }
 
     // add `lastName` to the URL query string
     if (getLastName() != null) {
-      joiner.add(String.format(Locale.ROOT, "%slastName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLastName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%slastName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLastName()))));
     }
 
     // add `email` to the URL query string
     if (getEmail() != null) {
-      joiner.add(String.format(Locale.ROOT, "%semail%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmail()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%semail%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getEmail()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format(Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `phone` to the URL query string
     if (getPhone() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sphone%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPhone()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sphone%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPhone()))));
     }
 
     // add `userStatus` to the URL query string
     if (getUserStatus() != null) {
-      joiner.add(String.format(Locale.ROOT, "%suserStatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUserStatus()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%suserStatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUserStatus()))));
     }
 
     // add `objectWithNoDeclaredProps` to the URL query string
     if (getObjectWithNoDeclaredProps() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredProps()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sobjectWithNoDeclaredProps%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredProps()))));
     }
 
     // add `objectWithNoDeclaredPropsNullable` to the URL query string
     if (getObjectWithNoDeclaredPropsNullable() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredPropsNullable()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sobjectWithNoDeclaredPropsNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getObjectWithNoDeclaredPropsNullable()))));
     }
 
     // add `anyTypeProp` to the URL query string
     if (getAnyTypeProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sanyTypeProp%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypeProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sanyTypeProp%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypeProp()))));
     }
 
     // add `anyTypePropNullable` to the URL query string
     if (getAnyTypePropNullable() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sanyTypePropNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypePropNullable()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sanyTypePropNullable%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getAnyTypePropNullable()))));
     }
 
     return joiner.toString();

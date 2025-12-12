@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -298,32 +297,32 @@ public class Capitalization {
 
     // add `smallCamel` to the URL query string
     if (getSmallCamel() != null) {
-      joiner.add(String.format(Locale.ROOT, "%ssmallCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallCamel()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssmallCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallCamel()))));
     }
 
     // add `CapitalCamel` to the URL query string
     if (getCapitalCamel() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sCapitalCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalCamel()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sCapitalCamel%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalCamel()))));
     }
 
     // add `small_Snake` to the URL query string
     if (getSmallSnake() != null) {
-      joiner.add(String.format(Locale.ROOT, "%ssmall_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallSnake()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssmall_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSmallSnake()))));
     }
 
     // add `Capital_Snake` to the URL query string
     if (getCapitalSnake() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sCapital_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalSnake()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sCapital_Snake%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getCapitalSnake()))));
     }
 
     // add `SCA_ETH_Flow_Points` to the URL query string
     if (getScAETHFlowPoints() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getScAETHFlowPoints()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sSCA_ETH_Flow_Points%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getScAETHFlowPoints()))));
     }
 
     // add `ATT_NAME` to the URL query string
     if (getATTNAME() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sATT_NAME%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getATTNAME()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sATT_NAME%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getATTNAME()))));
     }
 
     return joiner.toString();
