@@ -387,7 +387,7 @@ module Petstore
 
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :body Input string as post body
+    # @option opts [OuterString] :outer_string Input string as post body
     # @return [String]
     def fake_outer_string_serialize(opts = {})
       data, _status_code, _headers = fake_outer_string_serialize_with_http_info(opts)
@@ -396,7 +396,7 @@ module Petstore
 
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :body Input string as post body
+    # @option opts [OuterString] :outer_string Input string as post body
     # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def fake_outer_string_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -422,7 +422,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'body'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'outer_string'])
 
       # return_type
       return_type = opts[:debug_return_type] || 'String'

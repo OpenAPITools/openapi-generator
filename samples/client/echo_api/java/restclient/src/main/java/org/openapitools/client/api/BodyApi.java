@@ -623,12 +623,12 @@ public class BodyApi {
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum
+     * @param stringEnumRef String enum
      * @return StringEnumRef
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec testEchoBodyStringEnumRequestCreation(@jakarta.annotation.Nullable StringEnumRef stringEnumRef) throws RestClientResponseException {
+        Object postBody = stringEnumRef;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -656,38 +656,38 @@ public class BodyApi {
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum
+     * @param stringEnumRef String enum
      * @return StringEnumRef
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public StringEnumRef testEchoBodyStringEnum(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
+    public StringEnumRef testEchoBodyStringEnum(@jakarta.annotation.Nullable StringEnumRef stringEnumRef) throws RestClientResponseException {
         ParameterizedTypeReference<StringEnumRef> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return testEchoBodyStringEnumRequestCreation(body).body(localVarReturnType);
+        return testEchoBodyStringEnumRequestCreation(stringEnumRef).body(localVarReturnType);
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum
+     * @param stringEnumRef String enum
      * @return ResponseEntity&lt;StringEnumRef&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@jakarta.annotation.Nullable StringEnumRef stringEnumRef) throws RestClientResponseException {
         ParameterizedTypeReference<StringEnumRef> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return testEchoBodyStringEnumRequestCreation(body).toEntity(localVarReturnType);
+        return testEchoBodyStringEnumRequestCreation(stringEnumRef).toEntity(localVarReturnType);
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum
+     * @param stringEnumRef String enum
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec testEchoBodyStringEnumWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        return testEchoBodyStringEnumRequestCreation(body);
+    public ResponseSpec testEchoBodyStringEnumWithResponseSpec(@jakarta.annotation.Nullable StringEnumRef stringEnumRef) throws RestClientResponseException {
+        return testEchoBodyStringEnumRequestCreation(stringEnumRef);
     }
 
     /**

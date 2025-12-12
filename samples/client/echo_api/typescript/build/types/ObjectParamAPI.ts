@@ -143,10 +143,10 @@ export interface BodyApiTestEchoBodyPetResponseStringRequest {
 export interface BodyApiTestEchoBodyStringEnumRequest {
     /**
      * String enum
-     * @type string
+     * @type StringEnumRef
      * @memberof BodyApitestEchoBodyStringEnum
      */
-    body?: string
+    stringEnumRef?: StringEnumRef
 }
 
 export interface BodyApiTestEchoBodyTagResponseStringRequest {
@@ -315,7 +315,7 @@ export class ObjectBodyApi {
      * @param param the request object
      */
     public testEchoBodyStringEnumWithHttpInfo(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<StringEnumRef>> {
-        return this.api.testEchoBodyStringEnumWithHttpInfo(param.body,  options).toPromise();
+        return this.api.testEchoBodyStringEnumWithHttpInfo(param.stringEnumRef,  options).toPromise();
     }
 
     /**
@@ -324,7 +324,7 @@ export class ObjectBodyApi {
      * @param param the request object
      */
     public testEchoBodyStringEnum(param: BodyApiTestEchoBodyStringEnumRequest = {}, options?: ConfigurationOptions): Promise<StringEnumRef> {
-        return this.api.testEchoBodyStringEnum(param.body,  options).toPromise();
+        return this.api.testEchoBodyStringEnum(param.stringEnumRef,  options).toPromise();
     }
 
     /**

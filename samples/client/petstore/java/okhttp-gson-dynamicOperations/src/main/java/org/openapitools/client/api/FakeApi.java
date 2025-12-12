@@ -37,6 +37,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -618,7 +619,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeOuterStringSerializeCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fakeOuterStringSerializeCall(@javax.annotation.Nullable OuterString body, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -671,7 +672,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(@javax.annotation.Nullable OuterString body, final ApiCallback _callback) throws ApiException {
         return fakeOuterStringSerializeCall(body, _callback);
 
     }
@@ -689,7 +690,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
      */
-    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
+    public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body) throws ApiException {
         ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body);
         return localVarResp.getData();
     }
@@ -707,7 +708,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
+    public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString body) throws ApiException {
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -727,7 +728,7 @@ public class FakeApi {
         <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fakeOuterStringSerializeAsync(@javax.annotation.Nullable String body, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call fakeOuterStringSerializeAsync(@javax.annotation.Nullable OuterString body, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();

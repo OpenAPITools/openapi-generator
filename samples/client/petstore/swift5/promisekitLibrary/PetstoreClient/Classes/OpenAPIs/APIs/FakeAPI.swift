@@ -144,7 +144,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: Promise<String>
      */
-    open class func fakeOuterStringSerialize( body: String? = nil) -> Promise<String> {
+    open class func fakeOuterStringSerialize( body: OuterString? = nil) -> Promise<String> {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
@@ -163,7 +163,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
-    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)

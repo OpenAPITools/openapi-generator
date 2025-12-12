@@ -11,7 +11,7 @@ val fake_http_signature_test : pet_t:Pet.t -> ?query_1:string -> ?header_1:strin
 val fake_outer_boolean_serialize : body:bool -> unit -> bool Lwt.t
 val fake_outer_composite_serialize : outer_composite_t:Outer_composite.t -> unit -> Outer_composite.t Lwt.t
 val fake_outer_number_serialize : body:float -> unit -> float Lwt.t
-val fake_outer_string_serialize : body:string -> unit -> string Lwt.t
+val fake_outer_string_serialize : outer_string_t:Outer_string.t -> unit -> string Lwt.t
 val fake_property_enum_integer_serialize : outer_object_with_enum_property_t:Outer_object_with_enum_property.t -> Outer_object_with_enum_property.t Lwt.t
 val test_additional_properties_reference : request_body:(string * Yojson.Safe.t) list -> unit Lwt.t
 val test_body_with_binary : body:string -> unit Lwt.t

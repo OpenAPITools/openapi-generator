@@ -25,6 +25,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import io.helidon.common.parameters.Parameters;
 import java.nio.file.Path;
 import org.openapitools.server.model.Pet;

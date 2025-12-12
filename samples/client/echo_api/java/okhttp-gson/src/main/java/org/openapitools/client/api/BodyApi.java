@@ -1061,7 +1061,7 @@ public class BodyApi {
     }
     /**
      * Build call for testEchoBodyStringEnum
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1072,7 +1072,7 @@ public class BodyApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyStringEnumCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyStringEnumCall(@javax.annotation.Nullable StringEnumRef stringEnumRef, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1086,7 +1086,7 @@ public class BodyApi {
             basePath = null;
         }
 
-        Object localVarPostBody = body;
+        Object localVarPostBody = stringEnumRef;
 
         // create path and map variables
         String localVarPath = "/echo/body/string_enum";
@@ -1118,15 +1118,15 @@ public class BodyApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEchoBodyStringEnumValidateBeforeCall(@javax.annotation.Nullable String body, final ApiCallback _callback) throws ApiException {
-        return testEchoBodyStringEnumCall(body, _callback);
+    private okhttp3.Call testEchoBodyStringEnumValidateBeforeCall(@javax.annotation.Nullable StringEnumRef stringEnumRef, final ApiCallback _callback) throws ApiException {
+        return testEchoBodyStringEnumCall(stringEnumRef, _callback);
 
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @return StringEnumRef
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1136,15 +1136,15 @@ public class BodyApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
-        ApiResponse<StringEnumRef> localVarResp = testEchoBodyStringEnumWithHttpInfo(body);
+    public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable StringEnumRef stringEnumRef) throws ApiException {
+        ApiResponse<StringEnumRef> localVarResp = testEchoBodyStringEnumWithHttpInfo(stringEnumRef);
         return localVarResp.getData();
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @return ApiResponse&lt;StringEnumRef&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1154,8 +1154,8 @@ public class BodyApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
-        okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(body, null);
+    public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable StringEnumRef stringEnumRef) throws ApiException {
+        okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(stringEnumRef, null);
         Type localVarReturnType = new TypeToken<StringEnumRef>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1163,7 +1163,7 @@ public class BodyApi {
     /**
      * Test string enum response body (asynchronously)
      * Test string enum response body
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1174,9 +1174,9 @@ public class BodyApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEchoBodyStringEnumAsync(@javax.annotation.Nullable String body, final ApiCallback<StringEnumRef> _callback) throws ApiException {
+    public okhttp3.Call testEchoBodyStringEnumAsync(@javax.annotation.Nullable StringEnumRef stringEnumRef, final ApiCallback<StringEnumRef> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = testEchoBodyStringEnumValidateBeforeCall(stringEnumRef, _callback);
         Type localVarReturnType = new TypeToken<StringEnumRef>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

@@ -22,6 +22,7 @@ import type {
   HealthCheckResult,
   OuterComposite,
   OuterObjectWithEnumProperty,
+  OuterString,
   Pet,
   User,
 } from '../models/index';
@@ -40,6 +41,8 @@ import {
     OuterCompositeToJSON,
     OuterObjectWithEnumPropertyFromJSON,
     OuterObjectWithEnumPropertyToJSON,
+    OuterStringFromJSON,
+    OuterStringToJSON,
     PetFromJSON,
     PetToJSON,
     UserFromJSON,
@@ -65,7 +68,7 @@ export interface FakeOuterNumberSerializeRequest {
 }
 
 export interface FakeOuterStringSerializeRequest {
-    body?: string;
+    outerString?: OuterString;
 }
 
 export interface FakePropertyEnumIntegerSerializeRequest {
@@ -377,7 +380,7 @@ export class FakeApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters['body'] as any,
+            body: OuterStringToJSON(requestParameters['outerString']),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {

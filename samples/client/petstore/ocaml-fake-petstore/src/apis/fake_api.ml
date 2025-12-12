@@ -135,7 +135,7 @@ let fake_outer_number_serialize ~body () =
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.to_float) resp body
 
-let fake_outer_string_serialize ~body () =
+let fake_outer_string_serialize ~outer_string_t () =
     let open Lwt.Infix in
     let uri = Request.build_uri "/fake/outer/string" in
     let headers = Request.default_headers in
@@ -148,10 +148,11 @@ let fake_outer_string_serialize ~body () =
     
     
     
+                Outer_string.to_yojson
     
     
     
- body
+ outer_string_t
     in
     Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
     Request.read_json_body_as (JsonSupport.to_string) resp body

@@ -441,7 +441,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open func fakeOuterStringSerialize(body: String? = nil, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
+    open func fakeOuterStringSerialize(body: OuterString? = nil, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
         return fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
@@ -457,7 +457,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: Promise<String>
      */
-    open func fakeOuterStringSerialize(body: String? = nil) -> Promise<String> {
+    open func fakeOuterStringSerialize(body: OuterString? = nil) -> Promise<String> {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
@@ -475,7 +475,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: Observable<String>
      */
-    open func fakeOuterStringSerialize(body: String? = nil) -> Observable<String> {
+    open func fakeOuterStringSerialize(body: OuterString? = nil) -> Observable<String> {
         return Observable.create { observer -> Disposable in
             let requestTask = self.fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
                 switch result {
@@ -500,7 +500,7 @@ open class FakeAPI {
      */
     #if canImport(Combine)
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
+    open func fakeOuterStringSerialize(body: OuterString? = nil) -> AnyPublisher<String, Error> {
         let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
         return Deferred { Future<String, Error> { promise in
@@ -529,7 +529,7 @@ open class FakeAPI {
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func fakeOuterStringSerialize(body: String? = nil) async throws(ErrorResponse) -> String {
+    open func fakeOuterStringSerialize(body: OuterString? = nil) async throws(ErrorResponse) -> String {
         return try await fakeOuterStringSerializeWithRequestBuilder(body: body).execute().body
     }
 
@@ -539,7 +539,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the result
      */
     @discardableResult
-    open func fakeOuterStringSerialize(body: String? = nil, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
+    open func fakeOuterStringSerialize(body: OuterString? = nil, completion: @Sendable @escaping (_ result: Swift.Result<String, ErrorResponse>) -> Void) -> RequestTask {
         return fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
             switch result {
             case let .success(response):
@@ -556,7 +556,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
-    open func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
+    open func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -122,19 +123,19 @@ public interface FakeApi {
         return promise.future();
     }
 
-    void fakeOuterStringSerialize(@javax.annotation.Nullable String body, Handler<AsyncResult<String>> handler);
+    void fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString, Handler<AsyncResult<String>> handler);
 
-    default Future<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body){
+    default Future<String> fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString){
         Promise<String> promise = Promise.promise();
-        fakeOuterStringSerialize(body, promise);
+        fakeOuterStringSerialize(outerString, promise);
         return promise.future();
     }
 
-    void fakeOuterStringSerialize(@javax.annotation.Nullable String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
+    void fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
 
-    default Future<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body, ApiClient.AuthInfo authInfo){
+    default Future<String> fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString, ApiClient.AuthInfo authInfo){
         Promise<String> promise = Promise.promise();
-        fakeOuterStringSerialize(body, authInfo, promise);
+        fakeOuterStringSerialize(outerString, authInfo, promise);
         return promise.future();
     }
 

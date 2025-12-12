@@ -261,21 +261,21 @@ export class PromiseFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param [body] Input string as post body
+     * @param [outerString] Input string as post body
      */
-    public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
+    public fakeOuterStringSerializeWithHttpInfo(outerString?: OuterString, _options?: PromiseConfigurationOptions): Promise<HttpInfo<string>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.fakeOuterStringSerializeWithHttpInfo(body, observableOptions);
+        const result = this.api.fakeOuterStringSerializeWithHttpInfo(outerString, observableOptions);
         return result.toPromise();
     }
 
     /**
      * Test serialization of outer string types
-     * @param [body] Input string as post body
+     * @param [outerString] Input string as post body
      */
-    public fakeOuterStringSerialize(body?: string, _options?: PromiseConfigurationOptions): Promise<string> {
+    public fakeOuterStringSerialize(outerString?: OuterString, _options?: PromiseConfigurationOptions): Promise<string> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.fakeOuterStringSerialize(body, observableOptions);
+        const result = this.api.fakeOuterStringSerialize(outerString, observableOptions);
         return result.toPromise();
     }
 

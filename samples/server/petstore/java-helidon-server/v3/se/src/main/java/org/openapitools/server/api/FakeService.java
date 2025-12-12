@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
@@ -39,7 +40,7 @@ public interface FakeService extends Service {
         rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
         rules.post("/fake/outer/composite", Handler.create(OuterComposite.class, this::fakeOuterCompositeSerialize));
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
-        rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
+        rules.post("/fake/outer/string", Handler.create(OuterString.class, this::fakeOuterStringSerialize));
         rules.post("/fake/property/enum-int", Handler.create(OuterObjectWithEnumProperty.class, this::fakePropertyEnumIntegerSerialize));
         rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
         rules.put("/fake/body-with-binary", this::testBodyWithBinary);
@@ -106,8 +107,9 @@ public interface FakeService extends Service {
      * POST /fake/outer/string.
      * @param request the server request
      * @param response the server response
+     * @param outerString Input string as post body 
      */
-    void fakeOuterStringSerialize(ServerRequest request, ServerResponse response);
+    void fakeOuterStringSerialize(ServerRequest request, ServerResponse response, OuterString outerString);
 
     /**
      * POST /fake/property/enum-int.

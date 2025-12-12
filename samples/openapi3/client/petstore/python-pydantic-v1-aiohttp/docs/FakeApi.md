@@ -568,7 +568,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
-> str fake_outer_string_serialize(body=body)
+> str fake_outer_string_serialize(outer_string=outer_string)
 
 
 
@@ -594,10 +594,10 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = 'body_example' # str | Input string as post body (optional)
+    outer_string = petstore_api.OuterString() # OuterString | Input string as post body (optional)
 
     try:
-        api_response = await api_instance.fake_outer_string_serialize(body=body)
+        api_response = await api_instance.fake_outer_string_serialize(outer_string=outer_string)
         print("The response of FakeApi->fake_outer_string_serialize:\n")
         pprint(api_response)
     except Exception as e:
@@ -610,7 +610,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **str**| Input string as post body | [optional] 
+ **outer_string** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 

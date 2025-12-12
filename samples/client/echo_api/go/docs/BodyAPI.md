@@ -542,7 +542,7 @@ No authorization required
 
 ## TestEchoBodyStringEnum
 
-> StringEnumRef TestEchoBodyStringEnum(ctx).Body(body).Execute()
+> StringEnumRef TestEchoBodyStringEnum(ctx).StringEnumRef(stringEnumRef).Execute()
 
 Test string enum response body
 
@@ -561,11 +561,11 @@ import (
 )
 
 func main() {
-	body := string(987) // string | String enum (optional)
+	stringEnumRef := openapiclient.StringEnumRef("success") // StringEnumRef | String enum (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.BodyAPI.TestEchoBodyStringEnum(context.Background()).Body(body).Execute()
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyStringEnum(context.Background()).StringEnumRef(stringEnumRef).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyStringEnum``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -586,7 +586,7 @@ Other parameters are passed through a pointer to a apiTestEchoBodyStringEnumRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string** | String enum | 
+ **stringEnumRef** | [**StringEnumRef**](StringEnumRef.md) | String enum | 
 
 ### Return type
 

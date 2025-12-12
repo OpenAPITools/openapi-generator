@@ -211,7 +211,7 @@ api.fakeOuterStringSerialize().execute(r -> r.prettyPeek());
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

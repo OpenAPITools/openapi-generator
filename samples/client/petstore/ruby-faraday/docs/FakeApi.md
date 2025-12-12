@@ -432,7 +432,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: 'body_example' # String | Input string as post body
+  outer_string: TODO # OuterString | Input string as post body
 }
 
 begin
@@ -466,7 +466,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **body** | **String** | Input string as post body | [optional] |
+| **outer_string** | [**OuterString**](OuterString.md) | Input string as post body | [optional] |
 
 ### Return type
 

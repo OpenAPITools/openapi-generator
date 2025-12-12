@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -286,12 +287,12 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return a {@code String}
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
-    Object localVarPostBody = body;
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    Object localVarPostBody = outerString;
     
     // create path and map variables
     String localVarPath = "/fake/outer/string".replaceAll("\\{format\\}","json");

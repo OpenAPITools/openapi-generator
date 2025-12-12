@@ -102,11 +102,11 @@ interface FakeApiInterface {
 
     /**
      * Operation fakeOuterStringSerialize
-     * @param null | string $body
+     * @param null | \OpenAPI\Server\Model\OuterString $outerString
      * @return string
      */
     public function fakeOuterStringSerialize(
-            ?string $body,
+            ?\OpenAPI\Server\Model\OuterString $outerString,
     ):
         string
     ;

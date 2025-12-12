@@ -280,10 +280,11 @@ class FakeController extends Controller
             return response()->json(['error' => 'Invalid input'], 400);
         }
 
-        $body = $request->string('body')->value();
+        $outerString = $request->string('outerString')->value();
+        $outerString = $this->serde->deserialize($request->getContent(), from: 'json', to: \OpenAPI\Server\Model\OuterString::class);
 
 
-        $apiResult = $this->api->fakeOuterStringSerialize($body);
+        $apiResult = $this->api->fakeOuterStringSerialize($outerString);
 
         if ($apiResult instanceof string) {
             return response()->json($this->serde->serialize($apiResult, format: 'array'), 200);

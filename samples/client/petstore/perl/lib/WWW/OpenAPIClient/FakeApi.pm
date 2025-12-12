@@ -414,11 +414,11 @@ sub fake_outer_number_serialize {
 #
 # 
 #
-# @param string $body Input string as post body (optional)
+# @param OuterString $outer_string Input string as post body (optional)
 {
     my $params = {
-    'body' => {
-        data_type => 'string',
+    'outer_string' => {
+        data_type => 'OuterString',
         description => 'Input string as post body',
         required => '0',
     },
@@ -451,8 +451,8 @@ sub fake_outer_string_serialize {
 
     my $_body_data;
     # body params
-    if ( exists $args{'body'}) {
-        $_body_data = $args{'body'};
+    if ( exists $args{'outer_string'}) {
+        $_body_data = $args{'outer_string'};
     }
 
     # authentication setting, if any

@@ -378,7 +378,7 @@ No authorization required
 
 <a id="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, OuterString outerString = null)
 
 
 
@@ -402,11 +402,11 @@ namespace Example
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
             var requiredStringUuid = "requiredStringUuid_example";  // Guid | Required UUID String
-            var body = "body_example";  // string | Input string as post body (optional) 
+            var outerString = new OuterString(); // OuterString | Input string as post body (optional) 
 
             try
             {
-                string result = apiInstance.FakeOuterStringSerialize(requiredStringUuid, body);
+                string result = apiInstance.FakeOuterStringSerialize(requiredStringUuid, outerString);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -426,7 +426,7 @@ This returns an ApiResponse object which contains the response data, status code
 ```csharp
 try
 {
-    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
+    ApiResponse<string> response = apiInstance.FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, outerString);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -444,7 +444,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **requiredStringUuid** | **Guid** | Required UUID String |  |
-| **body** | **string** | Input string as post body | [optional]  |
+| **outerString** | [**OuterString**](OuterString.md) | Input string as post body | [optional]  |
 
 ### Return type
 

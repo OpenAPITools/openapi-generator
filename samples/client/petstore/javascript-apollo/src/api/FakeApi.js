@@ -20,6 +20,7 @@ import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
+import OuterString from '../model/OuterString';
 import Pet from '../model/Pet';
 import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
@@ -214,13 +215,13 @@ export default class FakeApi extends ApiClient {
     /**
      * Test serialization of outer string types
      * @param {Object} opts Optional parameters
-     * @param {String} [body] Input string as post body
+     * @param {module:model/OuterString} [outerString] Input string as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<String>}
      */
     async fakeOuterStringSerialize(opts, requestInit) {
       opts = opts || {};
-      let postBody = opts['body'];
+      let postBody = opts['outerString'];
 
       let pathParams = {
       };

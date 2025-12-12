@@ -947,13 +947,13 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def fake_outer_string_serialize(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
+    async def fake_outer_string_serialize(self, outer_string : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> str:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
 
-        :param body: Input string as post body
-        :type body: str
+        :param outer_string: Input string as post body
+        :type outer_string: OuterString
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -967,16 +967,16 @@ class FakeApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the fake_outer_string_serialize_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return await self.fake_outer_string_serialize_with_http_info(body, **kwargs)  # noqa: E501
+        return await self.fake_outer_string_serialize_with_http_info(outer_string, **kwargs)  # noqa: E501
 
     @validate_arguments
-    async def fake_outer_string_serialize_with_http_info(self, body : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    async def fake_outer_string_serialize_with_http_info(self, outer_string : Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
 
         Test serialization of outer string types  # noqa: E501
 
-        :param body: Input string as post body
-        :type body: str
+        :param outer_string: Input string as post body
+        :type outer_string: OuterString
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -1003,7 +1003,7 @@ class FakeApi:
         _params = locals()
 
         _all_params = [
-            'body'
+            'outer_string'
         ]
         _all_params.extend(
             [
@@ -1040,8 +1040,8 @@ class FakeApi:
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body'] is not None:
-            _body_params = _params['body']
+        if _params['outer_string'] is not None:
+            _body_params = _params['outer_string']
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

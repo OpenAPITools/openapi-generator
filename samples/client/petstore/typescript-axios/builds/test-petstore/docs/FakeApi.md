@@ -231,16 +231,17 @@ Test serialization of outer string types
 ```typescript
 import {
     FakeApi,
-    Configuration
+    Configuration,
+    OuterString
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new FakeApi(configuration);
 
-let body: string; //Input string as post body (optional)
+let outerString: OuterString; //Input string as post body (optional)
 
 const { status, data } = await apiInstance.fakeOuterStringSerialize(
-    body
+    outerString
 );
 ```
 
@@ -248,7 +249,7 @@ const { status, data } = await apiInstance.fakeOuterStringSerialize(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **string**| Input string as post body | |
+| **outerString** | **OuterString**| Input string as post body | |
 
 
 ### Return type

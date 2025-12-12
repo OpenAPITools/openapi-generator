@@ -17,6 +17,7 @@ import { FileSchemaTestClass } from '../models/FileSchemaTestClass';
 import { HealthCheckResult } from '../models/HealthCheckResult';
 import { OuterComposite } from '../models/OuterComposite';
 import { OuterObjectWithEnumProperty } from '../models/OuterObjectWithEnumProperty';
+import { OuterString } from '../models/OuterString';
 import { Pet } from '../models/Pet';
 import { User } from '../models/User';
 
@@ -242,9 +243,9 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Test serialization of outer string types
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      */
-    public async fakeOuterStringSerialize(body?: string, _options?: Configuration): Promise<RequestContext> {
+    public async fakeOuterStringSerialize(outerString?: OuterString, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -262,7 +263,7 @@ export class FakeApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "string", ""),
+            ObjectSerializer.serialize(outerString, "OuterString", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

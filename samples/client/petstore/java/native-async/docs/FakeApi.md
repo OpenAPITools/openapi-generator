@@ -744,7 +744,7 @@ No authorization required
 
 ## fakeOuterStringSerialize
 
-> CompletableFuture<String> fakeOuterStringSerialize(body)
+> CompletableFuture<String> fakeOuterStringSerialize(outerString)
 
 
 
@@ -767,9 +767,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        String body = "body_example"; // String | Input string as post body
+        OuterString outerString = new OuterString(); // OuterString | Input string as post body
         try {
-            CompletableFuture<String> result = apiInstance.fakeOuterStringSerialize(body);
+            CompletableFuture<String> result = apiInstance.fakeOuterStringSerialize(outerString);
             System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
@@ -787,7 +787,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 
@@ -810,7 +810,7 @@ No authorization required
 
 ## fakeOuterStringSerializeWithHttpInfo
 
-> CompletableFuture<ApiResponse<String>> fakeOuterStringSerialize fakeOuterStringSerializeWithHttpInfo(body)
+> CompletableFuture<ApiResponse<String>> fakeOuterStringSerialize fakeOuterStringSerializeWithHttpInfo(outerString)
 
 
 
@@ -834,9 +834,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        String body = "body_example"; // String | Input string as post body
+        OuterString outerString = new OuterString(); // OuterString | Input string as post body
         try {
-            CompletableFuture<ApiResponse<String>> response = apiInstance.fakeOuterStringSerializeWithHttpInfo(body);
+            CompletableFuture<ApiResponse<String>> response = apiInstance.fakeOuterStringSerializeWithHttpInfo(outerString);
             System.out.println("Status code: " + response.get().getStatusCode());
             System.out.println("Response headers: " + response.get().getHeaders());
             System.out.println("Response body: " + response.get().getData());
@@ -863,7 +863,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
@@ -209,7 +210,7 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return String
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -219,14 +220,14 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
-    return fakeOuterStringSerializeWithHttpInfo(body).getData();
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    return fakeOuterStringSerializeWithHttpInfo(outerString).getData();
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
@@ -236,11 +237,11 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
+  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType("application/json");
     GenericType<String> localVarReturnType = new GenericType<String>() {};
-    return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", "/fake/outer/string", "POST", new ArrayList<>(), body,
+    return apiClient.invokeAPI("FakeApi.fakeOuterStringSerialize", "/fake/outer/string", "POST", new ArrayList<>(), outerString,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
                                null, localVarReturnType, false);
   }

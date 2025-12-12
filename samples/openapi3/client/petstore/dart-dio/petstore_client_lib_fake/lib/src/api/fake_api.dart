@@ -22,6 +22,7 @@ import 'package:openapi/src/model/model_enum_class.dart';
 import 'package:openapi/src/model/object_that_references_objects_with_duplicate_inline_enums.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/outer_string.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
@@ -618,7 +619,7 @@ class FakeApi {
   /// Test serialization of outer string types
   ///
   /// Parameters:
-  /// * [body] - Input string as post body
+  /// * [outerString] - Input string as post body
   /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
   /// * [headers] - Can be used to add additional headers to the request
   /// * [extras] - Can be used to add flags to the request
@@ -629,7 +630,7 @@ class FakeApi {
   /// Returns a [Future] containing a [Response] with a [String] as data
   /// Throws [DioException] if API call or serialization fails
   Future<Response<String>> fakeOuterStringSerialize({ 
-    String? body,
+    OuterString? outerString,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     Map<String, dynamic>? extra,
@@ -654,7 +655,8 @@ class FakeApi {
     dynamic _bodyData;
 
     try {
-      _bodyData = body;
+      const _type = FullType(OuterString);
+      _bodyData = outerString == null ? null : _serializers.serialize(outerString, specifiedType: _type);
 
     } catch(error, stackTrace) {
       throw DioException(

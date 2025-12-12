@@ -639,11 +639,11 @@ func (a *FakeAPIService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 type ApiFakeOuterStringSerializeRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
-	body *string
+	body *OuterString
 }
 
 // Input string as post body
-func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
+func (r ApiFakeOuterStringSerializeRequest) Body(body OuterString) ApiFakeOuterStringSerializeRequest {
 	r.body = &body
 	return r
 }

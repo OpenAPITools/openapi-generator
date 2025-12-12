@@ -428,7 +428,7 @@ No authorization required
 ## `fakeOuterStringSerialize()`
 
 ```php
-fakeOuterStringSerialize($body): string
+fakeOuterStringSerialize($outer_string): string
 ```
 
 
@@ -448,10 +448,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = 'body_example'; // string | Input string as post body
+$outer_string = 'outer_string_example'; // \OpenAPI\Client\Model\OuterString | Input string as post body
 
 try {
-    $result = $apiInstance->fakeOuterStringSerialize($body);
+    $result = $apiInstance->fakeOuterStringSerialize($outer_string);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterStringSerialize: ', $e->getMessage(), PHP_EOL;
@@ -462,7 +462,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **string**| Input string as post body | [optional] |
+| **outer_string** | [**\OpenAPI\Client\Model\OuterString**](../Model/OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

@@ -181,7 +181,7 @@ petstore-cli fakeOuterStringSerialize
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string** | Input string as post body | [optional]
+ **body** | [**OuterString**](OuterString.md) | Input string as post body | [optional]
 
 ### Return type
 
