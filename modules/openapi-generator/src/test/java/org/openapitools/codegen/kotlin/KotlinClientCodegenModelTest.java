@@ -689,7 +689,7 @@ public class KotlinClientCodegenModelTest {
   }
 
   @Test
-  public void testJacksonNumericEnumsUseJsonCreator() throws IOException {
+  public void testJacksonEnumsUseJsonCreator() throws IOException {
       File output = Files.createTempDirectory("test").toFile();
       output.deleteOnExit();
 
