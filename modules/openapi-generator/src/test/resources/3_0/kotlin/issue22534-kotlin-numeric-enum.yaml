@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: 'Issue 5077 Jackson numeric enum regression'
+  title: 'Issue 22534 Jackson numeric enum regression'
   version: latest
 paths:
   '/example':
