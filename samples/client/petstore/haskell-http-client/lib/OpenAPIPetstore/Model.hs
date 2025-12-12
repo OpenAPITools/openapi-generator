@@ -82,9 +82,6 @@ newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJ
 -- ** BodyDouble
 newtype BodyDouble = BodyDouble { unBodyDouble :: Double } deriving (P.Eq, P.Show, A.ToJSON)
 
--- ** BodyText
-newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
-
 -- ** BooleanGroup
 newtype BooleanGroup = BooleanGroup { unBooleanGroup :: Bool } deriving (P.Eq, P.Show)
 

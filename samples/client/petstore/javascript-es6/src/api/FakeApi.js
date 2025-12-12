@@ -19,6 +19,7 @@ import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import HealthCheckStatus from '../model/HealthCheckStatus';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
+import OuterString from '../model/OuterString';
 import Pet from '../model/Pet';
 import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
@@ -252,13 +253,13 @@ export default class FakeApi {
     /**
      * Test serialization of outer string types
      * @param {Object} opts Optional parameters
-     * @param {String} [body] Input string as post body
+     * @param {module:model/OuterString} [outerString] Input string as post body
      * @param {module:api/FakeApi~fakeOuterStringSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link String}
      */
     fakeOuterStringSerialize(opts, callback) {
       opts = opts || {};
-      let postBody = opts['body'];
+      let postBody = opts['outerString'];
 
       let pathParams = {
       };

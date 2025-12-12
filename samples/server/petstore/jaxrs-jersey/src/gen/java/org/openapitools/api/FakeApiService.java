@@ -17,6 +17,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.Pet;
 import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
@@ -38,7 +39,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response fakeOuterStringSerialize(OuterString outerString,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testAdditionalPropertiesReference(Map<String, Object> requestBody,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithBinary(File body,SecurityContext securityContext) throws NotFoundException;

@@ -267,7 +267,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let opts = {
-  'body': "body_example" // String | Input string as post body
+  'outerString': "outerString_example" // OuterString | Input string as post body
 };
 apiInstance.fakeOuterStringSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -282,7 +282,7 @@ apiInstance.fakeOuterStringSerialize(opts).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+ **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 

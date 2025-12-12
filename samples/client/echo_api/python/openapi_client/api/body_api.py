@@ -2210,7 +2210,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_string_enum(
         self,
-        body: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
+        string_enum_ref: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2228,8 +2228,8 @@ class BodyApi:
 
         Test string enum response body
 
-        :param body: String enum
-        :type body: str
+        :param string_enum_ref: String enum
+        :type string_enum_ref: StringEnumRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2253,7 +2253,7 @@ class BodyApi:
         """ # noqa: E501
 
         _param = self._test_echo_body_string_enum_serialize(
-            body=body,
+            string_enum_ref=string_enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2277,7 +2277,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_string_enum_with_http_info(
         self,
-        body: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
+        string_enum_ref: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2295,8 +2295,8 @@ class BodyApi:
 
         Test string enum response body
 
-        :param body: String enum
-        :type body: str
+        :param string_enum_ref: String enum
+        :type string_enum_ref: StringEnumRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2320,7 +2320,7 @@ class BodyApi:
         """ # noqa: E501
 
         _param = self._test_echo_body_string_enum_serialize(
-            body=body,
+            string_enum_ref=string_enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2344,7 +2344,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_string_enum_without_preload_content(
         self,
-        body: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
+        string_enum_ref: Annotated[Optional[StringEnumRef], Field(description="String enum")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2362,8 +2362,8 @@ class BodyApi:
 
         Test string enum response body
 
-        :param body: String enum
-        :type body: str
+        :param string_enum_ref: String enum
+        :type string_enum_ref: StringEnumRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2387,7 +2387,7 @@ class BodyApi:
         """ # noqa: E501
 
         _param = self._test_echo_body_string_enum_serialize(
-            body=body,
+            string_enum_ref=string_enum_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2406,7 +2406,7 @@ class BodyApi:
 
     def _test_echo_body_string_enum_serialize(
         self,
-        body,
+        string_enum_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -2432,8 +2432,8 @@ class BodyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
+        if string_enum_ref is not None:
+            _body_params = string_enum_ref
 
 
         # set the HTTP header `Accept`

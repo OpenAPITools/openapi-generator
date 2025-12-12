@@ -299,7 +299,7 @@ No summary available.
 
 No description available.
 
-.PARAMETER Body
+.PARAMETER OuterString
 Input string as post body
 
 .PARAMETER WithHttpInfo
@@ -314,8 +314,8 @@ function Invoke-PSFakeOuterStringSerialize {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [String]
-        ${Body},
+        [PSCustomObject]
+        ${OuterString},
         [Switch]
         $WithHttpInfo
     )
@@ -342,7 +342,7 @@ function Invoke-PSFakeOuterStringSerialize {
 
         $LocalVarUri = '/fake/outer/string'
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = $OuterString | ConvertTo-Json -Depth 100
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `

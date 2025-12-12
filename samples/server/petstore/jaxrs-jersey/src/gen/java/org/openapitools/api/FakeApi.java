@@ -19,6 +19,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.Pet;
 import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
@@ -151,9 +152,9 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class)
     })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  String body,@Context SecurityContext securityContext)
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  OuterString outerString,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterStringSerialize(body, securityContext);
+        return delegate.fakeOuterStringSerialize(outerString, securityContext);
     }
     @javax.ws.rs.POST
     @Path("/property/enum-int")

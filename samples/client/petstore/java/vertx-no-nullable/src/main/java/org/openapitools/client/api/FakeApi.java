@@ -8,6 +8,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 import io.vertx.core.AsyncResult;
@@ -34,9 +35,9 @@ public interface FakeApi {
 
     void fakeOuterNumberSerialize(@javax.annotation.Nullable BigDecimal body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<BigDecimal>> handler);
 
-    void fakeOuterStringSerialize(@javax.annotation.Nullable String body, Handler<AsyncResult<String>> handler);
+    void fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body, Handler<AsyncResult<String>> handler);
 
-    void fakeOuterStringSerialize(@javax.annotation.Nullable String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
+    void fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> handler);
 
     void testBodyWithFileSchema(@javax.annotation.Nonnull FileSchemaTestClass body, Handler<AsyncResult<Void>> handler);
 

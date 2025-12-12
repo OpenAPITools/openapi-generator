@@ -911,12 +911,12 @@ func (a *BodyAPIService) TestEchoBodyPetResponseStringExecute(r ApiTestEchoBodyP
 type ApiTestEchoBodyStringEnumRequest struct {
 	ctx context.Context
 	ApiService *BodyAPIService
-	body *string
+	stringEnumRef *StringEnumRef
 }
 
 // String enum
-func (r ApiTestEchoBodyStringEnumRequest) Body(body string) ApiTestEchoBodyStringEnumRequest {
-	r.body = &body
+func (r ApiTestEchoBodyStringEnumRequest) StringEnumRef(stringEnumRef StringEnumRef) ApiTestEchoBodyStringEnumRequest {
+	r.stringEnumRef = &stringEnumRef
 	return r
 }
 
@@ -978,7 +978,7 @@ func (a *BodyAPIService) TestEchoBodyStringEnumExecute(r ApiTestEchoBodyStringEn
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.stringEnumRef
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

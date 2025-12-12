@@ -778,11 +778,11 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * Test serialization of outer string types
-         * @param {string} [body] Input string as post body
+         * @param {OuterString} [outerString] Input string as post body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterStringSerialize: async (body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fakeOuterStringSerialize: async (outerString?: OuterString, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/fake/outer/string`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -801,7 +801,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(outerString, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1519,12 +1519,12 @@ export const FakeApiFp = function(configuration?: Configuration) {
         },
         /**
          * Test serialization of outer string types
-         * @param {string} [body] Input string as post body
+         * @param {OuterString} [outerString] Input string as post body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fakeOuterStringSerialize(body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterStringSerialize(body, options);
+        async fakeOuterStringSerialize(outerString?: OuterString, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fakeOuterStringSerialize(outerString, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.fakeOuterStringSerialize']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1773,12 +1773,12 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * Test serialization of outer string types
-         * @param {string} [body] Input string as post body
+         * @param {OuterString} [outerString] Input string as post body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fakeOuterStringSerialize(body?: string, options?: RawAxiosRequestConfig): AxiosPromise<string> {
-            return localVarFp.fakeOuterStringSerialize(body, options).then((request) => request(axios, basePath));
+        fakeOuterStringSerialize(outerString?: OuterString, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.fakeOuterStringSerialize(outerString, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1987,12 +1987,12 @@ export class FakeApi extends BaseAPI {
 
     /**
      * Test serialization of outer string types
-     * @param {string} [body] Input string as post body
+     * @param {OuterString} [outerString] Input string as post body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public fakeOuterStringSerialize(body?: string, options?: RawAxiosRequestConfig) {
-        return FakeApiFp(this.configuration).fakeOuterStringSerialize(body, options).then((request) => request(this.axios, this.basePath));
+    public fakeOuterStringSerialize(outerString?: OuterString, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).fakeOuterStringSerialize(outerString, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.OuterStringDto;
 import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
@@ -184,7 +185,7 @@ public interface FakeApi {
      * POST /fake/outer/string
      * Test serialization of outer string types
      *
-     * @param body Input string as post body (optional)
+     * @param outerStringDto Input string as post body (optional)
      * @return Output string (status code 200)
      */
     @ApiOperation(
@@ -204,7 +205,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
+        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable OuterStringDto outerStringDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

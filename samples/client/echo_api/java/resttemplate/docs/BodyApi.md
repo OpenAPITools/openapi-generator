@@ -543,7 +543,7 @@ No authorization required
 
 ## testEchoBodyStringEnum
 
-> StringEnumRef testEchoBodyStringEnum(body)
+> StringEnumRef testEchoBodyStringEnum(stringEnumRef)
 
 Test string enum response body
 
@@ -565,9 +565,9 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         BodyApi apiInstance = new BodyApi(defaultClient);
-        String body = "body_example"; // String | String enum
+        StringEnumRef stringEnumRef = new StringEnumRef(); // StringEnumRef | String enum
         try {
-            StringEnumRef result = apiInstance.testEchoBodyStringEnum(body);
+            StringEnumRef result = apiInstance.testEchoBodyStringEnum(stringEnumRef);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling BodyApi#testEchoBodyStringEnum");
@@ -585,7 +585,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| String enum | [optional] |
+| **stringEnumRef** | [**StringEnumRef**](StringEnumRef.md)| String enum | [optional] |
 
 ### Return type
 

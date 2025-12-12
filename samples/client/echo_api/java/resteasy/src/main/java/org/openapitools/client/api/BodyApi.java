@@ -352,12 +352,12 @@ public class BodyApi {
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @return a {@code StringEnumRef}
    * @throws ApiException if fails to make API call
    */
-  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
-    Object localVarPostBody = body;
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable StringEnumRef stringEnumRef) throws ApiException {
+    Object localVarPostBody = stringEnumRef;
     
     // create path and map variables
     String localVarPath = "/echo/body/string_enum".replaceAll("\\{format\\}","json");

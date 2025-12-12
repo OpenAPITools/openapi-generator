@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -309,46 +310,46 @@ public class FakeApi {
     /**
     * 
     * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+    * @param outerString Input string as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> resultHandler) {
-        delegate.fakeOuterStringSerialize(body, resultHandler);
+    public void fakeOuterStringSerialize(OuterString outerString, Handler<AsyncResult<String>> resultHandler) {
+        delegate.fakeOuterStringSerialize(outerString, resultHandler);
     }
 
     /**
     * 
     * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+    * @param outerString Input string as post body (optional)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
-        delegate.fakeOuterStringSerialize(body, authInfo, resultHandler);
+    public void fakeOuterStringSerialize(OuterString outerString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
+        delegate.fakeOuterStringSerialize(outerString, authInfo, resultHandler);
     }
 
     /**
     * 
     * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+    * @param outerString Input string as post body (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<String> rxFakeOuterStringSerialize(String body) {
+    public Single<String> rxFakeOuterStringSerialize(OuterString outerString) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.fakeOuterStringSerialize(body, fut)
+            delegate.fakeOuterStringSerialize(outerString, fut)
         ));
     }
 
     /**
     * 
     * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+    * @param outerString Input string as post body (optional)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<String> rxFakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo) {
+    public Single<String> rxFakeOuterStringSerialize(OuterString outerString, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.fakeOuterStringSerialize(body, authInfo, fut)
+            delegate.fakeOuterStringSerialize(outerString, authInfo, fut)
         ));
     }
     /**

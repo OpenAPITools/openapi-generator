@@ -429,16 +429,17 @@ Test string enum response body
 ```typescript
 import {
     BodyApi,
-    Configuration
+    Configuration,
+    StringEnumRef
 } from '@openapitools/typescript-axios-echo-api';
 
 const configuration = new Configuration();
 const apiInstance = new BodyApi(configuration);
 
-let body: string; //String enum (optional)
+let stringEnumRef: StringEnumRef; //String enum (optional)
 
 const { status, data } = await apiInstance.testEchoBodyStringEnum(
-    body
+    stringEnumRef
 );
 ```
 
@@ -446,7 +447,7 @@ const { status, data } = await apiInstance.testEchoBodyStringEnum(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **string**| String enum | |
+| **stringEnumRef** | **StringEnumRef**| String enum | |
 
 
 ### Return type

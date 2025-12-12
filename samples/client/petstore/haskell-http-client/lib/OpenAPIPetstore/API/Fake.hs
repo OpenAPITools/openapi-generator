@@ -190,7 +190,7 @@ fakeOuterStringSerialize _  _ =
 data FakeOuterStringSerialize 
 
 -- | /Body Param/ "body" - Input string as post body
-instance HasBodyParam FakeOuterStringSerialize BodyText 
+instance HasBodyParam FakeOuterStringSerialize OuterString 
 
 -- | @*/*@
 instance MimeType mtype => Consumes FakeOuterStringSerialize mtype

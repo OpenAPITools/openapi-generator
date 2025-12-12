@@ -15,6 +15,7 @@ import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
@@ -181,7 +182,7 @@ public interface FakeApi {
         produces = { "*/*" }
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
-        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
+        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable OuterString body
     ) {
         return getDelegate().fakeOuterStringSerialize(body);
     }

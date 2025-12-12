@@ -12,6 +12,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -30,7 +31,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response fakeOuterStringSerialize(OuterString body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithQueryParams( @NotNull String query,User body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testClientModel(Client body,SecurityContext securityContext) throws NotFoundException;

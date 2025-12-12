@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.OuterString;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -109,9 +110,9 @@ public class FakeApiController extends Controller {
     @ApiAction
     public Result fakeOuterStringSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
-        String body;
+        OuterString body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), String.class);
+            body = mapper.readValue(nodebody.toString(), OuterString.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
                 OpenAPIUtils.validate(body);
             }

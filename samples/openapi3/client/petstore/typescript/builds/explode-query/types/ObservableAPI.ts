@@ -359,12 +359,12 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param [body] Input string as post body
+     * @param [outerString] Input string as post body
      */
-    public fakeOuterStringSerializeWithHttpInfo(body?: string, _options?: ConfigurationOptions): Observable<HttpInfo<string>> {
+    public fakeOuterStringSerializeWithHttpInfo(outerString?: OuterString, _options?: ConfigurationOptions): Observable<HttpInfo<string>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.fakeOuterStringSerialize(body, _config);
+        const requestContextPromise = this.requestFactory.fakeOuterStringSerialize(outerString, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -383,10 +383,10 @@ export class ObservableFakeApi {
 
     /**
      * Test serialization of outer string types
-     * @param [body] Input string as post body
+     * @param [outerString] Input string as post body
      */
-    public fakeOuterStringSerialize(body?: string, _options?: ConfigurationOptions): Observable<string> {
-        return this.fakeOuterStringSerializeWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
+    public fakeOuterStringSerialize(outerString?: OuterString, _options?: ConfigurationOptions): Observable<string> {
+        return this.fakeOuterStringSerializeWithHttpInfo(outerString, _options).pipe(map((apiResponse: HttpInfo<string>) => apiResponse.data));
     }
 
     /**

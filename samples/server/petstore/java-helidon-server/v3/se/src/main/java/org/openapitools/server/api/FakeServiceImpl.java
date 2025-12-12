@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
@@ -55,7 +56,7 @@ public class FakeServiceImpl implements FakeService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
-    public void fakeOuterStringSerialize(ServerRequest request, ServerResponse response) {
+    public void fakeOuterStringSerialize(ServerRequest request, ServerResponse response, OuterString outerString) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

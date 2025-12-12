@@ -388,7 +388,7 @@ No authorization required
 | **200** | Successful operation |  -  |
 
 # **TestEchoBodyStringEnum**
-> StringEnumRef TestEchoBodyStringEnum(body = var.body)
+> StringEnumRef TestEchoBodyStringEnum(string_enum_ref = var.string_enum_ref)
 
 Test string enum response body
 
@@ -401,12 +401,12 @@ library(openapi)
 # Test string enum response body
 #
 # prepare function argument(s)
-var_body <- "body_example" # character | String enum (Optional)
+var_string_enum_ref <- StringEnumRef$new() # StringEnumRef | String enum (Optional)
 
 api_instance <- BodyApi$new()
 # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-# result <- api_instance$TestEchoBodyStringEnum(body = var_bodydata_file = "result.txt")
-result <- api_instance$TestEchoBodyStringEnum(body = var_body)
+# result <- api_instance$TestEchoBodyStringEnum(string_enum_ref = var_string_enum_refdata_file = "result.txt")
+result <- api_instance$TestEchoBodyStringEnum(string_enum_ref = var_string_enum_ref)
 dput(result)
 ```
 
@@ -414,7 +414,7 @@ dput(result)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **character**| String enum | [optional] 
+ **string_enum_ref** | [**StringEnumRef**](StringEnumRef.md)| String enum | [optional] 
 
 ### Return type
 

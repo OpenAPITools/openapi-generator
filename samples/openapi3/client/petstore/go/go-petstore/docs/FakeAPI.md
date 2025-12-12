@@ -287,7 +287,7 @@ No authorization required
 
 ## FakeOuterStringSerialize
 
-> string FakeOuterStringSerialize(ctx).Body(body).Execute()
+> string FakeOuterStringSerialize(ctx).OuterString(outerString).Execute()
 
 
 
@@ -306,11 +306,11 @@ import (
 )
 
 func main() {
-	body := "body_example" // string | Input string as post body (optional)
+	outerString := TODO // OuterString | Input string as post body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FakeAPI.FakeOuterStringSerialize(context.Background()).Body(body).Execute()
+	resp, r, err := apiClient.FakeAPI.FakeOuterStringSerialize(context.Background()).OuterString(outerString).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.FakeOuterStringSerialize``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -331,7 +331,7 @@ Other parameters are passed through a pointer to a apiFakeOuterStringSerializeRe
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string** | Input string as post body | 
+ **outerString** | [**OuterString**](OuterString.md) | Input string as post body | 
 
 ### Return type
 

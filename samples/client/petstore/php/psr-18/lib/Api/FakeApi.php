@@ -1906,30 +1906,30 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString $outer_string Input string as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return string
      */
-    public function fakeOuterStringSerialize($body = null)
+    public function fakeOuterStringSerialize($outer_string = null)
     {
-        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body);
+        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($outer_string);
         return $response;
     }
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString $outer_string Input string as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterStringSerializeWithHttpInfo($body = null)
+    public function fakeOuterStringSerializeWithHttpInfo($outer_string = null)
     {
-        $request = $this->fakeOuterStringSerializeRequest($body);
+        $request = $this->fakeOuterStringSerializeRequest($outer_string);
 
         try {
             try {
@@ -2006,14 +2006,14 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsync
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString $outer_string Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function fakeOuterStringSerializeAsync($body = null)
+    public function fakeOuterStringSerializeAsync($outer_string = null)
     {
-        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($body)
+        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($outer_string)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2024,15 +2024,15 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsyncWithHttpInfo
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString $outer_string Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
+    public function fakeOuterStringSerializeAsyncWithHttpInfo($outer_string = null)
     {
         $returnType = 'string';
-        $request = $this->fakeOuterStringSerializeRequest($body);
+        $request = $this->fakeOuterStringSerializeRequest($outer_string);
 
         return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
@@ -2069,12 +2069,12 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterStringSerialize'
      *
-     * @param  string $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString $outer_string Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return RequestInterface
      */
-    public function fakeOuterStringSerializeRequest($body = null)
+    public function fakeOuterStringSerializeRequest($outer_string = null)
     {
 
         $resourcePath = '/fake/outer/string';
@@ -2095,11 +2095,11 @@ class FakeApi
         );
 
         // for model (json/xml)
-        if (isset($body)) {
+        if (isset($outer_string)) {
             if ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
-                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($outer_string));
             } else {
-                $httpBody = $body;
+                $httpBody = $outer_string;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

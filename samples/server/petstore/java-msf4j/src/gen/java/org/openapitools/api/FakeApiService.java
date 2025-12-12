@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -36,7 +37,7 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body
  ) throws NotFoundException;
-    public abstract Response fakeOuterStringSerialize(String body
+    public abstract Response fakeOuterStringSerialize(OuterString body
  ) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass body
  ) throws NotFoundException;

@@ -180,10 +180,10 @@ export interface FakeApiFakeOuterNumberSerializeRequest {
 export interface FakeApiFakeOuterStringSerializeRequest {
     /**
      * Input string as post body
-     * @type string
+     * @type OuterString
      * @memberof FakeApifakeOuterStringSerialize
      */
-    body?: string
+    outerString?: OuterString
 }
 
 export interface FakeApiFakePropertyEnumIntegerSerializeRequest {
@@ -645,7 +645,7 @@ export class ObjectFakeApi {
      * @param param the request object
      */
     public fakeOuterStringSerializeWithHttpInfo(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<string>> {
-        return this.api.fakeOuterStringSerializeWithHttpInfo(param.body,  options).toPromise();
+        return this.api.fakeOuterStringSerializeWithHttpInfo(param.outerString,  options).toPromise();
     }
 
     /**
@@ -653,7 +653,7 @@ export class ObjectFakeApi {
      * @param param the request object
      */
     public fakeOuterStringSerialize(param: FakeApiFakeOuterStringSerializeRequest = {}, options?: ConfigurationOptions): Promise<string> {
-        return this.api.fakeOuterStringSerialize(param.body,  options).toPromise();
+        return this.api.fakeOuterStringSerialize(param.outerString,  options).toPromise();
     }
 
     /**

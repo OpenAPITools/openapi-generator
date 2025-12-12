@@ -370,7 +370,7 @@ const apiInstance = new FakeApi(configuration);
 
 const request: FakeApiFakeOuterStringSerializeRequest = {
     // Input string as post body (optional)
-  body: "body_example",
+  outerString: "outerString_example",
 };
 
 const data = await apiInstance.fakeOuterStringSerialize(request);
@@ -382,7 +382,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string**| Input string as post body |
+ **outerString** | **OuterString**| Input string as post body |
 
 
 ### Return type

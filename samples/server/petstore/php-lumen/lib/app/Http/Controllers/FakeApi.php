@@ -573,7 +573,7 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        $body = $input['body'];
+        $outer_string = $input['outer_string'];
 
 
         return response('How about implementing fakeOuterStringSerialize as a post method ?');

@@ -7,6 +7,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -228,7 +229,7 @@ public class FakeApiImpl implements FakeApi {
         * @param body Input string as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> resultHandler) {
+    public void fakeOuterStringSerialize(OuterString body, Handler<AsyncResult<String>> resultHandler) {
         fakeOuterStringSerialize(body, null, resultHandler);
     }
 
@@ -239,7 +240,7 @@ public class FakeApiImpl implements FakeApi {
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
+    public void fakeOuterStringSerialize(OuterString body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
