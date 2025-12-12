@@ -1,0 +1,181 @@
+openapi: 3.0.1
+info:
+  title: Rust Discriminator Reserved Keyword Test
+  description: >
+    This tests discriminator fields with Rust reserved keywords to ensure
+    proper escaping and function name generation
+  version: 1.0.0
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /vehicle:
+    post:
+      summary: Create a vehicle
+      operationId: createVehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        '201':
+          description: Vehicle created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+  /shape:
+    post:
+      summary: Create a shape
+      operationId: createShape
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shape'
+      responses:
+        '201':
+          description: Shape created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shape'
+
+components:
+  schemas:
+    # Test case 1: Required discriminator with reserved keyword "type"
+    Vehicle:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Truck'
+      discriminator:
+        propertyName: type
+        mapping:
+          car: '#/components/schemas/Car'
+          truck: '#/components/schemas/Truck'
+
+    Car:
+      type: object
+      required:
+        - type
+        - numDoors
+      properties:
+        type:
+          type: string
+          description: Vehicle type discriminator
+          default: Vehicle
+        numDoors:
+          type: integer
+          description: Number of doors
+
+    Truck:
+      type: object
+      required:
+        - type
+        - cargoCapacity
+      properties:
+        type:
+          type: string
+          description: Vehicle type discriminator
+        cargoCapacity:
+          type: number
+          description: Cargo capacity in tons
+
+    # Test case 2: Optional discriminator with reserved keyword "type"
+    Shape:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: type
+
+    Circle:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Shape type discriminator
+        radius:
+          type: number
+          description: Circle radius
+
+    Square:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Shape type discriminator
+        size:
+          type: number
+          description: Square size
+
+    # Test case 3: Discriminator with other reserved keywords
+    Message:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/TextMessage'
+        - $ref: '#/components/schemas/ImageMessage'
+      discriminator:
+        propertyName: match
+        mapping:
+          text: '#/components/schemas/TextMessage'
+          image: '#/components/schemas/ImageMessage'
+
+    TextMessage:
+      type: object
+      required:
+        - match
+        - content
+      properties:
+        match:
+          type: string
+          description: Message type discriminator (reserved keyword)
+        content:
+          type: string
+          description: Text content
+
+    ImageMessage:
+      type: object
+      required:
+        - match
+        - url
+      properties:
+        match:
+          type: string
+          description: Message type discriminator (reserved keyword)
+        url:
+          type: string
+          description: Image URL
+
+    # Test case 4: Reserved keyword in nested oneOf
+    Container:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/BoxContainer'
+        - $ref: '#/components/schemas/BagContainer'
+      discriminator:
+        propertyName: return
+
+    BoxContainer:
+      type: object
+      properties:
+        return:
+          type: string
+          description: Container type (reserved keyword)
+        dimensions:
+          type: string
+          description: Box dimensions
+
+    BagContainer:
+      type: object
+      properties:
+        return:
+          type: string
+          description: Container type (reserved keyword)
+        material:
+          type: string
+          description: Bag material
