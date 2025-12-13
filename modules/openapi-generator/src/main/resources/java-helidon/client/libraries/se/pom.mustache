@@ -63,8 +63,8 @@
             <artifactId>{{x-helidon-rootJavaEEDepPrefix}}.json.bind-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.http.media</groupId>
-            <artifactId>helidon-http1media-jsonb</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>
