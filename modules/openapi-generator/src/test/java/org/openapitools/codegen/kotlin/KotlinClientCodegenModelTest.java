@@ -688,6 +688,32 @@ public class KotlinClientCodegenModelTest {
       TestUtils.assertFileContains(modelKt, "enum class DaysOfWeek(val value: kotlin.Int)");
   }
 
+  @Test
+  public void testJacksonEnumsUseJsonCreator() throws IOException {
+      File output = Files.createTempDirectory("test").toFile();
+      output.deleteOnExit();
+
+      final CodegenConfigurator configurator = new CodegenConfigurator()
+              .setGeneratorName("kotlin")
+              .setLibrary("jvm-retrofit2")
+              .setAdditionalProperties(new HashMap<>() {{
+                put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+                put(CodegenConstants.MODEL_PACKAGE, "model");
+              }})
+              .setInputSpec("src/test/resources/3_0/kotlin/issue22534-kotlin-numeric-enum.yaml")
+              .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+      final ClientOptInput clientOptInput = configurator.toClientOptInput();
+      DefaultGenerator generator = new DefaultGenerator();
+
+      generator.opts(clientOptInput).generate();
+
+      final Path enumKt = Paths.get(output + "/src/main/kotlin/model/ExampleNumericEnum.kt");
+
+      TestUtils.assertFileContains(enumKt, "@get:JsonValue");
+      TestUtils.assertFileContains(enumKt, "@JsonCreator");
+  }
+
     @Test(description = "convert an empty model to object")
     public void emptyModelKotlinxSerializationTest() throws IOException {
         final Schema<?> schema = new ObjectSchema()
