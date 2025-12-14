@@ -1,0 +1,11 @@
+    /**
+     * {{summary}}
+     * {{notes}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
+     {{^useSingleRequestParameter}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters
+     {{/allParams.0}}{{/useSingleRequestParameter}}{{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}*/
+    {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams?: any): Observable<{{{returnType}}}{{^returnType}}{}{{/returnType}}>;

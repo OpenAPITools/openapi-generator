@@ -20,7 +20,7 @@ import { {{configurationClassName}} }                                     from '
 {{#allParams.0}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
 {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#useHttpResource}}Signal<{{/useHttpResource}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{#useHttpResource}}>{{/useHttpResource}};
+    {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/allParams}}
 }
 
@@ -38,17 +38,19 @@ export interface {{classname}}Interface {
     configuration: {{configurationClassName}};
 
 {{#operation}}
-    /**
-     * {{summary}}
-     * {{notes}}
-     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
-     {{^useSingleRequestParameter}}
-     {{#allParams}}* @param {{paramName}} {{description}}
-     {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters
-     {{/allParams.0}}{{/useSingleRequestParameter}}{{#isDeprecated}}
-     * @deprecated
-     {{/isDeprecated}}*/
-    {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams?: any): Observable<{{{returnType}}}{{^returnType}}{}{{/returnType}}>;
+{{#useHttpResource}}
+  {{#isGet}}
+    {{> operationInterfaceHttpResource }}
+  {{/isGet}}
+{{/useHttpResource}}
+{{^useHttpResource}}
+    {{> operationInterfaceObservable }}
+{{/useHttpResource}}
+{{#useHttpResource}}
+  {{^isGet}}
+    {{> operationInterfaceObservable }}
+  {{/isGet}}
+{{/useHttpResource}}
 
 {{/operation}}
 }
