@@ -32,6 +32,8 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
+
 public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sServerCodegen.class);
     protected String artifactId = "http4s-server";
@@ -374,7 +376,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 }
                 //
                 try {
-                    List<String> exts = (List<String>) cModel.getVendorExtensions().get("x-implements");
+                    List<String> exts = (List<String>) cModel.getVendorExtensions().get(X_IMPLEMENTS);
                     if (exts != null) {
                         cModel.getVendorExtensions().put("x-extends", exts.subList(0, 1));
                         cModel.getVendorExtensions().put("x-extendsWith", exts.subList(1, exts.size()));

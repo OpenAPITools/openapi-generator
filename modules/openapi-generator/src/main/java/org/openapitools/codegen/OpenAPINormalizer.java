@@ -37,8 +37,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
-import static org.openapitools.codegen.CodegenConstants.X_PARENT;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -1570,7 +1569,7 @@ public class OpenAPINormalizer {
     }
 
     protected Schema setNullable(Schema schema) {
-        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey(X_NULLABLE))) {
             // already set, don't overwrite
             return schema;
         }

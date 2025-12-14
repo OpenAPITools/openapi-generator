@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -1173,7 +1174,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
             if (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(NATIVE) || isLibrary(OKHTTP_GSON)) {
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
@@ -1188,7 +1189,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
             if (this.parcelableModel && !cm.isEnum) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Parcelable");
             }
         }
 
