@@ -28,10 +28,15 @@
     public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}reportProgress: boolean = false, options?: {httpHeaderAccept?: {{#produces}}'{{{mediaType}}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}},{{#httpContextInOptions}} context?: HttpContext{{/httpContextInOptions}}{{#httpTransferCacheInOptions}}, transferCache?: boolean{{/httpTransferCacheInOptions}}}): HttpResourceRef<any> {
         const { basePath, withCredentials } = this.configuration;
         return httpResource{{#producesTextPlain}}.text{{/producesTextPlain}}{{#isResponseBinary}}.blob{{/isResponseBinary}}(() => {
+{{#useSingleRequestParameter}}
+{{#allParams.0}}
+            const requestParametersValue = typeof requestParameters === 'function' ? requestParameters() : requestParameters;
+{{/allParams.0}}
+{{/useSingleRequestParameter}}
 {{#allParams}}
 {{#useSingleRequestParameter}}
 
-            const {{paramName}}Value = typeof requestParameters{{^hasRequiredVars}}?{{/hasRequiredVars}}.{{paramName}} === 'function' ? requestParameters{{^hasRequiredVars}}?{{/hasRequiredVars}}.{{paramName}}() : requestParameters{{^hasRequiredVars}}?{{/hasRequiredVars}}.{{paramName}};
+            const {{paramName}}Value = requestParametersValue{{^hasRequiredVars}}?{{/hasRequiredVars}}.{{paramName}};
 {{/useSingleRequestParameter}}
 {{^useSingleRequestParameter}}
 
