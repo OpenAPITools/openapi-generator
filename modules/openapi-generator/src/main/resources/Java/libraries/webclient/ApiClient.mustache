@@ -133,6 +133,13 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     protected Map<String, Authentication> authentications;
 
+    /**
+     * The {@link ExceptionProvider} used to create exceptions thrown by this client.
+     * Defaults to {@link ExceptionProvider#DEFAULT}. Can be replaced to customize the exceptions
+     * thrown by this client by calling {@link #setExceptionProvider(ExceptionProvider)}.
+     */
+    protected ExceptionProvider exceptionProvider = ExceptionProvider.DEFAULT;
+
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
@@ -288,6 +295,25 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
+     * Get the current {@link ExceptionProvider}.
+     * @return the exception provider
+     */
+    public ExceptionProvider getExceptionProvider() {
+        return exceptionProvider;
+    }
+
+    /**
+     * Set a custom {@link ExceptionProvider} to control which exception types are thrown
+     * by this client.
+     * @param exceptionProvider the exception provider
+     * @return this client instance
+     */
+    public ApiClient setExceptionProvider(ExceptionProvider exceptionProvider) {
+        this.exceptionProvider = exceptionProvider;
+        return this;
+    }
+
+    /**
      * Get authentication for the given name.
      *
      * @param authName The authentication name
@@ -308,7 +334,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No Bearer authentication configured!");
+        throw exceptionProvider.bearerAuthException();
     }
 
     /**
@@ -322,7 +348,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw exceptionProvider.httpBasicAuthException();
     }
 
     /**
@@ -336,7 +362,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No HTTP basic authentication configured!");
+        throw exceptionProvider.httpBasicAuthException();
     }
 
     /**
@@ -350,7 +376,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No API key authentication configured!");
+        throw exceptionProvider.apiKeyAuthException();
     }
 
     /**
@@ -364,7 +390,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No API key authentication configured!");
+        throw exceptionProvider.apiKeyAuthException();
     }
 
     {{#hasOAuthMethods}}
@@ -379,7 +405,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 return;
             }
         }
-        throw new RuntimeException("No OAuth2 authentication configured!");
+        throw exceptionProvider.oAuth2Exception();
     }
 
     {{/hasOAuthMethods}}
@@ -435,7 +461,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         try {
             return dateFormat.parse(str);
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw exceptionProvider.dateTimeException(e);
         }
     }
 
@@ -502,8 +528,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         } else {
             try {
                 return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
-           } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
-                throw new RuntimeException(e);
+            } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
+                throw exceptionProvider.jacksonException(e);
             }
         }
 
@@ -512,7 +538,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             try {
                 values.add(mapper.writeValueAsString(o));
             } catch ({{#useJackson3}}JacksonException{{/useJackson3}}{{^useJackson3}}JsonProcessingException{{/useJackson3}} e) {
-                throw new RuntimeException(e);
+                throw exceptionProvider.jacksonException(e);
             }
         }
         return parameterToMultiValueMap(collectionFormat, name, "[" + StringUtils.collectionToDelimitedString(values, collectionFormat.separator) + "]");
@@ -821,7 +847,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         for (String authName : authNames) {
             Authentication auth = authentications.get(authName);
             if (auth == null) {
-                throw new RestClientException("Authentication undefined: " + authName);
+                throw exceptionProvider.undefinedAuthenticationException(authName);
             }
             auth.applyToParams(queryParams, headerParams, cookieParams);
         }
