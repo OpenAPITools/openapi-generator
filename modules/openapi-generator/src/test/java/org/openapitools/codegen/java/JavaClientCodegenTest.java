@@ -1251,29 +1251,33 @@ public class JavaClientCodegenTest {
 
         final List<CodegenOperation> codegenOperations = paths.values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         final CodegenOperation getWithBasicAuthAndOauth = getByOperationId(codegenOperations, "getWithBasicAuthAndOauth");
-        assertEquals(getWithBasicAuthAndOauth.authMethods.size(), 3);
-        assertEquals(getWithBasicAuthAndOauth.authMethods.get(0).name, "basic_auth");
+        List<CodegenSecurity> sortedAuthMethods = new ArrayList<>(getWithBasicAuthAndOauth.authMethods);
+        sortedAuthMethods.sort(Comparator.comparing(am -> am.name));
+        assertEquals(sortedAuthMethods.size(), 3);
+        assertEquals(sortedAuthMethods.get(0).name, "basic_auth");
 
-        final Map<String, Object> passwordFlowScope = getWithBasicAuthAndOauth.authMethods.get(1).scopes.get(0);
+        final Map<String, Object> passwordFlowScope = sortedAuthMethods.get(1).scopes.get(0);
         assertEquals(passwordFlowScope.get("scope"), "something:create");
         assertEquals(passwordFlowScope.get("description"), "create from password flow");
 
-        final Map<String, Object> clientCredentialsFlow = getWithBasicAuthAndOauth.authMethods.get(2).scopes.get(0);
+        final Map<String, Object> clientCredentialsFlow = sortedAuthMethods.get(2).scopes.get(0);
         assertEquals(clientCredentialsFlow.get("scope"), "something:create");
         assertEquals(clientCredentialsFlow.get("description"), "create from client credentials flow");
 
         final CodegenOperation getWithOauthAuth = getByOperationId(codegenOperations, "getWithOauthAuth");
-        assertEquals(getWithOauthAuth.authMethods.size(), 2);
+        List<CodegenSecurity> sortedOauthAuthMethods = new ArrayList<>(getWithOauthAuth.authMethods);
+        sortedOauthAuthMethods.sort(Comparator.comparing(am -> am.name));
+        assertEquals(sortedOauthAuthMethods.size(), 2);
 
-        final Map<String, Object> passwordFlow = getWithOauthAuth.authMethods.get(0).scopes.get(0);
+        final Map<String, Object> passwordFlow = sortedOauthAuthMethods.get(0).scopes.get(0);
         assertEquals(passwordFlow.get("scope"), "something:create");
         assertEquals(passwordFlow.get("description"), "create from password flow");
 
-        final Map<String, Object> clientCredentialsCreateFlow = getWithOauthAuth.authMethods.get(1).scopes.get(0);
+        final Map<String, Object> clientCredentialsCreateFlow = sortedOauthAuthMethods.get(1).scopes.get(0);
         assertEquals(clientCredentialsCreateFlow.get("scope"), "something:create");
         assertEquals(clientCredentialsCreateFlow.get("description"), "create from client credentials flow");
 
-        final Map<String, Object> clientCredentialsProcessFlow = getWithOauthAuth.authMethods.get(1).scopes.get(1);
+        final Map<String, Object> clientCredentialsProcessFlow = sortedOauthAuthMethods.get(1).scopes.get(1);
         assertEquals(clientCredentialsProcessFlow.get("scope"), "something:process");
         assertEquals(clientCredentialsProcessFlow.get("description"), "process from client credentials flow");
     }

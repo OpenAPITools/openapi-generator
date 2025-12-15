@@ -10,7 +10,7 @@ edition = "2018"
 [features]
 default = ["client", "server"]
 client = [
-    "hyper", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
 ]
 server = [
    "serde_ignored", "hyper", "percent-encoding", "url",

@@ -28,15 +28,15 @@ module Petstore
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(@id : Int64?, @name : String?)
+    def initialize(@id : Int64? = nil, @name : String? = nil)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array(String).new
-      pattern = Regexp.new(/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/)
-      if !@name.nil? && @name !~ pattern
+      pattern = /^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/
+      if !@name.nil? && @name.try &.!~ pattern
         invalid_properties.push("invalid value for \"name\", must conform to the pattern #{pattern}.")
       end
 
@@ -46,14 +46,14 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@name.nil? && @name !~ Regexp.new(/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/)
+      return false if !@name.nil? && @name.try &.!~ /^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/
       true
     end
 
     # Custom attribute writer method with validation
     # @param [Object] name Value to be assigned
     def name=(name)
-      pattern = Regexp.new(/^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/)
+      pattern = /^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/
       if !name.nil? && name !~ pattern
         raise ArgumentError.new("invalid value for \"name\", must conform to the pattern #{pattern}.")
       end
@@ -157,44 +157,37 @@ module Petstore
     # Returns the string representation of the object
     # @return [String] String presentation of the object
     def to_s
-      to_hash.to_s
+      to_h.to_s
     end
 
-    # to_body is an alias to to_hash (backward compatibility)
+    # to_body is an alias to to_h (backward compatibility)
     # @return [Hash] Returns the object in the form of hash
     def to_body
-      to_hash
+      to_h
     end
 
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
-    def to_hash
-      hash = {} of Symbol => String
-      self.class.attribute_map.each_pair do |attr, param|
-        value = self.send(attr)
-        if value.nil?
-          is_nullable = self.class.openapi_nullable.includes?(attr)
-          next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
-        end
-
-        hash[param] = _to_hash(value)
-      end
-      hash
+    def to_h
+      hash = NetboxClient::RecursiveHash.new
+      hash["id"] = _to_h(id)
+      hash["name"] = _to_h(name)
+      hash.to_h
     end
 
     # Outputs non-array value in the form of hash
-    # For object, use to_hash. Otherwise, just return the value
+    # For object, use to_h. Otherwise, just return the value
     # @param [Object] value Any valid value
     # @return [Hash] Returns the value in the form of hash
-    def _to_hash(value)
-      if value.is_a?(Array)
-        value.compact.map { |v| _to_hash(v) }
-      elsif value.is_a?(Hash)
-        ({} of Symbol => String).tap do |hash|
-          value.each { |k, v| hash[k] = _to_hash(v) }
-        end
-      elsif value.respond_to? :to_hash
-        value.to_hash
+    private def _to_h(value)
+      if value.is_a?(Hash)
+        hash = NetboxClient::RecursiveHash.new
+        value.each { |k, v| hash[k] = _to_h(v) }
+        hash
+      elsif value.is_a?(Array)
+        value.compact.map { |v| _to_h(v) }
+      elsif value.responds_to?(:to_h)
+        value.to_h
       else
         value
       end
