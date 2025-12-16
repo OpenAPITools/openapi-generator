@@ -12,4 +12,4 @@ additionalProperties:
   useSpringBoot3: true
   skipDefaultInterface: true
   interfaceOnly: true
-  performBeanValidation: true,
+  performBeanValidation: true

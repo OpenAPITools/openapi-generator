@@ -15,6 +15,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
@@ -51,14 +52,14 @@ public class Pet {
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
-    @lombok.Builder.Default
+  @lombok.Builder.Default
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
-    @lombok.Builder.Default
+  @lombok.Builder.Default
   @Valid
   private List<@Valid Tag> tags = new ArrayList<>();
 
