@@ -2,21 +2,34 @@ package {{package}};
 
 import {{package}}.*;
 import {{modelPackage}}.*;
-{{#operations}}{{#operation}}{{#isMultipart}}import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-{{/isMultipart}}{{/operation}}{{/operations}}
+{{#vendorExtensions.x-enable-mcp-server}}
+import io.quarkiverse.mcp.server.Tool;
+import io.quarkiverse.mcp.server.ToolArg;
+import jakarta.enterprise.context.ApplicationScoped;
+import lombok.AllArgsConstructor;
+{{/vendorExtensions.x-enable-mcp-server}}
 
-{{#imports}}import {{import}};
+{{#operations}}
+{{#operation}}
+{{#isMultipart}}
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+{{/isMultipart}}
+{{/operation}}
+{{/operations}}
+
+{{#imports}}
+import {{import}};
 {{/imports}}
 
 import java.util.List;
 import {{package}}.NotFoundException;
-
 import java.io.InputStream;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;
 import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
+
 import {{javaxPackage}}.ws.rs.core.Response;
 import {{javaxPackage}}.ws.rs.core.SecurityContext;
 
@@ -24,9 +37,55 @@ import {{javaxPackage}}.ws.rs.core.SecurityContext;
 
 {{#operations}}
 public interface {{classname}}Service {
-  {{#operation}}
-      Response {{nickname}}({{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}{{#allParams}}{{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}{{/allParams}}SecurityContext securityContext)
-      throws NotFoundException;
-  {{/operation}}
+    {{#operation}}
+    Response {{nickname}}(
+        {{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}
+        {{#allParams}}
+        {{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}},{{/isMultipart}}{{#isMultipart}}{{^isFormParam}},{{/isFormParam}}{{/isMultipart}}
+        {{/allParams}}
+        SecurityContext securityContext
+    ) throws NotFoundException;
+
+    default Response {{nickname}}(
+        {{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}
+        {{#allParams}}
+        {{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}}{{^last}}, {{/last}}{{/isMultipart}}{{#isMultipart}}{{^isFormParam}}{{^last}}, {{/last}}{{/isFormParam}}{{/isMultipart}}
+        {{/allParams}}
+        String context
+    ) throws NotFoundException {
+        return {{nickname}}(
+            {{#isMultipart}}input,{{/isMultipart}}
+            {{#allParams}}{{paramName}},{{/allParams}}
+            (SecurityContext)null
+        );
+    }
+    {{/operation}}
 }
+{{#vendorExtensions.x-enable-mcp-server}}
+@ApplicationScoped
+@AllArgsConstructor
+class Mcp{{classname}}Service {
+    {{classname}}Service service;
+
+    {{#operation}}
+    {{#vendorExtensions.x-enable-mcp-operation}}
+    @Tool(description = "{{summary}}")
+    public Response {{nickname}}(
+        {{#isMultipart}}MultipartFormDataInput input,{{/isMultipart}}
+        {{#allParams}}
+        @ToolArg(description = "{{description}}", required = false)
+        {{>serviceQueryParams}}{{>servicePathParams}}{{>serviceHeaderParams}}{{>serviceBodyParams}}{{^isMultipart}}{{>serviceFormParams}}{{^last}}, {{/last}}{{/isMultipart}}{{#isMultipart}}{{^isFormParam}}{{^last}}, {{/last}}{{/isFormParam}}{{/isMultipart}}
+        {{/allParams}}
+        String context
+    ) throws NotFoundException {
+        return service.{{nickname}}(
+            {{#isMultipart}}input,{{/isMultipart}}
+            {{#allParams}}{{paramName}},{{/allParams}}
+            (SecurityContext)null
+        );
+    }
+    {{/vendorExtensions.x-enable-mcp-operation}}
+    {{/operation}}
+}
+{{/vendorExtensions.x-enable-mcp-server}}
 {{/operations}}
