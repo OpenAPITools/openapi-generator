@@ -14,9 +14,7 @@
   {{#isPassword}}
   @lombok.ToString.Exclude
   {{/isPassword}}
-  {{^isContainer}}
-    {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
-  {{/isContainer}}
+  {{^isContainer}}{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}{{/isContainer}}
   {{^useBeanValidation}}
     {{#required}}
       @lombok.NonNull
