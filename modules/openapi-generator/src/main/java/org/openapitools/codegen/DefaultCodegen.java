@@ -527,7 +527,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (ModelMap mo : modelsAttrs.getModels()) {
                     CodegenModel cm = mo.getModel();
                     if (cm.oneOf.size() > 0) {
-                        cm.vendorExtensions.put("x-is-one-of-interface", true);
+                        cm.vendorExtensions.put(X_IS_ONE_OF_INTERFACE, true);
                         for (String one : cm.oneOf) {
                             if (!additionalDataMap.containsKey(one)) {
                                 additionalDataMap.put(one, new OneOfImplementorAdditionalData(one));
@@ -2348,8 +2348,8 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String toOneOfName(List<String> names, Schema composedSchema) {
         Map<String, Object> exts = composedSchema.getExtensions();
-        if (exts != null && exts.containsKey("x-one-of-name")) {
-            return (String) exts.get("x-one-of-name");
+        if (exts != null && exts.containsKey(X_ONE_OF_NAME)) {
+            return (String) exts.get(X_ONE_OF_NAME);
         }
         return "oneOf<" + String.join(",", names) + ">";
     }
@@ -3548,8 +3548,8 @@ public class DefaultCodegen implements CodegenConfig {
                     once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
                 } else {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
-                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
-                        String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
+                    if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey(X_DISCRIMINATOR_VALUE)) {
+                        String xDiscriminatorValue = (String) vendorExtensions.get(X_DISCRIMINATOR_VALUE);
                         mm = new MappedModel(xDiscriminatorValue, toModelName(modelName), true);
                         descendentSchemas.add(mm);
                     }
@@ -3605,7 +3605,7 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Object> vendorExtensions = cs.getExtensions();
             String mappingName =
                     Optional.ofNullable(vendorExtensions)
-                            .map(ve -> ve.get("x-discriminator-value"))
+                            .map(ve -> ve.get(X_DISCRIMINATOR_VALUE))
                             .map(discriminatorValue -> (String) discriminatorValue)
                             .orElse(currentSchemaName);
             MappedModel mm = new MappedModel(mappingName, toModelName(currentSchemaName), !mappingName.equals(currentSchemaName));
@@ -4098,8 +4098,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (referencedSchema.getNullable() != null) {
             property.isNullable = referencedSchema.getNullable();
         } else if (referencedSchema.getExtensions() != null &&
-                referencedSchema.getExtensions().containsKey("x-nullable")) {
-            property.isNullable = (Boolean) referencedSchema.getExtensions().get("x-nullable");
+                referencedSchema.getExtensions().containsKey(X_NULLABLE)) {
+            property.isNullable = (Boolean) referencedSchema.getExtensions().get(X_NULLABLE);
         }
 
         final XML referencedSchemaXml = referencedSchema.getXml();
@@ -4201,8 +4201,8 @@ public class DefaultCodegen implements CodegenConfig {
             // evaluate common attributes if defined in the top level
             if (p.getNullable() != null) {
                 property.isNullable = p.getNullable();
-            } else if (p.getExtensions() != null && p.getExtensions().containsKey("x-nullable")) {
-                property.isNullable = (Boolean) p.getExtensions().get("x-nullable");
+            } else if (p.getExtensions() != null && p.getExtensions().containsKey(X_NULLABLE)) {
+                property.isNullable = (Boolean) p.getExtensions().get(X_NULLABLE);
             }
 
             if (p.getReadOnly() != null) {
@@ -8047,8 +8047,8 @@ public class DefaultCodegen implements CodegenConfig {
             // evaluate common attributes such as description if defined in the top level
             if (original.getNullable() != null) {
                 codegenParameter.isNullable = original.getNullable();
-            } else if (original.getExtensions() != null && original.getExtensions().containsKey("x-nullable")) {
-                codegenParameter.isNullable = (Boolean) original.getExtensions().get("x-nullable");
+            } else if (original.getExtensions() != null && original.getExtensions().containsKey(X_NULLABLE)) {
+                codegenParameter.isNullable = (Boolean) original.getExtensions().get(X_NULLABLE);
             }
 
             if (original.getExtensions() != null) {
@@ -8464,7 +8464,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void addOneOfNameExtension(Schema schema, String name) {
         if (schema.getOneOf() != null && schema.getOneOf().size() > 0) {
-            schema.addExtension("x-one-of-name", name);
+            schema.addExtension(X_ONE_OF_NAME, name);
         }
     }
 
@@ -8498,7 +8498,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         cm.name = type;
         cm.classname = type;
-        cm.vendorExtensions.put("x-is-one-of-interface", true);
+        cm.vendorExtensions.put(X_IS_ONE_OF_INTERFACE, true);
         cm.interfaceModels = new ArrayList<>();
 
         addOneOfInterfaces.add(cm);

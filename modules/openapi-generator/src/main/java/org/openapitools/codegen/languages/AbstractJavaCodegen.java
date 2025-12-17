@@ -71,6 +71,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.ModelUtils.getSchemaItems;
 import static org.openapitools.codegen.utils.OnceLogger.once;
@@ -1997,8 +1998,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
             if (this.serializableModel) {
-                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+                cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
+                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Serializable");
             }
         }
 
