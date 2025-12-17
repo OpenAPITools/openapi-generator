@@ -763,8 +763,13 @@ public class CrystalClientCodegen extends DefaultCodegen {
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
-            return oneOf;
+            if (modelMaps.get(subModel) == null) {
+                LOGGER.warn("Cannot find codegen for SubModel: {} (model: {})", subModel, model);
+                return "";
+            } else {
+                String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+                return oneOf;
+            }
         } else {
             processedModelMap.put(model, 1);
         }
