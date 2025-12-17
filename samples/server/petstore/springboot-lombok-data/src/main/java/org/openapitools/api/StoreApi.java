@@ -19,22 +19,29 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import jakarta.annotation.Generated;
+import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 @Validated
 @Tag(name = "store", description = "Access to Petstore orders")
 public interface StoreApi {
+
+    default Optional<NativeWebRequest> getRequest() {
+        return Optional.empty();
+    }
 
     String PATH_DELETE_ORDER = "/store/order/{orderId}";
     /**
@@ -59,9 +66,12 @@ public interface StoreApi {
         method = RequestMethod.DELETE,
         value = StoreApi.PATH_DELETE_ORDER
     )
-    ResponseEntity<Void> deleteOrder(
+    default ResponseEntity<Void> deleteOrder(
         @NotNull @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
-    );
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     String PATH_GET_INVENTORY = "/store/inventory";
@@ -90,9 +100,12 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    ResponseEntity<Map<String, Integer>> getInventory(
+    default ResponseEntity<Map<String, Integer>> getInventory(
         
-    );
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     String PATH_GET_ORDER_BY_ID = "/store/order/{orderId}";
@@ -124,9 +137,26 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> getOrderById(
+    default ResponseEntity<Order> getOrderById(
         @NotNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
-    );
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 
     String PATH_PLACE_ORDER = "/store/order";
@@ -157,8 +187,25 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Order> placeOrder(
+    default ResponseEntity<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
-    );
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
 
 }

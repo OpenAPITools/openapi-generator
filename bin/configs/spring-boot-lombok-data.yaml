@@ -9,7 +9,3 @@ additionalProperties:
   additionalModelTypeAnnotations: "@lombok.Data;@lombok.Builder;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor"
   generateConstructorWithAllArgs: true
   generateBuilders: true
-  useSpringBoot3: true
-  skipDefaultInterface: true
-  interfaceOnly: true
-  performBeanValidation: true
