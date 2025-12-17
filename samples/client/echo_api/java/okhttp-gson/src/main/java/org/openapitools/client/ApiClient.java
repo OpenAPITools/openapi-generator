@@ -1325,7 +1325,7 @@ public class ApiClient {
             if (serverIndex != null) {
                 if (serverIndex < 0 || serverIndex >= servers.size()) {
                     throw new ArrayIndexOutOfBoundsException(String.format(
-                        Locale.ROOT,
+                        java.util.Locale.ROOT,
                         "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
                     ));
                 }
@@ -1398,11 +1398,11 @@ public class ApiClient {
      */
     public void processCookieParams(Map<String, String> cookieParams, Request.Builder reqBuilder) {
         for (Entry<String, String> param : cookieParams.entrySet()) {
-            reqBuilder.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
+            reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
         }
         for (Entry<String, String> param : defaultCookieMap.entrySet()) {
             if (!cookieParams.containsKey(param.getKey())) {
-                reqBuilder.addHeader("Cookie", String.format(Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
+                reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
             }
         }
     }

@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -221,14 +220,14 @@ public class Query {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `outcomes` to the URL query string
     if (getOutcomes() != null) {
       for (int i = 0; i < getOutcomes().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%soutcomes%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%soutcomes%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getOutcomes().get(i)))));
       }
     }

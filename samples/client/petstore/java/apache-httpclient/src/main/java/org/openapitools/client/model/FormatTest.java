@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -635,7 +634,7 @@ public class FormatTest {
     // add `integer` to the URL query string
     if (getInteger() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sinteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInteger()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sinteger%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInteger()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -645,7 +644,7 @@ public class FormatTest {
     // add `int32` to the URL query string
     if (getInt32() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sint32%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt32()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sint32%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt32()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -655,7 +654,7 @@ public class FormatTest {
     // add `int64` to the URL query string
     if (getInt64() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sint64%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt64()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sint64%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getInt64()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -665,7 +664,7 @@ public class FormatTest {
     // add `number` to the URL query string
     if (getNumber() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -675,7 +674,7 @@ public class FormatTest {
     // add `float` to the URL query string
     if (getFloat() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -685,7 +684,7 @@ public class FormatTest {
     // add `double` to the URL query string
     if (getDouble() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -695,7 +694,7 @@ public class FormatTest {
     // add `decimal` to the URL query string
     if (getDecimal() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDecimal()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdecimal%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDecimal()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -705,7 +704,7 @@ public class FormatTest {
     // add `string` to the URL query string
     if (getString() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sstring%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getString()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sstring%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getString()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -715,7 +714,7 @@ public class FormatTest {
     // add `byte` to the URL query string
     if (getByte() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sbyte%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getByte()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sbyte%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getByte()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -725,7 +724,7 @@ public class FormatTest {
     // add `binary` to the URL query string
     if (getBinary() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sbinary%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBinary()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sbinary%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getBinary()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -735,7 +734,7 @@ public class FormatTest {
     // add `date` to the URL query string
     if (getDate() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdate%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDate()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -745,7 +744,7 @@ public class FormatTest {
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDateTime()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -755,7 +754,7 @@ public class FormatTest {
     // add `uuid` to the URL query string
     if (getUuid() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%suuid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUuid()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -765,7 +764,7 @@ public class FormatTest {
     // add `password` to the URL query string
     if (getPassword() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%spassword%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPassword()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -775,7 +774,7 @@ public class FormatTest {
     // add `pattern_with_digits` to the URL query string
     if (getPatternWithDigits() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigits()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%spattern_with_digits%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigits()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -785,7 +784,7 @@ public class FormatTest {
     // add `pattern_with_digits_and_delimiter` to the URL query string
     if (getPatternWithDigitsAndDelimiter() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigitsAndDelimiter()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPatternWithDigitsAndDelimiter()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

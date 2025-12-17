@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -326,32 +325,32 @@ public class Order {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `petId` to the URL query string
     if (getPetId() != null) {
-      joiner.add(String.format(Locale.ROOT, "%spetId%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPetId()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%spetId%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPetId()))));
     }
 
     // add `quantity` to the URL query string
     if (getQuantity() != null) {
-      joiner.add(String.format(Locale.ROOT, "%squantity%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuantity()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%squantity%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getQuantity()))));
     }
 
     // add `shipDate` to the URL query string
     if (getShipDate() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sshipDate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShipDate()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sshipDate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getShipDate()))));
     }
 
     // add `status` to the URL query string
     if (getStatus() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sstatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStatus()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sstatus%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStatus()))));
     }
 
     // add `complete` to the URL query string
     if (getComplete() != null) {
-      joiner.add(String.format(Locale.ROOT, "%scomplete%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getComplete()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%scomplete%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getComplete()))));
     }
 
     return joiner.toString();

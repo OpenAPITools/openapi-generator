@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -176,7 +175,7 @@ public class ChildWithNullable extends ParentWithNullable {
     // add `type` to the URL query string
     if (getType() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%stype%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getType()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%stype%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getType()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -186,7 +185,7 @@ public class ChildWithNullable extends ParentWithNullable {
     // add `nullableProperty` to the URL query string
     if (getNullableProperty() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%snullableProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableProperty()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%snullableProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNullableProperty()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -196,7 +195,7 @@ public class ChildWithNullable extends ParentWithNullable {
     // add `otherProperty` to the URL query string
     if (getOtherProperty() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sotherProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOtherProperty()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sotherProperty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOtherProperty()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

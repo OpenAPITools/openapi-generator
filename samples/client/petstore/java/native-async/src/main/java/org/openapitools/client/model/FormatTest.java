@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -623,82 +622,82 @@ public class FormatTest {
 
     // add `integer` to the URL query string
     if (getInteger() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sinteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInteger()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sinteger%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInteger()))));
     }
 
     // add `int32` to the URL query string
     if (getInt32() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sint32%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt32()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sint32%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt32()))));
     }
 
     // add `int64` to the URL query string
     if (getInt64() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sint64%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt64()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sint64%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getInt64()))));
     }
 
     // add `number` to the URL query string
     if (getNumber() != null) {
-      joiner.add(String.format(Locale.ROOT, "%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%snumber%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumber()))));
     }
 
     // add `float` to the URL query string
     if (getFloat() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sfloat%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getFloat()))));
     }
 
     // add `double` to the URL query string
     if (getDouble() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdouble%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDouble()))));
     }
 
     // add `decimal` to the URL query string
     if (getDecimal() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdecimal%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDecimal()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdecimal%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDecimal()))));
     }
 
     // add `string` to the URL query string
     if (getString() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sstring%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getString()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sstring%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getString()))));
     }
 
     // add `byte` to the URL query string
     if (getByte() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sbyte%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getByte()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbyte%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getByte()))));
     }
 
     // add `binary` to the URL query string
     if (getBinary() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbinary%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBinary()))));
     }
 
     // add `date` to the URL query string
     if (getDate() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdate%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDate()))));
     }
 
     // add `dateTime` to the URL query string
     if (getDateTime() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdateTime%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateTime()))));
     }
 
     // add `uuid` to the URL query string
     if (getUuid() != null) {
-      joiner.add(String.format(Locale.ROOT, "%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%suuid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getUuid()))));
     }
 
     // add `password` to the URL query string
     if (getPassword() != null) {
-      joiner.add(String.format(Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%spassword%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPassword()))));
     }
 
     // add `pattern_with_digits` to the URL query string
     if (getPatternWithDigits() != null) {
-      joiner.add(String.format(Locale.ROOT, "%spattern_with_digits%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigits()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%spattern_with_digits%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigits()))));
     }
 
     // add `pattern_with_digits_and_delimiter` to the URL query string
     if (getPatternWithDigitsAndDelimiter() != null) {
-      joiner.add(String.format(Locale.ROOT, "%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%spattern_with_digits_and_delimiter%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getPatternWithDigitsAndDelimiter()))));
     }
 
     return joiner.toString();

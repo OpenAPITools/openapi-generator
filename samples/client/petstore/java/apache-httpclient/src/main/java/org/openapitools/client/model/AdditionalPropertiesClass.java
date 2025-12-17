@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -190,8 +189,8 @@ public class AdditionalPropertiesClass {
     if (getMapProperty() != null) {
       for (String _key : getMapProperty().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%smap_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
@@ -204,8 +203,8 @@ public class AdditionalPropertiesClass {
     if (getMapOfMapProperty() != null) {
       for (String _key : getMapOfMapProperty().keySet()) {
         try {
-          joiner.add(String.format(Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
-              "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+          joiner.add(String.format(java.util.Locale.ROOT, "%smap_of_map_property%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
               getMapOfMapProperty().get(_key), URLEncoder.encode(String.valueOf(getMapOfMapProperty().get(_key)), "UTF-8").replaceAll("\\+", "%20")));
         } catch (UnsupportedEncodingException e) {
           // Should never happen, UTF-8 is always supported
