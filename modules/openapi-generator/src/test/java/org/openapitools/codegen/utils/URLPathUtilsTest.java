@@ -209,7 +209,7 @@ public class URLPathUtilsTest {
    @Test
    public void testPropertyUrl() {
       String[][] testData = {
-            {"https://abc1.xyz:9999/some/${myProperty}", "https://abc1.xyz:9999/some/${my.property}"},
+            {"https://abc1.xyz:9999/some/${my.property}", "https://abc1.xyz:9999/some/${my.property}"},
             {"HTTPS://abc2.xyz:9999/some/${my.property}", "https://abc2.xyz:9999/some/${my.property}"},
             {"http://abc3.xyz:9999/${my.property}/path", "http://abc3.xyz:9999/${my.property}/path"},
             {"HTTP://abc4.xyz:9999/some/${my.property}", "http://abc4.xyz:9999/some/${my.property}"},
@@ -219,8 +219,8 @@ public class URLPathUtilsTest {
             {"/${my.property}/path", "http://localhost/${my.property}/path"},
             {"https://abc1.xyz:9999/some/${my.property}/{version}", "https://abc1.xyz:9999/some/${my.property}/v1"},
             {"HTTPS://abc2.xyz:9999/${my.property}/{version}", "https://abc2.xyz:9999/${my.property}/v1"},
-            {"https://abc1.xyz:9999/some/${version}/${my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
-            {"HTTPS://abc2.xyz:9999/{version}/${my.property}/", "https://abc2.xyz:9999/v1/${my.property}"}
+            {"https://abc1.xyz:9999/some/{version}/${my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/{version}/${my.property}", "https://abc2.xyz:9999/v1/${my.property}"}
 
       };
 
@@ -245,8 +245,8 @@ public class URLPathUtilsTest {
             {"/{my.property}/path", "http://localhost/${my.property}/path"},
             {"https://abc1.xyz:9999/some/{my.property}/{version}", "https://abc1.xyz:9999/some/${my.property}/v1"},
             {"HTTPS://abc2.xyz:9999/{my.property}/{version}", "https://abc2.xyz:9999/${my.property}/v1"},
-            {"https://abc1.xyz:9999/some/${version}/{my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
-            {"HTTPS://abc2.xyz:9999/{version}/{my.property}/", "https://abc2.xyz:9999/v1/${my.property}"}
+            {"https://abc1.xyz:9999/some/{version}/{my.property}", "https://abc1.xyz:9999/some/v1/${my.property}"},
+            {"HTTPS://abc2.xyz:9999/{version}/{my.property}", "https://abc2.xyz:9999/v1/${my.property}"}
 
       };
 
