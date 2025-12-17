@@ -87,6 +87,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     private static final String problemJsonMimeType = "application/problem+json";
     private static final String problemXmlMimeType = "application/problem+xml";
 
+    // Track if we have models with conflicting names (Ok/Err) that conflict with serde_valid
+    private boolean hasConflictingModelNames = false;
+
     public RustServerCodegen() {
         super();
 
@@ -942,6 +945,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             if (param.contentType != null && isMimetypeJson(param.contentType)) {
                 param.vendorExtensions.put("x-consumes-json", true);
             }
+
+            // Add a vendor extension to flag if this can have validate() run on it.
+            if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+                param.vendorExtensions.put("x-can-validate", true);
+            }
         }
 
         for (CodegenParameter param : op.formParams) {
@@ -1455,8 +1463,20 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        // Check for reserved field names that conflict with serde_valid macro internals
+        if ("ok".equalsIgnoreCase(property.name) || "err".equalsIgnoreCase(property.name)) {
+            model.vendorExtensions.put("x-skip-serde-valid", true);
+        }
+
+        // Mark properties that reference complex types (models) for nested validation
+        // Only add nested validation for types that reference generated models (contain "models::")
+        if (property.dataType != null && property.dataType.contains("models::")) {
+            property.vendorExtensions.put("x-needs-nested-validation", true);
+        }
+
         // TODO: We should avoid reverse engineering primitive type status from the data type
-        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
+        String strippedType = stripNullable(property.dataType);
+        if (!languageSpecificPrimitives.contains(strippedType)) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1529,7 +1549,32 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return super.postProcessModelsEnum(objs);
+        ModelsMap result = super.postProcessModelsEnum(objs);
+
+        // Check for model names that conflict with serde_valid macro internals
+        // Once we find one, set a class-level flag that persists across all model batches
+        if (!hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if ("Ok".equalsIgnoreCase(model.classname) || "Err".equalsIgnoreCase(model.classname)) {
+                    hasConflictingModelNames = true;
+                    additionalProperties.put("hasConflictingModelNames", true);
+                    break;
+                }
+            }
+        }
+
+        // If there are conflicting names (detected in any batch), skip serde_valid for ALL models
+        if (hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                model.vendorExtensions.put("x-skip-serde-valid", true);
+            }
+            // Set the flag for this batch's template context
+            result.put("hasConflictingModelNames", true);
+        }
+
+        return result;
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
@@ -1613,6 +1658,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             param.vendorExtensions.put("x-format-string", "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
             param.vendorExtensions.put("x-example", exampleString);
+        }
+
+        // Add a vendor extension to flag if this can have validate() run on it.
+        if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+           param.vendorExtensions.put("x-can-validate", true);
         }
     }
 

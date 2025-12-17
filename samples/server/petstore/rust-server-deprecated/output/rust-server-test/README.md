@@ -149,6 +149,8 @@ Method | HTTP request | Description
  - [GetYamlResponse](docs/GetYamlResponse.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
+ - [UnnamedAllofUnderProperties](docs/UnnamedAllofUnderProperties.md)
+ - [UnnamedReference](docs/UnnamedReference.md)
 
 
 ## Documentation For Authorization

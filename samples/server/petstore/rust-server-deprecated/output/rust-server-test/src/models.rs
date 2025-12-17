@@ -1305,3 +1305,298 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         }
     }
 }
+
+/// Model for testing allOf references inside properties
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UnnamedAllofUnderProperties {
+    #[serde(rename = "name")]
+    #[validate(
+            range(min = 5, max = 30),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<u32>,
+
+}
+
+
+impl UnnamedAllofUnderProperties {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> UnnamedAllofUnderProperties {
+        UnnamedAllofUnderProperties {
+            name: None,
+        }
+    }
+}
+
+/// Converts the UnnamedAllofUnderProperties value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for UnnamedAllofUnderProperties {
+    fn to_string(&self) -> String {
+        let params: Vec<Option<String>> = vec![
+            self.name.as_ref().map(|name| {
+                [
+                    "name".to_string(),
+                    name.to_string(),
+                ].join(",")
+            }),
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UnnamedAllofUnderProperties value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for UnnamedAllofUnderProperties {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub name: Vec<u32>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing UnnamedAllofUnderProperties".to_string())
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    #[allow(clippy::redundant_clone)]
+                    "name" => intermediate_rep.name.push(<u32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing UnnamedAllofUnderProperties".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(UnnamedAllofUnderProperties {
+            name: intermediate_rep.name.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UnnamedAllofUnderProperties> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UnnamedAllofUnderProperties>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UnnamedAllofUnderProperties>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UnnamedAllofUnderProperties - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UnnamedAllofUnderProperties> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UnnamedAllofUnderProperties as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into UnnamedAllofUnderProperties - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UnnamedAllofUnderProperties>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UnnamedAllofUnderProperties> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UnnamedAllofUnderProperties as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into UnnamedAllofUnderProperties - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct UnnamedReference(i32);
+
+impl std::convert::From<i32> for UnnamedReference {
+    fn from(x: i32) -> Self {
+        UnnamedReference(x)
+    }
+}
+
+impl std::convert::From<UnnamedReference> for i32 {
+    fn from(x: UnnamedReference) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for UnnamedReference {
+    type Target = i32;
+    fn deref(&self) -> &i32 {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for UnnamedReference {
+    fn deref_mut(&mut self) -> &mut i32 {
+        &mut self.0
+    }
+}
+
+/// Converts the UnnamedReference value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for UnnamedReference {
+    fn to_string(&self) -> String {
+        self.0.to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a UnnamedReference value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for UnnamedReference {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match std::str::FromStr::from_str(s) {
+             std::result::Result::Ok(r) => std::result::Result::Ok(UnnamedReference(r)),
+             std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {s} to UnnamedReference: {e:?}")),
+        }
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<UnnamedReference> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<UnnamedReference>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<UnnamedReference>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for UnnamedReference - value: {hdr_value} is invalid {e}"))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<UnnamedReference> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <UnnamedReference as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{value}' into UnnamedReference - {err}"))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {hdr_value:?} to string: {e}"))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UnnamedReference>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<UnnamedReference>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {hdr_values:?} into a header - {e}"))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UnnamedReference>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<UnnamedReference> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <UnnamedReference as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{hdr_value}' into UnnamedReference - {err}"))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {hdr_values:?} as a string - {e}")),
+        }
+    }
+}

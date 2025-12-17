@@ -57,3 +57,7 @@
                                                         .expect("Unable to create Bad Request response for missing body parameter {{{baseName}}}")),
                                 };
         {{/required}}
+        {{#exts.x-can-validate}}
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_{{{paramName}}}, "{{{baseName}}}", validation);
+        {{/exts.x-can-validate}}
