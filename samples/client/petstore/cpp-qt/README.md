@@ -27,13 +27,14 @@ example.h:
 ```c++
 
 #include <iostream>
-#include "../client/PFXPetApi.h"
+#include "../client/PFXFakeApi.h"
 
 using namespace test_namespace;
 
 class Example : public QObject {
     Q_OBJECT
-    PFXPet create();
+    QString create();
+    PFXEnumStatus create();
 public Q_SLOTS:
    void exampleFunction1();
 };
@@ -43,32 +44,43 @@ public Q_SLOTS:
 example.cpp:
 ```c++
 
-#include "../client/PFXPetApi.h"
+#include "../client/PFXFakeApi.h"
 #include "example.h"
 #include <QTimer>
 #include <QEventLoop>
 
-PFXPet Example::create(){
-    PFXPet obj;
+QString Example::create(){
+    QString obj;
+PFXEnumStatus Example::create(){
+    PFXEnumStatus obj;
  return obj;
 }
 
 void Example::exampleFunction1(){
-     PFXPetApi apiInstance;
+     PFXFakeApi apiInstance;
      
-      //OAuth Authentication supported right now
-
       QEventLoop loop;
-      connect(&apiInstance, &PFXPetApi::addPetSignal, [&]() {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
           loop.quit();
       });
-      connect(&apiInstance, &PFXPetApi::addPetSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
           qDebug() << "Error happened while issuing request : " << error_str;
           loop.quit();
       });
 
-      PFXPet pfx_pet = create(); // PFXPet | Pet object that needs to be added to the store
-      apiInstance.addPet(pfx_pet);
+      QString enum_inline = create(); // QString | Enum status inline
+
+      QEventLoop loop;
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
+          loop.quit();
+      });
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+          qDebug() << "Error happened while issuing request : " << error_str;
+          loop.quit();
+      });
+
+      PFXEnumStatus enum_ref = create(); // PFXEnumStatus | Enum status
+      apiInstance.getEnumInlineOrRef(enum_inlineenum_ref);
       QTimer::singleShot(5000, &loop, &QEventLoop::quit);
       loop.exec();
   }
