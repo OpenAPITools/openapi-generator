@@ -572,6 +572,35 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
+  "/fake/enum_inline_or_ref":
+    get:
+      tags:
+        - fake
+      summary: fake endpoint to test enum (inline or ref)
+      description: ""
+      operationId: get_enum_inline_or_ref
+      parameters:
+        - name: enum_inline
+          in: query
+          description: Enum status inline
+          schema:
+            type: string
+            enum:
+              - placed
+              - approved
+              - delivered
+        - name: enum_ref
+          in: query
+          description: Enum status
+          schema:
+            $ref: "#/components/schemas/EnumStatus"
+      responses:
+        "200":
+          description: successful operation
+        "400":
+          description: Invalid username supplied
+        "404":
+          description: User not found
 servers:
   - url: http://petstore.swagger.io/v2
   - url: http://localhost:8080/v2
@@ -610,6 +639,13 @@ components:
       name: api_key
       in: header
   schemas:
+    EnumStatus:
+      type: string
+      description: Order Status
+      enum:
+        - placed
+        - approved
+        - delivered
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
