@@ -11,6 +11,7 @@ components:
         - VALUE1
         - VALUE2
     ModelWithEnums:
+      type: object
       properties:
         referenceEnumProperty:
           $ref: "#/components/schemas/SeparatedEnum"
@@ -30,3 +31,36 @@ components:
               enum:
                 - VALUE5
                 - VALUE6
+    DiscriminatedModel:
+      type: object
+      properties:
+        commonProperty:
+          type: string
+        modelType:
+          type: string
+      discriminator:
+        propertyName: modelType
+        mapping:
+          typeA: "#/components/schemas/ModelTypeAWithInlineEnum"
+          typeB: "#/components/schemas/ModelTypeBWithInlineEnum"
+    ModelTypeAWithInlineEnum:
+      allOf: 
+        -  $ref: "#/components/schemas/DiscriminatedModel"
+        - type: object
+          properties:
+            specificPropertyA:
+              type: string
+            inlineEnumProperty:
+              type: string
+              enum:
+                - VALUE7
+                - VALUE8
+    ModelTypeBWithInlineEnum:
+      allOf: 
+        -  $ref: "#/components/schemas/DiscriminatedModel"
+        - type: object
+          properties:
+            specificPropertyB:
+              type: string
+            referenceEnumPropertyB:
+              $ref: "#/components/schemas/SeparatedEnum"

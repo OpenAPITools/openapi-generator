@@ -47,7 +47,7 @@ import public "{{{.}}}.proto";
   }
 
   {{/vendorExtensions.x-protobuf-enum-reference-import}}
-  {{enumName}} {{name}} = {{vendorExtensions.x-protobuf-index}};
+  {{#vendorExtensions.x-protobuf-type}}{{{.}}} {{/vendorExtensions.x-protobuf-type}}{{{vendorExtensions.x-protobuf-data-type}}} {{name}} = {{vendorExtensions.x-protobuf-index}};
   {{/isEnum}}
 
   {{/vars}}

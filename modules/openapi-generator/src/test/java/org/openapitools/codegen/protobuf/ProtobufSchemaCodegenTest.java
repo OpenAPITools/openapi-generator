@@ -484,6 +484,7 @@ public class ProtobufSchemaCodegenTest {
         System.setProperty("line.separator", "\n");
 
         File output = Files.createTempDirectory("test").toFile();
+        System.out.println("ExtractEnums Temporary output directory: " + output.getAbsolutePath());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
@@ -496,9 +497,10 @@ public class ProtobufSchemaCodegenTest {
         List<File> files = generator.opts(clientOptInput).generate();
 
         // Check that separate enum files were generated
+        // With the new naming scheme, inline enum names include the parent model prefix
         TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
-        TestUtils.ensureContainsFile(files, output, "models/inline_enum_property.proto");
-        TestUtils.ensureContainsFile(files, output, "models/another_inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/model_with_enums_inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums_another_inline_enum_property.proto");
         
         // Check that the model file was generated
         TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
@@ -512,8 +514,13 @@ public class ProtobufSchemaCodegenTest {
         // Verify that the model imports the separated enum files
         Assert.assertTrue(modelContent.contains("import public \"models/separated_enum.proto\";"), 
             "Model should import the separated enum file");
-        Assert.assertTrue(modelContent.contains("import public \"models/inline_enum_property.proto\";"), 
-            "Model should import the inline enum file");
+        Assert.assertTrue(modelContent.contains("import public \"models/model_with_enums_inline_enum_property.proto\";"), 
+            "Model should import the inline enum file with parent model prefix");
+        
+        // Verify that the model uses the correct enum reference with .Enum suffix
+        // With the new naming scheme, inline enums use ParentModelName_FieldName format
+        Assert.assertTrue(modelContent.contains("ModelWithEnums_InlineEnumProperty.Enum"), 
+            "Model should reference extracted enum with .Enum suffix and parent model prefix");
 
         // Check the AllOfModel file
         TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
@@ -521,32 +528,40 @@ public class ProtobufSchemaCodegenTest {
         String allOfModelContent = new String(Files.readAllBytes(allOfModelPath), StandardCharsets.UTF_8);
 
         // Verify that the allOf model imports the separated enum files
-        Assert.assertTrue(allOfModelContent.contains("import public \"models/another_inline_enum_property.proto\";"), 
-            "AllOf model should import its inline enum file");
+        Assert.assertTrue(allOfModelContent.contains("import public \"models/all_of_model_with_enums_another_inline_enum_property.proto\";"), 
+            "AllOf model should import its inline enum file with parent model prefix");
 
         // Verify the separated enum file content
         Path separatedEnumPath = Paths.get(output + "/models/separated_enum.proto");
         String separatedEnumContent = new String(Files.readAllBytes(separatedEnumPath), StandardCharsets.UTF_8);
         Assert.assertTrue(separatedEnumContent.contains("package openapitools;"), 
             "Separated enum file should contain a valid package declaration");
-        Assert.assertTrue(separatedEnumContent.contains("enum SeparatedEnum"), 
-            "Separated enum file should contain the enum definition");
-        Assert.assertTrue(separatedEnumContent.contains("VALUE1"), 
-            "Separated enum should contain VALUE1");
-        Assert.assertTrue(separatedEnumContent.contains("VALUE2"), 
-            "Separated enum should contain VALUE2");
+        Assert.assertTrue(separatedEnumContent.contains("message SeparatedEnum"), 
+            "Separated enum file should contain the message wrapper");
+        Assert.assertTrue(separatedEnumContent.contains("enum Enum {"), 
+            "Separated enum file should contain inner Enum definition");
+        Assert.assertTrue(separatedEnumContent.contains("SEPARATED_ENUM_VALUE1"), 
+            "Separated enum should contain SEPARATED_ENUM_VALUE1");
+        Assert.assertTrue(separatedEnumContent.contains("SEPARATED_ENUM_VALUE2"), 
+            "Separated enum should contain SEPARATED_ENUM_VALUE2");
 
-        // Verify the inline enum file content
-        Path inlineEnumPath = Paths.get(output + "/models/inline_enum_property.proto");
+        // Verify the inline enum file content - uses parent model name prefix
+        Path inlineEnumPath = Paths.get(output + "/models/model_with_enums_inline_enum_property.proto");
         String inlineEnumContent = new String(Files.readAllBytes(inlineEnumPath), StandardCharsets.UTF_8);
         Assert.assertTrue(inlineEnumContent.contains("package openapitools;"), 
             "Inline enum file should contain a valid package declaration");
-        Assert.assertTrue(inlineEnumContent.contains("enum InlineEnumProperty"), 
-            "Inline enum file should contain the enum definition");
-        Assert.assertTrue(inlineEnumContent.contains("VALUE3"), 
-            "Inline enum should contain VALUE3");
-        Assert.assertTrue(inlineEnumContent.contains("VALUE4"), 
-            "Inline enum should contain VALUE4");
+        Assert.assertTrue(inlineEnumContent.contains("message ModelWithEnums_InlineEnumProperty"), 
+            "Inline enum file should contain the message wrapper with parent model prefix");
+        Assert.assertTrue(inlineEnumContent.contains("enum Enum {"), 
+            "Inline enum file should contain inner Enum definition");
+        // Note: Enum values keep the prefixes from the original field name, not parent+field
+        // since they are already scoped within the message wrapper
+        Assert.assertTrue(inlineEnumContent.contains("INLINE_ENUM_PROPERTY_VALUE2"), 
+            "Inline enum should contain enum value");
+        Assert.assertTrue(inlineEnumContent.contains("INLINE_ENUM_PROPERTY_VALUE3"), 
+            "Inline enum should contain enum value");
+        Assert.assertTrue(inlineEnumContent.contains("INLINE_ENUM_PROPERTY_VALUE4"), 
+            "Inline enum should contain enum value");
 
         output.deleteOnExit();
     }
@@ -557,6 +572,7 @@ public class ProtobufSchemaCodegenTest {
         System.setProperty("line.separator", "\n");
 
         File output = Files.createTempDirectory("test").toFile();
+        System.out.println("With combined options Temporary output directory: " + output.getAbsolutePath());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
@@ -571,10 +587,10 @@ public class ProtobufSchemaCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        // Check that separate enum files were generated
+        // Check that separate enum files were generated with parent model prefix
         TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
-        TestUtils.ensureContainsFile(files, output, "models/inline_enum_property.proto");
-        TestUtils.ensureContainsFile(files, output, "models/another_inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/model_with_enums_inline_enum_property.proto");
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums_another_inline_enum_property.proto");
         
         // Check that the model file was generated
         TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
@@ -588,8 +604,13 @@ public class ProtobufSchemaCodegenTest {
         // Verify that the model imports the separated enum files
         Assert.assertTrue(modelContent.contains("import public \"models/separated_enum.proto\";"), 
             "Model should import the separated enum file");
-        Assert.assertTrue(modelContent.contains("import public \"models/inline_enum_property.proto\";"), 
-            "Model should import the inline enum file");
+        Assert.assertTrue(modelContent.contains("import public \"models/model_with_enums_inline_enum_property.proto\";"), 
+            "Model should import the inline enum file with parent model prefix");
+        
+        // Verify that the model uses the correct enum reference with .Enum suffix
+        // With the new naming scheme, inline enums use ParentModelName_FieldName format
+        Assert.assertTrue(modelContent.contains("ModelWithEnums_InlineEnumProperty.Enum"), 
+            "Model should reference extracted enum with .Enum suffix and parent model prefix");
 
         // Check the AllOfModel file
         TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
@@ -597,40 +618,45 @@ public class ProtobufSchemaCodegenTest {
         String allOfModelContent = new String(Files.readAllBytes(allOfModelPath), StandardCharsets.UTF_8);
 
         // Verify that the allOf model imports the separated enum files
-        Assert.assertTrue(allOfModelContent.contains("import public \"models/another_inline_enum_property.proto\";"), 
-            "AllOf model should import its inline enum file");
+        Assert.assertTrue(allOfModelContent.contains("import public \"models/all_of_model_with_enums_another_inline_enum_property.proto\";"), 
+            "AllOf model should import its inline enum file with parent model prefix");
 
         // Verify the separated enum file content
         Path separatedEnumPath = Paths.get(output + "/models/separated_enum.proto");
         String separatedEnumContent = new String(Files.readAllBytes(separatedEnumPath), StandardCharsets.UTF_8);
         Assert.assertTrue(separatedEnumContent.contains("package openapitools;"), 
             "Separated enum file should contain a valid package declaration");
-        Assert.assertTrue(separatedEnumContent.contains("enum SeparatedEnum"), 
-            "Separated enum file should contain the enum definition");
-          Assert.assertTrue(separatedEnumContent.contains("UNSPECIFIED"), 
+        Assert.assertTrue(separatedEnumContent.contains("message SeparatedEnum"), 
+            "Separated enum file should contain the message wrapper");
+        Assert.assertTrue(separatedEnumContent.contains("enum Enum {"), 
+            "Separated enum file should contain inner Enum definition");
+        Assert.assertTrue(separatedEnumContent.contains("UNSPECIFIED"), 
             "Separated enum should contain UNSPECIFIED");
         Assert.assertTrue(separatedEnumContent.contains("VALUE1"), 
             "Separated enum should contain VALUE1");
         Assert.assertTrue(separatedEnumContent.contains("VALUE2"), 
             "Separated enum should contain VALUE2");
 
-        // Verify the inline enum file content
-        Path inlineEnumPath = Paths.get(output + "/models/inline_enum_property.proto");
+        // Verify the inline enum file content - uses parent model name prefix
+        Path inlineEnumPath = Paths.get(output + "/models/model_with_enums_inline_enum_property.proto");
         String inlineEnumContent = new String(Files.readAllBytes(inlineEnumPath), StandardCharsets.UTF_8);
         Assert.assertTrue(inlineEnumContent.contains("package openapitools;"), 
             "Inline enum file should contain a valid package declaration");
-        Assert.assertTrue(inlineEnumContent.contains("enum InlineEnumProperty"), 
-            "Inline enum file should contain the enum definition");
+        Assert.assertTrue(inlineEnumContent.contains("message ModelWithEnums_InlineEnumProperty"), 
+            "Inline enum file should contain the message wrapper with parent model prefix");
+        Assert.assertTrue(inlineEnumContent.contains("enum Enum {"), 
+            "Inline enum file should contain inner Enum definition");
         Assert.assertTrue(inlineEnumContent.contains("UNSPECIFIED"), 
             "Inline enum should contain UNSPECIFIED");
+        // With simplified names, enum values don't have prefixes, just the base values
         Assert.assertTrue(inlineEnumContent.contains("VALUE2"), 
-            "Inline enum should contain VALUE2");
+            "Inline enum should contain enum value");
         Assert.assertTrue(inlineEnumContent.contains("VALUE3"), 
-            "Inline enum should contain VALUE3");
+            "Inline enum should contain enum value");
         Assert.assertTrue(inlineEnumContent.contains("VALUE4"), 
-            "Inline enum should contain VALUE4");
+            "Inline enum should contain enum value");
 
-        output.deleteOnExit();
+        //output.deleteOnExit();
     }
 
     @Test(description = "Test toModelImport with various input formats")
@@ -653,5 +679,227 @@ public class ProtobufSchemaCodegenTest {
         // Empty model package
         codegen.setModelPackage("");
         Assert.assertEquals(codegen.toModelImport("Pet"), "Pet");
+    }
+
+    @Test(description = "Validate that enum imports are added to discriminator parent when extractEnumsToSeparateFiles is enabled")
+    public void testDiscriminatorWithExtractedEnums() throws IOException {
+        // set line break to \n across all platforms
+        String originalLineSeparator = System.getProperty("line.separator");
+        try {
+            System.setProperty("line.separator", "\n");
+
+            File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that the discriminator parent file was generated
+        TestUtils.ensureContainsFile(files, output, "models/discriminated_model.proto");
+        Path discriminatorPath = Paths.get(output + "/models/discriminated_model.proto");
+        String discriminatorContent = new String(Files.readAllBytes(discriminatorPath), StandardCharsets.UTF_8);
+
+        // The discriminator parent should have properties from both children
+        // From ModelTypeAWithInlineEnum: specificPropertyA, inlineEnumPropertyA
+        Assert.assertTrue(discriminatorContent.contains("string specific_property_a"), 
+            "Discriminator parent should contain 'specific_property_a' from child A");
+        
+        // The enum property should be present with the correct .Enum suffix
+        // With the new naming scheme, inline enums use ParentModelName_FieldName format
+        Assert.assertTrue(discriminatorContent.contains("ModelTypeAWithInlineEnum_InlineEnumProperty.Enum inline_enum_property"), 
+            "Discriminator parent should contain extracted enum property from child A with .Enum suffix and parent model prefix");
+
+        // CRITICAL: The discriminator parent should import the extracted enum file
+        Assert.assertTrue(discriminatorContent.contains("import public \"models/model_type_a_with_inline_enum_inline_enum_property.proto\";"), 
+            "Discriminator parent MUST import the extracted enum from child A with parent model prefix");
+
+        // From ModelTypeBWithInlineEnum: specificPropertyB, referenceEnumPropertyB
+        Assert.assertTrue(discriminatorContent.contains("string specific_property_b"), 
+            "Discriminator parent should contain 'specific_property_b' from child B");
+        
+        // Child B references SeparatedEnum (not inline), so it should be imported
+        Assert.assertTrue(discriminatorContent.contains("import public \"models/separated_enum.proto\";"), 
+            "Discriminator parent should import the separated enum referenced by child B");
+
+        // Verify the extracted enum file for inline enum from child A was created
+        // The file name uses snake_case of the full wrapper message name
+        TestUtils.ensureContainsFile(files, output, "models/model_type_a_with_inline_enum_inline_enum_property.proto");
+        Path enumPath = Paths.get(output + "/models/model_type_a_with_inline_enum_inline_enum_property.proto");
+        String enumContent = new String(Files.readAllBytes(enumPath), StandardCharsets.UTF_8);
+        
+        Assert.assertTrue(enumContent.contains("message ModelTypeAWithInlineEnum_InlineEnumProperty"), 
+            "Extracted enum file should contain the message wrapper with parent model prefix");
+        Assert.assertTrue(enumContent.contains("enum Enum {"), 
+            "Extracted enum file should contain inner Enum definition");
+        // Note: Enum values keep the prefixes from the original field name, not parent+field
+        // since they are already scoped within the message wrapper
+        Assert.assertTrue(enumContent.contains("INLINE_ENUM_PROPERTY_VALUE7"), 
+            "Extracted enum should contain enum value");
+        Assert.assertTrue(enumContent.contains("INLINE_ENUM_PROPERTY_VALUE8"), 
+            "Extracted enum should contain enum value");
+
+            output.deleteOnExit();
+        } finally {
+            // Restore original property to avoid side effects on other tests
+            System.setProperty("line.separator", originalLineSeparator);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that referenced enum models are correctly wrapped with .Enum suffix when extractEnumsToSeparateFiles is enabled")
+    public void testReferencedEnumsWithExtraction() throws IOException {
+        // set line break to \n across all platforms
+        String originalLineSeparator = System.getProperty("line.separator");
+        try {
+            System.setProperty("line.separator", "\n");
+
+            File output = Files.createTempDirectory("test").toFile();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("protobuf-schema")
+                    .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                    .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator();
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            // Check that the model file was generated
+            TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
+            Path modelPath = Paths.get(output + "/models/model_with_enums.proto");
+            String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8)
+                    .replace("\r\n", "\n").replace("\r", "\n");
+
+            // CRITICAL: The model should have the inline enum property with .Enum suffix
+            // With the new naming scheme, inline enums use ParentModelName_FieldName format
+            Assert.assertTrue(modelContent.contains("ModelWithEnums_InlineEnumProperty.Enum inline_enum_property"),
+                    "Model should reference inline extracted enum with .Enum suffix and parent model prefix");
+
+            // CRITICAL: The model should have the referenced enum property with .Enum suffix
+            // This is the bug being fixed - referenced enums should also get wrapped
+            Assert.assertTrue(modelContent.contains("SeparatedEnum.Enum reference_enum_property"),
+                    "Model should reference referenced enum with .Enum suffix (THIS IS THE FIX)");
+
+            // Verify that both enum files are imported
+            Assert.assertTrue(modelContent.contains("import public \"models/separated_enum.proto\";"),
+                    "Model should import the separated enum file");
+            Assert.assertTrue(modelContent.contains("import public \"models/model_with_enums_inline_enum_property.proto\";"),
+                    "Model should import the inline enum file with parent model prefix");
+
+            // Verify the separated enum file was correctly generated
+            TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
+            Path separatedEnumPath = Paths.get(output + "/models/separated_enum.proto");
+            String separatedEnumContent = new String(Files.readAllBytes(separatedEnumPath), StandardCharsets.UTF_8);
+
+            Assert.assertTrue(separatedEnumContent.contains("message SeparatedEnum"),
+                    "Separated enum file should contain the message wrapper");
+            Assert.assertTrue(separatedEnumContent.contains("enum Enum {"),
+                    "Separated enum file should contain inner Enum definition");
+
+            // Verify the inline enum file was correctly generated with parent model prefix
+            TestUtils.ensureContainsFile(files, output, "models/model_with_enums_inline_enum_property.proto");
+            Path inlineEnumPath = Paths.get(output + "/models/model_with_enums_inline_enum_property.proto");
+            String inlineEnumContent = new String(Files.readAllBytes(inlineEnumPath), StandardCharsets.UTF_8);
+
+            Assert.assertTrue(inlineEnumContent.contains("message ModelWithEnums_InlineEnumProperty"),
+                    "Inline enum file should contain the message wrapper with parent model prefix");
+            Assert.assertTrue(inlineEnumContent.contains("enum Enum {"),
+                    "Inline enum file should contain inner Enum definition");
+
+            output.deleteOnExit();
+        } finally {
+            // Restore original property to avoid side effects on other tests
+            System.setProperty("line.separator", originalLineSeparator);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate backward compatibility: extracted_enum.yaml generates inline enums when EXTRACT_ENUMS_TO_SEPARATE_FILES is NOT enabled")
+    public void testEnumsRemainsInlineWithoutExtraction() throws IOException {
+        // set line break to \n across all platforms
+        String originalLineSeparator = System.getProperty("line.separator");
+        try {
+            System.setProperty("line.separator", "\n");
+
+            File output = Files.createTempDirectory("test").toFile();
+            System.out.println("InlineEnums Temporary output directory: " + output.getAbsolutePath());
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("protobuf-schema")
+                    .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator();
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            // Check that the model file was generated
+            TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
+            Path modelPath = Paths.get(output + "/models/model_with_enums.proto");
+            String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8)
+                    .replace("\r\n", "\n").replace("\r", "\n");
+
+            // WITHOUT extraction: Enums should be defined INLINE in the model file
+            // Check for inline enum definitions (not extracted to separate files)
+            // The inline enum should contain the enum values (not a message wrapper)
+            Assert.assertTrue(modelContent.contains("enum") && modelContent.contains("VALUE2"),
+                    "Without extraction, inline enums should be defined inline in the model");
+
+            // Verify that inline enums use simple type references (NOT wrapped with .Enum)
+            // When enums are inline, they're referenced as the enum name directly
+            // (not as ParentModel_FieldName.Enum which is only used for extracted enums)
+            Assert.assertTrue(!modelContent.contains(".Enum"),
+                    "Without extraction, enum properties should NOT reference .Enum suffix");
+
+            // Without extraction: Inline enum files should NOT be generated
+            // (Note: SeparatedEnum.proto WILL be generated because SeparatedEnum is a top-level schema,
+            // but inline_enum_property.proto should NOT be generated because it's an inline enum)
+            List<Path> inlineEnumFiles = new java.util.ArrayList<>();
+            if (Files.exists(Paths.get(output + "/models/inline_enum_property.proto"))) {
+                inlineEnumFiles.add(Paths.get(output + "/models/inline_enum_property.proto"));
+            }
+            if (Files.exists(Paths.get(output + "/models/another_inline_enum_property.proto"))) {
+                inlineEnumFiles.add(Paths.get(output + "/models/another_inline_enum_property.proto"));
+            }
+            Assert.assertTrue(inlineEnumFiles.isEmpty(),
+                    "Without extraction option enabled, inline enum files should NOT be created as separate files");
+
+            // Verify that imports for inline enum files are NOT present
+            Assert.assertFalse(modelContent.contains("import public \"models/inline_enum_property.proto\""),
+                    "Without extraction, there should be no inline enum file imports");
+            Assert.assertFalse(modelContent.contains("import public \"models/another_inline_enum_property.proto\""),
+                    "Without extraction, there should be no inline enum file imports");
+
+            // Check the AllOfModel file
+            TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
+            Path allOfModelPath = Paths.get(output + "/models/all_of_model_with_enums.proto");
+            String allOfModelContent = new String(Files.readAllBytes(allOfModelPath), StandardCharsets.UTF_8);
+
+            // IMPORTANT: AllOf composition in protobuf has different semantics than OpenAPI allOf.
+            // In protobuf, allOf models only contain direct properties of the model, not inherited/composed properties.
+            // This differs from OpenAPI where allOf models would include properties from all composed schemas.
+            // Therefore, we validate backward compatibility by ensuring:
+            // 1. The model file is generated (proving structure is correct)
+            // 2. No .Enum suffix is used (proving extraction mode is OFF - not using extracted enum references)
+            // 3. Inline enums are defined inline (proving backward compatibility works with inline enums)
+            Assert.assertTrue(!allOfModelContent.isEmpty(),
+                    "Without extraction option, the allOf model file should be generated");
+            Assert.assertFalse(allOfModelContent.contains(".Enum"),
+                    "Without extraction option, enums should NOT use .Enum suffix (should be inline)");
+            Assert.assertTrue(allOfModelContent.contains("enum") && allOfModelContent.contains("VALUE"),
+                    "Without extraction option, model should contain inline enum definitions");
+
+            output.deleteOnExit();
+        } finally {
+            // Restore original property to avoid side effects on other tests
+            System.setProperty("line.separator", originalLineSeparator);
+        }
     }
 }

@@ -79,6 +79,22 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     public static final String EXTRACT_ENUMS_TO_SEPARATE_FILES = "extractEnumsToSeparateFiles";
 
+    /**
+     * The inner enum name used when wrapping extracted enums in message containers.
+     * This prevents enum value name collisions in the Protocol Buffers global namespace.
+     */
+    public static final String ENUM_WRAPPER_INNER_NAME = "Enum";
+
+    /**
+     * Vendor extension key indicating that an enum property has been extracted to a separate file.
+     */
+    private static final String VENDOR_EXT_ENUM_EXTRACTED = "x-protobuf-enum-extracted-to-file";
+
+    /**
+     * Vendor extension key for the wrapper message name of an extracted enum.
+     */
+    private static final String VENDOR_EXT_ENUM_WRAPPER_MESSAGE = "x-protobuf-enum-wrapper-message";
+
     private final Logger LOGGER = LoggerFactory.getLogger(ProtobufSchemaCodegen.class);
 
     @Setter protected String packageName = "openapitools";
@@ -628,7 +644,37 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
     }
 
-
+    /**
+     * Post-processes CodegenModel objects to apply protobuf-specific transformations.
+     * 
+     * <p>This method performs several critical operations:
+     * <ol>
+     *   <li>Processes enum definitions and optionally extracts them to separate files</li>
+     *   <li>Sets vendor extensions for protobuf field types and data types</li>
+     *   <li>Assigns field numbers based on configuration</li>
+     *   <li>Handles oneOf/anyOf composition schemas</li>
+     * </ol>
+     * 
+     * <p><b>Enum Extraction Behavior</b>: When {@code extractEnumsToSeparateFiles} is enabled,
+     * inline enum properties are extracted to separate .proto files wrapped in message containers.
+     * This prevents enum value name collisions in the protobuf global namespace. The resulting
+     * format is:
+     * <pre>
+     * message EnumName {
+     *   enum Enum {
+     *     VALUE1 = 0;
+     *     VALUE2 = 1;
+     *   }
+     * }
+     * </pre>
+     * 
+     * References to these enums use the qualified name {@code EnumName.Enum}.
+     * 
+     * @param objs the models map containing all CodegenModel objects
+     * @return the modified models map with protobuf-specific transformations applied
+     * @see #extractEnumsToSeparateFiles(ModelsMap)
+     * @see #extractEnums(ModelsMap)
+     */
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = postProcessModelsEnum(objs);
@@ -652,56 +698,87 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 cm.vars = processOneOfAnyOfItems(cm.getComposedSchemas().getAnyOf());
             }
             int index = 1;
-            for (CodegenProperty var : cm.vars) {
+            for (CodegenProperty property : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
-                if (Boolean.TRUE.equals(var.isArray)) {
-                    var.vendorExtensions.put("x-protobuf-type", "repeated");
-                } else if (Boolean.TRUE.equals(var.isNullable && var.isPrimitiveType)) {
-                    var.vendorExtensions.put("x-protobuf-type", "optional");
+                if (Boolean.TRUE.equals(property.isArray)) {
+                    property.vendorExtensions.put("x-protobuf-type", "repeated");
+                } else if (Boolean.TRUE.equals(property.isNullable && property.isPrimitiveType)) {
+                    property.vendorExtensions.put("x-protobuf-type", "optional");
                 }
 
                 // add x-protobuf-data-type
                 // ref: https://developers.google.com/protocol-buffers/docs/proto3
-                if (!var.vendorExtensions.containsKey("x-protobuf-data-type")) {
-                    if (var.isArray) {
-                        var.vendorExtensions.put("x-protobuf-data-type", var.items.dataType);
+                if (!property.vendorExtensions.containsKey("x-protobuf-data-type")) {
+                    if (property.isArray) {
+                        property.vendorExtensions.put("x-protobuf-data-type", property.items.dataType);
                     } else {
-                        var.vendorExtensions.put("x-protobuf-data-type", var.dataType);
+                        property.vendorExtensions.put("x-protobuf-data-type", property.dataType);
                     }
                 }
 
-                if (var.isEnum) {
-                    addUnspecifiedToAllowableValues(var.allowableValues);
-                    addEnumValuesPrefix(var.allowableValues, var.getEnumName());
+                if (property.isEnum) {
+                    addUnspecifiedToAllowableValues(property.allowableValues);
+                    addEnumValuesPrefix(property.allowableValues, property.getEnumName());
 
-                    if (var.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) var.allowableValues.get("enumVars");
+                    if (property.allowableValues.containsKey("enumVars")) {
+                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property.allowableValues.get("enumVars");
                         addEnumIndexes(enumVars);
                     }
                     
-                    // If extractEnumsToSeparateFiles is enabled, mark this enum property for extraction
-                    // and set the vendor extension to prevent inline enum rendering
+                    // Process enum extraction when EXTRACT_ENUMS_TO_SEPARATE_FILES is enabled.
+                    // This prevents naming collisions when multiple models have inline enums with the same field name.
+                    // 
+                    // Naming Convention:
+                    //   Wrapper message name format: ParentModelName_FieldName
+                    //   File name format: snake_case(wrapper_message_name).proto
+                    //   Enum reference in model: ParentModelName_FieldName.Enum
+                    // 
+                    // Example:
+                    //   Model A has field "inlineEnumProperty" -> ModelA_InlineEnumProperty.proto
+                    //   Model B has field "inlineEnumProperty" -> ModelB_InlineEnumProperty.proto
+                    //   (Without parent prefix, both would create InlineEnumProperty.proto - causing collision)
+                    // 
+                    // Vendor Extensions Set:
+                    //   x-protobuf-enum-extracted-to-file: Boolean flag for extraction
+                    //   x-protobuf-enum-wrapper-message: The wrapper message name (for later use in extractEnums())
+                    //   x-protobuf-enum-reference-import: Prevents inline rendering in template
+                    //   x-protobuf-data-type: Full reference with .Enum suffix for property type
                     if (this.extractEnumsToSeparateFiles) {
-                        var.vendorExtensions.put("x-protobuf-enum-extracted-to-file", true);
-                        var.vendorExtensions.put("x-protobuf-enum-reference-import", true);
+                        property.vendorExtensions.put("x-protobuf-enum-extracted-to-file", true);
+                        property.vendorExtensions.put("x-protobuf-enum-reference-import", true);
+                        
+                        // Compute the wrapper message name: ParentModelName_FieldName
+                        // This naming scheme ensures uniqueness across models
+                        String enumTypeName = cm.getClassname() + "_" + toModelName(toEnumName(property));
+                        if (StringUtils.isBlank(enumTypeName)) {
+                            LOGGER.warn("Unable to determine enum type name for property: {}", property.name);
+                            continue;
+                        }
+                        
+                        // Store wrapper message name for use in extractEnums() method
+                        property.vendorExtensions.put("x-protobuf-enum-wrapper-message", enumTypeName);
+                        
+                        // Set property data type to reference the extracted enum wrapper's inner Enum
+                        // The template will use this to reference: ParentModelName_FieldName.Enum
+                        property.vendorExtensions.put("x-protobuf-data-type", enumTypeName + "." + ENUM_WRAPPER_INNER_NAME);
                     }
                 }
 
                 // Add x-protobuf-index, unless already specified
                 if (this.numberedFieldNumberList) {
-                    var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
+                    property.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                     index++;
                 } else {
                     try {
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(var.getName()));
+                        property.vendorExtensions.putIfAbsent("x-protobuf-index", generateFieldNumberFromString(property.getName()));
                     } catch (ProtoBufIndexComputationException e) {
                         LOGGER.error("Exception when assigning a index to a protobuf field", e);
-                        var.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
+                        property.vendorExtensions.putIfAbsent("x-protobuf-index", "Generated field number is in reserved range (19000, 19999)");
                     }
                 }
 
-                if (addJsonNameAnnotation && !var.baseName.equals(var.name)) {
-                    var.vendorExtensions.put("x-protobuf-json-name", var.baseName);
+                if (addJsonNameAnnotation && !property.baseName.equals(property.name)) {
+                    property.vendorExtensions.put("x-protobuf-json-name", property.baseName);
                 }
             }
         }
@@ -731,6 +808,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         // Extract enum properties to separate files if enabled
         if (this.extractEnumsToSeparateFiles) {
+            // First, update property data types for referenced enum models
+            this.updateReferencedEnumPropertyDataTypes(objs, allModels);
+            
             Map<String, ModelsMap> extractedEnums = new HashMap<>();
             
             for (Entry<String, ModelsMap> entry : objs.entrySet()) {
@@ -756,6 +836,75 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         }
 
         return aggregateModelsName == null ? objs : aggregateModels(objs);
+    }
+
+    /**
+     * Updates property data types for properties that reference enum models.
+     * When extractEnumsToSeparateFiles is enabled, referenced enum properties
+     * need to have their data types updated to include the .Enum suffix
+     * to reference the inner enum within the message wrapper.
+     * 
+     * This method handles:
+     * - Direct references to enum models (e.g., property: {$ref: 'MyEnum'})
+     * - Arrays of enums (e.g., items with enum dataType)
+     * - Maps with enum values
+     *
+     * @param objs the complete models map
+     * @param allModels map of all CodegenModels by name
+     */
+    private void updateReferencedEnumPropertyDataTypes(Map<String, ModelsMap> objs, Map<String, CodegenModel> allModels) {
+        for (CodegenModel model : allModels.values()) {
+            if (model.vars == null || model.vars.isEmpty()) {
+                continue;
+            }
+            
+            for (CodegenProperty property : model.vars) {
+                // Skip properties that are already marked as inline extracted enums
+                if (property.vendorExtensions.containsKey(VENDOR_EXT_ENUM_EXTRACTED)) {
+                    continue;
+                }
+                
+                // For array/map types, check the inner item's dataType
+                String dataTypeToCheck = null;
+                CodegenProperty itemToCheck = property;
+                
+                if (property.isArray && property.items != null) {
+                    dataTypeToCheck = property.items.dataType;
+                    itemToCheck = property.items;
+                } else if (property.isMap && property.items != null) {
+                    dataTypeToCheck = property.items.dataType;
+                    itemToCheck = property.items;
+                } else {
+                    dataTypeToCheck = property.dataType;
+                    itemToCheck = property;
+                }
+                
+                if (StringUtils.isBlank(dataTypeToCheck)) {
+                    continue;
+                }
+                
+                // Look for an enum model that matches this dataType
+                CodegenModel referencedModel = allModels.get(dataTypeToCheck);
+                if (referencedModel != null && referencedModel.isEnum) {
+                    // This property references an enum model, update its data type to include .Enum suffix
+                    // Also mark it as a referenced extracted enum and add import
+                    property.vendorExtensions.put(VENDOR_EXT_ENUM_EXTRACTED, true);
+                    property.vendorExtensions.put("x-protobuf-enum-reference-import", true);
+                    String enumWrapperName = dataTypeToCheck; // The message wrapper name is the enum model name
+                    property.vendorExtensions.put(VENDOR_EXT_ENUM_WRAPPER_MESSAGE, enumWrapperName);
+                    
+                    // Update the data type of the item to include .Enum suffix
+                    String wrappedEnumType = enumWrapperName + "." + ENUM_WRAPPER_INNER_NAME;
+                    itemToCheck.dataType = wrappedEnumType;
+                    
+                    // Also update the x-protobuf-data-type for protobuf rendering
+                    property.vendorExtensions.put("x-protobuf-data-type", wrappedEnumType);
+                    
+                    // Add import for the referenced enum to the current model
+                    this.addImport(objs, model, enumWrapperName);
+                }
+            }
+        }
     }
 
     /**
@@ -813,7 +962,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 
                 while (currentAncestor != null) {
                     // Copy properties from this model to the current ancestor
-                    copyPropertiesToParent(model, currentAncestor);
+                    copyPropertiesToParent(objs, model, currentAncestor);
                     
                     // Copy imports from this model to the current ancestor
                     copyImportsToParent(objs, model, currentAncestor);
@@ -1026,7 +1175,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         visited.add(descendant.getClassname());
         
         // Copy this descendant's properties to the discriminator parent
-        copyPropertiesToParent(descendant, discriminatorParent);
+        copyPropertiesToParent(objs, descendant, discriminatorParent);
         
         // Copy imports from descendant to discriminator parent
         // Filter out models that are in the discriminator mapping (they're siblings, not dependencies)
@@ -1117,19 +1266,51 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Copies properties from a child model to a parent model if they don't already exist.
+     * When a property is an extracted enum (identified by the x-protobuf-enum-extracted-to-file vendor extension),
+     * also adds the corresponding enum import to the parent model.
      * 
+     * @param objs the complete models map for import tracking
      * @param child the child model whose properties are being copied
      * @param parent the parent model receiving the properties
      */
-    private void copyPropertiesToParent(CodegenModel child, CodegenModel parent) {
+    private void copyPropertiesToParent(Map<String, ModelsMap> objs, CodegenModel child, CodegenModel parent) {
         if (child == null || parent == null) {
             LOGGER.warn("Skipping property copy due to null parameter");
             return;
         }
         
-        for (CodegenProperty var : child.getVars()) {
-            if (!parentVarsContainsVar(parent.vars, var)) {
-                parent.vars.add(var);
+        // Add null safety for collections
+        if (child.getVars() == null || parent.vars == null) {
+            LOGGER.warn("Skipping property copy due to null vars: child.vars={}, parent.vars={}", 
+                child.getVars(), parent.vars);
+            return;
+        }
+        
+        for (CodegenProperty property : child.getVars()) {
+            if (property == null) {
+                LOGGER.warn("Skipping null property in child model {}", child.getClassname());
+                continue;
+            }
+            
+            if (!parentVarsContainsVar(parent.vars, property)) {
+                parent.vars.add(property);
+                
+                // Guard against null vendorExtensions
+                if (this.extractEnumsToSeparateFiles && 
+                    property.vendorExtensions != null &&
+                    property.vendorExtensions.containsKey(VENDOR_EXT_ENUM_EXTRACTED) &&
+                    Boolean.TRUE.equals(property.vendorExtensions.get(VENDOR_EXT_ENUM_EXTRACTED))) {
+                    
+                    // Get the enum wrapper message name from vendor extensions
+                    String enumWrapperMessage = (String) property.vendorExtensions.get(VENDOR_EXT_ENUM_WRAPPER_MESSAGE);
+                    if (StringUtils.isNotBlank(enumWrapperMessage)) {
+                        // Add import for the extracted enum file
+                        addImport(objs, parent, enumWrapperMessage);
+                    } else {
+                        LOGGER.warn("Property {} in model {} is marked as extracted enum but has no wrapper message name", 
+                            property.name, child.getClassname());
+                    }
+                }
             }
         }
     }
@@ -1615,6 +1796,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
     /**
      * Extracts enum properties from models to be used in other process.
+     * For inline enums, uses the naming scheme ParentModelName_FieldName to avoid collisions.
      *
      * @param objs the models map containing all models
      * @return the models map with extracted enum models
@@ -1631,18 +1813,18 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
           }
 
           // Find all enum properties in this model
-          for (CodegenProperty var : cm.vars) {
-            if (var.isEnum && var.vendorExtensions.containsKey("x-protobuf-enum-extracted-to-file")) {
+          for (CodegenProperty property : cm.vars) {
+            if (property.isEnum && property.vendorExtensions.containsKey("x-protobuf-enum-extracted-to-file")) {
               // Create a new CodegenModel for the extracted enum
               CodegenModel enumModel = new CodegenModel();
-              // Use toModelName to get the properly formatted enum name in CamelCase (e.g., InlineEnumProperty)
-              String enumKey = toModelName(toEnumName(var));
+              // Use ParentModelName_FieldName for inline enums to avoid collisions
+              String enumKey = (String) property.vendorExtensions.get("x-protobuf-enum-wrapper-message");
               if (enumKey == null || enumKey.isEmpty()) {
-                LOGGER.warn("Enum property {} has no enum name, skipping extraction", var.getName());
+                LOGGER.warn("Enum property {} has no wrapper message name, skipping extraction", property.getName());
                 continue;
               }
               
-              if (var.allowableValues == null || var.allowableValues.isEmpty()) {
+              if (property.allowableValues == null || property.allowableValues.isEmpty()) {
                 LOGGER.warn("Enum {} has no allowable values, skipping extraction", enumKey);
                 continue;
               }
@@ -1651,9 +1833,9 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 enumModel.setName(enumKey);
                 enumModel.setClassname(enumKey);
                 enumModel.setIsEnum(true);
-                enumModel.setAllowableValues(var.allowableValues);
+                enumModel.setAllowableValues(property.allowableValues);
                 // Set the base data type for the enum (string, int32, etc.)
-                enumModel.setDataType(var.baseType != null ? var.baseType : var.dataType);
+                enumModel.setDataType(property.baseType != null ? property.baseType : property.dataType);
                 
                 extractedEnums.put(enumKey, enumModel);
               }
