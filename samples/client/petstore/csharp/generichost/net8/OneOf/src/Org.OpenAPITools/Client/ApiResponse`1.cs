@@ -53,6 +53,11 @@ namespace Org.OpenAPITools.Client
         System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
 
         /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
+
+        /// <summary>
         /// The path used when making the request.
         /// </summary>
         string Path { get; }
@@ -110,6 +115,11 @@ namespace Org.OpenAPITools.Client
         public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
 
         /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        public System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
+
+        /// <summary>
         /// The DateTime when the request was retrieved.
         /// </summary>
         public DateTime DownloadedAt { get; } = DateTime.UtcNow;
@@ -147,6 +157,7 @@ namespace Org.OpenAPITools.Client
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
             IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             ReasonPhrase = httpResponseMessage.ReasonPhrase;
             RawContent = rawContent;
@@ -170,6 +181,7 @@ namespace Org.OpenAPITools.Client
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
             IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             ReasonPhrase = httpResponseMessage.ReasonPhrase;
             ContentStream = contentStream;
@@ -180,6 +192,7 @@ namespace Org.OpenAPITools.Client
             _jsonSerializerOptions = jsonSerializerOptions;
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
+
 
         partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
     }
