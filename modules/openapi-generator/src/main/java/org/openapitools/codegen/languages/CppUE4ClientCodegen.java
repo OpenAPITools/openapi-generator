@@ -154,7 +154,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("helpers-source.mustache", privateFolder, modelNamePrefix + "Helpers.cpp"));
         if (optionalProjectFileFlag) {
             supportingFiles.add(new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
-            supportingFiles.add(new SupportingFile("module-header.mustache", privateFolder, unrealModuleName + "Module.h"));
+            supportingFiles.add(new SupportingFile("module-header.mustache", publicFolder, unrealModuleName + "Module.h"));
             supportingFiles.add(new SupportingFile("module-source.mustache", privateFolder, unrealModuleName + "Module.cpp"));
         }
 
@@ -232,7 +232,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             supportingFiles.add(new SupportingFile("helpers-source.mustache", privateFolder, modelNamePrefix + "Helpers.cpp"));
             if (optionalProjectFileFlag) {
                 supportingFiles.add(new SupportingFile("Build.cs.mustache", unrealModuleName + ".Build.cs"));
-                supportingFiles.add(new SupportingFile("module-header.mustache", privateFolder, unrealModuleName + "Module.h"));
+                supportingFiles.add(new SupportingFile("module-header.mustache", publicFolder, unrealModuleName + "Module.h"));
                 supportingFiles.add(new SupportingFile("module-source.mustache", privateFolder, unrealModuleName + "Module.cpp"));
             }
 

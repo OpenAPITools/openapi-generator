@@ -4,7 +4,6 @@ Private/OpenAPIBaseModel.cpp
 Private/OpenAPICategory.cpp
 Private/OpenAPIHelpers.cpp
 Private/OpenAPIModule.cpp
-Private/OpenAPIModule.h
 Private/OpenAPIOrder.cpp
 Private/OpenAPIPet.cpp
 Private/OpenAPIPetApi.cpp
@@ -19,6 +18,7 @@ Public/OpenAPIApiResponse.h
 Public/OpenAPIBaseModel.h
 Public/OpenAPICategory.h
 Public/OpenAPIHelpers.h
+Public/OpenAPIModule.h
 Public/OpenAPIOrder.h
 Public/OpenAPIPet.h
 Public/OpenAPIPetApi.h
