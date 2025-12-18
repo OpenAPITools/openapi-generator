@@ -513,7 +513,14 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.value(){{/required}}));
 {{/isFile}}
 {{#isFile}}
-        input.add_file("{{baseName}}", {{paramName}}{{^required}}.value(){{/required}}.local_filename, {{paramName}}{{^required}}.value(){{/required}}.request_filename, {{paramName}}{{^required}}.value(){{/required}}.mime_type);
+{{^required}}
+        input.add_file("file", file.value().local_filename, file.value().request_filename, file.value().mime_type);
+{{/required}}
+{{#required}}
+        for (auto file : {{paramName}}) {
+          input.add_file("file", file.local_filename, file.request_filename, file.mime_type);
+        }
+{{/required}}
 {{/isFile}}
     }
 {{/formParams}}
@@ -848,7 +855,12 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
     for (QString key : obj.keys()) {
-        {{returnBaseType}} val;
+        {{#returnTypeIsPrimitive}}
+        {{{returnBaseType}}} val;
+        {{/returnTypeIsPrimitive}}
+        {{^returnTypeIsPrimitive}}
+        {{{returnBaseType}}}<QString> val;
+        {{/returnTypeIsPrimitive}}
         ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
         output.insert(key, val);
     }
