@@ -130,14 +130,14 @@ public class ModelUtilsTest {
     @Test
     public void testNoComponentsSection() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
-        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }
 
     @Test
     public void testGlobalProducesConsumes() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/globalProducesConsumesTest.yaml");
-        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }
 
