@@ -676,6 +676,28 @@ public class SpringCodegenTest {
     }
 
     @Test
+    @Ignore
+    // Currently not working due to https://github.com/OpenAPITools/openapi-generator/pull/11449
+    // Reverting the change would reintroduce the issue that was fixed there
+    // https://github.com/OpenAPITools/openapi-generator/issues/12498
+    public void testMultipartWithFileAndObject_12498_Regression() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setInterfaceOnly(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue_12498.yaml");
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+            .assertMethod("testPost", "MultipartFile", "TestObjectPart")
+            .hasParameter("file").withType("MultipartFile")
+            .assertParameterAnnotations()
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"file\"", "required", "true"))
+            .toParameter().toMethod()
+            .hasParameter("content").withType("TestObjectPart")
+            .assertParameterAnnotations()
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"content\"", "required", "true"));
+    }
+
+    @Test
     public void testMultipartBoot() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
