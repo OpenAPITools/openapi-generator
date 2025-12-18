@@ -22,7 +22,7 @@ class StoreApi : public Service {
 public:
     StoreApi() = default;
 
-    virtual ~StoreApi() = default;
+    virtual ~StoreApi();
 
     /**
     * Delete purchase order by ID.

@@ -39,6 +39,7 @@ OuterComposite::OuterComposite(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+OuterComposite::~OuterComposite = default;
 
 std::string OuterComposite::toJsonString(bool prettyJson /* = false */) const
 {
