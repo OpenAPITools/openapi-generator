@@ -41,6 +41,7 @@ public interface StoreApi {
     )
     Mono<Void> deleteOrder(
          @PathVariable("order_id") String orderId
+
     );
 
 
@@ -78,6 +79,7 @@ public interface StoreApi {
     )
     Mono<Order> getOrderById(
          @PathVariable("order_id") Long orderId
+
     );
 
 
@@ -98,6 +100,7 @@ public interface StoreApi {
     )
     Mono<Order> placeOrder(
          @RequestBody Mono<Order> order
+
     );
 
 }

@@ -41,6 +41,7 @@ public interface PetApi {
     )
     void addPet(
          @RequestBody PetDto petDto
+
     );
 
 
@@ -60,8 +61,10 @@ public interface PetApi {
         accept = { "application/json" }
     )
     void deletePet(
-         @PathVariable("petId") Long petId,
+         @PathVariable("petId") Long petId
+,
          @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+
     );
 
 
@@ -81,6 +84,7 @@ public interface PetApi {
     )
     List<PetDto> findPetsByStatus(
          @RequestParam(value = "status", required = true) List<String> status
+
     );
 
 
@@ -102,6 +106,7 @@ public interface PetApi {
     )
     Set<PetDto> findPetsByTags(
          @RequestParam(value = "tags", required = true) Set<String> tags
+
     );
 
 
@@ -122,6 +127,7 @@ public interface PetApi {
     )
     PetDto getPetById(
          @PathVariable("petId") Long petId
+
     );
 
 
@@ -139,6 +145,7 @@ public interface PetApi {
     )
     ResponseObjectWithDifferentFieldNamesDto responseObjectDifferentNames(
          @PathVariable("petId") Long petId
+
     );
 
 
@@ -161,6 +168,7 @@ public interface PetApi {
     )
     void updatePet(
          @RequestBody PetDto petDto
+
     );
 
 
@@ -181,9 +189,12 @@ public interface PetApi {
         contentType = "application/x-www-form-urlencoded"
     )
     void updatePetWithForm(
-         @PathVariable("petId") Long petId,
-         @RequestParam(value = "name", required = false) String name,
+         @PathVariable("petId") Long petId
+,
+         @RequestParam(value = "name", required = false) String name
+,
          @RequestParam(value = "status", required = false) String status
+
     );
 
 
@@ -204,9 +215,12 @@ public interface PetApi {
         contentType = "multipart/form-data"
     )
     ApiResponseDto uploadFile(
-         @PathVariable("petId") Long petId,
-         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @PathVariable("petId") Long petId
+,
+         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+,
          @RequestPart(value = "file", required = false) MultipartFile file
+
     );
 
 
@@ -227,9 +241,12 @@ public interface PetApi {
         contentType = "multipart/form-data"
     )
     ApiResponseDto uploadFileWithRequiredFile(
-         @PathVariable("petId") Long petId,
-         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
+         @PathVariable("petId") Long petId
+,
+         @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile
+,
          @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+
     );
 
 }
