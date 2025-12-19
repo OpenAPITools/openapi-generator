@@ -21,6 +21,13 @@ components:
             - VALUE2
             - VALUE3
             - VALUE4
+        listOfEnums:
+          type: array
+          items:
+            type: string
+            enum:
+              - VALUE10
+              - VALUE11
     AllOfModelWithEnums:
       allOf:
         - $ref: "#/components/schemas/ModelWithEnums"
@@ -31,6 +38,10 @@ components:
               enum:
                 - VALUE5
                 - VALUE6
+            listOfReferencedEnums:
+              type: array
+              items:
+                $ref: '#/components/schemas/SeparatedEnum'
     DiscriminatedModel:
       type: object
       properties:

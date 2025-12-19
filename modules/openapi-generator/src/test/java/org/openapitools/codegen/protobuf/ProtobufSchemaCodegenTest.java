@@ -902,4 +902,101 @@ public class ProtobufSchemaCodegenTest {
             System.setProperty("line.separator", originalLineSeparator);
         }
     }
+
+    @Test(description = "Validate that enums in arrays are correctly handled with .Enum suffix when extractEnumsToSeparateFiles is enabled")
+    public void testEnumsInArraysWithExtraction() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+        System.out.println("EnumsInArrays Temporary output directory: " + output.getAbsolutePath());
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that the model file was generated
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums.proto");
+        Path modelPath = Paths.get(output + "/models/all_of_model_with_enums.proto");
+        String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8)
+                .replace("\r\n", "\n").replace("\r", "\n");
+
+        // Test Case 1: Array with REFERENCED enum (listOfReferencedEnums)
+        // Should have .Enum suffix: repeated SeparatedEnum.Enum
+        // Use regex to validate structure without depending on specific field numbers
+        java.util.regex.Pattern referencedEnumPattern = java.util.regex.Pattern.compile(
+            "repeated\\s+SeparatedEnum\\.Enum\\s+list_of_referenced_enums\\s*=\\s*\\d+");
+        Assert.assertTrue(
+            referencedEnumPattern.matcher(modelContent).find(),
+            "Array with referenced enum should use .Enum suffix with pattern: repeated SeparatedEnum.Enum list_of_referenced_enums = <number>");
+
+        // Test Case 2: Array with INLINE enum (listOfEnums) - in AllOfModelWithEnums
+        // Should have .Enum suffix: repeated AllOfModelWithEnums_ListOfEnums.Enum
+        // Use regex to validate structure without depending on specific field numbers
+        java.util.regex.Pattern inlineEnumPattern = java.util.regex.Pattern.compile(
+            "repeated\\s+AllOfModelWithEnums_ListOfEnums\\.Enum\\s+list_of_enums\\s*=\\s*\\d+");
+        Assert.assertTrue(
+            inlineEnumPattern.matcher(modelContent).find(),
+            "Array with inline enum should use .Enum suffix with pattern: repeated AllOfModelWithEnums_ListOfEnums.Enum list_of_enums = <number>");
+
+        // Verify the imported enum file for referenced enum exists
+        TestUtils.ensureContainsFile(files, output, "models/separated_enum.proto");
+
+        // Verify the extracted inline enum file for arrays exists
+        TestUtils.ensureContainsFile(files, output, "models/all_of_model_with_enums_list_of_enums.proto");
+        Path listOfEnumsPath = Paths.get(output + "/models/all_of_model_with_enums_list_of_enums.proto");
+        String listOfEnumsContent = new String(Files.readAllBytes(listOfEnumsPath), StandardCharsets.UTF_8)
+                .replace("\r\n", "\n").replace("\r", "\n");
+
+        // Verify the wrapper message structure
+        Assert.assertTrue(listOfEnumsContent.contains("message AllOfModelWithEnums_ListOfEnums"),
+                "Extracted inline enum file should contain wrapper message");
+        Assert.assertTrue(listOfEnumsContent.contains("enum Enum"),
+                "Wrapper message should contain inner Enum");
+        Assert.assertTrue(listOfEnumsContent.contains("VALUE10") && listOfEnumsContent.contains("VALUE11"),
+                "Wrapper message should contain enum values");
+
+        output.deleteOnExit();
+    }
+
+    @Test(description = "Validate that enums in arrays remain inline when extractEnumsToSeparateFiles is NOT enabled")
+    public void testEnumsInArraysWithoutExtraction() throws IOException {
+        // set line break to \n across all platforms
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        // Note: EXTRACT_ENUMS_TO_SEPARATE_FILES is NOT enabled
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Check that the model file was generated
+        TestUtils.ensureContainsFile(files, output, "models/model_with_enums.proto");
+        Path modelPath = Paths.get(output + "/models/model_with_enums.proto");
+        String modelContent = new String(Files.readAllBytes(modelPath), StandardCharsets.UTF_8)
+                .replace("\r\n", "\n").replace("\r", "\n");
+
+        // Without extraction: Arrays of enums should NOT use .Enum suffix
+        // Instead, they should use the type directly or inline definition
+        Assert.assertFalse(modelContent.contains(".Enum"),
+                "Without extraction, enums should NOT use .Enum suffix");
+
+        // Extracted inline enum files should NOT exist
+        Assert.assertFalse(Files.exists(Paths.get(output + "/models/model_with_enums_list_of_enums.proto")),
+                "Without extraction, inline enum array files should NOT be generated");
+
+        output.deleteOnExit();
+    }
 }

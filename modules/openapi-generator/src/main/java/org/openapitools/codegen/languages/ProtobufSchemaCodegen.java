@@ -716,12 +716,34 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                if (property.isEnum) {
-                    addUnspecifiedToAllowableValues(property.allowableValues);
-                    addEnumValuesPrefix(property.allowableValues, property.getEnumName());
+                // Check if this property is an enum or an array of enums.
+                // 
+                // This handles two distinct cases:
+                // 1. Direct enum property: property.isEnum=true
+                //    Example OpenAPI: myStatus: {$ref: '#/components/schemas/Status'}
+                //    Generated Protobuf: Status.Enum my_status = N;
+                //
+                // 2. Array of enums: property.isArray=true && property.items.isEnum=true
+                //    Example OpenAPI: tags: {type: array, items: {$ref: '#/components/schemas/Tag'}}
+                //    Generated Protobuf: repeated Tag.Enum tags = N;
+                //
+                // Both cases require the same enum extraction and wrapper processing when
+                // EXTRACT_ENUMS_TO_SEPARATE_FILES is enabled. This fix ensures arrays of enums
+                // are handled consistently with direct enum references (previously arrays were
+                // not being wrapped with the .Enum suffix).
+                boolean isDirectEnum = property.isEnum;
+                boolean isArrayOfEnums = property.isArray && property.items != null && property.items.isEnum;
+                
+                if (isDirectEnum || isArrayOfEnums) {
+                    // For arrays of enums, extract enum values from items property;
+                    // for direct enums, extract from the property itself.
+                    CodegenProperty enumProperty = isArrayOfEnums ? property.items : property;
+                    
+                    addUnspecifiedToAllowableValues(enumProperty.allowableValues);
+                    addEnumValuesPrefix(enumProperty.allowableValues, enumProperty.getEnumName());
 
-                    if (property.allowableValues.containsKey("enumVars")) {
-                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) property.allowableValues.get("enumVars");
+                    if (enumProperty.allowableValues.containsKey("enumVars")) {
+                        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.allowableValues.get("enumVars");
                         addEnumIndexes(enumVars);
                     }
                     
@@ -749,7 +771,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         
                         // Compute the wrapper message name: ParentModelName_FieldName
                         // This naming scheme ensures uniqueness across models
-                        String enumTypeName = cm.getClassname() + "_" + toModelName(toEnumName(property));
+                        String enumTypeName = cm.getClassname() + "_" + toModelName(toEnumName(enumProperty));
                         if (StringUtils.isBlank(enumTypeName)) {
                             LOGGER.warn("Unable to determine enum type name for property: {}", property.name);
                             continue;
