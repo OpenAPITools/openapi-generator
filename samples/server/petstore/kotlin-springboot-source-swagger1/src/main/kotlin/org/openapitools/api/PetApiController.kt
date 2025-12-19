@@ -43,9 +43,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Add a new pet to the store",
         nickname = "addPet",
         notes = "",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 405, message = "Invalid input")])
+        value = [ApiResponse(code = 405, message = "Invalid input")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_ADD_PET /* "/pet" */],
@@ -62,9 +64,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Deletes a pet",
         nickname = "deletePet",
         notes = "",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid pet value")])
+        value = [ApiResponse(code = 400, message = "Invalid pet value")]
+    )
     @RequestMapping(
         method = [RequestMethod.DELETE],
         value = [PATH_DELETE_PET /* "/pet/{petId}" */]
@@ -83,9 +87,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         notes = "Multiple status values can be provided with comma separated strings",
         response = Pet::class,
         responseContainer = "List",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
@@ -104,9 +110,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         response = Pet::class,
         responseContainer = "List",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
@@ -124,9 +132,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         nickname = "getPetById",
         notes = "Returns a single pet",
         response = Pet::class,
-        authorizations = [Authorization(value = "api_key")])
+        authorizations = [Authorization(value = "api_key")]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found")]
+    )
     @RequestMapping(
         method = [RequestMethod.GET],
         value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
@@ -143,9 +153,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Update an existing pet",
         nickname = "updatePet",
         notes = "",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found"),ApiResponse(code = 405, message = "Validation exception")])
+        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found"),ApiResponse(code = 405, message = "Validation exception")]
+    )
     @RequestMapping(
         method = [RequestMethod.PUT],
         value = [PATH_UPDATE_PET /* "/pet" */],
@@ -162,9 +174,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Updates a pet in the store with form data",
         nickname = "updatePetWithForm",
         notes = "",
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 405, message = "Invalid input")])
+        value = [ApiResponse(code = 405, message = "Invalid input")]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
@@ -184,9 +198,11 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         nickname = "uploadFile",
         notes = "",
         response = ModelApiResponse::class,
-        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+        authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])]
+    )
     @ApiResponses(
-        value = [ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse::class)])
+        value = [ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse::class)]
+    )
     @RequestMapping(
         method = [RequestMethod.POST],
         value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],

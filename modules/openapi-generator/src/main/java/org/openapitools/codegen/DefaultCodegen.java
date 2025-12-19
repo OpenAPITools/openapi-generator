@@ -4675,6 +4675,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         op.summary = escapeText(operation.getSummary());
+        op.unescapedSummary = operation.getSummary();
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
         op.hasConsumes = false;
@@ -4839,6 +4840,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 if (bodyParam != null) {
                     bodyParam.description = escapeText(requestBody.getDescription());
+                    bodyParam.unescapedDescription = requestBody.getDescription();
                     postProcessParameter(bodyParam);
                     bodyParams.add(bodyParam);
                     if (prependFormOrBodyParameters) {
@@ -5029,6 +5031,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
+        r.unescapedMessage = response.getDescription();
 
         // adding examples to API responses
         Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
@@ -7575,6 +7578,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.baseType = codegenModel.classname;
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
+            codegenParameter.unescapedDescription = codegenModel.unescapedDescription;
             codegenParameter.isNullable = codegenModel.isNullable;
             imports.add(codegenParameter.baseType);
         } else {
@@ -7948,6 +7952,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
+        codegenParameter.unescapedDescription = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
         if (body.getExtensions() != null) {

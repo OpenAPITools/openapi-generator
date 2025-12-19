@@ -6,7 +6,7 @@ interface StoreApiService {
 
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
      * @return Invalid ID supplied (status code 400)
@@ -26,7 +26,7 @@ interface StoreApiService {
 
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
      * @return successful operation (status code 200)

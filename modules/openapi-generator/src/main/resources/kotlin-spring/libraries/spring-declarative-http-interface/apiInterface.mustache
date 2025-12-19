@@ -83,7 +83,7 @@ interface {{classname}} {
         const val BASE_PATH: String = "{{=<% %>=}}<%contextPath%><%={{ }}=%>"
     {{/useRequestMappingOnInterface}}
     {{#operation}}
-        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{{path}}}"
+        const val PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}: String = "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
     {{/operation}}
     }
 }
