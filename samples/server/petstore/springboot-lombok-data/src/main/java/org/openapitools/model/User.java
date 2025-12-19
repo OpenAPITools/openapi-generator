@@ -27,20 +27,44 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class User {
 
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   private @Nullable Long id;
 
+  
+  @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("username")
   private @Nullable String username;
 
+  
+  @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("firstName")
   private @Nullable String firstName;
 
+  
+  @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastName")
   private @Nullable String lastName;
 
+  
+  @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("email")
   private @Nullable String email;
 
+  
+  @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("password")
   private @Nullable String password;
 
+  
+  @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("phone")
   private @Nullable String phone;
 
+  
+  @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("userStatus")
   private @Nullable Integer userStatus;
 
 }
