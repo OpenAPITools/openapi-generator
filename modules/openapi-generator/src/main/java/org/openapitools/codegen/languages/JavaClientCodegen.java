@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -105,6 +106,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String FAIL_ON_UNKNOWN_PROPERTIES = "failOnUnknownProperties";
     public static final String SUPPORT_VERTX_FUTURE = "supportVertxFuture";
     public static final String USE_SEALED_ONE_OF_INTERFACES = "useSealedOneOfInterfaces";
+    public static final String USE_UNARY_INTERCEPTOR = "useUnaryInterceptor";
 
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
@@ -149,6 +151,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean supportVertxFuture = false;
     @Setter protected boolean useSealedOneOfInterfaces = false;
+    @Setter protected boolean useUnaryInterceptor = false;
     protected String authFolder;
     /**
      * Serialization library.
@@ -260,6 +263,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.", this.useSealedOneOfInterfaces));
+        cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
 
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(JERSEY3, "HTTP client: Jersey client 3.1.1. JSON processing: Jackson 2.17.1");
@@ -376,6 +380,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
         convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
+        convertPropertyToBooleanAndWriteBack(USE_UNARY_INTERCEPTOR, this::setUseUnaryInterceptor);
         writePropertyBack(SINGLE_REQUEST_PARAMETER, getSingleRequestParameter());
         writePropertyBack(STATIC_REQUEST, getStaticRequest());
 
@@ -1169,7 +1174,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         for (ModelMap mo : models) {
             CodegenModel cm = mo.getModel();
 
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+            cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
             if (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(NATIVE) || isLibrary(OKHTTP_GSON)) {
                 if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
                     // if oneOf contains "null" type
@@ -1184,7 +1189,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
             if (this.parcelableModel && !cm.isEnum) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
+                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Parcelable");
             }
         }
 

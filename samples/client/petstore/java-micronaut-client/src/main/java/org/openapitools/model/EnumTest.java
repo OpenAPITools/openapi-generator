@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.model.OuterEnum;
 import com.fasterxml.jackson.annotation.*;
@@ -35,7 +34,7 @@ import javax.annotation.Generated;
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
 @JsonTypeName("Enum_Test")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 @Introspected
 public class EnumTest {
     /**

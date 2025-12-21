@@ -7,10 +7,13 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 {{/moshi}}
 {{#jackson}}
+import com.fasterxml.jackson.annotation.JsonCreator
 {{#enumUnknownDefaultCase}}
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 {{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
+import kotlin.jvm.JvmStatic
 {{/jackson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName
@@ -52,7 +55,7 @@ import kotlinx.serialization.*
 @JsonClass(generateAdapter = false)
 {{/moshi}}
 {{/multiplatform}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{{dataType}}}) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{classname}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{{dataType}}}) {
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
     {{#moshi}}
@@ -103,7 +106,9 @@ import kotlinx.serialization.*
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
+        {{#jackson}}@JvmStatic
+        @JsonCreator
+        {{/jackson}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
           values().firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()

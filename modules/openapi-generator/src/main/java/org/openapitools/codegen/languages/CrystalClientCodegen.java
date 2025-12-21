@@ -29,6 +29,8 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.PrefixWithHashLambda;
+import org.openapitools.codegen.templating.mustache.UppercaseLambda;
+import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     @Setter protected String shardDescription = "This shard maps to a REST API";
     @Setter protected String shardAuthor = "";
     @Setter protected String shardAuthorEmail = "";
+    @Setter protected String paramsEncoder = "Crest::NestedParamsEncoder";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected List<String> primitiveTypes = new ArrayList<String>();
@@ -70,6 +73,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
     public static final String SHARD_DESCRIPTION = "shardDescription";
     public static final String SHARD_AUTHOR = "shardAuthor";
     public static final String SHARD_AUTHOR_EMAIL = "shardAuthorEmail";
+    public static final String PARAMS_ENCODER = "paramsEncoder";
 
     public CrystalClientCodegen() {
         super();
@@ -197,8 +201,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         cliOptions.add(new CliOption(SHARD_HOMEPAGE, "shard homepage.").defaultValue("http://org.openapitools"));
 
-        cliOptions.add(
-                new CliOption(SHARD_DESCRIPTION, "shard description.").defaultValue("This shard maps to a REST API"));
+        cliOptions.add(new CliOption(SHARD_DESCRIPTION, "shard description.").defaultValue("This shard maps to a REST API"));
 
         cliOptions.add(new CliOption(SHARD_AUTHOR, "shard author (only one is supported)."));
 
@@ -206,6 +209,10 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+
+        cliOptions.add(new CliOption(PARAMS_ENCODER,
+                "params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder").
+                defaultValue("Crest::NestedParamsEncoder"));
     }
 
     @Override
@@ -260,6 +267,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
             setShardAuthorEmail((String) additionalProperties.get(SHARD_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(PARAMS_ENCODER)) {
+            setParamsEncoder((String) additionalProperties.get(PARAMS_ENCODER));
+        } else {
+            additionalProperties.put(PARAMS_ENCODER, paramsEncoder);
+        }
+
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -273,6 +286,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("api_error.mustache", shardFolder, "api_error.cr"));
         supportingFiles.add(new SupportingFile("configuration.mustache", shardFolder, "configuration.cr"));
         supportingFiles.add(new SupportingFile("api_client.mustache", shardFolder, "api_client.cr"));
+        supportingFiles.add(new SupportingFile("recursive_hash.mustache", shardFolder, "recursive_hash.cr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -285,6 +299,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
+        additionalProperties.put("lambdaUppercase", new UppercaseLambda());
+        additionalProperties.put("lambdaTitlecase", new TitlecaseLambda());
 
     }
 
@@ -747,8 +763,13 @@ public class CrystalClientCodegen extends DefaultCodegen {
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
-            String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
-            return oneOf;
+            if (modelMaps.get(subModel) == null) {
+                LOGGER.warn("Cannot find codegen for SubModel: {} (model: {})", subModel, model);
+                return "";
+            } else {
+                String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
+                return oneOf;
+            }
         } else {
             processedModelMap.put(model, 1);
         }

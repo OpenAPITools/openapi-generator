@@ -24,11 +24,17 @@ import javax.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Tag", description = "A tag for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class Tag {
 
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   private @Nullable Long id;
 
+  
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   private @Nullable String name;
 
 }

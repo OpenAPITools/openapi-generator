@@ -6,10 +6,8 @@ use futures::Stream;
 use std::error::Error;
 use std::collections::BTreeSet;
 use std::task::{Poll, Context};
-use swagger::{ApiError, ContextWrapper};
+use swagger::{ApiError, ContextWrapper, auth::Authorization};
 use serde::{Serialize, Deserialize};
-use crate::server::Authorization;
-
 
 type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
@@ -310,7 +308,8 @@ pub trait Api<C: Send + Sync> {
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>;
 
     async fn get_with_boolean_parameter(
@@ -476,7 +475,8 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>;
 
     async fn get_with_boolean_parameter(
@@ -672,11 +672,12 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         ) -> Result<FormTestResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().form_test(required_array, &context).await
+        self.api().form_test(required_array, enum_field, &context).await
     }
 
     async fn get_with_boolean_parameter(

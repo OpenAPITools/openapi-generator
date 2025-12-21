@@ -17,6 +17,7 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -34,6 +36,26 @@ public class OpenAPINormalizerTest {
     private static final String REF_AS_PARENT_IN_ALLOF = "REF_AS_PARENT_IN_ALLOF";
     private static final String X_PARENT = "x-parent";
     private static final String X_INTERNAL = "x-internal";
+
+    @Test
+    public void testOpenAPINormalizerOtherThanObjectWithProperties()
+    {
+        // to test the rule REF_AS_PARENT_IN_ALLOF
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_21680_array_with_properties.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("errors");
+        assertNotNull(schema);
+        assertNotNull(schema.getProperties());
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("errors");
+        assertNotNull(schema2);
+        assertNull(schema2.getProperties());
+    }
 
     @Test
     public void testOpenAPINormalizerRefAsParentInAllOf() {
@@ -606,8 +628,7 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(s.getExtensions().get(X_INTERNAL), true);
 
-        Map<String, String> options = new HashMap<>();
-        options.put("REMOVE_X_INTERNAL", "true");
+        Map<String, String> options = Map.of("REMOVE_X_INTERNAL", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -623,34 +644,14 @@ public class OpenAPINormalizerTest {
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "operationId:delete|list");
+        Map<String, String> options = Map.of("FILTER", "operationId:delete|list");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
-    }
-
-    @Test
-    public void testOperationIdFilterWithTrim() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
-
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
-
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "operationId:\n\t\t\t\tdelete|\n\t\tlist");
-        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
-        openAPINormalizer.normalize();
-
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
     }
 
     @Test
@@ -659,10 +660,8 @@ public class OpenAPINormalizerTest {
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "method:get");
+        Map<String, String> options = Map.of("FILTER", "method:get");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -670,22 +669,58 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
+
+    static OpenAPINormalizer.Filter parseFilter(String filters) {
+        OpenAPINormalizer.Filter filter = new OpenAPINormalizer.Filter(filters);
+        filter.parse();
+        return filter;
+    }
+
     @Test
-    public void testFilterWithMethodWithTrim() {
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+    public void testFilterParsing() {
+        OpenAPINormalizer.Filter filter;
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+        // no filter
+        filter = parseFilter(" ");
+        assertFalse(filter.hasFilter());
 
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "method:\n\t\t\t\tget");
-        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
-        openAPINormalizer.normalize();
+        // invalid filter
+        assertThrows(IllegalArgumentException.class, () ->
+                parseFilter("operationId:"));
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
+        assertThrows(IllegalArgumentException.class, () ->
+                parseFilter("invalid:invalid:"));
+
+        // extra spaces are trimmed
+        filter = parseFilter("method:\n\t\t\t\tget");
+        assertTrue(filter.hasFilter());
+        assertEquals(filter.methodFilters, Set.of("get"));
+        assertTrue(filter.operationIdFilters.isEmpty());
+        assertTrue(filter.tagFilters.isEmpty());
+        assertTrue(filter.pathStartingWithFilters.isEmpty());
+
+        // multiple values separated by pipe
+        filter = parseFilter("operationId:\n\t\t\t\tdelete|\n\t\tlist\t");
+        assertTrue(filter.hasFilter());
+        assertTrue(filter.methodFilters.isEmpty());
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertTrue(filter.tagFilters.isEmpty());
+        assertTrue(filter.pathStartingWithFilters.isEmpty());
+
+        // multiple filters
+        filter = parseFilter("operationId:delete|list;path:/v1");
+        assertTrue(filter.hasFilter());
+        assertTrue(filter.methodFilters.isEmpty());
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertTrue(filter.tagFilters.isEmpty());
+        assertEquals(filter.pathStartingWithFilters, Set.of("/v1"));
+    }
+
+    @Test
+    public void testMultiFilterParsing() {
+        OpenAPINormalizer.Filter filter = parseFilter("operationId: delete| list ;  tag : testA |testB ");
+        assertEquals(filter.operationIdFilters, Set.of("delete", "list"));
+        assertEquals(filter.tagFilters, Set.of("testA", "testB"));
     }
 
     @Test
@@ -694,10 +729,8 @@ public class OpenAPINormalizerTest {
 
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
 
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "tag:basic");
+        Map<String, String> options = Map.of("FILTER", "tag:basic");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
 
@@ -705,23 +738,73 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
     }
+
     @Test
-    public void testFilterWithTagWithTrim() {
+    public void testCustomRoleFilter() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
-
-        Map<String, String> options = new HashMap<>();
-        options.put("FILTER", "tag:basic");
-        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        Map<String, String> options = Map.of("FILTER", "role:admin");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options) {
+            @Override
+            protected Filter createFilter(OpenAPI openApi, String filters) {
+                return new CustomRoleFilter(filters);
+            }
+        };
         openAPINormalizer.normalize();
 
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
-        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), false);
     }
+
+    private class CustomRoleFilter extends OpenAPINormalizer.Filter {
+        private Set<String> filteredRoles;
+
+        public CustomRoleFilter(String filters) {
+            super(filters);
+        }
+
+        @Override
+        protected void parse(String filterName, String filterValue) {
+            if ("role".equals(filterName)) {
+                this.filteredRoles = splitByPipe(filterValue);
+            } else {
+                parseFails(filterName, filterValue);
+            }
+        }
+
+        @Override
+        protected boolean hasCustomFilterMatch(String path, Operation operation) {
+            return operation.getExtensions() != null && filteredRoles.contains(operation.getExtensions().get("x-role"));
+        }
+    }
+
+    @Test
+    public void testFilterInvalidSyntaxDoesThrow() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        Map<String, String> options = Map.of("FILTER", "tag ; invalid");
+        try {
+            new OpenAPINormalizer(openAPI, options).normalize();
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "FILTER rule [tag ; invalid] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter with no value not supported :[tag]");
+        }
+    }
+
+    @Test
+    public void testFilterInvalidFilterDoesThrow() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        Map<String, String> options = Map.of("FILTER", "method:get ; unknown:test");
+        try {
+            new OpenAPINormalizer(openAPI, options).normalize();
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "FILTER rule [method:get ; unknown:test] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter not supported :[unknown:test]");
+        }
+    }
+
 
     @Test
     public void testComposedSchemaDoesNotThrow() {
@@ -827,7 +910,10 @@ public class OpenAPINormalizerTest {
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("Item");
         assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAnyOf(), null);
-        assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), "#/components/schemas/MyEnum");
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAllOf().size(), 1);
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), null);
+        assertEquals(((Schema) ((Schema) schema2.getProperties().get("my_enum")).getAllOf().get(0)).get$ref(), "#/components/schemas/MyEnum");
     }
 
     @Test
@@ -1021,7 +1107,10 @@ public class OpenAPINormalizerTest {
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
         assertEquals(schema18.getOneOf(), null);
-        assertEquals(schema18.get$ref(), "#/components/schemas/Parent");
+        assertEquals(schema18.get$ref(), null);
+        assertEquals(schema18.getNullable(), true);
+        assertEquals(((Schema) schema18.getAllOf().get(0)).get$ref(), "#/components/schemas/Parent");
+
 
         Schema schema20 = openAPI.getComponents().getSchemas().get("ParentWithOneOfProperty");
         assertEquals(((Schema) schema20.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
@@ -1099,6 +1188,24 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema2.getProperties().get("property1")).getAllOf(), null);
         assertEquals(((Schema) schema2.getProperties().get("property2")).getAllOf(), null);
         assertEquals(((Schema) schema2.getProperties().get("property2")).getAllOf(), null);
+    }
+
+    @Test
+    public void testOpenAPINormalizerNormalizeReferenceSchema() {
+        // to test array schema processing in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(((Schema) schema.getProperties().get("property3")).get$ref(), "#/components/schemas/RefSchema");
+
+        Map<String, String> inputRules = Map.of("NORMALIZE_31SPEC", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(((Schema) schema2.getProperties().get("property3")).getAllOf().size(), 1);
+        assertEquals(((Schema) schema2.getProperties().get("property3")).getDescription(), "Override description in $ref schema");
+        assertEquals(((Schema) ((Schema) schema2.getProperties().get("property3")).getAllOf().get(0)).get$ref(), "#/components/schemas/RefSchema");
     }
 
     @Test
@@ -1204,4 +1311,5 @@ public class OpenAPINormalizerTest {
             return super.normalizeSchema(schema, visitedSchemas);
         }
     }
+
 }

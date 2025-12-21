@@ -27,6 +27,9 @@
   },
   "dependencies": {
     "axios": "{{axiosVersion}}"
+    {{#withAWSV4Signature}}
+    "aws4-axios": "^3.3.4"
+    {{/withAWSV4Signature}}
   },
   "devDependencies": {
     "@types/node": "12.11.5 - 12.20.42",

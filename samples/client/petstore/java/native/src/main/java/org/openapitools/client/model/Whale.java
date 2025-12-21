@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,7 +39,7 @@ import org.openapitools.client.ApiClient;
   Whale.JSON_PROPERTY_HAS_TEETH,
   Whale.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   @javax.annotation.Nullable
@@ -198,17 +197,17 @@ public class Whale {
 
     // add `hasBaleen` to the URL query string
     if (getHasBaleen() != null) {
-      joiner.add(String.format(Locale.ROOT, "%shasBaleen%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasBaleen()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%shasBaleen%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasBaleen()))));
     }
 
     // add `hasTeeth` to the URL query string
     if (getHasTeeth() != null) {
-      joiner.add(String.format(Locale.ROOT, "%shasTeeth%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasTeeth()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%shasTeeth%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasTeeth()))));
     }
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
     }
 
     return joiner.toString();

@@ -16,7 +16,6 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +37,6 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Locale;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -56,7 +54,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 @JsonDeserialize(using = PostRequest.PostRequestDeserializer.class)
 @JsonSerialize(using = PostRequest.PostRequestSerializer.class)
 public class PostRequest extends AbstractOpenApiSchema {
@@ -134,7 +132,7 @@ public class PostRequest extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format(Locale.ROOT, "Failed deserialization for PostRequest: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for PostRequest: %d classes match result, expected 1", match));
         }
 
         /**

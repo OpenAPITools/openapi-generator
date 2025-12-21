@@ -25,6 +25,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |moduleName|module name (e.g. TwitterClient| |OpenAPIClient|
+|paramsEncoder|params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder| |Crest::NestedParamsEncoder|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |shardAuthor|shard author (only one is supported).| |null|
 |shardAuthorEmail|shard author email (only one is supported).| |null|

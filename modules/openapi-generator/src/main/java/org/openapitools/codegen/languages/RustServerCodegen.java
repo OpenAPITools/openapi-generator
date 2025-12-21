@@ -48,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_ONE_OF_NAME;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -85,6 +86,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     // RFC 7807 Support
     private static final String problemJsonMimeType = "application/problem+json";
     private static final String problemXmlMimeType = "application/problem+xml";
+
+    // Track if we have models with conflicting names (Ok/Err) that conflict with serde_valid
+    private boolean hasConflictingModelNames = false;
 
     public RustServerCodegen() {
         super();
@@ -368,6 +372,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public String toOperationId(String operationId) {
         // rust-server uses camel case instead
         return sanitizeIdentifier(operationId, CasingType.CAMEL_CASE, "call", "method", true);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // rust-server doesn't support r# in param name.
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        return sanitizeIdentifier(name, CasingType.SNAKE_CASE, "param", "parameter", false);
     }
 
     @Override
@@ -860,6 +874,16 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             op.vendorExtensions.put("x-has-request-body", true);
         }
 
+        if (op.allParams.stream()
+            .anyMatch(p -> p.isArray && !p.isPrimitiveType)) {
+            op.vendorExtensions.put("x-has-borrowed-params", Boolean.TRUE);
+            for (CodegenParameter param : op.allParams) {
+                if (param.isArray) {
+                    param.vendorExtensions.put("x-param-needs-lifetime", Boolean.TRUE);
+                }
+            }
+        }
+
         // The CLI generates a structopt structure for each operation. This can only have a single
         // use of a short option, which comes from the parameter name, so we need to police
         // against duplicates
@@ -920,6 +944,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             // If the MIME type is JSON, mark it.  We don't currently support any other MIME types.
             if (param.contentType != null && isMimetypeJson(param.contentType)) {
                 param.vendorExtensions.put("x-consumes-json", true);
+            }
+
+            // Add a vendor extension to flag if this can have validate() run on it.
+            if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+                param.vendorExtensions.put("x-can-validate", true);
             }
         }
 
@@ -1213,6 +1242,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesUuid", true);
             }
 
+            if (prop.isByteArray) {
+                additionalProperties.put("apiUsesByteArray", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);
@@ -1228,6 +1261,9 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else if (mdl.dataType != null
                 && (mdl.dataType.startsWith("swagger::OneOf") || mdl.dataType.startsWith("swagger::AnyOf"))) {
             toStringSupport = false;
+            partialOrdSupport = false;
+        } else if (mdl.dataType != null && mdl.dataType.equals("serde_json::Value")) {
+            // Value doesn't implement PartialOrd
             partialOrdSupport = false;
         } else if (mdl.getAdditionalPropertiesType() != null) {
             toStringSupport = false;
@@ -1379,8 +1415,8 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (composedSchema != null) {
             exts = composedSchema.getExtensions();
         }
-        if (exts != null && exts.containsKey("x-one-of-name")) {
-            return (String) exts.get("x-one-of-name");
+        if (exts != null && exts.containsKey(X_ONE_OF_NAME)) {
+            return (String) exts.get(X_ONE_OF_NAME);
         }
 
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
@@ -1408,6 +1444,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
      *
      * @deprecated Avoid using this - use a different mechanism instead.
      */
+    @Deprecated
     private static String stripNullable(String type) {
         if (type.startsWith("swagger::Nullable<") && type.endsWith(">")) {
             return type.substring("swagger::Nullable<".length(), type.length() - 1);
@@ -1426,8 +1463,20 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
+        // Check for reserved field names that conflict with serde_valid macro internals
+        if ("ok".equalsIgnoreCase(property.name) || "err".equalsIgnoreCase(property.name)) {
+            model.vendorExtensions.put("x-skip-serde-valid", true);
+        }
+
+        // Mark properties that reference complex types (models) for nested validation
+        // Only add nested validation for types that reference generated models (contain "models::")
+        if (property.dataType != null && property.dataType.contains("models::")) {
+            property.vendorExtensions.put("x-needs-nested-validation", true);
+        }
+
         // TODO: We should avoid reverse engineering primitive type status from the data type
-        if (!languageSpecificPrimitives.contains(stripNullable(property.dataType))) {
+        String strippedType = stripNullable(property.dataType);
+        if (!languageSpecificPrimitives.contains(strippedType)) {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
@@ -1500,7 +1549,32 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        return super.postProcessModelsEnum(objs);
+        ModelsMap result = super.postProcessModelsEnum(objs);
+
+        // Check for model names that conflict with serde_valid macro internals
+        // Once we find one, set a class-level flag that persists across all model batches
+        if (!hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if ("Ok".equalsIgnoreCase(model.classname) || "Err".equalsIgnoreCase(model.classname)) {
+                    hasConflictingModelNames = true;
+                    additionalProperties.put("hasConflictingModelNames", true);
+                    break;
+                }
+            }
+        }
+
+        // If there are conflicting names (detected in any batch), skip serde_valid for ALL models
+        if (hasConflictingModelNames) {
+            for (ModelMap modelMap : result.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                model.vendorExtensions.put("x-skip-serde-valid", true);
+            }
+            // Set the flag for this batch's template context
+            result.put("hasConflictingModelNames", true);
+        }
+
+        return result;
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
@@ -1509,6 +1583,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // If a parameter uses UUIDs, we need to import the UUID package.
         if (uuidType.equals(param.dataType)) {
             additionalProperties.put("apiUsesUuid", true);
+        }
+
+        // If a parameter uses byte arrays, we need to set a flag.
+        if (param.isByteArray) {
+            additionalProperties.put("apiUsesByteArray", true);
         }
 
         if (Boolean.TRUE.equals(param.isFreeFormObject)) {
@@ -1544,7 +1623,18 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
-            if (param.example != null) {
+            // Check if this is a model-type enum (allowableValues with values list)
+            if (param.allowableValues != null && param.allowableValues.containsKey("values")) {
+                List<?> values = (List<?>) param.allowableValues.get("values");
+                if (!values.isEmpty()) {
+                    // Use the first enum value as the example.
+                    String firstEnumValue = values.get(0).toString();
+                    String enumVariant = toEnumVarName(firstEnumValue, param.dataType);
+                    example = param.dataType + "::" + enumVariant;
+                } else if (param.example != null) {
+                    example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                }
+            } else if (param.example != null) {
                 example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
             }
         }
@@ -1568,6 +1658,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             param.vendorExtensions.put("x-format-string", "{:?}");
             String exampleString = (example != null) ? "Some(" + example + ")" : "None";
             param.vendorExtensions.put("x-example", exampleString);
+        }
+
+        // Add a vendor extension to flag if this can have validate() run on it.
+        if (!param.isUuid && !param.isPrimitiveType && !param.isEnum && (!param.isContainer || !languageSpecificPrimitives.contains(typeMapping.get(param.baseType)))) {
+           param.vendorExtensions.put("x-can-validate", true);
         }
     }
 

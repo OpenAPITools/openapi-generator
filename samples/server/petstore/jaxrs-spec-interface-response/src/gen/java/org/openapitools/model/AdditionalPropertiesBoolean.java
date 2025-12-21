@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @JsonTypeName("AdditionalPropertiesBoolean")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implements Serializable {
   private String name;
 

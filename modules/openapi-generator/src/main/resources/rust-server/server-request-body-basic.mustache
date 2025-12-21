@@ -1,4 +1,4 @@
-        {{#vendorExtensions}}
+        {{#exts}}
                                 let param_{{{paramName}}}: Option<{{{dataType}}}> = if !body.is_empty() {
           {{#x-consumes-xml}}
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
@@ -28,6 +28,9 @@
 
           {{/x-consumes-plain-text}}
           {{#x-consumes-plain-text}}
+            {{#isBinary}}
+                                    Some(swagger::ByteArray(body.to_vec()))
+            {{/isBinary}}
             {{#isByteArray}}
                                     Some(swagger::ByteArray(body.to_vec()))
             {{/isByteArray}}
@@ -41,7 +44,7 @@
                                     }
             {{/isString}}
           {{/x-consumes-plain-text}}
-        {{/vendorExtensions}}
+        {{/exts}}
                                 } else {
                                     None
                                 };
@@ -54,3 +57,7 @@
                                                         .expect("Unable to create Bad Request response for missing body parameter {{{baseName}}}")),
                                 };
         {{/required}}
+        {{#exts.x-can-validate}}
+        #[cfg(not(feature = "validate"))]
+                                run_validation!(param_{{{paramName}}}, "{{{baseName}}}", validation);
+        {{/exts.x-can-validate}}

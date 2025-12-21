@@ -18,7 +18,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -56,7 +55,7 @@ import org.openapitools.client.JSON;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @javax.annotation.Nullable

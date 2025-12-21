@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import org.openapitools.api.*;
 import org.openapitools.model.*;
+
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface PetApiService {
       Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;
@@ -37,4 +38,6 @@ public interface PetApiService {
       throws NotFoundException;
       Response uploadFile(MultipartFormDataInput input,Long petId,SecurityContext securityContext)
       throws NotFoundException;
+
+
 }

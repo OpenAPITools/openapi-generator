@@ -63,7 +63,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -72,7 +71,7 @@ import java.time.OffsetDateTime;
 
 import org.openapitools.client.auth.Authentication;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -716,7 +715,7 @@ public class ApiClient extends JavaTimeFormatter {
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format(Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(String.format(java.util.Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();

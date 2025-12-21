@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.17.0-SNAPSHOT
+- Generator version: 7.18.0-SNAPSHOT
 
 
 
@@ -113,6 +113,7 @@ cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
 cargo run --example client XmlPost
 cargo run --example client XmlPut
+cargo run --example client EnumInPathPathParamGet
 cargo run --example client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
 cargo run --example client CreateRepo
 cargo run --example client GetRepoInfo
@@ -142,6 +143,9 @@ The generated library has a few optional features that can be activated through 
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
     * This defaults to disabled and is required for building the included CLI tool.
+* `validate`
+    * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
+    * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 
@@ -201,11 +205,13 @@ Method | HTTP request | Description
  - [EnumWithStarObject](docs/EnumWithStarObject.md)
  - [Err](docs/Err.md)
  - [Error](docs/Error.md)
+ - [FormTestRequestEnumField](docs/FormTestRequestEnumField.md)
  - [Model12345AnyOfObject](docs/Model12345AnyOfObject.md)
  - [Model12345AnyOfObjectAnyOf](docs/Model12345AnyOfObjectAnyOf.md)
  - [MultigetGet201Response](docs/MultigetGet201Response.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
+ - [NoTypeObject](docs/NoTypeObject.md)
  - [NullableObject](docs/NullableObject.md)
  - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)

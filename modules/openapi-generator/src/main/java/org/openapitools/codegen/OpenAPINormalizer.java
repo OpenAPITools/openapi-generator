@@ -37,8 +37,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
-import static org.openapitools.codegen.CodegenConstants.X_PARENT;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -49,7 +48,7 @@ public class OpenAPINormalizer {
 
     private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
     Set<String> rulesDefaultToTrue = new TreeSet<>();
@@ -124,6 +123,9 @@ public class OpenAPINormalizer {
     // the allOf contains a new schema containing the properties in the top level
     final String REFACTOR_ALLOF_WITH_PROPERTIES_ONLY = "REFACTOR_ALLOF_WITH_PROPERTIES_ONLY";
 
+    // when set to true, remove the "properties" of a schema with type other than "object"
+    final String REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT = "REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT";
+
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
     final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
@@ -133,10 +135,6 @@ public class OpenAPINormalizer {
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
-    HashSet<String> operationIdFilters = new HashSet<>();
-    HashSet<String> methodFilters = new HashSet<>();
-
-    HashSet<String> tagFilters = new HashSet<>();
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -210,11 +208,13 @@ public class OpenAPINormalizer {
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
+        ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
         rules.put(SIMPLIFY_ONEOF_ANYOF_ENUM, true);
+        rules.put(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY, true);
 
         processRules(inputRules);
 
@@ -275,30 +275,7 @@ public class OpenAPINormalizer {
 
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
-
-            String[] filterStrs = inputRules.get(FILTER).split(":");
-            if (filterStrs.length != 2) { // only support operationId with : at the moment
-                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-            } else {
-                if ("operationId".equals(filterStrs[0])) {
-                    operationIdFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("method".equals(filterStrs[0])) {
-                    methodFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else if ("tag".equals(filterStrs[0])) {
-                    tagFilters = Arrays.stream(filterStrs[1].split("[|]"))
-                            .filter(Objects::nonNull)
-                            .map(String::trim)
-                            .collect(Collectors.toCollection(HashSet::new));
-                } else {
-                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3`: {}", inputRules.get(FILTER));
-                }
-            }
+            // actual parsing is delayed to allow customization of the Filter processing
         }
 
         if (inputRules.get(SET_CONTAINER_TO_NULLABLE) != null) {
@@ -342,6 +319,19 @@ public class OpenAPINormalizer {
         if (bearerAuthSecuritySchemeName != null) {
             rules.put(SET_BEARER_AUTH_FOR_NAME, true);
         }
+    }
+
+    /**
+     * Create the filter to process the FILTER normalizer.
+     * Override this to create a custom filter normalizer.
+     *
+     * @param openApi Contract used in the filtering (could be used for customization).
+     * @param filters full FILTER value
+     *
+     * @return a Filter containing the parsed filters.
+     */
+    protected Filter createFilter(OpenAPI openApi, String filters) {
+        return new Filter(filters);
     }
 
     /**
@@ -405,15 +395,15 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
-            // Iterates over each HTTP method in methodMap, retrieves the corresponding Operation from the PathItem,
-            // and marks it as internal (`x-internal`) if the method is not in methodFilters.
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(path);
-                if (operation != null && !methodFilters.isEmpty()) {
-                    LOGGER.info("operation `{}` marked internal only (x-internal: `{}`) by the method FILTER", operation.getOperationId(), !methodFilters.contains(method));
-                    operation.addExtension("x-internal", !methodFilters.contains(method));
+            if (Boolean.TRUE.equals(getRule(FILTER))) {
+                String filters = inputRules.get(FILTER);
+                Filter filter = createFilter(this.openAPI, filters);
+                if (filter.parse()) {
+                    // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                    // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                    filter.apply(pathsEntry.getKey(), path, methodMap);
                 }
-            });
+            }
 
             // Include callback operation as well
             for (Operation operation : path.readOperations()) {
@@ -430,22 +420,6 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
-                if (operationIdFilters.size() > 0) {
-                    if (operationIdFilters.contains(operation.getOperationId())) {
-                        operation.addExtension(X_INTERNAL, false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the operationId FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL, true);
-                    }
-                } else if (!tagFilters.isEmpty()) {
-                    if (operation.getTags().stream().anyMatch(tagFilters::contains)) {
-                        operation.addExtension(X_INTERNAL, false);
-                    } else {
-                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the tag FILTER", operation.getOperationId());
-                        operation.addExtension(X_INTERNAL, true);
-                    }
-                }
-
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation.getParameters());
@@ -721,6 +695,11 @@ public class OpenAPINormalizer {
      * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+        // normalize reference schema
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            normalizeReferenceSchema(schema);
+        }
+
         if (skipNormalization(schema, visitedSchemas)) {
             return schema;
         }
@@ -730,6 +709,8 @@ public class OpenAPINormalizer {
         }
 
         markSchemaAsVisited(schema, visitedSchemas);
+
+        processNormalizeOtherThanObjectWithProperties(schema);
 
         if (ModelUtils.isArraySchema(schema)) { // array
             Schema result = normalizeArraySchema(schema);
@@ -786,6 +767,30 @@ public class OpenAPINormalizer {
         return schema;
     }
 
+    /**
+     * Normalize reference schema with allOf to support sibling properties
+     *
+     * @param schema         Schema
+     */
+    protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getTitle() != null || schema.getDescription() != null
+                || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
+                || schema.getMaximum() != null || schema.getMinimum() != null
+                || schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null
+                || schema.getMaxItems() != null || schema.getMinItems() != null
+                || schema.getMaxProperties() != null || schema.getMinProperties() != null
+                || schema.getMaxLength() != null || schema.getMinLength() != null
+                || schema.getWriteOnly() != null || schema.getReadOnly() != null
+                || schema.getExample() != null || (schema.getExamples() != null && !schema.getExamples().isEmpty())
+                || schema.getMultipleOf() != null || schema.getPattern() != null
+                || (schema.getExtensions() != null && !schema.getExtensions().isEmpty())
+        ) {
+            // create allOf with a $ref schema
+            schema.addAllOfItem(new Schema<>().$ref(schema.get$ref()));
+            // clear $ref in original schema
+            schema.set$ref(null);
+        }
+    }
 
     /**
      * Check if normalization is needed.
@@ -1363,7 +1368,7 @@ public class OpenAPINormalizer {
      *
      * @param schema Schema to modify
      * @param subSchemas List of sub-schemas to check
-     * @param schemaType Type of composed schema ("oneOf" or "anyOf")
+     * @param composedType Type of composed schema ("oneOf" or "anyOf")
      * @return Simplified schema
      */
     protected Schema simplifyComposedSchemaWithEnums(Schema schema, List<Object> subSchemas, String composedType) {
@@ -1564,7 +1569,7 @@ public class OpenAPINormalizer {
     }
 
     protected Schema setNullable(Schema schema) {
-        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey(X_NULLABLE))) {
             // already set, don't overwrite
             return schema;
         }
@@ -1832,4 +1837,181 @@ public class OpenAPINormalizer {
     }
 
     // ===================== end of rules =====================
+
+    protected static class Filter {
+        public static final String OPERATION_ID = "operationId";
+        public static final String METHOD = "method";
+        public static final String TAG = "tag";
+        public static final String PATH = "path";
+        private final String filters;
+        protected Set<String> operationIdFilters = Collections.emptySet();
+        protected Set<String> methodFilters = Collections.emptySet();
+        protected Set<String> tagFilters = Collections.emptySet();
+        protected Set<String> pathStartingWithFilters = Collections.emptySet();
+        private boolean hasFilter;
+
+        protected Filter(String filters) {
+            this.filters = filters.trim();
+        }
+
+        /**
+         * Perform the parsing of the filter string.
+         *
+         * @return true if filters need to be processed
+         */
+        public boolean parse() {
+            if (StringUtils.isEmpty(filters)) {
+                return false;
+            }
+            try {
+                doParse();
+                return hasFilter();
+            } catch (RuntimeException e) {
+                String message = String.format(Locale.ROOT, "FILTER rule [%s] must be in the form of `%s:name1|name2|name3` or `%s:get|post|put` or `%s:tag1|tag2|tag3` or `%s:/v1|/v2`. Error: %s",
+                        filters, Filter.OPERATION_ID, Filter.METHOD, Filter.TAG, Filter.PATH, e.getMessage());
+                // throw an exception. This is a breaking change compared to pre 7.16.0
+                // Workaround: fix the syntax!
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        private void doParse() {
+            for (String filter : filters.split(";")) {
+                filter = filter.trim();
+                String[] filterStrs = filter.split(":");
+                if (filterStrs.length != 2) { // only support filter with : at the moment
+                    throw new IllegalArgumentException("filter with no value not supported :[" + filter + "]");
+                } else {
+                    String filterKey = filterStrs[0].trim();
+                    String filterValue = filterStrs[1];
+                    Set<String> parsedFilters = splitByPipe(filterValue);
+                    hasFilter = true;
+                    if (OPERATION_ID.equals(filterKey)) {
+                        operationIdFilters = parsedFilters;
+                    } else if (METHOD.equals(filterKey)) {
+                        methodFilters = parsedFilters;
+                    } else if (TAG.equals(filterKey)) {
+                        tagFilters = parsedFilters;
+                    } else if (PATH.equals(filterKey)) {
+                        pathStartingWithFilters = parsedFilters;
+                    } else {
+                        parse(filterKey, filterValue);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Split the filterValue by pipe.
+         *
+         * @return the split values.
+         */
+        protected Set<String> splitByPipe(String filterValue) {
+            return Arrays.stream(filterValue.split("[|]"))
+                    .filter(Objects::nonNull)
+                    .map(String::trim)
+                    .collect(Collectors.toCollection(HashSet::new));
+        }
+
+        /**
+         * Parse non default filters.
+         *
+         * Override this method to add custom parsing logic.
+         *
+         * By default throws IllegalArgumentException.
+         *
+         * @param filterName name of the filter
+         * @param filterValue value of the filter
+         */
+        protected void parse(String filterName, String filterValue) {
+            parseFails(filterName, filterValue);
+        }
+
+        protected void parseFails(String filterName, String filterValue) {
+            throw new IllegalArgumentException("filter not supported :[" + filterName + ":" + filterValue + "]");
+        }
+
+        /**
+         * Test if the OpenAPI contract match an extra filter.
+         *
+         * Override this method to add custom logic.
+         *
+         * @param operation  Openapi Operation
+         * @param path  Path of the operation
+         *
+         * @return true if the operation of path match the filter
+         */
+        protected boolean hasCustomFilterMatch(String path, Operation operation) {
+            return false;
+        }
+
+        public boolean hasFilter() {
+            return hasFilter;
+        }
+
+        public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
+            methodMap.forEach((method, getter) -> {
+                Operation operation = getter.apply(pathItem);
+                if (operation != null) {
+                    boolean found = false;
+                    found |= logIfMatch(PATH, operation, hasPathStarting(path));
+                    found |= logIfMatch(TAG, operation, hasTag(operation));
+                    found |= logIfMatch(OPERATION_ID, operation, hasOperationId(operation));
+                    found |= logIfMatch(METHOD, operation, hasMethod(method));
+                    found |= hasCustomFilterMatch(path, operation);
+
+                    operation.addExtension(X_INTERNAL, !found);
+                }
+            });
+        }
+
+        protected boolean logIfMatch(String filterName, Operation operation, boolean filterMatched) {
+            if (filterMatched) {
+                logMatch(filterName, operation);
+            }
+            return filterMatched;
+        }
+
+        protected void logMatch(String filterName, Operation operation) {
+            getLogger().info("operation `{}` marked as internal only (x-internal: true) by the {} FILTER", operation.getOperationId(), filterName);
+        }
+
+        protected Logger getLogger() {
+            return OpenAPINormalizer.LOGGER;
+        }
+
+        private boolean hasPathStarting(String path) {
+            return pathStartingWithFilters.stream().anyMatch(filter -> path.startsWith(filter));
+        }
+
+        private boolean hasTag( Operation operation) {
+            return operation.getTags() != null && operation.getTags().stream().anyMatch(tagFilters::contains);
+        }
+
+        private boolean hasOperationId(Operation operation) {
+            return operationIdFilters.contains(operation.getOperationId());
+        }
+
+        private boolean hasMethod(String method) {
+            return methodFilters.contains(method);
+        }
+    }
+
+    /**
+     * When set to true, remove "properties" attribute on schema other than "object"
+     * since it should be ignored and may result in odd generated code
+     *
+     * @param schema         Schema
+     * @return Schema
+     */
+    protected void processNormalizeOtherThanObjectWithProperties(Schema schema) {
+        if (getRule(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT)) {
+            // Check object models / any type models / composed models for properties,
+            // if the schema has a type defined that is not "object" it should not define
+            // any properties
+            if (schema.getType() != null && !"object".equals(schema.getType())) {
+                schema.setProperties(null);
+            }
+        }
+    }
 }

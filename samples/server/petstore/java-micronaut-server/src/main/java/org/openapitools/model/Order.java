@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 
@@ -37,7 +36,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
   Order.JSON_PROPERTY_COMPLETE
 })
 @JsonTypeName("Order")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 @Introspected
 public class Order {
     public static final String JSON_PROPERTY_ID = "id";

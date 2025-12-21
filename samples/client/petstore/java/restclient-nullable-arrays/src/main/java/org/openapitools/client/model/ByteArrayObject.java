@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ByteArrayObject.JSON_PROPERTY_STRING_FIELD,
   ByteArrayObject.JSON_PROPERTY_INT_FIELD
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class ByteArrayObject {
   public static final String JSON_PROPERTY_NULLABLE_ARRAY = "nullableArray";
   @jakarta.annotation.Nullable

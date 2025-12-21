@@ -1,0 +1,60 @@
+{{#exts.x-true-type}}
+{{#minimum}}
+  {{#exclusiveMinimum}}
+    #[cfg_attr(feature = "validate", validate(exclusive_minimum = {{{minimum}}}{{{exts.x-true-type}}}))]
+  {{/exclusiveMinimum}}
+  {{^exclusiveMinimum}}
+    #[cfg_attr(feature = "validate", validate(minimum = {{{minimum}}}{{{exts.x-true-type}}}))]
+  {{/exclusiveMinimum}}
+{{/minimum}}
+{{#maximum}}
+  {{#exclusiveMaximum}}
+    #[cfg_attr(feature = "validate", validate(exclusive_maximum = {{{maximum}}}{{{exts.x-true-type}}}))]
+  {{/exclusiveMaximum}}
+  {{^exclusiveMaximum}}
+    #[cfg_attr(feature = "validate", validate(maximum = {{{maximum}}}{{{exts.x-true-type}}}))]
+  {{/exclusiveMaximum}}
+{{/maximum}}
+{{/exts.x-true-type}}
+{{^exts.x-true-type}}
+{{#minimum}}
+  {{#exclusiveMinimum}}
+    #[cfg_attr(feature = "validate", validate(exclusive_minimum = {{{minimum}}}{{{dataType}}}))]
+  {{/exclusiveMinimum}}
+  {{^exclusiveMinimum}}
+    #[cfg_attr(feature = "validate", validate(minimum = {{{minimum}}}{{{dataType}}}))]
+  {{/exclusiveMinimum}}
+{{/minimum}}
+{{#maximum}}
+  {{#exclusiveMaximum}}
+    #[cfg_attr(feature = "validate", validate(exclusive_maximum = {{{maximum}}}{{{dataType}}}))]
+  {{/exclusiveMaximum}}
+  {{^exclusiveMaximum}}
+    #[cfg_attr(feature = "validate", validate(maximum = {{{maximum}}}{{{dataType}}}))]
+  {{/exclusiveMaximum}}
+{{/maximum}}
+{{/exts.x-true-type}}
+{{#minLength}}
+    #[cfg_attr(feature = "validate", validate(min_length = {{{minLength}}}))]
+{{/minLength}}
+{{#maxLength}}
+    #[cfg_attr(feature = "validate", validate(max_length = {{{maxLength}}}))]
+{{/maxLength}}
+{{#pattern}}
+{{^isByteArray}}
+    #[cfg_attr(feature = "validate", validate(pattern = r"{{{pattern}}}"))]
+{{/isByteArray}}
+{{/pattern}}
+{{#minItems}}
+    #[cfg_attr(feature = "validate", validate(min_length = {{{minItems}}}))]
+{{/minItems}}
+{{#maxItems}}
+    #[cfg_attr(feature = "validate", validate(max_length = {{{maxItems}}}))]
+{{/maxItems}}
+{{#isEnum}}
+  {{#allowableValues}}
+    {{#isString}}
+    #[cfg_attr(feature = "validate", validate(enumerate({{#enumVars}}{{{value}}}, {{/enumVars}})))]
+    {{/isString}}
+  {{/allowableValues}}
+{{/isEnum}}

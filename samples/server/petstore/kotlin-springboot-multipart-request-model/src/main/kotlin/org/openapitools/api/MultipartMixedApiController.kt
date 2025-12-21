@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
+import org.openapitools.api.MultipartMixedApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -31,7 +32,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${api.base-path:}")
+@RequestMapping("\${openapi.multipartFileTest.base-path:\${api.base-path:$BASE_PATH}}")
 class MultipartMixedApiController() {
 
     @Operation(
@@ -43,10 +44,20 @@ class MultipartMixedApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/multipart-mixed"],
+        value = [PATH_MULTIPART_MIXED /* "/multipart-mixed" */],
         consumes = ["multipart/form-data"]
     )
-    fun multipartMixed(@Parameter(description = "", required = true, schema = Schema(allowableValues = ["ALLOWED", "IN_PROGRESS", "REJECTED"])) @Valid @RequestParam(value = "status", required = true) status: MultipartMixedStatus ,@Parameter(description = "a file") @Valid @RequestPart("file", required = true) file: org.springframework.web.multipart.MultipartFile,@Parameter(description = "") @Valid @RequestPart(value = "marker", required = false) marker: MultipartMixedRequestMarker? ): ResponseEntity<Unit> {
+    fun multipartMixed(
+        @Parameter(description = "", required = true, schema = Schema(allowableValues = ["ALLOWED", "IN_PROGRESS", "REJECTED"])) @Valid @RequestParam(value = "status", required = true) status: MultipartMixedStatus,
+        @Parameter(description = "a file") @Valid @RequestPart("file", required = true) file: org.springframework.web.multipart.MultipartFile,
+        @Parameter(description = "") @Valid @RequestPart(value = "marker", required = false) marker: MultipartMixedRequestMarker?
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = ""
+        const val PATH_MULTIPART_MIXED: String = "/multipart-mixed"
     }
 }

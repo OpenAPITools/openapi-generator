@@ -53,6 +53,7 @@ test {
     useJUnitPlatform()
 }
 
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -63,4 +64,19 @@ dependencies {
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-petstore-jvm-ktor-jackson'
+            version = '1.0.0'
+            from components.java
+        }
+    }
 }

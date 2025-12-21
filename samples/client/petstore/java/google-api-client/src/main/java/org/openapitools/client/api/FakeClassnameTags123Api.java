@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -81,7 +81,8 @@ public class FakeClassnameTags123Api {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        return httpRequest.execute();
     }
 
       public HttpResponse testClassnameForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
@@ -97,7 +98,8 @@ public class FakeClassnameTags123Api {
               HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+              return httpRequest.execute();
       }
 
     public HttpResponse testClassnameForHttpResponse(@javax.annotation.Nonnull Client body, Map<String, Object> params) throws IOException {
@@ -129,7 +131,8 @@ public class FakeClassnameTags123Api {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content);
+        return httpRequest.execute();
     }
 
 

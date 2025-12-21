@@ -1390,11 +1390,11 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn test_enum_parameters(
+    async fn test_enum_parameters<'a>(
         &self,
-        param_enum_header_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_header_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_header_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
-        param_enum_query_string_array: Option<&Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
+        param_enum_query_string_array: Option<&'a Vec<models::TestEnumParametersEnumHeaderStringArrayParameterInner>>,
         param_enum_query_string: Option<models::TestEnumParametersEnumHeaderStringParameter>,
         param_enum_query_integer: Option<models::TestEnumParametersEnumQueryIntegerParameter>,
         param_enum_query_double: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
@@ -1968,9 +1968,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_status(
+    async fn find_pets_by_status<'a>(
         &self,
-        param_status: &Vec<models::FindPetsByStatusStatusParameterInner>,
+        param_status: &'a Vec<models::FindPetsByStatusStatusParameterInner>,
         context: &C) -> Result<FindPetsByStatusResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2076,9 +2076,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn find_pets_by_tags(
+    async fn find_pets_by_tags<'a>(
         &self,
-        param_tags: &Vec<String>,
+        param_tags: &'a Vec<String>,
         context: &C) -> Result<FindPetsByTagsResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2650,7 +2650,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
         };
 
         // Consumes multipart/form body
-        let (body_string, multipart_header) = {
+        let (body_bytes, multipart_header) = {
             let mut multipart = Multipart::new();
 
             // For each parameter, encode as appropriate and add to the multipart body as a stream.
@@ -2684,9 +2684,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
                 Err(err) => return Err(ApiError(format!("Unable to build request: {err}"))),
             };
 
-            let mut body_string = String::new();
+            let mut body_bytes = Vec::new();
 
-            match fields.read_to_string(&mut body_string) {
+            match fields.read_to_end(&mut body_bytes) {
                 Ok(_) => (),
                 Err(err) => return Err(ApiError(format!("Unable to build body: {err}"))),
             }
@@ -2695,10 +2695,10 @@ impl<S, C, B> Api<C> for Client<S, C> where
 
             let multipart_header = format!("multipart/form-data;boundary={boundary}");
 
-            (body_string, multipart_header)
-        };
+            (body_bytes, multipart_header)
+          };
 
-        *request.body_mut() = body_from_string(body_string);
+        *request.body_mut() = BoxBody::new(Full::new(Bytes::from(body_bytes)));
 
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,
@@ -3201,9 +3201,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_array_input(
+    async fn create_users_with_array_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithArrayInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -3278,9 +3278,9 @@ impl<S, C, B> Api<C> for Client<S, C> where
     }
 
     #[allow(clippy::vec_init_then_push)]
-    async fn create_users_with_list_input(
+    async fn create_users_with_list_input<'a>(
         &self,
-        param_body: &Vec<models::User>,
+        param_body: &'a Vec<models::User>,
         context: &C) -> Result<CreateUsersWithListInputResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();

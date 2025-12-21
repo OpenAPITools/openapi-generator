@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef() {
@@ -38,16 +38,6 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     super(atType);
   }
 
-
-  public BarRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public BarRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
 
   public BarRef href(String href) {
     super.href(href);
@@ -71,6 +61,16 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public BarRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override

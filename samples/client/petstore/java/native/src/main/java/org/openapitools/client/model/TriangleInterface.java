@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,7 +37,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   @javax.annotation.Nonnull
@@ -138,7 +137,7 @@ public class TriangleInterface {
 
     // add `triangleType` to the URL query string
     if (getTriangleType() != null) {
-      joiner.add(String.format(Locale.ROOT, "%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%striangleType%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getTriangleType()))));
     }
 
     return joiner.toString();

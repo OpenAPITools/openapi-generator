@@ -146,11 +146,14 @@ components:
     allOfObject:
       allOf:
       - $ref: "#/components/schemas/baseAllOf"
+      - properties:
+          sampleProperty:
+            type: string
+        type: object
+        example: null
       example:
         sampleProperty: sampleProperty
-      properties:
-        sampleProperty:
-          type: string
+        sampleBaseProperty: sampleBaseProperty
     baseAllOf:
       properties:
         sampleBaseProperty:
@@ -180,6 +183,21 @@ components:
           description: Inner string
           type: string
       type: object
+    unnamed_allof_under_properties:
+      description: Model for testing allOf references inside properties
+      properties:
+        name:
+          allOf:
+          - $ref: "#/components/schemas/unnamed_reference"
+          type: object
+      type: object
+    unnamed_reference:
+      exclusiveMaximum: true
+      exclusiveMinimum: true
+      format: int32
+      maximum: 30
+      minimum: 5
+      type: integer
     dummyPut_request:
       properties:
         id:

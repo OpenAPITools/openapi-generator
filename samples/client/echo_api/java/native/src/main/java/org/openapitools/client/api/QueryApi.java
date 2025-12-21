@@ -55,10 +55,9 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Locale;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class QueryApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -86,7 +85,7 @@ public class QueryApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public QueryApi() {
     this(Configuration.getDefaultApiClient());
@@ -104,7 +103,15 @@ public class QueryApi {
 
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -123,10 +130,13 @@ public class QueryApi {
    * @return File
    * @throws ApiException If fail to read file content from response and write to disk
    */
-  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
     try {
       File file = prepareDownloadFile(response);
-      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -220,6 +230,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testEnumRefString", localVarResponse);
@@ -227,7 +238,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -238,6 +250,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -347,6 +362,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryDatetimeDateString", localVarResponse);
@@ -354,7 +370,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -365,6 +382,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -476,6 +496,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryIntegerBooleanString", localVarResponse);
@@ -483,7 +504,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -494,6 +516,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -597,6 +622,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleDeepObjectExplodeTrueObject", localVarResponse);
@@ -604,7 +630,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -615,6 +642,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -719,6 +749,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleDeepObjectExplodeTrueObjectAllOf", localVarResponse);
@@ -726,7 +757,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -737,6 +769,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -841,6 +876,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeFalseArrayInteger", localVarResponse);
@@ -848,7 +884,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -859,6 +896,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -958,6 +998,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeFalseArrayString", localVarResponse);
@@ -965,7 +1006,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -976,6 +1018,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1075,6 +1120,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeTrueArrayString", localVarResponse);
@@ -1082,7 +1128,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -1093,6 +1140,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1192,6 +1242,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeTrueObject", localVarResponse);
@@ -1199,7 +1250,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -1210,6 +1262,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1314,6 +1369,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleFormExplodeTrueObjectAllOf", localVarResponse);
@@ -1321,7 +1377,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -1332,6 +1389,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -1435,6 +1495,7 @@ public class QueryApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("testQueryStyleJsonSerializationObject", localVarResponse);
@@ -1442,7 +1503,8 @@ public class QueryApi {
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
                 "text/plain".equalsIgnoreCase(localVarResponse.headers().map().get("Content-Type").get(0).split(";")[0].trim())) {
-          java.util.Scanner s = new java.util.Scanner(localVarResponse.body()).useDelimiter("\\A");
+          localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+          java.util.Scanner s = new java.util.Scanner(localVarResponseBody == null ? InputStream.nullInputStream() : localVarResponseBody).useDelimiter("\\A");
           String responseBodyText = s.hasNext() ? s.next() : "";
           return new ApiResponse<String>(
                   localVarResponse.statusCode(),
@@ -1453,6 +1515,9 @@ public class QueryApi {
             throw new RuntimeException("Error! The response Content-Type is supposed to be `text/plain` but it's not: " + localVarResponse);
         }
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);

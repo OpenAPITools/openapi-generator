@@ -21,7 +21,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -39,7 +38,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   @javax.annotation.Nullable

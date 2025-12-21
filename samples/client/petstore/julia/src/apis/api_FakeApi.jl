@@ -29,9 +29,9 @@ end
 test uuid default value
 
 Params:
-- uuid_parameter::String (required)
+- `uuid_parameter`::`String` (required)
 
-Return: Nothing, OpenAPI.Clients.ApiResponse
+Return: `Nothing`, `OpenAPI.Clients.ApiResponse`
 """
 function uuid_default_value(_api::FakeApi, uuid_parameter::String; _mediaType=nothing)
     _ctx = _oacinternal_uuid_default_value(_api, uuid_parameter; _mediaType=_mediaType)

@@ -611,7 +611,7 @@ impl std::convert::From<String> for AnotherXmlInner {
 
 impl std::fmt::Display for AnotherXmlInner {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -1255,7 +1255,7 @@ impl std::convert::From<String> for Err {
 
 impl std::fmt::Display for Err {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -1303,7 +1303,7 @@ impl std::convert::From<String> for Error {
 
 impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -1338,15 +1338,20 @@ impl std::ops::DerefMut for Error {
 pub struct FormTestRequest {
     #[serde(rename = "requiredArray")]
     #[validate(custom(function = "check_xss_vec_string"))]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub required_array: Option<Vec<String>>,
+    pub required_array: Vec<String>,
+
+    /// Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "enum_field")]
+    #[validate(custom(function = "check_xss_string"))]
+    pub enum_field: String,
 }
 
 impl FormTestRequest {
     #[allow(clippy::new_without_default, clippy::too_many_arguments)]
-    pub fn new() -> FormTestRequest {
+    pub fn new(required_array: Vec<String>, enum_field: String) -> FormTestRequest {
         FormTestRequest {
-            required_array: None,
+            required_array,
+            enum_field,
         }
     }
 }
@@ -1356,18 +1361,18 @@ impl FormTestRequest {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for FormTestRequest {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> =
-            vec![self.required_array.as_ref().map(|required_array| {
-                [
-                    "requiredArray".to_string(),
-                    required_array
-                        .iter()
-                        .map(|x| x.to_string())
-                        .collect::<Vec<_>>()
-                        .join(","),
-                ]
-                .join(",")
-            })];
+        let params: Vec<Option<String>> = vec![
+            Some("requiredArray".to_string()),
+            Some(
+                self.required_array
+                    .iter()
+                    .map(|x| x.to_string())
+                    .collect::<Vec<_>>()
+                    .join(","),
+            ),
+            Some("enum_field".to_string()),
+            Some(self.enum_field.to_string()),
+        ];
 
         write!(
             f,
@@ -1389,6 +1394,7 @@ impl std::str::FromStr for FormTestRequest {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_array: Vec<Vec<String>>,
+            pub enum_field: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1416,6 +1422,10 @@ impl std::str::FromStr for FormTestRequest {
                                 .to_string(),
                         );
                     }
+                    #[allow(clippy::redundant_clone)]
+                    "enum_field" => intermediate_rep.enum_field.push(
+                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
+                    ),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FormTestRequest".to_string(),
@@ -1430,7 +1440,16 @@ impl std::str::FromStr for FormTestRequest {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(FormTestRequest {
-            required_array: intermediate_rep.required_array.into_iter().next(),
+            required_array: intermediate_rep
+                .required_array
+                .into_iter()
+                .next()
+                .ok_or_else(|| "requiredArray missing in FormTestRequest".to_string())?,
+            enum_field: intermediate_rep
+                .enum_field
+                .into_iter()
+                .next()
+                .ok_or_else(|| "enum_field missing in FormTestRequest".to_string())?,
         })
     }
 }
@@ -1815,6 +1834,42 @@ impl std::convert::TryFrom<HeaderValue> for header::IntoHeaderValue<MyIdList> {
     }
 }
 
+/// An object with no type
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct NoTypeObject(pub crate::types::Object);
+
+impl validator::Validate for NoTypeObject {
+    fn validate(&self) -> std::result::Result<(), validator::ValidationErrors> {
+        std::result::Result::Ok(())
+    }
+}
+
+impl std::convert::From<crate::types::Object> for NoTypeObject {
+    fn from(x: crate::types::Object) -> Self {
+        NoTypeObject(x)
+    }
+}
+
+impl std::convert::From<NoTypeObject> for crate::types::Object {
+    fn from(x: NoTypeObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for NoTypeObject {
+    type Target = crate::types::Object;
+    fn deref(&self) -> &crate::types::Object {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for NoTypeObject {
+    fn deref_mut(&mut self) -> &mut crate::types::Object {
+        &mut self.0
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableObject(pub String);
@@ -1833,7 +1888,7 @@ impl std::convert::From<String> for NullableObject {
 
 impl std::fmt::Display for NullableObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -2809,7 +2864,7 @@ impl std::convert::From<String> for Ok {
 
 impl std::fmt::Display for Ok {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -2966,7 +3021,7 @@ impl std::convert::From<String> for Result {
 
 impl std::fmt::Display for Result {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -3057,7 +3112,7 @@ impl std::convert::From<String> for StringObject {
 
 impl std::fmt::Display for StringObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -3282,7 +3337,7 @@ impl std::convert::From<String> for XmlInner {
 
 impl std::fmt::Display for XmlInner {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 

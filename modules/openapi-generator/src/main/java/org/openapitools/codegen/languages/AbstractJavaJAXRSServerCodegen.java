@@ -119,6 +119,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         convertPropertyToStringAndWriteBack(CodegenConstants.IMPL_FOLDER, this::setImplFolder);
         convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION, this::setUseBeanValidation);
         convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
+        convertPropertyToBooleanAndWriteBack(JACKSON, this::setJackson);
     }
 
     @Override

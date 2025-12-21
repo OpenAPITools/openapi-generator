@@ -324,9 +324,9 @@
         {{#performBeanValidation}}
         <!-- Bean Validation Impl. used to perform BeanValidation -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.2.0.Final</version>
+            <version>8.0.3.Final</version>
         </dependency>
         {{/performBeanValidation}}
         <!-- test dependencies -->
@@ -354,7 +354,7 @@
         {{#jackson}}
         <jackson-version>2.19.2</jackson-version>
         <jackson-databind-version>2.19.2</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.7</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
         {{/jackson}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>

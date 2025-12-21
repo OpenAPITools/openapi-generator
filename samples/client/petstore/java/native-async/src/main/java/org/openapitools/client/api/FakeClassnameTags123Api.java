@@ -49,12 +49,11 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 import java.util.concurrent.CompletableFuture;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class FakeClassnameTags123Api {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -82,7 +81,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public FakeClassnameTags123Api() {
     this(Configuration.getDefaultApiClient());
@@ -99,9 +98,19 @@ public class FakeClassnameTags123Api {
   }
 
 
-  private ApiException getApiException(String operationId, HttpResponse<String> response) {
-    String message = formatExceptionMessage(operationId, response.statusCode(), response.body());
-    return new ApiException(response.statusCode(), message, response.headers(), response.body());
+  private ApiException getApiException(String operationId, HttpResponse<InputStream> response) {
+    try {
+      InputStream responseBody = ApiClient.getResponseBody(response);
+      String body = null;
+      if (responseBody != null) {
+        body = new String(responseBody.readAllBytes());
+        responseBody.close();
+      }
+      String message = formatExceptionMessage(operationId, response.statusCode(), body);
+      return new ApiException(response.statusCode(), message, response.headers(), body);
+    } catch (IOException e) {
+      return new ApiException(e);
+    }
   }
 
   private String formatExceptionMessage(String operationId, int statusCode, String body) {
@@ -118,10 +127,13 @@ public class FakeClassnameTags123Api {
    * @return File
    * @throws ApiException If fail to read file content from response and write to disk
    */
-  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
     try {
       File file = prepareDownloadFile(response);
-      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -180,22 +192,8 @@ public class FakeClassnameTags123Api {
    */
   public CompletableFuture<Client> testClassname(@javax.annotation.Nonnull Client client, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client, headers);
-      return memberVarHttpClient.sendAsync(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-            if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(getApiException("testClassname", localVarResponse));
-            }
-            try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {})
-              );
-            } catch (IOException e) {
-              return CompletableFuture.failedFuture(new ApiException(e));
-            }
-      });
+      return testClassnameWithHttpInfo(client, headers)
+          .thenApply(ApiResponse::getData);
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -226,7 +224,7 @@ public class FakeClassnameTags123Api {
       HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(client, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
             if (memberVarAsyncResponseInterceptor != null) {
               memberVarAsyncResponseInterceptor.accept(localVarResponse);
             }
@@ -234,13 +232,34 @@ public class FakeClassnameTags123Api {
               return CompletableFuture.failedFuture(getApiException("testClassname", localVarResponse));
             }
             try {
-              String responseBody = localVarResponse.body();
-              return CompletableFuture.completedFuture(
-                  new ApiResponse<Client>(
-                      localVarResponse.statusCode(),
-                      localVarResponse.headers().map(),
-                      responseBody == null || responseBody.isBlank() ? null : memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {}))
-              );
+              InputStream localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+              try {
+                if (localVarResponseBody == null) {
+                  return CompletableFuture.completedFuture(
+                      new ApiResponse<Client>(
+                          localVarResponse.statusCode(),
+                          localVarResponse.headers().map(),
+                          null
+                      )
+                  );
+                }
+                
+                
+                String responseBody = new String(localVarResponseBody.readAllBytes());
+                Client responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<Client>() {});
+                
+                return CompletableFuture.completedFuture(
+                    new ApiResponse<Client>(
+                        localVarResponse.statusCode(),
+                        localVarResponse.headers().map(),
+                        responseValue
+                    )
+                );
+              } finally {
+                if (localVarResponseBody != null) {
+                  localVarResponseBody.close();
+                }
+              }
             } catch (IOException e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }

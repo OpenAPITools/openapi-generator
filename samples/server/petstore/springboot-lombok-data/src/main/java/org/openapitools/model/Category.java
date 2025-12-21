@@ -24,11 +24,17 @@ import javax.annotation.Generated;
 @lombok.AllArgsConstructor
 
 @Schema(name = "Category", description = "A category for a pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class Category {
 
+  
+  @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   private @Nullable Long id;
 
+  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   private @Nullable String name;
 
 }

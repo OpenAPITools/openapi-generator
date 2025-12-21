@@ -4,6 +4,7 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 
+
 import java.util.Date;
 import org.openapitools.model.User;
 
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public interface UserApiService {
       Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
@@ -35,4 +36,6 @@ public interface UserApiService {
       throws NotFoundException;
       Response updateUser(String username,User body,SecurityContext securityContext)
       throws NotFoundException;
+
+
 }

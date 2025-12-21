@@ -1045,6 +1045,49 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void generateSpecInterfaceWithSwaggerV3Annotations() throws Exception {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, true); // only interfaces
+        codegen.additionalProperties().put(USE_TAGS, true); // split by tags
+        codegen.additionalProperties().put(USE_SWAGGER_V3_ANNOTATIONS, true); // enable Swagger v3 annotations
+        // keep default library (spec), do NOT enable MicroProfile
+
+        final ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        final List<File> files = generator.opts(input).generate();
+
+        // Then the java files are compilable
+        validateJavaSourceFiles(files);
+
+        // And the generated interfaces contain Swagger v3 annotations and imports
+        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PetApi.java");
+        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "import io.swagger.v3.oas.annotations.*;",
+                "import io.swagger.v3.oas.annotations.media.*;",
+                "import io.swagger.v3.oas.annotations.responses.*;",
+                "import io.swagger.v3.oas.annotations.tags.Tag;",
+                "@Tag(name = \"Pet\")");
+        // Ensure MicroProfile annotations are NOT present
+        TestUtils.assertFileNotContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PetApi.java"),
+                "org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition");
+
+        // And pom declares io.swagger.core.v3 swagger-annotations dependency and property
+        assertFileContains(output.toPath().resolve("pom.xml"),
+                "<groupId>io.swagger.core.v3</groupId>",
+                "<artifactId>swagger-annotations</artifactId>",
+                "<io.swagger.v3.annotations.version>");
+    }
+
+    @Test
     public void generateSpecInterfaceWithMutinyAndJBossResponse() throws Exception {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

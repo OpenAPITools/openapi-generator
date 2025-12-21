@@ -2867,10 +2867,10 @@ pub struct FormatTest {
 }
 
 lazy_static::lazy_static! {
-    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new("/[a-z]/i").unwrap();
 }
 lazy_static::lazy_static! {
-    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
+    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
 }
 fn validate_byte_formattest_byte(
     b: &ByteArray,
@@ -4909,7 +4909,7 @@ impl std::convert::From<String> for OuterString {
 
 impl std::fmt::Display for OuterString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.0)
+        write!(f, "{}", self.0)
     }
 }
 
@@ -5665,10 +5665,10 @@ pub struct TestEndpointParametersRequest {
 }
 
 lazy_static::lazy_static! {
-    static ref RE_TESTENDPOINTPARAMETERSREQUEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+    static ref RE_TESTENDPOINTPARAMETERSREQUEST_STRING: regex::Regex = regex::Regex::new("/[a-z]/i").unwrap();
 }
 lazy_static::lazy_static! {
-    static ref RE_TESTENDPOINTPARAMETERSREQUEST_PATTERN_WITHOUT_DELIMITER: regex::Regex = regex::Regex::new(r"^[A-Z].*").unwrap();
+    static ref RE_TESTENDPOINTPARAMETERSREQUEST_PATTERN_WITHOUT_DELIMITER: regex::Regex = regex::Regex::new("^[A-Z].*").unwrap();
 }
 
 impl TestEndpointParametersRequest {

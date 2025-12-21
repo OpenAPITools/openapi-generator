@@ -26,13 +26,22 @@ import javax.annotation.Generated;
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class ModelApiResponse {
 
+  
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("code")
   private @Nullable Integer code;
 
+  
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("type")
   private @Nullable String type;
 
+  
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
   private @Nullable String message;
 
 }

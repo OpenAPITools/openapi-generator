@@ -50,10 +50,9 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Locale;
 import java.util.function.Consumer;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
 public class UserApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -81,7 +80,7 @@ public class UserApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  private final Consumer<HttpResponse<String>> memberVarAsyncResponseInterceptor;
+  private final Consumer<HttpResponse<InputStream>> memberVarAsyncResponseInterceptor;
 
   public UserApi() {
     this(Configuration.getDefaultApiClient());
@@ -99,7 +98,15 @@ public class UserApi {
 
 
   protected ApiException getApiException(String operationId, HttpResponse<InputStream> response) throws IOException {
-    String body = response.body() == null ? null : new String(response.body().readAllBytes());
+    InputStream responseBody = ApiClient.getResponseBody(response);
+    String body = null;
+    try {
+      body = responseBody == null ? null : new String(responseBody.readAllBytes());
+    } finally {
+      if (responseBody != null) {
+        responseBody.close();
+      }
+    }
     String message = formatExceptionMessage(operationId, response.statusCode(), body);
     return new ApiException(response.statusCode(), message, response.headers(), body);
   }
@@ -118,10 +125,13 @@ public class UserApi {
    * @return File
    * @throws ApiException If fail to read file content from response and write to disk
    */
-  public File downloadFileFromResponse(HttpResponse<InputStream> response) throws ApiException {
+  public File downloadFileFromResponse(HttpResponse<InputStream> response, InputStream responseBody) throws ApiException {
+    if (responseBody == null) {
+      throw new ApiException(new IOException("Response body is empty"));
+    }
     try {
       File file = prepareDownloadFile(response);
-      java.nio.file.Files.copy(response.body(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+      java.nio.file.Files.copy(responseBody, file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
       return file;
     } catch (IOException e) {
       throw new ApiException(e);
@@ -208,9 +218,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("createUser", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -218,11 +233,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -314,9 +327,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("createUsersWithArrayInput", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -324,11 +342,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -420,9 +436,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("createUsersWithListInput", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -430,11 +451,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -526,9 +545,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("deleteUser", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -536,11 +560,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -630,11 +652,13 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("getUserByName", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<User>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -644,10 +668,9 @@ public class UserApi {
 
         
         
-        String responseBody = new String(localVarResponse.body().readAllBytes());
+        String responseBody = new String(localVarResponseBody.readAllBytes());
         User responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<User>() {});
         
-        localVarResponse.body().close();
 
         return new ApiResponse<User>(
             localVarResponse.statusCode(),
@@ -655,6 +678,9 @@ public class UserApi {
             responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -748,11 +774,13 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("loginUser", localVarResponse);
         }
-        if (localVarResponse.body() == null) {
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody == null) {
           return new ApiResponse<String>(
               localVarResponse.statusCode(),
               localVarResponse.headers().map(),
@@ -762,10 +790,9 @@ public class UserApi {
 
         
         
-        String responseBody = new String(localVarResponse.body().readAllBytes());
+        String responseBody = new String(localVarResponseBody.readAllBytes());
         String responseValue = responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<String>() {});
         
-        localVarResponse.body().close();
 
         return new ApiResponse<String>(
             localVarResponse.statusCode(),
@@ -773,6 +800,9 @@ public class UserApi {
             responseValue
         );
       } finally {
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
+        }
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -875,9 +905,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("logoutUser", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -885,11 +920,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);
@@ -975,9 +1008,14 @@ public class UserApi {
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
       }
+      InputStream localVarResponseBody = null;
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
           throw getApiException("updateUser", localVarResponse);
+        }
+        localVarResponseBody = ApiClient.getResponseBody(localVarResponse);
+        if (localVarResponseBody != null) {
+          localVarResponseBody.readAllBytes();
         }
         return new ApiResponse<>(
             localVarResponse.statusCode(),
@@ -985,11 +1023,9 @@ public class UserApi {
             null
         );
       } finally {
-        // Drain the InputStream
-        while (localVarResponse.body().read() != -1) {
-          // Ignore
+        if (localVarResponseBody != null) {
+          localVarResponseBody.close();
         }
-        localVarResponse.body().close();
       }
     } catch (IOException e) {
       throw new ApiException(e);

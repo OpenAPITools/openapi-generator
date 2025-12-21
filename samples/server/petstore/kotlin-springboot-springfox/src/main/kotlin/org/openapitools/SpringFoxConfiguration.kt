@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 import javax.servlet.ServletContext
 
 
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.17.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.18.0-SNAPSHOT")
 @Configuration
 @EnableSwagger2
 class SpringFoxConfiguration {
@@ -34,7 +34,7 @@ class SpringFoxConfiguration {
     }
 
     @Bean
-    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.openAPIPetstore.base-path:/v2}") basePath: String): Docket {
+    fun customImplementation(servletContext: ServletContext, @Value("\${openapi.openAPIPetstore.base-path:\${api.base-path:/v2}}") basePath: String): Docket {
         return Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.api"))

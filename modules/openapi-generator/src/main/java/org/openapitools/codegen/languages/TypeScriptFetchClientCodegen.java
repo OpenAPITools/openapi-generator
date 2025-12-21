@@ -283,6 +283,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(STRING_ENUMS)) {
             this.setStringEnums(convertPropertyToBoolean(STRING_ENUMS));
+            additionalProperties.put("stringEnums", this.stringEnums);
         }
 
         if (additionalProperties.containsKey(FILE_NAMING)) {

@@ -26,7 +26,7 @@ final api = Openapi().getDefaultApi();
 try {
     final response = api.binaryResponse();
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling DefaultApi->binaryResponse: $e\n');
 }
 ```
