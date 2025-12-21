@@ -17,7 +17,7 @@ on:
       - samples/client/petstore/csharp/unityWebRequest/net10.0/**
 jobs:
   build:
-    name: Build .Net projects
+    name: Build .Net 10 projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
