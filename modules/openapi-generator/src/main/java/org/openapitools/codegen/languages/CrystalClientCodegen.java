@@ -135,6 +135,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // reserved word. Ref:
         // https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
+        // https://crystal-lang.org/api/1.18.2/Reference.html
         reservedWords = new HashSet<>(
                 Arrays.asList(
                         "abstract", "annotation", "do", "if", "nil?", "select", "union",
@@ -146,7 +147,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                         "break", "extend", "macro", "require", "true", "with",
                         "case", "false", "module", "rescue", "type", "yield",
                         "class", "for", "next", "responds_to?", "typeof",
-                        "def", "fun", "nil", "return", "uninitialized"));
+                        "def", "fun", "nil", "return", "uninitialized", "object_id"));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
