@@ -782,15 +782,6 @@ public class OpenAPINormalizer {
     /**
      * Normalize reference schema with allOf to support sibling properties
      *
-     * @param schema         Schema
-     */
-    protected void normalizeReferenceSchema(Schema schema) {
-        normalizeReferenceSchema(schema, false);
-    }
-
-    /**
-     * Normalize reference schema with allOf to support sibling properties
-     *
      *
      * @param schema           Schema
      * @param isInComposition  true if schema is inside oneOf/anyOf
