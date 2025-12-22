@@ -4,17 +4,17 @@ on:
   push:
     paths:
       - samples/client/petstore/csharp/generichost/latest/**
-      - samples/client/petstore/csharp/generichost/net10.0/**
-      - samples/client/petstore/csharp/httpclient/net10.0/**
-      - samples/client/petstore/csharp/restsharp/net10.0/**
-      - samples/client/petstore/csharp/unityWebRequest/net10.0/**
+      - samples/client/petstore/csharp/generichost/net10/**
+      - samples/client/petstore/csharp/httpclient/net10/**
+      - samples/client/petstore/csharp/restsharp/net10/**
+      - samples/client/petstore/csharp/unityWebRequest/net10/**
   pull_request:
     paths:
       - samples/client/petstore/csharp/generichost/latest/**
-      - samples/client/petstore/csharp/generichost/net10.0/**
-      - samples/client/petstore/csharp/httpclient/net10.0/**
-      - samples/client/petstore/csharp/restsharp/net10.0/**
-      - samples/client/petstore/csharp/unityWebRequest/net10.0/**
+      - samples/client/petstore/csharp/generichost/net10/**
+      - samples/client/petstore/csharp/httpclient/net10/**
+      - samples/client/petstore/csharp/restsharp/net10/**
+      - samples/client/petstore/csharp/unityWebRequest/net10/**
 jobs:
   build:
     name: Build .Net 10 projects
@@ -28,24 +28,24 @@ jobs:
           - samples/client/petstore/csharp/generichost/latest/Tags
           - samples/client/petstore/csharp/generichost/latest/HelloWorld
           - samples/client/petstore/csharp/generichost/latest/OneOfList
-          - samples/client/petstore/csharp/generichost/net10.0/AllOf
-          - samples/client/petstore/csharp/generichost/net10.0/AnyOf
-          - samples/client/petstore/csharp/generichost/net10.0/AnyOfNoCompare
-          - samples/client/petstore/csharp/generichost/net10.0/FormModels
-          # - samples/client/petstore/csharp/generichost/net10.0/ManualPetstoreTests
-          # - samples/client/petstore/csharp/generichost/net10.0/ManualSourceGenerationTests
-          - samples/client/petstore/csharp/generichost/net10.0/NullReferenceTypes
-          - samples/client/petstore/csharp/generichost/net10.0/OneOf
-          - samples/client/petstore/csharp/generichost/net10.0/Petstore
-          - samples/client/petstore/csharp/generichost/net10.0/SourceGeneration
-          - samples/client/petstore/csharp/generichost/net10.0/UseDateTimeForDate
+          - samples/client/petstore/csharp/generichost/net10/AllOf
+          - samples/client/petstore/csharp/generichost/net10/AnyOf
+          - samples/client/petstore/csharp/generichost/net10/AnyOfNoCompare
+          - samples/client/petstore/csharp/generichost/net10/FormModels
+          # - samples/client/petstore/csharp/generichost/net10/ManualPetstoreTests
+          # - samples/client/petstore/csharp/generichost/net10/ManualSourceGenerationTests
+          - samples/client/petstore/csharp/generichost/net10/NullReferenceTypes
+          - samples/client/petstore/csharp/generichost/net10/OneOf
+          - samples/client/petstore/csharp/generichost/net10/Petstore
+          - samples/client/petstore/csharp/generichost/net10/SourceGeneration
+          - samples/client/petstore/csharp/generichost/net10/UseDateTimeForDate
           # restsharp
-          - samples/client/petstore/csharp/restsharp/net10.0/EnumMappings
+          - samples/client/petstore/csharp/restsharp/net10/EnumMappings
           # httpclient
-          - samples/client/petstore/csharp/httpclient/net10.0/Petstore
-          - samples/client/petstore/csharp/httpclient/net10.0/Petstore-nonPublicApi
+          - samples/client/petstore/csharp/httpclient/net10/Petstore
+          - samples/client/petstore/csharp/httpclient/net10/Petstore-nonPublicApi
           # unity
-          # - samples/client/petstore/csharp/unityWebRequest/net10.0/Petstore
+          # - samples/client/petstore/csharp/unityWebRequest/net10/Petstore
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v5.0.0
