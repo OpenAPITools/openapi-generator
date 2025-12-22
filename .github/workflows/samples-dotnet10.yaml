@@ -48,7 +48,7 @@ jobs:
           # - samples/client/petstore/csharp/unityWebRequest/net10/Petstore
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.0.0
+      - uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '10.x'
       - name: Build
