@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Minimal
+  description: Api to reproduce bug
+  version: 0.5.1-SNAPSHOT.0
+tags:
+  - name: test
+servers:
+  - url: http://localhost:8080
+paths:
+  "/api/v1/file":
+    post:
+      tags:
+        - file
+      operationId: createFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/FileUploadRequest"
+            encoding:
+              documentBytes:
+                contentType: "*/*"
+              properties:
+                contentType: application/json
+      responses:
+        "201":
+          description: File created successfully
+components:
+  schemas:
+    FileUploadRequest:
+      type: object
+      properties:
+        documentBytes:
+          type: string
+          format: binary
+        documentType:
+          type: string
+        structured:
+          $ref: '#/components/schemas/StructuredType'
+        properties:
+          $ref: '#/components/schemas/TypeMap'
+      required:
+        - documentBytes
+        - documentType
+        - properties
+    TypeMap:
+      type: object
+      additionalProperties:
+        type: string
+    StructuredType:
+      type: object
+      properties:
+        someString:
+          type: string
