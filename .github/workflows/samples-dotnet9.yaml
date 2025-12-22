@@ -3,31 +3,24 @@ name: Samples C# .Net 9 Clients
 on:
   push:
     paths:
-      - samples/client/petstore/csharp/generichost/latest/**
       - samples/client/petstore/csharp/generichost/net9/**
       - samples/client/petstore/csharp/httpclient/net9/**
       - samples/client/petstore/csharp/restsharp/net9/**
       - samples/client/petstore/csharp/unityWebRequest/net9/**
   pull_request:
     paths:
-      - samples/client/petstore/csharp/generichost/latest/**
       - samples/client/petstore/csharp/generichost/net9/**
       - samples/client/petstore/csharp/httpclient/net9/**
       - samples/client/petstore/csharp/restsharp/net9/**
       - samples/client/petstore/csharp/unityWebRequest/net9/**
 jobs:
   build:
-    name: Build .Net projects
+    name: Build .Net 9 projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/generichost/latest/ComposedEnum
-          - samples/client/petstore/csharp/generichost/latest/InlineEnumAnyOf
-          - samples/client/petstore/csharp/generichost/latest/Tags
-          - samples/client/petstore/csharp/generichost/latest/HelloWorld
-          - samples/client/petstore/csharp/generichost/latest/OneOfList
           - samples/client/petstore/csharp/generichost/net9/AllOf
           - samples/client/petstore/csharp/generichost/net9/AnyOf
           - samples/client/petstore/csharp/generichost/net9/AnyOfNoCompare
