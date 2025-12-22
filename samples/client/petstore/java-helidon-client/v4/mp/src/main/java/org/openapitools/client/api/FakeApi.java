@@ -38,6 +38,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -95,7 +96,7 @@ public interface FakeApi  {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    String fakeOuterStringSerialize(String body) throws ApiException, ProcessingException;
+    String fakeOuterStringSerialize(OuterString outerString) throws ApiException, ProcessingException;
 
     @POST
     @Path("/property/enum-int")

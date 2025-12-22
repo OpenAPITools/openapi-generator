@@ -17,6 +17,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -82,7 +83,7 @@ public interface FakeApi {
    */
   @POST("fake/outer/string")
   Observable<String> fakeOuterStringSerialize(
-    @retrofit2.http.Body String body
+    @retrofit2.http.Body OuterString body
   );
 
   /**

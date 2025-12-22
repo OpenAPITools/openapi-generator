@@ -233,7 +233,7 @@ No authorization required
 
 ## fakeOuterStringSerialize
 
-> String fakeOuterStringSerialize(body)
+> String fakeOuterStringSerialize(outerString)
 
 
 
@@ -244,7 +244,7 @@ Test serialization of outer string types
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

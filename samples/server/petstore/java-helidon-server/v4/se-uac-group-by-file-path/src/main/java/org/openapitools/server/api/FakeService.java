@@ -29,6 +29,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import io.helidon.common.parameters.Parameters;
 import java.nio.file.Path;
 import org.openapitools.server.model.Pet;
@@ -290,13 +291,13 @@ public abstract class FakeService implements HttpService {
 
         ValidatorUtils.Validator validator = ValidatorUtils.validator();
 
-        // Parameter: body
-        Optional<String> body = fakeOuterStringSerializeOp.body(request, validator);
+        // Parameter: OuterString
+        Optional<OuterString> outerString = fakeOuterStringSerializeOp.outerString(request, validator);
 
         validator.execute();
 
         handleFakeOuterStringSerialize(request, response, 
-                    body);
+                    outerString);
     }
 
     /**
@@ -304,10 +305,10 @@ public abstract class FakeService implements HttpService {
      *
      * @param request the server request
      * @param response the server response
-     * @param body Input string as post body 
+     * @param outerString Input string as post body 
      */
     protected abstract void handleFakeOuterStringSerialize(ServerRequest request, ServerResponse response, 
-                Optional<String> body);
+                Optional<OuterString> outerString);
 
     /**
      * POST /fake/property/enum-int.
@@ -1758,15 +1759,15 @@ public abstract class FakeService implements HttpService {
     public static class FakeOuterStringSerializeOp {
 
         /**
-         * Prepares the body parameter.
+         * Prepares the outerString parameter.
          *
          * @param request {@link io.helidon.webserver.http.ServerRequest} containing the parameter
          * @param validator {@link org.openapitools.server.api.ValidatorUtils.Validator} for validating all parameters to the operation
-         * @return body parameter value
+         * @return outerString parameter value
          */
-        protected Optional<String> body(ServerRequest request, ValidatorUtils.Validator validator) {
+        protected Optional<OuterString> outerString(ServerRequest request, ValidatorUtils.Validator validator) {
             return request.content().hasEntity()
-                ? Optional.of(request.content().as(String.class))
+                ? Optional.of(request.content().as(OuterString.class))
                 : Optional.empty();
         }
 

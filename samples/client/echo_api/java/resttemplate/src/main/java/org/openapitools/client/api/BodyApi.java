@@ -395,24 +395,24 @@ public class BodyApi extends BaseApi {
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @return StringEnumRef
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public StringEnumRef testEchoBodyStringEnum(String body) throws RestClientException {
-        return testEchoBodyStringEnumWithHttpInfo(body).getBody();
+    public StringEnumRef testEchoBodyStringEnum(StringEnumRef stringEnumRef) throws RestClientException {
+        return testEchoBodyStringEnumWithHttpInfo(stringEnumRef).getBody();
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
      * <p><b>200</b> - Successful operation
-     * @param body String enum (optional)
+     * @param stringEnumRef String enum (optional)
      * @return ResponseEntity&lt;StringEnumRef&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(String body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(StringEnumRef stringEnumRef) throws RestClientException {
+        Object localVarPostBody = stringEnumRef;
         
 
         final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();

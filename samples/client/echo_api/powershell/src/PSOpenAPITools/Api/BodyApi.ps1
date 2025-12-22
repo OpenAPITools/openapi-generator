@@ -675,7 +675,7 @@ Test string enum response body
 
 No description available.
 
-.PARAMETER Body
+.PARAMETER StringEnumRef
 String enum
 
 .PARAMETER WithHttpInfo
@@ -690,8 +690,8 @@ function Test-EchoBodyStringEnum {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[String]]
-        ${Body},
+        [PSCustomObject]
+        ${StringEnumRef},
         [Switch]
         $WithHttpInfo
     )
@@ -718,7 +718,7 @@ function Test-EchoBodyStringEnum {
 
         $LocalVarUri = '/echo/body/string_enum'
 
-        $LocalVarBodyParameter = $Body | ConvertTo-Json -Depth 100
+        $LocalVarBodyParameter = $StringEnumRef | ConvertTo-Json -Depth 100
 
         $LocalVarResult = Invoke-ApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `

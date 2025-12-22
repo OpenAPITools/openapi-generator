@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -259,7 +260,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return String
    */
   @RequestLine("POST /fake/outer/string")
@@ -267,13 +268,13 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: */*",
   })
-  String fakeOuterStringSerialize(@javax.annotation.Nullable String body);
+  String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString);
 
   /**
    * 
    * Similar to <code>fakeOuterStringSerialize</code> but it also returns the http response headers .
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /fake/outer/string")
@@ -281,7 +282,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: */*",
   })
-  ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body);
+  ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString);
 
 
 

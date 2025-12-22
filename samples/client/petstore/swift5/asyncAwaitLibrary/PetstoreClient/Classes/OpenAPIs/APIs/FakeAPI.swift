@@ -120,7 +120,7 @@ open class FakeAPI {
      - returns: String
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func fakeOuterStringSerialize(body: String? = nil) async throws -> String {
+    open class func fakeOuterStringSerialize(body: OuterString? = nil) async throws -> String {
         return try await fakeOuterStringSerializeWithRequestBuilder(body: body).execute().body
     }
 
@@ -130,7 +130,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
-    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)

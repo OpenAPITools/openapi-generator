@@ -407,7 +407,7 @@ No authorization required
 <a id="Test-EchoBodyStringEnum"></a>
 # **Test-EchoBodyStringEnum**
 > StringEnumRef Test-EchoBodyStringEnum<br>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Body] <System.Nullable[String]><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-StringEnumRef] <PSCustomObject><br>
 
 Test string enum response body
 
@@ -415,11 +415,11 @@ Test string enum response body
 
 ### Example
 ```powershell
-$Body = 0 # String | String enum (optional)
+$StringEnumRef = Initialize-StringEnumRef # StringEnumRef | String enum (optional)
 
 # Test string enum response body
 try {
-    $Result = Test-EchoBodyStringEnum -Body $Body
+    $Result = Test-EchoBodyStringEnum -StringEnumRef $StringEnumRef
 } catch {
     Write-Host ("Exception occurred when calling Test-EchoBodyStringEnum: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -430,7 +430,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | **String**| String enum | [optional] 
+ **StringEnumRef** | [**StringEnumRef**](StringEnumRef.md)| String enum | [optional] 
 
 ### Return type
 

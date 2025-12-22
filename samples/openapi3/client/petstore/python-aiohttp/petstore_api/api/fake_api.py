@@ -1930,7 +1930,7 @@ class FakeApi:
     @validate_call
     async def fake_outer_string_serialize(
         self,
-        body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
+        outer_string: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1948,8 +1948,8 @@ class FakeApi:
 
         Test serialization of outer string types
 
-        :param body: Input string as post body
-        :type body: str
+        :param outer_string: Input string as post body
+        :type outer_string: OuterString
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1973,7 +1973,7 @@ class FakeApi:
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
-            body=body,
+            outer_string=outer_string,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1997,7 +1997,7 @@ class FakeApi:
     @validate_call
     async def fake_outer_string_serialize_with_http_info(
         self,
-        body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
+        outer_string: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2015,8 +2015,8 @@ class FakeApi:
 
         Test serialization of outer string types
 
-        :param body: Input string as post body
-        :type body: str
+        :param outer_string: Input string as post body
+        :type outer_string: OuterString
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2040,7 +2040,7 @@ class FakeApi:
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
-            body=body,
+            outer_string=outer_string,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2064,7 +2064,7 @@ class FakeApi:
     @validate_call
     async def fake_outer_string_serialize_without_preload_content(
         self,
-        body: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
+        outer_string: Annotated[Optional[StrictStr], Field(description="Input string as post body")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2082,8 +2082,8 @@ class FakeApi:
 
         Test serialization of outer string types
 
-        :param body: Input string as post body
-        :type body: str
+        :param outer_string: Input string as post body
+        :type outer_string: OuterString
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2107,7 +2107,7 @@ class FakeApi:
         """ # noqa: E501
 
         _param = self._fake_outer_string_serialize_serialize(
-            body=body,
+            outer_string=outer_string,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2126,7 +2126,7 @@ class FakeApi:
 
     def _fake_outer_string_serialize_serialize(
         self,
-        body,
+        outer_string,
         _request_auth,
         _content_type,
         _headers,
@@ -2152,8 +2152,8 @@ class FakeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
+        if outer_string is not None:
+            _body_params = outer_string
 
 
         # set the HTTP header `Accept`

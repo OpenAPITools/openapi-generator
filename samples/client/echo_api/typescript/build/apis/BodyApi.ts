@@ -340,9 +340,9 @@ export class BodyApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param body String enum
+     * @param stringEnumRef String enum
      */
-    public async testEchoBodyStringEnum(body?: string, _options?: Configuration): Promise<RequestContext> {
+    public async testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -360,7 +360,7 @@ export class BodyApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "string", ""),
+            ObjectSerializer.serialize(stringEnumRef, "StringEnumRef", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

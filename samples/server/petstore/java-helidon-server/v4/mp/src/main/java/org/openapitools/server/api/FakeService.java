@@ -27,6 +27,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
@@ -80,7 +81,7 @@ public interface FakeService {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    String fakeOuterStringSerialize(@Valid String body);
+    String fakeOuterStringSerialize(@Valid OuterString outerString);
 
     @POST
     @Path("/property/enum-int")

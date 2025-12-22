@@ -15,6 +15,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.OuterObjectWithEnumProperty;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.Pet;
 import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.model.User;
@@ -118,7 +119,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Output string")
     })
-    public Response fakeOuterStringSerialize(@Valid String body) {
+    public Response fakeOuterStringSerialize(@Valid OuterString outerString) {
         return Response.ok().entity("magic!").build();
     }
 

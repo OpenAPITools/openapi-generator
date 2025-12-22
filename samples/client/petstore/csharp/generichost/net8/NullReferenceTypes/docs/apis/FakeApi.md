@@ -165,7 +165,7 @@ No authorization required
 
 <a id="fakeouterstringserialize"></a>
 # **FakeOuterStringSerialize**
-> string FakeOuterStringSerialize (Guid requiredStringUuid, string body = null)
+> string FakeOuterStringSerialize (Guid requiredStringUuid, OuterString outerString = null)
 
 
 
@@ -177,7 +177,7 @@ Test serialization of outer string types
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **requiredStringUuid** | **Guid** | Required UUID String |  |
-| **body** | **string** | Input string as post body | [optional]  |
+| **outerString** | [**OuterString**](OuterString.md) | Input string as post body | [optional]  |
 
 ### Return type
 

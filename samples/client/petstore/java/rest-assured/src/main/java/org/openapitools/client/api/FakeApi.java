@@ -21,6 +21,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -472,10 +473,10 @@ public class FakeApi {
         }
 
          /**
-         * @param body (String) Input string as post body (optional)
+         * @param body (OuterString) Input string as post body (optional)
          * @return operation
          */
-        public FakeOuterStringSerializeOper body(@javax.annotation.Nullable String body) {
+        public FakeOuterStringSerializeOper body(@javax.annotation.Nullable OuterString body) {
             reqSpec.setBody(body);
             return this;
         }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -95,7 +96,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) OuterString body
 )
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body);

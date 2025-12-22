@@ -11,6 +11,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -149,7 +150,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: */*",
   })
-  String fakeOuterStringSerialize(@javax.annotation.Nullable String body);
+  String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body);
 
   /**
    * 
@@ -163,7 +164,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: */*",
   })
-  ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body);
+  ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString body);
 
 
 

@@ -160,7 +160,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**string**](string.md)| Input string as post body | 
+ **body** | [**OuterString**](OuterString.md)| Input string as post body | 
 
 ### Return type
 

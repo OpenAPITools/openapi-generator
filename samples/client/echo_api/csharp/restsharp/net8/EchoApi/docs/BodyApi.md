@@ -740,7 +740,7 @@ No authorization required
 
 <a id="testechobodystringenum"></a>
 # **TestEchoBodyStringEnum**
-> StringEnumRef TestEchoBodyStringEnum (string? body = null)
+> StringEnumRef TestEchoBodyStringEnum (StringEnumRef? stringEnumRef = null)
 
 Test string enum response body
 
@@ -763,12 +763,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://localhost:3000";
             var apiInstance = new BodyApi(config);
-            var body = null;  // string? | String enum (optional) 
+            var stringEnumRef = new StringEnumRef?(); // StringEnumRef? | String enum (optional) 
 
             try
             {
                 // Test string enum response body
-                StringEnumRef result = apiInstance.TestEchoBodyStringEnum(body);
+                StringEnumRef result = apiInstance.TestEchoBodyStringEnum(stringEnumRef);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
@@ -789,7 +789,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // Test string enum response body
-    ApiResponse<StringEnumRef> response = apiInstance.TestEchoBodyStringEnumWithHttpInfo(body);
+    ApiResponse<StringEnumRef> response = apiInstance.TestEchoBodyStringEnumWithHttpInfo(stringEnumRef);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
@@ -806,7 +806,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **body** | **string?** | String enum | [optional]  |
+| **stringEnumRef** | [**StringEnumRef?**](StringEnumRef?.md) | String enum | [optional]  |
 
 ### Return type
 

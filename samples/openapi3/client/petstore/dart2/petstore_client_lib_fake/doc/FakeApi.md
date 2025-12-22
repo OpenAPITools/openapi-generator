@@ -321,7 +321,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fakeOuterStringSerialize**
-> String fakeOuterStringSerialize(body)
+> String fakeOuterStringSerialize(outerString)
 
 
 
@@ -332,10 +332,10 @@ Test serialization of outer string types
 import 'package:openapi/api.dart';
 
 final api_instance = FakeApi();
-final body = String(); // String | Input string as post body
+final outerString = OuterString(); // OuterString | Input string as post body
 
 try {
-    final result = api_instance.fakeOuterStringSerialize(body);
+    final result = api_instance.fakeOuterStringSerialize(outerString);
     print(result);
 } catch (e) {
     print('Exception when calling FakeApi->fakeOuterStringSerialize: $e\n');
@@ -346,7 +346,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+ **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 

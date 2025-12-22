@@ -852,7 +852,7 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
     const auto request = session->get_request();
     // body params or form params here from the body content string
     std::string bodyContent = extractBodyContent(session);
-    auto body = boost::lexical_cast<std::string>(bodyContent);
+    auto outerString = extractJsonModelBodyParam<OuterString>(bodyContent);
     
     int status_code = 500;
     std::string resultObject = "";
@@ -860,7 +860,7 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
     
     try {
         std::tie(status_code, resultObject) =
-            handler_POST(body);
+            handler_POST(outerString);
     }
     catch(const FakeApiException& e) {
         std::tie(status_code, result) = handleFakeApiException(e);
@@ -897,9 +897,9 @@ void FakeOuterStringResource::handler_POST_internal(const std::shared_ptr<restbe
 
 
 std::pair<int, std::string> FakeOuterStringResource::handler_POST(
-        std::string & body)
+        OuterString & outerString)
 {
-    return handler_POST_func(body);
+    return handler_POST_func(outerString);
 }
 
 

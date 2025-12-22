@@ -26,6 +26,7 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import org.openapitools.server.model.Pet;
 import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
@@ -96,7 +97,7 @@ public class FakeServiceImpl implements FakeService {
     @Path("/outer/string")
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
-    public String fakeOuterStringSerialize(@Valid String body) {
+    public String fakeOuterStringSerialize(@Valid OuterString outerString) {
         String result = ""; // Replace with correct business logic.
         return result;
     }

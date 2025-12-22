@@ -145,7 +145,7 @@ open class FakeAPI {
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
+    open class func fakeOuterStringSerialize(body: OuterString? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, completion: @Sendable @escaping (_ data: String?, _ error: Error?) -> Void) -> RequestTask {
         return fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
             switch result {
             case let .success(response):
@@ -163,7 +163,7 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<String> 
      */
-    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<String> {
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)

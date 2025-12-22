@@ -553,7 +553,7 @@ require 'openapi_client'
 
 api_instance = OpenapiClient::BodyApi.new
 opts = {
-  body: 'body_example' # String | String enum
+  string_enum_ref: OpenapiClient::StringEnumRef::SUCCESS # StringEnumRef | String enum
 }
 
 begin
@@ -587,7 +587,7 @@ end
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **body** | **String** | String enum | [optional] |
+| **string_enum_ref** | [**StringEnumRef**](StringEnumRef.md) | String enum | [optional] |
 
 ### Return type
 

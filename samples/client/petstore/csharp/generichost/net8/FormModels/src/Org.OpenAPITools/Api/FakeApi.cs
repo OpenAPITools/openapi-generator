@@ -131,10 +131,10 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFakeOuterStringSerializeApiResponse"/>&gt;</returns>
-        Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<OuterString> outerString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -143,10 +143,10 @@ namespace Org.OpenAPITools.Api
         /// Test serialization of outer string types
         /// </remarks>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFakeOuterStringSerializeApiResponse"/>&gt;</returns>
-        Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<OuterString> outerString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Array of Enums
@@ -2248,17 +2248,17 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, ref Option<string> body);
+        partial void FormatFakeOuterStringSerialize(ref Guid requiredStringUuid, Option<OuterString> outerString);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="body"></param>
+        /// <param name="outerString"></param>
         /// <returns></returns>
-        private void ValidateFakeOuterStringSerialize(Option<string> body)
+        private void ValidateFakeOuterStringSerialize(Option<OuterString> outerString)
         {
-            if (body.IsSet && body.Value == null)
-                throw new ArgumentNullException(nameof(body));
+            if (outerString.IsSet && outerString.Value == null)
+                throw new ArgumentNullException(nameof(outerString));
         }
 
         /// <summary>
@@ -2266,11 +2266,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
-        private void AfterFakeOuterStringSerializeDefaultImplementation(IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body)
+        /// <param name="outerString"></param>
+        private void AfterFakeOuterStringSerializeDefaultImplementation(IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<OuterString> outerString)
         {
             bool suppressDefaultLog = false;
-            AfterFakeOuterStringSerialize(ref suppressDefaultLog, apiResponseLocalVar, requiredStringUuid, body);
+            AfterFakeOuterStringSerialize(ref suppressDefaultLog, apiResponseLocalVar, requiredStringUuid, outerString);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2281,8 +2281,8 @@ namespace Org.OpenAPITools.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
-        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<string> body);
+        /// <param name="outerString"></param>
+        partial void AfterFakeOuterStringSerialize(ref bool suppressDefaultLog, IFakeOuterStringSerializeApiResponse apiResponseLocalVar, Guid requiredStringUuid, Option<OuterString> outerString);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2291,11 +2291,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
-        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body)
+        /// <param name="outerString"></param>
+        private void OnErrorFakeOuterStringSerializeDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<OuterString> outerString)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorFakeOuterStringSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requiredStringUuid, body);
+            OnErrorFakeOuterStringSerialize(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, requiredStringUuid, outerString);
             if (!suppressDefaultLogLocalVar)
                 Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
@@ -2308,21 +2308,21 @@ namespace Org.OpenAPITools.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="requiredStringUuid"></param>
-        /// <param name="body"></param>
-        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<string> body);
+        /// <param name="outerString"></param>
+        partial void OnErrorFakeOuterStringSerialize(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Guid requiredStringUuid, Option<OuterString> outerString);
 
         /// <summary>
         ///  Test serialization of outer string types
         /// </summary>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFakeOuterStringSerializeApiResponse"/>&gt;</returns>
-        public async Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeOrDefaultAsync(Guid requiredStringUuid, Option<OuterString> outerString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await FakeOuterStringSerializeAsync(requiredStringUuid, body, cancellationToken).ConfigureAwait(false);
+                return await FakeOuterStringSerializeAsync(requiredStringUuid, outerString, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2335,18 +2335,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFakeOuterStringSerializeApiResponse"/>&gt;</returns>
-        public async Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<string> body = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IFakeOuterStringSerializeApiResponse> FakeOuterStringSerializeAsync(Guid requiredStringUuid, Option<OuterString> outerString = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateFakeOuterStringSerialize(body);
+                ValidateFakeOuterStringSerialize(outerString);
 
-                FormatFakeOuterStringSerialize(ref requiredStringUuid, ref body);
+                FormatFakeOuterStringSerialize(ref requiredStringUuid, outerString);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2363,10 +2363,10 @@ namespace Org.OpenAPITools.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    if (body.IsSet)
-                        httpRequestMessageLocalVar.Content = (body.Value as object) is System.IO.Stream stream
+                    if (outerString.IsSet)
+                        httpRequestMessageLocalVar.Content = (outerString.Value as object) is System.IO.Stream stream
                             ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(body.Value, _jsonSerializerOptions));
+                            : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(outerString.Value, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2406,7 +2406,7 @@ namespace Org.OpenAPITools.Api
                             }
                         }
 
-                        AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, body);
+                        AfterFakeOuterStringSerializeDefaultImplementation(apiResponseLocalVar, requiredStringUuid, outerString);
 
                         Events.ExecuteOnFakeOuterStringSerialize(apiResponseLocalVar);
 
@@ -2416,7 +2416,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorFakeOuterStringSerializeDefaultImplementation(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, body);
+                OnErrorFakeOuterStringSerializeDefaultImplementation(e, "/fake/outer/string", uriBuilderLocalVar.Path, requiredStringUuid, outerString);
                 Events.ExecuteOnErrorFakeOuterStringSerialize(e);
                 throw;
             }

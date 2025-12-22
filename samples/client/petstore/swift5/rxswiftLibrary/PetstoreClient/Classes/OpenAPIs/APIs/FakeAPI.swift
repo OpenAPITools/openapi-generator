@@ -163,7 +163,7 @@ open class FakeAPI {
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - returns: Observable<String>
      */
-    open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
+    open class func fakeOuterStringSerialize(body: OuterString? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> Observable<String> {
         return Observable.create { observer -> Disposable in
             let requestTask = fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result in
                 switch result {
@@ -187,7 +187,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
-    open class func fakeOuterStringSerializeWithRequestBuilder(body: String? = nil) -> RequestBuilder<String> {
+    open class func fakeOuterStringSerializeWithRequestBuilder(body: OuterString? = nil) -> RequestBuilder<String> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = PetstoreClientAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)

@@ -290,7 +290,7 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
-    String body = "body_example"; // String | Input string as post body
+    OuterString body = new OuterString(); // OuterString | Input string as post body
     try {
       String result = apiInstance.fakeOuterStringSerialize(body);
       System.out.println(result);
@@ -309,7 +309,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

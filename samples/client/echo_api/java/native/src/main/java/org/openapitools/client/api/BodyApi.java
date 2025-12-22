@@ -1147,48 +1147,48 @@ public class BodyApi {
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @return StringEnumRef
    * @throws ApiException if fails to make API call
    */
-  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body) throws ApiException {
-    return testEchoBodyStringEnum(body, null);
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable StringEnumRef stringEnumRef) throws ApiException {
+    return testEchoBodyStringEnum(stringEnumRef, null);
   }
 
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @param headers Optional headers to include in the request
    * @return StringEnumRef
    * @throws ApiException if fails to make API call
    */
-  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-    ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(body, headers);
+  public StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable StringEnumRef stringEnumRef, Map<String, String> headers) throws ApiException {
+    ApiResponse<StringEnumRef> localVarResponse = testEchoBodyStringEnumWithHttpInfo(stringEnumRef, headers);
     return localVarResponse.getData();
   }
 
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @return ApiResponse&lt;StringEnumRef&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
-    return testEchoBodyStringEnumWithHttpInfo(body, null);
+  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable StringEnumRef stringEnumRef) throws ApiException {
+    return testEchoBodyStringEnumWithHttpInfo(stringEnumRef, null);
   }
 
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @param headers Optional headers to include in the request
    * @return ApiResponse&lt;StringEnumRef&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testEchoBodyStringEnumRequestBuilder(body, headers);
+  public ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable StringEnumRef stringEnumRef, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyStringEnumRequestBuilder(stringEnumRef, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -1235,7 +1235,7 @@ public class BodyApi {
     }
   }
 
-  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder testEchoBodyStringEnumRequestBuilder(@javax.annotation.Nullable StringEnumRef stringEnumRef, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -1247,7 +1247,7 @@ public class BodyApi {
     localVarRequestBuilder.header("Accept", "application/json");
 
     try {
-      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(stringEnumRef);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
     } catch (IOException e) {
       throw new ApiException(e);

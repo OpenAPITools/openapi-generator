@@ -29,6 +29,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
+import org.openapitools.server.model.OuterString;
 import io.helidon.common.parameters.Parameters;
 import java.nio.file.Path;
 import org.openapitools.server.model.Pet;
@@ -87,7 +88,7 @@ public class FakeServiceImpl extends FakeService {
 
     @Override
     protected void handleFakeOuterStringSerialize(ServerRequest request, ServerResponse response, 
-                Optional<String> body) {
+                Optional<OuterString> outerString) {
 
         response.status(Status.NOT_IMPLEMENTED_501).send();
     }

@@ -486,7 +486,7 @@ const apiInstance = new BodyApi(configuration);
 
 const request: BodyApiTestEchoBodyStringEnumRequest = {
     // String enum (optional)
-  body: "success",
+  stringEnumRef: "success",
 };
 
 const data = await apiInstance.testEchoBodyStringEnum(request);
@@ -498,7 +498,7 @@ console.log('API called successfully. Returned data:', data);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string**| String enum |
+ **stringEnumRef** | **StringEnumRef**| String enum |
 
 
 ### Return type

@@ -302,7 +302,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
-> string fake_outer_string_serialize(body => $body)
+> string fake_outer_string_serialize(outer_string => $outer_string)
 
 
 
@@ -315,10 +315,10 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $body = WWW::OpenAPIClient::Object::string->new(); # string | Input string as post body
+my $outer_string = WWW::OpenAPIClient::Object::OuterString->new(); # OuterString | Input string as post body
 
 eval {
-    my $result = $api_instance->fake_outer_string_serialize(body => $body);
+    my $result = $api_instance->fake_outer_string_serialize(outer_string => $outer_string);
     print Dumper($result);
 };
 if ($@) {
@@ -330,7 +330,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string**| Input string as post body | [optional] 
+ **outer_string** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 

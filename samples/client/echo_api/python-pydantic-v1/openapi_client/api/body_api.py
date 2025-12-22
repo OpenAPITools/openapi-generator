@@ -1216,18 +1216,18 @@ class BodyApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_echo_body_string_enum(self, body : Annotated[Optional[StringEnumRef], Field(description="String enum")] = None, **kwargs) -> StringEnumRef:  # noqa: E501
+    def test_echo_body_string_enum(self, string_enum_ref : Annotated[Optional[StringEnumRef], Field(description="String enum")] = None, **kwargs) -> StringEnumRef:  # noqa: E501
         """Test string enum response body  # noqa: E501
 
         Test string enum response body  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_echo_body_string_enum(body, async_req=True)
+        >>> thread = api.test_echo_body_string_enum(string_enum_ref, async_req=True)
         >>> result = thread.get()
 
-        :param body: String enum
-        :type body: str
+        :param string_enum_ref: String enum
+        :type string_enum_ref: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -1243,21 +1243,21 @@ class BodyApi:
         if '_preload_content' in kwargs:
             message = "Error! Please call the test_echo_body_string_enum_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.test_echo_body_string_enum_with_http_info(body, **kwargs)  # noqa: E501
+        return self.test_echo_body_string_enum_with_http_info(string_enum_ref, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_echo_body_string_enum_with_http_info(self, body : Annotated[Optional[StringEnumRef], Field(description="String enum")] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_echo_body_string_enum_with_http_info(self, string_enum_ref : Annotated[Optional[StringEnumRef], Field(description="String enum")] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """Test string enum response body  # noqa: E501
 
         Test string enum response body  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.test_echo_body_string_enum_with_http_info(body, async_req=True)
+        >>> thread = api.test_echo_body_string_enum_with_http_info(string_enum_ref, async_req=True)
         >>> result = thread.get()
 
-        :param body: String enum
-        :type body: str
+        :param string_enum_ref: String enum
+        :type string_enum_ref: StringEnumRef
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -1286,7 +1286,7 @@ class BodyApi:
         _params = locals()
 
         _all_params = [
-            'body'
+            'string_enum_ref'
         ]
         _all_params.extend(
             [
@@ -1324,8 +1324,8 @@ class BodyApi:
         _files = {}
         # process the body parameter
         _body_params = None
-        if _params['body'] is not None:
-            _body_params = _params['body']
+        if _params['string_enum_ref'] is not None:
+            _body_params = _params['string_enum_ref']
 
         # set the HTTP header `Accept`
         _header_params['Accept'] = self.api_client.select_header_accept(

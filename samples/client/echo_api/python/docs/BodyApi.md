@@ -552,7 +552,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_echo_body_string_enum**
-> StringEnumRef test_echo_body_string_enum(body=body)
+> StringEnumRef test_echo_body_string_enum(string_enum_ref=string_enum_ref)
 
 Test string enum response body
 
@@ -578,11 +578,11 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.BodyApi(api_client)
-    body = 'body_example' # str | String enum (optional)
+    string_enum_ref = openapi_client.StringEnumRef() # StringEnumRef | String enum (optional)
 
     try:
         # Test string enum response body
-        api_response = api_instance.test_echo_body_string_enum(body=body)
+        api_response = api_instance.test_echo_body_string_enum(string_enum_ref=string_enum_ref)
         print("The response of BodyApi->test_echo_body_string_enum:\n")
         pprint(api_response)
     except Exception as e:
@@ -596,7 +596,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **str**| String enum | [optional] 
+ **string_enum_ref** | [**StringEnumRef**](StringEnumRef.md)| String enum | [optional] 
 
 ### Return type
 

@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import org.openapitools.model.ModelClient;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 import javax.annotation.Generated;
@@ -94,7 +95,7 @@ public interface FakeApi {
     @Post(uri="/fake/outer/string")
     
     Mono<String> fakeOuterStringSerialize(
-        @Body @Nullable String _body
+        @Body @Nullable @Valid OuterString _body
     );
 
     /**

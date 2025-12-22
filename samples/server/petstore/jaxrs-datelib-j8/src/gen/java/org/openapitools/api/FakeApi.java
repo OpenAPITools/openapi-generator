@@ -15,6 +15,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -120,7 +121,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class)
     })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  String body,@Context SecurityContext securityContext)
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  OuterString body,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
     }

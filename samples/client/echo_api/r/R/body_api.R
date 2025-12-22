@@ -128,14 +128,14 @@
 #' ####################  TestEchoBodyStringEnum  ####################
 #'
 #' library(openapi)
-#' var_body <- "body_example" # character | String enum (Optional)
+#' var_string_enum_ref <- StringEnumRef$new() # StringEnumRef | String enum (Optional)
 #'
 #' #Test string enum response body
 #' api_instance <- BodyApi$new()
 #'
 #' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-#' # result <- api_instance$TestEchoBodyStringEnum(body = var_bodydata_file = "result.txt")
-#' result <- api_instance$TestEchoBodyStringEnum(body = var_body)
+#' # result <- api_instance$TestEchoBodyStringEnum(string_enum_ref = var_string_enum_refdata_file = "result.txt")
+#' result <- api_instance$TestEchoBodyStringEnum(string_enum_ref = var_string_enum_ref)
 #' dput(result)
 #'
 #'
@@ -951,13 +951,13 @@ BodyApi <- R6::R6Class(
     #' @description
     #' Test string enum response body
     #'
-    #' @param body (optional) String enum
+    #' @param string_enum_ref (optional) String enum
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
     #'
     #' @return StringEnumRef
-    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ...)
+    TestEchoBodyStringEnum = function(string_enum_ref = NULL, data_file = NULL, ...) {
+      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(string_enum_ref, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -972,12 +972,12 @@ BodyApi <- R6::R6Class(
     #' @description
     #' Test string enum response body
     #'
-    #' @param body (optional) String enum
+    #' @param string_enum_ref (optional) String enum
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
     #'
     #' @return API response (StringEnumRef) with additional information such as HTTP status code, headers
-    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestEchoBodyStringEnumWithHttpInfo = function(string_enum_ref = NULL, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -987,12 +987,12 @@ BodyApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (!missing(`body`) && is.null(`body`)) {
-        stop("Invalid value for `body` when calling BodyApi$TestEchoBodyStringEnum, `body` is not nullable")
+      if (!missing(`string_enum_ref`) && is.null(`string_enum_ref`)) {
+        stop("Invalid value for `string_enum_ref` when calling BodyApi$TestEchoBodyStringEnum, `string_enum_ref` is not nullable")
       }
 
-      if (!is.null(`body`)) {
-        local_var_body <- `body`$toJSONString()
+      if (!is.null(`string_enum_ref`)) {
+        local_var_body <- `string_enum_ref`$toJSONString()
       } else {
         local_var_body <- NULL
       }

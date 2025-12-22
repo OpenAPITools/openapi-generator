@@ -583,11 +583,11 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * Test string enum response body
          * @summary Test string enum response body
-         * @param {string} [body] String enum
+         * @param {StringEnumRef} [stringEnumRef] String enum
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEchoBodyStringEnum: async (body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testEchoBodyStringEnum: async (stringEnumRef?: StringEnumRef, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/echo/body/string_enum`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -606,7 +606,7 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(stringEnumRef, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -761,12 +761,12 @@ export const BodyApiFp = function(configuration?: Configuration) {
         /**
          * Test string enum response body
          * @summary Test string enum response body
-         * @param {string} [body] String enum
+         * @param {StringEnumRef} [stringEnumRef] String enum
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StringEnumRef>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testEchoBodyStringEnum(body, options);
+        async testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StringEnumRef>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testEchoBodyStringEnum(stringEnumRef, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['BodyApi.testEchoBodyStringEnum']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -875,12 +875,12 @@ export const BodyApiFactory = function (configuration?: Configuration, basePath?
         /**
          * Test string enum response body
          * @summary Test string enum response body
-         * @param {string} [body] String enum
+         * @param {StringEnumRef} [stringEnumRef] String enum
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig): AxiosPromise<StringEnumRef> {
-            return localVarFp.testEchoBodyStringEnum(body, options).then((request) => request(axios, basePath));
+        testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, options?: RawAxiosRequestConfig): AxiosPromise<StringEnumRef> {
+            return localVarFp.testEchoBodyStringEnum(stringEnumRef, options).then((request) => request(axios, basePath));
         },
         /**
          * Test empty json (request body)
@@ -989,12 +989,12 @@ export class BodyApi extends BaseAPI {
     /**
      * Test string enum response body
      * @summary Test string enum response body
-     * @param {string} [body] String enum
+     * @param {StringEnumRef} [stringEnumRef] String enum
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig) {
-        return BodyApiFp(this.configuration).testEchoBodyStringEnum(body, options).then((request) => request(this.axios, this.basePath));
+    public testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, options?: RawAxiosRequestConfig) {
+        return BodyApiFp(this.configuration).testEchoBodyStringEnum(stringEnumRef, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

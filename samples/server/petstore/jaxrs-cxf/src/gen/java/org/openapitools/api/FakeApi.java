@@ -8,6 +8,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -78,7 +79,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public String fakeOuterStringSerialize(@Valid String body);
+    public String fakeOuterStringSerialize(@Valid OuterString body);
 
     @PUT
     @Path("/body-with-file-schema")

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.OuterString;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -46,7 +47,7 @@ public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     }
 
     @Override
-    public String fakeOuterStringSerialize(Http.Request request, String body) throws Exception {
+    public String fakeOuterStringSerialize(Http.Request request, OuterString body) throws Exception {
         //Do your magic!!!
         return new String();
     }

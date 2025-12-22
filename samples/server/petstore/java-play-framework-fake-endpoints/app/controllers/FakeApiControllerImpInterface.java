@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
+import apimodels.OuterString;
 import apimodels.User;
 import apimodels.XmlItem;
 
@@ -84,7 +85,7 @@ public abstract class FakeApiControllerImpInterface {
 
     public abstract BigDecimal fakeOuterNumberSerialize(Http.Request request, BigDecimal body) throws Exception;
 
-    public Result fakeOuterStringSerializeHttp(Http.Request request, String body) throws Exception {
+    public Result fakeOuterStringSerializeHttp(Http.Request request, OuterString body) throws Exception {
         String obj = fakeOuterStringSerialize(request, body);
         JsonNode result = mapper.valueToTree(obj);
 
@@ -92,7 +93,7 @@ public abstract class FakeApiControllerImpInterface {
 
     }
 
-    public abstract String fakeOuterStringSerialize(Http.Request request, String body) throws Exception;
+    public abstract String fakeOuterStringSerialize(Http.Request request, OuterString body) throws Exception;
 
     public Result testBodyWithFileSchemaHttp(Http.Request request, FileSchemaTestClass body) throws Exception {
         testBodyWithFileSchema(request, body);
