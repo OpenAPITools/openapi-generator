@@ -85,27 +85,31 @@ public class CrystalClientCodegen extends DefaultCodegen {
                         SecurityFeature.BasicAuth,
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit))
+                        SecurityFeature.OAuth2_Implicit
+                ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling,
                         GlobalFeature.ParameterizedServer,
-                        GlobalFeature.MultiServer)
+                        GlobalFeature.MultiServer
+                )
                 .includeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism)
+                        SchemaSupportFeature.Polymorphism
+                )
                 .excludeParameterFeatures(
-                        ParameterFeature.Cookie)
+                        ParameterFeature.Cookie
+                )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
-                        ClientModificationFeature.UserAgent));
-
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
-                .stability(Stability.BETA)
-                .build();
+                        ClientModificationFeature.UserAgent
+                )
+        );
 
         supportsInheritance = true;
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
 
         // clear import mapping (from default generator) as crystal does not use it
         // at the moment
@@ -188,8 +192,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         primitiveTypes = new ArrayList<String>(typeMapping.values());
 
         // remove modelPackage and apiPackage added by default
-        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) ||
-                CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
+        cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) || CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
         cliOptions.add(new CliOption(SHARD_NAME, "shard name (e.g. twitter_client").defaultValue("openapi_client"));
 
@@ -207,8 +210,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         cliOptions.add(new CliOption(SHARD_AUTHOR_EMAIL, "shard author email (only one is supported)."));
 
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-                CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(new CliOption(PARAMS_ENCODER,
                 "params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder").
@@ -220,8 +222,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("CRYSTAL_POST_PROCESS_FILE"))) {
-            LOGGER.info(
-                    "Hint: Environment variable 'CRYSTAL_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export CRYSTAL_POST_PROCESS_FILE=\"/usr/local/bin/crystal tool format\"' (Linux/Mac)");
+            LOGGER.info("Hint: Environment variable 'CRYSTAL_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export CRYSTAL_POST_PROCESS_FILE=\"/usr/local/bin/crystal tool format\"' (Linux/Mac)");
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'CRYSTAL_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
@@ -294,14 +295,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
         supportingFiles.add(new SupportingFile("shard.mustache", "", "shard.yml"));
 
         // crystal spec files
-        supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.cr")
-                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.cr").doNotOverwrite());
 
         // add lambda for mustache templates
         additionalProperties.put("lambdaPrefixWithHash", new PrefixWithHashLambda());
         additionalProperties.put("lambdaUppercase", new UppercaseLambda());
         additionalProperties.put("lambdaTitlecase", new TitlecaseLambda());
-
     }
 
     @Override
@@ -407,9 +406,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // model name starts with number
         if (modelName.matches("^\\d.*")) {
-            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName,
-                    camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", modelName, camelize("model_" + modelName));
+            // e.g. 200Response => Model200Response (after camelize)
+            modelName = "model_" + modelName;
         }
 
         // camelize the model name
@@ -548,8 +547,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId,
-                    underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn("{} (starting with a number) cannot be used as method name. Renamed to {}", operationId, underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
@@ -576,6 +574,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         if (isSkipOperationExample()) {
             return objs;
         }
+
         OperationMap operations = objs.getOperations();
         HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
         HashMap<String, Integer> processedModelMaps = new HashMap<>();
@@ -607,8 +606,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         return objs;
     }
 
-    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps,
-                                        HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenParameter.isArray) { // array
             if (codegenParameter.items == null) {
                 return "[]";
@@ -675,8 +673,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps,
-                                        HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         if (codegenProperty.isArray) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
         } else if (codegenProperty.isMap) {
@@ -743,8 +740,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
     }
 
-    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps,
-                                        HashMap<String, Integer> processedModelMap) {
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
         // break infinite recursion. Return, in case a model is already processed in the
         // current context.
         String model = codegenModel.name;
@@ -758,8 +754,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 throw new RuntimeException("Invalid count when constructing example: " + count);
             }
         } else if (codegenModel.isEnum) {
-            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues
-                    .get("enumVars");
+            List<Map<String, String>> enumVars = (List<Map<String, String>>) codegenModel.allowableValues.get("enumVars");
             return moduleName + "::" + codegenModel.classname + "::" + enumVars.get(0).get("name");
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
