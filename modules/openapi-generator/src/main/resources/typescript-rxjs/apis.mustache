@@ -115,11 +115,11 @@ export class {{classname}} extends BaseAPI {
             {{/isArray}}
             {{^isArray}}
             {{#isDateTime}}
-            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString(),
+            '{{baseName}}': new Date({{> paramNamePartial}} as any).toISOString(),
             {{/isDateTime}}
             {{^isDateTime}}
             {{#isDate}}
-            '{{baseName}}': ({{> paramNamePartial}} as any).toISOString().split('T')[0],
+            '{{baseName}}': new Date({{> paramNamePartial}} as any).toISOString().split('T')[0],
             {{/isDate}}
             {{^isDate}}
             '{{baseName}}': {{> paramNamePartial}},
@@ -144,11 +144,11 @@ export class {{classname}} extends BaseAPI {
         {{/isArray}}
         {{^isArray}}
         {{#isDateTime}}
-        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString(); }
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = new Date({{> paramNamePartial}} as any).toISOString(); }
         {{/isDateTime}}
         {{^isDateTime}}
         {{#isDate}}
-        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = ({{> paramNamePartial}} as any).toISOString().split('T')[0]; }
+        if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = new Date({{> paramNamePartial}} as any).toISOString().split('T')[0]; }
         {{/isDate}}
         {{^isDate}}
         if ({{> paramNamePartial}} != null) { query['{{baseName}}'] = {{> paramNamePartial}}; }
