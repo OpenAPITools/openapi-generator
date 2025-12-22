@@ -4,7 +4,7 @@ ByRefOrValue
 
 - API version: 0.0.1
 
-- Generator version: 7.18.0-SNAPSHOT
+- Generator version: 7.19.0-SNAPSHOT
 
 This tests for a oneOf interface representation
 

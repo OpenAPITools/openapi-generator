@@ -4,7 +4,7 @@ Minimal Example
 
 - API version: v1
 
-- Generator version: 7.18.0-SNAPSHOT
+- Generator version: 7.19.0-SNAPSHOT
 
 byte Array error in equal method
 

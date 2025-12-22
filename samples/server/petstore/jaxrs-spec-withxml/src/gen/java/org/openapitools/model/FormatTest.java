@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "FormatTest", propOrder =
     { "integer", "int32", "int64", "number", "_float", "_double", "decimal", "string", "_byte", "binary", "date", "dateTime", "uuid", "password", "patternWithDigits", "patternWithDigitsAndDelimiter"
     })
