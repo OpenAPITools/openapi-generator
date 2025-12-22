@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class NumberPropertiesOnly {
@@ -21,24 +22,27 @@ export class NumberPropertiesOnly {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "number",
             "baseName": "number",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "_float",
             "baseName": "float",
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "required": false
         },
         {
             "name": "_double",
             "baseName": "double",
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class Cat {
@@ -20,18 +21,20 @@ export class Cat {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "hunts",
             "baseName": "hunts",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "age",
             "baseName": "age",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {
