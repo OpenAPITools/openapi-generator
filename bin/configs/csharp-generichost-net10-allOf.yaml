@@ -1,6 +1,6 @@
 # for csharp generichost
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/generichost/net10.0/AllOf
+outputDir: samples/client/petstore/csharp/generichost/net10/AllOf
 inputSpec: modules/openapi-generator/src/test/resources/3_0/allOf.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:

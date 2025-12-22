@@ -1,6 +1,6 @@
 # for .net standard httpclient
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/httpclient/net10.0/Petstore-nonPublicApi
+outputDir: samples/client/petstore/csharp/httpclient/net10/Petstore-nonPublicApi
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 library: httpclient

@@ -1,6 +1,6 @@
 # for csharp generichost
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/generichost/net10.0/UseDateTimeForDate
+outputDir: samples/client/petstore/csharp/generichost/net10/UseDateTimeForDate
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/dates-api.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:
