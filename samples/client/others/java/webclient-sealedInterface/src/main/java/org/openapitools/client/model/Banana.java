@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Banana.JSON_PROPERTY_LENGTH,
   Banana.JSON_PROPERTY_FRUIT_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public final class Banana implements Fruit {
   public static final String JSON_PROPERTY_LENGTH = "length";
   @javax.annotation.Nonnull

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * inline schema in webhooks
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class FakeWebhooksSourcesDeletedPostRequest {
   public static final String SERIALIZED_NAME_EVENT_TIMESTAMP = "event_timestamp";
   @SerializedName(SERIALIZED_NAME_EVENT_TIMESTAMP)
