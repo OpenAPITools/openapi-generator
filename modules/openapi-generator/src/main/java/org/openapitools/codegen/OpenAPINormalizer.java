@@ -695,9 +695,21 @@ public class OpenAPINormalizer {
      * @return Schema
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+        return normalizeSchema(schema, visitedSchemas, false);
+    }
+
+    /**
+     * Normalizes a schema with optional composition context
+     *
+     * @param schema         Schema
+     * @param visitedSchemas a set of visited schemas
+     * @param isInComposition true if schema is inside oneOf/anyOf composition
+     * @return Schema
+     */
+    protected Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas, boolean isInComposition) {
         // normalize reference schema
         if (StringUtils.isNotEmpty(schema.get$ref())) {
-            normalizeReferenceSchema(schema);
+            normalizeReferenceSchema(schema, isInComposition);
         }
 
         if (skipNormalization(schema, visitedSchemas)) {
@@ -773,6 +785,21 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      */
     protected void normalizeReferenceSchema(Schema schema) {
+        normalizeReferenceSchema(schema, false);
+    }
+
+    /**
+     * Normalize reference schema with allOf to support sibling properties
+     *
+     *
+     * @param schema           Schema
+     * @param isInComposition  true if schema is inside oneOf/anyOf
+     */
+    protected void normalizeReferenceSchema(Schema schema, boolean isInComposition) {
+        if (isInComposition) {
+            return;
+        }
+
         if (schema.getTitle() != null || schema.getDescription() != null
                 || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
                 || schema.getMaximum() != null || schema.getMinimum() != null
@@ -860,7 +887,7 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            
+
             // remove x-internal if needed (same logic as normalizeComponentsSchemas)
             if (property.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
                 Object xInternalValue = property.getExtensions().get(X_INTERNAL);
@@ -1019,8 +1046,8 @@ public class OpenAPINormalizer {
                     throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
                 }
 
-                // update sub-schema with the updated schema
-                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+                // update sub-schema with the updated schema, passing isInComposition=true
+                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas, true));
             }
         } else {
             // normalize it as it's no longer an oneOf
@@ -1049,8 +1076,8 @@ public class OpenAPINormalizer {
                 throw new RuntimeException("Error! anyOf schema is not of the type Schema: " + item);
             }
 
-            // update sub-schema with the updated schema
-            schema.getAnyOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
+            // update sub-schema with the updated schema, passing isInComposition=true
+            schema.getAnyOf().set(i, normalizeSchema((Schema) item, visitedSchemas, true));
         }
 
         // process rules here
