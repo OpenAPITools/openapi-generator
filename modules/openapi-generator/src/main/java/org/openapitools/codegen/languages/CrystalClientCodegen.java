@@ -134,20 +134,24 @@ public class CrystalClientCodegen extends DefaultCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         // reserved word. Ref:
-        // https://github.com/crystal-lang/crystal/wiki/Crystal-for-Rubyists#available-keywords
+        // https://crystal-lang.org/reference/1.18/crystal_for_rubyists/index.html#available-keywords
         // https://crystal-lang.org/api/1.18.2/Reference.html
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                        "abstract", "annotation", "do", "if", "nil?", "select", "union",
-                        "alias", "else", "in", "of", "self", "unless",
-                        "as", "elsif", "include", "out", "sizeof", "until",
-                        "as?", "end", "instance", "sizeof", "pointerof", "struct", "verbatim",
-                        "asm", "ensure", "is_a?", "private", "super", "when",
-                        "begin", "enum", "lib", "protected", "then", "while",
-                        "break", "extend", "macro", "require", "true", "with",
-                        "case", "false", "module", "rescue", "type", "yield",
-                        "class", "for", "next", "responds_to?", "typeof",
-                        "def", "fun", "nil", "return", "uninitialized", "object_id"));
+                    // language reserved words (keywords)
+                    "abstract",   "do",       "if",                "nil?",            "return",      "uninitialized",
+                    "alias",      "else",     "in",                "of",              "select",      "union",
+                    "as",         "elsif",    "include",           "out",             "self",        "unless",
+                    "as?",        "end",      "instance_sizeof",   "pointerof",       "sizeof",      "until",
+                    "asm",        "ensure",   "is_a?",             "previous_def",    "struct",      "verbatim",
+                    "begin",      "enum",     "lib",               "private",         "super",       "when",
+                    "break",      "extend",   "macro",             "protected",       "then",        "while",
+                    "case",       "false",    "module",            "require",         "true",        "with",
+                    "class",      "for",      "next",              "rescue",          "type",        "yield",
+                    "def",        "fun",      "nil",               "responds_to?",    "typeof",
+                    // additional reserved words (methods)
+                    "annotation", "object_id"
+                ));
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
