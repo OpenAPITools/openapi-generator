@@ -69,6 +69,7 @@ public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedC
                 .put(TypeScriptAngularClientCodegen.RXJS_VERSION, RXJS_VERSION)
                 .put(TypeScriptAngularClientCodegen.NGPACKAGR_VERSION, NGPACKAGR_VERSION)
                 .put(TypeScriptAngularClientCodegen.ZONEJS_VERSION, ZONEJS_VERSION)
+                .put(TypeScriptAngularClientCodegen.USE_HTTP_RESOURCE, Boolean.FALSE.toString())
                 .build();
     }
 }

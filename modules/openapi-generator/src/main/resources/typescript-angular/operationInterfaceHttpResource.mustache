@@ -1,0 +1,11 @@
+    /**
+     * {{summary}}
+     * {{notes}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
+     {{^useSingleRequestParameter}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters
+     {{/allParams.0}}{{/useSingleRequestParameter}}{{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}*/
+    {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams?: any): HttpResourceRef<{{{returnType}}}{{^returnType}}{}{{/returnType}}>;

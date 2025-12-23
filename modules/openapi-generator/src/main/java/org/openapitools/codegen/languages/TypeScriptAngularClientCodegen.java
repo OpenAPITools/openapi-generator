@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,6 +84,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String RXJS_VERSION = "rxjsVersion";
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zonejsVersion";
+    public static final String USE_HTTP_RESOURCE = "useHttpResource";
 
     protected String ngVersion = "20.0.0";
     @Getter @Setter
@@ -96,6 +98,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Getter protected Boolean stringEnums = false;
     protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
+    @Setter(AccessLevel.PRIVATE)  private boolean useHttpResource = false;
 
     private boolean taggedUnions = false;
 
@@ -155,6 +158,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(NGPACKAGR_VERSION, "The version of ng-packagr compatible with Angular (see ngVersion option)."));
         this.cliOptions.add(new CliOption(ZONEJS_VERSION, "The version of zone.js compatible with Angular (see ngVersion option)."));
+        this.cliOptions.add(CliOption.newBoolean(USE_HTTP_RESOURCE, "Use httpResource to call GET endpoints").defaultValue(String.valueOf(this.useHttpResource)));
     }
 
     @Override
@@ -310,6 +314,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
         additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
 
+        if (additionalProperties.containsKey(USE_HTTP_RESOURCE)) {
+            this.setUseHttpResource(convertPropertyToBoolean(USE_HTTP_RESOURCE));
+        }
+        writePropertyBack(USE_HTTP_RESOURCE, getUseHttpResource());
+
     }
 
     @Data
@@ -434,7 +443,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
-            ParameterExpander paramExpander = new ParameterExpander(op, this::toParamName);
+            // If useHttpResource=true, means that we use signals and the variable is available under the name `this.toParamName(n) + "Value"`
+            Function<String, String> paramName =
+                    isUseHttpResource(op)
+                            ? n -> this.toParamName(n) + "Value"
+                            : this::toParamName;
+            ParameterExpander paramExpander = new ParameterExpander(op, paramName);
             int insideCurly = 0;
 
             // Iterate through existing string, one character at a time.
@@ -626,6 +640,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return toApiFilename(name);
     }
 
+    private boolean getUseHttpResource() {
+        return useHttpResource;
+    }
+
     @Override
     public String toModelName(String name) {
         name = addSuffix(name, modelSuffix);
@@ -765,5 +783,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      */
     private boolean getIsProvidedInNone() {
         return PROVIDED_IN_LEVEL.none.equals(providedIn);
+    }
+
+    private boolean isUseHttpResource(CodegenOperation operation) {
+        return useHttpResource && operation.isGet();
     }
 }
