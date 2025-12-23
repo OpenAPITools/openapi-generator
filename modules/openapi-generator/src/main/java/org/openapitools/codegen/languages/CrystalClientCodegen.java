@@ -777,9 +777,19 @@ public class CrystalClientCodegen extends DefaultCodegen {
         } else if (codegenModel.oneOf != null && !codegenModel.oneOf.isEmpty()) {
             String subModel = (String) codegenModel.oneOf.toArray()[0];
             if (modelMaps.get(subModel) == null) {
-                LOGGER.warn("Cannot find codegen for SubModel: {} (model: {})", subModel, model);
-                return "";
+                if (subModel.startsWith("Array(")) {
+                    subModel = StringUtils.removeEnd(subModel.substring(6), ")");
+                    if (modelMaps.get(subModel) == null) {
+                        LOGGER.warn("Cannot find codegen for SubModel: {} (model: {})", subModel, model);
+                        return "";
+                    } else {
+                        LOGGER.info("Found Array codegen for SubModel: {} (model: {})", subModel, model);
+                        String oneOf = "[" + constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap) + "]";
+                        return oneOf;
+                    }
+                }
             } else {
+                LOGGER.info("Found codegen for SubModel: {} (model: {})", subModel, model);
                 String oneOf = constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
                 return oneOf;
             }
@@ -794,7 +804,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         String example = moduleName + "::" + toModelName(model) + ".new";
         if (!propertyExamples.isEmpty()) {
-            example += "({" + StringUtils.join(propertyExamples, ", ") + "})";
+            example += "(" + StringUtils.join(propertyExamples, ", ") + ")";
         }
         return example;
     }
