@@ -147,8 +147,9 @@ module Petstore
         form_or_body = form_params
       end
 
-      request = Crest::Request.new(http_method,
-        build_request_url(path, operation),
+      request = Crest::Request.new(
+        method: http_method,
+        url: build_request_url(path, operation),
         params: query_params,
         headers: header_params,
         cookies: cookie_params,
