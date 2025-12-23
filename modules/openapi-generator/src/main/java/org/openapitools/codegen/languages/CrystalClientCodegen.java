@@ -200,26 +200,15 @@ public class CrystalClientCodegen extends DefaultCodegen {
         cliOptions.removeIf(opt -> CodegenConstants.MODEL_PACKAGE.equals(opt.getOpt()) || CodegenConstants.API_PACKAGE.equals(opt.getOpt()));
 
         cliOptions.add(new CliOption(SHARD_NAME, "shard name (e.g. twitter_client").defaultValue("openapi_client"));
-
         cliOptions.add(new CliOption(MODULE_NAME, "module name (e.g. TwitterClient").defaultValue("OpenAPIClient"));
-
         cliOptions.add(new CliOption(SHARD_VERSION, "shard version.").defaultValue("1.0.0"));
-
         cliOptions.add(new CliOption(SHARD_LICENSE, "shard license.").defaultValue("unlicense"));
-
         cliOptions.add(new CliOption(SHARD_HOMEPAGE, "shard homepage.").defaultValue("http://org.openapitools"));
-
         cliOptions.add(new CliOption(SHARD_DESCRIPTION, "shard description.").defaultValue("This shard maps to a REST API"));
-
         cliOptions.add(new CliOption(SHARD_AUTHOR, "shard author (only one is supported)."));
-
         cliOptions.add(new CliOption(SHARD_AUTHOR_EMAIL, "shard author email (only one is supported)."));
-
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
-
-        cliOptions.add(new CliOption(PARAMS_ENCODER,
-                "params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder").
-                defaultValue("Crest::NestedParamsEncoder"));
+        cliOptions.add(new CliOption(PARAMS_ENCODER, "params_encoder setting (e.g. Crest::NestedParamsEncoder, Crest::EnumeratedFlatParamsEncoder, Crest::ZeroEnumeratedFlatParamsEncoder").defaultValue("Crest::NestedParamsEncoder"));
     }
 
     @Override
@@ -337,14 +326,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator
-                + apiPackage.replace("/", File.separator);
+        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator + apiPackage.replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator
-                + modelPackage.replace("/", File.separator);
+        return outputFolder + File.separator + srcFolder + File.separator + shardName + File.separator + modelPackage.replace("/", File.separator);
     }
 
     @Override
