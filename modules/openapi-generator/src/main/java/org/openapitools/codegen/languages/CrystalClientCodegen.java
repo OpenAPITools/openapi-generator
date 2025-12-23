@@ -234,43 +234,56 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         if (additionalProperties.containsKey(SHARD_NAME)) {
             setShardName((String) additionalProperties.get(SHARD_NAME));
+        } else {
+            additionalProperties.put(SHARD_NAME, shardName);
         }
-        additionalProperties.put(SHARD_NAME, shardName);
 
         if (additionalProperties.containsKey(MODULE_NAME)) {
             setModuleName((String) additionalProperties.get(MODULE_NAME));
+        } else {
+            additionalProperties.put(MODULE_NAME, moduleName);
         }
-        additionalProperties.put(MODULE_NAME, moduleName);
 
         if (additionalProperties.containsKey(SHARD_VERSION)) {
             setShardVersion((String) additionalProperties.get(SHARD_VERSION));
         } else {
-            // not set, pass the default value to template
             additionalProperties.put(SHARD_VERSION, shardVersion);
         }
 
         if (additionalProperties.containsKey(SHARD_LICENSE)) {
             setShardLicense((String) additionalProperties.get(SHARD_LICENSE));
+        } else {
+            additionalProperties.put(SHARD_LICENSE, shardLicense);
         }
 
         if (additionalProperties.containsKey(SHARD_HOMEPAGE)) {
             setShardHomepage((String) additionalProperties.get(SHARD_HOMEPAGE));
+        } else {
+            additionalProperties.put(SHARD_HOMEPAGE, shardHomepage);
         }
 
         if (additionalProperties.containsKey(SHARD_SUMMARY)) {
             setShardSummary((String) additionalProperties.get(SHARD_SUMMARY));
+        } else {
+            additionalProperties.put(SHARD_SUMMARY, shardSummary);
         }
 
         if (additionalProperties.containsKey(SHARD_DESCRIPTION)) {
             setShardDescription((String) additionalProperties.get(SHARD_DESCRIPTION));
+        } else {
+            additionalProperties.put(SHARD_DESCRIPTION, shardDescription);
         }
 
         if (additionalProperties.containsKey(SHARD_AUTHOR)) {
             setShardAuthor((String) additionalProperties.get(SHARD_AUTHOR));
+        } else {
+            additionalProperties.put(SHARD_AUTHOR, shardAuthor);
         }
 
         if (additionalProperties.containsKey(SHARD_AUTHOR_EMAIL)) {
             setShardAuthorEmail((String) additionalProperties.get(SHARD_AUTHOR_EMAIL));
+        } else {
+            additionalProperties.put(SHARD_AUTHOR_EMAIL, shardAuthorEmail);
         }
 
         if (additionalProperties.containsKey(PARAMS_ENCODER)) {

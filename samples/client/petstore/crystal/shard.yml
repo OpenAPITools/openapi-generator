@@ -6,7 +6,7 @@ authors:
   - 
 
 description: |
-  - 
+  - This shard maps to a REST API
 
 crystal: ">= 0.35.1"
 
@@ -27,4 +27,4 @@ development_dependencies:
     gitlab: arctic-fox/spectator
     version: ~> 0.12.0
 
-license: 
+license: unlicense
