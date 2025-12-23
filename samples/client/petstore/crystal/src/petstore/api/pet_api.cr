@@ -66,19 +66,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"PetApi.add_pet",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"PetApi.add_pet",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Pet.from_json(data), status_code, headers
     end
 
@@ -128,19 +132,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:DELETE,
-                                                        local_var_path,
-                                                        :"PetApi.delete_pet",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :DELETE,
+        path: local_var_path,
+        operation: :"PetApi.delete_pet",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#delete_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -192,19 +200,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"PetApi.find_pets_by_status",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"PetApi.find_pets_by_status",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#find_pets_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Array(Pet).from_json(data), status_code, headers
     end
 
@@ -256,19 +268,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"PetApi.find_pets_by_tags",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"PetApi.find_pets_by_tags",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#find_pets_by_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Array(Pet).from_json(data), status_code, headers
     end
 
@@ -319,19 +335,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"PetApi.get_pet_by_id",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"PetApi.get_pet_by_id",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#get_pet_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Pet.from_json(data), status_code, headers
     end
 
@@ -384,19 +404,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:PUT,
-                                                        local_var_path,
-                                                        :"PetApi.update_pet",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :PUT,
+        path: local_var_path,
+        operation: :"PetApi.update_pet",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#update_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Pet.from_json(data), status_code, headers
     end
 
@@ -449,19 +473,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"PetApi.update_pet_with_form",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"PetApi.update_pet_with_form",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#update_pet_with_form\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -516,19 +544,23 @@ module Petstore
       # auth_names
       auth_names = ["petstore_auth"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"PetApi.upload_file",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"PetApi.upload_file",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return ApiResponse.from_json(data), status_code, headers
     end
   end

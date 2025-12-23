@@ -89,19 +89,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"FakeApi.get_parameter_name_mapping",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"FakeApi.get_parameter_name_mapping",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: FakeApi#get_parameter_name_mapping\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
   end

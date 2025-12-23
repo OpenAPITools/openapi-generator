@@ -64,19 +64,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"UserApi.create_user",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"UserApi.create_user",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -127,19 +131,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"UserApi.create_users_with_array_input",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"UserApi.create_users_with_array_input",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_users_with_array_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -190,19 +198,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"UserApi.create_users_with_list_input",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"UserApi.create_users_with_list_input",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#create_users_with_list_input\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -251,19 +263,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:DELETE,
-                                                        local_var_path,
-                                                        :"UserApi.delete_user",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :DELETE,
+        path: local_var_path,
+        operation: :"UserApi.delete_user",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#delete_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -314,19 +330,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"UserApi.get_user_by_name",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"UserApi.get_user_by_name",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#get_user_by_name\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return User.from_json(data), status_code, headers
     end
 
@@ -390,19 +410,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"UserApi.login_user",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"UserApi.login_user",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#login_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return String.from_json(data), status_code, headers
     end
 
@@ -445,19 +469,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"UserApi.logout_user",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"UserApi.logout_user",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#logout_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -514,19 +542,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:PUT,
-                                                        local_var_path,
-                                                        :"UserApi.update_user",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :PUT,
+        path: local_var_path,
+        operation: :"UserApi.update_user",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: UserApi#update_user\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
   end

@@ -62,19 +62,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:DELETE,
-                                                        local_var_path,
-                                                        :"StoreApi.delete_order",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :DELETE,
+        path: local_var_path,
+        operation: :"StoreApi.delete_order",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#delete_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return nil, status_code, headers
     end
 
@@ -119,19 +123,23 @@ module Petstore
       # auth_names
       auth_names = ["api_key"]
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"StoreApi.get_inventory",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"StoreApi.get_inventory",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#get_inventory\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Hash(String, Int32).from_json(data), status_code, headers
     end
 
@@ -190,19 +198,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:GET,
-                                                        local_var_path,
-                                                        :"StoreApi.get_order_by_id",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :GET,
+        path: local_var_path,
+        operation: :"StoreApi.get_order_by_id",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#get_order_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Order.from_json(data), status_code, headers
     end
 
@@ -255,19 +267,23 @@ module Petstore
       # auth_names
       auth_names = [] of String
 
-      data, status_code, headers = @api_client.call_api(:POST,
-                                                        local_var_path,
-                                                        :"StoreApi.place_order",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :POST,
+        path: local_var_path,
+        operation: :"StoreApi.place_order",
+        return_type: return_type,
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: StoreApi#place_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return Order.from_json(data), status_code, headers
     end
   end
