@@ -39,13 +39,13 @@ pub trait {{{classname}}}: Send + Sync {
 {{^vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}{{!
     ### Lifetimes
-    }}<{{#allParams}}'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
+    }}<{{#allParams}}'{{#lambda.escapeRawIdentifier}}{{{paramName}}}{{/lambda.escapeRawIdentifier}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
     ### Function parameter names
     }}(&self, {{#allParams}}{{{paramName}}}: {{!
     ### Option Start
     }}{{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{!
     ### &str and Vec<&str>
-    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
+    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.escapeRawIdentifier}}{{{paramName}}}{{/lambda.escapeRawIdentifier}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
     }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types
@@ -147,13 +147,13 @@ impl {{classname}} for {{classname}}Client {
     {{^vendorExtensions.x-group-parameters}}
     async fn {{{operationId}}}{{!
     ### Lifetimes
-    }}<{{#allParams}}'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
+    }}<{{#allParams}}'{{#lambda.escapeRawIdentifier}}{{{paramName}}}{{/lambda.escapeRawIdentifier}}{{^-last}}, {{/-last}}{{/allParams}}>{{!
     ### Function parameter names
     }}(&self, {{#allParams}}{{{paramName}}}: {{!
     ### Option Start
     }}{{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{!
     ### &str and Vec<&str>
-    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.lifetimeName}}{{{paramName}}}{{/lambda.lifetimeName}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
+    }}{{#isString}}{{#isArray}}Vec<{{/isArray}}{{^isUuid}}&'{{#lambda.escapeRawIdentifier}}{{{paramName}}}{{/lambda.escapeRawIdentifier}} str{{/isUuid}}{{#isArray}}>{{/isArray}}{{/isString}}{{!
     ### UUIDs
     }}{{#isUuid}}{{#isArray}}Vec<{{/isArray}}&str{{#isArray}}>{{/isArray}}{{/isUuid}}{{!
     ### Models and primative types

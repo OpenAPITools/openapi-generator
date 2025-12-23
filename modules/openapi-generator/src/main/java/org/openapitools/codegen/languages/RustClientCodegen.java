@@ -319,6 +319,20 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        // Collect all models into a single list
+        List<ModelMap> allModels = new ArrayList<>();
+        for (ModelsMap models : objs.values()) {
+            allModels.addAll(models.getModels());
+        }
+
+        // Process oneOf discriminators across all models
+        postProcessOneOfModels(allModels);
+
+        return super.postProcessAllModels(objs);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap model : objs.getModels()) {
             CodegenModel cm = model.getModel();
@@ -666,6 +680,66 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
     }
 
+    private void postProcessOneOfModels(List<ModelMap> allModels) {
+        final HashMap<String, List<String>> oneOfMapDiscriminator = new HashMap<>();
+
+        for (ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+
+            final CodegenComposedSchemas cs = cm.getComposedSchemas();
+
+            if (cs != null) {
+                final List<CodegenProperty> csOneOf = cs.getOneOf();
+
+                if (csOneOf != null) {
+                    for (CodegenProperty model : csOneOf) {
+                        // Generate a valid name for the enum variant.
+                        // Mainly needed for primitive types.
+                        String[] modelParts = model.dataType.replace("<", "Of").replace(">", "").split("::");
+                        model.datatypeWithEnum = StringUtils.camelize(modelParts[modelParts.length - 1]);
+
+                        // Primitive type is not properly set, this overrides it to guarantee adequate model generation.
+                        if (!model.getDataType().matches(String.format(Locale.ROOT, ".*::%s", model.getDatatypeWithEnum()))) {
+                            model.isPrimitiveType = true;
+                        }
+                    }
+
+                    cs.setOneOf(csOneOf);
+                    cm.setComposedSchemas(cs);
+                }
+            }
+
+            if (cm.discriminator != null) {
+                for (String model : cm.oneOf) {
+                    List<String> discriminators = oneOfMapDiscriminator.getOrDefault(model, new ArrayList<>());
+                    discriminators.add(cm.discriminator.getPropertyBaseName());
+                    oneOfMapDiscriminator.put(model, discriminators);
+                }
+            }
+        }
+
+        for (ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+
+            for (CodegenProperty var : cm.vars) {
+                var.isDiscriminator = false;
+            }
+
+            final List<String> discriminatorsForModel = oneOfMapDiscriminator.get(cm.getSchemaName());
+
+            if (discriminatorsForModel != null) {
+                for (String discriminator : discriminatorsForModel) {
+                    for (CodegenProperty var : cm.vars) {
+                        if (var.baseName.equals(discriminator)) {
+                            var.isDiscriminator = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
@@ -867,10 +941,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                // Convert variable names to lifetime names.
-                // Generally they are the same, but `#` is not valid in lifetime names.
+                // Convert raw identifiers to a safe name that can be used in other contexts
+                // like lifetimes or function names.
                 // Rust uses `r#` prefix for variables that are also keywords.
-                .put("lifetimeName", new ReplaceAllLambda("^r#", "r_"));
+                .put("escapeRawIdentifier", new ReplaceAllLambda("^r#", "r_"));
     }
 
     public static <K, V> Map<V, List<K>> invertMap(Map<K, V> map) {
