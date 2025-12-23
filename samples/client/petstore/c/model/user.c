@@ -112,10 +112,8 @@ cJSON *user_convertToJSON(user_t *user) {
     cJSON *item = cJSON_CreateObject();
 
     // user->id
-    if(user->id) {
     if(cJSON_AddNumberToObject(item, "id", user->id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
@@ -168,10 +166,8 @@ cJSON *user_convertToJSON(user_t *user) {
 
 
     // user->user_status
-    if(user->user_status) {
     if(cJSON_AddNumberToObject(item, "userStatus", user->user_status) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 

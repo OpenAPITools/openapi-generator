@@ -50,10 +50,8 @@ cJSON *category_convertToJSON(category_t *category) {
     cJSON *item = cJSON_CreateObject();
 
     // category->id
-    if(category->id) {
     if(cJSON_AddNumberToObject(item, "id", category->id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
