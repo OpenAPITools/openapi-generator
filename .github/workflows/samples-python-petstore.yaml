@@ -12,7 +12,7 @@ jobs:
     name: Validate pyproject.toml
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
@@ -46,7 +46,7 @@ jobs:
           SWAGGER_HOST: http://petstore.swagger.io
           SWAGGER_BASE_PATH: /v2
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         id: py
         with:

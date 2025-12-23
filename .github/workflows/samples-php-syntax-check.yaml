@@ -26,7 +26,7 @@ jobs:
           - samples/client/petstore/php/OpenAPIClient-php/
           - samples/client/petstore/php-nextgen/OpenAPIClient-php/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:
