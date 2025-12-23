@@ -51,6 +51,8 @@ public struct APIHelper {
         guard let value = value else { return nil }
         if let value = value as? any RawRepresentable {
             return "\(value.rawValue)"
+        } else if let data = value as? Data {
+            return data.base64EncodedString(options: Data.Base64EncodingOptions())
         } else {
             return "\(value)"
         }
