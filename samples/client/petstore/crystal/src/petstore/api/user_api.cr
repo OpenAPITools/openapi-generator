@@ -58,9 +58,6 @@ module Petstore
       # http body (model)
       post_body = user.to_json
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -68,7 +65,6 @@ module Petstore
         http_method: :POST,
         path: local_var_path,
         operation: :"UserApi.create_user",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -125,9 +121,6 @@ module Petstore
       # http body (model)
       post_body = user.to_json
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -135,7 +128,6 @@ module Petstore
         http_method: :POST,
         path: local_var_path,
         operation: :"UserApi.create_users_with_array_input",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -192,9 +184,6 @@ module Petstore
       # http body (model)
       post_body = user.to_json
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -202,7 +191,6 @@ module Petstore
         http_method: :POST,
         path: local_var_path,
         operation: :"UserApi.create_users_with_list_input",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -257,9 +245,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -267,7 +252,6 @@ module Petstore
         http_method: :DELETE,
         path: local_var_path,
         operation: :"UserApi.delete_user",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -324,9 +308,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = "User"
-
       # auth_names
       auth_names = [] of String
 
@@ -334,7 +315,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"UserApi.get_user_by_name",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -404,9 +384,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = "String"
-
       # auth_names
       auth_names = [] of String
 
@@ -414,7 +391,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"UserApi.login_user",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -463,9 +439,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -473,7 +446,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"UserApi.logout_user",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -536,9 +508,6 @@ module Petstore
       # http body (model)
       post_body = user.to_json
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -546,7 +515,6 @@ module Petstore
         http_method: :PUT,
         path: local_var_path,
         operation: :"UserApi.update_user",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,

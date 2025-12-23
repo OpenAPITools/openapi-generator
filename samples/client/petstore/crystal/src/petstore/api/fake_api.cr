@@ -83,9 +83,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = [] of String
 
@@ -93,7 +90,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"FakeApi.get_parameter_name_mapping",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,

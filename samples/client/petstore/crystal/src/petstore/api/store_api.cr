@@ -56,9 +56,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = nil
-
       # auth_names
       auth_names = [] of String
 
@@ -66,7 +63,6 @@ module Petstore
         http_method: :DELETE,
         path: local_var_path,
         operation: :"StoreApi.delete_order",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -117,9 +113,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = "Hash(String, Int32)"
-
       # auth_names
       auth_names = ["api_key"]
 
@@ -127,7 +120,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"StoreApi.get_inventory",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -192,9 +184,6 @@ module Petstore
       # http body (model)
       post_body = nil
 
-      # return_type
-      return_type = "Order"
-
       # auth_names
       auth_names = [] of String
 
@@ -202,7 +191,6 @@ module Petstore
         http_method: :GET,
         path: local_var_path,
         operation: :"StoreApi.get_order_by_id",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
@@ -261,9 +249,6 @@ module Petstore
       # http body (model)
       post_body = order.to_json
 
-      # return_type
-      return_type = "Order"
-
       # auth_names
       auth_names = [] of String
 
@@ -271,7 +256,6 @@ module Petstore
         http_method: :POST,
         path: local_var_path,
         operation: :"StoreApi.place_order",
-        return_type: return_type,
         post_body: post_body,
         auth_names: auth_names,
         header_params: header_params,
