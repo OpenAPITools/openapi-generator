@@ -1266,34 +1266,88 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_x_internal_test.yaml");
         Schema parentSchema = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlineProperty = (Schema) parentSchema.getProperties().get("inlineXInternalProperty");
-        
+
         // Before normalization: x-internal should be present on inline property
         assertNotNull(inlineProperty.getExtensions());
         assertEquals(inlineProperty.getExtensions().get("x-internal"), true);
-        
+
         // Run normalizer with REMOVE_X_INTERNAL=true
         Map<String, String> options = new HashMap<>();
         options.put("REMOVE_X_INTERNAL", "true");
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
         openAPINormalizer.normalize();
-        
+
         // After normalization: x-internal should be removed from inline property
         Schema parentSchemaAfter = openAPI.getComponents().getSchemas().get("ParentSchema");
         Schema inlinePropertyAfter = (Schema) parentSchemaAfter.getProperties().get("inlineXInternalProperty");
-        
+
         // x-internal extension should be removed (null or not present in map)
         if (inlinePropertyAfter.getExtensions() != null) {
             assertNull(inlinePropertyAfter.getExtensions().get("x-internal"));
         }
-        
+
         // The property itself should still exist (we're removing the flag, not the property)
         assertNotNull(inlinePropertyAfter);
         assertEquals(inlinePropertyAfter.getType(), "object");
-        
+
         // Nested properties should still exist
         assertNotNull(inlinePropertyAfter.getProperties());
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedField"));
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
+    }
+
+    /**
+     * Test oneOf items with only title (discriminator label) are NOT wrapped in allOf
+     */
+    @Test
+    public void testOneOfWithOnlyTitleDoesNotNormalize() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/oneOf.yaml");
+
+        Schema fruitSchema = openAPI.getComponents().getSchemas().get("fruit");
+        assertNotNull(fruitSchema.getOneOf());
+        assertEquals(fruitSchema.getOneOf().size(), 3);
+
+        Schema item1Before = (Schema) fruitSchema.getOneOf().get(0);
+        assertEquals(item1Before.get$ref(), "#/components/schemas/apple");
+        assertNull(item1Before.getAllOf());
+
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        normalizer.normalize();
+
+        Schema normalizedFruit = openAPI.getComponents().getSchemas().get("fruit");
+        assertNotNull(normalizedFruit.getOneOf());
+        assertEquals(normalizedFruit.getOneOf().size(), 3);
+
+        Schema normalizedItem1 = (Schema) normalizedFruit.getOneOf().get(0);
+        assertEquals(normalizedItem1.get$ref(), "#/components/schemas/apple");
+        assertNull(normalizedItem1.getAllOf());
+    }
+
+    /**
+     * Test anyOf items with only title (discriminator label) are NOT wrapped in allOf
+     */
+    @Test
+    public void testAnyOfWithOnlyTitleDoesNotNormalize() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/anyOf.yaml");
+
+        Schema fruitSchema = openAPI.getComponents().getSchemas().get("fruit");
+        assertNotNull(fruitSchema.getAnyOf());
+        assertEquals(fruitSchema.getAnyOf().size(), 2);
+
+        Schema item1Before = (Schema) fruitSchema.getAnyOf().get(0);
+        assertEquals(item1Before.get$ref(), "#/components/schemas/apple");
+        assertNull(item1Before.getAllOf());
+
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        normalizer.normalize();
+
+        Schema normalizedFruit = openAPI.getComponents().getSchemas().get("fruit");
+        assertNotNull(normalizedFruit.getAnyOf());
+        assertEquals(normalizedFruit.getAnyOf().size(), 2);
+
+        Schema normalizedItem1 = (Schema) normalizedFruit.getAnyOf().get(0);
+        assertEquals(normalizedItem1.get$ref(), "#/components/schemas/apple");
+        assertNull(normalizedItem1.getAllOf());
     }
 
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
