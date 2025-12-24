@@ -1,0 +1,33 @@
+{
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "OpenAPI client for {{npmName}}",
+  "author": "OpenAPI-Generator",
+{{#packageAsSourceOnlyLibrary}}
+  "main": "./index.ts",
+{{/packageAsSourceOnlyLibrary}}
+{{^packageAsSourceOnlyLibrary}}
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"{{^sagasAndRecords}},
+    "prepare": "npm run build"
+{{/sagasAndRecords}}
+  },
+{{/packageAsSourceOnlyLibrary}}
+  "devDependencies": {
+{{#sagasAndRecords}}
+    "immutable": "^4.0.0-rc.12",
+    "normalizr": "^3.6.1",
+    "redux-saga": "^1.1.3",
+    "redux-ts-simple": "^3.2.0",
+    "reselect": "^4.0.0",
+{{/sagasAndRecords}}
+    "typescript": "^{{#typescriptThreePlus}}3.9.5{{/typescriptThreePlus}}{{^typescriptThreePlus}}2.4{{/typescriptThreePlus}}"
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
+  "publishConfig": {
+    "registry": "{{npmRepository}}"
+  }
+{{/npmRepository}}
+}

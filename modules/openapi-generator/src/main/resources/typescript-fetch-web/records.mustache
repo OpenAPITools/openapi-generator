@@ -1,0 +1,15 @@
+{{#models}}
+{{#model}}
+{{#isEnum}}
+// This file is not needed and was generated only because of how codegen is built... Enums do not need to be converted to Records and can be used directly.
+{{/isEnum}}
+{{^isEnum}}
+{{^oneOf}}
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+{{>recordGeneric}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

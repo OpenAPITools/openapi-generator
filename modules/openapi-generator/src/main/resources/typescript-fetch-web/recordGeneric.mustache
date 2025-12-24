@@ -1,0 +1,295 @@
+import {ApiRecordUtils, knownRecordFactories{{#returnPassthrough}}, appFromJS, NormalizedRecordEntities{{/returnPassthrough}}} from "../runtimeSagasAndRecords";
+import {getApiEntitiesState} from "../ApiEntitiesSelectors"
+import {List, Record, RecordOf, Map} from 'immutable';
+import {Schema, schema, NormalizedSchema} from "normalizr";
+import {select, call} from "redux-saga/effects";
+
+import {
+    {{classname}},
+{{#vars}}
+{{#isEnum}}
+    {{classname}}{{enumName}},
+{{/isEnum}}
+{{/vars}}
+} from './{{classname}}';
+
+{{#imports}}
+import {
+    {{{.}}},
+} from './{{{.}}}';
+{{/imports}}
+
+{{#modelImports}}
+import {
+    {{{.}}}Record,
+    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils
+} from './{{{.}}}Record';
+{{/modelImports}}
+
+export const {{classname}}RecordProps = {
+    recType: "{{classname}}ApiRecord" as "{{classname}}ApiRecord",
+{{#vars}}
+    {{#isArray}}
+    {{#items.isModel}}
+    {{#keepAsJSObject}}
+    {{name}}: {{#required}}new {{{dataType}}}(){{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{/keepAsJSObject}}
+    {{^keepAsJSObject}}
+    {{name}}: ({{{items.dataType}}}Record(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
+    {{/keepAsJSObject}}
+    {{/items.isModel}}
+    {{^items.isModel}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{/items.isModel}}
+    {{/isArray}}
+    {{#isModel}}
+    {{#keepAsJSObject}}
+    {{name}}: {{#required}}{} as any as {{{dataType}}}{{/required}}{{^required}}null as {{{dataType}}} | null{{/required}},
+    {{/keepAsJSObject}}
+    {{^keepAsJSObject}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
+    {{/keepAsJSObject}}
+    {{/isModel}}
+    {{^isArray}}
+    {{^isModel}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{/isModel}}
+    {{/isArray}}
+{{/vars}}
+};
+
+export type {{classname}}RecordPropsType = typeof {{classname}}RecordProps;
+export const {{classname}}Record = Record({{classname}}RecordProps, {{classname}}RecordProps.recType);
+export type {{classname}}Record = RecordOf<{{classname}}RecordPropsType>;
+
+knownRecordFactories.set({{classname}}RecordProps.recType, {{classname}}Record);
+
+{{#isEntity}}
+export const {{classname}}RecordEntityProps = {
+    ...{{classname}}RecordProps,
+    recType: "{{classname}}ApiRecordEntity" as "{{classname}}ApiRecordEntity",
+{{#vars}}
+    {{#isEntity}}
+    {{^keepAsJSObject}}
+    {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
+    {{/keepAsJSObject}}
+    {{/isEntity}}
+    {{#isArray}}
+    {{#items.isEntity}}
+    {{^keepAsJSObject}}
+    {{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
+    {{/keepAsJSObject}}
+    {{/items.isEntity}}
+    {{/isArray}}
+{{/vars}}
+};
+
+export type {{classname}}RecordEntityPropsType = typeof {{classname}}RecordEntityProps;
+export const {{classname}}RecordEntity = Record({{classname}}RecordEntityProps, {{classname}}RecordEntityProps.recType);
+export type {{classname}}RecordEntity = RecordOf<{{classname}}RecordEntityPropsType>;
+
+knownRecordFactories.set({{classname}}RecordEntityProps.recType, {{classname}}RecordEntity);
+{{/isEntity}}
+
+class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname}}Record> {
+    public normalize(apiObject: {{classname}}, asEntity?: boolean): {{classname}} {
+        (apiObject as any).recType = {{#isEntity}}asEntity ? {{classname}}RecordEntityProps.recType : {{/isEntity}}{{classname}}RecordProps.recType;
+{{#vars}}
+        {{#isUniqueId}}
+        {{#isArray}}
+        {{#items.isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.map(item => item.map(item2 => item2?.toString()));{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{^items.isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.map(item => item?.toString());{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{/isArray}}
+        {{^isArray}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
+        {{/isArray}}
+        {{/isUniqueId}}
+        {{^keepAsJSObject}}
+        {{#isModel}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
+        {{/isModel}}
+        {{#isArray}}
+        {{#items.isModel}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.{{name}});{{^required}} } {{/required}}
+        {{/items.isModel}}
+        {{/isArray}}
+        {{/keepAsJSObject}}
+{{/vars}}
+        return apiObject;
+    }
+{{#isEntity}}
+
+    public getSchema(): Schema {
+        return new schema.Entity("{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}", {
+{{#vars}}
+            {{#isEntity}}
+            {{^keepAsJSObject}}
+            {{name}}: {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.getSchema(),
+            {{/keepAsJSObject}}
+            {{/isEntity}}
+            {{#isArray}}
+            {{#items.isEntity}}
+            {{^keepAsJSObject}}
+            {{name}}: [{{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.getSchema()],
+            {{/keepAsJSObject}}
+            {{/items.isEntity}}
+            {{/isArray}}
+{{/vars}}
+        });
+    }
+
+    public *toInlined(entityId?: string | null) {
+        if (!entityId) {return undefined; }
+        // @ts-ignore
+        const entity = yield select(apiEntity{{classname}}Selector, {id: entityId});
+        if (!entity) {return undefined; }
+
+        const {
+            recType,
+{{#vars}}
+{{#isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{name}}_original,
+{{/keepAsJSObject}}
+{{/isEntity}}
+{{#isArray}}
+{{#items.isEntity}}
+{{^keepAsJSObject}}
+            {{name}}: {{name}}_original,
+{{/keepAsJSObject}}
+{{/items.isEntity}}
+{{/isArray}}
+{{/vars}}
+		    ...unchangedProperties
+		} = entity;
+
+        const entityProperties = {
+{{#vars}}
+{{#isEntity}}
+{{^keepAsJSObject}}
+            // @ts-ignore
+            {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toInlined, entity.{{name}}){{^required}} : null{{/required}},
+{{/keepAsJSObject}}
+{{/isEntity}}
+{{#isArray}}
+{{#items.isEntity}}
+{{^keepAsJSObject}}
+            // @ts-ignore
+            {{name}}: {{^required}}entity.{{name}} ? {{/required}}yield call({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toInlinedArray, entity.{{name}}){{^required}} : null{{/required}},
+{{/keepAsJSObject}}
+{{/items.isEntity}}
+{{/isArray}}
+{{/vars}}
+        }
+
+        return {{classname}}Record({
+            ...unchangedProperties,
+            ...entityProperties
+        });
+    }
+
+    public *toInlinedArray(entityIds: List<string> | null) {
+        if (!entityIds) {return null; }
+        let entities = List<{{classname}}Record>();
+        for (let entityIndex = 0; entityIndex < entityIds.count(); entityIndex++) {
+            // @ts-ignore
+            const entity = yield call(this.toInlined, entityIds.get(entityIndex));
+            if (entity) {
+                entities.push(entity);
+            }
+        }
+        return entities;
+    }
+{{/isEntity}}
+
+    public toApi(record: {{classname}}Record): {{classname}} {
+        const apiObject = super.toApi(record);
+{{#vars}}
+        {{#isUniqueId}}
+        {{#isArray}}
+        {{#items.isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => item.toArray().map(item2 => (item2 ? parseFloat(item2) : null) as number)).toArray(){{/isArray}};{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{^items.isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#isArray}}record.{{name}}.map(item => (item ? parseFloat(item) : null) as number).toArray(){{/isArray}};{{^required}} } {{/required}}
+        {{/items.isArray}}
+        {{/isArray}}
+        {{^isArray}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{^isArray}}parseFloat(record.{{name}}){{/isArray}};{{^required}} } {{/required}}
+        {{/isArray}}
+        {{/isUniqueId}}
+        {{^keepAsJSObject}}
+        {{#isModel}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.toApi(record.{{name}});{{^required}} } {{/required}}
+        {{/isModel}}
+        {{#isArray}}
+        {{#items.isModel}}
+        {{^required}}if (record.{{name}}) { {{/required}}apiObject.{{name}} = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.toApiArray(record.{{name}});{{^required}} } {{/required}}
+        {{/items.isModel}}
+        {{/isArray}}
+        {{/keepAsJSObject}}
+{{/vars}}
+        return apiObject;
+    }
+{{#returnPassthrough}}
+{{#vars.1}}
+
+    public fromApiPassthrough(apiObject: {{classname}}): {{{dataTypeAlternate}}} {
+    {{#isModel}}
+        if (!apiObject.{{{returnPassthrough}}}) {return {{{defaultValue}}}; }
+        const normalizedApiObject = {{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{{returnPassthrough}}});
+        return appFromJS(normalizedApiObject);
+    {{/isModel}}
+    {{#isArray}}
+    {{#items.isModel}}
+        if (!apiObject.{{{returnPassthrough}}}) {return {{{defaultValue}}}; }
+        const normalizedApiObject = {{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArray(apiObject.{{{returnPassthrough}}});
+        return appFromJS(normalizedApiObject);
+    {{/items.isModel}}
+    {{^items.isModel}}
+        return appFromJS(apiObject.{{{returnPassthrough}}});
+    {{/items.isModel}}
+    {{/isArray}}
+    {{^isModel}}
+    {{^isArray}}
+        return apiObject.{{{returnPassthrough}}}!;
+    {{/isArray}}
+    {{/isModel}}
+    }
+
+    public fromApiPassthroughAsEntities(apiObject: {{classname}}): NormalizedRecordEntities {
+    {{#isEntity}}
+        if (!apiObject.{{{returnPassthrough}}}) {return {entities: {}, result: List<string>()}; }
+        return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{{dataTypeAlternate}}}{{/lambda.camelcase}}Utils.normalizeArrayAsEntities([apiObject.{{{returnPassthrough}}}]), true);
+    {{/isEntity}}
+    {{#isArray}}
+    {{#items.isEntity}}
+        if (!apiObject.{{{returnPassthrough}}}) {return {entities: {}, result: List<string>()}; }
+        return ApiRecordUtils.toNormalizedRecordEntities({{#lambda.camelcase}}{{items.dataType}}{{/lambda.camelcase}}RecordUtils.normalizeArrayAsEntities(apiObject.{{{returnPassthrough}}}), true);
+    {{/items.isEntity}}
+    {{^items.isEntity}}
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    {{/items.isEntity}}
+    {{/isArray}}
+    {{^isEntity}}
+    {{^isArray}}
+        console.log("entities revival not supported on this response");
+        return {entities: {}, result: List<string>()};
+    {{/isArray}}
+    {{/isEntity}}
+    }
+{{/vars.1}}
+{{/returnPassthrough}}
+}
+
+export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils = new {{classname}}RecordUtils();
+
+{{#isEntity}}
+export const apiEntities{{classname}}Selector = (state: any) => getApiEntitiesState(state).{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}} as Map<string, {{classname}}RecordEntity>;
+export const apiEntity{{classname}}Selector = (state: any, {id}: {id?: string | null}) => id ? apiEntities{{classname}}Selector(state).get(id) : undefined;
+{{/isEntity}}
