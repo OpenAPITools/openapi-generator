@@ -183,8 +183,8 @@ public class CrystalClientCodegen extends DefaultCodegen {
         typeMapping.put("List", "Array");
         typeMapping.put("set", "Set");
         typeMapping.put("map", "Hash");
-        typeMapping.put("object", "Object");
-        typeMapping.put("AnyType", "Object");
+        typeMapping.put("object", "JSON::Any");
+        typeMapping.put("AnyType", "JSON::Any");
         typeMapping.put("file", "::File");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
