@@ -8,11 +8,6 @@
 #Generator version: 7.19.0-SNAPSHOT
 #
 
-require "big"
-require "json"
-require "yaml"
-require "time"
-
 module Petstore
   # A pet for sale in the pet store
   class Pet

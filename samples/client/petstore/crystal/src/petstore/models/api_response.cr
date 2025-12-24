@@ -8,11 +8,6 @@
 #Generator version: 7.19.0-SNAPSHOT
 #
 
-require "big"
-require "json"
-require "yaml"
-require "time"
-
 module Petstore
   # Describes the result of uploading an image resource
   class ApiResponse
