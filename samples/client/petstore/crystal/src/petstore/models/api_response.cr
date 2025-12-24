@@ -91,6 +91,8 @@ module Petstore
     # @param [Object] value Any valid value
     # @return [Hash] Returns the value in the form of hash
     private def _to_h(value)
+      return nil if value.nil?
+
       if value.is_a?(Hash)
         hash = NetboxClient::RecursiveHash.new
         value.each { |k, v| hash[k] = _to_h(v) }
