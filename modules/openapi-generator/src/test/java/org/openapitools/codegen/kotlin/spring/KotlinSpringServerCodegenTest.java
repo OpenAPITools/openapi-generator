@@ -3561,4 +3561,37 @@ public class KotlinSpringServerCodegenTest {
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
     }
+
+    @Test
+    public void testRequestBodyExamplesAreGenerated() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER2.toCliOptValue());
+        final Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_20009.yaml", additionalProperties);
+        KotlinFileAssert.assertThat(files.get("PetsApiController.kt"))
+                .assertClass("PetsApiController")
+                .assertMethod("postPet")
+                .assertAnnotation("Operation")
+                .hasAttributes(ImmutableMap.of("requestBody", "@SwaggerRequestBody(\n" +
+                        "    description = \"Request body to create a pet\",\n" +
+                        "    content = [\n" +
+                        "            Content(\n" +
+                        "                mediaType = \"application/vnd.api.v2+json\",\n" +
+                        "                examples = [\n" +
+                        "                    Example(name = \"V2ReferencedExample\", value = \"{\\\"v2_example_schema_property\\\":\\\"example schema property value from referenced example\\\",\\\"v2_another_example_schema_property\\\":\\\"another example schema property value from referenced example\\\"}\")\n" +
+                        "                ]\n" +
+                        "            ),\n" +
+                        "            Content(\n" +
+                        "                mediaType = \"application/vnd.api+json\",\n" +
+                        "                examples = [\n" +
+                        "                    Example(name = \"\", value = \"\\\"example6 value\\\"\"),\n" +
+                        "                    Example(name = \"ReferencedExample\", value = \"{\\\"example_schema_property\\\":\\\"example schema property value from referenced example\\\",\\\"another_example_schema_property\\\":\\\"another example schema property value from referenced example\\\"}\")\n" +
+                        "                ]\n" +
+                        "            )\n" +
+                        "    ]\n" +
+                        ")")
+
+                )
+        ;
+    }
+
 }
