@@ -34,15 +34,15 @@ class Feeding(BaseModel):
     @field_validator('task_name')
     def task_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['cleaning']):
-            raise ValueError("must be one of enum values ('cleaning')")
+        if value not in set(['cleaning', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('cleaning', 'unknown_default_open_api')")
         return value
 
     @field_validator('function_name')
     def function_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['care_nourish']):
-            raise ValueError("must be one of enum values ('care_nourish')")
+        if value not in set(['care_nourish', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('care_nourish', 'unknown_default_open_api')")
         return value
 
     model_config = ConfigDict(
