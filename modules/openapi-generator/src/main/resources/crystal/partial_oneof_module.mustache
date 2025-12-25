@@ -51,11 +51,11 @@
 
       case data
       when NetboxClient::RecursiveHash
-        if (value = cast_value(array_data: false, array_class: array_class?(klass), klass: klass, data: data))
+        if value = cast_value(array_data: false, array_class: array_class?(klass), klass: klass, data: data)
           return new(value)
         end
       when Array(NetboxClient::RecursiveHash)
-        if (value = cast_value(array_data: true, array_class: array_class?(klass), klass: klass, data: data))
+        if value = cast_value(array_data: true, array_class: array_class?(klass), klass: klass, data: data)
           return new(value)
         end
       else
