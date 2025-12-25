@@ -8,10 +8,16 @@
 #Generator version: 7.19.0-SNAPSHOT
 #
 
-# Dependencies
+# Stdlib dependencies
+require "big"
+require "json"
+require "log"
+require "time"
+require "yaml"
+
+# External dependencies
 require "any_hash"
 require "crest"
-require "log"
 
 module Petstore
   Log = ::Log.for("Petstore") # => Log for Petstore source
