@@ -403,13 +403,17 @@ public class CodegenConstants {
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR = "legacyDiscriminatorBehavior";
     public static final String LEGACY_DISCRIMINATOR_BEHAVIOR_DESC = "Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).";
 
+    public static final String LEGACY_DEFAULT_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_BEHAVIOR = "legacyDisallowAdditionalPropertiesDefaultBehavior";
+    public static final String LEGACY_DEFAULT_DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_BEHAVIOR_DESC = "Set to true for Python generators so that generated code matches what was previously produced when `disallowAdditionalProperties` was unspecified";
+
+
     public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String USE_SINGLE_REQUEST_PARAMETER_DESC = "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.";
 
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-            "If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. " +
-                    "If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
+            "If false (default), the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
+                    "If true, keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.";
 
     public static final String UNSUPPORTED_V310_SPEC_MSG =
             "OpenAPI 3.1 support is still in beta. To report an issue related to 3.1 spec, please kindly open an issue in the Github repo: https://github.com/openAPITools/openapi-generator.";
