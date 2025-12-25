@@ -47,7 +47,7 @@ public interface UserController {
         value = UserController.PATH_CREATE_USER
     )
     ResponseEntity<Void> createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User body
+        @ApiParam(value = "Created user object", required = true) @NotNull @Valid @RequestBody User body
     );
 
 
@@ -72,7 +72,7 @@ public interface UserController {
         value = UserController.PATH_CREATE_USERS_WITH_ARRAY_INPUT
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> body
     );
 
 
@@ -97,7 +97,7 @@ public interface UserController {
         value = UserController.PATH_CREATE_USERS_WITH_LIST_INPUT
     )
     ResponseEntity<Void> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> body
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> body
     );
 
 
@@ -265,7 +265,7 @@ public interface UserController {
     )
     ResponseEntity<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
+        @ApiParam(value = "Updated user object", required = true) @NotNull @Valid @RequestBody User body
     );
 
 }
