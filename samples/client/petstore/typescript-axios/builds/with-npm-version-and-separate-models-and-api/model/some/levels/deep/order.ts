@@ -18,15 +18,15 @@
  * An order for a pets from the pet store
  */
 export interface Order {
-    'id'?: number;
-    'petId'?: number;
-    'quantity'?: number;
-    'shipDate'?: string;
+    'id'?: number | undefined;
+    'petId'?: number | undefined;
+    'quantity'?: number | undefined;
+    'shipDate'?: string | undefined;
     /**
      * Order Status
      */
-    'status'?: OrderStatusEnum;
-    'complete'?: boolean;
+    'status'?: OrderStatusEnum | undefined;
+    'complete'?: boolean | undefined;
 }
 
 export const OrderStatusEnum = {

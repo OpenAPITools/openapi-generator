@@ -32,13 +32,13 @@ export interface AllOfWithSingleRef {
      * @type {string}
      * @memberof AllOfWithSingleRef
      */
-    username?: string;
+    username?: string | undefined;
     /**
      * 
      * @type {SingleRefType}
      * @memberof AllOfWithSingleRef
      */
-    singleRefType?: SingleRefType;
+    singleRefType?: SingleRefType | undefined;
 }
 
 
