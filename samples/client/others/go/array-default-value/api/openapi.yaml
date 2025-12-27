@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: Minimal Array Default
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /v1/configs:
+    get:
+      description: List all configs
+      operationId: listConfigs
+      parameters:
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          default:
+          - updatedAt
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: OK
+      summary: List all configs
+components:
+  parameters:
+    ConfigMapSort:
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        default:
+        - updatedAt
+        items:
+          type: string
+        type: array
+      style: form
+  schemas: {}

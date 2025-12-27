@@ -1,0 +1,5 @@
+generatorName: go
+outputDir: samples/client/others/go/array-default-value
+inputSpec: modules/openapi-generator/src/test/resources/3_0/go/spec-with-array-default-value.yaml
+additionalProperties:
+  hideGenerationTimestamp: "true"

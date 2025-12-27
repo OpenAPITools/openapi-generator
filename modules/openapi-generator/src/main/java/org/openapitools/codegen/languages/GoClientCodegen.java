@@ -446,10 +446,28 @@ public class GoClientCodegen extends AbstractGoCodegen {
             Object defaultValues = p.getDefault();
             if (defaultValues instanceof ArrayNode) {
                 for (var value : (ArrayNode) defaultValues) {
-                    joinedDefaultValues.add(value.toString());
+                    if (value.isNull()) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value.isTextual()) {
+                        joinedDefaultValues.add("\"" + escapeText(value.asText()) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
+                }
+                return "{" + joinedDefaultValues + "}";
+            } else if (defaultValues instanceof List<?>) {
+                for (var value : (List<?>) defaultValues) {
+                    if (value == null) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value instanceof String) {
+                        joinedDefaultValues.add("\"" + escapeText((String) value) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
                 }
                 return "{" + joinedDefaultValues + "}";
             }
+            return null;
         }
 
         return super.toDefaultValue(p);

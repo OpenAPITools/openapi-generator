@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  title: Minimal Array Default
+  version: 1.0.0
+paths:
+  /v1/configs:
+    get:
+      summary: List all configs
+      description: List all configs
+      operationId: listConfigs
+      parameters:
+      - $ref: '#/components/parameters/ConfigMapSort'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  parameters:
+    ConfigMapSort:
+      name: sort
+      in: query
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+        default:
+        - updatedAt
