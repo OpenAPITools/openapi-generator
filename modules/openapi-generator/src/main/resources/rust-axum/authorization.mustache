@@ -15,7 +15,7 @@ pub trait {{classnamePascalCase}}Authorization {
     async fn {{{x-operation-id}}}_authorize(
         &self,
         method: &Method,
-        host: &headers::Host,
+        host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         {{#headerParams.size}}

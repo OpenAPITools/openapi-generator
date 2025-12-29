@@ -47,7 +47,7 @@ pub trait PaymentsAuthorization {
     async fn get_payment_method_by_id_authorize(
         &self,
         method: &Method,
-        host: &headers::Host,
+        host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         path_params: &models::GetPaymentMethodByIdPathParams,
@@ -60,7 +60,7 @@ pub trait PaymentsAuthorization {
     async fn get_payment_methods_authorize(
         &self,
         method: &Method,
-        host: &headers::Host,
+        host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
     ) -> Result<super::Authorization, ()> {
@@ -72,7 +72,7 @@ pub trait PaymentsAuthorization {
     async fn post_make_payment_authorize(
         &self,
         method: &Method,
-        host: &headers::Host,
+        host: &Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         body: &Option<models::Payment>,
