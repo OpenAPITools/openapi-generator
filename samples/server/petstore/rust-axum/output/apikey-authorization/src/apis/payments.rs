@@ -1,7 +1,8 @@
 use async_trait::async_trait;
 use axum::extract::*;
-use axum_extra::extract::{CookieJar, Host};
+use axum_extra::extract::CookieJar;
 use bytes::Bytes;
+use headers::Host;
 use http::Method;
 use serde::{Deserialize, Serialize};
 
@@ -46,7 +47,7 @@ pub trait PaymentsAuthorization {
     async fn get_payment_method_by_id_authorize(
         &self,
         method: &Method,
-        host: &Host,
+        host: &headers::Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         path_params: &models::GetPaymentMethodByIdPathParams,
@@ -59,7 +60,7 @@ pub trait PaymentsAuthorization {
     async fn get_payment_methods_authorize(
         &self,
         method: &Method,
-        host: &Host,
+        host: &headers::Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
     ) -> Result<super::Authorization, ()> {
@@ -71,7 +72,7 @@ pub trait PaymentsAuthorization {
     async fn post_make_payment_authorize(
         &self,
         method: &Method,
-        host: &Host,
+        host: &headers::Host,
         cookies: &CookieJar,
         claims: &Self::Claims,
         body: &Option<models::Payment>,
