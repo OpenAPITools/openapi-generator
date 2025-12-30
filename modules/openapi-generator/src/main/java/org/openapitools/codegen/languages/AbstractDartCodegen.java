@@ -774,7 +774,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             for (CodegenOperation op : ops) {
                 if (patchOnly && "PATCH".equalsIgnoreCase(op.httpMethod)) {
                     if (op.bodyParam != null && op.bodyParam.dataType != null) {
-                        String modelName = getString(op);
+                        String modelName = extractModelNameFromBodyParam(op);
                         patchRequestSchemas.add(modelName);
                         LOGGER.debug("Marked schema '{}' for Optional wrapping (PATCH request body)", modelName);
                     }
@@ -808,7 +808,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         return objs;
     }
 
-    private static String getString(CodegenOperation op) {
+    private static String extractModelNameFromBodyParam(CodegenOperation op) {
         String modelName = op.bodyParam.dataType;
         if (modelName.startsWith("List<") || modelName.startsWith("Map<")) {
             int start = modelName.indexOf('<') + 1;
