@@ -85,7 +85,7 @@ pub trait ErrorHandler<E: std::fmt::Debug + Send + Sync + 'static = ()> {
     async fn handle_error(
         &self,
         method: &::http::Method,
-        host: &axum_extra::extract::Host,
+        host: &headers::Host,
         cookies: &axum_extra::extract::CookieJar,
         error: E,
     ) -> Result<axum::response::Response, http::StatusCode> {

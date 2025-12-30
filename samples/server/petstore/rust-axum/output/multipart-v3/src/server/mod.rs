@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
+use headers::Host;
 use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -50,7 +52,7 @@ fn multipart_related_request_post_validation() -> std::result::Result<(), Valida
 #[tracing::instrument(skip_all)]
 async fn multipart_related_request_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: axum::body::Body,
@@ -111,7 +113,7 @@ fn multipart_request_post_validation() -> std::result::Result<(), ValidationErro
 #[tracing::instrument(skip_all)]
 async fn multipart_request_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Multipart,
@@ -171,7 +173,7 @@ fn multiple_identical_mime_types_post_validation() -> std::result::Result<(), Va
 #[tracing::instrument(skip_all)]
 async fn multiple_identical_mime_types_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: axum::body::Body,
