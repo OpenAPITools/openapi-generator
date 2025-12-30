@@ -772,14 +772,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
             for (CodegenOperation op : ops) {
-                if (patchOnly && "PATCH".equalsIgnoreCase(op.httpMethod)) {
-                    if (op.bodyParam != null && op.bodyParam.dataType != null) {
-                        String modelName = extractModelNameFromBodyParam(op);
-                        patchRequestSchemas.add(modelName);
-                        LOGGER.debug("Marked schema '{}' for Optional wrapping (PATCH request body)", modelName);
-                    }
-                }
-
                 if (useOptional) {
                     unwrapOptionalFromParameters(op.pathParams);
                     unwrapOptionalFromParameters(op.queryParams);
@@ -806,19 +798,6 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
             }
         }
         return objs;
-    }
-
-    private static String extractModelNameFromBodyParam(CodegenOperation op) {
-        String modelName = op.bodyParam.dataType;
-        if (modelName.startsWith("List<") || modelName.startsWith("Map<")) {
-            int start = modelName.indexOf('<') + 1;
-            int end = modelName.lastIndexOf('>');
-            if (start > 0 && end > start) {
-                modelName = modelName.substring(start, end);
-            }
-        }
-        modelName = modelName.replace("?", "");
-        return modelName;
     }
 
     private void unwrapOptionalFromParameters(List<CodegenParameter> params) {
