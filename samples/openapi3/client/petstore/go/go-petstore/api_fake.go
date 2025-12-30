@@ -1048,9 +1048,9 @@ func (a *FakeAPIService) QueryArrayWithDefaultValuesExecute(r ApiQueryArrayWithD
 			parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", t, "form", "multi")
 		}
 	} else {
-        var defaultValue []string = []string{"test1", "test2"}
-        parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", defaultValue, "form", "multi")
-        r.arrayparam = &defaultValue
+		var defaultValue []string = []string{"test1", "test2"}
+		parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", defaultValue, "form", "multi")
+		r.arrayparam = &defaultValue
 	}
 	if r.enumarrayparam != nil {
 		t := *r.enumarrayparam
@@ -1063,16 +1063,16 @@ func (a *FakeAPIService) QueryArrayWithDefaultValuesExecute(r ApiQueryArrayWithD
 			parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", t, "form", "multi")
 		}
 	} else {
-        var defaultValue []ExampleEnum = []ExampleEnum{"example1"}
-        parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", defaultValue, "form", "multi")
-        r.enumarrayparam = &defaultValue
+		var defaultValue []ExampleEnum = []ExampleEnum{"example1"}
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", defaultValue, "form", "multi")
+		r.enumarrayparam = &defaultValue
 	}
 	if r.stringparam != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "stringparam", r.stringparam, "form", "")
 	} else {
-        var defaultValue string = "test3"
-        parameterAddToHeaderOrQuery(localVarQueryParams, "stringparam", defaultValue, "form", "")
-        r.stringparam = &defaultValue
+		var defaultValue string = "test3"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "stringparam", defaultValue, "form", "")
+		r.stringparam = &defaultValue
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -1911,9 +1911,9 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	if r.enumQueryString != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "form", "")
 	} else {
-        var defaultValue string = "-efg"
-        parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", defaultValue, "form", "")
-        r.enumQueryString = &defaultValue
+		var defaultValue string = "-efg"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", defaultValue, "form", "")
+		r.enumQueryString = &defaultValue
 	}
 	if r.enumQueryInteger != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "form", "")
