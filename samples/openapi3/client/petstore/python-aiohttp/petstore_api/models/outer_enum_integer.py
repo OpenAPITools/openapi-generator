@@ -29,10 +29,16 @@ class OuterEnumInteger(int, Enum):
     NUMBER_0 = 0
     NUMBER_1 = 1
     NUMBER_2 = 2
+    NUMBER_11184809 = 11184809
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterEnumInteger from a JSON string"""
         return cls(json.loads(json_str))
+
+    @classmethod
+    def _missing_(cls, value):
+        """Handle unknown enum values"""
+        return cls.UNKNOWN_DEFAULT_OPEN_API
 
 
