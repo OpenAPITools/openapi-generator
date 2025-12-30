@@ -88,6 +88,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
 *FakeAPI* | [**GetParameterNameMapping**](docs/FakeAPI.md#getparameternamemapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+*FakeAPI* | [**QueryArrayWithDefaultValues**](docs/FakeAPI.md#queryarraywithdefaultvalues) | **Post** /fake/query-array-with-default-values | to test query array with default values
 *FakeAPI* | [**TestAdditionalPropertiesReference**](docs/FakeAPI.md#testadditionalpropertiesreference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
@@ -154,6 +155,7 @@ Class | Method | HTTP request | Description
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
+ - [ExampleEnum](docs/ExampleEnum.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [FilterAny](docs/FilterAny.md)

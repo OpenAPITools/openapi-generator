@@ -1308,6 +1308,40 @@ paths:
             application/json:
               schema:
                 type: object
+  /fake/query-array-with-default-values:
+    post:
+      tags:
+        - fake
+      summary: to test query array with default values
+      operationId: query_array_with_default_values
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      parameters:
+        - name: "arrayparam"
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+            default: ["test1", "test2"]
+        - name: "enumarrayparam"
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ExampleEnum"
+            default: ["example1"]
+        - name: "stringparam"
+          in: query
+          schema:
+            type: string
+            default: "test3"
+      responses:
+        200:
+          description: Ok
 servers:
   - url: 'http://localhost/v2'
   - url: 'http://{server}.swagger.io:{port}/v2'
@@ -2306,3 +2340,8 @@ components:
         - type: array
           items:
             type: string
+    ExampleEnum:
+      type: string
+      enum:
+        - example1
+        - example2
