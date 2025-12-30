@@ -275,11 +275,11 @@ class {{{classname}}} {
               {{/isNumber}}
               {{^isNumber}}
                 {{#vendorExtensions.x-original-is-integer}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ? const Optional.absent() : Optional.present(int.parse('${json[r'{{{baseName}}}']}')),
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(json[r'{{{baseName}}}'] == null ? null : int.parse('${json[r'{{{baseName}}}']}')) : const Optional.absent(),
                 {{/vendorExtensions.x-original-is-integer}}
                 {{^vendorExtensions.x-original-is-integer}}
                   {{#vendorExtensions.x-original-is-number}}
-        {{{name}}}: json[r'{{{baseName}}}'] == null ? const Optional.absent() : Optional.present(num.parse('${json[r'{{{baseName}}}']}')),
+        {{{name}}}: json.containsKey(r'{{{baseName}}}') ? Optional.present(json[r'{{{baseName}}}'] == null ? null : num.parse('${json[r'{{{baseName}}}']}')) : const Optional.absent(),
                   {{/vendorExtensions.x-original-is-number}}
                   {{^vendorExtensions.x-original-is-number}}
                     {{^isEnum}}
