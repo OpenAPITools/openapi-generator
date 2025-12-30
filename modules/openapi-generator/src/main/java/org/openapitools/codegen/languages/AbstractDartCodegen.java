@@ -628,7 +628,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                     shouldUseOptional = patchRequestSchemas.contains(model.classname);
                 } else {
                     Boolean schemaUseOptional = (Boolean) model.vendorExtensions.get("x-use-optional");
-                    shouldUseOptional = schemaUseOptional != null && schemaUseOptional;
+                    shouldUseOptional = schemaUseOptional == null || schemaUseOptional;
                 }
 
                 if (shouldUseOptional) {
