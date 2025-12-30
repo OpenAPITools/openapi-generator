@@ -38,10 +38,6 @@ public class Animal {
 
   private String color = "red";
 
-  public Animal() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

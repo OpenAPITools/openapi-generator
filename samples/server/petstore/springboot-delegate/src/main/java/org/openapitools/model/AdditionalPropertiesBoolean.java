@@ -29,10 +29,6 @@ public class AdditionalPropertiesBoolean {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesBoolean() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

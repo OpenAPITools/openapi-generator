@@ -36,10 +36,6 @@ public class CatDto extends AnimalDto {
 
   private @Nullable Boolean declawed;
 
-  public CatDto() {
-    super();
-  }
-
   public CatDto declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;

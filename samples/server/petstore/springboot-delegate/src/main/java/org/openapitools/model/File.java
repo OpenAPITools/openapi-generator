@@ -26,10 +26,6 @@ public class File {
 
   private @Nullable String sourceURI;
 
-  public File() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

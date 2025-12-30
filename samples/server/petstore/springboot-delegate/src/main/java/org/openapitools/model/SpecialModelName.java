@@ -27,10 +27,6 @@ public class SpecialModelName {
 
   private @Nullable Long $specialPropertyName;
 
-  public SpecialModelName() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

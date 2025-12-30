@@ -37,10 +37,6 @@ public class Cat extends Animal {
 
   private @Nullable Boolean declawed;
 
-  public Cat() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

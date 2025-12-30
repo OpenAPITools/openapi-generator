@@ -27,10 +27,6 @@ public class Tag {
 
   private @Nullable String name;
 
-  public Tag() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

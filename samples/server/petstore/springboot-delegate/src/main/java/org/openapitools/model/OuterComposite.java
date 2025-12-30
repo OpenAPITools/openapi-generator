@@ -30,10 +30,6 @@ public class OuterComposite {
 
   private @Nullable Boolean myBoolean;
 
-  public OuterComposite() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

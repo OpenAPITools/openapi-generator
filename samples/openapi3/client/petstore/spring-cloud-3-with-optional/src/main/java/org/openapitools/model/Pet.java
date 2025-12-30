@@ -79,10 +79,6 @@ public class Pet {
   @Deprecated
   private Optional<StatusEnum> status = Optional.empty();
 
-  public Pet() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

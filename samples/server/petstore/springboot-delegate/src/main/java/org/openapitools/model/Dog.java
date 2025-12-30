@@ -30,10 +30,6 @@ public class Dog extends Animal {
 
   private @Nullable String breed;
 
-  public Dog() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

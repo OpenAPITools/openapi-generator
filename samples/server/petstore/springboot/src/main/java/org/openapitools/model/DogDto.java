@@ -32,10 +32,6 @@ public class DogDto extends AnimalDto {
 
   private @Nullable String breed;
 
-  public DogDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

@@ -49,10 +49,6 @@ public sealed class EntityRef permits BarRef, FooRef {
 
   private @Nullable String atReferredType;
 
-  public EntityRef() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

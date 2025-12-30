@@ -39,10 +39,6 @@ public class TypeHolderExampleDto {
   
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExampleDto() {
-    super();
-  }
-
   public TypeHolderExampleDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

@@ -49,10 +49,6 @@ public class Entity {
 
   private String atType;
 
-  public Entity() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

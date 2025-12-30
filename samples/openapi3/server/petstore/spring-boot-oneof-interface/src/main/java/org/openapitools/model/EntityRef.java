@@ -49,10 +49,6 @@ public class EntityRef {
 
   private @Nullable String atReferredType;
 
-  public EntityRef() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */
