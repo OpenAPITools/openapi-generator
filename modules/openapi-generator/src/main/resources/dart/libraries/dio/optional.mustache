@@ -109,29 +109,29 @@ final class Present<T> extends Optional<T> {
   String toString() => 'Optional.present($_value)';
 }
 
-/// JSON converter for Optional<T> values.
-///
-/// This converter handles serialization and deserialization of Optional values:
-/// - Optional.absent() -> field omitted from JSON
-/// - Optional.present(null) -> {"field": null}
-/// - Optional.present(value) -> {"field": value}
-///
-/// Usage with json_serializable:
-/// ```dart
-/// @JsonKey()
-/// @OptionalConverter()
-/// final Optional<String?> field;
-/// ```
-class OptionalConverter<T> implements JsonConverter<Optional<T>, T?> {
+class _OptionalAbsentSentinel {
+  const _OptionalAbsentSentinel();
+}
+
+const _optionalAbsentSentinel = _OptionalAbsentSentinel();
+
+/// Used with @JsonKey(readValue:) to distinguish absent keys from null values.
+Object? readOptionalValue(Map map, String key) {
+  return map.containsKey(key) ? map[key] : _optionalAbsentSentinel;
+}
+
+class OptionalConverter<T> implements JsonConverter<Optional<T>, Object?> {
   const OptionalConverter();
 
   @override
-  Optional<T> fromJson(T? json) {
-    return json == null ? const Optional.absent() : Optional.present(json);
+  Optional<T> fromJson(Object? json) {
+    return json is _OptionalAbsentSentinel
+        ? const Optional.absent()
+        : Optional.present(json as T);
   }
 
   @override
-  T? toJson(Optional<T> object) {
+  Object? toJson(Optional<T> object) {
     return object.isPresent ? object.value : null;
   }
 }
