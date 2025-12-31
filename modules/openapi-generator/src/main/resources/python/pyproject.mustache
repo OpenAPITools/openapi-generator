@@ -32,10 +32,8 @@ keywords = ["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"]
 include = ["{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-{{^async}}
+python = "^3.11"
 urllib3 = ">= 2.1.0, < 3.0.0"
-{{/async}}
 python-dateutil = ">= 2.8.2"
 {{#asyncio}}
 aiohttp = ">= 3.8.4"
@@ -58,20 +56,15 @@ lazy-imports = ">= 1, < 2"
 {{/lazyImports}}
 {{/poetry1}}
 {{^poetry1}}
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 
 dependencies = [
-{{^async}}
   "urllib3 (>=2.1.0,<3.0.0)",
-{{/async}}
   "python-dateutil (>=2.8.2)",
-{{#httpx}}
-  "httpx (>=0.28.1)",
-{{/httpx}}
-{{#asyncio}}
+{{#async}}
   "aiohttp (>=3.8.4)",
   "aiohttp-retry (>=2.8.3)",
-{{/asyncio}}
+{{/async}}
 {{#tornado}}
   "tornado (>=4.2,<5)",
 {{/tornado}}
