@@ -12,7 +12,7 @@ public typealias MixedPropertiesAndAdditionalPropertiesClass = PetstoreClientAPI
 
 extension PetstoreClientAPI {
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class MixedPropertiesAndAdditionalPropertiesClass: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var uuid: UUID?
     public private(set) var dateTime: Date?
