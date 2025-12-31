@@ -26,6 +26,7 @@ pub struct Foo {
     #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
     pub at_base_type: Option<String>,
     /// When sub-classing, this defines the sub-class Extensible name
+    #[serde(default = "Foo::_default_for_at_type")]
     #[serde(rename = "@type")]
     pub at_type: String,
     #[serde(rename = "fooPropA", skip_serializing_if = "Option::is_none")]
@@ -45,6 +46,12 @@ impl Foo {
             foo_prop_a: None,
             foo_prop_b: None,
         }
+    }
+}
+
+impl Foo {
+    fn _default_for_at_type() -> String {
+        String::from("Foo")
     }
 }
 
