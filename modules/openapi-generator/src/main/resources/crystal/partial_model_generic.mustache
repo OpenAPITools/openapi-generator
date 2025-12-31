@@ -56,7 +56,7 @@
     {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
-    class EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}} < EnumAttributeValidator
+    class EnumAttributeValidatorFor{{#lambdaPascalcase}}{{{name}}}{{/lambdaPascalcase}} < EnumAttributeValidator
       @attribute : String
       @allowable_values : Array(Int32 | Int64 | Float32 | Float64 | String)
 
@@ -118,7 +118,7 @@
       {{#vars}}
       {{#isEnum}}
       {{^isContainer}}
-      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
+      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaPascalcase}}{{{name}}}{{/lambdaPascalcase}}.new
       if !{{{name}}}_validator.valid?(@{{{name}}})
         message = {{{name}}}_validator.message
         invalid_properties.push(message)
@@ -181,7 +181,7 @@
       {{#vars}}
       {{#isEnum}}
       {{^isContainer}}
-      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
+      {{{name}}}_validator = EnumAttributeValidatorFor{{#lambdaPascalcase}}{{{name}}}{{/lambdaPascalcase}}.new
       return false unless {{{name}}}_validator.valid?(@{{{name}}})
       {{/isContainer}}
       {{/isEnum}}
@@ -234,7 +234,7 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      validator = EnumAttributeValidatorFor{{#lambdaTitlecase}}{{{name}}}{{/lambdaTitlecase}}.new
+      validator = EnumAttributeValidatorFor{{#lambdaPascalcase}}{{{name}}}{{/lambdaPascalcase}}.new
       unless validator.valid?({{{name}}})
         raise ArgumentError.new(validator.message)
       end

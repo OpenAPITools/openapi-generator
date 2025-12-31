@@ -10,14 +10,4 @@
 
 # load modules
 require "spectator"
-require "json"
-require "time"
 require "../src/petstore"
-
-def assert_compilation_error(path : String, message : String) : Nil
-  buffer = IO::Memory.new
-  result = Process.run("crystal", ["run", "--no-color", "--no-codegen", path], error: buffer)
-  result.success?.should be_false
-  buffer.to_s.should contain message
-  buffer.close
-end
