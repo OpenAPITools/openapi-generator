@@ -549,20 +549,46 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     if (fixJacksonJsonTypeInfoInheritance) {
                         // When fixJacksonJsonTypeInfoInheritance is true:
                         // 1. Always set visible=true so Jackson can read the discriminator
-                        // 2. For oneOf/anyOf patterns: ensure children have the discriminator property with default values
+                        // 2. For oneOf/anyOf patterns: add discriminator property to parent and children
                         visibleTrue = true;
 
-                        // Only add/modify discriminator property for oneOf/anyOf patterns
-                        // For allOf patterns, the property is already inherited and handled elsewhere
+                        // For oneOf/anyOf patterns, add the discriminator property to the parent sealed class
+                        // This allows accessing the discriminator value from the parent type directly
                         if (isOneOfOrAnyOfPattern) {
+                            String discriminatorVarName = toVarName(discriminatorPropBaseName);
+
+                            // Clear all merged properties from the oneOf parent - they belong to children only
+                            // We'll add back just the discriminator property
+                            owner.getVars().clear();
+                            owner.getRequiredVars().clear();
+                            owner.getOptionalVars().clear();
+                            owner.getAllVars().clear();
+
+                            // Add discriminator property to parent
+                            CodegenProperty parentDiscriminatorProp = new CodegenProperty();
+                            parentDiscriminatorProp.baseName = discriminatorPropBaseName;
+                            parentDiscriminatorProp.name = discriminatorVarName;
+                            parentDiscriminatorProp.dataType = "kotlin.String";
+                            parentDiscriminatorProp.datatypeWithEnum = "kotlin.String";
+                            parentDiscriminatorProp.required = true;
+                            parentDiscriminatorProp.isNullable = false;
+                            parentDiscriminatorProp.isReadOnly = false;
+
+                            owner.getVars().add(parentDiscriminatorProp);
+                            owner.getRequiredVars().add(parentDiscriminatorProp);
+                            owner.getAllVars().add(parentDiscriminatorProp);
+
+                            // Parent now has properties (just the discriminator)
+                            hasParentProperties = true;
+
+                            // Process children: mark discriminator as inherited and set default values
                             for (CodegenDiscriminator.MappedModel mappedModel : owner.getDiscriminator().getMappedModels()) {
                                 CodegenModel childModel = allModelsMap.get(mappedModel.getModelName());
                                 if (childModel != null) {
-                                    // Check if child already has the discriminator property and set default value
                                     boolean hasDiscriminatorProp = false;
                                     String discriminatorDefault = "\"" + mappedModel.getMappingName() + "\"";
 
-                                    // Update existing discriminator property in all lists
+                                    // Update existing discriminator property in all lists - mark as inherited
                                     for (CodegenProperty prop : childModel.getVars()) {
                                         if (prop.getBaseName().equals(discriminatorPropBaseName)) {
                                             hasDiscriminatorProp = true;
@@ -571,6 +597,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                             prop.datatypeWithEnum = "kotlin.String";
                                             prop.required = true;
                                             prop.isNullable = false;
+                                            prop.isInherited = true;
                                         }
                                     }
                                     for (CodegenProperty prop : childModel.getAllVars()) {
@@ -580,6 +607,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                             prop.datatypeWithEnum = "kotlin.String";
                                             prop.required = true;
                                             prop.isNullable = false;
+                                            prop.isInherited = true;
                                         }
                                     }
 
@@ -592,6 +620,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                             prop.datatypeWithEnum = "kotlin.String";
                                             prop.required = true;
                                             prop.isNullable = false;
+                                            prop.isInherited = true;
                                             propToMove = prop;
                                             break;
                                         }
@@ -608,26 +637,31 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                                             prop.dataType = "kotlin.String";
                                             prop.datatypeWithEnum = "kotlin.String";
                                             prop.isNullable = false;
+                                            prop.isInherited = true;
                                         }
                                     }
 
-                                    // If child doesn't have the discriminator property, add it as required
+                                    // If child doesn't have the discriminator property, add it as required and inherited
                                     if (!hasDiscriminatorProp) {
                                         CodegenProperty discriminatorProp = new CodegenProperty();
                                         discriminatorProp.baseName = discriminatorPropBaseName;
-                                        discriminatorProp.name = toVarName(discriminatorPropBaseName);
+                                        discriminatorProp.name = discriminatorVarName;
                                         discriminatorProp.dataType = "kotlin.String";
                                         discriminatorProp.datatypeWithEnum = "kotlin.String";
                                         discriminatorProp.defaultValue = discriminatorDefault;
                                         discriminatorProp.required = true;
                                         discriminatorProp.isNullable = false;
                                         discriminatorProp.isReadOnly = false;
+                                        discriminatorProp.isInherited = true;
 
-                                        // Add to vars and requiredVars (required property with default value)
                                         childModel.getVars().add(discriminatorProp);
                                         childModel.getRequiredVars().add(discriminatorProp);
                                         childModel.getAllVars().add(discriminatorProp);
                                     }
+
+                                    // Set parent constructor args for the discriminator property
+                                    childModel.getVendorExtensions().put("x-parent-ctor-args",
+                                            discriminatorVarName + " = " + discriminatorVarName);
                                 }
                             }
                         }

@@ -314,7 +314,7 @@ public class KotlinServerCodegenTest {
     // ==================== Polymorphism and Discriminator Tests ====================
 
     @Test
-    public void oneOfWithDiscriminator_generatesEmptySealedClassWithJacksonAnnotations() throws IOException {
+    public void oneOfWithDiscriminator_generatesSealedClassWithDiscriminatorProperty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -330,26 +330,20 @@ public class KotlinServerCodegenTest {
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
         Path petModel = Paths.get(outputPath + "/models/Pet.kt");
 
-        // Pet should be an empty sealed class with Jackson polymorphism annotations
+        // Pet should be a sealed class with Jackson polymorphism annotations and discriminator property
         assertFileContains(
                 petModel,
-                "sealed class Pet",
+                "sealed class Pet(",
+                "open val petType: kotlin.String",
                 "@com.fasterxml.jackson.annotation.JsonTypeInfo",
                 "property = \"petType\"",
                 "visible = true",
                 "@com.fasterxml.jackson.annotation.JsonSubTypes"
         );
-
-        // Pet should NOT have properties in its constructor (oneOf pattern)
-        assertFileNotContains(
-                petModel,
-                "sealed class Pet(",
-                "open val"
-        );
     }
 
     @Test
-    public void oneOfWithDiscriminator_generatesChildrenWithDiscriminatorPropertyAsRequiredString() throws IOException {
+    public void oneOfWithDiscriminator_generatesChildrenWithOverrideDiscriminatorProperty() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -364,13 +358,13 @@ public class KotlinServerCodegenTest {
 
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
 
-        // Cat should have petType as non-nullable String with default value
+        // Cat should have petType as overridden non-nullable String with default value
         Path catModel = Paths.get(outputPath + "/models/Cat.kt");
         assertFileContains(
                 catModel,
                 "data class Cat(",
-                "val petType: kotlin.String = \"cat\"",
-                ") : Pet()"
+                "override val petType: kotlin.String = \"cat\"",
+                ") : Pet(petType = petType)"
         );
         // Should NOT be nullable
         assertFileNotContains(
@@ -379,13 +373,13 @@ public class KotlinServerCodegenTest {
                 "petType: kotlin.Any"
         );
 
-        // Dog should have petType as non-nullable String with default value
+        // Dog should have petType as overridden non-nullable String with default value
         Path dogModel = Paths.get(outputPath + "/models/Dog.kt");
         assertFileContains(
                 dogModel,
                 "data class Dog(",
-                "val petType: kotlin.String = \"dog\"",
-                ") : Pet()"
+                "override val petType: kotlin.String = \"dog\"",
+                ") : Pet(petType = petType)"
         );
         // Should NOT be nullable
         assertFileNotContains(

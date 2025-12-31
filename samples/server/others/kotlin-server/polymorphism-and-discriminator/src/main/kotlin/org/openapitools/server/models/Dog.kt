@@ -20,10 +20,10 @@ package org.openapitools.server.models
 data class Dog(
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
-    val petType: kotlin.String = "dog",
+    override val petType: kotlin.String = "dog",
     /* the size of the pack the dog is from */
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("packSize")
     val packSize: kotlin.Int = 0
-) : Pet()
+) : Pet(petType = petType)
 

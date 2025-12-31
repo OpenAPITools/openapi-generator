@@ -24,9 +24,9 @@ data class Cat(
     val huntingSkill: Cat.HuntingSkill,
     
     @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
-    val petType: kotlin.String = "cat",
+    override val petType: kotlin.String = "cat",
 
-) : Pet()
+) : Pet(petType = petType)
 {
     /**
     * The measured skill for hunting

@@ -16,11 +16,17 @@ import org.openapitools.server.models.Dog
 
 /**
  * 
+ * @param petType 
  */
 @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY, property = "petType", visible = true)
 @com.fasterxml.jackson.annotation.JsonSubTypes(
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Cat::class, name = "cat"),
     com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = Dog::class, name = "dog")
 )
-sealed class Pet
+sealed class Pet(
+    
+    @field:com.fasterxml.jackson.annotation.JsonProperty("petType")
+    open val petType: kotlin.String
+
+)
 
