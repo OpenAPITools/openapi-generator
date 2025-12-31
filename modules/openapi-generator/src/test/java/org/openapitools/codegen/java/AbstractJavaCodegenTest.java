@@ -46,6 +46,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
 
 public class AbstractJavaCodegenTest {
 
@@ -966,6 +967,15 @@ public class AbstractJavaCodegenTest {
         schema = new ArraySchema().items(new Schema<>().type("integer").maximum(BigDecimal.TEN));
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<@Max(10)Integer>");
+    }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesFlagTest() {
+        codegen.additionalProperties().put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, true);
+
+        codegen.preprocessOpenAPI(FLATTENED_SPEC.get("3_0/petstore"));
+
+        Assert.assertTrue((boolean) codegen.additionalProperties().get(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES));
     }
 
     @Test
