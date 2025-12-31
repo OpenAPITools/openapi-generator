@@ -883,6 +883,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if ("kotlin.Float".equals(datatype)) {
             return value + "f";
+        } else if("java.math.BigDecimal".equals(datatype)){
+            return value+".toBigDecimal()";
         } else {
             return "\"" + value + "\"";
         }
