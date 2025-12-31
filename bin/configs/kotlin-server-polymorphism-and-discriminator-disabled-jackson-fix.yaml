@@ -1,5 +1,5 @@
 generatorName: kotlin-server
-outputDir: samples/server/others/kotlin-server-polymorphism-and-discriminator-disabled-jackson-fix
+outputDir: samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
 inputSpec: modules/openapi-generator/src/test/resources/3_1/polymorphism-and-discriminator.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-server
 additionalProperties:
