@@ -31,10 +31,6 @@ public class ResponseObjectWithDifferentFieldNames {
 
   private @Nullable String propertyNameWithSpaces;
 
-  public ResponseObjectWithDifferentFieldNames() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

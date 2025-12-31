@@ -37,10 +37,6 @@ public class TypeHolderDefaultDto {
   
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
-  public TypeHolderDefaultDto() {
-    super();
-  }
-
   public TypeHolderDefaultDto stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

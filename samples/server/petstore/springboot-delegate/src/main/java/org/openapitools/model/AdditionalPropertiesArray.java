@@ -30,10 +30,6 @@ public class AdditionalPropertiesArray {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesArray() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

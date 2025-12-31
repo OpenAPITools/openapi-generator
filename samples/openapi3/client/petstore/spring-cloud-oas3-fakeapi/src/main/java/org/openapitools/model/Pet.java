@@ -83,10 +83,6 @@ public class Pet {
   @Deprecated
   private @Nullable StatusEnum status;
 
-  public Pet() {
-    super();
-  }
-
   public Pet id(@Nullable Long id) {
     this.id = id;
     return this;

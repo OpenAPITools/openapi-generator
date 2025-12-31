@@ -178,10 +178,6 @@ public class EnumTestDto {
 
   private @Nullable OuterEnumDto outerEnum;
 
-  public EnumTestDto() {
-    super();
-  }
-
   public EnumTestDto enumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

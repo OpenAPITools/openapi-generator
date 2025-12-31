@@ -61,10 +61,6 @@ public class FormatTestDto {
 
   private @Nullable BigDecimal bigDecimal;
 
-  public FormatTestDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

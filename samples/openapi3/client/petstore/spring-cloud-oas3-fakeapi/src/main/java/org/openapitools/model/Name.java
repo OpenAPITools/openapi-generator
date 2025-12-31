@@ -31,10 +31,6 @@ public class Name {
 
   private @Nullable Integer _123number;
 
-  public Name() {
-    super();
-  }
-
   public Name name(Integer name) {
     this.name = name;
     return this;

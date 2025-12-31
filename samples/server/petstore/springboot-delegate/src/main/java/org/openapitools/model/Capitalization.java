@@ -35,10 +35,6 @@ public class Capitalization {
 
   private @Nullable String ATT_NAME;
 
-  public Capitalization() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

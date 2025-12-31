@@ -30,10 +30,6 @@ public class PizzaSpeziale extends Pizza {
 
   private @Nullable String toppings;
 
-  public PizzaSpeziale() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

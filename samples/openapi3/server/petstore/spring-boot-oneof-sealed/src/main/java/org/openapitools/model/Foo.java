@@ -31,10 +31,6 @@ public final class Foo extends Entity implements FooRefOrValue {
 
   private @Nullable String fooPropB;
 
-  public Foo() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

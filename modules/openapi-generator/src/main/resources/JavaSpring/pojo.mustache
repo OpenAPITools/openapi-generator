@@ -89,11 +89,13 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{/isContainer}}
   {{/vars}}
   {{#vendorExtensions.x-java-no-args-constructor}}
+  {{^openApiNullable}}
 
-  public {{classname}}() {
-    super();
-  }
-  {{/vendorExtensions.x-java-no-args-constructor}}
+      public {{classname}}() {
+      super();
+      }
+  {{/openApiNullable}}
+{{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
   {{#generatedConstructorWithRequiredArgs}}

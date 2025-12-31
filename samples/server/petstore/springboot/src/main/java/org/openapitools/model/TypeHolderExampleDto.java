@@ -42,10 +42,6 @@ public class TypeHolderExampleDto {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExampleDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

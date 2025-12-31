@@ -29,10 +29,6 @@ public final class Pasta extends Entity {
 
   private @Nullable String vendor;
 
-  public Pasta() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

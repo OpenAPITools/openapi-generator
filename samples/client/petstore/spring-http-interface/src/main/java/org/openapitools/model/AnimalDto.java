@@ -39,10 +39,6 @@ public class AnimalDto {
 
   private String color = "red";
 
-  public AnimalDto() {
-    super();
-  }
-
   public AnimalDto className(String className) {
     this.className = className;
     return this;

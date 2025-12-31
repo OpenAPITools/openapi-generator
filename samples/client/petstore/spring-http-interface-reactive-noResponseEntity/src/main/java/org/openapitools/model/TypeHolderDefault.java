@@ -35,10 +35,6 @@ public class TypeHolderDefault {
   
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
-  public TypeHolderDefault() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

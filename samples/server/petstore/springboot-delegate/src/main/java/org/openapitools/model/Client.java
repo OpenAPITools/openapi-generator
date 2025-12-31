@@ -25,10 +25,6 @@ public class Client {
 
   private @Nullable String client;
 
-  public Client() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

@@ -49,10 +49,6 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
 
   private String atType;
 
-  public Entity() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

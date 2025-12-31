@@ -27,10 +27,6 @@ public class ModelList {
 
   private @Nullable String _123list;
 
-  public ModelList() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

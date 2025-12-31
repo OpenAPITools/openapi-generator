@@ -29,10 +29,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
 
   private @Nullable String foorefPropA;
 
-  public FooRef() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

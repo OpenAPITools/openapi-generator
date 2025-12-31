@@ -28,10 +28,6 @@ public class ModelReturn {
 
   private @Nullable Integer _return;
 
-  public ModelReturn() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

@@ -37,10 +37,6 @@ public class Cat extends Animal {
 
   private @Nullable Boolean declawed;
 
-  public Cat() {
-    super();
-  }
-
   public Cat declawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;

@@ -32,10 +32,6 @@ public class Name {
 
   private Optional<Integer> _123number = Optional.empty();
 
-  public Name() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

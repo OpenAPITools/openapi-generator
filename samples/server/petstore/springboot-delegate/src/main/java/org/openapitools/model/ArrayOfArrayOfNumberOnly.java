@@ -30,10 +30,6 @@ public class ArrayOfArrayOfNumberOnly {
   @Valid
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
-  public ArrayOfArrayOfNumberOnly() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

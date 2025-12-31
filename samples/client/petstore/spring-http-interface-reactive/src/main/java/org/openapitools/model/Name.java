@@ -28,10 +28,6 @@ public class Name {
 
   private @Nullable Integer _123number;
 
-  public Name() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

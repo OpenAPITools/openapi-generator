@@ -86,10 +86,6 @@ public class PetDto {
   @Deprecated
   private @Nullable StatusEnum status;
 
-  public PetDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

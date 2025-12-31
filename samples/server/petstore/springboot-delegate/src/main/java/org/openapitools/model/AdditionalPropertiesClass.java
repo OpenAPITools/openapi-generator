@@ -60,10 +60,6 @@ public class AdditionalPropertiesClass {
 
   private @Nullable Object anytype3;
 
-  public AdditionalPropertiesClass() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

@@ -30,10 +30,6 @@ public class Apple implements Fruit {
 
   private FruitType fruitType;
 
-  public Apple() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

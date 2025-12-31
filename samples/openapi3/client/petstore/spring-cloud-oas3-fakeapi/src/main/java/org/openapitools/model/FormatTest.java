@@ -60,10 +60,6 @@ public class FormatTest {
 
   private @Nullable BigDecimal bigDecimal;
 
-  public FormatTest() {
-    super();
-  }
-
   public FormatTest integer(@Nullable Integer integer) {
     this.integer = integer;
     return this;

@@ -36,10 +36,6 @@ public class Bar extends Entity implements BarRefOrValue {
 
   private @Nullable FooRefOrValue foo;
 
-  public Bar() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

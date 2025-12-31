@@ -41,10 +41,6 @@ public class Animal {
 
   private Optional<String> color = Optional.of("red");
 
-  public Animal() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

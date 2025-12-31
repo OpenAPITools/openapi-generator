@@ -39,10 +39,6 @@ public class CatDto extends AnimalDto {
 
   private @Nullable Boolean declawed;
 
-  public CatDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

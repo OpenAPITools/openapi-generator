@@ -58,10 +58,6 @@ public class FormatTestDto {
 
   private @Nullable BigDecimal bigDecimal;
 
-  public FormatTestDto() {
-    super();
-  }
-
   public FormatTestDto integer(@Nullable Integer integer) {
     this.integer = integer;
     return this;

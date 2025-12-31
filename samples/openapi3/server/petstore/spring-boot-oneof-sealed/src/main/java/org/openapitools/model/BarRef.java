@@ -27,10 +27,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public final class BarRef extends EntityRef implements BarRefOrValue {
 
-  public BarRef() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

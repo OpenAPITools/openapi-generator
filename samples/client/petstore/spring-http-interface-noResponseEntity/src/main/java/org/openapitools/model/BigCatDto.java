@@ -69,10 +69,6 @@ public class BigCatDto extends CatDto {
 
   private @Nullable KindEnum kind;
 
-  public BigCatDto() {
-    super();
-  }
-
   public BigCatDto kind(@Nullable KindEnum kind) {
     this.kind = kind;
     return this;

@@ -38,10 +38,6 @@ public sealed class Pizza extends Entity permits PizzaSpeziale {
 
   private @Nullable BigDecimal pizzaSize;
 
-  public Pizza() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

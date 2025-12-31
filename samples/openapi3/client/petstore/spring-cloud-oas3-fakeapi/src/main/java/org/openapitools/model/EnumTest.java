@@ -180,10 +180,6 @@ public class EnumTest {
 
   private @Nullable OuterEnum outerEnum;
 
-  public EnumTest() {
-    super();
-  }
-
   public EnumTest enumString(@Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

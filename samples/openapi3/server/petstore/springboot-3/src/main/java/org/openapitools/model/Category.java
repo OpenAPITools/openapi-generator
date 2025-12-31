@@ -34,10 +34,6 @@ public class Category {
 
   private @Nullable String name;
 
-  public Category() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

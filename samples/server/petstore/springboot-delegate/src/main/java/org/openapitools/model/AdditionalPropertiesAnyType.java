@@ -29,10 +29,6 @@ public class AdditionalPropertiesAnyType {
 
   private @Nullable String name;
 
-  public AdditionalPropertiesAnyType() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

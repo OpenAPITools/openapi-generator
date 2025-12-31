@@ -30,10 +30,6 @@ public class Model200Response {
 
   private @Nullable String propertyClass;
 
-  public Model200Response() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

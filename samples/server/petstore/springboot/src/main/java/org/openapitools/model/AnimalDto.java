@@ -42,10 +42,6 @@ public class AnimalDto {
 
   private String color = "red";
 
-  public AnimalDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

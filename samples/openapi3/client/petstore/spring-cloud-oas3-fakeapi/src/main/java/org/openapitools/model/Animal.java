@@ -40,10 +40,6 @@ public class Animal {
 
   private String color = "red";
 
-  public Animal() {
-    super();
-  }
-
   public Animal className(String className) {
     this.className = className;
     return this;

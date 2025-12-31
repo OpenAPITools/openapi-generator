@@ -40,10 +40,6 @@ public class ContainerDefaultValue {
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
-  public ContainerDefaultValue() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

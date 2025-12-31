@@ -61,10 +61,6 @@ public class FormatTest {
 
   private @Nullable BigDecimal bigDecimal;
 
-  public FormatTest() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

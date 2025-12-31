@@ -29,10 +29,6 @@ public class CategoryDto {
 
   private String name = "default-name";
 
-  public CategoryDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

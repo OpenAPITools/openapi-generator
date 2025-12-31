@@ -26,9 +26,9 @@ public class Category {
 
   private String name = "default-name";
 
-  public Category() {
-    super();
-  }
+      public Category() {
+      super();
+      }
 
   /**
    * Constructor with only required parameters

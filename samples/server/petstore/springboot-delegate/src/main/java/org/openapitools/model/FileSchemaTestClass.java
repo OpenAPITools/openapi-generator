@@ -32,10 +32,6 @@ public class FileSchemaTestClass {
   @Valid
   private List<@Valid File> files = new ArrayList<>();
 
-  public FileSchemaTestClass() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

@@ -26,10 +26,6 @@ public class ClassModel {
 
   private @Nullable String propertyClass;
 
-  public ClassModel() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */
