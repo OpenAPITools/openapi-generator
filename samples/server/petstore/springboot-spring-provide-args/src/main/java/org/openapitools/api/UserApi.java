@@ -64,7 +64,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))
             }),
-            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
+            @ApiResponse(responseCode = "400", description = "Invalid username/password supplied", content = @Content)
         }
     )
     @RequestMapping(
@@ -97,7 +97,7 @@ public interface UserApi {
         summary = "Logs out current logged in user session",
         tags = { "user" },
         responses = {
-            @ApiResponse(responseCode = "default", description = "successful operation")
+            @ApiResponse(responseCode = "default", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(

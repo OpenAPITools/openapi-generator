@@ -191,7 +191,7 @@ public interface {{classname}} {
                 }),
                 {{/-last}}{{/examples.0}}{{/isJson}}
                 {{/produces}}
-            }{{/baseType}}){{^-last}},{{/-last}}
+            }{{/baseType}}{{^baseType}}, content = @Content{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
         }{{#hasAuthMethods}},
         security = {

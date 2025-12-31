@@ -56,8 +56,8 @@ public interface NullableApi {
         operationId = "nullableTest",
         description = "nullable test",
         responses = {
-            @ApiResponse(responseCode = "204", description = "processed"),
-            @ApiResponse(responseCode = "405", description = "Invalid input")
+            @ApiResponse(responseCode = "204", description = "processed", content = @Content),
+            @ApiResponse(responseCode = "405", description = "Invalid input", content = @Content)
         }
     )
     @RequestMapping(

@@ -62,7 +62,7 @@ public interface FakeApi {
         description = "this route creates an XmlItem",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -230,7 +230,7 @@ public interface FakeApi {
         description = "For this test, the body for this request much reference a schema named `File`.",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success")
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content)
         }
     )
     @RequestMapping(
@@ -255,7 +255,7 @@ public interface FakeApi {
         operationId = "testBodyWithQueryParams",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success")
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content)
         }
     )
     @RequestMapping(
@@ -327,8 +327,8 @@ public interface FakeApi {
         description = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid username supplied"),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "400", description = "Invalid username supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
         },
         security = {
             @SecurityRequirement(name = "http_basic_test")
@@ -379,8 +379,8 @@ public interface FakeApi {
         description = "To test enum parameters",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Invalid request"),
-            @ApiResponse(responseCode = "404", description = "Not found")
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content)
         }
     )
     @RequestMapping(
@@ -419,7 +419,7 @@ public interface FakeApi {
         description = "Fake endpoint to test group parameters (optional)",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "400", description = "Something wrong")
+            @ApiResponse(responseCode = "400", description = "Something wrong", content = @Content)
         }
     )
     @RequestMapping(
@@ -450,7 +450,7 @@ public interface FakeApi {
         description = "",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -478,7 +478,7 @@ public interface FakeApi {
         description = "",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -506,7 +506,7 @@ public interface FakeApi {
         description = "",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "successful operation")
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content)
         }
     )
     @RequestMapping(
@@ -535,7 +535,7 @@ public interface FakeApi {
         description = "To test the collection format in query parameters",
         tags = { "fake" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Success")
+            @ApiResponse(responseCode = "200", description = "Success", content = @Content)
         }
     )
     @RequestMapping(
