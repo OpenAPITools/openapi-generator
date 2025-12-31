@@ -15,7 +15,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up JDK 11
         uses: actions/setup-java@v5
         with:
@@ -54,7 +54,7 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up JDK 11
         uses: actions/setup-java@v5
         with:
@@ -92,7 +92,7 @@ jobs:
     needs:
       - build
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up JDK 11
         uses: actions/setup-java@v5
         with:
@@ -131,7 +131,7 @@ jobs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set up JDK 11
         uses: actions/setup-java@v5
         with:
