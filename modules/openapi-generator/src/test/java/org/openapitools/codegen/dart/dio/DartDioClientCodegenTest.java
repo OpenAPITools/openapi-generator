@@ -146,7 +146,7 @@ public class DartDioClientCodegenTest {
 
         // Bug symptom #22586: Map-style import with HTML entity encoding
         // Before fix: import '{import&#x3D;model.Pet, classname&#x3D;Pet}';
-        // After fix: import 'package:my_package/lib/src/gen/model/pet.dart';
+        // After fix: import 'package:my-package/src/model/pet.dart';
         Assert.assertFalse(apiContent.contains("import '{"),
             "Webhook should not contain Map-style import (bug #22586 symptom)");
         Assert.assertFalse(apiContent.contains("&#x3D;"),
