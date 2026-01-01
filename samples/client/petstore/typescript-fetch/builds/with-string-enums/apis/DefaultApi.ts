@@ -32,25 +32,25 @@ import {
 } from '../models/index';
 
 export interface FakeEnumRequestGetInlineRequest {
-    stringEnum?: FakeEnumRequestGetInlineStringEnumEnum;
-    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum;
-    numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum;
-    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum;
+    stringEnum?: FakeEnumRequestGetInlineStringEnumEnum | undefined;
+    nullableStringEnum?: FakeEnumRequestGetInlineNullableStringEnumEnum | undefined;
+    numberEnum?: FakeEnumRequestGetInlineNumberEnumEnum | undefined;
+    nullableNumberEnum?: FakeEnumRequestGetInlineNullableNumberEnumEnum | undefined;
 }
 
 export interface FakeEnumRequestGetRefRequest {
-    stringEnum?: StringEnum;
-    nullableStringEnum?: StringEnum | null;
-    numberEnum?: NumberEnum;
-    nullableNumberEnum?: NumberEnum | null;
+    stringEnum?: StringEnum | undefined;
+    nullableStringEnum?: StringEnum | null | undefined;
+    numberEnum?: NumberEnum | undefined;
+    nullableNumberEnum?: NumberEnum | null | undefined;
 }
 
 export interface FakeEnumRequestPostInlineRequest {
-    fakeEnumRequestGetInline200Response?: FakeEnumRequestGetInline200Response;
+    fakeEnumRequestGetInline200Response?: FakeEnumRequestGetInline200Response | undefined;
 }
 
 export interface FakeEnumRequestPostRefRequest {
-    enumPatternObject?: EnumPatternObject;
+    enumPatternObject?: EnumPatternObject | undefined;
 }
 
 /**

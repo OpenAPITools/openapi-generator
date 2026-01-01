@@ -27,16 +27,16 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
  * Describes the result of uploading an image resource
  */
 export interface ApiResponse {
-    'code'?: number;
-    'type'?: string;
-    'message'?: string;
+    'code'?: number | undefined;
+    'type'?: string | undefined;
+    'message'?: string | undefined;
 }
 /**
  * A category for a pet
  */
 export interface Category {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 
 export const MediaType = {
@@ -51,15 +51,15 @@ export type MediaType = typeof MediaType[keyof typeof MediaType];
  * An order for a pets from the pet store
  */
 export interface Order {
-    'id'?: number;
-    'petId'?: number;
-    'quantity'?: number;
-    'shipDate'?: string;
+    'id'?: number | undefined;
+    'petId'?: number | undefined;
+    'quantity'?: number | undefined;
+    'shipDate'?: string | undefined;
     /**
      * Order Status
      */
-    'status'?: OrderStatusEnum;
-    'complete'?: boolean;
+    'status'?: OrderStatusEnum | undefined;
+    'complete'?: boolean | undefined;
 }
 
 export const OrderStatusEnum = {
@@ -74,15 +74,15 @@ export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnu
  * A pet for sale in the pet store
  */
 export interface Pet {
-    'id'?: number;
-    'category'?: Category;
+    'id'?: number | undefined;
+    'category'?: Category | undefined;
     'name': string;
     'photoUrls': Array<string>;
-    'tags'?: Array<Tag>;
+    'tags'?: Array<Tag> | undefined;
     /**
      * pet status in the store
      */
-    'status'?: PetStatusEnum;
+    'status'?: PetStatusEnum | undefined;
 }
 
 export const PetStatusEnum = {
@@ -97,24 +97,24 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
  * A tag for a pet
  */
 export interface Tag {
-    'id'?: number;
-    'name'?: string;
+    'id'?: number | undefined;
+    'name'?: string | undefined;
 }
 /**
  * A User who is purchasing from the pet store
  */
 export interface User {
-    'id'?: number;
-    'username'?: string;
-    'firstName'?: string;
-    'lastName'?: string;
-    'email'?: string;
-    'password'?: string;
-    'phone'?: string;
+    'id'?: number | undefined;
+    'username'?: string | undefined;
+    'firstName'?: string | undefined;
+    'lastName'?: string | undefined;
+    'email'?: string | undefined;
+    'password'?: string | undefined;
+    'phone'?: string | undefined;
     /**
      * User Status
      */
-    'userStatus'?: number;
+    'userStatus'?: number | undefined;
 }
 
 /**

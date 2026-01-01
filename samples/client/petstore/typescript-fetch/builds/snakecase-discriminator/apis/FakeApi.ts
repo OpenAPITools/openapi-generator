@@ -48,24 +48,24 @@ import {
 
 export interface FakeHttpSignatureTestRequest {
     pet: Pet;
-    query1?: string;
-    header1?: string;
+    query1?: string | undefined;
+    header1?: string | undefined;
 }
 
 export interface FakeOuterBooleanSerializeRequest {
-    body?: boolean;
+    body?: boolean | undefined;
 }
 
 export interface FakeOuterCompositeSerializeRequest {
-    outerComposite?: OuterComposite;
+    outerComposite?: OuterComposite | undefined;
 }
 
 export interface FakeOuterNumberSerializeRequest {
-    body?: number;
+    body?: number | undefined;
 }
 
 export interface FakeOuterStringSerializeRequest {
-    body?: string;
+    body?: string | undefined;
 }
 
 export interface FakePropertyEnumIntegerSerializeRequest {
@@ -94,37 +94,37 @@ export interface TestEndpointParametersRequest {
     _double: number;
     patternWithoutDelimiter: string;
     _byte: string;
-    integer?: number;
-    int32?: number;
-    int64?: number;
-    _float?: number;
-    string?: string;
-    binary?: Blob;
-    date?: Date;
-    dateTime?: Date;
-    password?: string;
-    callback?: string;
+    integer?: number | undefined;
+    int32?: number | undefined;
+    int64?: number | undefined;
+    _float?: number | undefined;
+    string?: string | undefined;
+    binary?: Blob | undefined;
+    date?: Date | undefined;
+    dateTime?: Date | undefined;
+    password?: string | undefined;
+    callback?: string | undefined;
 }
 
 export interface TestEnumParametersRequest {
-    enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum>;
-    enumHeaderString?: TestEnumParametersEnumHeaderStringEnum;
-    enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum>;
-    enumQueryString?: TestEnumParametersEnumQueryStringEnum;
-    enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum;
-    enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum;
-    enumQueryModelArray?: Array<EnumClass>;
-    enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum>;
-    enumFormString?: TestEnumParametersEnumFormStringEnum;
+    enumHeaderStringArray?: Array<TestEnumParametersEnumHeaderStringArrayEnum> | undefined;
+    enumHeaderString?: TestEnumParametersEnumHeaderStringEnum | undefined;
+    enumQueryStringArray?: Array<TestEnumParametersEnumQueryStringArrayEnum> | undefined;
+    enumQueryString?: TestEnumParametersEnumQueryStringEnum | undefined;
+    enumQueryInteger?: TestEnumParametersEnumQueryIntegerEnum | undefined;
+    enumQueryDouble?: TestEnumParametersEnumQueryDoubleEnum | undefined;
+    enumQueryModelArray?: Array<EnumClass> | undefined;
+    enumFormStringArray?: Array<TestEnumParametersEnumFormStringArrayEnum> | undefined;
+    enumFormString?: TestEnumParametersEnumFormStringEnum | undefined;
 }
 
 export interface TestGroupParametersRequest {
     requiredStringGroup: number;
     requiredBooleanGroup: boolean;
     requiredInt64Group: number;
-    stringGroup?: number;
-    booleanGroup?: boolean;
-    int64Group?: number;
+    stringGroup?: number | undefined;
+    booleanGroup?: boolean | undefined;
+    int64Group?: number | undefined;
 }
 
 export interface TestInlineAdditionalPropertiesRequest {
@@ -143,7 +143,7 @@ export interface TestQueryParameterCollectionFormatRequest {
     url: Array<string>;
     context: Array<string>;
     allowEmpty: string;
-    language?: { [key: string]: string; };
+    language?: { [key: string]: string; } | undefined;
 }
 
 /**

@@ -38,31 +38,31 @@ export interface ResponseMeta {
      * @type {string}
      * @memberof ResponseMeta
      */
-    detail?: string;
+    detail?: string | undefined;
     /**
      * Message of the exception that will help developer to debug this problem if needed
      * @type {string}
      * @memberof ResponseMeta
      */
-    exception?: string;
+    exception?: string | undefined;
     /**
      * Type of error
      * @type {string}
      * @memberof ResponseMeta
      */
-    type?: string;
+    type?: string | undefined;
     /**
      * 
      * @type {ErrorCode}
      * @memberof ResponseMeta
      */
-    errorCode?: ErrorCode;
+    errorCode?: ErrorCode | undefined;
     /**
      * An array of all the specific error encountered during the request
      * @type {Array<Error>}
      * @memberof ResponseMeta
      */
-    errors?: Array<Error>;
+    errors?: Array<Error> | undefined;
 }
 
 

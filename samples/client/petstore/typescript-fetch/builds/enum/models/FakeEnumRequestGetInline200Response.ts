@@ -24,25 +24,25 @@ export interface FakeEnumRequestGetInline200Response {
      * @type {string}
      * @memberof FakeEnumRequestGetInline200Response
      */
-    stringEnum?: FakeEnumRequestGetInline200ResponseStringEnumEnum;
+    stringEnum?: FakeEnumRequestGetInline200ResponseStringEnumEnum | undefined;
     /**
      * 
      * @type {string}
      * @memberof FakeEnumRequestGetInline200Response
      */
-    nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum;
+    nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum | undefined;
     /**
      * 
      * @type {number}
      * @memberof FakeEnumRequestGetInline200Response
      */
-    numberEnum?: FakeEnumRequestGetInline200ResponseNumberEnumEnum;
+    numberEnum?: FakeEnumRequestGetInline200ResponseNumberEnumEnum | undefined;
     /**
      * 
      * @type {number}
      * @memberof FakeEnumRequestGetInline200Response
      */
-    nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum;
+    nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum | undefined;
 }
 
 

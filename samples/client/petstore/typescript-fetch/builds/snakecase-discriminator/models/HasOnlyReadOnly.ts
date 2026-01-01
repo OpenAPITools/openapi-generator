@@ -24,13 +24,13 @@ export interface HasOnlyReadOnly {
      * @type {string}
      * @memberof HasOnlyReadOnly
      */
-    readonly bar?: string;
+    readonly bar?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof HasOnlyReadOnly
      */
-    readonly foo?: string;
+    readonly foo?: string | undefined;
 }
 
 /**
