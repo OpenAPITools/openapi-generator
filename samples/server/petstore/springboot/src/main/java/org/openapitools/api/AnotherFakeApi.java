@@ -57,6 +57,7 @@ public interface AnotherFakeApi {
     )
     default ResponseEntity<ClientDto> call123testSpecialTags(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
+
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

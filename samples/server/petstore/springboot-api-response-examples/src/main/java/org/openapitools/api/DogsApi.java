@@ -82,6 +82,7 @@ public interface DogsApi {
     )
     default ResponseEntity<Dog> createDog(
         @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) @Nullable Dog dog
+
     ) {
         return getDelegate().createDog(dog);
     }

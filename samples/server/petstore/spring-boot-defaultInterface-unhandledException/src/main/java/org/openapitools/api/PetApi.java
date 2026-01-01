@@ -67,6 +67,7 @@ public interface PetApi {
     )
     ResponseEntity<Void> addPet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+
     ) throws Exception;
 
 
@@ -98,8 +99,10 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     ResponseEntity<Void> deletePet(
-        @NotNull @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
+        @NotNull @Parameter(name = "petId", description = "Pet id to delete", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+,
         @Parameter(name = "api_key", description = "", in = ParameterIn.HEADER) @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
+
     ) throws Exception;
 
 
@@ -135,6 +138,7 @@ public interface PetApi {
     )
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status
+
     ) throws Exception;
 
 
@@ -173,6 +177,7 @@ public interface PetApi {
     )
     ResponseEntity<Set<Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "tags", required = true) Set<String> tags
+
     ) throws Exception;
 
 
@@ -210,6 +215,7 @@ public interface PetApi {
     )
     ResponseEntity<Pet> getPetById(
         @NotNull @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+
     ) throws Exception;
 
 
@@ -246,6 +252,7 @@ public interface PetApi {
     )
     ResponseEntity<Void> updatePet(
         @Parameter(name = "Pet", description = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
+
     ) throws Exception;
 
 
@@ -277,9 +284,12 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     ResponseEntity<Void> updatePetWithForm(
-        @NotNull @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @NotNull @Parameter(name = "petId", description = "ID of pet that needs to be updated", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+,
+        @Parameter(name = "name", description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name
+,
         @Parameter(name = "status", description = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
+
     ) throws Exception;
 
 
@@ -314,9 +324,12 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-        @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
-        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @NotNull @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+,
+        @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
+
     ) throws Exception;
 
 }

@@ -36,6 +36,7 @@ public interface FakeClassnameTags123Api {
     )
     ClientDto testClassname(
          @RequestBody ClientDto clientDto
+
     );
 
 }

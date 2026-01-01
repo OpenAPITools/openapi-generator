@@ -36,6 +36,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUser(
          @RequestBody UserDto userDto
+
     );
 
 
@@ -54,6 +55,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithArrayInput(
          @RequestBody List<UserDto> userDto
+
     );
 
 
@@ -72,6 +74,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithListInput(
          @RequestBody List<UserDto> userDto
+
     );
 
 
@@ -90,6 +93,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> deleteUser(
          @PathVariable("username") String username
+
     );
 
 
@@ -109,6 +113,7 @@ public interface UserApi {
     )
     ResponseEntity<UserDto> getUserByName(
          @PathVariable("username") String username
+
     );
 
 
@@ -127,8 +132,10 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<String> loginUser(
-         @RequestParam(value = "username", required = true) String username,
+         @RequestParam(value = "username", required = true) String username
+,
          @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -164,8 +171,10 @@ public interface UserApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> updateUser(
-         @PathVariable("username") String username,
+         @PathVariable("username") String username
+,
          @RequestBody UserDto userDto
+
     );
 
 }

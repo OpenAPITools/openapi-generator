@@ -37,6 +37,7 @@ public interface StoreApi {
     )
     void deleteOrder(
          @PathVariable("order_id") String orderId
+
     );
 
 
@@ -74,6 +75,7 @@ public interface StoreApi {
     )
     OrderDto getOrderById(
          @PathVariable("order_id") Long orderId
+
     );
 
 
@@ -94,6 +96,7 @@ public interface StoreApi {
     )
     OrderDto placeOrder(
          @RequestBody OrderDto orderDto
+
     );
 
 }

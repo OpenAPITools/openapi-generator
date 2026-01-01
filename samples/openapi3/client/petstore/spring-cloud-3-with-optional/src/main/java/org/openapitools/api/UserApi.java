@@ -38,6 +38,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUser(
          @Valid @RequestBody User user
+
     );
 
 
@@ -56,6 +57,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithArrayInput(
          @Valid @RequestBody List<@Valid User> user
+
     );
 
 
@@ -74,6 +76,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> createUsersWithListInput(
          @Valid @RequestBody List<@Valid User> user
+
     );
 
 
@@ -92,6 +95,7 @@ public interface UserApi {
     )
     ResponseEntity<Void> deleteUser(
         @NotNull  @PathVariable("username") String username
+
     );
 
 
@@ -112,6 +116,7 @@ public interface UserApi {
     )
     ResponseEntity<User> getUserByName(
         @NotNull  @PathVariable("username") String username
+
     );
 
 
@@ -131,8 +136,10 @@ public interface UserApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<String> loginUser(
-        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$")  @Valid @RequestParam(value = "username", required = true) String username
+,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
+
     );
 
 
@@ -168,8 +175,10 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> updateUser(
-        @NotNull  @PathVariable("username") String username,
+        @NotNull  @PathVariable("username") String username
+,
          @Valid @RequestBody User user
+
     );
 
 }
