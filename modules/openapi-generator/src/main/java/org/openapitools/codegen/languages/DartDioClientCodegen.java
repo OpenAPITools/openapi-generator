@@ -650,7 +650,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
-        processImports(operations, operations.getOperation());
+        processImports(operations.getOperation(), imports -> objs.put("imports", imports));
         return objs;
     }
 
@@ -658,17 +658,17 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
         super.postProcessWebhooksWithModels(objs, allModels);
         OperationMap operations = objs.getWebhooks();
-        processImports(operations, operations.getOperation());
+        processImports(operations.getOperation(), imports -> objs.put("imports", imports));
         return objs;
     }
 
     /**
      * Processes imports for operations or webhooks, applying the same logic to both.
      *
-     * @param operations the OperationMap containing the operations
      * @param operationList the list of CodegenOperation to process
+     * @param setImports the handler to apply the processed imports
      */
-    private void processImports(OperationMap operations, List<CodegenOperation> operationList) {
+    private void processImports(List<CodegenOperation> operationList, java.util.function.Consumer<List<String>> setImports) {
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
@@ -747,7 +747,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
         // for some reason "import" structure is changed ..
-        operations.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
+        setImports.accept(resultImports.stream().sorted().collect(Collectors.toList()));
     }
 
     private void addBuiltValueSerializerImport(String type) {
