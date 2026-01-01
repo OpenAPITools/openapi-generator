@@ -88,6 +88,7 @@ interface {{classname}} {
         summary = "{{{summary}}}",
         operationId = "{{{operationId}}}",
         description = """{{{unescapedNotes}}}""",
+        requestBody = {{>requestBody}},
         responses = [{{#responses}}
             ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}"{{#baseType}}, content = [Content({{#isArray}}array = ArraySchema({{/isArray}}schema = Schema(implementation = {{{baseType}}}::class)){{#isArray}}){{/isArray}}]{{/baseType}}){{^-last}},{{/-last}}{{/responses}}
         ]{{#hasAuthMethods}},
