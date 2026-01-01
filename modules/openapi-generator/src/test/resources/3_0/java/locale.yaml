@@ -1,0 +1,259 @@
+openapi: 3.0.1
+info:
+  version: '1.27'
+  title: Example to show effects with Locale
+  description: This definition was taken from a real world api which was working until 7.15.0.
+paths:
+  /api/v1/brain/product/localizations/{productId}/{version}:
+    post:
+      operationId: getProductLocalizations
+      summary: Get localization data for a product.
+      parameters:
+        - name: productId
+          in: path
+          description: Provide the id of the product.
+          required: true
+          schema:
+            type: string
+            minLength: 1
+          example: 1LE1X
+        - name: version
+          in: path
+          description: Provide the version of the product. Could be 'LATEST' to retrieve the newest version.
+          required: true
+          schema:
+            type: string
+            minLength: 1
+          example: LATEST
+      requestBody:
+        description: Required payload for the request.
+        required: true
+        content:
+          application/json:
+            examples:
+              0 - Only language 'en':
+                description: Language 'en' without country.
+                summary: Only language 'en'
+                value:
+                  locales:
+                    - language: en
+              1 - Multiple locales:
+                description: Locale 'EN_en' and 'DE_de'.
+                summary: Multiple locales
+                value:
+                  locales:
+                    - country: EN
+                      language: en
+                    - country: DE
+                      language: de
+            schema:
+              $ref: '#/components/schemas/GetProductLocalizationsPayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductLocalizationsResult'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '401':
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '404':
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+      security:
+        - basicScheme: []
+      tags:
+        - service
+        - read
+        - v1.24
+components:
+  schemas:
+    CsticLocalization:
+      description: Localization data of a Cstic.
+      type: object
+      properties:
+        longText:
+          type: string
+        name:
+          type: string
+        numberPattern:
+          type: string
+        taggedTexts:
+          $ref: '#/components/schemas/TaggedTexts'
+        text:
+          type: string
+        unit:
+          type: string
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Localization'
+    ElementLocalization:
+      description: Localization data of an Element.
+      type: object
+      properties:
+        cstics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CsticLocalization'
+        longText:
+          type: string
+        name:
+          type: string
+        taggedTexts:
+          $ref: '#/components/schemas/TaggedTexts'
+        text:
+          type: string
+    GetProductLocalizationsPayload:
+      description: Container for locales.
+      type: object
+      properties:
+        locales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Locale'
+    GetProductLocalizationsResult:
+      description: Result for product localization.
+      type: object
+      properties:
+        error:
+          type: string
+        localizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductLocalization'
+        productId:
+          type: string
+        requestedLocales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Locale'
+        returnedFailedLocales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Locale'
+        returnedSuccessfulLocales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Locale'
+        version:
+          type: string
+    Locale:
+      description: Locale for localization.
+      type: object
+      properties:
+        country:
+          type: string
+        language:
+          type: string
+    Localization:
+      description: Localization data.
+      type: object
+      properties:
+        longText:
+          type: string
+        name:
+          type: string
+        taggedTexts:
+          $ref: '#/components/schemas/TaggedTexts'
+        text:
+          type: string
+    ProblemDetail:
+      type: object
+      properties:
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri
+        properties:
+          type: object
+          additionalProperties:
+            type: object
+        status:
+          type: integer
+          format: int32
+        title:
+          type: string
+        type:
+          type: string
+          format: uri
+    ProductLocalization:
+      description: Localization data of a Product.
+      type: object
+      properties:
+        elements:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElementLocalization'
+        globalCstics:
+          type: array
+          items:
+            $ref: '#/components/schemas/CsticLocalization'
+        locale:
+          $ref: '#/components/schemas/Locale'
+        longText:
+          type: string
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Localization'
+        name:
+          type: string
+        taggedTexts:
+          $ref: '#/components/schemas/TaggedTexts'
+        text:
+          type: string
+    TaggedText:
+      description: A text with free useable tags. See TextTag enum for known tags.
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        text:
+          type: string
+    TaggedTexts:
+      type: object
+      properties:
+        texts:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaggedText'
+  securitySchemes:
+    basicScheme:
+      scheme: basic
+      type: http
+tags:
+  - description: Commmon service operations
+    name: service
+  - description: Write operations
+    name: write
+  - description: Read operations
+    name: read
