@@ -61,7 +61,7 @@ public interface FakeClassnameTestApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Client> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
+        @ApiParam(value = "client model", required = true) @NotNull @Valid @RequestBody Mono<Client> client,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().testClassname(client, exchange);

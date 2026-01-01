@@ -55,7 +55,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody User user
+        @ApiParam(value = "Created user object", required = true) @NotNull @Valid @RequestBody User user
     ) {
         getDelegate().createUser(user);
     }
@@ -88,7 +88,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithArrayInput(user);
     }
@@ -121,7 +121,7 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default void createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
+        @ApiParam(value = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user
     ) {
         getDelegate().createUsersWithListInput(user);
     }
@@ -293,7 +293,7 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
+        @ApiParam(value = "Updated user object", required = true) @NotNull @Valid @RequestBody User user
     ) {
         getDelegate().updateUser(username, user);
     }
