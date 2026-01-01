@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class Animal {
@@ -23,18 +24,20 @@ export class Animal {
         "DOG": "Dog",
     };
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "className",
             "baseName": "class_name",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": true
         },
         {
             "name": "color",
             "baseName": "color",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {
