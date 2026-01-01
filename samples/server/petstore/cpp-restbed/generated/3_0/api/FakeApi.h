@@ -40,6 +40,7 @@
 #include "HealthCheckResult.h"
 #include "OuterComposite.h"
 #include "OuterObjectWithEnumProperty.h"
+#include "OuterString.h"
 #include "Pet.h"
 #include "TestInlineFreeformAdditionalProperties_request.h"
 #include "User.h"
@@ -466,8 +467,8 @@ public:
     // Set these to implement the server functionality //
     /////////////////////////////////////////////////////
     std::function<std::pair<int, std::string>(
-        std::string & body)> handler_POST_func =
-            [](std::string &) -> std::pair<int, std::string>
+        OuterString & outerString)> handler_POST_func =
+            [](OuterString &) -> std::pair<int, std::string>
                 { throw FakeApiException(501, "Not implemented"); };
 
 
@@ -478,7 +479,7 @@ protected:
     //////////////////////////////////////////////////////////
 
     virtual std::pair<int, std::string> handler_POST(
-        std::string & body);
+        OuterString & outerString);
 
 
 protected:

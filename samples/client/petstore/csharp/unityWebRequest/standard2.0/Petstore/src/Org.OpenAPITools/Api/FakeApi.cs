@@ -113,9 +113,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <returns>string</returns>
-        string FakeOuterStringSerialize(Guid requiredStringUuid, string body = default);
+        string FakeOuterStringSerialize(Guid requiredStringUuid, OuterString outerString = default);
 
         /// <summary>
         /// 
@@ -125,9 +125,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, string body = default);
+        ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, OuterString outerString = default);
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -587,10 +587,10 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, OuterString outerString = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -600,10 +600,10 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = default, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, OuterString outerString = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Array of Enums
         /// </summary>
@@ -1634,11 +1634,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <returns>string</returns>
-        public string FakeOuterStringSerialize(Guid requiredStringUuid, string body = default)
+        public string FakeOuterStringSerialize(Guid requiredStringUuid, OuterString outerString = default)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, body);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = FakeOuterStringSerializeWithHttpInfo(requiredStringUuid, outerString);
             return localVarResponse.Data;
         }
 
@@ -1647,9 +1647,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, string body = default)
+        public Org.OpenAPITools.Client.ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(Guid requiredStringUuid, OuterString outerString = default)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1669,7 +1669,7 @@ namespace Org.OpenAPITools.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_uuid", requiredStringUuid));
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = outerString;
 
 
             // make the HTTP request
@@ -1689,12 +1689,12 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, string body = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(Guid requiredStringUuid, OuterString outerString = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            var task = FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, body, cancellationToken);
+            var task = FakeOuterStringSerializeWithHttpInfoAsync(requiredStringUuid, outerString, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await task.ConfigureAwait(false);
 #else
@@ -1708,10 +1708,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="requiredStringUuid">Required UUID String</param>
-        /// <param name="body">Input string as post body (optional)</param>
+        /// <param name="outerString">Input string as post body (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, string body = default, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(Guid requiredStringUuid, OuterString outerString = default, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1733,7 +1733,7 @@ namespace Org.OpenAPITools.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_uuid", requiredStringUuid));
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = outerString;
 
 
             // make the HTTP request

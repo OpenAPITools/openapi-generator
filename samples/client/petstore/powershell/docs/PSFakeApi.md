@@ -189,7 +189,7 @@ No authorization required
 <a id="Invoke-PSFakeOuterStringSerialize"></a>
 # **Invoke-PSFakeOuterStringSerialize**
 > String Invoke-PSFakeOuterStringSerialize<br>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Body] <String><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OuterString] <PSCustomObject><br>
 
 
 
@@ -197,10 +197,10 @@ Test serialization of outer string types
 
 ### Example
 ```powershell
-$Body = "MyBody" # String | Input string as post body (optional)
+"MyOuterString" # OuterString | Input string as post body (optional)
 
 try {
-    $Result = Invoke-PSFakeOuterStringSerialize -Body $Body
+    $Result = Invoke-PSFakeOuterStringSerialize -OuterString $OuterString
 } catch {
     Write-Host ("Exception occurred when calling Invoke-PSFakeOuterStringSerialize: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -211,7 +211,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Body** | **String**| Input string as post body | [optional] 
+ **OuterString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
 
 ### Return type
 

@@ -15,6 +15,7 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.OuterStringDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import org.springframework.http.ResponseEntity;
@@ -107,7 +108,7 @@ public interface FakeApi {
      * POST /fake/outer/string
      * Test serialization of outer string types
      *
-     * @param body Input string as post body (optional)
+     * @param outerStringDto Input string as post body (optional)
      * @return Output string (status code 200)
      */
     @HttpExchange(
@@ -117,7 +118,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     ResponseEntity<String> fakeOuterStringSerialize(
-         @RequestBody(required = false) @Nullable String body
+         @RequestBody(required = false) @Nullable OuterStringDto outerStringDto
     );
 
 

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -140,7 +141,7 @@ public class FakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="*/*", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = String.class))
             })
         })
-    public Response fakeOuterStringSerialize(@Valid String body) {
+    public Response fakeOuterStringSerialize(@Valid OuterString body) {
         return Response.ok().entity("magic!").build();
     }
 

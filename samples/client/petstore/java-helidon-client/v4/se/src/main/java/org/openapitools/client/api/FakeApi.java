@@ -28,6 +28,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -62,7 +63,7 @@ public interface FakeApi {
 
   ApiResponse<BigDecimal> fakeOuterNumberSerialize(BigDecimal body);
 
-  ApiResponse<String> fakeOuterStringSerialize(String body);
+  ApiResponse<String> fakeOuterStringSerialize(OuterString outerString);
 
   ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 

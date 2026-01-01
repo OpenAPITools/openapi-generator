@@ -2326,7 +2326,7 @@ class BodyApi
      *
      * Test string enum response body
      *
-     * @param  string|null $body String enum (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $string_enum_ref String enum (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyStringEnum'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2334,11 +2334,11 @@ class BodyApi
      * @return \OpenAPI\Client\Model\StringEnumRef
      */
     public function testEchoBodyStringEnum(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $string_enum_ref = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): \OpenAPI\Client\Model\StringEnumRef
     {
-        list($response) = $this->testEchoBodyStringEnumWithHttpInfo($body, $contentType);
+        list($response) = $this->testEchoBodyStringEnumWithHttpInfo($string_enum_ref, $contentType);
         return $response;
     }
 
@@ -2347,7 +2347,7 @@ class BodyApi
      *
      * Test string enum response body
      *
-     * @param  string|null $body String enum (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $string_enum_ref String enum (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyStringEnum'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2355,11 +2355,11 @@ class BodyApi
      * @return array of \OpenAPI\Client\Model\StringEnumRef, HTTP status code, HTTP response headers (array of strings)
      */
     public function testEchoBodyStringEnumWithHttpInfo(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $string_enum_ref = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): array
     {
-        $request = $this->testEchoBodyStringEnumRequest($body, $contentType);
+        $request = $this->testEchoBodyStringEnumRequest($string_enum_ref, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2432,18 +2432,18 @@ class BodyApi
      *
      * Test string enum response body
      *
-     * @param  string|null $body String enum (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $string_enum_ref String enum (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyStringEnum'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testEchoBodyStringEnumAsync(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $string_enum_ref = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): PromiseInterface
     {
-        return $this->testEchoBodyStringEnumAsyncWithHttpInfo($body, $contentType)
+        return $this->testEchoBodyStringEnumAsyncWithHttpInfo($string_enum_ref, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2456,19 +2456,19 @@ class BodyApi
      *
      * Test string enum response body
      *
-     * @param  string|null $body String enum (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $string_enum_ref String enum (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyStringEnum'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testEchoBodyStringEnumAsyncWithHttpInfo(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $string_enum_ref = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): PromiseInterface
     {
         $returnType = '\OpenAPI\Client\Model\StringEnumRef';
-        $request = $this->testEchoBodyStringEnumRequest($body, $contentType);
+        $request = $this->testEchoBodyStringEnumRequest($string_enum_ref, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2509,14 +2509,14 @@ class BodyApi
     /**
      * Create request for operation 'testEchoBodyStringEnum'
      *
-     * @param  string|null $body String enum (optional)
+     * @param  \OpenAPI\Client\Model\StringEnumRef|null $string_enum_ref String enum (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEchoBodyStringEnum'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testEchoBodyStringEnumRequest(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\StringEnumRef $string_enum_ref = null,
         string $contentType = self::contentTypes['testEchoBodyStringEnum'][0]
     ): Request
     {
@@ -2541,12 +2541,12 @@ class BodyApi
         );
 
         // for model (json/xml)
-        if (isset($body)) {
+        if (isset($string_enum_ref)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($string_enum_ref));
             } else {
-                $httpBody = $body;
+                $httpBody = $string_enum_ref;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

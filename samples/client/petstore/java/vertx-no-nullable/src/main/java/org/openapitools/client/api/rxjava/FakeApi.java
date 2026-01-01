@@ -7,6 +7,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 import org.openapitools.client.ApiClient;
@@ -216,7 +217,7 @@ public class FakeApi {
     * @param body Input string as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> resultHandler) {
+    public void fakeOuterStringSerialize(OuterString body, Handler<AsyncResult<String>> resultHandler) {
         delegate.fakeOuterStringSerialize(body, resultHandler);
     }
 
@@ -227,7 +228,7 @@ public class FakeApi {
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
+    public void fakeOuterStringSerialize(OuterString body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
         delegate.fakeOuterStringSerialize(body, authInfo, resultHandler);
     }
 
@@ -237,7 +238,7 @@ public class FakeApi {
     * @param body Input string as post body (optional)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<String> rxFakeOuterStringSerialize(String body) {
+    public Single<String> rxFakeOuterStringSerialize(OuterString body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterStringSerialize(body, fut)
         ));
@@ -250,7 +251,7 @@ public class FakeApi {
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<String> rxFakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo) {
+    public Single<String> rxFakeOuterStringSerialize(OuterString body, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
             delegate.fakeOuterStringSerialize(body, authInfo, fut)
         ));

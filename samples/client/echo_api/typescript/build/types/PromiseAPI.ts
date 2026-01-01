@@ -264,22 +264,22 @@ export class PromiseBodyApi {
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param [body] String enum
+     * @param [stringEnumRef] String enum
      */
-    public testEchoBodyStringEnumWithHttpInfo(body?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<StringEnumRef>> {
+    public testEchoBodyStringEnumWithHttpInfo(stringEnumRef?: StringEnumRef, _options?: PromiseConfigurationOptions): Promise<HttpInfo<StringEnumRef>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.testEchoBodyStringEnumWithHttpInfo(body, observableOptions);
+        const result = this.api.testEchoBodyStringEnumWithHttpInfo(stringEnumRef, observableOptions);
         return result.toPromise();
     }
 
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param [body] String enum
+     * @param [stringEnumRef] String enum
      */
-    public testEchoBodyStringEnum(body?: string, _options?: PromiseConfigurationOptions): Promise<StringEnumRef> {
+    public testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, _options?: PromiseConfigurationOptions): Promise<StringEnumRef> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.testEchoBodyStringEnum(body, observableOptions);
+        const result = this.api.testEchoBodyStringEnum(stringEnumRef, observableOptions);
         return result.toPromise();
     }
 

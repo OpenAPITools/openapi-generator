@@ -160,7 +160,7 @@ Test serialization of outer string types
 ### Parameters
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **_body** | `String`| Input string as post body | [optional parameter] |
+| **_body** | [**OuterString**](OuterString.md)| Input string as post body | [optional parameter] |
 
 
 ### Return type

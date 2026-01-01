@@ -245,7 +245,7 @@ public class FakeApiMockServer {
 
 
     public static String fakeOuterStringSerializeRequestSample1() {
-        return "";
+        return "null";
     }
 
 

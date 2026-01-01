@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -578,12 +579,12 @@ public class FakeApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterStringSerializeRequestCreation(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        Object postBody = body;
+    private ResponseSpec fakeOuterStringSerializeRequestCreation(@jakarta.annotation.Nullable OuterString outerString) throws RestClientResponseException {
+        Object postBody = outerString;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<>();
 
@@ -611,38 +612,38 @@ public class FakeApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return String
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public String fakeOuterStringSerialize(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
+    public String fakeOuterStringSerialize(@jakarta.annotation.Nullable OuterString outerString) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return fakeOuterStringSerializeRequestCreation(body).body(localVarReturnType);
+        return fakeOuterStringSerializeRequestCreation(outerString).body(localVarReturnType);
     }
 
     /**
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
+    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(@jakarta.annotation.Nullable OuterString outerString) throws RestClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<>() {};
-        return fakeOuterStringSerializeRequestCreation(body).toEntity(localVarReturnType);
+        return fakeOuterStringSerializeRequestCreation(outerString).toEntity(localVarReturnType);
     }
 
     /**
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return ResponseSpec
      * @throws RestClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@jakarta.annotation.Nullable String body) throws RestClientResponseException {
-        return fakeOuterStringSerializeRequestCreation(body);
+    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@jakarta.annotation.Nullable OuterString outerString) throws RestClientResponseException {
+        return fakeOuterStringSerializeRequestCreation(outerString);
     }
 
     /**

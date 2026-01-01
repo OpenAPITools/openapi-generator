@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
@@ -757,48 +758,48 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
-    return fakeOuterStringSerialize(body, null);
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    return fakeOuterStringSerialize(outerString, null);
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @param headers Optional headers to include in the request
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-    ApiResponse<String> localVarResponse = fakeOuterStringSerializeWithHttpInfo(body, headers);
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
+    ApiResponse<String> localVarResponse = fakeOuterStringSerializeWithHttpInfo(outerString, headers);
     return localVarResponse.getData();
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
-    return fakeOuterStringSerializeWithHttpInfo(body, null);
+  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    return fakeOuterStringSerializeWithHttpInfo(outerString, null);
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @param headers Optional headers to include in the request
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = fakeOuterStringSerializeRequestBuilder(body, headers);
+  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = fakeOuterStringSerializeRequestBuilder(outerString, headers);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -845,7 +846,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder fakeOuterStringSerializeRequestBuilder(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder fakeOuterStringSerializeRequestBuilder(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -856,7 +857,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(body));
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(outerString));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

@@ -420,7 +420,7 @@ No authorization required
 
 ## fakeOuterStringSerialize
 
-> String fakeOuterStringSerialize(body)
+> String fakeOuterStringSerialize(outerString)
 
 
 
@@ -442,9 +442,9 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         FakeApi apiInstance = new FakeApi(defaultClient);
-        String body = "body_example"; // String | Input string as post body
+        OuterString outerString = new OuterString(); // OuterString | Input string as post body
         try {
-            String result = apiInstance.fakeOuterStringSerialize(body);
+            String result = apiInstance.fakeOuterStringSerialize(outerString);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
@@ -462,7 +462,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | **String**| Input string as post body | [optional] |
+| **outerString** | [**OuterString**](OuterString.md)| Input string as post body | [optional] |
 
 ### Return type
 

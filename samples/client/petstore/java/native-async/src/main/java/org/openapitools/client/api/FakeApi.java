@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
@@ -805,25 +806,25 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return CompletableFuture&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
-    return fakeOuterStringSerialize(body, null);
+  public CompletableFuture<String> fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    return fakeOuterStringSerialize(outerString, null);
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @param headers Optional headers to include in the request
    * @return CompletableFuture&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+  public CompletableFuture<String> fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
     try {
-      return fakeOuterStringSerializeWithHttpInfo(body, headers)
+      return fakeOuterStringSerializeWithHttpInfo(outerString, headers)
           .thenApply(ApiResponse::getData);
     }
     catch (ApiException e) {
@@ -834,25 +835,25 @@ public class FakeApi {
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return CompletableFuture&lt;ApiResponse&lt;String&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
-    return fakeOuterStringSerializeWithHttpInfo(body, null);
+  public CompletableFuture<ApiResponse<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString) throws ApiException {
+    return fakeOuterStringSerializeWithHttpInfo(outerString, null);
   }
 
   /**
    * 
    * Test serialization of outer string types
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @param headers Optional headers to include in the request
    * @return CompletableFuture&lt;ApiResponse&lt;String&gt;&gt;
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<ApiResponse<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+  public CompletableFuture<ApiResponse<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
     try {
-      HttpRequest.Builder localVarRequestBuilder = fakeOuterStringSerializeRequestBuilder(body, headers);
+      HttpRequest.Builder localVarRequestBuilder = fakeOuterStringSerializeRequestBuilder(outerString, headers);
       return memberVarHttpClient.sendAsync(
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofInputStream()).thenComposeAsync(localVarResponse -> {
@@ -902,7 +903,7 @@ public class FakeApi {
     }
   }
 
-  private HttpRequest.Builder fakeOuterStringSerializeRequestBuilder(@javax.annotation.Nullable String body, Map<String, String> headers) throws ApiException {
+  private HttpRequest.Builder fakeOuterStringSerializeRequestBuilder(@javax.annotation.Nullable OuterString outerString, Map<String, String> headers) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -913,7 +914,7 @@ public class FakeApi {
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "*/*");
 
-    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(body));
+    localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofString(outerString));
     if (memberVarReadTimeout != null) {
       localVarRequestBuilder.timeout(memberVarReadTimeout);
     }

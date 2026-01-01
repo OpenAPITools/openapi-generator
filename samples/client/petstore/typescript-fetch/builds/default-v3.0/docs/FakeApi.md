@@ -423,7 +423,7 @@ No authorization required
 
 ## fakeOuterStringSerialize
 
-> string fakeOuterStringSerialize(body)
+> string fakeOuterStringSerialize(outerString)
 
 
 
@@ -443,8 +443,8 @@ async function example() {
   const api = new FakeApi();
 
   const body = {
-    // string | Input string as post body (optional)
-    body: body_example,
+    // OuterString | Input string as post body (optional)
+    outerString: outerString_example,
   } satisfies FakeOuterStringSerializeRequest;
 
   try {
@@ -464,7 +464,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | `string` | Input string as post body | [Optional] |
+| **outerString** | [OuterString](OuterString.md) | Input string as post body | [Optional] |
 
 ### Return type
 

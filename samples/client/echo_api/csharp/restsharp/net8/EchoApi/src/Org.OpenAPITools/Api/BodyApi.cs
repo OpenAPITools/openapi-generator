@@ -216,10 +216,10 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>StringEnumRef</returns>
-        StringEnumRef TestEchoBodyStringEnum(string? body = default, int operationIndex = 0);
+        StringEnumRef TestEchoBodyStringEnum(StringEnumRef? stringEnumRef = default, int operationIndex = 0);
 
         /// <summary>
         /// Test string enum response body
@@ -228,10 +228,10 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of StringEnumRef</returns>
-        ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(string? body = default, int operationIndex = 0);
+        ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(StringEnumRef? stringEnumRef = default, int operationIndex = 0);
         /// <summary>
         /// Test empty json (request body)
         /// </summary>
@@ -469,11 +469,11 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of StringEnumRef</returns>
-        System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(StringEnumRef? stringEnumRef = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Test string enum response body
@@ -482,11 +482,11 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (StringEnumRef)</returns>
-        System.Threading.Tasks.Task<ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task<ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(StringEnumRef? stringEnumRef = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// Test empty json (request body)
         /// </summary>
@@ -1732,12 +1732,12 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body Test string enum response body
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>StringEnumRef</returns>
-        public StringEnumRef TestEchoBodyStringEnum(string? body = default, int operationIndex = 0)
+        public StringEnumRef TestEchoBodyStringEnum(StringEnumRef? stringEnumRef = default, int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = TestEchoBodyStringEnumWithHttpInfo(body);
+            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = TestEchoBodyStringEnumWithHttpInfo(stringEnumRef);
             return localVarResponse.Data;
         }
 
@@ -1745,10 +1745,10 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body Test string enum response body
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of StringEnumRef</returns>
-        public Org.OpenAPITools.Client.ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(string? body = default, int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<StringEnumRef> TestEchoBodyStringEnumWithHttpInfo(StringEnumRef? stringEnumRef = default, int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1774,7 +1774,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = stringEnumRef;
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
             localVarRequestOptions.OperationIndex = operationIndex;
@@ -1798,13 +1798,13 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body Test string enum response body
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of StringEnumRef</returns>
-        public async System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(string? body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<StringEnumRef> TestEchoBodyStringEnumAsync(StringEnumRef? stringEnumRef = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
-            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = await TestEchoBodyStringEnumWithHttpInfoAsync(body, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<StringEnumRef> localVarResponse = await TestEchoBodyStringEnumWithHttpInfoAsync(stringEnumRef, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1812,11 +1812,11 @@ namespace Org.OpenAPITools.Api
         /// Test string enum response body Test string enum response body
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">String enum (optional)</param>
+        /// <param name="stringEnumRef">String enum (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (StringEnumRef)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(string? body = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<StringEnumRef>> TestEchoBodyStringEnumWithHttpInfoAsync(StringEnumRef? stringEnumRef = default, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default)
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1842,7 +1842,7 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = stringEnumRef;
 
             localVarRequestOptions.Operation = "BodyApi.TestEchoBodyStringEnum";
             localVarRequestOptions.OperationIndex = operationIndex;

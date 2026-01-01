@@ -9,6 +9,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -394,7 +395,7 @@ public class FakeApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws IOException {
+    public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -407,13 +408,13 @@ public class FakeApi {
     * @return String
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public String fakeOuterStringSerialize(@javax.annotation.Nullable String body, Map<String, Object> params) throws IOException {
+    public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body, Map<String, Object> params) throws IOException {
         HttpResponse response = fakeOuterStringSerializeForHttpResponse(body, params);
         TypeReference<String> typeRef = new TypeReference<String>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable String body) throws IOException {
+    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable OuterString body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 
@@ -439,7 +440,7 @@ public class FakeApi {
               return httpRequest.execute();
       }
 
-    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable String body, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterStringSerializeForHttpResponse(@javax.annotation.Nullable OuterString body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/string");
 

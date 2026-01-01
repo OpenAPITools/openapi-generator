@@ -208,7 +208,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func fakeOuterStringSerializeRaw(body: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func fakeOuterStringSerializeRaw(body: OuterString? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/fake/outer/string"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -221,7 +221,7 @@ open class FakeAPI {
             
             
             if let localVariableBody = body {
-                try localVariableRequest.content.encode(localVariableBody, using: apiConfiguration.contentConfiguration.requireEncoder(for: String.defaultContentType))
+                try localVariableRequest.content.encode(localVariableBody, using: apiConfiguration.contentConfiguration.requireEncoder(for: OuterString.defaultContentType))
             }
             
             try beforeSend(&localVariableRequest)
@@ -239,7 +239,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: `EventLoopFuture` of `FakeOuterStringSerialize` 
      */
-    open class func fakeOuterStringSerialize(body: String? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterStringSerialize> {
+    open class func fakeOuterStringSerialize(body: OuterString? = nil, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<FakeOuterStringSerialize> {
         return fakeOuterStringSerializeRaw(body: body, headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> FakeOuterStringSerialize in
             switch response.status.code {
             case 200:

@@ -219,7 +219,7 @@ No authorization required
 
 # **fakeOuterStringSerialize**
 ```swift
-    open class func fakeOuterStringSerialize(body: String? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
+    open class func fakeOuterStringSerialize(body: OuterString? = nil, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
 
@@ -231,7 +231,7 @@ Test serialization of outer string types
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = "body_example" // String | Input string as post body (optional)
+let body = TODO // OuterString | Input string as post body (optional)
 
 FakeAPI.fakeOuterStringSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -249,7 +249,7 @@ FakeAPI.fakeOuterStringSerialize(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String** | Input string as post body | [optional] 
+ **body** | [**OuterString**](OuterString.md) | Input string as post body | [optional] 
 
 ### Return type
 

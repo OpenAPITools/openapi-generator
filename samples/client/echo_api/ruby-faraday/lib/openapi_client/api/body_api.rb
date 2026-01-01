@@ -533,7 +533,7 @@ module OpenapiClient
     # Test string enum response body
     # Test string enum response body
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :body String enum
+    # @option opts [StringEnumRef] :string_enum_ref String enum
     # @return [StringEnumRef]
     def test_echo_body_string_enum(opts = {})
       data, _status_code, _headers = test_echo_body_string_enum_with_http_info(opts)
@@ -543,7 +543,7 @@ module OpenapiClient
     # Test string enum response body
     # Test string enum response body
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :body String enum
+    # @option opts [StringEnumRef] :string_enum_ref String enum
     # @return [Array<(StringEnumRef, Integer, Hash)>] StringEnumRef data, response status code and response headers
     def test_echo_body_string_enum_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -569,7 +569,7 @@ module OpenapiClient
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'body'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'string_enum_ref'])
 
       # return_type
       return_type = opts[:debug_return_type] || 'StringEnumRef'

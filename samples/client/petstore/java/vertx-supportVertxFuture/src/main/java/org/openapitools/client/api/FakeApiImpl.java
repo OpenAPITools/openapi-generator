@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -318,22 +319,22 @@ public class FakeApiImpl implements FakeApi {
     /**
     * 
     * Test serialization of outer string types
-        * @param body Input string as post body (optional)
+        * @param outerString Input string as post body (optional)
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> resultHandler) {
-        fakeOuterStringSerialize(body, null, resultHandler);
+    public void fakeOuterStringSerialize(OuterString outerString, Handler<AsyncResult<String>> resultHandler) {
+        fakeOuterStringSerialize(outerString, null, resultHandler);
     }
 
     /**
     * 
     * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+    * @param outerString Input string as post body (optional)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler
     */
-    public void fakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
-        Object localVarBody = body;
+    public void fakeOuterStringSerialize(OuterString outerString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
+        Object localVarBody = outerString;
         
         // create path and map variables
         String localVarPath = "/fake/outer/string";

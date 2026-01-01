@@ -737,12 +737,12 @@ func (a *FakeAPIService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 type ApiFakeOuterStringSerializeRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
-	body *string
+	outerString *OuterString
 }
 
 // Input string as post body
-func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
-	r.body = &body
+func (r ApiFakeOuterStringSerializeRequest) OuterString(outerString OuterString) ApiFakeOuterStringSerializeRequest {
+	r.outerString = &outerString
 	return r
 }
 
@@ -804,7 +804,7 @@ func (a *FakeAPIService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.outerString
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

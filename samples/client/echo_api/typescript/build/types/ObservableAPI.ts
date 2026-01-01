@@ -387,12 +387,12 @@ export class ObservableBodyApi {
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param [body] String enum
+     * @param [stringEnumRef] String enum
      */
-    public testEchoBodyStringEnumWithHttpInfo(body?: string, _options?: ConfigurationOptions): Observable<HttpInfo<StringEnumRef>> {
+    public testEchoBodyStringEnumWithHttpInfo(stringEnumRef?: StringEnumRef, _options?: ConfigurationOptions): Observable<HttpInfo<StringEnumRef>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.testEchoBodyStringEnum(body, _config);
+        const requestContextPromise = this.requestFactory.testEchoBodyStringEnum(stringEnumRef, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -412,10 +412,10 @@ export class ObservableBodyApi {
     /**
      * Test string enum response body
      * Test string enum response body
-     * @param [body] String enum
+     * @param [stringEnumRef] String enum
      */
-    public testEchoBodyStringEnum(body?: string, _options?: ConfigurationOptions): Observable<StringEnumRef> {
-        return this.testEchoBodyStringEnumWithHttpInfo(body, _options).pipe(map((apiResponse: HttpInfo<StringEnumRef>) => apiResponse.data));
+    public testEchoBodyStringEnum(stringEnumRef?: StringEnumRef, _options?: ConfigurationOptions): Observable<StringEnumRef> {
+        return this.testEchoBodyStringEnumWithHttpInfo(stringEnumRef, _options).pipe(map((apiResponse: HttpInfo<StringEnumRef>) => apiResponse.data));
     }
 
     /**

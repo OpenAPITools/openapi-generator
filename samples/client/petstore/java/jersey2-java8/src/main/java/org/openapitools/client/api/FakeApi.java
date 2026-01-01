@@ -15,6 +15,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
 
@@ -222,7 +223,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public String fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws ApiException {
+  public String fakeOuterStringSerialize(@javax.annotation.Nullable OuterString body) throws ApiException {
     return fakeOuterStringSerializeWithHttpInfo(body).getData();
   }
 
@@ -239,7 +240,7 @@ public class FakeApi {
        <tr><td> 200 </td><td> Output string </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws ApiException {
+  public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString body) throws ApiException {
     String localVarAccept = apiClient.selectHeaderAccept("*/*");
     String localVarContentType = apiClient.selectHeaderContentType();
     GenericType<String> localVarReturnType = new GenericType<String>() {};

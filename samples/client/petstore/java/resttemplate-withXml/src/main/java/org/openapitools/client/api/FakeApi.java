@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -317,24 +318,24 @@ public class FakeApi extends BaseApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body (optional)
+     * @param outerString Input string as post body (optional)
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public String fakeOuterStringSerialize(String body) throws RestClientException {
-        return fakeOuterStringSerializeWithHttpInfo(body).getBody();
+    public String fakeOuterStringSerialize(OuterString outerString) throws RestClientException {
+        return fakeOuterStringSerializeWithHttpInfo(outerString).getBody();
     }
 
     /**
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body (optional)
+     * @param outerString Input string as post body (optional)
      * @return ResponseEntity&lt;String&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(String body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<String> fakeOuterStringSerializeWithHttpInfo(OuterString outerString) throws RestClientException {
+        Object localVarPostBody = outerString;
         
 
         final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();

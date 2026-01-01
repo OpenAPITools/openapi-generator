@@ -44,6 +44,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -328,19 +329,19 @@ public class FakeApiImpl implements FakeApi {
   }
 
   @Override
-  public ApiResponse<String> fakeOuterStringSerialize(String body) {
-    HttpClientRequest webClientRequestBuilder = fakeOuterStringSerializeRequestBuilder(body);
-    return fakeOuterStringSerializeSubmit(webClientRequestBuilder, body);
+  public ApiResponse<String> fakeOuterStringSerialize(OuterString outerString) {
+    HttpClientRequest webClientRequestBuilder = fakeOuterStringSerializeRequestBuilder(outerString);
+    return fakeOuterStringSerializeSubmit(webClientRequestBuilder, outerString);
   }
 
   /**
    * Creates a {@code WebClientRequestBuilder} for the fakeOuterStringSerialize operation.
    * Optional customization point for subclasses.
    *
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return HttpClientRequest for fakeOuterStringSerialize
    */
-  protected HttpClientRequest fakeOuterStringSerializeRequestBuilder(String body) {
+  protected HttpClientRequest fakeOuterStringSerializeRequestBuilder(OuterString outerString) {
     HttpClientRequest webClientRequestBuilder = apiClient.webClient()
             .method(Method.POST);
 
@@ -356,11 +357,11 @@ public class FakeApiImpl implements FakeApi {
    * Optional customization point for subclasses.
    *
    * @param webClientRequestBuilder the request builder to use for submitting the request
-   * @param body Input string as post body (optional)
+   * @param outerString Input string as post body (optional)
    * @return {@code ApiResponse<String>} for the submitted request
    */
-  protected ApiResponse<String> fakeOuterStringSerializeSubmit(HttpClientRequest webClientRequestBuilder, String body) {
-    HttpClientResponse webClientResponse = webClientRequestBuilder.submit(body);
+  protected ApiResponse<String> fakeOuterStringSerializeSubmit(HttpClientRequest webClientRequestBuilder, OuterString outerString) {
+    HttpClientResponse webClientResponse = webClientRequestBuilder.submit(outerString);
     return ApiResponse.create(RESPONSE_TYPE_fakeOuterStringSerialize, webClientResponse);
   }
 

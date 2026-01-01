@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
+import org.openapitools.client.model.OuterString;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
@@ -489,12 +490,12 @@ public class FakeApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec fakeOuterStringSerializeRequestCreation(@javax.annotation.Nullable String body) throws WebClientResponseException {
-        Object postBody = body;
+    private ResponseSpec fakeOuterStringSerializeRequestCreation(@javax.annotation.Nullable OuterString outerString) throws WebClientResponseException {
+        Object postBody = outerString;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
 
@@ -522,38 +523,38 @@ public class FakeApi {
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return String
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<String> fakeOuterStringSerialize(@javax.annotation.Nullable String body) throws WebClientResponseException {
+    public Mono<String> fakeOuterStringSerialize(@javax.annotation.Nullable OuterString outerString) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
-        return fakeOuterStringSerializeRequestCreation(body).bodyToMono(localVarReturnType);
+        return fakeOuterStringSerializeRequestCreation(outerString).bodyToMono(localVarReturnType);
     }
 
     /**
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return ResponseEntity&lt;String&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable String body) throws WebClientResponseException {
+    public Mono<ResponseEntity<String>> fakeOuterStringSerializeWithHttpInfo(@javax.annotation.Nullable OuterString outerString) throws WebClientResponseException {
         ParameterizedTypeReference<String> localVarReturnType = new ParameterizedTypeReference<String>() {};
-        return fakeOuterStringSerializeRequestCreation(body).toEntity(localVarReturnType);
+        return fakeOuterStringSerializeRequestCreation(outerString).toEntity(localVarReturnType);
     }
 
     /**
      * 
      * Test serialization of outer string types
      * <p><b>200</b> - Output string
-     * @param body Input string as post body
+     * @param outerString Input string as post body
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@javax.annotation.Nullable String body) throws WebClientResponseException {
-        return fakeOuterStringSerializeRequestCreation(body);
+    public ResponseSpec fakeOuterStringSerializeWithResponseSpec(@javax.annotation.Nullable OuterString outerString) throws WebClientResponseException {
+        return fakeOuterStringSerializeRequestCreation(outerString);
     }
 
     /**

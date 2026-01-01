@@ -250,7 +250,7 @@ public interface BodyApi extends ApiClient.Api {
   /**
    * Test string enum response body
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @return StringEnumRef
    */
   @RequestLine("POST /echo/body/string_enum")
@@ -258,13 +258,13 @@ public interface BodyApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable String body);
+  StringEnumRef testEchoBodyStringEnum(@javax.annotation.Nullable StringEnumRef stringEnumRef);
 
   /**
    * Test string enum response body
    * Similar to <code>testEchoBodyStringEnum</code> but it also returns the http response headers .
    * Test string enum response body
-   * @param body String enum (optional)
+   * @param stringEnumRef String enum (optional)
    * @return A ApiResponse that wraps the response boyd and the http headers.
    */
   @RequestLine("POST /echo/body/string_enum")
@@ -272,7 +272,7 @@ public interface BodyApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable String body);
+  ApiResponse<StringEnumRef> testEchoBodyStringEnumWithHttpInfo(@javax.annotation.Nullable StringEnumRef stringEnumRef);
 
 
 

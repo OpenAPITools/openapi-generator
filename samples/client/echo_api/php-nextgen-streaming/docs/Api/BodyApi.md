@@ -464,7 +464,7 @@ No authorization required
 ## `testEchoBodyStringEnum()`
 
 ```php
-testEchoBodyStringEnum($body): \OpenAPI\Client\Model\StringEnumRef
+testEchoBodyStringEnum($string_enum_ref): \OpenAPI\Client\Model\StringEnumRef
 ```
 
 Test string enum response body
@@ -484,10 +484,10 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = 'body_example'; // string | String enum
+$string_enum_ref = new \OpenAPI\Client\Model\StringEnumRef(); // \OpenAPI\Client\Model\StringEnumRef | String enum
 
 try {
-    $result = $apiInstance->testEchoBodyStringEnum($body);
+    $result = $apiInstance->testEchoBodyStringEnum($string_enum_ref);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling BodyApi->testEchoBodyStringEnum: ', $e->getMessage(), PHP_EOL;
@@ -498,7 +498,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **string**| String enum | [optional] |
+| **string_enum_ref** | [**\OpenAPI\Client\Model\StringEnumRef**](../Model/StringEnumRef.md)| String enum | [optional] |
 
 ### Return type
 

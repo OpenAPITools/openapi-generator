@@ -382,14 +382,14 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [String] body:
+  /// * [OuterString] outerString:
   ///   Input string as post body
-  Future<Response> fakeOuterStringSerializeWithHttpInfo({ String? body, }) async {
+  Future<Response> fakeOuterStringSerializeWithHttpInfo({ OuterString? outerString, }) async {
     // ignore: prefer_const_declarations
     final path = r'/fake/outer/string';
 
     // ignore: prefer_final_locals
-    Object? postBody = body;
+    Object? postBody = outerString;
 
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
@@ -413,10 +413,10 @@ class FakeApi {
   ///
   /// Parameters:
   ///
-  /// * [String] body:
+  /// * [OuterString] outerString:
   ///   Input string as post body
-  Future<String?> fakeOuterStringSerialize({ String? body, }) async {
-    final response = await fakeOuterStringSerializeWithHttpInfo( body: body, );
+  Future<String?> fakeOuterStringSerialize({ OuterString? outerString, }) async {
+    final response = await fakeOuterStringSerializeWithHttpInfo( outerString: outerString, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

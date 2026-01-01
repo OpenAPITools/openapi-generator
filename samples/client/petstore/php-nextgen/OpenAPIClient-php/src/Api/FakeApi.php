@@ -2363,7 +2363,7 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * @param  string|null $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString|null $outer_string Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2371,18 +2371,18 @@ class FakeApi
      * @return string
      */
     public function fakeOuterStringSerialize(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\OuterString $outer_string = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): string
     {
-        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body, $contentType);
+        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($outer_string, $contentType);
         return $response;
     }
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
      *
-     * @param  string|null $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString|null $outer_string Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -2390,11 +2390,11 @@ class FakeApi
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
     public function fakeOuterStringSerializeWithHttpInfo(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\OuterString $outer_string = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): array
     {
-        $request = $this->fakeOuterStringSerializeRequest($body, $contentType);
+        $request = $this->fakeOuterStringSerializeRequest($outer_string, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2465,18 +2465,18 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsync
      *
-     * @param  string|null $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString|null $outer_string Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function fakeOuterStringSerializeAsync(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\OuterString $outer_string = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): PromiseInterface
     {
-        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($body, $contentType)
+        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($outer_string, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2487,19 +2487,19 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerializeAsyncWithHttpInfo
      *
-     * @param  string|null $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString|null $outer_string Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function fakeOuterStringSerializeAsyncWithHttpInfo(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\OuterString $outer_string = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): PromiseInterface
     {
         $returnType = 'string';
-        $request = $this->fakeOuterStringSerializeRequest($body, $contentType);
+        $request = $this->fakeOuterStringSerializeRequest($outer_string, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2540,14 +2540,14 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterStringSerialize'
      *
-     * @param  string|null $body Input string as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterString|null $outer_string Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function fakeOuterStringSerializeRequest(
-        ?string $body = null,
+        ?\OpenAPI\Client\Model\OuterString $outer_string = null,
         string $contentType = self::contentTypes['fakeOuterStringSerialize'][0]
     ): Request
     {
@@ -2572,12 +2572,12 @@ class FakeApi
         );
 
         // for model (json/xml)
-        if (isset($body)) {
+        if (isset($outer_string)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
-                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($body));
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($outer_string));
             } else {
-                $httpBody = $body;
+                $httpBody = $outer_string;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

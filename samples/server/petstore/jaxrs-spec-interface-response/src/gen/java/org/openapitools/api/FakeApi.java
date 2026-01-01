@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.OuterString;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
@@ -103,7 +104,7 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
-    Response fakeOuterStringSerialize(@Valid String body);
+    Response fakeOuterStringSerialize(@Valid OuterString body);
 
 
     /**

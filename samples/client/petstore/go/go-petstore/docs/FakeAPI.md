@@ -304,7 +304,7 @@ import (
 )
 
 func main() {
-	body := "body_example" // string | Input string as post body (optional)
+	body := TODO // OuterString | Input string as post body (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -329,7 +329,7 @@ Other parameters are passed through a pointer to a apiFakeOuterStringSerializeRe
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **string** | Input string as post body | 
+ **body** | [**OuterString**](OuterString.md) | Input string as post body | 
 
 ### Return type
 
