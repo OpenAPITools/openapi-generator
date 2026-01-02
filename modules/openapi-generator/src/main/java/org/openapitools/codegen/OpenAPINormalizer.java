@@ -556,10 +556,16 @@ public class OpenAPINormalizer {
             return;
         }
 
-        for (String headerKey : headers.keySet()) {
-            Header h = headers.get(headerKey);
-            Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
-            h.setSchema(updatedHeader);
+        for (Header header : headers.values()) {
+            // dereference header
+            if (StringUtils.isNotEmpty(header.get$ref())) {
+                header = ModelUtils.getReferencedHeader(openAPI, header);
+            }
+
+            if (header.getSchema() != null) {
+                Schema<?> updatedHeader = normalizeSchema(header.getSchema(), new HashSet<>());
+                header.setSchema(updatedHeader);
+            }
         }
     }
 
