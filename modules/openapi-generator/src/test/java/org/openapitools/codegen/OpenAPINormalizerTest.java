@@ -1306,6 +1306,20 @@ public class OpenAPINormalizerTest {
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
     }
 
+    @Test
+    public void testDereferenceHeaderBeforeNormalize() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_22576.yaml");
+
+        Map<String, String> options = new HashMap<>();
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+
+        try {
+            openAPINormalizer.normalize();
+        } catch (Exception e) {
+            fail("Should not have thrown exception", e);
+        }
+    }
+
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
 
         public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {
