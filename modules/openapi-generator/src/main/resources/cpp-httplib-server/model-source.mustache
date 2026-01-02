@@ -1,0 +1,62 @@
+{{>License}}
+
+{{#models}}
+{{#model}}
+#include "{{vendorExtensions.modelClassName}}.h"
+
+namespace {{vendorExtensions.modelNamespace}} {
+
+{{vendorExtensions.modelClassName}}::{{vendorExtensions.modelClassName}}()
+{{#vars}}
+{{#-first}}:{{/-first}} m_{{nameInCamelCase}}({{{defaultValue}}}){{^-last}},{{/-last}}
+{{/vars}}
+{
+}
+
+nlohmann::json {{vendorExtensions.modelClassName}}::toJson(const {{vendorExtensions.modelClassName}}& obj)
+{
+    nlohmann::json json;
+    {{#vars}}
+    {{#isPrimitiveType}}
+    json["{{baseName}}"] = obj.{{getter}}();
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    json["{{baseName}}"] = obj.{{getter}}();
+    {{/isPrimitiveType}}
+    {{/vars}}
+    return json;
+}
+
+{{vendorExtensions.modelClassName}} {{vendorExtensions.modelClassName}}::fromJson(const nlohmann::json& json)
+{
+    {{vendorExtensions.modelClassName}} obj;
+    {{#vars}}
+    if (json.contains("{{baseName}}"))
+    {
+        {{#isPrimitiveType}}
+        obj.{{setter}}(json.at("{{baseName}}").get<{{datatypeWithEnum}}>());
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        obj.{{setter}}(json.at("{{baseName}}"));
+        {{/isPrimitiveType}}
+    }
+    {{/vars}}
+    return obj;
+}
+
+
+{{#vars}}
+{{{vendorExtensions.getterType}}} {{model.vendorExtensions.modelClassName}}::{{vendorExtensions.getter}}() const
+{
+    return m_{{nameInCamelCase}};
+}
+
+void {{model.vendorExtensions.modelClassName}}::{{vendorExtensions.setter}}(const {{{vendorExtensions.setterType}}}& {{nameInCamelCase}})
+{
+    m_{{nameInCamelCase}} = {{nameInCamelCase}};
+}
+{{/vars}}
+
+} // namespace {{vendorExtensions.modelNamespace}}
+{{/model}}
+{{/models}}

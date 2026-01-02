@@ -1,0 +1,106 @@
+{{>License}}
+
+{{{apiHeaderFileName}}}
+
+{{#statusCodeConsts}}
+constexpr int {{constName}} = {{statusCode}};
+{{/statusCodeConsts}}
+
+
+namespace {{apiNamespace}} {
+// --- Helper function definitions ---
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions}}
+{{#hasAnyRequestSchema}}
+{{apiClassnameInPascalCase}}::{{handlerFunctionRequest}} {{apiClassnameInPascalCase}}::parse{{operationIdPascalCase}}Params(const httplib::Request& req) {
+    {{apiClassnameInPascalCase}}::{{handlerFunctionRequest}} params;
+    {{#requestModel}}
+    params.m_request = {{requestModel}}::fromJson(nlohmann::json::parse(req.body));
+    {{/requestModel}}
+    {{#queryParams}}
+        {{#vendorExtensions.isString}}
+    params.m_{{paramName}} = req.get_param_value("{{baseName}}");
+        {{/vendorExtensions.isString}}
+        {{#vendorExtensions.isInt}}
+    params.m_{{paramName}} = std::stoi(req.get_param_value("{{baseName}}"));
+        {{/vendorExtensions.isInt}}
+        {{#vendorExtensions.isBool}}
+    params.m_{{paramName}} = (req.get_param_value("{{baseName}}") == "true");
+        {{/vendorExtensions.isBool}}
+        {{#vendorExtensions.isDouble}}
+    params.m_{{paramName}} = std::stod(req.get_param_value("{{baseName}}"));
+        {{/vendorExtensions.isDouble}}
+    {{/queryParams}}
+    {{#headerParams}}
+        {{#vendorExtensions.isString}}
+    params.m_{{paramName}} = req.get_header_value("{{baseName}}");
+        {{/vendorExtensions.isString}}
+        {{#vendorExtensions.isInt}}
+    params.m_{{paramName}} = std::stoi(req.get_header_value("{{baseName}}"));
+        {{/vendorExtensions.isInt}}
+        {{#vendorExtensions.isBool}}
+    params.m_{{paramName}} = (req.get_header_value("{{baseName}}") == "true");
+        {{/vendorExtensions.isBool}}
+        {{#vendorExtensions.isDouble}}
+    params.m_{{paramName}} = std::stod(req.get_header_value("{{baseName}}"));
+        {{/vendorExtensions.isDouble}}
+    {{/headerParams}}
+    return params;
+}
+{{/hasAnyRequestSchema}}
+{{#hasAnyResponseSchema}}
+void {{apiClassnameInPascalCase}}::handle{{handlerFunctionResponse}}(const {{handlerFunctionResponse}}& result, httplib::Response& res) {
+    std::visit([&](const auto& value) {
+        using T = std::decay_t<decltype(value)>;
+        {{#successCodeToTypes}}{{#successType}}{{#-first}}//Success types{{/-first}}
+        if constexpr (std::is_same_v<T, {{successType}}>) {
+            res.status = {{successConstName}};
+            res.set_content(value.toJson(value).dump(), "application/json");
+        }{{/successType}}{{/successCodeToTypes}}
+        {{#errorCodeToTypes}}{{#errorType}}{{#-first}}//Error types{{/-first}}
+        else if constexpr (std::is_same_v<T, {{errorType}}>) {
+            res.status = {{errorConstName}};
+            res.set_content(value.toJson(value).dump(), "application/json");
+        }{{/errorType}}{{/errorCodeToTypes}}
+
+    }, result);
+}
+{{/hasAnyResponseSchema}}
+{{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+
+void {{apiClassnameInPascalCase}}::registerRoutes(httplib::Server& svr) {
+    {{#operations}}
+    {{#operation}}
+    {{#vendorExtensions}}
+    svr.{{httpMethod}}("{{path}}", [this]([[maybe_unused]]const httplib::Request& req, httplib::Response& res) {
+        try {
+            {{#hasAnyRequestSchema}}
+            auto params = parse{{operationIdPascalCase}}Params(req);
+            {{/hasAnyRequestSchema}}
+            auto result = {{handlerFunctionName}}({{#hasAnyRequestSchema}}params{{/hasAnyRequestSchema}});
+            {{#hasAnyResponseSchema}}
+            handle{{handlerFunctionResponse}}(result, res);
+            {{/hasAnyResponseSchema}}
+        }{{#requestModel}}catch (const nlohmann::json::parse_error& e) {
+            nlohmann::json errorJson = { {"message", "Invalid JSON: " + std::string(e.what())} };
+            res.set_content(errorJson.dump(), "application/json");
+        }{{/requestModel}}{{#vendorExtensions.hasPrimitiveParams}} catch (const std::invalid_argument& e) {
+            nlohmann::json errorJson = { {"message", "Internal error: " + std::string(e.what())} };
+            res.set_content(errorJson.dump(), "application/json");
+        }catch (const std::out_of_range& e) {
+            nlohmann::json errorJson = { {"message", "Internal error: " + std::string(e.what())} };
+            res.set_content(errorJson.dump(), "application/json");
+        }{{/vendorExtensions.hasPrimitiveParams}}{{^requestModel}}{{^vendorExtensions.hasPrimitiveParams}}catch (const std::exception& e) {
+            nlohmann::json errorJson = { {"message", "Internal error: " + std::string(e.what())} };
+            res.set_content(errorJson.dump(), "application/json");
+        }{{/vendorExtensions.hasPrimitiveParams}}{{/requestModel}}
+    });
+    {{/vendorExtensions}}
+    {{/operation}}
+    {{/operations}}
+}
+
+} // namespace {{apiNamespace}}
