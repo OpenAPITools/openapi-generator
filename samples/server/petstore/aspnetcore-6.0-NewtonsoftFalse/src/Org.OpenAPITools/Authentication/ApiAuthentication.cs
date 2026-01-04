@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Org.OpenAPITools.Authentication
@@ -57,16 +58,17 @@ namespace Org.OpenAPITools.Authentication
 
         private void SucceedRequirementIfApiKeyPresentAndValid(AuthorizationHandlerContext context, ApiKeyRequirement requirement)
         {
+            var httpContext = (context.Resource as AuthorizationFilterContext)?.HttpContext
+                ?? context.Resource as HttpContext;
 
-            if (context.Resource is AuthorizationFilterContext authorizationFilterContext)
+            if (httpContext == null)
+                return;
+
+            var apiKey = httpContext.Request.Headers["api_key"].FirstOrDefault();
+            if (requirement.PolicyName == "api_key" && apiKey != null && requirement.ApiKeys.Any(requiredApiKey => apiKey == requiredApiKey))
             {
-                var apiKey = authorizationFilterContext.HttpContext.Request.Headers["api_key"].FirstOrDefault();
-                if (requirement.PolicyName == "api_key" && apiKey != null && requirement.ApiKeys.Any(requiredApiKey => apiKey == requiredApiKey))
-                {
-                    context.Succeed(requirement);
-                }
+                context.Succeed(requirement);
             }
-
         }
     }
 }
