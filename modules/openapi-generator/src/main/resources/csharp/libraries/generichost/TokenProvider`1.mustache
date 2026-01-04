@@ -36,9 +36,6 @@ namespace {{packageName}}
         public TokenProvider(IEnumerable<TTokenBase> tokens)
         {
             _tokens = tokens.ToArray();
-
-            if (_tokens.Length == 0)
-                throw new ArgumentException("You did not provide any tokens.");
         }
     }
 }
