@@ -3,11 +3,10 @@ package org.openapitools.api
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import java.util.Optional
-import org.openapitools.api.StoreApiController.Companion.BASE_PATH
 
 @javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.19.0-SNAPSHOT")
 @Controller
-@RequestMapping("\${openapi.openAPIPetstore.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:/v2}")
 class StoreApiController(
         private val delegate: StoreApiDelegate
 ) : StoreApi {

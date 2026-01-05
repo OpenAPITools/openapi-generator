@@ -6,9 +6,6 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-{{#useRequestMappingOnInterface}}
-import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}.Companion.BASE_PATH
-{{/useRequestMappingOnInterface}}
 
 {{#swagger2AnnotationLibrary}}
 import io.swagger.v3.oas.annotations.*
@@ -51,9 +48,7 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 {{#useRequestMappingOnInterface}}
-{{=<% %>=}}
-@HttpExchange("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
-<%={{ }}=%>
+@HttpExchange("\${api.base-path:{{contextPath}}}")
 {{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated

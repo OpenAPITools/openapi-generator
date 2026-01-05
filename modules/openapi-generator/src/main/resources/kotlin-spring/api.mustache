@@ -30,9 +30,6 @@ import org.springframework.validation.annotation.Validated
 {{/useBeanValidation}}
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-{{#useRequestMappingOnController}}
-import {{#apiPackage}}{{.}}.{{/apiPackage}}{{classname}}Controller.Companion.BASE_PATH
-{{/useRequestMappingOnController}}
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid
@@ -60,9 +57,7 @@ import kotlin.collections.Map
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swagger1AnnotationLibrary}}
 {{#useRequestMappingOnController}}
-{{=<% %>=}}
-@RequestMapping("\${openapi.<%title%>.base-path:\${api.base-path:$BASE_PATH}}")
-<%={{ }}=%>
+@RequestMapping("\${api.base-path:{{contextPath}}}")
 {{/useRequestMappingOnController}}
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
