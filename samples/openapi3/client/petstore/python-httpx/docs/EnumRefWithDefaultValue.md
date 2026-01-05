@@ -15,14 +15,14 @@ from petstore_api.models.enum_ref_with_default_value import EnumRefWithDefaultVa
 # TODO update the JSON string below
 json = "{}"
 # create an instance of EnumRefWithDefaultValue from a JSON string
-enum_ref_with_default_value_instance = EnumRefWithDefaultValue.from_json(json)
+enum_ref_with_default_value_instance = EnumRefWithDefaultValue.model_validate_json(json)
 # print the JSON string representation of the object
-print(EnumRefWithDefaultValue.to_json())
+print(EnumRefWithDefaultValue.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-enum_ref_with_default_value_dict = enum_ref_with_default_value_instance.to_dict()
+enum_ref_with_default_value_dict = enum_ref_with_default_value_instance.model_dump(by_alias=True)
 # create an instance of EnumRefWithDefaultValue from a dict
-enum_ref_with_default_value_from_dict = EnumRefWithDefaultValue.from_dict(enum_ref_with_default_value_dict)
+enum_ref_with_default_value_from_dict = EnumRefWithDefaultValue.model_validate(enum_ref_with_default_value_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

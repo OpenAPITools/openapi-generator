@@ -17,14 +17,14 @@ from petstore_api.models.task import Task
 # TODO update the JSON string below
 json = "{}"
 # create an instance of Task from a JSON string
-task_instance = Task.from_json(json)
+task_instance = Task.model_validate_json(json)
 # print the JSON string representation of the object
-print(Task.to_json())
+print(Task.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-task_dict = task_instance.to_dict()
+task_dict = task_instance.model_dump(by_alias=True)
 # create an instance of Task from a dict
-task_from_dict = Task.from_dict(task_dict)
+task_from_dict = Task.model_validate(task_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

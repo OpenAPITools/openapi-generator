@@ -23,8 +23,8 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictInt, Stric
 from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 class FormatTest(BaseModel):
     """
@@ -100,64 +100,5 @@ class FormatTest(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of FormatTest from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of FormatTest from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "integer": obj.get("integer"),
-            "int32": obj.get("int32"),
-            "int64": obj.get("int64"),
-            "number": obj.get("number"),
-            "float": obj.get("float"),
-            "double": obj.get("double"),
-            "decimal": obj.get("decimal"),
-            "string": obj.get("string"),
-            "string_with_double_quote_pattern": obj.get("string_with_double_quote_pattern"),
-            "byte": obj.get("byte"),
-            "binary": obj.get("binary"),
-            "date": obj.get("date"),
-            "dateTime": obj.get("dateTime"),
-            "uuid": obj.get("uuid"),
-            "password": obj.get("password"),
-            "pattern_with_digits": obj.get("pattern_with_digits"),
-            "pattern_with_digits_and_delimiter": obj.get("pattern_with_digits_and_delimiter")
-        })
-        return _obj
 
 

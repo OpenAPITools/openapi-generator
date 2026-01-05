@@ -27,14 +27,14 @@ from petstore_api.models.enum_test import EnumTest
 # TODO update the JSON string below
 json = "{}"
 # create an instance of EnumTest from a JSON string
-enum_test_instance = EnumTest.from_json(json)
+enum_test_instance = EnumTest.model_validate_json(json)
 # print the JSON string representation of the object
-print(EnumTest.to_json())
+print(EnumTest.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-enum_test_dict = enum_test_instance.to_dict()
+enum_test_dict = enum_test_instance.model_dump(by_alias=True)
 # create an instance of EnumTest from a dict
-enum_test_from_dict = EnumTest.from_dict(enum_test_dict)
+enum_test_from_dict = EnumTest.model_validate(enum_test_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

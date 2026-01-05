@@ -23,14 +23,14 @@ from openapi_client.models.default_value import DefaultValue
 # TODO update the JSON string below
 json = "{}"
 # create an instance of DefaultValue from a JSON string
-default_value_instance = DefaultValue.from_json(json)
+default_value_instance = DefaultValue.model_validate_json(json)
 # print the JSON string representation of the object
-print(DefaultValue.to_json())
+print(DefaultValue.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-default_value_dict = default_value_instance.to_dict()
+default_value_dict = default_value_instance.model_dump(by_alias=True)
 # create an instance of DefaultValue from a dict
-default_value_from_dict = DefaultValue.from_dict(default_value_dict)
+default_value_from_dict = DefaultValue.model_validate(default_value_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class SpecialCharacterEnum(StrEnum):
 
-class SpecialCharacterEnum(str, Enum):
     """
     SpecialCharacterEnum
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     ENUM_456 = '456'
     ENUM_123ABC = '123abc'
     UNDERSCORE = '_'
@@ -41,5 +39,4 @@ class SpecialCharacterEnum(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of SpecialCharacterEnum from a JSON string"""
         return cls(json.loads(json_str))
-
 

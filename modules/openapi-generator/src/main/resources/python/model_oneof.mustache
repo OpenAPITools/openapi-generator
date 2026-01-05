@@ -8,8 +8,7 @@ import pprint
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from pydantic import BaseModel, ConfigDict, StrictStr, Field, RootModel, model_validator
-from typing import Any, Union, List, Set, Optional, Dict, Union
-from typing_extensions import Literal, Self
+from typing import Any, Union, List, Set, Optional, Dict, Union, Literal, Self
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 

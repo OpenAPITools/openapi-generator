@@ -15,14 +15,14 @@ from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 # TODO update the JSON string below
 json = "{}"
 # create an instance of ArrayOfArrayOfModel from a JSON string
-array_of_array_of_model_instance = ArrayOfArrayOfModel.from_json(json)
+array_of_array_of_model_instance = ArrayOfArrayOfModel.model_validate_json(json)
 # print the JSON string representation of the object
-print(ArrayOfArrayOfModel.to_json())
+print(ArrayOfArrayOfModel.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-array_of_array_of_model_dict = array_of_array_of_model_instance.to_dict()
+array_of_array_of_model_dict = array_of_array_of_model_instance.model_dump(by_alias=True)
 # create an instance of ArrayOfArrayOfModel from a dict
-array_of_array_of_model_from_dict = ArrayOfArrayOfModel.from_dict(array_of_array_of_model_dict)
+array_of_array_of_model_from_dict = ArrayOfArrayOfModel.model_validate(array_of_array_of_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

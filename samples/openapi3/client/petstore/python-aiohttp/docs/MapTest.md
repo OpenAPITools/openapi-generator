@@ -18,14 +18,14 @@ from petstore_api.models.map_test import MapTest
 # TODO update the JSON string below
 json = "{}"
 # create an instance of MapTest from a JSON string
-map_test_instance = MapTest.from_json(json)
+map_test_instance = MapTest.model_validate_json(json)
 # print the JSON string representation of the object
-print(MapTest.to_json())
+print(MapTest.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-map_test_dict = map_test_instance.to_dict()
+map_test_dict = map_test_instance.model_dump(by_alias=True)
 # create an instance of MapTest from a dict
-map_test_from_dict = MapTest.from_dict(map_test_dict)
+map_test_from_dict = MapTest.model_validate(map_test_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

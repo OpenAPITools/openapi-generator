@@ -19,15 +19,18 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 class MapTest(BaseModel):
     """
     MapTest
     """ # noqa: E501
     map_map_of_string: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_enum_string: Optional[Dict[str, StrictStr]] = None
+    map_of_enum_string: Optional[Dict[str, str]] = Field(
+        None,
+        description="map_of_enum_string of the MapTest"
+    )
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
     __properties: ClassVar[List[str]] = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
@@ -54,51 +57,5 @@ class MapTest(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of MapTest from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of MapTest from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "map_map_of_string": obj.get("map_map_of_string"),
-            "map_of_enum_string": obj.get("map_of_enum_string"),
-            "direct_map": obj.get("direct_map"),
-            "indirect_map": obj.get("indirect_map")
-        })
-        return _obj
 
 

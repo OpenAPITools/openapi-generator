@@ -20,8 +20,8 @@ import json
 from importlib import import_module
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -62,46 +62,5 @@ class DiscriminatorAllOfSuper(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[DiscriminatorAllOfSub]]:
-        """Create an instance of DiscriminatorAllOfSuper from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[DiscriminatorAllOfSub]]:
-        """Create an instance of DiscriminatorAllOfSuper from a dict"""
-        # look up the object type based on discriminator mapping
-        object_type = cls.get_discriminator_value(obj)
-        if object_type ==  'DiscriminatorAllOfSub':
-            return import_module("petstore_api.models.discriminator_all_of_sub").DiscriminatorAllOfSub.from_dict(obj)
-
-        raise ValueError("DiscriminatorAllOfSuper failed to lookup discriminator value from " +
-                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
 

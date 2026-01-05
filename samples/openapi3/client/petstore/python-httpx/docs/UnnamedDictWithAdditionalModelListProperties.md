@@ -15,14 +15,14 @@ from petstore_api.models.unnamed_dict_with_additional_model_list_properties impo
 # TODO update the JSON string below
 json = "{}"
 # create an instance of UnnamedDictWithAdditionalModelListProperties from a JSON string
-unnamed_dict_with_additional_model_list_properties_instance = UnnamedDictWithAdditionalModelListProperties.from_json(json)
+unnamed_dict_with_additional_model_list_properties_instance = UnnamedDictWithAdditionalModelListProperties.model_validate_json(json)
 # print the JSON string representation of the object
-print(UnnamedDictWithAdditionalModelListProperties.to_json())
+print(UnnamedDictWithAdditionalModelListProperties.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-unnamed_dict_with_additional_model_list_properties_dict = unnamed_dict_with_additional_model_list_properties_instance.to_dict()
+unnamed_dict_with_additional_model_list_properties_dict = unnamed_dict_with_additional_model_list_properties_instance.model_dump(by_alias=True)
 # create an instance of UnnamedDictWithAdditionalModelListProperties from a dict
-unnamed_dict_with_additional_model_list_properties_from_dict = UnnamedDictWithAdditionalModelListProperties.from_dict(unnamed_dict_with_additional_model_list_properties_dict)
+unnamed_dict_with_additional_model_list_properties_from_dict = UnnamedDictWithAdditionalModelListProperties.model_validate(unnamed_dict_with_additional_model_list_properties_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

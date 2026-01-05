@@ -19,15 +19,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """ # noqa: E501
-    just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[List[StrictStr]] = None
+    just_symbol: Optional[Just_symbolEnum] = Field(
+        None,
+        description="just_symbol of the EnumArrays"
+    )
     __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 
     @field_validator('just_symbol')
@@ -62,49 +64,5 @@ class EnumArrays(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EnumArrays from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EnumArrays from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "just_symbol": obj.get("just_symbol"),
-            "array_enum": obj.get("array_enum")
-        })
-        return _obj
 
 

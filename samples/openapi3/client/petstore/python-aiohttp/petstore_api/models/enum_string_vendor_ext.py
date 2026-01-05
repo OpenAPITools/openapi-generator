@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class EnumStringVendorExt(StrEnum):
 
-class EnumStringVendorExt(str, Enum):
     """
     EnumStringVendorExt
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     FOO_XEnumVarname = 'FOO'
     BarVar_XEnumVarname = 'Bar'
     bazVar_XEnumVarname = 'baz'
@@ -34,5 +32,4 @@ class EnumStringVendorExt(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumStringVendorExt from a JSON string"""
         return cls(json.loads(json_str))
-
 

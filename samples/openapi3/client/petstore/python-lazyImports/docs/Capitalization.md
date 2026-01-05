@@ -20,14 +20,14 @@ from petstore_api.models.capitalization import Capitalization
 # TODO update the JSON string below
 json = "{}"
 # create an instance of Capitalization from a JSON string
-capitalization_instance = Capitalization.from_json(json)
+capitalization_instance = Capitalization.model_validate_json(json)
 # print the JSON string representation of the object
-print(Capitalization.to_json())
+print(Capitalization.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-capitalization_dict = capitalization_instance.to_dict()
+capitalization_dict = capitalization_instance.model_dump(by_alias=True)
 # create an instance of Capitalization from a dict
-capitalization_from_dict = Capitalization.from_dict(capitalization_dict)
+capitalization_from_dict = Capitalization.model_validate(capitalization_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

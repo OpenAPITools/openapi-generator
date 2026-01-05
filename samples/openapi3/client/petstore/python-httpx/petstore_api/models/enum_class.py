@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class EnumClass(StrEnum):
 
-class EnumClass(str, Enum):
     """
     EnumClass
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     ABC = '_abc'
     MINUS_EFG = '-efg'
     LEFT_PARENTHESIS_XYZ_RIGHT_PARENTHESIS = '(xyz)'
@@ -34,5 +32,4 @@ class EnumClass(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumClass from a JSON string"""
         return cls(json.loads(json_str))
-
 

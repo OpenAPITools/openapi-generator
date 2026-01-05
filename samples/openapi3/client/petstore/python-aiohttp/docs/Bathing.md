@@ -17,14 +17,14 @@ from petstore_api.models.bathing import Bathing
 # TODO update the JSON string below
 json = "{}"
 # create an instance of Bathing from a JSON string
-bathing_instance = Bathing.from_json(json)
+bathing_instance = Bathing.model_validate_json(json)
 # print the JSON string representation of the object
-print(Bathing.to_json())
+print(Bathing.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-bathing_dict = bathing_instance.to_dict()
+bathing_dict = bathing_instance.model_dump(by_alias=True)
 # create an instance of Bathing from a dict
-bathing_from_dict = Bathing.from_dict(bathing_dict)
+bathing_from_dict = Bathing.model_validate(bathing_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

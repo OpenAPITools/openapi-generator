@@ -14,18 +14,17 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
 
-class Type(int, Enum):
+class Type(Enum):
+
     """
     Type
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     NUMBER_2_DOT_0 = 2.0
     NUMBER_1_DOT_0 = 1.0
     NUMBER_0_DOT_5 = 0.5
@@ -35,5 +34,4 @@ class Type(int, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of Type from a JSON string"""
         return cls(json.loads(json_str))
-
 

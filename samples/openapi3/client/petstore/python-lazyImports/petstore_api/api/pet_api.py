@@ -14,7 +14,7 @@
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Annotated
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import List, Optional, Tuple, Union

@@ -17,14 +17,14 @@ from petstore_api.models.model200_response import Model200Response
 # TODO update the JSON string below
 json = "{}"
 # create an instance of Model200Response from a JSON string
-model200_response_instance = Model200Response.from_json(json)
+model200_response_instance = Model200Response.model_validate_json(json)
 # print the JSON string representation of the object
-print(Model200Response.to_json())
+print(Model200Response.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-model200_response_dict = model200_response_instance.to_dict()
+model200_response_dict = model200_response_instance.model_dump(by_alias=True)
 # create an instance of Model200Response from a dict
-model200_response_from_dict = Model200Response.from_dict(model200_response_dict)
+model200_response_from_dict = Model200Response.model_validate(model200_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -27,14 +27,14 @@ from petstore_api.models.nullable_class import NullableClass
 # TODO update the JSON string below
 json = "{}"
 # create an instance of NullableClass from a JSON string
-nullable_class_instance = NullableClass.from_json(json)
+nullable_class_instance = NullableClass.model_validate_json(json)
 # print the JSON string representation of the object
-print(NullableClass.to_json())
+print(NullableClass.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
-nullable_class_dict = nullable_class_instance.to_dict()
+nullable_class_dict = nullable_class_instance.model_dump(by_alias=True)
 # create an instance of NullableClass from a dict
-nullable_class_from_dict = NullableClass.from_dict(nullable_class_dict)
+nullable_class_from_dict = NullableClass.model_validate(nullable_class_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

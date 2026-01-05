@@ -25,20 +25,41 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 class EnumTest(BaseModel):
     """
     EnumTest
     """ # noqa: E501
-    enum_string: Optional[StrictStr] = None
-    enum_string_required: StrictStr
-    enum_integer_default: Optional[StrictInt] = 5
-    enum_integer: Optional[StrictInt] = None
-    enum_number: Optional[StrictFloat] = None
-    enum_string_single_member: Optional[StrictStr] = None
-    enum_integer_single_member: Optional[StrictInt] = None
+    enum_string: Optional[Enum_stringEnum] = Field(
+        None,
+        description="enum_string of the EnumTest"
+    )
+    enum_string_required: Enum_string_requiredEnum = Field(
+        ...,
+        description="enum_string_required of the EnumTest"
+    )
+    enum_integer_default: Optional[Enum_integer_defaultEnum] = Field(
+        None,
+        description="enum_integer_default of the EnumTest"
+    )
+    enum_integer: Optional[Enum_integerEnum] = Field(
+        None,
+        description="enum_integer of the EnumTest"
+    )
+    enum_number: Optional[Enum_numberEnum] = Field(
+        None,
+        description="enum_number of the EnumTest"
+    )
+    enum_string_single_member: Literal['abc'] = Field(
+        None,
+        description="enum_string_single_member of the EnumTest"
+    )
+    enum_integer_single_member: Literal['100'] = Field(
+        None,
+        description="enum_integer_single_member of the EnumTest"
+    )
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
     outer_enum_default_value: Optional[OuterEnumDefaultValue] = Field(default=OuterEnumDefaultValue.PLACED, alias="outerEnumDefaultValue")
@@ -126,77 +147,5 @@ class EnumTest(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EnumTest from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
-        """
-        excluded_fields: Set[str] = set([
-            "additional_properties",
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
-        # set to None if outer_enum (nullable) is None
-        # and model_fields_set contains the field
-        if self.outer_enum is None and "outer_enum" in self.model_fields_set:
-            _dict['outerEnum'] = None
-
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EnumTest from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "enum_string": obj.get("enum_string"),
-            "enum_string_required": obj.get("enum_string_required"),
-            "enum_integer_default": obj.get("enum_integer_default") if obj.get("enum_integer_default") is not None else 5,
-            "enum_integer": obj.get("enum_integer"),
-            "enum_number": obj.get("enum_number"),
-            "enum_string_single_member": obj.get("enum_string_single_member"),
-            "enum_integer_single_member": obj.get("enum_integer_single_member"),
-            "outerEnum": obj.get("outerEnum"),
-            "outerEnumInteger": obj.get("outerEnumInteger"),
-            "outerEnumDefaultValue": obj.get("outerEnumDefaultValue") if obj.get("outerEnumDefaultValue") is not None else OuterEnumDefaultValue.PLACED,
-            "outerEnumIntegerDefaultValue": obj.get("outerEnumIntegerDefaultValue") if obj.get("outerEnumIntegerDefaultValue") is not None else OuterEnumIntegerDefaultValue.NUMBER_0,
-            "enumNumberVendorExt": obj.get("enumNumberVendorExt"),
-            "enumStringVendorExt": obj.get("enumStringVendorExt")
-        })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
-        return _obj
 
 

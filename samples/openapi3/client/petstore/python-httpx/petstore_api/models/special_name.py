@@ -20,8 +20,8 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.category import Category
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Literal, Self
+from pydantic import Field
 
 class SpecialName(BaseModel):
     """
@@ -29,7 +29,10 @@ class SpecialName(BaseModel):
     """ # noqa: E501
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
-    var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
+    var_schema: Optional[Var_schemaEnum] = Field(
+        None,
+        description="pet status in the store"
+    )
     __properties: ClassVar[List[str]] = ["property", "async", "schema"]
 
     @field_validator('var_schema')
@@ -53,53 +56,5 @@ class SpecialName(BaseModel):
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of SpecialName from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of var_async
-        if self.var_async:
-            _dict['async'] = self.var_async.to_dict()
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of SpecialName from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "property": obj.get("property"),
-            "async": Category.from_dict(obj["async"]) if obj.get("async") is not None else None,
-            "schema": obj.get("schema")
-        })
-        return _obj
 
 
