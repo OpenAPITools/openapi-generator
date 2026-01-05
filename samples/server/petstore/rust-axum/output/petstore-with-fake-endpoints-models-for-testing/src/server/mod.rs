@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
+use headers::Host;
 use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -154,7 +156,7 @@ fn test_special_tags_validation(
 #[tracing::instrument(skip_all)]
 async fn test_special_tags<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -228,7 +230,7 @@ fn call123example_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn call123example<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -301,7 +303,7 @@ fn fake_outer_boolean_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_boolean_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterBoolean>>,
@@ -389,7 +391,7 @@ fn fake_outer_composite_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_composite_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterComposite>>,
@@ -477,7 +479,7 @@ fn fake_outer_number_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_number_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterNumber>>,
@@ -565,7 +567,7 @@ fn fake_outer_string_serialize_validation(
 #[tracing::instrument(skip_all)]
 async fn fake_outer_string_serialize<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::OuterString>>,
@@ -640,7 +642,7 @@ fn fake_response_with_numerical_description_validation() -> std::result::Result<
 #[tracing::instrument(skip_all)]
 async fn fake_response_with_numerical_description<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -704,7 +706,7 @@ fn hyphen_param_validation(
 #[tracing::instrument(skip_all)]
 async fn hyphen_param<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::HyphenParamPathParams>,
     State(api_impl): State<I>,
@@ -779,7 +781,7 @@ fn test_body_with_query_params_validation(
 #[tracing::instrument(skip_all)]
 async fn test_body_with_query_params<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::TestBodyWithQueryParamsQueryParams>,
     State(api_impl): State<I>,
@@ -854,7 +856,7 @@ fn test_client_model_validation(
 #[tracing::instrument(skip_all)]
 async fn test_client_model<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -940,7 +942,7 @@ fn test_endpoint_parameters_validation(
 #[tracing::instrument(skip_all)]
 async fn test_endpoint_parameters<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1040,7 +1042,7 @@ fn test_enum_parameters_validation(
 #[tracing::instrument(skip_all)]
 async fn test_enum_parameters<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     QueryExtra(query_params): QueryExtra<models::TestEnumParametersQueryParams>,
@@ -1175,7 +1177,7 @@ fn test_inline_additional_properties_validation(
 #[tracing::instrument(skip_all)]
 async fn test_inline_additional_properties<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<std::collections::HashMap<String, String>>,
@@ -1248,7 +1250,7 @@ fn test_json_form_data_validation(
 #[tracing::instrument(skip_all)]
 async fn test_json_form_data<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Form(body): Form<models::TestJsonFormDataRequest>,
@@ -1320,7 +1322,7 @@ fn test_classname_validation(
 #[tracing::instrument(skip_all)]
 async fn test_classname<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Client>,
@@ -1406,7 +1408,7 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -1475,7 +1477,7 @@ fn delete_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::DeletePetPathParams>,
@@ -1566,7 +1568,7 @@ fn find_pets_by_status_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByStatusQueryParams>,
     State(api_impl): State<I>,
@@ -1641,7 +1643,7 @@ fn find_pets_by_tags_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByTagsQueryParams>,
     State(api_impl): State<I>,
@@ -1716,7 +1718,7 @@ fn get_pet_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::GetPetByIdPathParams>,
@@ -1813,7 +1815,7 @@ fn update_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -1903,7 +1905,7 @@ fn update_pet_with_form_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
@@ -1969,7 +1971,7 @@ fn upload_file_validation(
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UploadFilePathParams>,
     State(api_impl): State<I>,
@@ -2048,7 +2050,7 @@ fn delete_order_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::DeleteOrderPathParams>,
     State(api_impl): State<I>,
@@ -2112,7 +2114,7 @@ fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -2200,7 +2202,7 @@ fn get_order_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetOrderByIdPathParams>,
     State(api_impl): State<I>,
@@ -2286,7 +2288,7 @@ fn place_order_validation(
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Order>,
@@ -2368,7 +2370,7 @@ fn create_user_validation(
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::User>,
@@ -2440,7 +2442,7 @@ fn create_users_with_array_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
@@ -2513,7 +2515,7 @@ fn create_users_with_list_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<models::User>>,
@@ -2578,7 +2580,7 @@ fn delete_user_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::DeleteUserPathParams>,
     State(api_impl): State<I>,
@@ -2646,7 +2648,7 @@ fn get_user_by_name_validation(
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetUserByNamePathParams>,
     State(api_impl): State<I>,
@@ -2724,7 +2726,7 @@ fn login_user_validation(
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::LoginUserQueryParams>,
     State(api_impl): State<I>,
@@ -2831,7 +2833,7 @@ fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2904,7 +2906,7 @@ fn update_user_validation(
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UpdateUserPathParams>,
     State(api_impl): State<I>,

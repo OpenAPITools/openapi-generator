@@ -4,8 +4,9 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.web.client.RestClient
 import org.springframework.http.ResponseEntity
+import org.springframework.web.client.RestClient
+import org.springframework.web.util.UriComponentsBuilder
 import org.springframework.util.LinkedMultiValueMap
 
 open class ApiClient(protected val client: RestClient) {
@@ -35,12 +36,13 @@ open class ApiClient(protected val client: RestClient) {
     private fun <I> RestClient.method(requestConfig: RequestConfig<I>)=
         method(HttpMethod.valueOf(requestConfig.method.name))
 
-    private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
-        uri(requestConfig.path) { builder ->
-            builder
-                .queryParams(LinkedMultiValueMap(requestConfig.query))
-                .build(requestConfig.params)
+    private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>): RestClient.RequestBodySpec {
+        val uriComponentsBuilder = UriComponentsBuilder.fromPath(requestConfig.path)
+        requestConfig.query.forEach { key, values ->
+            uriComponentsBuilder.queryParam(key, "{$key}")
         }
+        return uri(uriComponentsBuilder.encode().buildAndExpand(requestConfig.query + requestConfig.params).toUri())
+    }
 
     private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
         apply { requestConfig.headers.forEach { (name, value) -> header(name, value) } }

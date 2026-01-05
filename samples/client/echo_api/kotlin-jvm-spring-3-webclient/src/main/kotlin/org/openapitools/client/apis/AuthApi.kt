@@ -43,7 +43,7 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBasic(): Mono<kotlin.String> {
         return testAuthHttpBasicWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -78,7 +78,7 @@ open class AuthApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testAuthHttpBearer(): Mono<kotlin.String> {
         return testAuthHttpBearerWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

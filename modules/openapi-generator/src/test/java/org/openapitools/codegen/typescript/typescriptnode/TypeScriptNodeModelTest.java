@@ -354,4 +354,35 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.name, "ApiResponse");
         Assert.assertEquals(cm.classFilename, mappedName);
     }
+
+    @Test(description = "should exclude TypeScript primitive types from parent property")
+    public void modelShouldExcludePrimitiveTypesFromParentPropertyTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/model_with_additional_properties.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // Check that all models with primitive additionalProperties don't have parent property set
+        for (String modelName : openAPI.getComponents().getSchemas().keySet()) {
+            final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+            final CodegenModel model = codegen.fromModel(modelName, schema);
+            Assert.assertNull(model.parent, "Model " + modelName + " should not have a parent property");
+        }
+    }
+
+    @Test(description = "should extend from parent")
+    public void shouldExtendFromParentTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
+        final DefaultCodegen codegen = new TypeScriptNodeClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // Check that Child model extends Person
+        final Schema childSchema = openAPI.getComponents().getSchemas().get("Child");
+        final CodegenModel childModel = codegen.fromModel("Child", childSchema);
+        Assert.assertEquals(childModel.parent, "Person");
+
+        // Check that Adult model extends Person
+        final Schema adultSchema = openAPI.getComponents().getSchemas().get("Adult");
+        final CodegenModel adultModel = codegen.fromModel("Adult", adultSchema);
+        Assert.assertEquals(adultModel.parent, "Person");
+    }
 }

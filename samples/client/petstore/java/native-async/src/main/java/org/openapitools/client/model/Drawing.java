@@ -23,7 +23,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -53,7 +52,7 @@ import org.openapitools.client.ApiClient;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   @javax.annotation.Nullable
@@ -338,8 +337,8 @@ public class Drawing {
     if (getShapes() != null) {
       for (int i = 0; i < getShapes().size(); i++) {
         if (getShapes().get(i) != null) {
-          joiner.add(getShapes().get(i).toUrlQueryString(String.format(Locale.ROOT, "%sshapes%s%s", prefix, suffix,
-          "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
+          joiner.add(getShapes().get(i).toUrlQueryString(String.format(java.util.Locale.ROOT, "%sshapes%s%s", prefix, suffix,
+          "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix))));
         }
       }
     }

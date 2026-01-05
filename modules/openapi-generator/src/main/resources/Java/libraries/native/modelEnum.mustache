@@ -12,7 +12,6 @@ import com.google.gson.stream.JsonWriter;
 {{#isUri}}
 import java.net.URI;
 {{/isUri}}
-import java.util.Locale;
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
@@ -82,7 +81,7 @@ import java.util.Locale;
       prefix = "";
     }
 
-    return String.format(Locale.ROOT, "%s=%s", prefix, this.toString());
+    return String.format(java.util.Locale.ROOT, "%s=%s", prefix, this.toString());
   }
 {{/supportUrlQuery}}
 

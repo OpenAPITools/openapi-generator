@@ -12,6 +12,8 @@ docs/DummyPutRequest.md
 docs/GetYamlResponse.md
 docs/ObjectOfObjects.md
 docs/ObjectOfObjectsInner.md
+docs/UnnamedAllofUnderProperties.md
+docs/UnnamedReference.md
 docs/default_api.md
 examples/ca.pem
 examples/client/client_auth.rs

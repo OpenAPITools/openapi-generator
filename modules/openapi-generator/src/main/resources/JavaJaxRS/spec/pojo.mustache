@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 {{/jackson}}
+{{#openApiNullable}}
+import org.openapitools.jackson.nullable.JsonNullable;
+{{/openApiNullable}}
 {{#withXml}}
 import {{javaxPackage}}.xml.bind.annotation.XmlElement;
 import {{javaxPackage}}.xml.bind.annotation.XmlRootElement;
@@ -47,7 +50,17 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
+  {{/isContainer}}
+  {{^isContainer}}
+  private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
+  {{/isContainer}}
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
   private {{#isContainer}}{{#useBeanValidation}}@Valid {{/useBeanValidation}}{{/isContainer}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{/vars}}
 
   {{#generateBuilders}}
@@ -105,7 +118,12 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
    {{/maximum}}
    **/
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
     return this;
   }
 
@@ -117,16 +135,28 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   @Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
   @org.eclipse.microprofile.openapi.annotations.media.Schema({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}description = "{{{description}}}"){{/useMicroProfileOpenAPIAnnotations}}
   {{#jackson}}@JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}"){{/jackson}}
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+  public JsonNullable<{{{datatypeWithEnum}}}> {{getter}}() {
+    return {{name}};
+  }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
   {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}public {{>beanValidatedType}} {{getter}}() {
     return {{name}};
   }
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{#jackson}}
   @JsonProperty({{#required}}required = {{required}}, value = {{/required}}"{{baseName}}")
   {{/jackson}}
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  {{#vendorExtensions.x-is-jackson-optional-nullable}}
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
+  {{^vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = {{name}};
+  {{/vendorExtensions.x-is-jackson-optional-nullable}}
   }
 
   {{#isArray}}
