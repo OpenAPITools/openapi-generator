@@ -3002,7 +3002,9 @@ public class DefaultCodegen implements CodegenConfig {
         model.isNumeric = Boolean.TRUE;
         if (ModelUtils.isFloatSchema(schema)) { // float
             model.isFloat = Boolean.TRUE;
-        } else if (ModelUtils.isDoubleSchema(schema)) { // double
+        } else {
+            // Set isDouble for explicit "format: double" OR when no format is specified
+            // (since "type: number" without format defaults to Double in most languages)
             model.isDouble = Boolean.TRUE;
         }
     }
@@ -3886,7 +3888,9 @@ public class DefaultCodegen implements CodegenConfig {
         property.isNumeric = Boolean.TRUE;
         if (ModelUtils.isFloatSchema(p)) { // float
             property.isFloat = Boolean.TRUE;
-        } else if (ModelUtils.isDoubleSchema(p)) { // double
+        } else {
+            // Set isDouble for explicit "format: double" OR when no format is specified
+            // (since "type: number" without format defaults to Double in most languages)
             property.isDouble = Boolean.TRUE;
         }
     }
