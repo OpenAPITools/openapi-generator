@@ -29,7 +29,6 @@ jobs:
           # needs Android configured
           #- samples/client/petstore/kotlin-json-request-string
           - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
-          - samples/client/petstore/kotlin-jvm-volley
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
           - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
@@ -47,10 +46,8 @@ jobs:
           - samples/client/petstore/kotlin-array-integer-enum
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
-          - samples/client/petstore/kotlin-default-values-jvm-volley
           - samples/client/petstore/kotlin-default-values-multiplatform
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
-          - samples/client/petstore/kotlin-array-simple-string-jvm-volley
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-okhttp4
@@ -81,7 +78,7 @@ jobs:
           java-version: 11
           cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: maven-repository
         with:

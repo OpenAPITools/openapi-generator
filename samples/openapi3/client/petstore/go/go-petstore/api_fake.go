@@ -16,9 +16,9 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
 	"os"
 	"time"
-	"reflect"
 )
 
 
@@ -102,6 +102,17 @@ type FakeAPI interface {
 
 	// GetParameterNameMappingExecute executes the request
 	GetParameterNameMappingExecute(r ApiGetParameterNameMappingRequest) (*http.Response, error)
+
+	/*
+	QueryArrayWithDefaultValues to test query array with default values
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiQueryArrayWithDefaultValuesRequest
+	*/
+	QueryArrayWithDefaultValues(ctx context.Context) ApiQueryArrayWithDefaultValuesRequest
+
+	// QueryArrayWithDefaultValuesExecute executes the request
+	QueryArrayWithDefaultValuesExecute(r ApiQueryArrayWithDefaultValuesRequest) (*http.Response, error)
 
 	/*
 	TestAdditionalPropertiesReference test referenced additionalProperties
@@ -961,6 +972,155 @@ func (a *FakeAPIService) GetParameterNameMappingExecute(r ApiGetParameterNameMap
 	return localVarHTTPResponse, nil
 }
 
+type ApiQueryArrayWithDefaultValuesRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	arrayparam *[]string
+	enumarrayparam *[]ExampleEnum
+	stringparam *string
+	body *string
+}
+
+func (r ApiQueryArrayWithDefaultValuesRequest) Arrayparam(arrayparam []string) ApiQueryArrayWithDefaultValuesRequest {
+	r.arrayparam = &arrayparam
+	return r
+}
+
+func (r ApiQueryArrayWithDefaultValuesRequest) Enumarrayparam(enumarrayparam []ExampleEnum) ApiQueryArrayWithDefaultValuesRequest {
+	r.enumarrayparam = &enumarrayparam
+	return r
+}
+
+func (r ApiQueryArrayWithDefaultValuesRequest) Stringparam(stringparam string) ApiQueryArrayWithDefaultValuesRequest {
+	r.stringparam = &stringparam
+	return r
+}
+
+func (r ApiQueryArrayWithDefaultValuesRequest) Body(body string) ApiQueryArrayWithDefaultValuesRequest {
+	r.body = &body
+	return r
+}
+
+func (r ApiQueryArrayWithDefaultValuesRequest) Execute() (*http.Response, error) {
+	return r.ApiService.QueryArrayWithDefaultValuesExecute(r)
+}
+
+/*
+QueryArrayWithDefaultValues to test query array with default values
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiQueryArrayWithDefaultValuesRequest
+*/
+func (a *FakeAPIService) QueryArrayWithDefaultValues(ctx context.Context) ApiQueryArrayWithDefaultValuesRequest {
+	return ApiQueryArrayWithDefaultValuesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) QueryArrayWithDefaultValuesExecute(r ApiQueryArrayWithDefaultValuesRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.QueryArrayWithDefaultValues")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/query-array-with-default-values"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.arrayparam != nil {
+		t := *r.arrayparam
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", t, "form", "multi")
+		}
+	} else {
+		var defaultValue []string = []string{"test1", "test2"}
+		parameterAddToHeaderOrQuery(localVarQueryParams, "arrayparam", defaultValue, "form", "multi")
+		r.arrayparam = &defaultValue
+	}
+	if r.enumarrayparam != nil {
+		t := *r.enumarrayparam
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", t, "form", "multi")
+		}
+	} else {
+		var defaultValue []ExampleEnum = []ExampleEnum{"example1"}
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enumarrayparam", defaultValue, "form", "multi")
+		r.enumarrayparam = &defaultValue
+	}
+	if r.stringparam != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "stringparam", r.stringparam, "form", "")
+	} else {
+		var defaultValue string = "test3"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "stringparam", defaultValue, "form", "")
+		r.stringparam = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.body
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiTestAdditionalPropertiesReferenceRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
@@ -1751,9 +1911,9 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	if r.enumQueryString != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "form", "")
 	} else {
-        var defaultValue string = "-efg"
-        parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", defaultValue, "form", "")
-        r.enumQueryString = &defaultValue
+		var defaultValue string = "-efg"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", defaultValue, "form", "")
+		r.enumQueryString = &defaultValue
 	}
 	if r.enumQueryInteger != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "form", "")

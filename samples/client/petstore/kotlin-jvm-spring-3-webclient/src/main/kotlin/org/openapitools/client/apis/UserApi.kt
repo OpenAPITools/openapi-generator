@@ -184,7 +184,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun getUserByName(username: kotlin.String): Mono<User> {
         return getUserByNameWithHttpInfo(username = username)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -220,7 +220,7 @@ open class UserApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun loginUser(username: kotlin.String, password: kotlin.String): Mono<kotlin.String> {
         return loginUserWithHttpInfo(username = username, password = password)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

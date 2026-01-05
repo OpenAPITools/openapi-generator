@@ -14,7 +14,6 @@ package org.openapitools.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +32,7 @@ import javax.annotation.Generated;
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
 @JsonTypeName("ArrayOfNumberOnly")
-@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 @Introspected
 public class ArrayOfNumberOnly {
     public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";

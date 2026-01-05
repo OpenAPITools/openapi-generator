@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
+use headers::Host;
 use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -134,7 +136,7 @@ fn any_of_get_validation(
 #[tracing::instrument(skip_all)]
 async fn any_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::AnyOfGetQueryParams>,
     State(api_impl): State<I>,
@@ -245,7 +247,7 @@ fn callback_with_header_post_validation(
 #[tracing::instrument(skip_all)]
 async fn callback_with_header_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::CallbackWithHeaderPostQueryParams>,
     State(api_impl): State<I>,
@@ -306,7 +308,7 @@ fn complex_query_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn complex_query_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::ComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
@@ -367,7 +369,7 @@ fn enum_in_path_path_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn enum_in_path_path_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::EnumInPathPathParamGetPathParams>,
     State(api_impl): State<I>,
@@ -428,7 +430,7 @@ fn examples_test_validation(
 #[tracing::instrument(skip_all)]
 async fn examples_test<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::ExamplesTestQueryParams>,
     State(api_impl): State<I>,
@@ -511,7 +513,7 @@ fn form_test_validation(
 #[tracing::instrument(skip_all)]
 async fn form_test<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Form(body): Form<models::FormTestRequest>,
@@ -572,7 +574,7 @@ fn get_with_boolean_parameter_validation(
 #[tracing::instrument(skip_all)]
 async fn get_with_boolean_parameter<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::GetWithBooleanParameterQueryParams>,
     State(api_impl): State<I>,
@@ -633,7 +635,7 @@ fn json_complex_query_param_get_validation(
 #[tracing::instrument(skip_all)]
 async fn json_complex_query_param_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::JsonComplexQueryParamGetQueryParams>,
     State(api_impl): State<I>,
@@ -694,7 +696,7 @@ fn mandatory_request_header_get_validation(
 #[tracing::instrument(skip_all)]
 async fn mandatory_request_header_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -784,7 +786,7 @@ fn merge_patch_json_get_validation() -> std::result::Result<(), ValidationErrors
 #[tracing::instrument(skip_all)]
 async fn merge_patch_json_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -856,7 +858,7 @@ fn multiget_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn multiget_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1013,7 +1015,7 @@ fn multiple_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn multiple_auth_scheme_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1078,7 +1080,7 @@ async fn multiple_path_params_with_very_long_path_to_test_formatting_path_param_
     E,
 >(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<
         models::MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGetPathParams,
@@ -1144,7 +1146,7 @@ fn one_of_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn one_of_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1211,7 +1213,7 @@ fn override_server_get_validation() -> std::result::Result<(), ValidationErrors>
 #[tracing::instrument(skip_all)]
 async fn override_server_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1271,7 +1273,7 @@ fn paramget_get_validation(
 #[tracing::instrument(skip_all)]
 async fn paramget_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::ParamgetGetQueryParams>,
     State(api_impl): State<I>,
@@ -1342,7 +1344,7 @@ fn readonly_auth_scheme_get_validation() -> std::result::Result<(), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn readonly_auth_scheme_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1400,7 +1402,7 @@ fn register_callback_post_validation(
 #[tracing::instrument(skip_all)]
 async fn register_callback_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::RegisterCallbackPostQueryParams>,
     State(api_impl): State<I>,
@@ -1465,7 +1467,7 @@ fn required_octet_stream_put_validation(
 #[tracing::instrument(skip_all)]
 async fn required_octet_stream_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -1522,7 +1524,7 @@ fn responses_with_headers_get_validation() -> std::result::Result<(), Validation
 #[tracing::instrument(skip_all)]
 async fn responses_with_headers_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1681,7 +1683,7 @@ fn rfc7807_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn rfc7807_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1785,7 +1787,7 @@ fn two_first_letter_headers_validation(
 #[tracing::instrument(skip_all)]
 async fn two_first_letter_headers<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1899,7 +1901,7 @@ fn untyped_property_get_validation(
 #[tracing::instrument(skip_all)]
 async fn untyped_property_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Option<models::ObjectUntypedProps>>,
@@ -1954,7 +1956,7 @@ fn uuid_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn uuid_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2027,7 +2029,7 @@ fn xml_extra_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 #[tracing::instrument(skip_all)]
 async fn xml_extra_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2094,7 +2096,7 @@ fn xml_other_post_validation(body: Bytes) -> std::result::Result<(Bytes,), Valid
 #[tracing::instrument(skip_all)]
 async fn xml_other_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2167,7 +2169,7 @@ fn xml_other_put_validation(body: Bytes) -> std::result::Result<(Bytes,), Valida
 #[tracing::instrument(skip_all)]
 async fn xml_other_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2234,7 +2236,7 @@ fn xml_post_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationE
 #[tracing::instrument(skip_all)]
 async fn xml_post<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2301,7 +2303,7 @@ fn xml_put_validation(body: Bytes) -> std::result::Result<(Bytes,), ValidationEr
 #[tracing::instrument(skip_all)]
 async fn xml_put<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     body: Bytes,
@@ -2366,7 +2368,7 @@ fn get_repo_info_validation(
 #[tracing::instrument(skip_all)]
 async fn get_repo_info<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetRepoInfoPathParams>,
     State(api_impl): State<I>,
@@ -2449,7 +2451,7 @@ fn create_repo_validation(
 #[tracing::instrument(skip_all)]
 async fn create_repo<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::ObjectParam>,

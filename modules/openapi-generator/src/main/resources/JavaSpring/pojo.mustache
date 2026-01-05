@@ -57,26 +57,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
-  {{#lombok.RequiredArgsConstructor}}
-  {{^useBeanValidation}}
-  {{#required}}
-  @lombok.NonNull
-  {{/required}}
-  {{/useBeanValidation}}
-  {{/lombok.RequiredArgsConstructor}}
-  {{#lombok.ToString}}
-  {{#isPassword}}
-  @lombok.ToString.Exclude
-  {{/isPassword}}
-  {{/lombok.ToString}}
+{{>lombokAnnotation}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
-  {{#lombok.Builder}}
-  {{#defaultValue}}
-  @lombok.Builder.Default
-  {{/defaultValue}}
-  {{/lombok.Builder}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}

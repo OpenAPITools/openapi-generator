@@ -1,19 +1,23 @@
 #![allow(unused_qualifications)]
-
+#[cfg(not(feature = "validate"))]
 use validator::Validate;
 
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
@@ -179,13 +183,15 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
@@ -360,6 +366,7 @@ impl Animal {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnimalFarm(
     Vec<Animal>
@@ -536,18 +543,21 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<i32>,
 
     #[serde(rename = "type")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#type: Option<String>,
 
     #[serde(rename = "message")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
 
@@ -736,10 +746,11 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
@@ -900,10 +911,11 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_number: Option<Vec<f64>>,
 
@@ -1069,22 +1081,30 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_string: Option<Vec<String>>,
 
     #[serde(rename = "array_array_of_integer")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_integer: Option<Vec<Vec<i64>>>,
 
     #[serde(rename = "array_array_of_model")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     #[serde(rename = "array_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<models::MapTestMapMapOfEnumValueValue>>,
 
@@ -1265,31 +1285,37 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_camel: Option<String>,
 
     #[serde(rename = "CapitalCamel")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_camel: Option<String>,
 
     #[serde(rename = "small_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub small_snake: Option<String>,
 
     #[serde(rename = "Capital_Snake")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub capital_snake: Option<String>,
 
     #[serde(rename = "SCA_ETH_Flow_Points")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub sca_eth_flow_points: Option<String>,
 
     /// Name of the pet 
     #[serde(rename = "ATT_NAME")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub att_name: Option<String>,
 
@@ -1511,17 +1537,20 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "declawed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
@@ -1706,15 +1735,17 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
@@ -1893,10 +1924,11 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub _class: Option<String>,
 
@@ -2063,10 +2095,11 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub client: Option<String>,
 
@@ -2233,17 +2266,20 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
+
     pub class_name: String,
 
     #[serde(rename = "color")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub color: Option<String>,
 
     #[serde(rename = "breed")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
@@ -2428,11 +2464,12 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     #[serde(rename = "$special[property.name]")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub dollar_special_left_square_bracket_property_name_right_square_bracket: Option<i64>,
 
@@ -2599,18 +2636,27 @@ impl DollarSpecialLeftSquareBracketModelNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     #[serde(rename = "just_symbol")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<models::EnumArraysJustSymbol>,
 
     #[serde(rename = "array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<models::EnumArraysArrayEnumInner>>,
 
     #[serde(rename = "array_array_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<models::EnumArraysArrayArrayEnumInnerInner>>>,
 
@@ -2788,6 +2834,7 @@ impl EnumArrays {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayArrayEnumInnerInner {
     #[serde(rename = "Cat")]
@@ -2910,6 +2957,7 @@ impl EnumArraysArrayArrayEnumInnerInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysArrayEnumInner {
     #[serde(rename = "fish")]
@@ -3032,6 +3080,7 @@ impl EnumArraysArrayEnumInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumArraysJustSymbol {
     #[serde(rename = ">=")]
@@ -3154,6 +3203,7 @@ impl EnumArraysJustSymbol {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumClass {
     #[serde(rename = "_abc")]
@@ -3274,25 +3324,39 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     #[serde(rename = "enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<models::EnumTestEnumString>,
 
     #[serde(rename = "enum_string_required")]
+
+    #[cfg_attr(feature = "validate", validate)]
     pub enum_string_required: models::EnumTestEnumString,
 
     #[serde(rename = "enum_integer")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<models::EnumTestEnumInteger>,
 
     #[serde(rename = "enum_number")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
 
     #[serde(rename = "outerEnum")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
 
@@ -3484,6 +3548,7 @@ impl EnumTest {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
     #[serde(rename = "1")]
@@ -3606,6 +3671,7 @@ impl EnumTestEnumInteger {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumString {
     #[serde(rename = "UPPER")]
@@ -3732,6 +3798,7 @@ impl EnumTestEnumString {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum FindPetsByStatusStatusParameterInner {
     #[serde(rename = "available")]
@@ -3852,79 +3919,105 @@ impl FindPetsByStatusStatusParameterInner {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 10u8, max = 100u8),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 10u8))]
+    #[cfg_attr(feature = "validate", validate(maximum = 100u8))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 20u32, max = 200u32),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 20u32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 200u32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
     #[serde(rename = "int64")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 32.1f64, max = 543.2f64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 32.1f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 543.2f64))]
+
     pub number: f64,
 
     #[serde(rename = "float")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 54.3f32, max = 987.6f32),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 54.3f32))]
+    #[cfg_attr(feature = "validate", validate(maximum = 987.6f32))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             range(min = 67.8f64, max = 123.4f64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(minimum = 67.8f64))]
+    #[cfg_attr(feature = "validate", validate(maximum = 123.4f64))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
            regex(path = *RE_FORMATTEST_STRING),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(pattern = r"/[a-z]/i"))]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
            custom(function = "validate_byte_formattest_byte")
-        )]
+        ))]
+
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
+
     pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
-    #[validate(
+    #[cfg_attr(not(feature = "validate"), validate(
             length(min = 10, max = 64),
-        )]
+        ))]
+    #[cfg_attr(feature = "validate", validate(min_length = 10))]
+    #[cfg_attr(feature = "validate", validate(max_length = 64))]
+
     pub password: String,
 
 }
@@ -3935,6 +4028,7 @@ lazy_static::lazy_static! {
 lazy_static::lazy_static! {
     static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
 }
+#[cfg(not(feature = "validate"))]
 fn validate_byte_formattest_byte(
     b: &swagger::ByteArray
 ) -> Result<(), validator::ValidationError> {
@@ -4201,14 +4295,16 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "foo")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
@@ -4386,10 +4482,11 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_list: Option<String>,
 
@@ -4556,18 +4653,25 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     #[serde(rename = "map_map_of_enum")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>>,
 
     #[serde(rename = "map_of_enum_string")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>,
 
@@ -4744,6 +4848,7 @@ impl MapTest {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum MapTestMapMapOfEnumValueValue {
     #[serde(rename = "UPPER")]
@@ -4860,18 +4965,23 @@ impl MapTestMapMapOfEnumValueValue {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "dateTime")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub date_time: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "map")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
@@ -5045,15 +5155,17 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<i32>,
 
     #[serde(rename = "class")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub class: Option<String>,
 
@@ -5232,22 +5344,26 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
     #[serde(rename = "name")]
+
     pub name: i32,
 
     #[serde(rename = "snake_case")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub snake_case: Option<i32>,
 
     #[serde(rename = "property")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub property: Option<String>,
 
     #[serde(rename = "123Number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub param_123_number: Option<i32>,
 
@@ -5443,10 +5559,11 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_number: Option<f64>,
 
@@ -5613,10 +5730,13 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
@@ -5779,8 +5899,11 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
+pub struct ObjectWithOnlyAdditionalProperties(
+    std::collections::HashMap<String, String>
+);
 
 impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
     fn from(x: std::collections::HashMap<String, String>) -> Self {
@@ -5915,31 +6038,39 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "petId")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub pet_id: Option<i64>,
 
     #[serde(rename = "quantity")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub quantity: Option<i32>,
 
     #[serde(rename = "shipDate")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub ship_date: Option<chrono::DateTime::<chrono::Utc>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::OrderStatus>,
 
     #[serde(rename = "complete")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub complete: Option<bool>,
 
@@ -6158,6 +6289,7 @@ impl Order {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OrderStatus {
     #[serde(rename = "placed")]
@@ -6279,8 +6411,11 @@ impl OrderStatus {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterBoolean(bool);
+pub struct OuterBoolean(
+    bool
+);
 
 impl std::convert::From<bool> for OuterBoolean {
     fn from(x: bool) -> Self {
@@ -6417,18 +6552,21 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub my_boolean: Option<bool>,
 
@@ -6623,6 +6761,7 @@ impl OuterComposite {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum OuterEnum {
     #[serde(rename = "placed")]
@@ -6744,8 +6883,11 @@ impl OuterEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterNumber(f64);
+pub struct OuterNumber(
+    f64
+);
 
 impl std::convert::From<f64> for OuterNumber {
     fn from(x: f64) -> Self {
@@ -6883,8 +7025,11 @@ impl OuterNumber {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OuterString(String);
+pub struct OuterString(
+    String
+);
 
 impl std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
@@ -7011,29 +7156,41 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "category")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
     #[serde(rename = "name")]
+
     pub name: String,
 
     #[serde(rename = "photoUrls")]
+
     pub photo_urls: Vec<String>,
 
     #[serde(rename = "tags")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     #[serde(rename = "status")]
+
+    #[cfg_attr(feature = "validate", validate)]
+    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::PetStatus>,
 
@@ -7237,6 +7394,7 @@ impl Pet {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum PetStatus {
     #[serde(rename = "available")]
@@ -7357,14 +7515,16 @@ impl PetStatus {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub bar: Option<String>,
 
     #[serde(rename = "baz")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub baz: Option<String>,
 
@@ -7543,11 +7703,12 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
     #[serde(rename = "return")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub r#return: Option<i32>,
 
@@ -7714,15 +7875,17 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "name")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
 
@@ -7906,6 +8069,7 @@ impl Tag {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringArrayParameterInner {
     #[serde(rename = ">")]
@@ -8028,6 +8192,7 @@ impl TestEnumParametersEnumHeaderStringArrayParameterInner {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumHeaderStringParameter {
     #[serde(rename = "_abc")]
@@ -8154,6 +8319,7 @@ impl TestEnumParametersEnumHeaderStringParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryDoubleParameter {
     #[serde(rename = "1.1")]
@@ -8276,6 +8442,7 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
     #[serde(rename = "1")]
@@ -8399,6 +8566,7 @@ impl TestEnumParametersEnumQueryIntegerParameter {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersRequestEnumFormString {
     #[serde(rename = "_abc")]
@@ -8519,40 +8687,48 @@ impl TestEnumParametersRequestEnumFormString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
     #[serde(rename = "id")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
 
     #[serde(rename = "username")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
 
     #[serde(rename = "firstName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub first_name: Option<String>,
 
     #[serde(rename = "lastName")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub last_name: Option<String>,
 
     #[serde(rename = "email")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub email: Option<String>,
 
     #[serde(rename = "password")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub password: Option<String>,
 
     #[serde(rename = "phone")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub phone: Option<String>,
 
     /// User Status
     #[serde(rename = "userStatus")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub user_status: Option<i32>,
 

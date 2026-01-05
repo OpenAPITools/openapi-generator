@@ -483,4 +483,9 @@ public class CodegenConstants {
     public static final String X_MODIFIERS = "x-modifiers";
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
+    public static final String X_IMPLEMENTS = "x-implements";
+    public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
+    public static final String X_DISCRIMINATOR_VALUE = "x-discriminator-value";
+    public static final String X_ONE_OF_NAME = "x-one-of-name";
+    public static final String X_NULLABLE = "x-nullable";
 }

@@ -1,10 +1,21 @@
 #![allow(unused_qualifications)]
-
+{{^hasConflictingModelNames}}
+#[cfg(not(feature = "validate"))]
 use validator::Validate;
 
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
+#[cfg(feature = "validate")]
+use serde_valid::Validate;
+{{/hasConflictingModelNames}}
+{{#hasConflictingModelNames}}
+use validator::Validate;
+
+use crate::models;
+#[cfg(any(feature = "client", feature = "server"))]
+use crate::header;
+{{/hasConflictingModelNames}}
 {{! Don't "use" structs here - they can conflict with the names of models, and mean that the code won't compile }}
 {{#models}}
 {{#model}}
@@ -19,6 +30,7 @@ use crate::header;
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+{{^hasConflictingModelNames}}{{^exts.x-skip-serde-valid}}#[cfg_attr(feature = "validate", derive(Validate))]{{/exts.x-skip-serde-valid}}{{/hasConflictingModelNames}}
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]{{#xmlName}}
 #[serde(rename = "{{{.}}}")]{{/xmlName}}
 pub enum {{{classname}}} {
@@ -60,11 +72,14 @@ impl std::str::FromStr for {{{classname}}} {
 {{^isEnum}}
 {{#dataType}}
 #[derive(Debug, Clone, PartialEq, {{#exts.x-partial-ord}}PartialOrd, {{/exts.x-partial-ord}}serde::Serialize, serde::Deserialize)]
+{{^hasConflictingModelNames}}{{^exts.x-skip-serde-valid}}#[cfg_attr(feature = "validate", derive(Validate))]{{/exts.x-skip-serde-valid}}{{/hasConflictingModelNames}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
 {{/xmlName}}
-pub struct {{{classname}}}({{{dataType}}});
+pub struct {{{classname}}}(
+{{>validate}}    {{{dataType}}}
+);
 
 impl std::convert::From<{{{dataType}}}> for {{{classname}}} {
     fn from(x: {{{dataType}}}) -> Self {
@@ -176,6 +191,7 @@ where
 {{/exts}}
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+{{^hasConflictingModelNames}}{{^exts.x-skip-serde-valid}}#[cfg_attr(feature = "validate", derive(Validate))]{{/exts.x-skip-serde-valid}}{{/hasConflictingModelNames}}
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(
 {{#exts}}
@@ -272,7 +288,7 @@ impl std::str::FromStr for {{{classname}}} {
 {{/arrayModelType}}
 {{^arrayModelType}}
 {{! general struct}}
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 {{#xmlName}}
 #[serde(rename = "{{{.}}}")]
@@ -288,7 +304,12 @@ pub struct {{{classname}}} {
 {{/x-item-xml-name}}
 {{/exts}}
 {{#hasValidation}}
+{{^hasConflictingModelNames}}
+    #[cfg_attr(not(feature = "validate"), validate(
+{{/hasConflictingModelNames}}
+{{#hasConflictingModelNames}}
     #[validate(
+{{/hasConflictingModelNames}}
         {{#maxLength}}
             {{#minLength}}
             length(min = {{minLength}}, max = {{maxLength}}),
@@ -336,8 +357,19 @@ pub struct {{{classname}}} {
             length(min = {{minItems}}),
             {{/minItems}}
         {{/maxItems}}
+{{^hasConflictingModelNames}}
+        ))]
+{{/hasConflictingModelNames}}
+{{#hasConflictingModelNames}}
         )]
+{{/hasConflictingModelNames}}
 {{/hasValidation}}
+{{^hasConflictingModelNames}}{{>validate}}{{/hasConflictingModelNames}}
+{{^hasConflictingModelNames}}
+{{#exts.x-needs-nested-validation}}
+    #[cfg_attr(feature = "validate", validate)]
+{{/exts.x-needs-nested-validation}}
+{{/hasConflictingModelNames}}
 {{#required}}
     pub {{{name}}}: {{{dataType}}},
 {{/required}}
@@ -346,6 +378,11 @@ pub struct {{{classname}}} {
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
 {{/isNullable}}
+{{^hasConflictingModelNames}}
+{{#exts.x-needs-nested-validation}}
+    #[cfg_attr(feature = "validate", validate)]
+{{/exts.x-needs-nested-validation}}
+{{/hasConflictingModelNames}}
     #[serde(skip_serializing_if="Option::is_none")]
     pub {{{name}}}: Option<{{{dataType}}}>,
 {{/required}}
@@ -365,6 +402,7 @@ lazy_static::lazy_static! {
 lazy_static::lazy_static! {
     static ref RE_{{#lambda.uppercase}}{{{classname}}}_{{{name}}}{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
 }
+#[cfg(not(feature = "validate"))]
 fn validate_byte_{{#lambda.lowercase}}{{{classname}}}_{{{name}}}{{/lambda.lowercase}}(
     b: &swagger::ByteArray
 ) -> Result<(), validator::ValidationError> {
