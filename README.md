@@ -757,6 +757,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [REST United](https://restunited.com)
 - [Robocorp](https://www.robocorp.com)
 - [Robotinfra](https://www.robotinfra.com)
+- [Sarvika Technologies Pvt. Ltd.](https://www.sarvika.com)
 - [SearchApi](https://www.searchapi.io/)
 - [SmartHR](https://smarthr.co.jp/)
 - [Sony Interactive Entertainment](https://www.sie.com/en/index.html)
