@@ -7,6 +7,7 @@ on:
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/others/java/webclient-sealedInterface/**
+      - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
   pull_request:
@@ -15,6 +16,7 @@ on:
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/others/java/webclient-sealedInterface/**
+      - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/restclient-enum-in-multipart/**
 jobs:
@@ -34,6 +36,7 @@ jobs:
           - samples/client/petstore/java/restclient-useSingleRequestParameter
           - samples/client/petstore/java/restclient-useSingleRequestParameter-static
           - samples/client/others/java/webclient-sealedInterface
+          - samples/client/others/java/webclient-sealedInterface_3_1
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
     steps:
