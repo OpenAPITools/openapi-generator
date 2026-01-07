@@ -66,19 +66,19 @@ secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
-reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multipart"] }
+reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
 {{#useAsyncFileStream}}
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{/useAsyncFileStream}}
 {{^useAsyncFileStream}}
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "query", "form"] }
 {{/useAsyncFileStream}}
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
@@ -97,7 +97,7 @@ rustls-tls = ["reqwest/rustls-tls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{#supportMiddleware}}
 reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 {{/supportMiddleware}}
