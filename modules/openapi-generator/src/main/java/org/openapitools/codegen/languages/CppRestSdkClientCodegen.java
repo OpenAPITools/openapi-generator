@@ -388,14 +388,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Optional - type declaration. This is a String which is used by the
-     * templates to instantiate your types. There is typically special handling
-     * for different property types
-     *
-     * @return a string value used as the `dataType` field for model templates,
-     * `returnType` for api templates
-     */
-    /**
      * Check if a schema is a pure map (has additionalProperties but no defined properties).
      * Schemas with both properties and additionalProperties should be treated as models, not maps.
      */
@@ -407,6 +399,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         return schema.getProperties() == null || schema.getProperties().isEmpty();
     }
 
+    /**
+     * Optional - type declaration. This is a String which is used by the
+     * templates to instantiate your types. There is typically special handling
+     * for different property types
+     *
+     * @return a string value used as the `dataType` field for model templates,
+     * `returnType` for api templates
+     */
     @Override
     public String getTypeDeclaration(Schema p) {
         // Resolve the schema to check for nested maps/arrays - refs that point to map schemas
