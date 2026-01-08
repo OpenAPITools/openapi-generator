@@ -418,7 +418,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else if (isPureMapSchema(resolved)) {
             // Only treat as map if it has additionalProperties but NO defined properties
             Schema inner = ModelUtils.getAdditionalProperties(resolved);
-            return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : "std::shared_ptr<Object>";
+            return getSchemaType(p) + "<utility::string_t, " + innerType + ">";
         }
 
         // For non-containers, use the original schema to preserve model names
@@ -458,7 +460,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (isPureMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            Schema innerSchema = ModelUtils.getAdditionalProperties(p);
+            // innerSchema can be null if additionalProperties is a boolean or not present
+            String inner = innerSchema != null ? getSchemaType(innerSchema) : "std::shared_ptr<Object>";
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             String inner = getSchemaType(ModelUtils.getSchemaItems(p));

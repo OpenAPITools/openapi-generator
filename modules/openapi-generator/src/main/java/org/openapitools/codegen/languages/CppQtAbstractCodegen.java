@@ -209,7 +209,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(resolved)) {
             Schema inner = ModelUtils.getAdditionalProperties(resolved);
-            return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : PREFIX + "Object";
+            return getSchemaType(p) + "<QString, " + innerType + ">";
         }
 
         // For non-containers, use the original schema to preserve model names
@@ -250,7 +252,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             return "0";
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
-            return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : PREFIX + "Object";
+            return "QMap<QString, " + innerType + ">()";
         } else if (ModelUtils.isArraySchema(schema)) {
             Schema inner = ModelUtils.getSchemaItems(schema);
             return "QList<" + getTypeDeclaration(inner) + ">()";

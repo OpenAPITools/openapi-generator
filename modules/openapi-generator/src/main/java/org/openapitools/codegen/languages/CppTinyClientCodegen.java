@@ -279,7 +279,9 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         // Handle nested maps: if a $ref resolves to a map schema, build the nested type
         if (ModelUtils.isMapSchema(resolved)) {
             Schema inner = ModelUtils.getAdditionalProperties(resolved);
-            return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : "std::string";
+            return getSchemaType(p) + "<std::string, " + innerType + ">";
         }
 
         // For everything else (including arrays), use the original behavior
