@@ -201,19 +201,23 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     @Override
     @SuppressWarnings("rawtypes")
     public String getTypeDeclaration(Schema p) {
-        Schema schema = resolveSchema(p);
-        String openAPIType = getSchemaType(schema);
+        // Resolve the schema to check for nested maps/arrays - refs that point to map schemas
+        Schema resolved = resolveSchema(p);
 
-        if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
-            return getSchemaType(schema) + "<QString, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isBinarySchema(schema)) {
-            return getSchemaType(schema);
-        } else if (ModelUtils.isFileSchema(schema)) {
-            return getSchemaType(schema);
+        if (ModelUtils.isArraySchema(resolved)) {
+            Schema inner = ModelUtils.getSchemaItems(resolved);
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(resolved)) {
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
+            return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
+        }
+
+        // For non-containers, use the original schema to preserve model names
+        String openAPIType = getSchemaType(p);
+        if (ModelUtils.isBinarySchema(p)) {
+            return getSchemaType(p);
+        } else if (ModelUtils.isFileSchema(p)) {
+            return getSchemaType(p);
         }
         if (foundationClasses.contains(openAPIType)) {
             return openAPIType;

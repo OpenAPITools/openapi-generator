@@ -51,22 +51,32 @@ public:
     {{#vars}}
 	/*! \brief Get {{{description}}}
 	 */
-	{{{dataType}}} {{getter}}();
+	{{#isMap}}{{{dataType}}}{{/isMap}}{{^isMap}}{{dataType}}{{#isArray}}<{{#items}}{{dataType}}{{/items}}>{{/isArray}}{{/isMap}} {{getter}}();
 
 	/*! \brief Set {{{description}}}
 	 */
-	void {{setter}}({{{dataType}}} {{name}});
+	void {{setter}}({{#isMap}}{{{dataType}}}{{/isMap}}{{^isMap}}{{dataType}}{{#isArray}}<{{#items}}{{dataType}}{{/items}}>{{/isArray}}{{/isMap}} {{name}});
 	{{/vars}}
 
 
     private:
     {{#vars}}
+    {{#isMap}}
+    {{{dataType}}} {{name}};
+    {{/isMap}}
+    {{^isMap}}
+    {{#isArray}}
+    {{dataType}}<{{#items}}{{dataType}}{{/items}}> {{name}};
+    {{/isArray}}
+    {{^isArray}}
     {{#isPrimitiveType}}
-    {{{dataType}}} {{name}}{};
+    {{dataType}} {{name}}{};
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{{dataType}}} {{name}};
+    {{dataType}} {{name}};
     {{/isPrimitiveType}}
+    {{/isArray}}
+    {{/isMap}}
 	{{/vars}}
 };
 {{/model}}

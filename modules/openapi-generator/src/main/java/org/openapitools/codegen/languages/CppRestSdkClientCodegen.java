@@ -388,25 +388,29 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema schema = resolveSchema(p);
-        String openAPIType = getSchemaType(schema);
+        // Resolve the schema to check for nested maps/arrays - refs that point to map schemas
+        Schema resolved = resolveSchema(p);
 
-        if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
-            return getSchemaType(schema) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isFileSchema(schema) || ModelUtils.isBinarySchema(schema)) {
+        if (ModelUtils.isArraySchema(resolved)) {
+            Schema inner = ModelUtils.getSchemaItems(resolved);
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(resolved)) {
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
+            return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+        }
+
+        // For non-containers, use the original schema to preserve model names
+        String openAPIType = getSchemaType(p);
+        if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
-        } else if (ModelUtils.isStringSchema(schema)
-                || ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)
-                || ModelUtils.isFileSchema(schema) || ModelUtils.isUUIDSchema(schema)
+        } else if (ModelUtils.isStringSchema(p)
+                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
+                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(p)) {
             return "std::shared_ptr<Object>";
-        } else if(typeMapping.containsKey(super.getSchemaType(schema))) {
+        } else if(typeMapping.containsKey(super.getSchemaType(p))) {
             return openAPIType;
         }
 
