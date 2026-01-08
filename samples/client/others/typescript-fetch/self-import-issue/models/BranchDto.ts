@@ -24,7 +24,7 @@ export interface BranchDto {
      * @type {string}
      * @memberof BranchDto
      */
-    name?: string;
+    name?: string | undefined;
 }
 
 /**

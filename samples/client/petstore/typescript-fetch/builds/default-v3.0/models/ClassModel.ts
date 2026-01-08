@@ -24,7 +24,7 @@ export interface ClassModel {
      * @type {string}
      * @memberof ClassModel
      */
-    _class?: string;
+    _class?: string | undefined;
 }
 
 /**

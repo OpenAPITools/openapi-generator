@@ -24,7 +24,7 @@ export interface ArrayOfArrayOfNumberOnly {
      * @type {Array<Array<number>>}
      * @memberof ArrayOfArrayOfNumberOnly
      */
-    arrayArrayNumber?: Array<Array<number>>;
+    arrayArrayNumber?: Array<Array<number>> | undefined;
 }
 
 /**

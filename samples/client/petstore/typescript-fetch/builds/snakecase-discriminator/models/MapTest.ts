@@ -24,25 +24,25 @@ export interface MapTest {
      * @type {{ [key: string]: { [key: string]: string; }; }}
      * @memberof MapTest
      */
-    mapMapOfString?: { [key: string]: { [key: string]: string; }; };
+    mapMapOfString?: { [key: string]: { [key: string]: string; }; } | undefined;
     /**
      * 
      * @type {{ [key: string]: string; }}
      * @memberof MapTest
      */
-    mapOfEnumString?: { [key: string]: string; };
+    mapOfEnumString?: { [key: string]: string; } | undefined;
     /**
      * 
      * @type {{ [key: string]: boolean; }}
      * @memberof MapTest
      */
-    directMap?: { [key: string]: boolean; };
+    directMap?: { [key: string]: boolean; } | undefined;
     /**
      * 
      * @type {{ [key: string]: boolean; }}
      * @memberof MapTest
      */
-    indirectMap?: { [key: string]: boolean; };
+    indirectMap?: { [key: string]: boolean; } | undefined;
 }
 
 

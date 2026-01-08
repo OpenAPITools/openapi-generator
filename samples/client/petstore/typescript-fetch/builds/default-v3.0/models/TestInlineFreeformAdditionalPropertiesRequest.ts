@@ -25,7 +25,7 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
      * @type {string}
      * @memberof TestInlineFreeformAdditionalPropertiesRequest
      */
-    someProperty?: string;
+    someProperty?: string | undefined;
 }
 
 /**

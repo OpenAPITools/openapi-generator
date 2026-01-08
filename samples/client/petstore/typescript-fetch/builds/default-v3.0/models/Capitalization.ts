@@ -24,38 +24,38 @@ export interface Capitalization {
      * @type {string}
      * @memberof Capitalization
      */
-    smallCamel?: string;
+    smallCamel?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof Capitalization
      */
-    capitalCamel?: string;
+    capitalCamel?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof Capitalization
      */
-    smallSnake?: string;
+    smallSnake?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof Capitalization
      */
-    capitalSnake?: string;
+    capitalSnake?: string | undefined;
     /**
      * 
      * @type {string}
      * @memberof Capitalization
      */
-    sCAETHFlowPoints?: string;
+    sCAETHFlowPoints?: string | undefined;
     /**
      * Name of the pet
      * 
      * @type {string}
      * @memberof Capitalization
      */
-    aTTNAME?: string;
+    aTTNAME?: string | undefined;
 }
 
 /**

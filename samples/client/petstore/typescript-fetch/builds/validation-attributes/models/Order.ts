@@ -25,37 +25,37 @@ export interface Order {
      * @type {number}
      * @memberof Order
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    petId?: number;
+    petId?: number | undefined;
     /**
      * 
      * @type {number}
      * @memberof Order
      */
-    quantity?: number;
+    quantity?: number | undefined;
     /**
      * 
      * @type {Date}
      * @memberof Order
      */
-    shipDate?: Date;
+    shipDate?: Date | undefined;
     /**
      * Order Status
      * @type {string}
      * @memberof Order
      */
-    status?: OrderStatusEnum;
+    status?: OrderStatusEnum | undefined;
     /**
      * 
      * @type {boolean}
      * @memberof Order
      */
-    complete?: boolean;
+    complete?: boolean | undefined;
 }
 
 

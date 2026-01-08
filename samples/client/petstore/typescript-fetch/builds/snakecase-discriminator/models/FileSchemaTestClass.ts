@@ -24,13 +24,13 @@ export interface FileSchemaTestClass {
      * @type {any}
      * @memberof FileSchemaTestClass
      */
-    file?: any;
+    file?: any | undefined;
     /**
      * 
      * @type {Array<any>}
      * @memberof FileSchemaTestClass
      */
-    files?: Array<any>;
+    files?: Array<any> | undefined;
 }
 
 /**

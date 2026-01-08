@@ -39,25 +39,25 @@ export interface EnumPatternObject {
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    stringEnum?: StringEnum;
+    stringEnum?: StringEnum | undefined;
     /**
      * 
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    nullableStringEnum?: StringEnum | null;
+    nullableStringEnum?: StringEnum | null | undefined;
     /**
      * 
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    numberEnum?: NumberEnum;
+    numberEnum?: NumberEnum | undefined;
     /**
      * 
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    nullableNumberEnum?: NumberEnum | null;
+    nullableNumberEnum?: NumberEnum | null | undefined;
 }
 
 

@@ -16,16 +16,16 @@
 export const BASE_PATH = "http://localhost:8080".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
-    basePath?: string; // override base path
-    fetchApi?: FetchAPI; // override for fetch implementation
-    middleware?: Middleware[]; // middleware to apply before/after fetch requests
-    queryParamsStringify?: (params: HTTPQuery) => string; // stringify function for query strings
-    username?: string; // parameter for basic security
-    password?: string; // parameter for basic security
-    apiKey?: string | Promise<string> | ((name: string) => string | Promise<string>); // parameter for apiKey security
-    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>); // parameter for oauth2 security
-    headers?: HTTPHeaders; //header params we want to use on every request
-    credentials?: RequestCredentials; //value for the credentials param we want to use on each request
+    basePath?: string | undefined; // override base path
+    fetchApi?: FetchAPI | undefined; // override for fetch implementation
+    middleware?: Middleware[] | undefined; // middleware to apply before/after fetch requests
+    queryParamsStringify?: ((params: HTTPQuery) => string) | undefined; // stringify function for query strings
+    username?: string | undefined; // parameter for basic security
+    password?: string | undefined; // parameter for basic security
+    apiKey?: string | Promise<string> | ((name: string) => string | Promise<string>) | undefined; // parameter for apiKey security
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string | Promise<string>) | undefined; // parameter for oauth2 security
+    headers?: HTTPHeaders | undefined; //header params we want to use on every request
+    credentials?: RequestCredentials | undefined; //value for the credentials param we want to use on each request
 }
 
 export class Configuration {
@@ -161,7 +161,6 @@ export class BaseAPI {
             method: context.method,
             headers,
             body: context.body,
-            credentials: this.configuration.credentials,
         };
 
         const overriddenInit: RequestInit = {
@@ -171,6 +170,10 @@ export class BaseAPI {
                 context,
             }))
         };
+
+        if (!overriddenInit.credentials && this.configuration.credentials) {
+            overriddenInit.credentials = this.configuration.credentials;
+        }
 
         let body: any;
         if (isFormData(overriddenInit.body)
@@ -292,7 +295,12 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS'
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | Set<string | number | null | boolean> | HTTPQuery };
 export type HTTPBody = Json | FormData | URLSearchParams;
-export type HTTPRequestInit = { headers?: HTTPHeaders; method: HTTPMethod; credentials?: RequestCredentials; body?: HTTPBody };
+export type HTTPRequestInit = {
+    headers?: HTTPHeaders | undefined;
+    method: HTTPMethod;
+    credentials?: RequestCredentials | undefined;
+    body?: HTTPBody | undefined;
+};
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export type InitOverrideFunction = (requestContext: { init: HTTPRequestInit, context: RequestOpts }) => Promise<RequestInit>
@@ -381,13 +389,13 @@ export interface ErrorContext {
     url: string;
     init: RequestInit;
     error: unknown;
-    response?: Response;
+    response?: Response | undefined;
 }
 
 export interface Middleware {
-    pre?(context: RequestContext): Promise<FetchParams | void>;
-    post?(context: ResponseContext): Promise<Response | void>;
-    onError?(context: ErrorContext): Promise<Response | void>;
+    pre?: ((context: RequestContext) => Promise<FetchParams | void>) | undefined;
+    post?: ((context: ResponseContext) => Promise<Response | void>) | undefined;
+    onError?: ((context: ErrorContext) => Promise<Response | void>) | undefined;
 }
 
 export interface ApiResponse<T> {

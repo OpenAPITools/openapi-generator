@@ -32,28 +32,28 @@ export interface ObjectWithDeprecatedFields {
      * @type {string}
      * @memberof ObjectWithDeprecatedFields
      */
-    uuid?: string;
+    uuid?: string | undefined;
     /**
      * 
      * @type {number}
      * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
-    id?: number;
+    id?: number | undefined;
     /**
      * 
      * @type {DeprecatedObject}
      * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
-    deprecatedRef?: DeprecatedObject;
+    deprecatedRef?: DeprecatedObject | undefined;
     /**
      * 
      * @type {Array<string>}
      * @memberof ObjectWithDeprecatedFields
      * @deprecated
      */
-    bars?: Array<string>;
+    bars?: Array<string> | undefined;
 }
 
 /**

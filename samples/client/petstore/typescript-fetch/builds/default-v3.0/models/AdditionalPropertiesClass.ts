@@ -24,13 +24,13 @@ export interface AdditionalPropertiesClass {
      * @type {{ [key: string]: string; }}
      * @memberof AdditionalPropertiesClass
      */
-    mapProperty?: { [key: string]: string; };
+    mapProperty?: { [key: string]: string; } | undefined;
     /**
      * 
      * @type {{ [key: string]: { [key: string]: string; }; }}
      * @memberof AdditionalPropertiesClass
      */
-    mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
+    mapOfMapProperty?: { [key: string]: { [key: string]: string; }; } | undefined;
 }
 
 /**

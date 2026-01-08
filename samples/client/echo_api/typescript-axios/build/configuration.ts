@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 /**
  * Echo Server API
  * Echo Server API
@@ -24,15 +25,15 @@ interface AWSv4Configuration {
 }
 
 export interface ConfigurationParameters {
-    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
-    username?: string;
-    password?: string;
-    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
-    awsv4?: AWSv4Configuration;
-    basePath?: string;
-    serverIndex?: number;
+    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>) | undefined;
+    username?: string | undefined;
+    password?: string | undefined;
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>) | undefined;
+    awsv4?: AWSv4Configuration | undefined;
+    basePath?: string | undefined;
+    serverIndex?: number | undefined;
     baseOptions?: any;
-    formDataCtor?: new () => any;
+    formDataCtor?: (new () => any) | undefined;
 }
 
 export class Configuration {
@@ -40,21 +41,21 @@ export class Configuration {
      * parameter for apiKey security
      * @param name security name
      */
-    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
+    apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>) | undefined;
     /**
      * parameter for basic security
      */
-    username?: string;
+    username?: string | undefined;
     /**
      * parameter for basic security
      */
-    password?: string;
+    password?: string | undefined;
     /**
      * parameter for oauth2 security
      * @param name security name
      * @param scopes oauth2 scope
      */
-    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
+    accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>) | undefined;
     /**
      * parameter for aws4 signature security
      * @param {Object} AWS4Signature - AWS4 Signature security
@@ -65,19 +66,19 @@ export class Configuration {
      * @param {string} credentials.sessionToken - aws session token
      * @memberof Configuration
      */
-    awsv4?: AWSv4Configuration;
+    awsv4?: AWSv4Configuration | undefined;
     /**
      * override base path
      */
-    basePath?: string;
+    basePath?: string | undefined;
     /**
      * override server index
      */
-    serverIndex?: number;
+    serverIndex?: number | undefined;
     /**
      * base options for axios calls
      */
-    baseOptions?: any;
+    baseOptions?: any | undefined;
     /**
      * The FormData constructor that will be used to create multipart form data
      * requests. You can inject this here so that execution environments that
@@ -85,7 +86,7 @@ export class Configuration {
      *
      * @type {new () => FormData}
      */
-    formDataCtor?: new () => any;
+    formDataCtor?: (new () => any) | undefined;
 
     constructor(param: ConfigurationParameters = {}) {
         this.apiKey = param.apiKey;

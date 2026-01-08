@@ -377,7 +377,7 @@ export interface {{classname}}{{operationIdCamelCase}}Request {
      * {{description}}
      */
     {{/description}}
-    readonly {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}
+    readonly {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{^required}} | undefined{{/required}}
     {{^-last}}
 
     {{/-last}}

@@ -24,15 +24,15 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 export interface Cat {
-    'hunts'?: boolean;
-    'age'?: number;
+    'hunts'?: boolean | undefined;
+    'age'?: number | undefined;
 }
 /**
  * Dog information
  */
 export interface Dog {
-    'bark'?: boolean;
-    'breed'?: DogBreedEnum;
+    'bark'?: boolean | undefined;
+    'breed'?: DogBreedEnum | undefined;
 }
 
 export const DogBreedEnum = {
@@ -45,15 +45,15 @@ export const DogBreedEnum = {
 export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
 
 export interface FilePostRequest {
-    'file'?: any;
+    'file'?: any | undefined;
 }
 export interface PetByAge {
     'age': number;
-    'nickname'?: string;
+    'nickname'?: string | undefined;
 }
 export interface PetByType {
     'pet_type': PetByTypePetTypeEnum;
-    'hunts'?: boolean;
+    'hunts'?: boolean | undefined;
 }
 
 export const PetByTypePetTypeEnum = {
@@ -65,9 +65,9 @@ export type PetByTypePetTypeEnum = typeof PetByTypePetTypeEnum[keyof typeof PetB
 
 export interface PetsFilteredPatchRequest {
     'age': number;
-    'nickname'?: string;
+    'nickname'?: string | undefined;
     'pet_type': PetsFilteredPatchRequestPetTypeEnum;
-    'hunts'?: boolean;
+    'hunts'?: boolean | undefined;
 }
 
 export const PetsFilteredPatchRequestPetTypeEnum = {

@@ -32,19 +32,19 @@ export interface ArrayTest {
      * @type {Array<string>}
      * @memberof ArrayTest
      */
-    arrayOfString?: Array<string>;
+    arrayOfString?: Array<string> | undefined;
     /**
      * 
      * @type {Array<Array<number>>}
      * @memberof ArrayTest
      */
-    arrayArrayOfInteger?: Array<Array<number>>;
+    arrayArrayOfInteger?: Array<Array<number>> | undefined;
     /**
      * 
      * @type {Array<Array<ReadOnlyFirst>>}
      * @memberof ArrayTest
      */
-    arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
+    arrayArrayOfModel?: Array<Array<ReadOnlyFirst>> | undefined;
 }
 
 /**

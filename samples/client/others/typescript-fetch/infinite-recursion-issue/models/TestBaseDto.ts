@@ -33,13 +33,13 @@ export interface TestBaseDto {
      * @type {string}
      * @memberof TestBaseDto
      */
-    something?: string;
+    something?: string | undefined;
     /**
      * 
      * @type {TestObjectType}
      * @memberof TestBaseDto
      */
-    testObjectType?: TestObjectType;
+    testObjectType?: TestObjectType | undefined;
 }
 
 

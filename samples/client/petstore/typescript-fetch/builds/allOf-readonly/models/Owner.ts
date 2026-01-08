@@ -24,7 +24,7 @@ export interface Owner {
      * @type {string}
      * @memberof Owner
      */
-    name?: string;
+    name?: string | undefined;
 }
 
 /**
