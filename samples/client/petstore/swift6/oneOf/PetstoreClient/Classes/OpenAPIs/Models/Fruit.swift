@@ -24,7 +24,9 @@ public enum Fruit: Sendable, Codable, ParameterConvertible, Hashable {
         }
     }
 
+
     public init(from decoder: Decoder) throws {
+        // No discriminator: try each type sequentially
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Apple.self) {
             self = .typeApple(value)
