@@ -67,7 +67,7 @@ export const setOAuthToObject = async function (object: any, name: string, scope
 function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
     if (parameter == null) return;
     if (typeof parameter === "object") {
-        if (Array.isArray(parameter)) {
+        if (Array.isArray(parameter) || parameter instanceof Set) {
             (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
         }
         else {
@@ -92,13 +92,21 @@ export const setSearchParams = function (url: URL, ...objects: any[]) {
     url.search = searchParams.toString();
 }
 
+export const replaceWithSerializableTypeIfNeeded = function(key: any, value: any) {
+    if (value instanceof Set) {
+        return Array.from(value);
+    } else {
+        return value;
+    }
+}
+
 export const serializeDataIfNeeded = function (value: any, requestOptions: any, configuration?: Configuration) {
     const nonString = typeof value !== 'string';
     const needsSerialization = nonString && configuration && configuration.isJsonMime
         ? configuration.isJsonMime(requestOptions.headers['Content-Type'])
         : nonString;
     return needsSerialization
-        ? JSON.stringify(value !== undefined ? value : {})
+        ? JSON.stringify(value !== undefined ? value : {}, replaceWithSerializableTypeIfNeeded)
         : (value || "");
 }
 
