@@ -896,4 +896,14 @@ components:
         healthRecords:
           description: Nested map - category to (date to record)
           $ref: '#/components/schemas/NestedStringMap'
+    SchemaWithPropsAndAddlProps:
+      description: Object with both defined properties and additionalProperties
+      type: object
+      nullable: true
+      properties:
+        propA:
+          type: string
+        propB:
+          type: string
+      additionalProperties: {}
 

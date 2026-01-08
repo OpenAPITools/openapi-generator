@@ -261,6 +261,23 @@ public:
     {{/isInherited}}
 
     {{/vars}}
+    {{#additionalPropertiesType}}
+
+    /// <summary>
+    /// Get additional properties (properties not defined in the schema)
+    /// </summary>
+    std::map<utility::string_t, web::json::value> getAdditionalProperties() const;
+    bool additionalPropertiesIsSet() const;
+    void unsetAdditionalProperties();
+    /// <summary>
+    /// Set additional properties
+    /// </summary>
+    void setAdditionalProperties(const std::map<utility::string_t, web::json::value>& value);
+    /// <summary>
+    /// Add a single additional property
+    /// </summary>
+    void addAdditionalProperty(const utility::string_t& key, const web::json::value& value);
+    {{/additionalPropertiesType}}
 
 protected:
     {{#vars}}
@@ -285,6 +302,10 @@ protected:
     {{/isInherited}}
 
     {{/vars}}
+    {{#additionalPropertiesType}}
+    std::map<utility::string_t, web::json::value> m_AdditionalProperties;
+    bool m_AdditionalPropertiesIsSet;
+    {{/additionalPropertiesType}}
 };
 
 {{/isEnum}}

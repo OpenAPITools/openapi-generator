@@ -291,6 +291,15 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Handle additionalProperties for models that have both properties and additionalProperties
+        Schema addlProps = ModelUtils.getAdditionalProperties(model);
+        if (addlProps != null && model.getProperties() != null && !model.getProperties().isEmpty()) {
+            // This model has both defined properties AND additionalProperties
+            codegenModel.additionalPropertiesType = getTypeDeclaration(addlProps);
+            // Add import for web::json::value which is used to store additional properties
+            codegenModel.imports.add("#include <cpprest/json.h>");
+        }
+
         return codegenModel;
     }
 
@@ -386,6 +395,18 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      * @return a string value used as the `dataType` field for model templates,
      * `returnType` for api templates
      */
+    /**
+     * Check if a schema is a pure map (has additionalProperties but no defined properties).
+     * Schemas with both properties and additionalProperties should be treated as models, not maps.
+     */
+    private boolean isPureMapSchema(Schema schema) {
+        if (!ModelUtils.isMapSchema(schema)) {
+            return false;
+        }
+        // If the schema has defined properties, it's not a pure map
+        return schema.getProperties() == null || schema.getProperties().isEmpty();
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
         // Resolve the schema to check for nested maps/arrays - refs that point to map schemas
@@ -394,7 +415,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (ModelUtils.isArraySchema(resolved)) {
             Schema inner = ModelUtils.getSchemaItems(resolved);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(resolved)) {
+        } else if (isPureMapSchema(resolved)) {
+            // Only treat as map if it has additionalProperties but NO defined properties
             Schema inner = ModelUtils.getAdditionalProperties(resolved);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         }
@@ -435,7 +457,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
+        } else if (isPureMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {

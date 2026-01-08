@@ -25,6 +25,7 @@ include/CppRestPetstoreClient/model/Order.h
 include/CppRestPetstoreClient/model/Page.h
 include/CppRestPetstoreClient/model/Pet.h
 include/CppRestPetstoreClient/model/PetStatistics.h
+include/CppRestPetstoreClient/model/SchemaWithPropsAndAddlProps.h
 include/CppRestPetstoreClient/model/SchemaWithSet.h
 include/CppRestPetstoreClient/model/SchemaWithSet_vaccinationBook.h
 include/CppRestPetstoreClient/model/Tag.h
@@ -51,6 +52,7 @@ src/model/Order.cpp
 src/model/Page.cpp
 src/model/Pet.cpp
 src/model/PetStatistics.cpp
+src/model/SchemaWithPropsAndAddlProps.cpp
 src/model/SchemaWithSet.cpp
 src/model/SchemaWithSet_vaccinationBook.cpp
 src/model/Tag.cpp
