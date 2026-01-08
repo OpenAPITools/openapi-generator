@@ -3,12 +3,9 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": false,
-        "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
-        "module": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}commonjs{{/supportsES6}}",
-        {{^supportsES6}}
-        "downlevelIteration": true,
-        {{/supportsES6}}
-        "moduleResolution": "{{#ngVersion21}}bundler{{/ngVersion21}}{{^ngVersion21}}node{{/ngVersion21}}",
+        "target": "es6",
+        "module": "es6",
+        "moduleResolution": "bundler",
         "removeComments": true,
         "strictNullChecks": true,
         "exactOptionalPropertyTypes": true,
