@@ -28,7 +28,6 @@
 
     public init(from decoder: Decoder) throws {
         {{#discriminator}}
-        // Discriminator-based decoding: read discriminator value first, then decode the correct variant
         let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)
         let discriminatorValue = try keyedContainer.decode(String.self, forKey: .{{discriminator.propertyName}})
 
@@ -52,7 +51,6 @@
         }
         {{/discriminator}}
         {{^discriminator}}
-        // No discriminator: try each type sequentially
         let container = try decoder.singleValueContainer()
         {{#oneOf}}
         {{#-first}}
