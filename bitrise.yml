@@ -19,6 +19,15 @@ workflows:
 
             sudo gem install cocoapods
     - script@1.2.0:
+        title: Install iOS Simulator Runtime
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+
+            set -e
+
+            xcodebuild -downloadPlatform iOS
+    - script@1.2.0:
         title: Run Swift6 tests
         inputs:
         - content: |
