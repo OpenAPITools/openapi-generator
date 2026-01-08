@@ -442,7 +442,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             List<Schema> oneOfs = schema.getOneOf();
             List<Schema> newOneOfs = new ArrayList<>();
             for (Schema oneOf : oneOfs) {
-                Schema oneOfSchema = ModelUtils.getReferencedSchema(openAPI, oneOf);
+                Schema oneOfSchema = oneOf;
+                if (ModelUtils.isAllOf(oneOf) && oneOf.getAllOf() != null && oneOf.getAllOf().size() == 1) {
+                    Object allOfObj = oneOf.getAllOf().get(0);
+                    if (allOfObj instanceof Schema) {
+                        Schema allOfItem = (Schema) allOfObj;
+                        if (StringUtils.isNotEmpty(allOfItem.get$ref())) {
+                            oneOfSchema = ModelUtils.getReferencedSchema(openAPI, allOfItem);
+                        }
+                    }
+                } else {
+                    oneOfSchema = ModelUtils.getReferencedSchema(openAPI, oneOf);
+                }
+
                 if (ModelUtils.isArraySchema(oneOfSchema)) {
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
