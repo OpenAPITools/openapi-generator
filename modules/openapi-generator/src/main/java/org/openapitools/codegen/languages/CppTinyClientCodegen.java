@@ -208,9 +208,46 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         return str;
     }
 
+    /**
+     * Resolve a schema reference. If the schema has a $ref, return the referenced schema.
+     * This is for nested maps.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        Schema schema = resolveSchema(p);
+        String openAPIType = getSchemaType(schema);
+
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ModelUtils.getSchemaItems(schema);
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            return getSchemaType(schema) + "<std::string, " + getTypeDeclaration(inner) + ">";
+        }
+
+        if (languageSpecificPrimitives.contains(openAPIType)) {
+            return toModelName(openAPIType);
+        } else {
+            return openAPIType;
+        }
+    }
+
     private void makeTypeMappings() {
         // Types
         String cpp_array_type = "std::list";
+        String cpp_map_type = "std::map";
         typeMapping = new HashMap<>();
 
         typeMapping.put("string", "std::string");
@@ -220,6 +257,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("boolean", "bool");
         typeMapping.put("double", "double");
         typeMapping.put("array", cpp_array_type);
+        typeMapping.put("map", cpp_map_type);
         typeMapping.put("number", "long");
         typeMapping.put("binary", "std::string");
         typeMapping.put("password", "std::string");
@@ -296,7 +334,7 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
             return "#include <string>";
         } else if (name.equals("std::list")) {
             return "#include <list>";
-        } else if (name.equals("Map")) {
+        } else if (name.equals("Map") || name.equals("std::map")) {
             return "#include <map>";
         }
         return "#include \"" + name + ".h\"";

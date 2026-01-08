@@ -363,6 +363,22 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     /**
+     * Resolve a schema reference. If the schema has a $ref, return the referenced schema.
+     * This is for nested maps.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
+    /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
      * for different property types
@@ -372,24 +388,25 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        String openAPIType = getSchemaType(p);
+        Schema schema = resolveSchema(p);
+        String openAPIType = getSchemaType(schema);
 
-        if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ModelUtils.getSchemaItems(schema);
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            return getSchemaType(schema) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isFileSchema(schema) || ModelUtils.isBinarySchema(schema)) {
             return "std::shared_ptr<" + openAPIType + ">";
-        } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
-                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
+        } else if (ModelUtils.isStringSchema(schema)
+                || ModelUtils.isDateSchema(schema) || ModelUtils.isDateTimeSchema(schema)
+                || ModelUtils.isFileSchema(schema) || ModelUtils.isUUIDSchema(schema)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
-        } else if (ModelUtils.isObjectSchema(p)) {
+        } else if (ModelUtils.isObjectSchema(schema)) {
             return "std::shared_ptr<Object>";
-        } else if(typeMapping.containsKey(super.getSchemaType(p))) {
+        } else if(typeMapping.containsKey(super.getSchemaType(schema))) {
             return openAPIType;
         }
 

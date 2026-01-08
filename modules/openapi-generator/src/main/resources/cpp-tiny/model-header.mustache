@@ -51,27 +51,22 @@ public:
     {{#vars}}
 	/*! \brief Get {{{description}}}
 	 */
-	{{dataType}}{{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{getter}}();
+	{{{dataType}}} {{getter}}();
 
 	/*! \brief Set {{{description}}}
 	 */
-	void {{setter}}({{dataType}} {{#isContainer}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}}{{/isContainer}} {{name}});
+	void {{setter}}({{{dataType}}} {{name}});
 	{{/vars}}
 
 
     private:
     {{#vars}}
-    {{^isContainer}}
     {{#isPrimitiveType}}
-    {{dataType}} {{name}}{};
+    {{{dataType}}} {{name}}{};
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{dataType}} {{name}};
+    {{{dataType}}} {{name}};
     {{/isPrimitiveType}}
-    {{/isContainer}}
-    {{#isContainer}}
-    {{dataType}}{{#isMap}}<std::string, std::string>{{/isMap}}{{^isMap}}<{{#items}}{{dataType}}{{/items}}>{{/isMap}} {{name}};
-    {{/isContainer}}
 	{{/vars}}
 };
 {{/model}}

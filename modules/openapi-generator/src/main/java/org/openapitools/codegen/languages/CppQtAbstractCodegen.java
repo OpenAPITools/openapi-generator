@@ -177,6 +177,22 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     }
 
     /**
+     * Resolve a schema reference. If the schema has a $ref, return the referenced schema.
+     * This is for nested maps.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
+    /**
      * Optional - type declaration.  This is a String which is used by the templates to instantiate your
      * types.  There is typically special handling for different property types
      *
@@ -185,18 +201,19 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     @Override
     @SuppressWarnings("rawtypes")
     public String getTypeDeclaration(Schema p) {
-        String openAPIType = getSchemaType(p);
+        Schema schema = resolveSchema(p);
+        String openAPIType = getSchemaType(schema);
 
-        if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return getSchemaType(p);
-        } else if (ModelUtils.isFileSchema(p)) {
-            return getSchemaType(p);
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ModelUtils.getSchemaItems(schema);
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            return getSchemaType(schema) + "<QString, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            return getSchemaType(schema);
+        } else if (ModelUtils.isFileSchema(schema)) {
+            return getSchemaType(schema);
         }
         if (foundationClasses.contains(openAPIType)) {
             return openAPIType;
@@ -210,29 +227,30 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
     @Override
     @SuppressWarnings("rawtypes")
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
+        Schema schema = resolveSchema(p);
+        if (ModelUtils.isBooleanSchema(schema)) {
             return "false";
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             return "NULL";
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             return "NULL";
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
-        } else if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
+        } else if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ModelUtils.getSchemaItems(schema);
             return "QList<" + getTypeDeclaration(inner) + ">()";
-        } else if (ModelUtils.isStringSchema(p)) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             return "QString(\"\")";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
