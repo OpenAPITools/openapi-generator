@@ -69,6 +69,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
+    protected boolean declareStrictTypes = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -289,6 +290,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+        // Add declareStrictTypes property to the additionalProperties
+    if (additionalProperties.containsKey("declareStrictTypes")) {
+        this.declareStrictTypes = Boolean.parseBoolean(additionalProperties.get("declareStrictTypes").toString());
+    }
+    additionalProperties.put("declareStrictTypes", declareStrictTypes);
     }
 
     public String toSrcPath(final String packageName, final String basePath) {
@@ -573,6 +579,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toAbstractName(final String name) {
         return camelize(abstractNamePrefix + name + abstractNameSuffix);
     }
+    
+@Override
+public String getHelp() {
+    return "Generates a PHP client library." + "\n" +
+           "Options:\n" +
+           "  - declareStrictTypes: boolean, set to true to add declare(strict_types=1); in generated PHP files.";
+}
+
 
     /**
      * Output the proper trait name (capitalized).
