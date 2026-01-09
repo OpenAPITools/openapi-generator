@@ -17,16 +17,16 @@ import unittest
 from petstore_api.api.fake_classname_tags123_api import FakeClassnameTags123Api
 
 
-class TestFakeClassnameTags123Api(unittest.TestCase):
+class TestFakeClassnameTags123Api(unittest.IsolatedAsyncioTestCase):
     """FakeClassnameTags123Api unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = FakeClassnameTags123Api()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_test_classname(self) -> None:
+    async def test_test_classname(self) -> None:
         """Test case for test_classname
 
         To test class name in snake case
