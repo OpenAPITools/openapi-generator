@@ -502,7 +502,7 @@ trait OpenApiModule extends mill.api.Module {
         configurator.setEnablePostProcessFile(true)
       }
       if (skipValidateSpec()) {
-        configurator.setValidateSpec(true)
+        configurator.setValidateSpec(false)
       }
       if (generateAliasAsModel()) {
         configurator.setGenerateAliasAsModel(true)
@@ -575,7 +575,7 @@ trait OpenApiModule extends mill.api.Module {
   }
 
   private def runValidation(spec: Path, recommend: Boolean, failOnWarnings: Boolean)(using log: mill.api.Logger) = {
-    log.info("Validating spec $spec")
+    log.info(s"Validating spec $spec")
 
     val options = ParseOptions()
     options.setResolve(true)

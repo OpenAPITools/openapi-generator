@@ -1,6 +1,6 @@
 To test the Mill plugin, this project can be used.
 
-> ![Note]
+> ![NOTE]
 > The `mill-build` folder is only needed to look up the plugin from the local Maven repository for development purposes.
 
 It requires that the current SNAPSHOT version of the plugin is installed in the local Maven repository.

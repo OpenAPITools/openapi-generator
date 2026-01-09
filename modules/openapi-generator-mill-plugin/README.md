@@ -136,7 +136,7 @@ This works because `generatedSources` expects a list of `PathRef`s which constit
 To override the mappings between OpenAPI spec types and the types used in the generated code, set `typeMappings`.
 
 ```scala
-def typeMappings: T[Map[String, String]] = Seq(
+def typeMappings: T[Map[String, String]] = Map(
   "time" -> "LocalTime"
 )
 ```
@@ -144,11 +144,11 @@ def typeMappings: T[Map[String, String]] = Seq(
 For types that are not already included in the generator configuration, you may need to add a corresponding `importMapping` too.
 
 ```scala
-def typeMappings: T[Map[String, String]] = Seq(
+def typeMappings: T[Map[String, String]] = Map(
   "binary" -> "StreamingOutput",
   "file" -> "StreamingOutput"
 )
-def importMappings: T[Map[String, String]] = Seq(
+def importMappings: T[Map[String, String]] = Map(
   "StreamingOutput" -> "javax.ws.rs.core.StreamingOutput",
 )
 ```
