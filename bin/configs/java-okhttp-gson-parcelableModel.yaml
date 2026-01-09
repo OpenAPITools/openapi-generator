@@ -7,3 +7,4 @@ additionalProperties:
   parcelableModel: "true"
   artifactId: petstore-okhttp-gson-parcelableModel
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

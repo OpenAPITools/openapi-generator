@@ -10,3 +10,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   useOneOfInterfaces: "true"
   useDeductionForOneOfInterfaces: "true"
+  disallowAdditionalPropertiesIfNotPresent: "true"

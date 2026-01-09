@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   useOneOfDiscriminatorLookup: "true"
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -8,3 +8,4 @@ additionalProperties:
   targetFramework: netstandard2.1;net47
   useCompareNetObjects: "true"
   equatable: true
+  disallowAdditionalPropertiesIfNotPresent: true

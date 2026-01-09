@@ -8,5 +8,6 @@ additionalProperties:
   targetFramework: netstandard2.0
   useCompareNetObjects: "true"
   equatable: true
+  disallowAdditionalPropertiesIfNotPresent: true
 globalProperties:
   skipFormModel: "false"

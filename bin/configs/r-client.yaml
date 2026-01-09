@@ -10,4 +10,3 @@ additionalProperties:
   returnExceptionOnFailure: true
   errorObjectType: "ModelApiResponse"
   operationIdNaming: PascalCase #default
-  disallowAdditionalPropertiesIfNotPresent: false

@@ -6,3 +6,4 @@ templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   hideGenerationTimestamp: "true"
   useBeanValidation: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -9,3 +9,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   java8: true
   delegatePattern: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

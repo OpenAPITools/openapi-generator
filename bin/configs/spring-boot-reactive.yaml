@@ -9,3 +9,4 @@ additionalProperties:
   reactive: "true"
   hideGenerationTimestamp: "true"
   delegatePattern: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

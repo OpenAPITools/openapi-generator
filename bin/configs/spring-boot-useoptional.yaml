@@ -9,3 +9,4 @@ additionalProperties:
   artifactId: spring-boot-useoptional
   hideGenerationTimestamp: "true"
   generateBuilders: true
+  disallowAdditionalPropertiesIfNotPresent: true

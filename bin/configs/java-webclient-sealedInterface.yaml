@@ -8,3 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   useOneOfInterfaces: true
   useSealedOneOfInterfaces: true
+  disallowAdditionalPropertiesIfNotPresent: true

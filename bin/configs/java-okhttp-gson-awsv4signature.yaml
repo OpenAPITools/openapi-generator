@@ -7,5 +7,4 @@ additionalProperties:
   artifactId: okhttp-gson-awsv4signature
   hideGenerationTimestamp: "true"
   useOneOfDiscriminatorLookup: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
   withAWSV4Signature: true

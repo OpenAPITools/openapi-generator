@@ -15,4 +15,4 @@ additionalProperties:
   # validation should be ignored
   useBeanValidation: "true"
   performBeanValidation: "true"
-
+  disallowAdditionalPropertiesIfNotPresent: true

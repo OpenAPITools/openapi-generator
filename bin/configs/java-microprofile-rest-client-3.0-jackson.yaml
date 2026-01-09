@@ -10,3 +10,4 @@ additionalProperties:
   microprofileRestClientVersion: "3.0"
   hideGenerationTimestamp: true
   useReflectionEqualsHashCode: true
+  disallowAdditionalPropertiesIfNotPresent: true

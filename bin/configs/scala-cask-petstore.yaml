@@ -11,3 +11,4 @@ additionalProperties:
   apiPackage: "sample.cask.api"
   gitRepoId: "sample-cask-repo"
   gitUserId: "sample-cask-user"
+  disallowAdditionalPropertiesIfNotPresent: true

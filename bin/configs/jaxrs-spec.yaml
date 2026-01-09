@@ -8,3 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   implicitHeadersRegex: (api_key|enum_header_string)
   generateBuilders: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

@@ -10,3 +10,4 @@ additionalProperties:
   generateBuilders: "true"
   useSwaggerV3Annotations: "true"
   useJakartaEe: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

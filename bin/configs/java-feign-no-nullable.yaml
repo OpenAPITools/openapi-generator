@@ -11,3 +11,4 @@ additionalProperties:
   openApiNullable: false
   useReflectionEqualsHashCode: true
   annotationLibrary: "swagger1"
+  disallowAdditionalPropertiesIfNotPresent: true

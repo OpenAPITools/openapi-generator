@@ -6,3 +6,5 @@ library: asyncio
 additionalProperties:
   packageName: petstore_api
   mapNumberTo: float
+  disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true

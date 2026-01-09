@@ -4,3 +4,4 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/val
 templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
 additionalProperties:
   validationAttributes: true
+  disallowAdditionalPropertiesIfNotPresent: true

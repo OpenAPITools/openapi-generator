@@ -7,3 +7,4 @@ additionalProperties:
   booleanGetterPrefix: is
   artifactId: petstore-feign
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

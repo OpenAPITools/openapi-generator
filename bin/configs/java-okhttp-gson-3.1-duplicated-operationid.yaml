@@ -7,6 +7,5 @@ validateSpec: false
 additionalProperties:
   artifactId: petstore-okhttp-gson-31-do
   hideGenerationTimestamp: "true"
-  disallowAdditionalPropertiesIfNotPresent: false
 openapiNormalizer:
   FIX_DUPLICATED_OPERATIONID: true

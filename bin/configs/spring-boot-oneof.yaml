@@ -9,3 +9,4 @@ additionalProperties:
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
   generateBuilders: true
+  disallowAdditionalPropertiesIfNotPresent: true

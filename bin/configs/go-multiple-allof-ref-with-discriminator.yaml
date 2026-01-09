@@ -4,3 +4,4 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/go/allof_multiple_re
 templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true

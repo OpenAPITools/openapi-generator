@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/python-fastapi
 sourceFolder: "src"
 additionalProperties:
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true

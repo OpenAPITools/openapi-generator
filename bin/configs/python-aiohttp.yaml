@@ -7,6 +7,8 @@ additionalProperties:
   packageName: petstore_api
   mapNumberTo: float
   poetry1: true
+  disallowAdditionalPropertiesIfNotPresent: true
+  legacyDisallowAdditionalPropertiesDefaultBehavior: true
 nameMappings:
   _type: underscore_type
   type_: type_with_underscore

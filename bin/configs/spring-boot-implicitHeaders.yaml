@@ -7,3 +7,4 @@ additionalProperties:
   documentationProvider: springfox
   hideGenerationTimestamp: "true"
   implicitHeadersRegex: .*
+  disallowAdditionalPropertiesIfNotPresent: true

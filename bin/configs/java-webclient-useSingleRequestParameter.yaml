@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: singleparam-webclient
   hideGenerationTimestamp: "true"
   useSingleRequestParameter: true
+  disallowAdditionalPropertiesIfNotPresent: true

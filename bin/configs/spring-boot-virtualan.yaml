@@ -10,3 +10,4 @@ additionalProperties:
   virtualService: true
   artifactId: springboot-virtualan
   hideGenerationTimestamp: "true"
+  disallowAdditionalPropertiesIfNotPresent: true
