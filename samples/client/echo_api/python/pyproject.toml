@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [project]
 name = "openapi_client"
 version = "1.0.0"
@@ -9,7 +13,6 @@ license = { text = "Apache 2.0" }
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
 requires-python = ">=3.9"
-
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",
   "python-dateutil (>=2.8.2)",
@@ -20,9 +23,6 @@ dependencies = [
 [project.urls]
 Repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 
-[tool.poetry]
-requires-poetry = ">=2.0"
-
 [tool.poetry.group.dev.dependencies]
 pytest = ">= 7.2.1"
 pytest-cov = ">= 2.8.1"
@@ -30,11 +30,6 @@ tox = ">= 3.9.0"
 flake8 = ">= 4.0.0"
 types-python-dateutil = ">= 2.8.19.14"
 mypy = ">= 1.5"
-
-
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
