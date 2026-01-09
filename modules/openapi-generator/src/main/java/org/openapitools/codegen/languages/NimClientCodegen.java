@@ -458,10 +458,13 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = normalizeSchemaName(name);
         CodegenModel mdl = super.fromModel(name, schema);
 
-        // Detect integer enums - check both the schema type and the dataType
+        // Detect numeric enums - check both the schema type and the dataType
+        // Note: "number" type in OpenAPI can include integer values in enums
         if (mdl.isEnum) {
             String schemaType = schema != null ? schema.getType() : null;
-            if ("integer".equals(schemaType) || "int".equals(mdl.dataType) || "int64".equals(mdl.dataType)) {
+            if ("integer".equals(schemaType) || "number".equals(schemaType) ||
+                "int".equals(mdl.dataType) || "int64".equals(mdl.dataType) ||
+                "float".equals(mdl.dataType) || "float64".equals(mdl.dataType)) {
                 mdl.vendorExtensions.put("x-is-integer-enum", true);
             }
         }
@@ -606,22 +609,38 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Resolve a schema reference to its target schema.
+     * This is needed to properly detect nested maps/arrays when the schema is a $ref.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema != null && schema.get$ref() != null) {
+            Schema resolved = ModelUtils.getReferencedSchema(this.openAPI, schema);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
+        // Resolve the schema to check for nested maps/arrays - refs that point to map/array schemas
+        Schema resolved = resolveSchema(p);
+
+        if (ModelUtils.isArraySchema(resolved)) {
+            Schema inner = ModelUtils.getSchemaItems(resolved);
             if (inner == null) {
                 return null;
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+        } else if (ModelUtils.isMapSchema(resolved)) {
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
             if (inner == null) {
                 inner = new StringSchema();
             }
             return "Table[string, " + getTypeDeclaration(inner) + "]";
         }
 
+        // For non-containers, use the original schema to preserve model names
         String schemaType = getSchemaType(p);
         if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
@@ -719,10 +738,17 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        // Handle negative numbers by prefixing with "Neg" to avoid collisions
+        // e.g., -1 and 1 would both become `1` without this, causing invalid syntax
+        if (name.startsWith("-")) {
+            name = "Neg" + name.substring(1);
+        }
+
         name = name.replace(" ", "_");
         name = StringUtils.camelize(name);
 
-        // starts with number or contains any character not allowed,see
+        // starts with number or contains any character not allowed, see
+        // https://nim-lang.org/docs/manual.html#lexical-analysis-identifiers-amp-keywords
         if (isValidIdentifier(name)) {
             return name;
         } else {
