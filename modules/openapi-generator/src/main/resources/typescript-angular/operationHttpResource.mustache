@@ -1,0 +1,245 @@
+    /**
+{{#summary}}
+     * {{.}}
+{{/summary}}
+{{#notes}}
+     * {{.}}
+{{/notes}}
+     * @endpoint {{httpMethod}} {{{vendorExtensions.x-path-from-spec}}}
+     {{^useSingleRequestParameter}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     {{/useSingleRequestParameter}}
+     {{#useSingleRequestParameter}}
+     {{#allParams.0}}
+     * @param requestParameters
+     {{/allParams.0}}
+     {{/useSingleRequestParameter}}
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{{mediaType}}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}},{{#httpContextInOptions}} context?: HttpContext{{/httpContextInOptions}}{{#httpTransferCacheInOptions}}, transferCache?: boolean{{/httpTransferCacheInOptions}}}): HttpResourceRef<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{{mediaType}}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}},{{#httpContextInOptions}} context?: HttpContext{{/httpContextInOptions}}{{#httpTransferCacheInOptions}}, transferCache?: boolean{{/httpTransferCacheInOptions}}}): HttpResourceRef<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{{mediaType}}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}},{{#httpContextInOptions}} context?: HttpContext{{/httpContextInOptions}}{{#httpTransferCacheInOptions}}, transferCache?: boolean{{/httpTransferCacheInOptions}}}): HttpResourceRef<HttpEvent<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
+    public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: Signal<{{{dataType}}}> | {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: Signal<{{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams> | {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}reportProgress: boolean = false, options?: {httpHeaderAccept?: {{#produces}}'{{{mediaType}}}'{{^-last}} | {{/-last}}{{/produces}}{{^produces}}undefined{{/produces}},{{#httpContextInOptions}} context?: HttpContext{{/httpContextInOptions}}{{#httpTransferCacheInOptions}}, transferCache?: boolean{{/httpTransferCacheInOptions}}}): HttpResourceRef<any> {
+        const { basePath, withCredentials } = this.configuration;
+        return httpResource{{#producesTextPlain}}.text{{/producesTextPlain}}{{#isResponseBinary}}.blob{{/isResponseBinary}}(() => {
+{{#useSingleRequestParameter}}
+{{#allParams.0}}
+            const requestParametersValue = typeof requestParameters === 'function' ? requestParameters() : requestParameters;
+{{/allParams.0}}
+{{/useSingleRequestParameter}}
+{{#allParams}}
+{{#useSingleRequestParameter}}
+
+            const {{paramName}}Value = requestParametersValue{{^hasRequiredVars}}?{{/hasRequiredVars}}.{{paramName}};
+{{/useSingleRequestParameter}}
+{{^useSingleRequestParameter}}
+
+            const {{paramName}}Value = typeof {{paramName}} === 'function' ? {{paramName}}() : {{paramName}};
+{{/useSingleRequestParameter}}
+{{/allParams}}
+
+            let localVarHeaders = this.defaultHeaders;
+{{#headerParams}}
+    {{#isArray}}
+            if ({{paramName}}Value) {
+                localVarHeaders = localVarHeaders.set('{{baseName}}', [...{{paramName}}Value].join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            }
+    {{/isArray}}
+    {{^isArray}}
+            if ({{paramName}}Value !== undefined && {{paramName}}Value !== null) {
+                localVarHeaders = localVarHeaders.set('{{baseName}}', String({{paramName}}Value));
+            }
+    {{/isArray}}
+{{/headerParams}}
+
+{{#authMethods}}
+            // authentication ({{name}}) required
+    {{#isApiKey}}
+        {{#isKeyInHeader}}
+            localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', '{{keyParamName}}', localVarHeaders);
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+            localVarQueryParameters = this.configuration.addCredentialToQuery('{{name}}', '{{keyParamName}}', localVarQueryParameters);
+        {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{#isBasic}}
+        {{#isBasicBasic}}
+            localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', 'Authorization', localVarHeaders, 'Basic ');
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+            localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', 'Authorization', localVarHeaders, 'Bearer ');
+        {{/isBasicBearer}}
+    {{/isBasic}}
+    {{#isOAuth}}
+            localVarHeaders = this.configuration.addCredentialToHeaders('{{name}}', 'Authorization', localVarHeaders, 'Bearer ');
+    {{/isOAuth}}
+
+{{/authMethods}}
+            const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+{{#produces}}
+                '{{{mediaType}}}'{{^-last}},{{/-last}}
+{{/produces}}
+            ]);
+            if (localVarHttpHeaderAcceptSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+            }
+
+{{#httpContextInOptions}}
+            const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+{{/httpContextInOptions}}
+{{#httpTransferCacheInOptions}}
+
+            const localVarTransferCache: boolean = options?.transferCache ?? true;
+{{/httpTransferCacheInOptions}}
+
+{{#bodyParam}}
+{{- duplicated below, don't forget to change}}
+            // to determine the Content-Type header
+            const consumes: string[] = [
+                {{#consumes}}
+                '{{{mediaType}}}'{{^-last}},{{/-last}}
+                {{/consumes}}
+            ];
+{{/bodyParam}}
+{{#hasFormParams}}
+    {{^bodyParam}}
+            // to determine the Content-Type header
+            const consumes: string[] = [
+                {{#consumes}}
+                '{{{mediaType}}}'{{^-last}},{{/-last}}
+                {{/consumes}}
+            ];
+    {{/bodyParam}}
+{{/hasFormParams}}
+{{#bodyParam}}
+            const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+            if (httpContentTypeSelected !== undefined) {
+                localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+            }
+{{/bodyParam}}
+
+{{#hasFormParams}}
+            const canConsumeForm = this.canConsumeForm(consumes);
+
+            let localVarFormParams: { append(param: string, value: any): any; };
+            let localVarUseForm = false;
+            let localVarConvertFormParamsToString = false;
+    {{#formParams}}
+        {{#isFile}}
+            // use FormData to transmit files using content-type "multipart/form-data"
+            // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+            localVarUseForm = canConsumeForm;
+        {{/isFile}}
+        {{/formParams}}
+            if (localVarUseForm) {
+                localVarFormParams = new FormData();
+            } else {
+                localVarFormParams = new HttpParams({encoder: this.encoder});
+            }
+
+        {{#formParams}}
+        {{#isArray}}
+            if ({{paramName}}Value) {
+            {{#isCollectionFormatMulti}}
+                {{paramName}}Value.forEach((element) => {
+                    localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', <any>element) as any || localVarFormParams;
+                })
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                if (localVarUseForm) {
+                    {{paramName}}Value.forEach((element) => {
+                        localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', <any>element) as any || localVarFormParams;
+                })
+                } else {
+                    localVarFormParams = localVarFormParams.append('{{baseName}}{{#useSquareBracketsInArrayNames}}[]{{/useSquareBracketsInArrayNames}}', [...{{paramName}}Value].join(COLLECTION_FORMATS['{{collectionFormat}}'])) as any || localVarFormParams;
+                }
+            {{/isCollectionFormatMulti}}
+            }
+        {{/isArray}}
+        {{^isArray}}
+            if ({{paramName}}Value !== undefined) {
+                localVarFormParams = localVarFormParams.append('{{baseName}}', {{^isModel}}<any>{{paramName}}Value{{/isModel}}{{#isModel}}localVarUseForm ? new Blob([JSON.stringify({{paramName}}Value)], {type: 'application/json'}) : <any>{{paramName}}Value{{/isModel}}) as any || localVarFormParams;
+            }
+        {{/isArray}}
+    {{/formParams}}
+
+{{/hasFormParams}}
+
+            let localVarPath = `{{{path}}}`;
+
+{{#hasQueryParamsOrAuth}}
+            let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
+{{#queryParams}}
+
+            localVarQueryParameters = this.addToHttpParams(
+                localVarQueryParameters,
+                '{{baseName}}',
+                <any>{{paramName}}Value,
+                {{#isQueryParamObjectFormatJson}}
+                QueryParamStyle.Json,
+                {{/isQueryParamObjectFormatJson}}
+                {{^isQueryParamObjectFormatJson}}
+                {{^style}}
+                {{#queryIsJsonMimeType}}
+                QueryParamStyle.Json,
+                {{/queryIsJsonMimeType}}
+                {{^queryIsJsonMimeType}}
+                QueryParamStyle.Form,
+                {{/queryIsJsonMimeType}}
+                {{/style}}
+                {{#style}}
+                {{#isDeepObject}}
+                QueryParamStyle.DeepObject,
+                {{/isDeepObject}}
+                {{#isFormStyle}}
+                QueryParamStyle.Form,
+                {{/isFormStyle}}
+                {{#isSpaceDelimited}}
+                QueryParamStyle.SpaceDelimited,
+                {{/isSpaceDelimited}}
+                {{#isPipeDelimited}}
+                QueryParamStyle.PipeDelimited,
+                {{/isPipeDelimited}}
+                {{#queryIsJsonMimeType}}
+                QueryParamStyle.Json,
+                {{/queryIsJsonMimeType}}
+                {{/style}}
+                {{/isQueryParamObjectFormatJson}}
+                {{isExplode}},
+            );
+
+{{/queryParams}}
+
+{{/hasQueryParamsOrAuth}}
+
+            return {
+                url: `${basePath}${localVarPath}`,
+    {{#httpContextInOptions}}
+                context: localVarHttpContext,
+    {{/httpContextInOptions}}
+    {{#bodyParam}}
+                body: {{paramName}}Value,
+    {{/bodyParam}}
+    {{^bodyParam}}
+    {{#hasFormParams}}
+                body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
+    {{/hasFormParams}}
+    {{/bodyParam}}
+    {{#hasQueryParamsOrAuth}}
+                params: localVarQueryParameters.toHttpParams(),
+    {{/hasQueryParamsOrAuth}}
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+    {{#httpTransferCacheInOptions}}
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+    {{/httpTransferCacheInOptions}}
+                reportProgress: reportProgress
+            }
+        });
+    }
