@@ -31,9 +31,9 @@ import scala.jdk.javaapi.CollectionConverters
  *        def apiPackage: T[String] = "com.acme.foo.boundary.web.api"
  *        def modelPackage: T[String] = "com.acme.foo.boundary.web.model"
  *        def generatorName: T[String] = "spring"
+ *        def sourceFolder: T[String] = "src/main/java"
  *        def additionalProperties: T[Map[String, String]] = Map(
  *          "useSpringBoot3" -> "true",
- *          "sourceFolder" -> "src/main/java",
  *          "dateLibrary" -> "java8",
  *          "interfaceOnly" -> "true",
  *          "performBeanValidation" -> "true",
@@ -49,11 +49,11 @@ import scala.jdk.javaapi.CollectionConverters
  *        def modelPackage: T[String] = "com.acme.foo.boundary.client.some.model"
  *        def generatorName: T[String] = "java"
  *        def modelNameSuffix: T[String] = "Dto"
+ *        def sourceFolder: T[String] = "src/main/java"
  *        def additionalProperties: T[Map[String, String]] = Map(
  *          "useTags" -> "true",
  *          "dateLibrary" -> "java8",
  *          "library" -> "webclient",
- *          "sourceFolder" -> "src/test/java",
  *          "useJakartaEe" -> "true",
  *          "useOneOfInterfaces" -> "true",
  *          "useAbstractionForFiles" -> "true",
