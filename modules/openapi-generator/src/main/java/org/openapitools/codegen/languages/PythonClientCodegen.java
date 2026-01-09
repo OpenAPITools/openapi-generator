@@ -284,8 +284,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
@@ -294,6 +292,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
             supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
+        } else {
+            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));

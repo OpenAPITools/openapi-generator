@@ -23,23 +23,13 @@ Python {{{generatorLanguageVersion}}}
 ## Installation & Usage
 
 This python library package is generated without supporting files like `pyproject.toml`.
-To be able to use it, you will need these dependencies in your own package that uses this library:
+To be able to use it, you will need these dependencies in your own package that uses this library.
+Requirements files (`requirements.txt`, `test-requirements.txt`) are provided for this.
 
-* urllib3 >= 2.1.0, < 3.0.0
-* python-dateutil >= 2.8.2
-{{#async}}
-* aiohttp >= 3.8.4
-* aiohttp-retry >= 2.8.3
-{{/async}}
-{{#tornado}}
-* tornado >= 4.2, < 5
-{{/tornado}}
-{{#hasHttpSignatureMethods}}
-* pem >= 19.3.0
-* pycryptodome >= 3.9.0
-{{/hasHttpSignatureMethods}}
-* pydantic >= 2
-* typing-extensions >= 4.7.1
+```
+pip install -r requirements.txt       # install runtime dependencies
+pip install -r test-requirements.txt  # (optional) install testing dependencies
+```
 
 ## Getting Started
 

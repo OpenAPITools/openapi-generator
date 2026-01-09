@@ -50,7 +50,5 @@ openapi_client/models/test_query_style_form_explode_true_array_string_query_obje
 openapi_client/py.typed
 openapi_client/rest.py
 pyproject.toml
-requirements.txt
-test-requirements.txt
 test/__init__.py
 tox.ini
