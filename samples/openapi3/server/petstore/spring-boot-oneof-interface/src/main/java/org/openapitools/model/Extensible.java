@@ -28,10 +28,6 @@ public class Extensible {
 
   private String atType;
 
-  public Extensible() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

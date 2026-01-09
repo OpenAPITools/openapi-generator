@@ -70,10 +70,6 @@ public class BigCat extends Cat {
 
   private Optional<KindEnum> kind = Optional.empty();
 
-  public BigCat() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

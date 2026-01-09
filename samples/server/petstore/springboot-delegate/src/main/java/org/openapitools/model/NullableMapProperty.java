@@ -31,10 +31,6 @@ public class NullableMapProperty {
   @Valid
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
-  public NullableMapProperty() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

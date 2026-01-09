@@ -30,10 +30,6 @@ public class NameDto {
 
   private @Nullable Integer _123number;
 
-  public NameDto() {
-    super();
-  }
-
   public NameDto name(Integer name) {
     this.name = name;
     return this;

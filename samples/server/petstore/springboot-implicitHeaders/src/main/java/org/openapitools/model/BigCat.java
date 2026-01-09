@@ -70,10 +70,6 @@ public class BigCat extends Cat {
 
   private @Nullable KindEnum kind;
 
-  public BigCat() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

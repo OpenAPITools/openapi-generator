@@ -39,10 +39,6 @@ public class TypeHolderExample {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExample() {
-    super();
-  }
-
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

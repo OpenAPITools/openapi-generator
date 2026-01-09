@@ -37,9 +37,9 @@ public class ContainerDefaultValue {
   @Valid
   private @Nullable List<String> nullableArrayWithDefault = new ArrayList<>(Arrays.asList("foo", "bar"));
 
-  public ContainerDefaultValue() {
-    super();
-  }
+      public ContainerDefaultValue() {
+      super();
+      }
 
   /**
    * Constructor with only required parameters

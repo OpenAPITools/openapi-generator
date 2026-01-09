@@ -38,10 +38,6 @@ public class Pizza extends Entity {
 
   private @Nullable BigDecimal pizzaSize;
 
-  public Pizza() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

@@ -181,10 +181,6 @@ public class EnumTestDto {
 
   private @Nullable OuterEnumDto outerEnum;
 
-  public EnumTestDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

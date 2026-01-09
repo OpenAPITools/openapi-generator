@@ -30,10 +30,6 @@ public class Dog extends Animal {
 
   private Optional<String> breed = Optional.empty();
 
-  public Dog() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

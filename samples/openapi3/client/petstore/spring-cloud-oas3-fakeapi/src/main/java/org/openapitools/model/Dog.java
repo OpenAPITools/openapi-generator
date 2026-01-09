@@ -29,10 +29,6 @@ public class Dog extends Animal {
 
   private @Nullable String breed;
 
-  public Dog() {
-    super();
-  }
-
   public Dog breed(@Nullable String breed) {
     this.breed = breed;
     return this;

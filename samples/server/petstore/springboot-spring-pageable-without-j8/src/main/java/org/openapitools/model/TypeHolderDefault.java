@@ -38,10 +38,6 @@ public class TypeHolderDefault {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderDefault() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

@@ -27,10 +27,6 @@ public class ReadOnlyFirst {
 
   private @Nullable String baz;
 
-  public ReadOnlyFirst() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

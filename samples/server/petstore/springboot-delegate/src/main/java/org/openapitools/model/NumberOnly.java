@@ -26,10 +26,6 @@ public class NumberOnly {
 
   private @Nullable BigDecimal justNumber;
 
-  public NumberOnly() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

@@ -38,10 +38,6 @@ public class Cat extends Animal {
 
   private Optional<Boolean> declawed = Optional.empty();
 
-  public Cat() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

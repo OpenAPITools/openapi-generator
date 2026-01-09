@@ -181,10 +181,6 @@ public class EnumTest {
 
   private Optional<OuterEnum> outerEnum = Optional.empty();
 
-  public EnumTest() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

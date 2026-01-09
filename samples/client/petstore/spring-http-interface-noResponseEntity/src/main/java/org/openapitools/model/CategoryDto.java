@@ -26,10 +26,6 @@ public class CategoryDto {
 
   private String name = "default-name";
 
-  public CategoryDto() {
-    super();
-  }
-
   public CategoryDto id(@Nullable Long id) {
     this.id = id;
     return this;

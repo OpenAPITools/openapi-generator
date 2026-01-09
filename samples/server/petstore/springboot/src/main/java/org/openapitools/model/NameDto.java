@@ -34,10 +34,6 @@ public class NameDto {
 
   private @Nullable Integer _123Number;
 
-  public NameDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

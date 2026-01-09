@@ -37,10 +37,6 @@ public class TypeHolderExample {
   
   private List<Integer> arrayItem = new ArrayList<>();
 
-  public TypeHolderExample() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

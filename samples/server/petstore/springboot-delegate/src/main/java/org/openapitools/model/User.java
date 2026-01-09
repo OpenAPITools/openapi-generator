@@ -39,10 +39,6 @@ public class User {
 
   private @Nullable Integer userStatus;
 
-  public User() {
-    super();
-  }
-
   /**
    * Constructor with all args parameters
    */

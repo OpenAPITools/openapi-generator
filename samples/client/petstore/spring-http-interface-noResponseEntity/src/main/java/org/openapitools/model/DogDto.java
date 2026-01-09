@@ -29,10 +29,6 @@ public class DogDto extends AnimalDto {
 
   private @Nullable String breed;
 
-  public DogDto() {
-    super();
-  }
-
   public DogDto breed(@Nullable String breed) {
     this.breed = breed;
     return this;

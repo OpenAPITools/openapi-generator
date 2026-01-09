@@ -72,10 +72,6 @@ public class BigCatDto extends CatDto {
 
   private @Nullable KindEnum kind;
 
-  public BigCatDto() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

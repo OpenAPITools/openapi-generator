@@ -2877,11 +2877,12 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
+    public void shouldGenerateConstructorWithOnlyRequiredParametersAndNoArgConstructorWithOpenApiNullable() throws IOException {
         final Map<String, File> output = generateFromContract(
                 "src/test/resources/3_0/spring/issue_9789.yml",
                 SPRING_BOOT,
-                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false")
+                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false",
+                       OPENAPI_NULLABLE, "false")
         );
 
         JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).hasNoConstructor("String");
@@ -2892,6 +2893,30 @@ public class SpringCodegenTest {
                 .hasParameter("param3");
 
         JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3").toConstructor()
+                .hasParameter("param6").toConstructor()
+                .bodyContainsLines("super(param2, param3)", "this.param6 = param6");
+    }
+
+    @Test
+    public void shouldGenerateConstructorWithOnlyRequiredParametersWhenNoOpenapiNullable() throws IOException {
+        final Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_9789.yml",
+                SPRING_BOOT,
+                Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false",
+                       OPENAPI_NULLABLE, "true")
+        );
+
+        JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).hasNoConstructor("String");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).hasNoConstructor();
+        JavaFileAssert.assertThat(output.get("ObjectWithRequiredParameter.java")).assertConstructor("String", "String")
+                .hasParameter("param2").toConstructor()
+                .hasParameter("param3");
+
+        JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).hasNoConstructor();
         JavaFileAssert.assertThat(output.get("ObjectWithInheritedRequiredParameter.java")).assertConstructor("Integer", "String", "String")
                 .hasParameter("param2").toConstructor()
                 .hasParameter("param3").toConstructor()
@@ -4958,6 +4983,7 @@ public class SpringCodegenTest {
                 .hasNoMethod("setName")
         ;
         additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.ToString");
+        additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
         output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
         JavaFileAssert.assertThat(output.get("Pet.java"))
                 .assertConstructor().toFileAssert()

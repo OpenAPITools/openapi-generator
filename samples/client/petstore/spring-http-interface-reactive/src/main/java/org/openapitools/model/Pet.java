@@ -81,10 +81,6 @@ public class Pet {
   @Deprecated
   private @Nullable StatusEnum status;
 
-  public Pet() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

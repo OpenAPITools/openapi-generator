@@ -180,10 +180,6 @@ public class EnumTest {
 
   private @Nullable OuterEnum outerEnum;
 
-  public EnumTest() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */

@@ -61,10 +61,6 @@ public class FormatTest {
 
   private Optional<BigDecimal> bigDecimal = Optional.empty();
 
-  public FormatTest() {
-    super();
-  }
-
   /**
    * Constructor with only required parameters
    */
