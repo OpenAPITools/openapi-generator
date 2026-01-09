@@ -225,9 +225,6 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
     }
 
     private void makeTypeMappings() {
-        // Types
-        String cpp_array_type = "std::list";
-        String cpp_map_type = "std::map";
         typeMapping = new HashMap<>();
 
         typeMapping.put("string", "std::string");
@@ -236,8 +233,8 @@ public class CppTinyClientCodegen extends AbstractCppCodegen implements CodegenC
         typeMapping.put("long", "long");
         typeMapping.put("boolean", "bool");
         typeMapping.put("double", "double");
-        typeMapping.put("array", cpp_array_type);
-        typeMapping.put("map", cpp_map_type);
+        typeMapping.put("array", "std::list");
+        typeMapping.put("map", "std::map");
         typeMapping.put("number", "long");
         typeMapping.put("binary", "std::string");
         typeMapping.put("password", "std::string");
