@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pod install && xcodebuild test -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient-Example" -destination "platform=iOS Simulator,name=iPhone 8,OS=13.1" | xcpretty && exit ${PIPESTATUS[0]}
+(cd $DIRECTORY/tests ; xcodebuild -scheme TestClientTests-Package test -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" | xcpretty && exit ${PIPESTATUS[0]})
