@@ -564,9 +564,8 @@ public class PythonClientCodegenTest {
         File apiFile = files.get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNull(apiFile);
 
-        File setupFile = files.get(Paths.get(output.getAbsolutePath(), "setup.py").toString());
-        assertNotNull(setupFile);
-        assertFileContains(setupFile.toPath(), "setup(");
+        File pyprojectTOMLFile = files.get(Paths.get(output.getAbsolutePath(), "pyproject.toml").toString());
+        assertNotNull(pyprojectTOMLFile);
     }
 
     @Test(description = "outputs __init__.py with imports for exports")

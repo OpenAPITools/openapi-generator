@@ -133,7 +133,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in setup.py (e.g. petstore-api)."));
+        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in pyproject.toml (e.g. petstore-api)."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
@@ -293,7 +293,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
-            supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
             supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
         }
