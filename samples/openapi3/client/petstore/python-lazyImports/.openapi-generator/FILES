@@ -256,7 +256,6 @@ petstore_api/rest.py
 petstore_api/signing.py
 pyproject.toml
 requirements.txt
-setup.cfg
 test-requirements.txt
 test/__init__.py
 tox.ini

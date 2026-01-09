@@ -286,7 +286,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
             supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-            supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
 
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));

@@ -51,7 +51,6 @@ openapi_client/py.typed
 openapi_client/rest.py
 pyproject.toml
 requirements.txt
-setup.cfg
 test-requirements.txt
 test/__init__.py
 tox.ini
