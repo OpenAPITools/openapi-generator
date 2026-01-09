@@ -4581,7 +4581,7 @@ class FakeApi
     /**
      * Operation testBodyWithBinary
      *
-     * @param  \SplFileObject $body image to upload (required)
+     * @param  \SplFileObject|null $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -4599,7 +4599,7 @@ class FakeApi
     /**
      * Operation testBodyWithBinaryWithHttpInfo
      *
-     * @param  \SplFileObject $body image to upload (required)
+     * @param  \SplFileObject|null $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -4648,7 +4648,7 @@ class FakeApi
     /**
      * Operation testBodyWithBinaryAsync
      *
-     * @param  \SplFileObject $body image to upload (required)
+     * @param  \SplFileObject|null $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4670,7 +4670,7 @@ class FakeApi
     /**
      * Operation testBodyWithBinaryAsyncWithHttpInfo
      *
-     * @param  \SplFileObject $body image to upload (required)
+     * @param  \SplFileObject|null $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -4710,7 +4710,7 @@ class FakeApi
     /**
      * Create request for operation 'testBodyWithBinary'
      *
-     * @param  \SplFileObject $body image to upload (required)
+     * @param  \SplFileObject|null $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
