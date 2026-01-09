@@ -29,3 +29,4 @@ DIRECTORY=`dirname $0`
 # (cd $DIRECTORY/promisekitLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh) # Commented to save time in CI, building Swift5 and Swift6 is taking too much time, and making CI fail
 (cd $DIRECTORY/rxswiftLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
 (cd $DIRECTORY/urlsessionLibrary/SwaggerClientTests/ && ./run_xcodebuild.sh)
+
