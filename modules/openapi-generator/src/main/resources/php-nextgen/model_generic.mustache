@@ -381,7 +381,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      * @deprecated
     {{/deprecated}}
      */
-    public function {{getter}}(): {{vendorExtensions.x-php-prop-type}}
+    public function {{getter}}(): {{exts.x-php-prop-type}}
     {
         return $this->container['{{name}}'];
     }
@@ -396,7 +396,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
      * @deprecated
     {{/deprecated}}
      */
-    public function {{setter}}({{vendorExtensions.x-php-prop-type}} ${{name}}): static
+    public function {{setter}}({{exts.x-php-prop-type}} ${{name}}): static
     {
         {{#isNullable}}
         if (is_null(${{name}})) {
