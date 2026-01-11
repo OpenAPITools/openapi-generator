@@ -559,7 +559,7 @@ public class OpenAPINormalizer {
 
         for (String headerKey : headers.keySet()) {
             Header h = headers.get(headerKey);
-            if (h.getSchema() != null) { // a $ref header
+            if (h.getSchema() != null) { // not a $ref header
                 // example of header class
                 //    description: null
                 //    required: null
