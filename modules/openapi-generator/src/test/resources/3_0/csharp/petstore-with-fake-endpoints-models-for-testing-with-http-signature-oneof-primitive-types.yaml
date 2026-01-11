@@ -2781,7 +2781,8 @@ components:
             # JsonReader will give back C# System.Double regardless of format.
             - type: number
               format: float32
-            - $ref: '#/components/schemas/MixedSubId'
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
           description: Mixed oneOf types for testing
     MixedAnyOf:
       properties:
@@ -2795,8 +2796,8 @@ components:
             # JsonReader will give back C# System.Double regardless of format.
             - type: number
               format: float32
-            - $ref: '#/components/schemas/MixedSubId'
-              
+            - type: object
+              $ref: '#/components/schemas/MixedSubId'
           description:  Mixed anyOf types for testing
     MixedSubId:
       properties:
