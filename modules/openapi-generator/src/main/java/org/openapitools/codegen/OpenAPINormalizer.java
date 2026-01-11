@@ -356,6 +356,7 @@ public class OpenAPINormalizer {
         normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
         normalizeComponentsResponses();
+        normalizeComponentsHeaders();
     }
 
     /**
@@ -558,8 +559,21 @@ public class OpenAPINormalizer {
 
         for (String headerKey : headers.keySet()) {
             Header h = headers.get(headerKey);
-            Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
-            h.setSchema(updatedHeader);
+            if (h.getSchema() != null) { // a $ref header
+                // example of header class
+                //    description: null
+                //    required: null
+                //    deprecated: null
+                //    style: null
+                //    explode: null
+                //    schema: null
+                //    examples: null
+                //    example: null
+                //    content: null
+                //    $ref: #/components/headers/Location
+                Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
+                h.setSchema(updatedHeader);
+            }
         }
     }
 
@@ -636,6 +650,18 @@ public class OpenAPINormalizer {
         for (Map.Entry<String, ApiResponse> entry : apiResponses.entrySet()) {
             normalizeResponse(entry.getValue());
         }
+    }
+
+    /**
+     * Normalizes schemas in component's headers.
+     */
+    protected void normalizeComponentsHeaders() {
+        Map<String, Header> headers = openAPI.getComponents().getHeaders();
+        if (headers == null) {
+            return;
+        }
+
+        normalizeHeaders(headers);
     }
 
     /**
