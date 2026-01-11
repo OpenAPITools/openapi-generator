@@ -216,6 +216,11 @@ export class RequestContext {
 export interface ResponseBody {
     text(): Promise<string>;
     binary(): Promise<{{{fileContentDataType}}}>;
+    {{#platforms}}
+    {{#node}}
+    stream(): ReadableStream<Uint8Array> | null;
+    {{/node}}
+    {{/platforms}}
 }
 
 /**
@@ -253,6 +258,14 @@ export class SelfDecodingBody implements ResponseBody {
         {{/deno}}
         {{/platforms}}
     }
+
+    {{#platforms}}
+    {{#node}}
+    stream(): ReadableStream<Uint8Array> | null {
+        return null;
+    }
+    {{/node}}
+    {{/platforms}}
 }
 
 export class ResponseContext {

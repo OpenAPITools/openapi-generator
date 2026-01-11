@@ -174,6 +174,7 @@ export class SelfDecodingBody implements ResponseBody {
             reader.readAsText(data);
         });
     }
+
 }
 
 export class ResponseContext {
