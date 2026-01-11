@@ -70,16 +70,4 @@ public class AnotherFakeApiTest {
         // TODO: test validations
     }
 
-    /**
-     * null request body
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void nullRequestBodyTest() throws ApiException {
-        String acceptLanguage = null;
-        api.nullRequestBody(acceptLanguage);
-        // TODO: test validations
-    }
-
 }

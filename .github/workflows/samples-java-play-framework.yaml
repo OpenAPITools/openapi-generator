@@ -23,7 +23,7 @@ jobs:
           - samples/server/petstore/java-play-framework-fake-endpoints
           - samples/server/petstore/java-play-framework-fake-endpoints-with-security
           - samples/server/petstore/java-play-framework-no-bean-validation
-          - samples/server/petstore/java-play-framework-no-exception-handling
+          - samples/server/petstore/java-play-framework-no-excp-handling
           - samples/server/petstore/java-play-framework-no-interface
           - samples/server/petstore/java-play-framework-no-nullable
           - samples/server/petstore/java-play-framework-no-swagger-ui

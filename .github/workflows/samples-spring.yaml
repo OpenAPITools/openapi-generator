@@ -42,7 +42,7 @@ jobs:
           - samples/openapi3/server/petstore/springboot-delegate
           - samples/openapi3/server/petstore/spring-boot-oneof
           - samples/server/petstore/spring-boot-nullable-set
-          - samples/server/petstore/spring-boot-defaultInterface-unhandledException
+          - samples/server/petstore/spring-boot-defaultInterface-unhandledExcp
           - samples/server/petstore/springboot
           - samples/server/petstore/springboot-beanvalidation
           - samples/server/petstore/springboot-builtin-validation

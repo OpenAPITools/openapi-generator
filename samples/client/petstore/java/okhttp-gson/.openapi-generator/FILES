@@ -265,3 +265,4 @@ src/main/java/org/openapitools/client/model/Value.java
 src/main/java/org/openapitools/client/model/Variable.java
 src/main/java/org/openapitools/client/model/Whale.java
 src/main/java/org/openapitools/client/model/Zebra.java
+src/test/java/org/openapitools/client/api/AnotherFakeApiTest.java
