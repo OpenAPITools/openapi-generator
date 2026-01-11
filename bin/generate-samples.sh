@@ -68,6 +68,5 @@ fi
 
 if [[ -n "$GENERATE_ERROR" ]]; then
   echo "Found exception(s) when running the generator(s) to update the samples."
-  # UNCOMMENT LATER
-  #exit 1
+  exit 1
 fi
