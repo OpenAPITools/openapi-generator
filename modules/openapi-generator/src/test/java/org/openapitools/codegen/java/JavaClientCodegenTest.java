@@ -4063,4 +4063,13 @@ public class JavaClientCodegenTest {
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
+
+    @Test
+    public void testOneOfInterfaceWithEnumDiscriminatorHavingCustomDescription3_1() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", WEBCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .fileContains("public FruitType getFruitType()");
+    }
 }
