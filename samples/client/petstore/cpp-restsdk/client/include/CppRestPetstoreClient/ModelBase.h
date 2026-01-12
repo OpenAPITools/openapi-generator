@@ -27,6 +27,7 @@
 #include <cpprest/json.h>
 
 #include <map>
+#include <memory>
 #include <set>
 #include <vector>
 

@@ -876,4 +876,34 @@ components:
       format: "uuid"
       pattern: "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
       type: "string"
-        
+    StringMap:
+      description: A simple string to string map
+      type: object
+      additionalProperties:
+        type: string
+    NestedStringMap:
+      description: A nested map (string to map of string to string)
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/StringMap'
+    PetStatistics:
+      description: Statistics about a pet including nested map for health records
+      type: object
+      properties:
+        groomingHistory:
+          description: Map of date to grooming notes
+          $ref: '#/components/schemas/StringMap'
+        healthRecords:
+          description: Nested map - category to (date to record)
+          $ref: '#/components/schemas/NestedStringMap'
+    SchemaWithPropsAndAddlProps:
+      description: Object with both defined properties and additionalProperties
+      type: object
+      nullable: true
+      properties:
+        propA:
+          type: string
+        propB:
+          type: string
+      additionalProperties: {}
+
