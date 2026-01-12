@@ -24,7 +24,7 @@ Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **primary_file** | **std::path::PathBuf** | Primary file (required) | [required] |
 **title** | Option<**String**> | Upload title |  |
-**tags** | Option<**Vec<String>**> | Tags for the upload |  |
+**tags** | Option<[**Vec<String>**](String.md)> | Tags for the upload |  |
 **thumbnail** | Option<**std::path::PathBuf**> | Optional thumbnail file |  |
 
 ### Return type

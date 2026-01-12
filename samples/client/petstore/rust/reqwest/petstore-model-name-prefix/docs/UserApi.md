@@ -57,7 +57,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | **Vec<models::FooUser>** | List of user object | [required] |
+**user** | [**Vec<models::FooUser>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -87,7 +87,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | **Vec<models::FooUser>** | List of user object | [required] |
+**user** | [**Vec<models::FooUser>**](User.md) | List of user object | [required] |
 
 ### Return type
 

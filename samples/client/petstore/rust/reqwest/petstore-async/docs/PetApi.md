@@ -121,7 +121,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**tags** | **Vec<String>** | Tags to filter by | [required] |
+**tags** | [**Vec<String>**](String.md) | Tags to filter by | [required] |
 
 ### Return type
 

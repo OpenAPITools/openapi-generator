@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **category** | Option<[**models::Category**](Category.md)> |  | [optional]
 **name** | **String** |  | 
 **photo_urls** | **Vec<String>** |  | 
-**tags** | Option<**Vec<models::Tag>**> |  | [optional]
-**status** | Option<**String**> | pet status in the store | [optional]
+**tags** | Option<[**Vec<models::Tag>**](Tag.md)> |  | [optional]
+**status** | Option<**String**> | pet status in the store (enum: available, pending, sold) | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
