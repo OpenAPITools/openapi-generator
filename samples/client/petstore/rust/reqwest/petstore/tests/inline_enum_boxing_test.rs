@@ -21,13 +21,22 @@ fn test_inline_enum_not_boxed_in_constructor() {
 }
 
 #[test]
-fn test_existing_ref_enum_still_works() {
-    // The Order model has a Status enum, which should still work
-    // This ensures the fix didn't break existing enum handling
-    let order = Order::new();
+fn test_existing_inline_enum_in_order_model() {
+    // The Order model has an inline Status enum (placed, approved, shipped)
+    // This ensures the fix works for enums in other models too
+    let mut order = Order::new();
 
-    // The status field should work normally
-    assert!(order.status.is_none() || order.status.is_some());
+    // Set the status to a specific enum value
+    order.status = Some(petstore_reqwest::models::order::Status::Placed);
+
+    // Verify we can access and compare the enum
+    assert_eq!(order.status, Some(petstore_reqwest::models::order::Status::Placed));
+
+    // Verify it's not boxed - this is a compile-time check
+    if let Some(status) = order.status {
+        let _status_ref: petstore_reqwest::models::order::Status = status;
+        assert_eq!(status, petstore_reqwest::models::order::Status::Placed);
+    }
 }
 
 #[test]
