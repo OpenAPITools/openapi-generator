@@ -121,7 +121,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**tags** | [**Vec<String>**](String.md) | Tags to filter by | [required] |
+**tags** | **Vec<String>** | Tags to filter by | [required] |
 
 ### Return type
 
@@ -181,7 +181,7 @@ Returns a list of pets
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**page_explode** | Option<[**FooPage**](.md)> | Object containing page `size` and page `number`. |  |
+**page_explode** | Option<[**FooPage**](FooPage.md)> | Object containing page `size` and page `number`. |  |
 
 ### Return type
 
@@ -211,7 +211,7 @@ Returns a list of pets
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**page** | Option<[**FooPage**](.md)> | The page number |  |
+**page** | Option<[**FooPage**](FooPage.md)> | The page number |  |
 
 ### Return type
 
