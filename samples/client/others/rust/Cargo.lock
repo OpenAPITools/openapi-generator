@@ -720,6 +720,7 @@ dependencies = [
  "tokio",
  "tokio-util",
  "url",
+ "wiremock",
 ]
 
 [[package]]
