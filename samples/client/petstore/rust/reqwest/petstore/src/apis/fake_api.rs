@@ -26,7 +26,7 @@ pub enum TestNullableRequiredParamError {
 
 
 /// 
-pub async fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
+pub fn test_nullable_required_param(configuration: &configuration::Configuration, user_name: &str, dummy_required_nullable_param: Option<&str>, any_type: &str, uppercase: Option<&str>, content: Option<&str>) -> Result<(), Error<TestNullableRequiredParamError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_user_name = user_name;
     let p_header_dummy_required_nullable_param = dummy_required_nullable_param;
@@ -53,14 +53,14 @@ pub async fn test_nullable_required_param(configuration: &configuration::Configu
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestNullableRequiredParamError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }

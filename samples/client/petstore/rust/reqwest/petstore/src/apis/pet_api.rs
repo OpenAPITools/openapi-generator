@@ -13,8 +13,6 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
-use tokio::fs::File as TokioFile;
-use tokio_util::codec::{BytesCodec, FramedRead};
 
 
 /// struct for typed errors of method [`add_pet`]
@@ -101,7 +99,7 @@ pub enum UploadFileError {
 
 
 /// This is the description for the addPet operation
-pub async fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
+pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_pet = pet;
 
@@ -117,7 +115,7 @@ pub async fn add_pet(configuration: &configuration::Configuration, pet: models::
     req_builder = req_builder.json(&p_body_pet);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -128,21 +126,21 @@ pub async fn add_pet(configuration: &configuration::Configuration, pet: models::
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
+pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_pet_id = pet_id;
     let p_header_api_key = api_key;
@@ -161,21 +159,21 @@ pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i6
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Multiple status values can be provided with comma separated strings. This is also a multi-line description to test rust doc comments 
-pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
+pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>, r#type: Option<Vec<String>>) -> Result<Vec<models::Pet>, Error<FindPetsByStatusError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_status = status;
     let p_query_type = r#type;
@@ -201,7 +199,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, s
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -212,14 +210,14 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, s
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
@@ -227,7 +225,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, s
 
 /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 #[deprecated]
-pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>> {
+pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<models::Pet>, Error<FindPetsByTagsError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_tags = tags;
 
@@ -246,7 +244,7 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tag
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -257,21 +255,21 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tag
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Returns a single pet
-pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>> {
+pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<models::Pet, Error<GetPetByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_pet_id = pet_id;
 
@@ -291,7 +289,7 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id:
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -302,21 +300,21 @@ pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id:
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Returns a list of pets
-pub async fn pets_explode_post(configuration: &configuration::Configuration, page_explode: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsExplodePostError>> {
+pub fn pets_explode_post(configuration: &configuration::Configuration, page_explode: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsExplodePostError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_page_explode = page_explode;
 
@@ -331,7 +329,7 @@ pub async fn pets_explode_post(configuration: &configuration::Configuration, pag
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -342,21 +340,21 @@ pub async fn pets_explode_post(configuration: &configuration::Configuration, pag
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<PetsExplodePostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Returns a list of pets
-pub async fn pets_post(configuration: &configuration::Configuration, page: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsPostError>> {
+pub fn pets_post(configuration: &configuration::Configuration, page: Option<models::Page>) -> Result<Vec<models::Pet>, Error<PetsPostError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_page = page;
 
@@ -371,7 +369,7 @@ pub async fn pets_post(configuration: &configuration::Configuration, page: Optio
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -382,21 +380,21 @@ pub async fn pets_post(configuration: &configuration::Configuration, page: Optio
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::Pet&gt;`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<PetsPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn update_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
+pub fn update_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_pet = pet;
 
@@ -412,7 +410,7 @@ pub async fn update_pet(configuration: &configuration::Configuration, pet: model
     req_builder = req_builder.json(&p_body_pet);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -423,21 +421,21 @@ pub async fn update_pet(configuration: &configuration::Configuration, pet: model
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Pet`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Pet`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
+pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_pet_id = pet_id;
     let p_form_name = name;
@@ -462,21 +460,21 @@ pub async fn update_pet_with_form(configuration: &configuration::Configuration, 
     req_builder = req_builder.form(&multipart_form_params);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>> {
+pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<models::ApiResponse, Error<UploadFileError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_pet_id = pet_id;
     let p_form_additional_metadata = additional_metadata;
@@ -491,20 +489,17 @@ pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i
     if let Some(ref token) = configuration.oauth_access_token {
         req_builder = req_builder.bearer_auth(token.to_owned());
     };
-    let mut multipart_form = reqwest::multipart::Form::new();
+    let mut multipart_form = reqwest::blocking::multipart::Form::new();
     if let Some(param_value) = p_form_additional_metadata {
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
     if let Some(ref param_value) = p_form_file {
-        let file_bytes = tokio::fs::read(param_value).await?;
-        let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
-        let file_part = reqwest::multipart::Part::bytes(file_bytes).file_name(file_name);
-        multipart_form = multipart_form.part("file", file_part);
+        multipart_form = multipart_form.file("file", param_value)?;
     }
     req_builder = req_builder.multipart(multipart_form);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -515,14 +510,14 @@ pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ApiResponse`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ApiResponse`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }

@@ -84,7 +84,7 @@ pub enum UpdateUserError {
 
 
 /// This can only be done by the logged in user.
-pub async fn create_user(configuration: &configuration::Configuration, user: models::User) -> Result<(), Error<CreateUserError>> {
+pub fn create_user(configuration: &configuration::Configuration, user: models::User) -> Result<(), Error<CreateUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_user = user;
 
@@ -105,21 +105,21 @@ pub async fn create_user(configuration: &configuration::Configuration, user: mod
     req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<CreateUserError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn create_users_with_array_input(configuration: &configuration::Configuration, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
+pub fn create_users_with_array_input(configuration: &configuration::Configuration, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithArrayInputError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_user = user;
 
@@ -140,21 +140,21 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn create_users_with_list_input(configuration: &configuration::Configuration, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
+pub fn create_users_with_list_input(configuration: &configuration::Configuration, user: Vec<models::User>) -> Result<(), Error<CreateUsersWithListInputError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_user = user;
 
@@ -175,21 +175,21 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// This can only be done by the logged in user.
-pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserError>> {
+pub fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_username = username;
 
@@ -209,21 +209,21 @@ pub async fn delete_user(configuration: &configuration::Configuration, username:
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<DeleteUserError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<models::User, Error<GetUserByNameError>> {
+pub fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<models::User, Error<GetUserByNameError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_username = username;
 
@@ -235,7 +235,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, user
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -246,21 +246,21 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, user
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::User`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::User`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<GetUserByNameError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
+pub fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_username = username;
     let p_query_password = password;
@@ -275,7 +275,7 @@ pub async fn login_user(configuration: &configuration::Configuration, username: 
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -286,21 +286,21 @@ pub async fn login_user(configuration: &configuration::Configuration, username: 
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Ok(content),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `String`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<LoginUserError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserError>> {
+pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserError>> {
 
     let uri_str = format!("{}/user/logout", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -318,21 +318,21 @@ pub async fn logout_user(configuration: &configuration::Configuration, ) -> Resu
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<LogoutUserError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// This can only be done by the logged in user.
-pub async fn update_user(configuration: &configuration::Configuration, username: &str, user: models::User) -> Result<(), Error<UpdateUserError>> {
+pub fn update_user(configuration: &configuration::Configuration, username: &str, user: models::User) -> Result<(), Error<UpdateUserError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_username = username;
     let p_body_user = user;
@@ -354,14 +354,14 @@ pub async fn update_user(configuration: &configuration::Configuration, username:
     req_builder = req_builder.json(&p_body_user);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<UpdateUserError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }

@@ -51,7 +51,7 @@ pub enum TestsTypeTestingGetError {
 }
 
 
-pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Configuration, person: models::Person) -> Result<String, Error<TestsAllOfWithOneModelGetError>> {
+pub fn tests_all_of_with_one_model_get(configuration: &configuration::Configuration, person: models::Person) -> Result<String, Error<TestsAllOfWithOneModelGetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_person = person;
 
@@ -64,7 +64,7 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
     req_builder = req_builder.json(&p_body_person);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -75,20 +75,20 @@ pub async fn tests_all_of_with_one_model_get(configuration: &configuration::Conf
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `String`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `String`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestsAllOfWithOneModelGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn tests_file_response_get(configuration: &configuration::Configuration, ) -> Result<reqwest::Response, Error<TestsFileResponseGetError>> {
+pub fn tests_file_response_get(configuration: &configuration::Configuration, ) -> Result<reqwest::blocking::Response, Error<TestsFileResponseGetError>> {
 
     let uri_str = format!("{}/tests/fileResponse", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -98,21 +98,21 @@ pub async fn tests_file_response_get(configuration: &configuration::Configuratio
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(resp)
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestsFileResponseGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Tests inline enum query parameters
-pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configuration, status: Option<&str>) -> Result<Vec<models::ModelWithInlineEnum>, Error<TestsInlineEnumBoxingGetError>> {
+pub fn tests_inline_enum_boxing_get(configuration: &configuration::Configuration, status: Option<&str>) -> Result<Vec<models::ModelWithInlineEnum>, Error<TestsInlineEnumBoxingGetError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_query_status = status;
 
@@ -127,7 +127,7 @@ pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configu
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -138,21 +138,21 @@ pub async fn tests_inline_enum_boxing_get(configuration: &configuration::Configu
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `Vec&lt;models::ModelWithInlineEnum&gt;`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestsInlineEnumBoxingGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Regression test to ensure inline enum fields are not wrapped in Box::new() in model constructors
-pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Configuration, model_with_inline_enum: models::ModelWithInlineEnum) -> Result<models::ModelWithInlineEnum, Error<TestsInlineEnumBoxingPostError>> {
+pub fn tests_inline_enum_boxing_post(configuration: &configuration::Configuration, model_with_inline_enum: models::ModelWithInlineEnum) -> Result<models::ModelWithInlineEnum, Error<TestsInlineEnumBoxingPostError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_model_with_inline_enum = model_with_inline_enum;
 
@@ -165,7 +165,7 @@ pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Config
     req_builder = req_builder.json(&p_body_model_with_inline_enum);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -176,20 +176,20 @@ pub async fn tests_inline_enum_boxing_post(configuration: &configuration::Config
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::ModelWithInlineEnum`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::ModelWithInlineEnum`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestsInlineEnumBoxingPostError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
-pub async fn tests_type_testing_get(configuration: &configuration::Configuration, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>> {
+pub fn tests_type_testing_get(configuration: &configuration::Configuration, ) -> Result<models::TypeTesting, Error<TestsTypeTestingGetError>> {
 
     let uri_str = format!("{}/tests/typeTesting", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -199,7 +199,7 @@ pub async fn tests_type_testing_get(configuration: &configuration::Configuration
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req).await?;
+    let resp = configuration.client.execute(req)?;
 
     let status = resp.status();
     let content_type = resp
@@ -210,14 +210,14 @@ pub async fn tests_type_testing_get(configuration: &configuration::Configuration
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::TypeTesting`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::TypeTesting`")))),
         }
     } else {
-        let content = resp.text().await?;
+        let content = resp.text()?;
         let entity: Option<TestsTypeTestingGetError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
