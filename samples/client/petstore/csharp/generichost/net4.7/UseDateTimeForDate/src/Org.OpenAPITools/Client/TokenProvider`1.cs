@@ -25,7 +25,12 @@ namespace Org.OpenAPITools
         /// </summary>
         protected TTokenBase[] _tokens;
 
-        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default);
+        /// <summary>
+        /// Gets an authentication token to be used in request authorization.
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="cancellation"></param>
+        protected internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default);
 
         /// <summary>
         /// Instantiates a TokenProvider.
@@ -34,9 +39,6 @@ namespace Org.OpenAPITools
         public TokenProvider(IEnumerable<TTokenBase> tokens)
         {
             _tokens = tokens.ToArray();
-
-            if (_tokens.Length == 0)
-                throw new ArgumentException("You did not provide any tokens.");
         }
     }
 }
