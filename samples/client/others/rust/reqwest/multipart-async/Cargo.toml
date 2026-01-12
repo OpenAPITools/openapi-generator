@@ -1,0 +1,25 @@
+[package]
+name = "multipart-upload-reqwest-async"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "Regression test for async multipart file uploads with tokio::fs"
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+tokio = { version = "^1.46.0", features = ["fs", "macros", "rt-multi-thread"] }
+tokio-util = { version = "^0.7", features = ["codec"] }
+reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+
+[dev-dependencies]
+tokio = { version = "^1.46.0", features = ["fs", "macros", "rt-multi-thread", "test-util"] }
+
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]

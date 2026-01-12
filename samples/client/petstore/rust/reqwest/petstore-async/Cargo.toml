@@ -17,6 +17,10 @@ tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
 reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
 
+[dev-dependencies]
+wiremock = "0.6"
+tokio = { version = "^1.46.0", features = ["macros", "rt-multi-thread"] }
+
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]

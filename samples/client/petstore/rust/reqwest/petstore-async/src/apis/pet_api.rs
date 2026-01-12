@@ -13,6 +13,8 @@ use reqwest;
 use serde::{Deserialize, Serialize, de::Error as _};
 use crate::{apis::ResponseContent, models};
 use super::{Error, configuration, ContentType};
+use tokio::fs::File as TokioFile;
+use tokio_util::codec::{BytesCodec, FramedRead};
 
 /// struct for passing parameters to the method [`add_pet`]
 #[derive(Clone, Debug)]
@@ -568,7 +570,10 @@ pub async fn upload_file(configuration: &configuration::Configuration, params: U
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
     if let Some(ref param_value) = params.file {
-       multipart_form = multipart_form.file("file", param_value.as_os_str()).await?;
+        let file_bytes = tokio::fs::read(param_value).await?;
+        let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let file_part = reqwest::multipart::Part::bytes(file_bytes).file_name(file_name);
+        multipart_form = multipart_form.part("file", file_part);
     }
     req_builder = req_builder.multipart(multipart_form);
 

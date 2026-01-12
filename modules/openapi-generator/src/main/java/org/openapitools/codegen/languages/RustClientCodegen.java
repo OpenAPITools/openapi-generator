@@ -741,13 +741,25 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             }
 
             // If we use a file body parameter, we need to include the imports and crates for it
-            // But they should be added only once per file 
+            // But they should be added only once per file
             for (var param: operation.bodyParams) {
                 if (param.isFile && supportAsync && !useAsyncFileStream) {
                     useAsyncFileStream = true;
                     additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
                     operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
                     break;
+                }
+            }
+
+            // Also check form params for file uploads (multipart)
+            if (!useAsyncFileStream) {
+                for (var param: operation.formParams) {
+                    if (param.isFile && supportAsync) {
+                        useAsyncFileStream = true;
+                        additionalProperties.put("useAsyncFileStream", Boolean.TRUE);
+                        operation.vendorExtensions.put("useAsyncFileStream", Boolean.TRUE);
+                        break;
+                    }
                 }
             }
 

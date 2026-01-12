@@ -50,7 +50,7 @@ pub enum PlaceOrderError {
 
 
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
+pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_order_id = order_id;
 
@@ -62,21 +62,21 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req)?;
+    let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
 
     if !status.is_client_error() && !status.is_server_error() {
         Ok(())
     } else {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         let entity: Option<DeleteOrderError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// Returns a map of status codes to quantities
-pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
+pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
 
     let uri_str = format!("{}/store/inventory", configuration.base_path);
     let mut req_builder = configuration.client.request(reqwest::Method::GET, &uri_str);
@@ -94,7 +94,7 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<s
     };
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req)?;
+    let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
     let content_type = resp
@@ -105,21 +105,21 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<s
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `std::collections::HashMap&lt;String, i32&gt;`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `std::collections::HashMap&lt;String, i32&gt;`")))),
         }
     } else {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         let entity: Option<GetInventoryError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
-pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>> {
+pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<models::Order, Error<GetOrderByIdError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_path_order_id = order_id;
 
@@ -131,7 +131,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     }
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req)?;
+    let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
     let content_type = resp
@@ -142,21 +142,21 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Order`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Order`")))),
         }
     } else {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         let entity: Option<GetOrderByIdError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
 }
 
 /// 
-pub fn place_order(configuration: &configuration::Configuration, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
+pub async fn place_order(configuration: &configuration::Configuration, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
     // add a prefix to parameters to efficiently prevent name collisions
     let p_body_order = order;
 
@@ -169,7 +169,7 @@ pub fn place_order(configuration: &configuration::Configuration, order: models::
     req_builder = req_builder.json(&p_body_order);
 
     let req = req_builder.build()?;
-    let resp = configuration.client.execute(req)?;
+    let resp = configuration.client.execute(req).await?;
 
     let status = resp.status();
     let content_type = resp
@@ -180,14 +180,14 @@ pub fn place_order(configuration: &configuration::Configuration, order: models::
     let content_type = super::ContentType::from(content_type);
 
     if !status.is_client_error() && !status.is_server_error() {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         match content_type {
             ContentType::Json => serde_json::from_str(&content).map_err(Error::from),
             ContentType::Text => return Err(Error::from(serde_json::Error::custom("Received `text/plain` content type response that cannot be converted to `models::Order`"))),
             ContentType::Unsupported(unknown_type) => return Err(Error::from(serde_json::Error::custom(format!("Received `{unknown_type}` content type response that cannot be converted to `models::Order`")))),
         }
     } else {
-        let content = resp.text()?;
+        let content = resp.text().await?;
         let entity: Option<PlaceOrderError> = serde_json::from_str(&content).ok();
         Err(Error::ResponseError(ResponseContent { status, content, entity }))
     }
