@@ -19,16 +19,15 @@
         {{/oneOfUnknownDefaultCase}}
         }
     }
+{{#discriminator}}
 
-    {{#discriminator}}
     private enum DiscriminatorCodingKey: String, CodingKey {
         case {{discriminator.propertyName}} = "{{discriminator.propertyBaseName}}"
     }
-    {{/discriminator}}
+{{/discriminator}}
 
     public init(from decoder: Decoder) throws {
-        {{#discriminator}}
-        let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)
+{{#discriminator}}        let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)
         let discriminatorValue = try keyedContainer.decode(String.self, forKey: .{{discriminator.propertyName}})
 
         switch discriminatorValue {
@@ -49,9 +48,7 @@
             )
             {{/oneOfUnknownDefaultCase}}
         }
-        {{/discriminator}}
-        {{^discriminator}}
-        let container = try decoder.singleValueContainer()
+{{/discriminator}}{{^discriminator}}        let container = try decoder.singleValueContainer()
         {{#oneOf}}
         {{#-first}}
         if let value = try? container.decode({{.}}.self) {
@@ -69,6 +66,5 @@
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of {{classname}}"))
             {{/oneOfUnknownDefaultCase}}
         }
-        {{/discriminator}}
-    }
+{{/discriminator}}    }
 }
