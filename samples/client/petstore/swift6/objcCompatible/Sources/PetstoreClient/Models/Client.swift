@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Client: NSObject, Codable, ParameterConvertible {
+@objcMembers public class Client: NSObject, Codable {
 
     public var client: String?
 

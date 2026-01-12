@@ -12,7 +12,7 @@ public typealias Capitalization = PetstoreClientAPI.Capitalization
 
 extension PetstoreClientAPI {
 
-public final class Capitalization: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Capitalization: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var smallCamel: String?
     public private(set) var capitalCamel: String?

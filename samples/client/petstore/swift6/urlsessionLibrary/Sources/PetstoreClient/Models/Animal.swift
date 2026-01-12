@@ -12,7 +12,7 @@ public typealias Animal = PetstoreClientAPI.Animal
 
 extension PetstoreClientAPI {
 
-public final class Animal: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Animal: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var className: String
     public private(set) var color: String? = "red"

@@ -12,7 +12,7 @@ public typealias Pet = PetstoreClientAPI.Pet
 
 extension PetstoreClientAPI {
 
-public final class Pet: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Pet: @unchecked Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"

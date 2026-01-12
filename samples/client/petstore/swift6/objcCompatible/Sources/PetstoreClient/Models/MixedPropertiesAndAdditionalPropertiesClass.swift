@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable, ParameterConvertible {
+@objcMembers public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
 
     public var uuid: UUID?
     public var dateTime: Date?

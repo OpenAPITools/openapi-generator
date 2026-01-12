@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class TypeHolderDefault: NSObject, Codable, ParameterConvertible {
+@objcMembers public class TypeHolderDefault: NSObject, Codable {
 
     public var stringItem: String = "what"
     public var numberItem: Double

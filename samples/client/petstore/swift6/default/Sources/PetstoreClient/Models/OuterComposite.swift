@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct OuterComposite: Sendable, Codable, ParameterConvertible, Hashable {
+public struct OuterComposite: Sendable, Codable, Hashable {
 
     public var myNumber: Double?
     public var myString: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Tag: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Tag: Sendable, Codable, Hashable {
 
     public var id: Int64?
     public var name: String?

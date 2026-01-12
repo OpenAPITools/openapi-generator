@@ -12,7 +12,7 @@ public typealias StringBooleanMap = PetstoreClientAPI.StringBooleanMap
 
 extension PetstoreClientAPI {
 
-public final class StringBooleanMap: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class StringBooleanMap: @unchecked Sendable, Codable, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

@@ -12,7 +12,7 @@ public typealias Tag = PetstoreClientAPI.Tag
 
 extension PetstoreClientAPI {
 
-public final class Tag: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Tag: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var name: String?

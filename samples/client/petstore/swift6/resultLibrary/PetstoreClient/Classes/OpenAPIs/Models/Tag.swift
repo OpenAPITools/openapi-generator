@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Tag: Sendable, Codable, ParameterConvertible, Hashable {
+internal struct Tag: Sendable, Codable, Hashable {
 
     internal private(set) var id: Int64?
     internal private(set) var name: String?
