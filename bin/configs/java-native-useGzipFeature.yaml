@@ -7,3 +7,4 @@ additionalProperties:
   artifactId: petstore-native-useGzipFeature
   hideGenerationTimestamp: "true"
   useJakartaEe: "true"
+  useGzipFeature: "true"
