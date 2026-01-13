@@ -1,9 +1,15 @@
 # {{#lambdaPrefixWithHash}}{{> api_info}}{{/lambdaPrefixWithHash}}
 
-# Dependencies
+# Stdlib dependencies
+require "big"
+require "json"
+require "log"
+require "time"
+require "yaml"
+
+# External dependencies
 require "any_hash"
 require "crest"
-require "log"
 
 module {{moduleName}}
   Log = ::Log.for("{{moduleName}}") # => Log for {{moduleName}} source
