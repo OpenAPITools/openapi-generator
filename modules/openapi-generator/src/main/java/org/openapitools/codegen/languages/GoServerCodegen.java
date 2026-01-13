@@ -61,6 +61,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Setter protected Boolean addResponseHeaders = false;
     @Setter protected Boolean outputAsLibrary = false;
     @Setter protected Boolean onlyInterfaces = false;
+    @Setter protected Boolean allowUnknownFields = false;
 
 
     public GoServerCodegen() {
@@ -132,6 +133,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optOutputAsLibrary.setType("bool");
         optOutputAsLibrary.defaultValue(outputAsLibrary.toString());
         cliOptions.add(optOutputAsLibrary);
+
+        // option to allow unknown fields in the request
+        CliOption optAllowUnknownFields = new CliOption("allowUnknownFields", "Allow unknown fields in the request");
+        optAllowUnknownFields.setType("bool");
+        optAllowUnknownFields.defaultValue(allowUnknownFields.toString());
+        cliOptions.add(optAllowUnknownFields);
+
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
@@ -251,6 +259,12 @@ public class GoServerCodegen extends AbstractGoCodegen {
             this.setOutputAsLibrary(convertPropertyToBooleanAndWriteBack("outputAsLibrary"));
         } else {
             additionalProperties.put("outputAsLibrary", outputAsLibrary);
+        }
+
+        if (additionalProperties.containsKey("allowUnknownFields")) {
+            this.setAllowUnknownFields(convertPropertyToBooleanAndWriteBack("allowUnknownFields"));
+        } else {
+            additionalProperties.put("allowUnknownFields", allowUnknownFields);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
