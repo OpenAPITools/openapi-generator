@@ -21,4 +21,4 @@ reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = ["reqwest/rustls-tls"]
+rustls = ["reqwest/rustls"]
