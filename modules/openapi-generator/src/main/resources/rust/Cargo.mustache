@@ -68,7 +68,7 @@ secrecy = "0.8.0"
 {{^supportAsync}}
 reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
@@ -81,7 +81,7 @@ reqwest = { version = "^0.13", default-features = false, features = ["json", "mu
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "query", "form"] }
 {{/useAsyncFileStream}}
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 async-trait = "^0.1"
@@ -99,7 +99,7 @@ rustls = ["reqwest/rustls"]
 async-trait = "^0.1"
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 # TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
