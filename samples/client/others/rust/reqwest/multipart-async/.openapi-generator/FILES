@@ -1,6 +1,5 @@
 .gitignore
 .travis.yml
-Cargo.toml
 README.md
 docs/DefaultApi.md
 docs/UploadResponse.md

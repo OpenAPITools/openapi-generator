@@ -1,6 +1,5 @@
 .gitignore
 .travis.yml
-Cargo.toml
 README.md
 docs/ActionContainer.md
 docs/AnyTypeTest.md

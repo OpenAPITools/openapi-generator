@@ -1,6 +1,5 @@
 .gitignore
 .travis.yml
-Cargo.toml
 README.md
 docs/AggregateResponse.md
 docs/DefaultApi.md
