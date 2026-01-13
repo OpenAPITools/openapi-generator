@@ -368,6 +368,45 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     break;
                 }
             }
+
+            // Compute documentation type for each property
+            // This matches the actual generated code type, including HashSet for uniqueItems
+            for (CodegenProperty cp : cm.vars) {
+                String docType;
+
+                if (cp.datatypeWithEnum != null && !cp.datatypeWithEnum.isEmpty()) {
+                    // Use enum type if available (e.g., Vec<UniqueItemArray> instead of Vec<String>)
+                    docType = cp.datatypeWithEnum;
+                } else {
+                    // Use regular dataType
+                    docType = cp.dataType;
+                }
+
+                // Apply uniqueItems logic (matching model.mustache lines 139, 161)
+                // Arrays with uniqueItems=true use HashSet instead of Vec in the generated code
+                if (Boolean.TRUE.equals(cp.getUniqueItems()) && docType.startsWith("Vec<")) {
+                    docType = docType.replace("Vec<", "HashSet<");
+                }
+
+                cp.vendorExtensions.put("x-doc-type", docType);
+
+                // Determine if this type should have a doc link
+                // Only local models should link, not external types from std lib or crates
+                boolean shouldLink = false;
+                if (cp.complexType != null && !cp.complexType.isEmpty()) {
+                    // Check if it's an external type by looking for known prefixes
+                    String[] externalPrefixes = {"std::", "serde_json::", "uuid::", "chrono::", "url::"};
+                    boolean isExternal = false;
+                    for (String prefix : externalPrefixes) {
+                        if (cp.complexType.startsWith(prefix)) {
+                            isExternal = true;
+                            break;
+                        }
+                    }
+                    shouldLink = !isExternal;
+                }
+                cp.vendorExtensions.put("x-should-link", shouldLink);
+            }
         }
         // process enum in models
         return postProcessModelsEnum(objs);

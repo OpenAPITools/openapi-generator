@@ -43,6 +43,8 @@ Class | Method | HTTP request | Description
 *StoreApi* | [**place_order**](docs/StoreApi.md#place_order) | **Post** /store/order | Place an order for a pet
 *TestingApi* | [**tests_all_of_with_one_model_get**](docs/TestingApi.md#tests_all_of_with_one_model_get) | **Get** /tests/allOfWithOneModel | Test for allOf with a single option. (One of the issues in #20500)
 *TestingApi* | [**tests_file_response_get**](docs/TestingApi.md#tests_file_response_get) | **Get** /tests/fileResponse | Returns an image file
+*TestingApi* | [**tests_inline_enum_boxing_get**](docs/TestingApi.md#tests_inline_enum_boxing_get) | **Get** /tests/inlineEnumBoxing | Get model with inline enums
+*TestingApi* | [**tests_inline_enum_boxing_post**](docs/TestingApi.md#tests_inline_enum_boxing_post) | **Post** /tests/inlineEnumBoxing | Test for inline enum fields not being boxed in model constructors
 *TestingApi* | [**tests_type_testing_get**](docs/TestingApi.md#tests_type_testing_get) | **Get** /tests/typeTesting | Route to test the TypeTesting schema
 *UserApi* | [**create_user**](docs/UserApi.md#create_user) | **Post** /user | Create user
 *UserApi* | [**create_users_with_array_input**](docs/UserApi.md#create_users_with_array_input) | **Post** /user/createWithArray | Creates list of users with given input array
@@ -63,6 +65,8 @@ Class | Method | HTTP request | Description
  - [Baz](docs/Baz.md)
  - [Category](docs/Category.md)
  - [EnumArrayTesting](docs/EnumArrayTesting.md)
+ - [ModelWithInlineEnum](docs/ModelWithInlineEnum.md)
+ - [ModelWithInlineEnumMetadata](docs/ModelWithInlineEnumMetadata.md)
  - [NullableArray](docs/NullableArray.md)
  - [NumericEnumTesting](docs/NumericEnumTesting.md)
  - [OptionalTesting](docs/OptionalTesting.md)
