@@ -18,4 +18,4 @@ reqwest = { version = "^0.13", default-features = false, features = ["json", "bl
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = ["reqwest/rustls-tls"]
+rustls = ["reqwest/rustls"]
