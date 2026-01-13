@@ -6175,4 +6175,28 @@ public class SpringCodegenTest {
             "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
+
+    @Test
+    public void testPaginatedReturnTypePage() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setPaginatedReturnType(PaginatedReturnType.PAGE);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsByStatus").hasReturnType("ResponseEntity<Page<Pet>>");
+    }
+
+    @Test
+    public void testPaginatedReturnTypeSlice() throws IOException {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setPaginatedReturnType(PaginatedReturnType.SLICE);
+
+        Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("findPetsByStatus").hasReturnType("ResponseEntity<Slice<Pet>>");
+    }
 }

@@ -58,6 +58,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
+    private static final String PAGINATED_RETURN_OPTION = "paginatedReturnType";
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -108,9 +109,22 @@ public class SpringCodegen extends AbstractJavaCodegen
         controller("Generate the @RequestMapping annotation on the generated Api Controller Implementation."),
         none("Do not add a class level @RequestMapping annotation.");
 
-        private String description;
+        private final String description;
 
         RequestMappingMode(String description) {
+            this.description = description;
+        }
+    }
+
+    @Getter
+    public enum PaginatedReturnType {
+        LIST("Keep using java.util.List for collection responses (default)."),
+        SLICE("Use org.springframework.data.domain.Slice for collection responses when x-spring-paginated is enabled."),
+        PAGE("Use org.springframework.data.domain.Page for collection responses when x-spring-paginated is enabled.");
+
+        private final String description;
+
+        PaginatedReturnType(String description) {
             this.description = description;
         }
     }
@@ -157,6 +171,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
+    @Getter @Setter
+    protected PaginatedReturnType paginatedReturnType = PaginatedReturnType.LIST;
     @Getter @Setter
     protected boolean optionalAcceptNullable = true;
     @Getter @Setter
@@ -257,6 +273,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             requestMappingOpt.addEnum(mode.name(), mode.getDescription());
         }
         cliOptions.add(requestMappingOpt);
+
+        CliOption paginatedReturnOpt = new CliOption(PAGINATED_RETURN_OPTION,
+                "Set container type to use for collection responses when the operation has vendor extension 'x-spring-paginated'. Applies only to collection responses.")
+                .defaultValue(paginatedReturnType.name());
+        for (PaginatedReturnType v : PaginatedReturnType.values()) {
+            paginatedReturnOpt.addEnum(v.name(), v.getDescription());
+        }
+        cliOptions.add(paginatedReturnOpt);
 
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING,
                 "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).",
@@ -376,6 +400,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         convertPropertyToTypeAndWriteBack(REQUEST_MAPPING_OPTION, RequestMappingMode::valueOf, this::setRequestMappingMode);
+        convertPropertyToTypeAndWriteBack(PAGINATED_RETURN_OPTION, PaginatedReturnType::valueOf, this::setPaginatedReturnType);
 
         // Please refrain from updating values of Config Options after super.ProcessOpts() is called
         super.processOpts();
@@ -732,9 +757,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 value.put("tag", tag);
                                 tags.add(value);
                             }
-                            if (operation.getTags().size() > 0) {
+                            if (!operation.getTags().isEmpty()) {
                                 final String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
+                                operation.setTags(Collections.singletonList(tag));
                             }
                             operation.addExtension("x-tags", tags);
                         }
@@ -793,6 +818,53 @@ public class SpringCodegen extends AbstractJavaCodegen
                     }
                 });
 
+                // If the operation has x-spring-paginated and the return is a collection (List),
+                // adjust the container type according to the configured paginatedReturnType.
+                if (operation.vendorExtensions.containsKey("x-spring-paginated")) {
+                    if ("List".equals(operation.returnContainer)) {
+                        switch (paginatedReturnType) {
+                            case PAGE:
+                                operation.returnContainer = "Page";
+                                break;
+                            case SLICE:
+                                operation.returnContainer = "Slice";
+                                break;
+                            case LIST:
+                            default:
+                                // keep List
+                        }
+                        if ("Page".equals(operation.returnContainer) || "Slice".equals(operation.returnContainer)) {
+                            // ensure import and importMapping for Page/Slice
+                            operation.imports.add(operation.returnContainer);
+                            importMapping.put(operation.returnContainer, "org.springframework.data.domain." + operation.returnContainer);
+                        }
+                    }
+
+                    // Also apply to responses that are collections
+                    if (operation.responses != null) {
+                        for (final CodegenResponse resp : operation.responses) {
+                            if ("List".equals(resp.containerType)) {
+                                switch (paginatedReturnType) {
+                                    case PAGE:
+                                        resp.containerType = "Page";
+                                        break;
+                                    case SLICE:
+                                        resp.containerType = "Slice";
+                                        break;
+                                    case LIST:
+                                    default:
+                                        // keep List
+                                }
+                                if ("Page".equals(resp.containerType) || "Slice".equals(resp.containerType)) {
+                                    // imports are kept on operation level
+                                    operation.imports.add(resp.containerType);
+                                    importMapping.put(resp.containerType, "org.springframework.data.domain." + resp.containerType);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
             }
@@ -824,29 +896,28 @@ public class SpringCodegen extends AbstractJavaCodegen
      *                         fields in the model.
      */
     private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
-        final String rt = returnType;
-        if (rt == null) {
+        if (returnType == null) {
             dataTypeAssigner.setReturnType("Void");
             dataTypeAssigner.setIsVoid(true);
-        } else if (rt.startsWith("List") || rt.startsWith("java.util.List")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("List") || returnType.startsWith("java.util.List")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (rt.startsWith("Map") || rt.startsWith("java.util.Map")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Map") || returnType.startsWith("java.util.Map")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).split(",", 2)[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).split(",", 2)[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
-        } else if (rt.startsWith("Set") || rt.startsWith("java.util.Set")) {
-            final int start = rt.indexOf("<");
-            final int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("Set") || returnType.startsWith("java.util.Set")) {
+            final int start = returnType.indexOf("<");
+            final int end = returnType.lastIndexOf(">");
             if (start > 0 && end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring(start + 1, end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring(start + 1, end).trim());
                 dataTypeAssigner.setReturnContainer("Set");
             }
         }
@@ -899,7 +970,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultApi";
         }
         name = sanitizeName(name);
@@ -947,10 +1018,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
 
         // Add imports for Jackson
-        if (!Boolean.TRUE.equals(model.isEnum)) {
+        if (!model.isEnum) {
             model.imports.add("JsonProperty");
 
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (model.hasEnums) {
                 model.imports.add("JsonValue");
             }
         } else { // enum class
@@ -1086,7 +1157,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 if (schemaTypes.containsKey("array")) {
                     // we have a match with SSE pattern
                     // double check potential conflicting, multiple specs
-                    if (schemaTypes.keySet().size() > 1) {
+                    if (schemaTypes.size() > 1) {
                         throw new RuntimeException("only 1 response media type supported, when SSE is detected");
                     }
                     // double check schema format
@@ -1175,7 +1246,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             for (CodegenProperty var : cm.vars) {
                 addNullableImports = isAddNullableImports(cm, addNullableImports, var);
             }
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            if (cm.isEnum && cm.allowableValues != null) {
                 cm.imports.add(importMapping.get("JsonValue"));
                 final Map<String, String> item = new HashMap<>();
                 item.put("import", importMapping.get("JsonValue"));
