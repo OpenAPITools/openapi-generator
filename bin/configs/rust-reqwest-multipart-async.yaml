@@ -1,0 +1,9 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest/multipart-async
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/multipart-file-upload.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: true
+  useSingleRequestParameter: true
+  packageName: multipart-upload-reqwest-async
