@@ -30,7 +30,7 @@ jobs:
           - samples/client/others/rust/
           - samples/client/petstore/rust/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable

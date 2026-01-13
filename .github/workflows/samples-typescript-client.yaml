@@ -128,7 +128,7 @@ jobs:
           - samples/client/petstore/typescript-axios/builds/with-npm-version/
           #- samples/client/petstore/typescript-axios/tests/default/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Add hosts to /etc/hosts
         run: |
             sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts

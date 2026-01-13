@@ -27,7 +27,7 @@ jobs:
           - 'samples/client/petstore/ocaml-oneOf-primitive/'
           - 'samples/client/petstore/ocaml-additional-properties/'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Set-up OCaml
         uses: ocaml/setup-ocaml@v3
         with:

@@ -40,7 +40,7 @@ jobs:
           # unity
           #- samples/client/petstore/csharp/unityWebRequest/net9/Petstore
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-dotnet@v5.0.1
         with:
           dotnet-version: '9.0.x'
