@@ -167,6 +167,33 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "773648b94d0e5d620f64f280777445740e61fe701025087ec8b57f45c791888b"
 
 [[package]]
+name = "discriminator-reserved-keyword-hyper"
+version = "1.0.0"
+dependencies = [
+ "base64 0.7.0",
+ "futures",
+ "http 0.2.11",
+ "http-body-util",
+ "hyper",
+ "hyper-util",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "url",
+]
+
+[[package]]
+name = "discriminator-reserved-keyword-reqwest"
+version = "1.0.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "url",
+]
+
+[[package]]
 name = "empty-object-hyper"
 version = "1.0.0"
 dependencies = [
