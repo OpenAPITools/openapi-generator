@@ -118,10 +118,7 @@ impl<C: Connect>PetApi for PetApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pets/explode".to_string())
         ;
         if let Some(ref s) = page_explode {
-            let query_value = match serde_json::to_string(s) {
-                Ok(value) => value,
-                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
-            };
+            let query_value = s.to_string();
             req = req.with_query_param("pageExplode".to_string(), query_value);
         }
 
@@ -133,10 +130,7 @@ impl<C: Connect>PetApi for PetApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/pets".to_string())
         ;
         if let Some(ref s) = page {
-            let query_value = match serde_json::to_string(s) {
-                Ok(value) => value,
-                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
-            };
+            let query_value = s.to_string();
             req = req.with_query_param("page".to_string(), query_value);
         }
 

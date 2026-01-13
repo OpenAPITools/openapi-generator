@@ -68,10 +68,7 @@ impl<C: Connect>TestingApi for TestingApiClient<C>
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/tests/inlineEnumBoxing".to_string())
         ;
         if let Some(ref s) = status {
-            let query_value = match serde_json::to_string(s) {
-                Ok(value) => value,
-                Err(e) => return Box::pin(futures::future::err(Error::Serde(e))),
-            };
+            let query_value = s.to_string();
             req = req.with_query_param("status".to_string(), query_value);
         }
 
