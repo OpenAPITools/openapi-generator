@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Orange: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Orange: Sendable, Codable, Hashable {
 
     public var sweet: Bool?
 
