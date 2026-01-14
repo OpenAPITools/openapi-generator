@@ -478,7 +478,7 @@ public class ApiClient {
     if (encoding.isPresent()) {
       for (String token : encoding.get().split(",")) {
         if ("gzip".equalsIgnoreCase(token.trim())) {
-          return new GZIPInputStream(body);
+          return new GZIPInputStream(body, 8192);
         }
       }
     }
