@@ -1,0 +1,17 @@
+
+import coursier.LocalRepositories.Dangerous
+import coursier.Repositories
+import mill.api.Task
+import mill.meta.MillBuildRootModule
+
+object `package` extends MillBuildRootModule {
+
+  override def repositories = Task {
+    Seq(
+      // central needed for default deps
+      Repositories.central.root,
+      // the previously installed snapshot is in local maven
+      // see docs on Coursier, why m2 is considered dangerous
+      Dangerous.maven2Local.root)
+  }
+}

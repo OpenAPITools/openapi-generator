@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 
 @RestController
 @RequestMapping("/pet")

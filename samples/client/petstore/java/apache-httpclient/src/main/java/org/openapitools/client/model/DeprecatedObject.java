@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -35,7 +34,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   DeprecatedObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class DeprecatedObject {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -141,7 +140,7 @@ public class DeprecatedObject {
     // add `name` to the URL query string
     if (getName() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

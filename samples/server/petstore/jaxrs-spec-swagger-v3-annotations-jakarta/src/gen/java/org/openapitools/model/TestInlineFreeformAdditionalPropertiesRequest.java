@@ -13,12 +13,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @Schema(description="")
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<String, Object> implements Serializable {
   private String someProperty;
 

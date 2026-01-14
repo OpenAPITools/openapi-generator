@@ -54,7 +54,6 @@ test {
     useJUnitPlatform()
 }
 
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.squareup.moshi:moshi:1.15.2"

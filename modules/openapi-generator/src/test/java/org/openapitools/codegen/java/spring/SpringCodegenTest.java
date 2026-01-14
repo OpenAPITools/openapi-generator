@@ -5117,6 +5117,7 @@ public class SpringCodegenTest {
                 .fileContains("@Nullable Set<String> stringSet")
                 .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
                 .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private String toIndentedString(@Nullable Object o)")
                 .fileDoesNotContain("private List<@Valid TagDto> tags = new ArrayList<>()")
                 .fileDoesNotContain("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
                 .fileDoesNotContain("private List<String> stringList = new ArrayList<>()")
@@ -6174,4 +6175,52 @@ public class SpringCodegenTest {
             "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
+
+    @Test
+    public void testExtensionsOnSchema_issue9183() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_9138_resolve_extensions_on_schema.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertParameter("groupObj")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[a-zA-Z]\"",
+                        "message", "\"Only letters\""
+                                                                         ))
+                .toParameter()
+                .toMethod()
+                .assertParameter("token")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"[0-9a-fA-F]\"",
+                        "message", "\"Only numbers and letters a-f\""
+                                                                         ));
+    }
+
 }

@@ -13,12 +13,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @Schema(description="")
 @JsonTypeName("fake_tests_defaults_default_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class FakeTestsDefaultsDefaultResponse  implements Serializable {
   private StringEnum stringEnum = StringEnum.FOO;
   private IntegerEnum integerEnum = IntegerEnum.NUMBER_1;

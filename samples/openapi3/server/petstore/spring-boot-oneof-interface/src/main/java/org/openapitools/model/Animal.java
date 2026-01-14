@@ -26,6 +26,6 @@ import javax.annotation.Generated;
     @JsonSubTypes.Type(value = Dog.class), 
     @JsonSubTypes.Type(value = Cat.class)
 })
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public interface Animal {
 }

@@ -547,13 +547,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) ||
+                        (param.items != null && "*os.File".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a time parameter.
-                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                if (!addedTimeImport && ("time.Time".equals(param.dataType) ||
+                        (param.items != null && "time.Time".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
@@ -648,13 +650,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && "*os.File".equals(param.dataType)) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) ||
+                        (param.items != null && "*os.File".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
                 // import "time" if the operation has a time parameter.
-                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                if (!addedTimeImport && ("time.Time".equals(param.dataType) ||
+                        (param.items != null && "time.Time".equals(param.items.dataType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }

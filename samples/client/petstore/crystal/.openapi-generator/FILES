@@ -1,5 +1,4 @@
 .gitignore
-.travis.yml
 README.md
 git_push.sh
 shard.yml

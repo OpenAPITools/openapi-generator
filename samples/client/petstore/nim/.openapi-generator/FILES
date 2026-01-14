@@ -7,6 +7,7 @@ petstore/apis/api_user.nim
 petstore/models/model_any_type.nim
 petstore/models/model_api_response.nim
 petstore/models/model_category.nim
+petstore/models/model_digest_email_frequency.nim
 petstore/models/model_get_pet_reviews200response.nim
 petstore/models/model_get_pet_reviews_response_with_presence.nim
 petstore/models/model_get_pet_stats200response.nim
@@ -23,6 +24,7 @@ petstore/models/model_pet_positions.nim
 petstore/models/model_pet_priority.nim
 petstore/models/model_pet_review.nim
 petstore/models/model_pet_reviews_response.nim
+petstore/models/model_pet_statistics.nim
 petstore/models/model_record_string_before_string_or_null_after_string_or_null_value.nim
 petstore/models/model_tag.nim
 petstore/models/model_unfavorite_pet_request.nim

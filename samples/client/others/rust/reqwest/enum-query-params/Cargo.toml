@@ -14,6 +14,10 @@ serde_repr = "^0.1"
 url = "^2.5"
 reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
 
+[dev-dependencies]
+wiremock = "0.6"
+tokio = { version = "^1.46.0", features = ["macros", "rt-multi-thread"] }
+
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]

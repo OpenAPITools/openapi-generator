@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Generated;
 import java.time.*;
 import java.math.*;
-@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 
 /**
  * A pet for sale in the pet store

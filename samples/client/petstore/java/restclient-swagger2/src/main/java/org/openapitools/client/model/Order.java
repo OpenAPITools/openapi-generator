@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -37,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @jakarta.annotation.Nullable

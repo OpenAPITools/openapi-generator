@@ -169,7 +169,7 @@ Order::getId()
 }
 
 void
-Order::setId(long  id)
+Order::setId(long id)
 {
 	this->id = id;
 }
@@ -181,7 +181,7 @@ Order::getPetId()
 }
 
 void
-Order::setPetId(long  petId)
+Order::setPetId(long petId)
 {
 	this->petId = petId;
 }
@@ -193,7 +193,7 @@ Order::getQuantity()
 }
 
 void
-Order::setQuantity(int  quantity)
+Order::setQuantity(int quantity)
 {
 	this->quantity = quantity;
 }
@@ -205,7 +205,7 @@ Order::getShipDate()
 }
 
 void
-Order::setShipDate(std::string  shipDate)
+Order::setShipDate(std::string shipDate)
 {
 	this->shipDate = shipDate;
 }
@@ -217,7 +217,7 @@ Order::getStatus()
 }
 
 void
-Order::setStatus(std::string  status)
+Order::setStatus(std::string status)
 {
 	this->status = status;
 }
@@ -229,7 +229,7 @@ Order::isComplete()
 }
 
 void
-Order::setComplete(bool  complete)
+Order::setComplete(bool complete)
 {
 	this->complete = complete;
 }

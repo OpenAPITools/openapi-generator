@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
@@ -25,7 +24,6 @@ import io.github.threetenjaxb.core.*;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Locale;
 
 /**
  * Gets or Sets OuterEnumInteger

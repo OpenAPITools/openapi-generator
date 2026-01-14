@@ -6,9 +6,8 @@
         Box::pin(run(
             self.api_impl.clone(),
             req,
-{{#apiUsesMultipartFormData}}
-            self.multipart_form_size_limit,
-{{/apiUsesMultipartFormData}}
+            self.validation{{#apiUsesMultipartFormData}},
+            self.multipart_form_size_limit{{/apiUsesMultipartFormData}}
         ))
     }
 }

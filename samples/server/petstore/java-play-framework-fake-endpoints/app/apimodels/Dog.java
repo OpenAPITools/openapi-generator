@@ -10,7 +10,7 @@ import javax.validation.Valid;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Dog extends Animal  {
   @JsonProperty("breed")

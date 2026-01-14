@@ -344,6 +344,21 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
         else
             fullPath.append("?");
         {{^isPrimitiveType}}
+        {{#isEnum}}
+        // For enum parameters, use direct string serialization instead of object iteration
+        QString enumValue = {{paramName}}{{^required}}.value(){{/required}}.asJson();
+        if (!enumValue.isEmpty()) {
+            fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append("=").append(QUrl::toPercentEncoding(enumValue));
+        }
+        {{/isEnum}}
+        {{#isEnumRef}}
+        // For enum reference parameters, use direct string serialization instead of object iteration
+        QString enumValue = {{paramName}}{{^required}}.value(){{/required}}.asJson();
+        if (!enumValue.isEmpty()) {
+            fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append("=").append(QUrl::toPercentEncoding(enumValue));
+        }
+        {{/isEnumRef}}
+        {{^isEnum}}{{^isEnumRef}}
         QString paramString = (queryStyle == "form" && {{isExplode}}) ? "" : (queryStyle == "form" && !({{isExplode}})) ? "{{baseName}}"+querySuffix : "";
         QJsonObject parameter = {{paramName}}{{^required}}.value(){{/required}}.asJsonObject();
         qint32 count = 0;
@@ -390,6 +405,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             count++;
         }
         fullPath.append(paramString);
+        {{/isEnumRef}}{{/isEnum}}
         {{/isPrimitiveType}}{{#isPrimitiveType}}
         fullPath.append(QUrl::toPercentEncoding("{{baseName}}")).append(querySuffix).append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}}{{^required}}.stringValue(){{/required}})));
 {{/isPrimitiveType}}

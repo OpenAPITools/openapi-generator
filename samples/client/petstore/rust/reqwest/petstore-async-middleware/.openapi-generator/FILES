@@ -10,6 +10,8 @@ docs/Baz.md
 docs/Category.md
 docs/EnumArrayTesting.md
 docs/FakeApi.md
+docs/ModelWithInlineEnum.md
+docs/ModelWithInlineEnumMetadata.md
 docs/NullableArray.md
 docs/NumericEnumTesting.md
 docs/OptionalTesting.md
@@ -50,6 +52,8 @@ src/models/enum_array_testing.rs
 src/models/mod.rs
 src/models/model_ref.rs
 src/models/model_return.rs
+src/models/model_with_inline_enum.rs
+src/models/model_with_inline_enum_metadata.rs
 src/models/nullable_array.rs
 src/models/numeric_enum_testing.rs
 src/models/optional_testing.rs

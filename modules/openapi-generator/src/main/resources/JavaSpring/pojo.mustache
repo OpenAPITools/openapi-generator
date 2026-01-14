@@ -57,26 +57,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
-  {{#lombok.RequiredArgsConstructor}}
-  {{^useBeanValidation}}
-  {{#required}}
-  @lombok.NonNull
-  {{/required}}
-  {{/useBeanValidation}}
-  {{/lombok.RequiredArgsConstructor}}
-  {{#lombok.ToString}}
-  {{#isPassword}}
-  @lombok.ToString.Exclude
-  {{/isPassword}}
-  {{/lombok.ToString}}
+{{>lombokAnnotation}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
-  {{#lombok.Builder}}
-  {{#defaultValue}}
-  @lombok.Builder.Default
-  {{/defaultValue}}
-  {{/lombok.Builder}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
@@ -365,7 +349,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString({{>nullableAnnotation}}Object o) {
     if (o == null) {
       return "null";
     }

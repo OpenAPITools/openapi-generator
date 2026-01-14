@@ -1132,6 +1132,23 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEnumDiscriminatorWithDescriptionOverridden3_1() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml");
+        new OpenAPINormalizer(openAPI, Map.of()).normalize();
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setUseOneOfInterfaces(true);
+
+        Schema fruit = openAPI.getComponents().getSchemas().get("Fruit");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruitModel = codegen.fromModel("Fruit", fruit);
+        assertTrue(fruitModel.getHasDiscriminatorWithNonEmptyMapping());
+        assertTrue(fruitModel.discriminator.getIsEnum());
+        assertEquals("FruitType", fruitModel.discriminator.getPropertyType());
+        assertEquals("test", fruitModel.getVars().get(0).description);
+        assertTrue(fruitModel.getVars().get(0).isEnumRef);
+    }
+
+    @Test
     public void testParentName() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();

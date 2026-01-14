@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,7 +33,7 @@ import java.util.StringJoiner;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("_special_model.name_")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @javax.annotation.Nullable
@@ -140,7 +139,7 @@ public class SpecialModelName {
     // add `$special[property.name]` to the URL query string
     if (get$SpecialPropertyName() != null) {
       try {
-        joiner.add(String.format(Locale.ROOT, "%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get$SpecialPropertyName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%s$special[property.name]%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get$SpecialPropertyName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

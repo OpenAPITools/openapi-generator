@@ -53,7 +53,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-python-${{ steps.py.outputs.python-version }}-
           path: |

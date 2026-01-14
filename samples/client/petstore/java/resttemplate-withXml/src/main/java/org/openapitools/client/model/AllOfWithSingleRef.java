@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -36,7 +35,7 @@ import io.github.threetenjaxb.core.*;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 @XmlRootElement(name = "AllOfWithSingleRef")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AllOfWithSingleRef")

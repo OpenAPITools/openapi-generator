@@ -109,6 +109,30 @@ public class KotlinClientCodegenApiTest {
         assertFileContains(statusApi.toPath(), "state: PetStatus? = PetStatus.AVAILABLE");
     }
 
+    @Test(dataProvider = "clientLibraries")
+    void testEnumReservedDefaultNotHtmlEscaped(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/enum-default-query-reserved-word.json");
+        KotlinClientCodegen codegen = createCodegen(library);
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File documentApiFile = files.stream().filter(file -> file.getName().equals("DocumentApi.kt")).findAny().orElseThrow();
+
+        String documentApiContents = Files.readString(documentApiFile.toPath());
+        if (!documentApiContents.contains("enum class")) {
+            return;
+        }
+
+        String expectedEnumName = "DispositionDocumentDownload";
+        if (!documentApiContents.contains("enum class " + expectedEnumName)) {
+            Assert.fail("Kotlin client library " + library.getLibraryName() + " generated enum class name for an operation parameter has changed. Please update the 'expectedEnumName' in this test to match the new name.");
+        }
+
+        assertFileContains(documentApiFile.toPath(), "disposition: " + expectedEnumName + "? = DispositionDocumentDownload.`inline`");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }

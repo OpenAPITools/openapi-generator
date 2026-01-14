@@ -77,6 +77,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_70_OR_LATER = "net70OrLater";
     protected static final String NET_80_OR_LATER = "net80OrLater";
     protected static final String NET_90_OR_LATER = "net90OrLater";
+    protected static final String NET_10_OR_LATER = "net10OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -90,7 +91,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_8_0,
-            FrameworkStrategy.NET_9_0
+            FrameworkStrategy.NET_9_0,
+            FrameworkStrategy.NET_10
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -1448,8 +1450,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0 (End of Support 10 November 2026)", "net8.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 12 May 2026)", "net9.0", Boolean.FALSE) {
+        static FrameworkStrategy NET_9_0 = new FrameworkStrategy("net9.0", ".NET 9.0 (End of Support 10 November 2026)", "net9.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_10 = new FrameworkStrategy("net10.0", ".NET 10.0 (End of Support 14 November 2028)", "net10.0", Boolean.FALSE) {
+        };
+
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1580,6 +1585,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_70_OR_LATER, true);
                 properties.put(NET_80_OR_LATER, true);
                 properties.put(NET_90_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net10.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
+                properties.put(NET_90_OR_LATER, true);
+                properties.put(NET_10_OR_LATER, true);
             } else {
                 throw new RuntimeException("Unhandled case");
             }

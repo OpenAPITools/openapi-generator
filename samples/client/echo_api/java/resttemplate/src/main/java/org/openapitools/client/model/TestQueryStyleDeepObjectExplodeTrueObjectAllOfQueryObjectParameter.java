@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.JSON_PROPERTY_NAME
 })
 @JsonTypeName("test_query_style_deepObject_explode_true_object_allOf_query_object_parameter")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String JSON_PROPERTY_SIZE = "size";
   @javax.annotation.Nullable

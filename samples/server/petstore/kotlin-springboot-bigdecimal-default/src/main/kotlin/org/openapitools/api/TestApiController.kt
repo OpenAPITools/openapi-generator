@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.openapitools.api.TestApiController.Companion.BASE_PATH
 
 import javax.validation.Valid
 import javax.validation.constraints.DecimalMax
@@ -31,7 +30,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@RequestMapping("\${openapi.demo.base-path:\${api.base-path:$BASE_PATH}}")
+@RequestMapping("\${api.base-path:}")
 class TestApiController() {
 
     @Operation(

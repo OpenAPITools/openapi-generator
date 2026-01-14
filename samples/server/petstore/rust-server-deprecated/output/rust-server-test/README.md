@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 2.3.4
-- Generator version: 7.18.0-SNAPSHOT
+- Generator version: 7.19.0-SNAPSHOT
 
 
 
@@ -149,6 +149,8 @@ Method | HTTP request | Description
  - [GetYamlResponse](docs/GetYamlResponse.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
+ - [UnnamedAllofUnderProperties](docs/UnnamedAllofUnderProperties.md)
+ - [UnnamedReference](docs/UnnamedReference.md)
 
 
 ## Documentation For Authorization

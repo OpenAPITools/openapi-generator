@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * Model for testing reserved words
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing reserved words")
 @JsonTypeName("Return")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class ModelReturn  implements Serializable {
   private Integer _return;
 

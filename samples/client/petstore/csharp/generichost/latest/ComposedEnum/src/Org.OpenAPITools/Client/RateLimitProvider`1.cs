@@ -47,7 +47,8 @@ namespace Org.OpenAPITools.Client
                 }
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
+        /// <inheritdoc/>
+        protected internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase>? tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");

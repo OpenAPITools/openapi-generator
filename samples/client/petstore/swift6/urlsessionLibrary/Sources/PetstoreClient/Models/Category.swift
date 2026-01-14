@@ -12,7 +12,7 @@ public typealias Category = PetstoreClientAPI.Category
 
 extension PetstoreClientAPI {
 
-public final class Category: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Category: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var id: Int64?
     public private(set) var name: String? = "default-name"

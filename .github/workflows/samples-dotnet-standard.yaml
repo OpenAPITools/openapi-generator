@@ -15,7 +15,7 @@ on:
       - samples/client/petstore/csharp/unityWebRequest/standard2.0/**
 jobs:
   build:
-    name: Build .Net projects
+    name: Build .Net Standard projects
     runs-on: windows-latest
     strategy:
       fail-fast: false

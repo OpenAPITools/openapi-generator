@@ -141,9 +141,11 @@ public class KotlinSpringServerCodegenTest {
                 "@RequestMapping(\"\\${"
         );
         // Check that the @RequestMapping annotation is generated in the ApiController file
+        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @RequestMapping
+        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
         assertFileContains(
                 Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApiController.kt"),
-                "@RequestMapping(\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\")",
+                "@RequestMapping(\"\\${api.base-path:/v2}\")",
                 "    companion object {\n"
                 + "    //for your own safety never directly reuse these path definitions in tests\n"
                 + "        const val BASE_PATH: String = \"/v2\"\n"
@@ -156,9 +158,11 @@ public class KotlinSpringServerCodegenTest {
         File output = generatePetstoreWithRequestMappingMode(KotlinSpringServerCodegen.RequestMappingMode.api_interface);
 
         // Check that the @RequestMapping annotation is generated in the Api file
+        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @RequestMapping
+        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
         assertFileContains(
                 Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
-                "@RequestMapping(\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\")",
+                "@RequestMapping(\"\\${api.base-path:/v2}\")",
                 "    companion object {\n"
                 + "        //for your own safety never directly reuse these path definitions in tests\n"
                 + "        const val BASE_PATH: String = \"/v2\""
@@ -1310,11 +1314,11 @@ public class KotlinSpringServerCodegenTest {
         generator.opts(input).generate();
 
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @HttpExchange
+        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
         assertFileContains(
                 path,
-                "@HttpExchange(\n"
-                + "\"\\${openapi.openAPIPetstore.base-path:\\${api.base-path:$BASE_PATH}}\"\n"
-                + ")",
+                "@HttpExchange(\"\\${api.base-path:/v2}\")",
                 "    fun getInventory(\n"
                 + "    ): Map<String, kotlin.Int>",
                 "    fun deleteOrder(\n"

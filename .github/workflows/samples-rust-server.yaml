@@ -60,6 +60,10 @@ jobs:
               cargo build --bin ${package##*/} --features cli
               target/debug/${package##*/} --help
             fi
+            # Test the validate feature if it exists
+            if cargo read-manifest | grep -q '"validate"'; then
+              cargo build --features validate --all-targets
+            fi
             cargo fmt
             cargo test
             cargo clippy

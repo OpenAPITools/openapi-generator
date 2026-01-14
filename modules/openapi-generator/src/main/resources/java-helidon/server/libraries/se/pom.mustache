@@ -108,8 +108,8 @@
 {{/jackson}}
 {{#jsonb}}
         <dependency>
-            <groupId>io.helidon.{{#x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
-            <artifactId>helidon-{{#x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
+            <groupId>io.helidon.{{^x-helidon-v3}}http.{{/x-helidon-v3}}media</groupId>
+            <artifactId>helidon-{{^x-helidon-v3}}http-{{/x-helidon-v3}}media-jsonb</artifactId>
         </dependency>
 {{/jsonb}}
         <dependency>

@@ -291,6 +291,15 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
         }
 
+        // Handle additionalProperties for models that have both properties and additionalProperties
+        Schema addlProps = ModelUtils.getAdditionalProperties(model);
+        if (addlProps != null && model.getProperties() != null && !model.getProperties().isEmpty()) {
+            // This model has both defined properties AND additionalProperties
+            codegenModel.additionalPropertiesType = getTypeDeclaration(addlProps);
+            // Add import for web::json::value which is used to store additional properties
+            codegenModel.imports.add("#include <cpprest/json.h>");
+        }
+
         return codegenModel;
     }
 
@@ -363,6 +372,34 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     /**
+     * Resolve a schema reference. If the schema has a $ref, return the referenced schema.
+     * This is for nested maps.
+     */
+    private Schema resolveSchema(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null ? resolved : schema;
+        }
+        return schema;
+    }
+
+    /**
+     * Check if a schema is a pure map (has additionalProperties but no defined properties).
+     * Schemas with both properties and additionalProperties should be treated as models, not maps.
+     */
+    private boolean isPureMapSchema(Schema schema) {
+        if (!ModelUtils.isMapSchema(schema)) {
+            return false;
+        }
+        // If the schema has defined properties, it's not a pure map
+        return schema.getProperties() == null || schema.getProperties().isEmpty();
+    }
+
+    /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling
      * for different property types
@@ -372,15 +409,23 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        String openAPIType = getSchemaType(p);
+        // Resolve the schema to check for nested maps/arrays - refs that point to map schemas
+        Schema resolved = resolveSchema(p);
 
-        if (ModelUtils.isArraySchema(p)) {
-            Schema inner = ModelUtils.getSchemaItems(p);
+        if (ModelUtils.isArraySchema(resolved)) {
+            Schema inner = ModelUtils.getSchemaItems(resolved);
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
+        } else if (isPureMapSchema(resolved)) {
+            // Only treat as map if it has additionalProperties but NO defined properties
+            Schema inner = ModelUtils.getAdditionalProperties(resolved);
+            // inner can be null if additionalProperties is a boolean or not present
+            String innerType = inner != null ? getTypeDeclaration(inner) : "std::shared_ptr<Object>";
+            return getSchemaType(p) + "<utility::string_t, " + innerType + ">";
+        }
+
+        // For non-containers, use the original schema to preserve model names
+        String openAPIType = getSchemaType(p);
+        if (ModelUtils.isFileSchema(p) || ModelUtils.isBinarySchema(p)) {
             return "std::shared_ptr<" + openAPIType + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
@@ -414,8 +459,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
-        } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+        } else if (isPureMapSchema(p)) {
+            Schema innerSchema = ModelUtils.getAdditionalProperties(p);
+            // innerSchema can be null if additionalProperties is a boolean or not present
+            String inner = innerSchema != null ? getSchemaType(innerSchema) : "std::shared_ptr<Object>";
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             String inner = getSchemaType(ModelUtils.getSchemaItems(p));

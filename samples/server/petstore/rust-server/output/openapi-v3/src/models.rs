@@ -1,5 +1,4 @@
 #![allow(unused_qualifications)]
-
 use validator::Validate;
 
 use crate::models;
@@ -8,8 +7,11 @@ use crate::header;
 
 /// Check that an object with only additional properties that references another object (e.g. an anyOf object) isn't treated as freeForm
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AdditionalPropertiesReferencedAnyOfObject(std::collections::HashMap<String, models::AnyOfProperty>);
+pub struct AdditionalPropertiesReferencedAnyOfObject(
+    std::collections::HashMap<String, models::AnyOfProperty>
+);
 
 impl std::convert::From<std::collections::HashMap<String, models::AnyOfProperty>> for AdditionalPropertiesReferencedAnyOfObject {
     fn from(x: std::collections::HashMap<String, models::AnyOfProperty>) -> Self {
@@ -145,8 +147,11 @@ impl AdditionalPropertiesReferencedAnyOfObject {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
+pub struct AdditionalPropertiesWithList(
+    std::collections::HashMap<String, Vec<String>>
+);
 
 impl std::convert::From<std::collections::HashMap<String, Vec<String>>> for AdditionalPropertiesWithList {
     fn from(x: std::collections::HashMap<String, Vec<String>>) -> Self {
@@ -281,16 +286,18 @@ impl AdditionalPropertiesWithList {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesWithNullable {
     #[serde(rename = "nullableString")]
+
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_string: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableMap")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_map: Option<std::collections::HashMap<String, swagger::Nullable<models::NullableObject>>>,
 
@@ -478,6 +485,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnotherXmlArray(
     #[serde(serialize_with = "wrap_in_snake_another_xml_inner")]
@@ -656,9 +664,12 @@ impl AnotherXmlArray {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_inner")]
-pub struct AnotherXmlInner(String);
+pub struct AnotherXmlInner(
+    String
+);
 
 impl std::convert::From<String> for AnotherXmlInner {
     fn from(x: String) -> Self {
@@ -786,11 +797,12 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
 pub struct AnotherXmlObject {
     #[serde(rename = "inner_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
@@ -967,8 +979,11 @@ impl AnotherXmlObject {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnyOfGet202Response(swagger::AnyOf2<models::StringObject,models::UuidObject>);
+pub struct AnyOfGet202Response(
+    swagger::AnyOf2<models::StringObject,models::UuidObject>
+);
 
 impl std::convert::From<swagger::AnyOf2<models::StringObject,models::UuidObject>> for AnyOfGet202Response {
     fn from(x: swagger::AnyOf2<models::StringObject,models::UuidObject>) -> Self {
@@ -1105,8 +1120,11 @@ impl AnyOfGet202Response {
 
 /// Test a model containing an anyOf of a hash map
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnyOfHashMapObject(swagger::AnyOf2<String,std::collections::HashMap<String, String>>);
+pub struct AnyOfHashMapObject(
+    swagger::AnyOf2<String,std::collections::HashMap<String, String>>
+);
 
 impl std::convert::From<swagger::AnyOf2<String,std::collections::HashMap<String, String>>> for AnyOfHashMapObject {
     fn from(x: swagger::AnyOf2<String,std::collections::HashMap<String, String>>) -> Self {
@@ -1243,8 +1261,11 @@ impl AnyOfHashMapObject {
 
 /// Test a model containing an anyOf
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct AnyOfObject(swagger::AnyOf2<models::AnyOfObjectAnyOf,String>);
+pub struct AnyOfObject(
+    swagger::AnyOf2<models::AnyOfObjectAnyOf,String>
+);
 
 impl std::convert::From<swagger::AnyOf2<models::AnyOfObjectAnyOf,String>> for AnyOfObject {
     fn from(x: swagger::AnyOf2<models::AnyOfObjectAnyOf,String>) -> Self {
@@ -1385,6 +1406,7 @@ impl AnyOfObject {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum AnyOfObjectAnyOf {
     #[serde(rename = "FOO")]
@@ -1502,13 +1524,15 @@ impl AnyOfObjectAnyOf {
 }
 
 /// Test containing an anyOf object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AnyOfProperty {
     #[serde(rename = "requiredAnyOf")]
+
     pub required_any_of: models::AnyOfObject,
 
     #[serde(rename = "optionalAnyOf")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_any_of: Option<models::Model12345AnyOfObject>,
 
@@ -1677,16 +1701,18 @@ impl AnyOfProperty {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
 pub struct DuplicateXmlObject {
     #[serde(rename = "inner_string")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
+
     pub inner_array: models::XmlArray,
 
 }
@@ -1874,6 +1900,7 @@ impl DuplicateXmlObject {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumWithStarObject {
     #[serde(rename = "FOO")]
@@ -1995,8 +2022,11 @@ impl EnumWithStarObject {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Err(String);
+pub struct Err(
+    String
+);
 
 impl std::convert::From<String> for Err {
     fn from(x: String) -> Self {
@@ -2124,8 +2154,11 @@ impl Err {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Error(String);
+pub struct Error(
+    String
+);
 
 impl std::convert::From<String> for Error {
     fn from(x: String) -> Self {
@@ -2258,6 +2291,7 @@ impl Error {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum FormTestRequestEnumField {
     #[serde(rename = "one_enum")]
@@ -2372,8 +2406,11 @@ impl FormTestRequestEnumField {
 
 /// Test a model containing an anyOf that starts with a number
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Model12345AnyOfObject(swagger::AnyOf2<models::Model12345AnyOfObjectAnyOf,String>);
+pub struct Model12345AnyOfObject(
+    swagger::AnyOf2<models::Model12345AnyOfObjectAnyOf,String>
+);
 
 impl std::convert::From<swagger::AnyOf2<models::Model12345AnyOfObjectAnyOf,String>> for Model12345AnyOfObject {
     fn from(x: swagger::AnyOf2<models::Model12345AnyOfObjectAnyOf,String>) -> Self {
@@ -2514,6 +2551,7 @@ impl Model12345AnyOfObject {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum Model12345AnyOfObjectAnyOf {
     #[serde(rename = "FOO")]
@@ -2634,10 +2672,11 @@ impl Model12345AnyOfObjectAnyOf {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MultigetGet201Response {
     #[serde(rename = "foo")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub foo: Option<String>,
 
@@ -2805,8 +2844,11 @@ impl MultigetGet201Response {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct MyId(i32);
+pub struct MyId(
+    i32
+);
 
 impl std::convert::From<i32> for MyId {
     fn from(x: i32) -> Self {
@@ -2944,6 +2986,7 @@ impl MyId {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MyIdList(
     Vec<i32>
@@ -3122,8 +3165,11 @@ impl MyIdList {
 
 /// An object with no type
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct NoTypeObject(serde_json::Value);
+pub struct NoTypeObject(
+    serde_json::Value
+);
 
 impl std::convert::From<serde_json::Value> for NoTypeObject {
     fn from(x: serde_json::Value) -> Self {
@@ -3261,8 +3307,11 @@ impl NoTypeObject {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct NullableObject(String);
+pub struct NullableObject(
+    String
+);
 
 impl std::convert::From<String> for NullableObject {
     fn from(x: String) -> Self {
@@ -3389,31 +3438,36 @@ impl NullableObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableTest {
     #[serde(rename = "nullable")]
+
     pub nullable: swagger::Nullable<String>,
 
     #[serde(rename = "nullableWithNullDefault")]
+
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_null_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithPresentDefault")]
+
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_present_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithNoDefault")]
+
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_no_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableArray")]
+
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -3423,6 +3477,7 @@ pub struct NullableTest {
     #[validate(
             length(min = 1),
         )]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub min_item_test: Option<Vec<i32>>,
 
@@ -3430,6 +3485,7 @@ pub struct NullableTest {
     #[validate(
             length(max = 2),
         )]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub max_item_test: Option<Vec<i32>>,
 
@@ -3437,6 +3493,7 @@ pub struct NullableTest {
     #[validate(
             length(min = 1, max = 3),
         )]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub min_max_item_test: Option<Vec<i32>>,
 
@@ -3668,13 +3725,15 @@ impl NullableTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectHeader {
     #[serde(rename = "requiredObjectHeader")]
+
     pub required_object_header: bool,
 
     #[serde(rename = "optionalObjectHeader")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_object_header: Option<i32>,
 
@@ -3848,16 +3907,18 @@ impl ObjectHeader {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectParam {
     #[serde(rename = "requiredParam")]
+
     pub required_param: bool,
 
     #[serde(rename = "optionalParam")]
     #[validate(
             range(min = 1u64, max = 10000000000000000000u64),
         )]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub optional_param: Option<u64>,
 
@@ -4031,20 +4092,24 @@ impl ObjectParam {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectUntypedProps {
     #[serde(rename = "required_untyped")]
+
     pub required_untyped: serde_json::Value,
 
     #[serde(rename = "required_untyped_nullable")]
+
     pub required_untyped_nullable: swagger::Nullable<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub not_required_untyped: Option<serde_json::Value>,
 
     #[serde(rename = "not_required_untyped_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub not_required_untyped_nullable: Option<serde_json::Value>,
 
@@ -4223,10 +4288,11 @@ impl ObjectUntypedProps {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectWithArrayOfObjects {
     #[serde(rename = "objectArray")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub object_array: Option<Vec<models::StringObject>>,
 
@@ -4393,8 +4459,11 @@ impl ObjectWithArrayOfObjects {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Ok(String);
+pub struct Ok(
+    String
+);
 
 impl std::convert::From<String> for Ok {
     fn from(x: String) -> Self {
@@ -4522,8 +4591,11 @@ impl Ok {
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OneOfGet200Response(swagger::OneOf2<i32,Vec<String>>);
+pub struct OneOfGet200Response(
+    swagger::OneOf2<i32,Vec<String>>
+);
 
 impl std::convert::From<swagger::OneOf2<i32,Vec<String>>> for OneOfGet200Response {
     fn from(x: swagger::OneOf2<i32,Vec<String>>) -> Self {
@@ -4659,8 +4731,11 @@ impl OneOfGet200Response {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct OptionalObjectHeader(i32);
+pub struct OptionalObjectHeader(
+    i32
+);
 
 impl std::convert::From<i32> for OptionalObjectHeader {
     fn from(x: i32) -> Self {
@@ -4798,8 +4873,11 @@ impl OptionalObjectHeader {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct RequiredObjectHeader(bool);
+pub struct RequiredObjectHeader(
+    bool
+);
 
 impl std::convert::From<bool> for RequiredObjectHeader {
     fn from(x: bool) -> Self {
@@ -4937,8 +5015,11 @@ impl RequiredObjectHeader {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct Result(String);
+pub struct Result(
+    String
+);
 
 impl std::convert::From<String> for Result {
     fn from(x: String) -> Self {
@@ -5071,6 +5152,7 @@ impl Result {
 #[allow(non_camel_case_types)]
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum StringEnum {
     #[serde(rename = "FOO")]
@@ -5188,8 +5270,11 @@ impl StringEnum {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct StringObject(String);
+pub struct StringObject(
+    String
+);
 
 impl std::convert::From<String> for StringObject {
     fn from(x: String) -> Self {
@@ -5318,8 +5403,11 @@ impl StringObject {
 
 /// Test a model containing a UUID
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct UuidObject(uuid::Uuid);
+pub struct UuidObject(
+    uuid::Uuid
+);
 
 impl std::convert::From<uuid::Uuid> for UuidObject {
     fn from(x: uuid::Uuid) -> Self {
@@ -5473,6 +5561,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct XmlArray(
     #[serde(serialize_with = "wrap_in_camelXmlInner")]
@@ -5651,9 +5740,12 @@ impl XmlArray {
 }
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlInner")]
-pub struct XmlInner(String);
+pub struct XmlInner(
+    String
+);
 
 impl std::convert::From<String> for XmlInner {
     fn from(x: String) -> Self {
@@ -5781,15 +5873,17 @@ impl XmlInner {
 }
 
 /// An XML object
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[derive(Debug, Clone, PartialEq, Validate, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
 pub struct XmlObject {
     #[serde(rename = "innerString")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner_string: Option<String>,
 
     #[serde(rename = "other_inner_rename")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub other_inner_rename: Option<i32>,
 

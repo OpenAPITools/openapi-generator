@@ -85,7 +85,8 @@ namespace {{packageName}}.{{clientPackage}}
                 }
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
+        /// <inheritdoc/>
+        protected internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase>{{nrt?}} tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");

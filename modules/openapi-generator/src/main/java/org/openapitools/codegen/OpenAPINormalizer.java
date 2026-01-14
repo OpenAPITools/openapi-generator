@@ -37,8 +37,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
-import static org.openapitools.codegen.CodegenConstants.X_PARENT;
+import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema;
 import static org.openapitools.codegen.utils.StringUtils.getUniqueString;
 
@@ -357,6 +356,7 @@ public class OpenAPINormalizer {
         normalizeComponentsSecuritySchemes();
         normalizeComponentsSchemas();
         normalizeComponentsResponses();
+        normalizeComponentsHeaders();
     }
 
     /**
@@ -559,8 +559,21 @@ public class OpenAPINormalizer {
 
         for (String headerKey : headers.keySet()) {
             Header h = headers.get(headerKey);
-            Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
-            h.setSchema(updatedHeader);
+            if (h.getSchema() != null) { // not a $ref header
+                // example of header class
+                //    description: null
+                //    required: null
+                //    deprecated: null
+                //    style: null
+                //    explode: null
+                //    schema: null
+                //    examples: null
+                //    example: null
+                //    content: null
+                //    $ref: #/components/headers/Location
+                Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
+                h.setSchema(updatedHeader);
+            }
         }
     }
 
@@ -640,6 +653,18 @@ public class OpenAPINormalizer {
     }
 
     /**
+     * Normalizes schemas in component's headers.
+     */
+    protected void normalizeComponentsHeaders() {
+        Map<String, Header> headers = openAPI.getComponents().getHeaders();
+        if (headers == null) {
+            return;
+        }
+
+        normalizeHeaders(headers);
+    }
+
+    /**
      * Auto fix a self referencing schema using any type to replace the self-referencing sub-item.
      *
      * @param name   Schema name
@@ -697,7 +722,7 @@ public class OpenAPINormalizer {
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         // normalize reference schema
-        if (StringUtils.isNotEmpty(schema.get$ref())) {
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             normalizeReferenceSchema(schema);
         }
 
@@ -861,7 +886,7 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            
+
             // remove x-internal if needed (same logic as normalizeComponentsSchemas)
             if (property.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
                 Object xInternalValue = property.getExtensions().get(X_INTERNAL);
@@ -1570,7 +1595,7 @@ public class OpenAPINormalizer {
     }
 
     protected Schema setNullable(Schema schema) {
-        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+        if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey(X_NULLABLE))) {
             // already set, don't overwrite
             return schema;
         }
@@ -1778,6 +1803,7 @@ public class OpenAPINormalizer {
                 ArraySchema as = new ArraySchema();
                 as.setDescription(schema.getDescription());
                 as.setDefault(schema.getDefault());
+                as.setTitle(schema.getTitle());
                 if (schema.getExample() != null) {
                     as.setExample(schema.getExample());
                 }

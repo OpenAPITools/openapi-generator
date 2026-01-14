@@ -23,7 +23,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -62,7 +61,7 @@ import org.openapitools.client.ApiClient;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -689,39 +688,39 @@ public class NullableClass {
 
     // add `integer_prop` to the URL query string
     if (getIntegerProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sinteger_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getIntegerProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sinteger_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getIntegerProp()))));
     }
 
     // add `number_prop` to the URL query string
     if (getNumberProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%snumber_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumberProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%snumber_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNumberProp()))));
     }
 
     // add `boolean_prop` to the URL query string
     if (getBooleanProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sboolean_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBooleanProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sboolean_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBooleanProp()))));
     }
 
     // add `string_prop` to the URL query string
     if (getStringProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sstring_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStringProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sstring_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getStringProp()))));
     }
 
     // add `date_prop` to the URL query string
     if (getDateProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdate_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdate_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDateProp()))));
     }
 
     // add `datetime_prop` to the URL query string
     if (getDatetimeProp() != null) {
-      joiner.add(String.format(Locale.ROOT, "%sdatetime_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDatetimeProp()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sdatetime_prop%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getDatetimeProp()))));
     }
 
     // add `array_nullable_prop` to the URL query string
     if (getArrayNullableProp() != null) {
       for (int i = 0; i < getArrayNullableProp().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_nullable_prop%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayNullableProp().get(i)))));
       }
     }
@@ -729,8 +728,8 @@ public class NullableClass {
     // add `array_and_items_nullable_prop` to the URL query string
     if (getArrayAndItemsNullableProp() != null) {
       for (int i = 0; i < getArrayAndItemsNullableProp().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_and_items_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_and_items_nullable_prop%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayAndItemsNullableProp().get(i)))));
       }
     }
@@ -738,8 +737,8 @@ public class NullableClass {
     // add `array_items_nullable` to the URL query string
     if (getArrayItemsNullable() != null) {
       for (int i = 0; i < getArrayItemsNullable().size(); i++) {
-        joiner.add(String.format(Locale.ROOT, "%sarray_items_nullable%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sarray_items_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getArrayItemsNullable().get(i)))));
       }
     }
@@ -747,8 +746,8 @@ public class NullableClass {
     // add `object_nullable_prop` to the URL query string
     if (getObjectNullableProp() != null) {
       for (String _key : getObjectNullableProp().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%sobject_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sobject_nullable_prop%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getObjectNullableProp().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getObjectNullableProp().get(_key)))));
       }
     }
@@ -756,8 +755,8 @@ public class NullableClass {
     // add `object_and_items_nullable_prop` to the URL query string
     if (getObjectAndItemsNullableProp() != null) {
       for (String _key : getObjectAndItemsNullableProp().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%sobject_and_items_nullable_prop%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sobject_and_items_nullable_prop%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getObjectAndItemsNullableProp().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getObjectAndItemsNullableProp().get(_key)))));
       }
     }
@@ -765,8 +764,8 @@ public class NullableClass {
     // add `object_items_nullable` to the URL query string
     if (getObjectItemsNullable() != null) {
       for (String _key : getObjectItemsNullable().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%sobject_items_nullable%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sobject_items_nullable%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getObjectItemsNullable().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getObjectItemsNullable().get(_key)))));
       }
     }

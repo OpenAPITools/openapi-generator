@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,7 +40,7 @@ import org.openapitools.client.ApiClient;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   @javax.annotation.Nullable
@@ -306,8 +305,8 @@ public class MapTest {
     // add `map_map_of_string` to the URL query string
     if (getMapMapOfString() != null) {
       for (String _key : getMapMapOfString().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_map_of_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_map_of_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapMapOfString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapMapOfString().get(_key)))));
       }
     }
@@ -315,8 +314,8 @@ public class MapTest {
     // add `map_of_enum_string` to the URL query string
     if (getMapOfEnumString() != null) {
       for (String _key : getMapOfEnumString().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%smap_of_enum_string%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%smap_of_enum_string%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getMapOfEnumString().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getMapOfEnumString().get(_key)))));
       }
     }
@@ -324,8 +323,8 @@ public class MapTest {
     // add `direct_map` to the URL query string
     if (getDirectMap() != null) {
       for (String _key : getDirectMap().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%sdirect_map%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdirect_map%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getDirectMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getDirectMap().get(_key)))));
       }
     }
@@ -333,8 +332,8 @@ public class MapTest {
     // add `indirect_map` to the URL query string
     if (getIndirectMap() != null) {
       for (String _key : getIndirectMap().keySet()) {
-        joiner.add(String.format(Locale.ROOT, "%sindirect_map%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format(Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%sindirect_map%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, _key, containerSuffix),
             getIndirectMap().get(_key), ApiClient.urlEncode(ApiClient.valueToString(getIndirectMap().get(_key)))));
       }
     }

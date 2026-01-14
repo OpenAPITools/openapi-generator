@@ -67,7 +67,7 @@ case class {{classname}}[Auth <: {{invokerPackage}}.Authorization] private (base
         {{>paramMultipartCreation}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       {{^isFile}}.body(asJson({{paramName}})){{/isFile}}{{#isFile}}.fileBody({{paramName}}){{/isFile}}{{/bodyParam}}
-      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
+      .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#fnHandleDownload}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/fnHandleDownload}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).orFail{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].orFail{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}
 {{/operations}}

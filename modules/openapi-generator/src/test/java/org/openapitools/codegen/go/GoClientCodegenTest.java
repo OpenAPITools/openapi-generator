@@ -454,9 +454,11 @@ public class GoClientCodegenTest {
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
         files.forEach(File::deleteOnExit);
         Path apiPath = Paths.get(output + "/api_default.go");
-        String defaultArrayString = "var defaultValue []interface{} = []interface{}{\"test1\", \"test2\", 1}";
+        String defaultStringArrayString = "var defaultValue []string = []string{\"test1\", \"test2\"}";
+        String defaultEnumArrayString = "var defaultValue []ExampleEnum = []ExampleEnum{\"example1\"}";
         String defaultValueString = "var defaultValue string = \"test3\"";
-        TestUtils.assertFileContains(apiPath, defaultArrayString);
+        TestUtils.assertFileContains(apiPath, defaultStringArrayString);
+        TestUtils.assertFileContains(apiPath, defaultEnumArrayString);
         TestUtils.assertFileContains(apiPath, defaultValueString);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "es2022",
+    "outDir": "./dist/out-tsc",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "paths": {
+      "@swagger/typescript-angular-petstore": [
+        "builds/default"
+      ]
+    }
+  }
+}

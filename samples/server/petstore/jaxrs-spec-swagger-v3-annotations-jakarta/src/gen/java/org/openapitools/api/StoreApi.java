@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 */
 @Path("/store")
 @Tag(name = "store")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE

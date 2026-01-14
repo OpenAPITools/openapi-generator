@@ -16,8 +16,11 @@
 package org.openapitools.client.models
 
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
+import kotlin.jvm.JvmStatic
 
 /**
  * 
@@ -25,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * Values: success,failure,unclassified,unknown_default_open_api
  */
 
-enum class StringEnumRef(val value: kotlin.String) {
+enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
 
     @JsonProperty(value = "success")
     success("success"),
@@ -57,11 +60,17 @@ enum class StringEnumRef(val value: kotlin.String) {
         /**
          * Returns a valid [StringEnumRef] for [data], null otherwise.
          */
-        fun decode(data: kotlin.Any?): StringEnumRef? = data?.let {
-          val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
-            it == value || normalizedData == "$value".lowercase()
+        @JvmStatic
+        @JsonCreator
+        fun decode(data: kotlin.Any?): StringEnumRef {
+          if (data == null) {
+            throw IllegalArgumentException("Value for StringEnumRef cannot be null")
           }
+          val normalizedData = "$data".lowercase()
+          return values().firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }
+            ?: unknown_default_open_api
         }
     }
 }

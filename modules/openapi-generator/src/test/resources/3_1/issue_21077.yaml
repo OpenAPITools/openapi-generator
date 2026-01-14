@@ -18,7 +18,16 @@ paths:
           in: query
           schema:
             type: array
-            default: ["test1", "test2", 1]
+            items:
+              type: string
+            default: ["test1", "test2"]
+        - name: "enumarrayparam"
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ExampleEnum"
+            default: ["example1"]
         - name: "stringparam"
           in: query
           schema:
@@ -27,3 +36,11 @@ paths:
       responses:
         200:
           description: Ok
+  
+components:
+  schemas:
+    ExampleEnum:
+      type: string
+      enum:
+        - example1
+        - example2

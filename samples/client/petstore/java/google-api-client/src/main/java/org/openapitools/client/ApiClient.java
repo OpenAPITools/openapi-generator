@@ -29,7 +29,7 @@ import com.google.api.client.json.Json;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class ApiClient {
     protected final String basePath;
     protected final HttpRequestFactory httpRequestFactory;

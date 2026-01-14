@@ -38,7 +38,7 @@ public class URLPathUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
     public static final String LOCAL_HOST = "http://localhost";
-    public static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
+    public static final Pattern VARIABLE_PATTERN = Pattern.compile("(?<!\\$)\\{([^\\}]+)\\}");
 
     // TODO: This should probably be moved into generator/workflow type rather than a static like this.
     public static URL getServerURL(OpenAPI openAPI, Map<String, String> userDefinedVariables) {

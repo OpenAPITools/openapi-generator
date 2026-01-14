@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import java.util.Locale;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -33,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)

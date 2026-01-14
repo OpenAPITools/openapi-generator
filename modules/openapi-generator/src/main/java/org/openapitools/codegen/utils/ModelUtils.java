@@ -56,6 +56,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_NULLABLE;
 import static org.openapitools.codegen.CodegenConstants.X_PARENT;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -1757,8 +1758,8 @@ public class ModelUtils {
             return true;
         }
 
-        if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
-            return Boolean.parseBoolean(schema.getExtensions().get("x-nullable").toString());
+        if (schema.getExtensions() != null && schema.getExtensions().get(X_NULLABLE) != null) {
+            return Boolean.parseBoolean(schema.getExtensions().get(X_NULLABLE).toString());
         }
         // In OAS 3.1, the recommended way to define a nullable property or object is to use oneOf.
         if (isComposedSchema(schema)) {
