@@ -5349,9 +5349,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
-        if (parameter.getSchema() != null && parameter.getSchema().getExtensions() != null && !parameter.getSchema().getExtensions().isEmpty()) {
-            codegenParameter.vendorExtensions.putAll(parameter.getSchema().getExtensions());
-        }
 
         Schema parameterSchema;
 
@@ -5384,6 +5381,10 @@ public class DefaultCodegen implements CodegenConfig {
             parameterModelName = getParameterDataType(parameter, parameterSchema);
         } else {
             parameterSchema = null;
+        }
+
+        if (parameterSchema != null && parameterSchema.getExtensions() != null && !parameterSchema.getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameterSchema.getExtensions());
         }
 
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {
