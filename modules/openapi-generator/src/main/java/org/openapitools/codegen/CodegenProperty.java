@@ -986,6 +986,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", setter='").append(setter).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", dataTypeAlias='").append(dataTypeAlias).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
@@ -1173,6 +1174,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(setter, that.setter) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(dataType, that.dataType) &&
+                Objects.equals(dataTypeAlias, that.dataTypeAlias) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
@@ -1217,7 +1219,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public int hashCode() {
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                dataType, dataTypeAlias, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, containerTypeMapped, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, required, deprecated,
