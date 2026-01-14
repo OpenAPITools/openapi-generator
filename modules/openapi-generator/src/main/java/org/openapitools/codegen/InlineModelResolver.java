@@ -667,6 +667,7 @@ public class InlineModelResolver {
                         listIterator.set(schema);
                     } else {
                         Schema schema = new Schema().$ref(existing);
+                        schema.addExtension("x-alias-name", innerModelName);
                         schema.setRequired(component.getRequired());
                         listIterator.set(schema);
                     }
@@ -826,6 +827,7 @@ public class InlineModelResolver {
                 String existing = matchGenerated(model);
                 if (existing != null) {
                     Schema schema = new Schema().$ref(existing);
+                    schema.addExtension("x-alias-name", modelName);
                     schema.setRequired(op.getRequired());
                     propsToUpdate.put(key, schema);
                 } else {
@@ -846,6 +848,7 @@ public class InlineModelResolver {
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
+                            schema.addExtension("x-alias-name", modelName);
                             schema.setRequired(op.getRequired());
                             property.setItems(schema);
                         } else {
@@ -876,6 +879,7 @@ public class InlineModelResolver {
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
+                            schema.addExtension("x-alias-name", modelName);
                             schema.setRequired(op.getRequired());
                             property.setAdditionalProperties(schema);
                         } else {
@@ -1037,6 +1041,10 @@ public class InlineModelResolver {
             return;
         }
         for (String extName : vendorExtensions.keySet()) {
+            // Don't overwrite x-alias-name that was set during deduplication
+            if ("x-alias-name".equals(extName) && target.getExtensions() != null && target.getExtensions().containsKey("x-alias-name")) {
+                continue;
+            }
             target.addExtension(extName, vendorExtensions.get(extName));
         }
     }

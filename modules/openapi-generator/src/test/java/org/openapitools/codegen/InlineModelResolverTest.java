@@ -1205,4 +1205,51 @@ public class InlineModelResolverTest {
         assertNotNull(allOfRefWithDescriptionAndReadonly.getAllOf());
         assertEquals(numberRangeRef, ((Schema) allOfRefWithDescriptionAndReadonly.getAllOf().get(0)).get$ref());
     }
+
+    @Test
+    public void testDeduplicationAddsAliasName() {
+        // Test that when inline schemas are deduplicated, the x-alias-name extension is set
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        
+        // Create two models with identical inline schemas that will be deduplicated
+        openapi.getComponents().addSchemas("ModelA", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("details", new ObjectSchema()
+                        .addProperty("field1", new StringSchema())
+                        .addProperty("field2", new IntegerSchema())));
+
+        openapi.getComponents().addSchemas("ModelB", new ObjectSchema()
+                .addProperty("title", new StringSchema())
+                .addProperty("info", new ObjectSchema()
+                        .addProperty("field1", new StringSchema())
+                        .addProperty("field2", new IntegerSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        // Check ModelA's property reference
+        Schema modelA = openapi.getComponents().getSchemas().get("ModelA");
+        assertNotNull(modelA);
+        Schema detailsRef = (Schema) modelA.getProperties().get("details");
+        assertNotNull(detailsRef);
+        assertNotNull(detailsRef.get$ref());
+        assertEquals("#/components/schemas/ModelA_details", detailsRef.get$ref());
+        
+        // Check ModelB's property reference - should be deduplicated to ModelA_details
+        Schema modelB = openapi.getComponents().getSchemas().get("ModelB");
+        assertNotNull(modelB);
+        Schema infoRef = (Schema) modelB.getProperties().get("info");
+        assertNotNull(infoRef);
+        assertNotNull(infoRef.get$ref());
+        // The ref should point to the first schema created (ModelA_details)
+        assertEquals("#/components/schemas/ModelA_details", infoRef.get$ref());
+        
+        // Verify x-alias-name extension is set on the deduplicated reference
+        assertNotNull(infoRef.getExtensions());
+        assertTrue(infoRef.getExtensions().containsKey("x-alias-name"));
+        assertEquals("ModelB_info", infoRef.getExtensions().get("x-alias-name"));
+        
+        // Verify the first reference does not have x-alias-name (it's the original)
+        assertNull(detailsRef.getExtensions() != null ? detailsRef.getExtensions().get("x-alias-name") : null);
+    }
 }
