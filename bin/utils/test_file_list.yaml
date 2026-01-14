@@ -62,3 +62,7 @@
   sha256: b2093528aac971193f2863a70f46eea45cf8bda79120b133a614599e80d8b46d
 - filename: "samples/server/petstore/rust-axum/output/openapi-v3/tests/oneof_untagged.rs"
   sha256: 1d3fb01f65e98290b1d3eece28014c7d3e3f2fdf18e7110249d3c591cc4642ab
+- filename: "samples/client/petstore/kotlin-jvm-spring-3-restclient/src/test/kotlin/org/openapitools/integration/PetApiTest.kt"
+  sha256: 82a6be39c1ed3dada96dfa1833a6709834cb3f9f9d50a19cbd9d49699e46df4f
+- filename: "samples/client/petstore/kotlin-jvm-spring-3-restclient/src/test/kotlin/org/openapitools/integration/UserApiTest.kt"
+  sha256: bc64fb94857a3598e1332f1278307c3078ea9ec4b4aa75690e6eda86e9729a8d
