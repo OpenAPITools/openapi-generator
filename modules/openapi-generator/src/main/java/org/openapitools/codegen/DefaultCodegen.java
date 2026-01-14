@@ -4193,6 +4193,15 @@ public class DefaultCodegen implements CodegenConfig {
             String type = getSchemaType(p);
             setNonArrayMapProperty(property, type);
             property.isModel = (ModelUtils.isComposedSchema(referencedSchema) || ModelUtils.isObjectSchema(referencedSchema)) && ModelUtils.isModel(referencedSchema);
+            
+            // Check if this property is reusing a model type that was generated/deduplicated by InlineModelResolver
+            // InlineModelResolver marks deduplicated schemas with x-alias-name vendor extension
+            if (p.get$ref() != null && original != null && original.getExtensions() != null) {
+                String dedupedName = (String) original.getExtensions().get("x-alias-name");
+                if (dedupedName != null && ModelUtils.isModel(referencedSchema)) {
+                    property.dataTypeAlias = toModelName(dedupedName);
+                }
+            }
         }
 
         // restore original schema with default value, nullable, readonly etc

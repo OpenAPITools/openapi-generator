@@ -24,13 +24,18 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.InlineModelResolver;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.GoClientCodegen;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @SuppressWarnings("static-method")
 public class GoModelTest {
@@ -323,5 +328,169 @@ public class GoModelTest {
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
+    }
+
+    @Test(description = "test that direct $ref usage does NOT create aliases")
+    public void directRefNoAliasTest() {
+        final Schema phoneNumberSchema = new Schema()
+                .type("object")
+                .addProperty("countryCode", new StringSchema())
+                .addProperty("number", new StringSchema())
+                .addRequiredItem("number");
+        
+        final Schema personSchema = new Schema()
+                .type("object")
+                .addProperty("name", new StringSchema())
+                .addProperty("mobile", new Schema().$ref("#/components/schemas/PhoneNumber"))
+                .addProperty("home", new Schema().$ref("#/components/schemas/PhoneNumber"))
+                .addRequiredItem("name");
+        
+        final DefaultCodegen codegen = new GoClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("PhoneNumber", phoneNumberSchema);
+        openAPI.getComponents().addSchemas("Person", personSchema);
+        codegen.setOpenAPI(openAPI);
+        
+        final CodegenModel personModel = codegen.fromModel("Person", personSchema);
+        Assert.assertEquals(personModel.name, "Person");
+        Assert.assertEquals(personModel.vars.size(), 3);
+        
+        // Direct $refs should not have aliases (only deduplicated inline schemas get aliases)
+        final CodegenProperty mobileProperty = personModel.vars.stream()
+                .filter(v -> v.baseName.equals("mobile"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(mobileProperty);
+        Assert.assertNull(mobileProperty.dataTypeAlias);
+        Assert.assertEquals(mobileProperty.dataType, "PhoneNumber");
+        
+        final CodegenProperty homeProperty = personModel.vars.stream()
+                .filter(v -> v.baseName.equals("home"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(homeProperty);
+        Assert.assertNull(homeProperty.dataTypeAlias);
+        Assert.assertEquals(homeProperty.dataType, "PhoneNumber");
+    }
+
+    @Test(description = "test type aliases for deduplicated inline schemas")
+    public void typeAliasForDeduplicatedInlineSchemasTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/inline-deduplicated-schemas.yaml");
+        final GoClientCodegen codegen = new GoClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Schema demoResponseSchema = openAPI.getComponents().getSchemas().get("DemoResponse");
+        CodegenModel demoModel = codegen.fromModel("DemoResponse", demoResponseSchema);
+        
+        // Call postProcessModels to trigger Go-specific dataType/dataTypeAlias swapping
+        ModelsMap modelsMap = new ModelsMap();
+        ModelMap modelMap = new ModelMap();
+        modelMap.setModel(demoModel);
+        modelsMap.setModels(Arrays.asList(modelMap));
+        modelsMap.setImports(new ArrayList<>());
+        modelsMap = codegen.postProcessModels(modelsMap);
+        demoModel = modelsMap.getModels().get(0).getModel();
+
+        Assert.assertEquals(demoModel.name, "DemoResponse");
+
+        // inlinePhone1 is the original (not deduplicated)
+        final CodegenProperty inlinePhone1 = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("inlinePhone1"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(inlinePhone1);
+        Assert.assertNull(inlinePhone1.dataTypeAlias);
+        Assert.assertEquals(inlinePhone1.dataType, "DemoResponseInlinePhone1");
+
+        // inlinePhone2 is deduplicated with inlinePhone1
+        final CodegenProperty inlinePhone2 = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("inlinePhone2"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(inlinePhone2);
+        Assert.assertNotNull(inlinePhone2.dataTypeAlias);
+        Assert.assertEquals(inlinePhone2.dataType, "DemoResponseInlinePhone2");
+        Assert.assertEquals(inlinePhone2.dataTypeAlias, "DemoResponseInlinePhone1");
+
+        // nestedPhones array items are deduplicated
+        final CodegenProperty nestedPhones = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("nestedPhones"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(nestedPhones);
+        Assert.assertTrue(nestedPhones.isContainer);
+        Assert.assertNotNull(nestedPhones.items);
+        Assert.assertNotNull(nestedPhones.items.dataTypeAlias);
+        Assert.assertEquals(nestedPhones.items.dataType, "DemoResponseNestedPhonesInner");
+        Assert.assertEquals(nestedPhones.items.dataTypeAlias, "DemoResponseInlinePhone1");
+        Assert.assertEquals(nestedPhones.dataType, "[]DemoResponseNestedPhonesInner");
+
+        // phoneHistory array items are deduplicated
+        final CodegenProperty phoneHistory = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("phoneHistory"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(phoneHistory);
+        Assert.assertTrue(phoneHistory.isContainer);
+        Assert.assertNotNull(phoneHistory.items);
+        Assert.assertNotNull(phoneHistory.items.dataTypeAlias);
+        Assert.assertEquals(phoneHistory.items.dataType, "DemoResponsePhoneHistoryInner");
+        Assert.assertEquals(phoneHistory.items.dataTypeAlias, "DemoResponseInlinePhone1");
+        Assert.assertEquals(phoneHistory.dataType, "[]DemoResponsePhoneHistoryInner");
+
+        // optionalNumber has different structure (no required fields)
+        final CodegenProperty optionalNumber = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("optionalNumber"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(optionalNumber);
+        Assert.assertNull(optionalNumber.dataTypeAlias);
+        Assert.assertEquals(optionalNumber.dataType, "DemoResponseOptionalNumber");
+
+        // requiredNumber is deduplicated with inlinePhone1
+        final CodegenProperty requiredNumber = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("requiredNumber"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(requiredNumber);
+        Assert.assertNotNull(requiredNumber.dataTypeAlias);
+        Assert.assertEquals(requiredNumber.dataType, "DemoResponseRequiredNumber");
+        Assert.assertEquals(requiredNumber.dataTypeAlias, "DemoResponseInlinePhone1");
+
+        // transactOptions array items are deduplicated (MapSchema with additionalProperties: true)
+        final CodegenProperty transactOptions = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("transactOptions"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(transactOptions);
+        Assert.assertTrue(transactOptions.isContainer);
+        Assert.assertNotNull(transactOptions.items);
+        // transactOptions is the ORIGINAL, so items should NOT have dataTypeAlias
+        Assert.assertNull(transactOptions.items.dataTypeAlias);
+        Assert.assertEquals(transactOptions.items.dataType, "DemoResponseTransactOptionsInner");
+        Assert.assertEquals(transactOptions.dataType, "[]DemoResponseTransactOptionsInner");
+
+        // otherOptions array items are DEDUPLICATED with transactOptions (MapSchema with additionalProperties: true)
+        final CodegenProperty otherOptions = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("otherOptions"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(otherOptions);
+        Assert.assertTrue(otherOptions.isContainer);
+        Assert.assertNotNull(otherOptions.items);
+        Assert.assertNotNull(otherOptions.items.dataTypeAlias);
+        Assert.assertEquals(otherOptions.items.dataType, "DemoResponseOtherOptionsInner");
+        Assert.assertEquals(otherOptions.items.dataTypeAlias, "DemoResponseTransactOptionsInner");
+        Assert.assertEquals(otherOptions.dataType, "[]DemoResponseOtherOptionsInner");
+
+        // directMapObject is DEDUPLICATED with transactOptions items (MapSchema with additionalProperties: true)
+        final CodegenProperty directMapObject = demoModel.vars.stream()
+                .filter(v -> v.baseName.equals("directMapObject"))
+                .findFirst()
+                .orElse(null);
+        Assert.assertNotNull(directMapObject);
+        Assert.assertNotNull(directMapObject.dataTypeAlias);
+        Assert.assertEquals(directMapObject.dataType, "DemoResponseDirectMapObject");
+        Assert.assertEquals(directMapObject.dataTypeAlias, "DemoResponseTransactOptionsInner");
     }
 }

@@ -998,6 +998,8 @@ public class InlineModelResolver {
         Schema refSchema;
         if (existing != null) {
             refSchema = new Schema().$ref(existing);
+            // Store the name this schema would have had if not deduplicated
+            refSchema.addExtension("x-alias-name", name);
         } else {
             if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
                 LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");

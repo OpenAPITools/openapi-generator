@@ -187,6 +187,12 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isDiscriminator;
     public boolean isNew; // true when this property overrides an inherited property
     public Boolean isOverridden; // true if the property is a parent property (not defined in child/current schema)
+    /**
+     * The type alias name to use when this property references a deduplicated inline model.
+     * When non-null, code generators may emit a type alias declaration.
+     */
+    @Getter @Setter
+    public String dataTypeAlias;
     @Getter @Setter
     public List<String> _enum;
     @Getter @Setter
