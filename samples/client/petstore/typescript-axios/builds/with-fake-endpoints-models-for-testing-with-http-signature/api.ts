@@ -18,7 +18,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
@@ -1119,7 +1119,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
 
             if (enumHeaderStringArray) {
-                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = enumHeaderStringArray.map(value => (<any>"Array<'>' | '$'>" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['enum_header_string_array'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             if (enumHeaderString != null) {
@@ -1190,12 +1190,12 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             if (requiredBooleanGroup != null) {
                 localVarHeaderParameter['required_boolean_group'] = typeof requiredBooleanGroup === 'string'
                     ? requiredBooleanGroup
-                    : JSON.stringify(requiredBooleanGroup);
+                    : JSON.stringify(requiredBooleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             if (booleanGroup != null) {
                 localVarHeaderParameter['boolean_group'] = typeof booleanGroup === 'string'
                     ? booleanGroup
-                    : JSON.stringify(booleanGroup);
+                    : JSON.stringify(booleanGroup, replaceWithSerializableTypeIfNeeded);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -1448,7 +1448,7 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
             localVarHeaderParameter['Accept'] = 'application/json';
 
             if (headerUnique) {
-                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = Array.from(headerUnique).map(value => (<any>"Set<string>" !== "Set<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['headerUnique'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
