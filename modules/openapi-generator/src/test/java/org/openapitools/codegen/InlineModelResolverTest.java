@@ -1252,4 +1252,51 @@ public class InlineModelResolverTest {
         // Verify the first reference does not have x-alias-name (it's the original)
         assertNull(detailsRef.getExtensions() != null ? detailsRef.getExtensions().get("x-alias-name") : null);
     }
+
+    @Test
+    public void testDeduplicationWithInlineSchemaNameMapping() {
+        // Test that x-alias-name respects inlineSchemaNameMapping configuration
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        
+        // Create two models with identical inline schemas that will be deduplicated
+        openapi.getComponents().addSchemas("ModelA", new ObjectSchema()
+                .addProperty("name", new StringSchema())
+                .addProperty("details", new ObjectSchema()
+                        .addProperty("field1", new StringSchema())
+                        .addProperty("field2", new IntegerSchema())));
+
+        openapi.getComponents().addSchemas("ModelB", new ObjectSchema()
+                .addProperty("title", new StringSchema())
+                .addProperty("info", new ObjectSchema()
+                        .addProperty("field1", new StringSchema())
+                        .addProperty("field2", new IntegerSchema())));
+
+        // Configure inlineSchemaNameMapping to rename ModelB_info to CustomInfoName
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> inlineSchemaNames = new HashMap<>();
+        inlineSchemaNames.put("ModelB_info", "CustomInfoName");
+        resolver.setInlineSchemaNameMapping(inlineSchemaNames);
+        resolver.flatten(openapi);
+
+        // Check ModelB's property reference - should be deduplicated to ModelA_details
+        Schema modelB = openapi.getComponents().getSchemas().get("ModelB");
+        assertNotNull(modelB);
+        Schema infoRef = (Schema) modelB.getProperties().get("info");
+        assertNotNull(infoRef);
+        assertNotNull(infoRef.get$ref());
+        // The ref should point to the first schema created (ModelA_details)
+        assertEquals("#/components/schemas/ModelA_details", infoRef.get$ref());
+        
+        // Verify x-alias-name extension uses the MAPPED name, not the original name
+        assertNotNull(infoRef.getExtensions());
+        assertTrue(infoRef.getExtensions().containsKey("x-alias-name"));
+        assertEquals("CustomInfoName", infoRef.getExtensions().get("x-alias-name"));
+        
+        // Verify CustomInfoName schema was NOT created (since it was deduplicated)
+        assertNull(openapi.getComponents().getSchemas().get("CustomInfoName"));
+        
+        // Verify ModelA_details schema was created (the deduplicated schema)
+        assertNotNull(openapi.getComponents().getSchemas().get("ModelA_details"));
+    }
 }
