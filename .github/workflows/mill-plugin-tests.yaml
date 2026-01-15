@@ -27,8 +27,10 @@ jobs:
           path: |
             ~/.m2/repository
             ~/.gradle
+            ~/.cache/coursier
             !~/.gradle/caches/*/plugin-resolution/
             !~/.m2/repository/org/openapitools/
+            !~/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openapitools/
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-test-mill-plugin-${{ env.cache-name }}-
