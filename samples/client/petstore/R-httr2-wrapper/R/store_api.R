@@ -166,11 +166,10 @@ StoreApi <- R6::R6Class(
     #'
     #' @param order_id ID of the order that needs to be deleted
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    delete_order = function(order_id, ..., .parse = TRUE) {
-      local_var_response <- self$delete_order_with_http_info(order_id, ..., .parse = .parse)
+    delete_order = function(order_id, ...) {
+      local_var_response <- self$delete_order_with_http_info(order_id, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -189,7 +188,7 @@ StoreApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    delete_order_with_http_info = function(order_id, ..., .parse = TRUE) {
+    delete_order_with_http_info = function(order_id, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -295,6 +294,7 @@ StoreApi <- R6::R6Class(
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (map(integer)) with additional information such as HTTP status code, headers
     get_inventory_with_http_info = function(data_file = NULL, ..., .parse = TRUE) {
@@ -409,6 +409,7 @@ StoreApi <- R6::R6Class(
     #' @param order_id ID of pet that needs to be fetched
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Order) with additional information such as HTTP status code, headers
     get_order_by_id_with_http_info = function(order_id, data_file = NULL, ..., .parse = TRUE) {
@@ -549,6 +550,7 @@ StoreApi <- R6::R6Class(
     #' @param order order placed for purchasing the pet
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Order) with additional information such as HTTP status code, headers
     place_order_with_http_info = function(order, data_file = NULL, ..., .parse = TRUE) {

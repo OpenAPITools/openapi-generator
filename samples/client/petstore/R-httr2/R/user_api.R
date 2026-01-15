@@ -275,11 +275,10 @@ UserApi <- R6::R6Class(
     #'
     #' @param user Created user object
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    create_user = function(user, ..., .parse = TRUE) {
-      local_var_response <- self$create_user_with_http_info(user, ..., .parse = .parse)
+    create_user = function(user, ...) {
+      local_var_response <- self$create_user_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -298,7 +297,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    create_user_with_http_info = function(user, ..., .parse = TRUE) {
+    create_user_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -389,11 +388,10 @@ UserApi <- R6::R6Class(
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    create_users_with_array_input = function(user, ..., .parse = TRUE) {
-      local_var_response <- self$create_users_with_array_input_with_http_info(user, ..., .parse = .parse)
+    create_users_with_array_input = function(user, ...) {
+      local_var_response <- self$create_users_with_array_input_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -412,7 +410,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    create_users_with_array_input_with_http_info = function(user, ..., .parse = TRUE) {
+    create_users_with_array_input_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -506,11 +504,10 @@ UserApi <- R6::R6Class(
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    create_users_with_list_input = function(user, ..., .parse = TRUE) {
-      local_var_response <- self$create_users_with_list_input_with_http_info(user, ..., .parse = .parse)
+    create_users_with_list_input = function(user, ...) {
+      local_var_response <- self$create_users_with_list_input_with_http_info(user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -529,7 +526,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    create_users_with_list_input_with_http_info = function(user, ..., .parse = TRUE) {
+    create_users_with_list_input_with_http_info = function(user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -623,11 +620,10 @@ UserApi <- R6::R6Class(
     #'
     #' @param username The name that needs to be deleted
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    delete_user = function(username, ..., .parse = TRUE) {
-      local_var_response <- self$delete_user_with_http_info(username, ..., .parse = .parse)
+    delete_user = function(username, ...) {
+      local_var_response <- self$delete_user_with_http_info(username, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -646,7 +642,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    delete_user_with_http_info = function(username, ..., .parse = TRUE) {
+    delete_user_with_http_info = function(username, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -758,6 +754,7 @@ UserApi <- R6::R6Class(
     #' @param username The name that needs to be fetched. Use user1 for testing.
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
     get_user_by_name_with_http_info = function(username, data_file = NULL, ..., .parse = TRUE) {
@@ -888,6 +885,7 @@ UserApi <- R6::R6Class(
     #' @param password The password for login in clear text
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     login_user_with_http_info = function(username, password, data_file = NULL, ..., .parse = TRUE) {
@@ -1012,11 +1010,10 @@ UserApi <- R6::R6Class(
     #' Logs out current logged in user session
     #'
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    logout_user = function(..., .parse = TRUE) {
-      local_var_response <- self$logout_user_with_http_info(..., .parse = .parse)
+    logout_user = function(...) {
+      local_var_response <- self$logout_user_with_http_info(...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1034,7 +1031,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    logout_user_with_http_info = function(..., .parse = TRUE) {
+    logout_user_with_http_info = function(...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1106,11 +1103,10 @@ UserApi <- R6::R6Class(
     #' @param username name that need to be deleted
     #' @param user Updated user object
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    update_user = function(username, user, ..., .parse = TRUE) {
-      local_var_response <- self$update_user_with_http_info(username, user, ..., .parse = .parse)
+    update_user = function(username, user, ...) {
+      local_var_response <- self$update_user_with_http_info(username, user, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1130,7 +1126,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    update_user_with_http_info = function(username, user, ..., .parse = TRUE) {
+    update_user_with_http_info = function(username, user, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()

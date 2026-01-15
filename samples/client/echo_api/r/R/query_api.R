@@ -225,6 +225,7 @@ QueryApi <- R6::R6Class(
     #' @param enum_ref_string_query (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestEnumRefStringWithHttpInfo = function(enum_nonref_string_query = NULL, enum_ref_string_query = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -339,6 +340,7 @@ QueryApi <- R6::R6Class(
     #' @param string_query (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryDatetimeDateStringWithHttpInfo = function(datetime_query = NULL, date_query = NULL, string_query = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -456,6 +458,7 @@ QueryApi <- R6::R6Class(
     #' @param string_query (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryIntegerBooleanStringWithHttpInfo = function(integer_query = NULL, boolean_query = NULL, string_query = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -569,6 +572,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -670,6 +674,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -771,6 +776,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -873,6 +879,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleFormExplodeFalseArrayStringWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -975,6 +982,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleFormExplodeTrueArrayStringWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -1076,6 +1084,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleFormExplodeTrueObjectWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -1177,6 +1186,7 @@ QueryApi <- R6::R6Class(
     #' @param query_object (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo = function(query_object = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -1280,6 +1290,7 @@ QueryApi <- R6::R6Class(
     #' @param json_serialized_object_array_ref_string_query (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestQueryStyleJsonSerializationObjectWithHttpInfo = function(json_serialized_object_ref_string_query = NULL, json_serialized_object_array_ref_string_query = NULL, data_file = NULL, ..., .parse = TRUE) {

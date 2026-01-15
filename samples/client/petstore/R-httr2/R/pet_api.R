@@ -413,6 +413,7 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
     add_pet_with_http_info = function(pet, data_file = NULL, ..., .parse = TRUE) {
@@ -525,11 +526,10 @@ PetApi <- R6::R6Class(
     #' @param pet_id Pet id to delete
     #' @param api_key (optional) No description
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    delete_pet = function(pet_id, api_key = NULL, ..., .parse = TRUE) {
-      local_var_response <- self$delete_pet_with_http_info(pet_id, api_key, ..., .parse = .parse)
+    delete_pet = function(pet_id, api_key = NULL, ...) {
+      local_var_response <- self$delete_pet_with_http_info(pet_id, api_key, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -549,7 +549,7 @@ PetApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    delete_pet_with_http_info = function(pet_id, api_key = NULL, ..., .parse = TRUE) {
+    delete_pet_with_http_info = function(pet_id, api_key = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -669,6 +669,7 @@ PetApi <- R6::R6Class(
     #' @param status Status values that need to be considered for filter
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
     find_pets_by_status_with_http_info = function(status, data_file = NULL, ..., .parse = TRUE) {
@@ -808,6 +809,7 @@ PetApi <- R6::R6Class(
     #' @param tags Tags to filter by
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (array[Pet]) with additional information such as HTTP status code, headers
     find_pets_by_tags_with_http_info = function(tags, data_file = NULL, ..., .parse = TRUE) {
@@ -935,6 +937,7 @@ PetApi <- R6::R6Class(
     #' @param pet_id ID of pet to return
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
     get_pet_by_id_with_http_info = function(pet_id, data_file = NULL, ..., .parse = TRUE) {
@@ -1073,6 +1076,7 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
     get_pet_by_id_streaming_with_http_info = function(pet_id, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -1216,6 +1220,7 @@ PetApi <- R6::R6Class(
     #' @param stream_callback (optional) callback function to process the data stream
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
     test_header_with_http_info = function(header_test_int, stream_callback = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -1351,6 +1356,7 @@ PetApi <- R6::R6Class(
     #' @param pet Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
     update_pet_with_http_info = function(pet, data_file = NULL, ..., .parse = TRUE) {
@@ -1463,11 +1469,10 @@ PetApi <- R6::R6Class(
     #' @param name (optional) Updated name of the pet
     #' @param status (optional) Updated status of the pet
     #' @param ... Other optional arguments
-    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    update_pet_with_form = function(pet_id, name = NULL, status = NULL, ..., .parse = TRUE) {
-      local_var_response <- self$update_pet_with_form_with_http_info(pet_id, name, status, ..., .parse = .parse)
+    update_pet_with_form = function(pet_id, name = NULL, status = NULL, ...) {
+      local_var_response <- self$update_pet_with_form_with_http_info(pet_id, name, status, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1488,7 +1493,7 @@ PetApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    update_pet_with_form_with_http_info = function(pet_id, name = NULL, status = NULL, ..., .parse = TRUE) {
+    update_pet_with_form_with_http_info = function(pet_id, name = NULL, status = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1616,6 +1621,7 @@ PetApi <- R6::R6Class(
     #' @param file (optional) file to upload
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (ModelApiResponse) with additional information such as HTTP status code, headers
     upload_file_with_http_info = function(pet_id, additional_metadata = NULL, file = NULL, data_file = NULL, ..., .parse = TRUE) {

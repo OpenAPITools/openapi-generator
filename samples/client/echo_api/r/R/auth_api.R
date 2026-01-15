@@ -94,6 +94,7 @@ AuthApi <- R6::R6Class(
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestAuthHttpBasicWithHttpInfo = function(data_file = NULL, ..., .parse = TRUE) {
@@ -191,6 +192,7 @@ AuthApi <- R6::R6Class(
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestAuthHttpBearerWithHttpInfo = function(data_file = NULL, ..., .parse = TRUE) {

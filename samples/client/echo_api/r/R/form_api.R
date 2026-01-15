@@ -116,6 +116,7 @@ FormApi <- R6::R6Class(
     #' @param string_form (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestFormIntegerBooleanStringWithHttpInfo = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ..., .parse = TRUE) {
@@ -226,6 +227,7 @@ FormApi <- R6::R6Class(
     #' @param marker 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestFormObjectMultipartWithHttpInfo = function(marker, data_file = NULL, ..., .parse = TRUE) {
@@ -340,6 +342,7 @@ FormApi <- R6::R6Class(
     #' @param name (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
     TestFormOneofWithHttpInfo = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ..., .parse = TRUE) {
