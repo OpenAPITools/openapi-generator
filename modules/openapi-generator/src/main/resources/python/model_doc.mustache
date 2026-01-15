@@ -21,7 +21,7 @@ json = "{}"
 # create an instance of {{classname}} from a JSON string
 {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance = {{classname}}.model_validate_json(json)
 # print the JSON string representation of the object
-print({{classname}}.model_dump_json(by_alias=True, exclude_unset=True))
+print({{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict = {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_instance.model_dump(by_alias=True)
