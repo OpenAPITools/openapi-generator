@@ -317,7 +317,7 @@ ApiClient <- R6::R6Class(
         })
         names(return_obj) <- names(obj)
       } else if (startsWith(return_type, "collection[")) {
-        # To handle the "array" or "set" types
+        # To handle the "array" and "set" types
         inner_return_type <- regmatches(return_type,
                                         regexec(pattern = "collection\\[(.*)\\]", return_type))[[1]][2]
         if (c(inner_return_type) %in% primitive_types) {
