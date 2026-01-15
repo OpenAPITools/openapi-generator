@@ -561,15 +561,14 @@
       {{/vendorExtensions.x-streaming}}
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         {{#returnType}}
-        if (!.parse) {
-          local_var_resp$content <- local_var_resp$response_as_text()
-          return(local_var_resp)
-        }
-
         {{#isPrimitiveType}}
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         ApiResponse$new(content,resp)
@@ -578,6 +577,10 @@
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
