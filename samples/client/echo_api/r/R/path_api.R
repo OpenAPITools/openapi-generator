@@ -61,11 +61,11 @@ PathApi <- R6::R6Class(
     #' @param enum_ref_string_path 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ..., parse = parse)
+    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -88,7 +88,7 @@ PathApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, parse = TRUE, ...) {
+    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -173,7 +173,7 @@ PathApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }

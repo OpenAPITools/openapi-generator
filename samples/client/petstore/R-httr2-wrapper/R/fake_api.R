@@ -188,11 +188,11 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    add_pet_optional = function(pet = NULL, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ..., parse = parse)
+    add_pet_optional = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -212,7 +212,7 @@ FakeApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, parse = TRUE, ...) {
+    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -266,7 +266,7 @@ FakeApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }
@@ -316,11 +316,11 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return User
-    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ..., parse = parse)
+    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -341,7 +341,7 @@ FakeApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, parse = TRUE, ...) {
+    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -403,7 +403,7 @@ FakeApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }
@@ -451,11 +451,11 @@ FakeApi <- R6::R6Class(
     #'
     #' @param path_array dummy path parameter
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    fake_path_array = function(path_array, ..., parse = TRUE) {
-      local_var_response <- self$fake_path_array_with_http_info(path_array, ..., parse = parse)
+    fake_path_array = function(path_array, ..., .parse = TRUE) {
+      local_var_response <- self$fake_path_array_with_http_info(path_array, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -474,7 +474,7 @@ FakeApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    fake_path_array_with_http_info = function(path_array, ...) {
+    fake_path_array_with_http_info = function(path_array, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -559,11 +559,11 @@ FakeApi <- R6::R6Class(
     #'
     #' @param reg_exp_test dummy required parameter
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    fake_regular_expression = function(reg_exp_test, ..., parse = TRUE) {
-      local_var_response <- self$fake_regular_expression_with_http_info(reg_exp_test, ..., parse = parse)
+    fake_regular_expression = function(reg_exp_test, ..., .parse = TRUE) {
+      local_var_response <- self$fake_regular_expression_with_http_info(reg_exp_test, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -582,7 +582,7 @@ FakeApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    fake_regular_expression_with_http_info = function(reg_exp_test, ...) {
+    fake_regular_expression_with_http_info = function(reg_exp_test, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -672,11 +672,11 @@ FakeApi <- R6::R6Class(
     #' @param set_dummy set query
     #' @param array_dummy array query
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    fake_set_query = function(set_dummy, array_dummy, ..., parse = TRUE) {
-      local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ..., parse = parse)
+    fake_set_query = function(set_dummy, array_dummy, ..., .parse = TRUE) {
+      local_var_response <- self$fake_set_query_with_http_info(set_dummy, array_dummy, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -696,7 +696,7 @@ FakeApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    fake_set_query_with_http_info = function(set_dummy, array_dummy, ...) {
+    fake_set_query_with_http_info = function(set_dummy, array_dummy, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()

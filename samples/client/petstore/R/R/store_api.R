@@ -166,11 +166,11 @@ StoreApi <- R6::R6Class(
     #'
     #' @param order_id ID of the order that needs to be deleted
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    DeleteOrder = function(order_id, ..., parse = TRUE) {
-      local_var_response <- self$DeleteOrderWithHttpInfo(order_id, ..., parse = parse)
+    DeleteOrder = function(order_id, ..., .parse = TRUE) {
+      local_var_response <- self$DeleteOrderWithHttpInfo(order_id, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -189,7 +189,7 @@ StoreApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (void) with additional information such as HTTP status code, headers
-    DeleteOrderWithHttpInfo = function(order_id, ...) {
+    DeleteOrderWithHttpInfo = function(order_id, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -274,11 +274,11 @@ StoreApi <- R6::R6Class(
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return map(integer)
-    GetInventory = function(data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$GetInventoryWithHttpInfo(data_file = data_file, ..., parse = parse)
+    GetInventory = function(data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$GetInventoryWithHttpInfo(data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -297,7 +297,7 @@ StoreApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (map(integer)) with additional information such as HTTP status code, headers
-    GetInventoryWithHttpInfo = function(data_file = NULL, parse = TRUE, ...) {
+    GetInventoryWithHttpInfo = function(data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -338,7 +338,7 @@ StoreApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }
@@ -387,11 +387,11 @@ StoreApi <- R6::R6Class(
     #' @param order_id ID of pet that needs to be fetched
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Order
-    GetOrderById = function(order_id, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$GetOrderByIdWithHttpInfo(order_id, data_file = data_file, ..., parse = parse)
+    GetOrderById = function(order_id, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$GetOrderByIdWithHttpInfo(order_id, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -411,7 +411,7 @@ StoreApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (Order) with additional information such as HTTP status code, headers
-    GetOrderByIdWithHttpInfo = function(order_id, data_file = NULL, parse = TRUE, ...) {
+    GetOrderByIdWithHttpInfo = function(order_id, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -478,7 +478,7 @@ StoreApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }
@@ -527,11 +527,11 @@ StoreApi <- R6::R6Class(
     #' @param order order placed for purchasing the pet
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Order
-    PlaceOrder = function(order, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$PlaceOrderWithHttpInfo(order, data_file = data_file, ..., parse = parse)
+    PlaceOrder = function(order, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$PlaceOrderWithHttpInfo(order, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -551,7 +551,7 @@ StoreApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (Order) with additional information such as HTTP status code, headers
-    PlaceOrderWithHttpInfo = function(order, data_file = NULL, parse = TRUE, ...) {
+    PlaceOrderWithHttpInfo = function(order, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -608,7 +608,7 @@ StoreApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }

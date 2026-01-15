@@ -63,11 +63,11 @@ HeaderApi <- R6::R6Class(
     #' @param enum_ref_string_header (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
-    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestHeaderIntegerBooleanStringEnums = function(integer_header = NULL, boolean_header = NULL, string_header = NULL, enum_nonref_string_header = NULL, enum_ref_string_header = NULL, data_file = NULL, ..., parse = TRUE) {
-      local_var_response <- self$TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, data_file = data_file, ..., parse = parse)
+    TestHeaderIntegerBooleanStringEnums = function(integer_header = NULL, boolean_header = NULL, string_header = NULL, enum_nonref_string_header = NULL, enum_ref_string_header = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$TestHeaderIntegerBooleanStringEnumsWithHttpInfo(integer_header, boolean_header, string_header, enum_nonref_string_header, enum_ref_string_header, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -91,7 +91,7 @@ HeaderApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestHeaderIntegerBooleanStringEnumsWithHttpInfo = function(integer_header = NULL, boolean_header = NULL, string_header = NULL, enum_nonref_string_header = NULL, enum_ref_string_header = NULL, data_file = NULL, parse = TRUE, ...) {
+    TestHeaderIntegerBooleanStringEnumsWithHttpInfo = function(integer_header = NULL, boolean_header = NULL, string_header = NULL, enum_nonref_string_header = NULL, enum_ref_string_header = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -158,7 +158,7 @@ HeaderApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        if (!parse) {
+        if (!.parse) {
           local_var_resp$content <- local_var_resp$response_as_text()
           return(local_var_resp)
         }
