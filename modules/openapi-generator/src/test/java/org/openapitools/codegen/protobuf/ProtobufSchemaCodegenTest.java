@@ -185,7 +185,7 @@ public class ProtobufSchemaCodegenTest {
         for (CodegenProperty var : fruitModel.vars) {
             Assert.assertNotNull(var.name, "var name should not be null");
             Assert.assertNotNull(var.dataType, "var dataType should not be null");
-            Assert.assertTrue(var.isModel, "var should be a model type");
+            Assert.assertTrue(var.isModel, "var " + var.name + " should be a model type (isModel=" + var.isModel + ")");
             Assert.assertFalse(var.isContainer, "var should not be a container (it references a model)");
 
             // Check expected properties based on discriminator title
@@ -195,6 +195,8 @@ public class ProtobufSchemaCodegenTest {
                 Assert.assertEquals(var.dataType, "FloatMap", "banana_map should reference FloatMap");
             } else if (var.name.equals("orange_choice")) {
                 Assert.assertEquals(var.dataType, "Orange", "orange_choice should reference Orange");
+            } else {
+                Assert.fail("Unexpected var name: " + var.name + ". Expected one of: apple_list, banana_map, orange_choice");
             }
         }
 
