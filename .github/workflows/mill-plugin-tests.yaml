@@ -35,12 +35,27 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-test-mill-plugin-${{ env.cache-name }}-
             ${{ runner.os }}-test-mill-plugin-
-      - name: Run tests
+      - name: Maven Clean Install
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: |
           ./mvnw clean install -DskipTests -Dmaven.javadoc.skip=true
-          (cd modules/openapi-generator-mill-plugin/example/ && ./mill __.compile)
-          (cd modules/openapi-generator-mill-plugin/example/ && ./mill openapi.validate)
+
+      - name: Mill Example - Test Validation Command
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+        run: |
           (cd modules/openapi-generator-mill-plugin/example/ && ./mill validateOpenapiSpec $(pwd)/api/petstore-invalid.yaml)
+
+      - name: Mill Example - Test Validation Task
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+        run: |
+          (cd modules/openapi-generator-mill-plugin/example/ && ./mill openapi.validate)
+
+      - name: Mill Example - Test Compile Task
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+        run: |
+          (cd modules/openapi-generator-mill-plugin/example/ && ./mill __.compile)
           
