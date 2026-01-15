@@ -150,7 +150,6 @@
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
         return(invisible(NULL))
       }
-
       {{/vendorExtensions.x-streaming}}
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
@@ -561,7 +560,7 @@
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
-        ApiResponse$new(content,resp)
+        ApiResponse$new(content = content, response = resp, status_code = local_var_resp$status_code)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         # save response in a file
@@ -609,7 +608,9 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
         {{#returnExceptionOnFailure}}
@@ -626,7 +627,9 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
         {{#returnExceptionOnFailure}}
@@ -643,7 +646,7 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || local_var_error_msg == "") {
           local_var_resp$response <- "API server error"
         }
         return(local_var_resp)
