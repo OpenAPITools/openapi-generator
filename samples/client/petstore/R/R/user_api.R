@@ -275,10 +275,11 @@ UserApi <- R6::R6Class(
     #'
     #' @param user Created user object
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    CreateUser = function(user, ...) {
-      local_var_response <- self$CreateUserWithHttpInfo(user, ...)
+    CreateUser = function(user, ..., parse = TRUE) {
+      local_var_response <- self$CreateUserWithHttpInfo(user, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -388,10 +389,11 @@ UserApi <- R6::R6Class(
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    CreateUsersWithArrayInput = function(user, ...) {
-      local_var_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ...)
+    CreateUsersWithArrayInput = function(user, ..., parse = TRUE) {
+      local_var_response <- self$CreateUsersWithArrayInputWithHttpInfo(user, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -504,10 +506,11 @@ UserApi <- R6::R6Class(
     #'
     #' @param user List of user object
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    CreateUsersWithListInput = function(user, ...) {
-      local_var_response <- self$CreateUsersWithListInputWithHttpInfo(user, ...)
+    CreateUsersWithListInput = function(user, ..., parse = TRUE) {
+      local_var_response <- self$CreateUsersWithListInputWithHttpInfo(user, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -620,10 +623,11 @@ UserApi <- R6::R6Class(
     #'
     #' @param username The name that needs to be deleted
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    DeleteUser = function(username, ...) {
-      local_var_response <- self$DeleteUserWithHttpInfo(username, ...)
+    DeleteUser = function(username, ..., parse = TRUE) {
+      local_var_response <- self$DeleteUserWithHttpInfo(username, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -732,10 +736,11 @@ UserApi <- R6::R6Class(
     #' @param username The name that needs to be fetched. Use user1 for testing.
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return User
-    GetUserByName = function(username, data_file = NULL, ...) {
-      local_var_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ...)
+    GetUserByName = function(username, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$GetUserByNameWithHttpInfo(username, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -755,7 +760,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    GetUserByNameWithHttpInfo = function(username, data_file = NULL, ...) {
+    GetUserByNameWithHttpInfo = function(username, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -810,6 +815,11 @@ UserApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "User"),
           error = function(e) {
@@ -855,10 +865,11 @@ UserApi <- R6::R6Class(
     #' @param password The password for login in clear text
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    LoginUser = function(username, password, data_file = NULL, ...) {
-      local_var_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ...)
+    LoginUser = function(username, password, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$LoginUserWithHttpInfo(username, password, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -879,7 +890,7 @@ UserApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    LoginUserWithHttpInfo = function(username, password, data_file = NULL, ...) {
+    LoginUserWithHttpInfo = function(username, password, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -954,6 +965,11 @@ UserApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -996,10 +1012,11 @@ UserApi <- R6::R6Class(
     #' Logs out current logged in user session
     #'
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    LogoutUser = function(...) {
-      local_var_response <- self$LogoutUserWithHttpInfo(...)
+    LogoutUser = function(..., parse = TRUE) {
+      local_var_response <- self$LogoutUserWithHttpInfo(..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1089,10 +1106,11 @@ UserApi <- R6::R6Class(
     #' @param username name that need to be deleted
     #' @param user Updated user object
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return void
-    UpdateUser = function(username, user, ...) {
-      local_var_response <- self$UpdateUserWithHttpInfo(username, user, ...)
+    UpdateUser = function(username, user, ..., parse = TRUE) {
+      local_var_response <- self$UpdateUserWithHttpInfo(username, user, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {

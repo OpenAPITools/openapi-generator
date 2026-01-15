@@ -92,10 +92,11 @@ FormApi <- R6::R6Class(
     #' @param string_form (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestFormIntegerBooleanString = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestFormIntegerBooleanStringWithHttpInfo(integer_form, boolean_form, string_form, data_file = data_file, ...)
+    TestFormIntegerBooleanString = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestFormIntegerBooleanStringWithHttpInfo(integer_form, boolean_form, string_form, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -117,7 +118,7 @@ FormApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestFormIntegerBooleanStringWithHttpInfo = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, ...) {
+    TestFormIntegerBooleanStringWithHttpInfo = function(integer_form = NULL, boolean_form = NULL, string_form = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -169,6 +170,11 @@ FormApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -198,10 +204,11 @@ FormApi <- R6::R6Class(
     #' @param marker 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestFormObjectMultipart = function(marker, data_file = NULL, ...) {
-      local_var_response <- self$TestFormObjectMultipartWithHttpInfo(marker, data_file = data_file, ...)
+    TestFormObjectMultipart = function(marker, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestFormObjectMultipartWithHttpInfo(marker, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -221,7 +228,7 @@ FormApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestFormObjectMultipartWithHttpInfo = function(marker, data_file = NULL, ...) {
+    TestFormObjectMultipartWithHttpInfo = function(marker, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -267,6 +274,11 @@ FormApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -301,10 +313,11 @@ FormApi <- R6::R6Class(
     #' @param name (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestFormOneof = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, data_file = data_file, ...)
+    TestFormOneof = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestFormOneofWithHttpInfo(form1, form2, form3, form4, id, name, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -329,7 +342,7 @@ FormApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestFormOneofWithHttpInfo = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, ...) {
+    TestFormOneofWithHttpInfo = function(form1 = NULL, form2 = NULL, form3 = NULL, form4 = NULL, id = NULL, name = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -394,6 +407,11 @@ FormApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(

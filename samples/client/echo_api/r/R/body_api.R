@@ -179,10 +179,11 @@ BodyApi <- R6::R6Class(
     #'
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return data.frame
-    TestBinaryGif = function(data_file = NULL, ...) {
-      local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ...)
+    TestBinaryGif = function(data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestBinaryGifWithHttpInfo(data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -201,7 +202,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (data.frame) with additional information such as HTTP status code, headers
-    TestBinaryGifWithHttpInfo = function(data_file = NULL, ...) {
+    TestBinaryGifWithHttpInfo = function(data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -238,6 +239,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "data.frame"),
           error = function(e) {
@@ -267,10 +273,11 @@ BodyApi <- R6::R6Class(
     #' @param body (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ...)
+    TestBodyApplicationOctetstreamBinary = function(body = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestBodyApplicationOctetstreamBinaryWithHttpInfo(body, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -290,7 +297,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestBodyApplicationOctetstreamBinaryWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestBodyApplicationOctetstreamBinaryWithHttpInfo = function(body = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -337,6 +344,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -366,10 +378,11 @@ BodyApi <- R6::R6Class(
     #' @param files 
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ...)
+    TestBodyMultipartFormdataArrayOfBinary = function(files, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -389,7 +402,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo = function(files, data_file = NULL, ...) {
+    TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo = function(files, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -435,6 +448,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -464,10 +482,11 @@ BodyApi <- R6::R6Class(
     #' @param my_file (optional) No description
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ...)
+    TestBodyMultipartFormdataSingleBinary = function(my_file = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestBodyMultipartFormdataSingleBinaryWithHttpInfo(my_file, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -487,7 +506,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestBodyMultipartFormdataSingleBinaryWithHttpInfo = function(my_file = NULL, data_file = NULL, ...) {
+    TestBodyMultipartFormdataSingleBinaryWithHttpInfo = function(my_file = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -529,6 +548,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -558,10 +582,11 @@ BodyApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyAllOfPet = function(pet = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyAllOfPetWithHttpInfo(pet, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -581,7 +606,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    TestEchoBodyAllOfPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyAllOfPetWithHttpInfo = function(pet = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -628,6 +653,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
           error = function(e) {
@@ -657,10 +687,11 @@ BodyApi <- R6::R6Class(
     #' @param body (optional) Free form object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ...)
+    TestEchoBodyFreeFormObjectResponseString = function(body = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyFreeFormObjectResponseStringWithHttpInfo(body, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -680,7 +711,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestEchoBodyFreeFormObjectResponseStringWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestEchoBodyFreeFormObjectResponseStringWithHttpInfo = function(body = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -727,6 +758,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -756,10 +792,11 @@ BodyApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    TestEchoBodyPet = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyPet = function(pet = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyPetWithHttpInfo(pet, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -779,7 +816,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    TestEchoBodyPetWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyPetWithHttpInfo = function(pet = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -826,6 +863,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
           error = function(e) {
@@ -855,10 +897,11 @@ BodyApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ...)
+    TestEchoBodyPetResponseString = function(pet = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyPetResponseStringWithHttpInfo(pet, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -878,7 +921,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestEchoBodyPetResponseStringWithHttpInfo = function(pet = NULL, data_file = NULL, ...) {
+    TestEchoBodyPetResponseStringWithHttpInfo = function(pet = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -925,6 +968,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "character"),
           error = function(e) {
@@ -954,10 +1002,11 @@ BodyApi <- R6::R6Class(
     #' @param body (optional) String enum
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return StringEnumRef
-    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ...)
+    TestEchoBodyStringEnum = function(body = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyStringEnumWithHttpInfo(body, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -977,7 +1026,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (StringEnumRef) with additional information such as HTTP status code, headers
-    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, ...) {
+    TestEchoBodyStringEnumWithHttpInfo = function(body = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1024,6 +1073,11 @@ BodyApi <- R6::R6Class(
           self$api_client$WriteFile(local_var_resp, data_file)
         }
 
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
+
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "StringEnumRef"),
           error = function(e) {
@@ -1053,10 +1107,11 @@ BodyApi <- R6::R6Class(
     #' @param tag (optional) Tag object
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return character
-    TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ...) {
-      local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ...)
+    TestEchoBodyTagResponseString = function(tag = NULL, data_file = NULL, ..., parse = TRUE) {
+      local_var_response <- self$TestEchoBodyTagResponseStringWithHttpInfo(tag, data_file = data_file, ..., parse = parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -1076,7 +1131,7 @@ BodyApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #'
     #' @return API response (character) with additional information such as HTTP status code, headers
-    TestEchoBodyTagResponseStringWithHttpInfo = function(tag = NULL, data_file = NULL, ...) {
+    TestEchoBodyTagResponseStringWithHttpInfo = function(tag = NULL, data_file = NULL, parse = TRUE, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -1121,6 +1176,11 @@ BodyApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(

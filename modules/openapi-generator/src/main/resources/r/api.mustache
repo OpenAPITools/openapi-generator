@@ -142,10 +142,11 @@
     #' @param data_file (optional) name of the data file to save the result
     {{/returnType}}
     #' @param ... Other optional arguments
+    #' @param parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
-      local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}..., parse = TRUE) {
+      local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}..., parse = parse)
       {{#vendorExtensions.x-streaming}}
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
         return(invisible(NULL))
@@ -181,7 +182,7 @@
     #' @param ... Other optional arguments
     #'
     #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
-    {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
+    {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, parse = TRUE, {{/returnType}}...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -567,6 +568,11 @@
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+
+        if (!parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
