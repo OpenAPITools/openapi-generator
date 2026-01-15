@@ -646,7 +646,7 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        if (is.null(local_var_resp$response) || local_var_error_msg == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
         return(local_var_resp)
