@@ -31,6 +31,9 @@ jobs:
             !~/.gradle/caches/*/plugin-resolution/
             !~/.m2/repository/org/openapitools/
             !~/.cache/coursier/v1/https/repo1.maven.org/maven2/org/openapitools/
+            !~/.m2/repository/com/fasterxml/
+            !~/.m2/repository/org/slf4j/
+            !~/.m2/repository/javax/validation/
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-test-mill-plugin-${{ env.cache-name }}-
