@@ -13,13 +13,11 @@
 
 
 from __future__ import annotations
-import json
-import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
 from typing_extensions import Annotated
-from pydantic import BaseModel, ConfigDict, StrictStr, Field, RootModel, model_validator
-from typing import Any, Union, List, Set, Optional, Dict, Union, Literal, Self
+from pydantic import Field, RootModel
+from typing import Union
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
 
