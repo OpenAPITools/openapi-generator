@@ -18,7 +18,7 @@ import org.openapitools.generator.mill.OpenApiModule
 object `package` extends JavaModule with MavenModule with OpenApiModule {
 
   override def mvnDeps = Seq(
-    mvn"jakarta.platform:jakarta.jakartaee-api:11.0.0",
+    mvn"jakarta.platform:jakarta.jakartaee-api:10.0.0",
     mvn"com.fasterxml.jackson.core:jackson-databind:2.20.0",
     mvn"org.openapitools:jackson-databind-nullable:0.2.8"
   )
