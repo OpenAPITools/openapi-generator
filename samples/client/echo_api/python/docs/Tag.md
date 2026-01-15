@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of Tag from a JSON string
 tag_instance = Tag.model_validate_json(json)
 # print the JSON string representation of the object
-print(Tag.model_dump_json(by_alias=True, exclude_unset=True))
+print(tag_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 tag_dict = tag_instance.model_dump(by_alias=True)

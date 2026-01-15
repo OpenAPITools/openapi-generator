@@ -21,7 +21,7 @@ json = "{}"
 # create an instance of TestModelWithEnumDefault from a JSON string
 test_model_with_enum_default_instance = TestModelWithEnumDefault.model_validate_json(json)
 # print the JSON string representation of the object
-print(TestModelWithEnumDefault.model_dump_json(by_alias=True, exclude_unset=True))
+print(test_model_with_enum_default_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 test_model_with_enum_default_dict = test_model_with_enum_default_instance.model_dump(by_alias=True)

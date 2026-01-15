@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of HuntingDog from a JSON string
 hunting_dog_instance = HuntingDog.model_validate_json(json)
 # print the JSON string representation of the object
-print(HuntingDog.model_dump_json(by_alias=True, exclude_unset=True))
+print(hunting_dog_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 hunting_dog_dict = hunting_dog_instance.model_dump(by_alias=True)

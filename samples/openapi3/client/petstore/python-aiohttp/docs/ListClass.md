@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ListClass from a JSON string
 list_class_instance = ListClass.model_validate_json(json)
 # print the JSON string representation of the object
-print(ListClass.model_dump_json(by_alias=True, exclude_unset=True))
+print(list_class_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 list_class_dict = list_class_instance.model_dump(by_alias=True)

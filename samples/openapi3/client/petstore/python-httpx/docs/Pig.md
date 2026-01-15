@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Pig from a JSON string
 pig_instance = Pig.model_validate_json(json)
 # print the JSON string representation of the object
-print(Pig.model_dump_json(by_alias=True, exclude_unset=True))
+print(pig_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 pig_dict = pig_instance.model_dump(by_alias=True)

@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Info from a JSON string
 info_instance = Info.model_validate_json(json)
 # print the JSON string representation of the object
-print(Info.model_dump_json(by_alias=True, exclude_unset=True))
+print(info_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 info_dict = info_instance.model_dump(by_alias=True)

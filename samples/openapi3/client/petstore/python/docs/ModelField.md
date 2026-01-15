@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ModelField from a JSON string
 model_field_instance = ModelField.model_validate_json(json)
 # print the JSON string representation of the object
-print(ModelField.model_dump_json(by_alias=True, exclude_unset=True))
+print(model_field_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 model_field_dict = model_field_instance.model_dump(by_alias=True)

@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of File from a JSON string
 file_instance = File.model_validate_json(json)
 # print the JSON string representation of the object
-print(File.model_dump_json(by_alias=True, exclude_unset=True))
+print(file_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 file_dict = file_instance.model_dump(by_alias=True)

@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Model200Response from a JSON string
 model200_response_instance = Model200Response.model_validate_json(json)
 # print the JSON string representation of the object
-print(Model200Response.model_dump_json(by_alias=True, exclude_unset=True))
+print(model200_response_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 model200_response_dict = model200_response_instance.model_dump(by_alias=True)

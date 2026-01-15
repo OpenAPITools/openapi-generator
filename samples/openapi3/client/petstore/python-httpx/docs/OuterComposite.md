@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of OuterComposite from a JSON string
 outer_composite_instance = OuterComposite.model_validate_json(json)
 # print the JSON string representation of the object
-print(OuterComposite.model_dump_json(by_alias=True, exclude_unset=True))
+print(outer_composite_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 outer_composite_dict = outer_composite_instance.model_dump(by_alias=True)

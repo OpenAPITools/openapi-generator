@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of PrimitiveString from a JSON string
 primitive_string_instance = PrimitiveString.model_validate_json(json)
 # print the JSON string representation of the object
-print(PrimitiveString.model_dump_json(by_alias=True, exclude_unset=True))
+print(primitive_string_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 primitive_string_dict = primitive_string_instance.model_dump(by_alias=True)

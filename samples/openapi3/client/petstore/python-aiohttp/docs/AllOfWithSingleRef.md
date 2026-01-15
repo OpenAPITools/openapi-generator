@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of AllOfWithSingleRef from a JSON string
 all_of_with_single_ref_instance = AllOfWithSingleRef.model_validate_json(json)
 # print the JSON string representation of the object
-print(AllOfWithSingleRef.model_dump_json(by_alias=True, exclude_unset=True))
+print(all_of_with_single_ref_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 all_of_with_single_ref_dict = all_of_with_single_ref_instance.model_dump(by_alias=True)

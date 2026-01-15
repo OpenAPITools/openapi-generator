@@ -22,7 +22,7 @@ json = "{}"
 # create an instance of Capitalization from a JSON string
 capitalization_instance = Capitalization.model_validate_json(json)
 # print the JSON string representation of the object
-print(Capitalization.model_dump_json(by_alias=True, exclude_unset=True))
+print(capitalization_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 capitalization_dict = capitalization_instance.model_dump(by_alias=True)

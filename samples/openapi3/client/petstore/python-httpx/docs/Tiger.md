@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Tiger from a JSON string
 tiger_instance = Tiger.model_validate_json(json)
 # print the JSON string representation of the object
-print(Tiger.model_dump_json(by_alias=True, exclude_unset=True))
+print(tiger_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 tiger_dict = tiger_instance.model_dump(by_alias=True)

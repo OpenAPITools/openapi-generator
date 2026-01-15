@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of CircularReferenceModel from a JSON string
 circular_reference_model_instance = CircularReferenceModel.model_validate_json(json)
 # print the JSON string representation of the object
-print(CircularReferenceModel.model_dump_json(by_alias=True, exclude_unset=True))
+print(circular_reference_model_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 circular_reference_model_dict = circular_reference_model_instance.model_dump(by_alias=True)

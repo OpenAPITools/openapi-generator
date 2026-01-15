@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of CreatureInfo from a JSON string
 creature_info_instance = CreatureInfo.model_validate_json(json)
 # print the JSON string representation of the object
-print(CreatureInfo.model_dump_json(by_alias=True, exclude_unset=True))
+print(creature_info_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 creature_info_dict = creature_info_instance.model_dump(by_alias=True)

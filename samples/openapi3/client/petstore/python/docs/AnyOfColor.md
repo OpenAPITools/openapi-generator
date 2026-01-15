@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of AnyOfColor from a JSON string
 any_of_color_instance = AnyOfColor.model_validate_json(json)
 # print the JSON string representation of the object
-print(AnyOfColor.model_dump_json(by_alias=True, exclude_unset=True))
+print(any_of_color_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 any_of_color_dict = any_of_color_instance.model_dump(by_alias=True)

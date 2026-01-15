@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of UnnamedDictWithAdditionalModelListProperties from a JSON string
 unnamed_dict_with_additional_model_list_properties_instance = UnnamedDictWithAdditionalModelListProperties.model_validate_json(json)
 # print the JSON string representation of the object
-print(UnnamedDictWithAdditionalModelListProperties.model_dump_json(by_alias=True, exclude_unset=True))
+print(unnamed_dict_with_additional_model_list_properties_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 unnamed_dict_with_additional_model_list_properties_dict = unnamed_dict_with_additional_model_list_properties_instance.model_dump(by_alias=True)

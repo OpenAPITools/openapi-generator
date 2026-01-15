@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of TestObjectForMultipartRequestsRequestMarker from a JSON string
 test_object_for_multipart_requests_request_marker_instance = TestObjectForMultipartRequestsRequestMarker.model_validate_json(json)
 # print the JSON string representation of the object
-print(TestObjectForMultipartRequestsRequestMarker.model_dump_json(by_alias=True, exclude_unset=True))
+print(test_object_for_multipart_requests_request_marker_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 test_object_for_multipart_requests_request_marker_dict = test_object_for_multipart_requests_request_marker_instance.model_dump(by_alias=True)

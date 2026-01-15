@@ -25,7 +25,7 @@ json = "{}"
 # create an instance of DefaultValue from a JSON string
 default_value_instance = DefaultValue.model_validate_json(json)
 # print the JSON string representation of the object
-print(DefaultValue.model_dump_json(by_alias=True, exclude_unset=True))
+print(default_value_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 default_value_dict = default_value_instance.model_dump(by_alias=True)

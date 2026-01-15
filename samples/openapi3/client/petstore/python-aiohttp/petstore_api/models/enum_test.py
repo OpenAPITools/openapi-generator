@@ -52,11 +52,11 @@ class EnumTest(BaseModel):
         None,
         description="enum_number of the EnumTest"
     )
-    enum_string_single_member: Literal['abc'] = Field(
+    enum_string_single_member: Literal["abc"] = Field(
         None,
         description="enum_string_single_member of the EnumTest"
     )
-    enum_integer_single_member: Literal['100'] = Field(
+    enum_integer_single_member: Literal[100] = Field(
         None,
         description="enum_integer_single_member of the EnumTest"
     )

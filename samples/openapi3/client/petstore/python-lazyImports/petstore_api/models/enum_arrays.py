@@ -30,6 +30,10 @@ class EnumArrays(BaseModel):
         None,
         description="just_symbol of the EnumArrays"
     )
+    array_enum: Optional[List[List[Array_enumEnum]]] = Field(
+        None,
+        description="array_enum of the EnumArrays"
+    )
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 

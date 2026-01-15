@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Color from a JSON string
 color_instance = Color.model_validate_json(json)
 # print the JSON string representation of the object
-print(Color.model_dump_json(by_alias=True, exclude_unset=True))
+print(color_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 color_dict = color_instance.model_dump(by_alias=True)

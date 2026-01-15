@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of PonySizes from a JSON string
 pony_sizes_instance = PonySizes.model_validate_json(json)
 # print the JSON string representation of the object
-print(PonySizes.model_dump_json(by_alias=True, exclude_unset=True))
+print(pony_sizes_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 pony_sizes_dict = pony_sizes_instance.model_dump(by_alias=True)

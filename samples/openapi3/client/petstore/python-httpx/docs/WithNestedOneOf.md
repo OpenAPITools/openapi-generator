@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of WithNestedOneOf from a JSON string
 with_nested_one_of_instance = WithNestedOneOf.model_validate_json(json)
 # print the JSON string representation of the object
-print(WithNestedOneOf.model_dump_json(by_alias=True, exclude_unset=True))
+print(with_nested_one_of_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 with_nested_one_of_dict = with_nested_one_of_instance.model_dump(by_alias=True)

@@ -29,7 +29,7 @@ json = "{}"
 # create an instance of EnumTest from a JSON string
 enum_test_instance = EnumTest.model_validate_json(json)
 # print the JSON string representation of the object
-print(EnumTest.model_dump_json(by_alias=True, exclude_unset=True))
+print(enum_test_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 enum_test_dict = enum_test_instance.model_dump(by_alias=True)

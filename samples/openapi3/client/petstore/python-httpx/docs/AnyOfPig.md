@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of AnyOfPig from a JSON string
 any_of_pig_instance = AnyOfPig.model_validate_json(json)
 # print the JSON string representation of the object
-print(AnyOfPig.model_dump_json(by_alias=True, exclude_unset=True))
+print(any_of_pig_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 any_of_pig_dict = any_of_pig_instance.model_dump(by_alias=True)

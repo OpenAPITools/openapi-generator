@@ -26,11 +26,11 @@ class Bathing(BaseModel):
     """
     Bathing
     """ # noqa: E501
-    task_name: Literal['cleaning_deep'] = Field(
+    task_name: Literal["cleaning_deep"] = Field(
         ...,
         description="task_name of the Bathing"
     )
-    function_name: Literal['care_nourish'] = Field(
+    function_name: Literal["care_nourish"] = Field(
         ...,
         description="function_name of the Bathing"
     )

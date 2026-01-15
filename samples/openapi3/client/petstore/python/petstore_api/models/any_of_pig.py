@@ -41,10 +41,14 @@ class AnyOfPig(RootModel[Union[BasquePig, DanishPig]]):
         Delegate attribute access to the root model if the attribute
         doesn't exist on the main class.
         """
+
         if name in self.__dict__:
             return super().__getattribute__(name)
-        if hasattr(self, 'root') and self.root is not None:
-            return getattr(self.root, name)
+
+        root = self.__dict__.get('root')
+        if root is not None:
+            return getattr(root, name)
+
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
 

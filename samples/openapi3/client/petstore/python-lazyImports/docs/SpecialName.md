@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of SpecialName from a JSON string
 special_name_instance = SpecialName.model_validate_json(json)
 # print the JSON string representation of the object
-print(SpecialName.model_dump_json(by_alias=True, exclude_unset=True))
+print(special_name_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 special_name_dict = special_name_instance.model_dump(by_alias=True)

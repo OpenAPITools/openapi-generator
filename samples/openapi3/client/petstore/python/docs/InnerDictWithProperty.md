@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of InnerDictWithProperty from a JSON string
 inner_dict_with_property_instance = InnerDictWithProperty.model_validate_json(json)
 # print the JSON string representation of the object
-print(InnerDictWithProperty.model_dump_json(by_alias=True, exclude_unset=True))
+print(inner_dict_with_property_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 inner_dict_with_property_dict = inner_dict_with_property_instance.model_dump(by_alias=True)

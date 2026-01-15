@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Client from a JSON string
 client_instance = Client.model_validate_json(json)
 # print the JSON string representation of the object
-print(Client.model_dump_json(by_alias=True, exclude_unset=True))
+print(client_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 client_dict = client_instance.model_dump(by_alias=True)

@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of TaskActivity from a JSON string
 task_activity_instance = TaskActivity.model_validate_json(json)
 # print the JSON string representation of the object
-print(TaskActivity.model_dump_json(by_alias=True, exclude_unset=True))
+print(task_activity_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 task_activity_dict = task_activity_instance.model_dump(by_alias=True)

@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of TestErrorResponsesWithModel404Response from a JSON string
 test_error_responses_with_model404_response_instance = TestErrorResponsesWithModel404Response.model_validate_json(json)
 # print the JSON string representation of the object
-print(TestErrorResponsesWithModel404Response.model_dump_json(by_alias=True, exclude_unset=True))
+print(test_error_responses_with_model404_response_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 test_error_responses_with_model404_response_dict = test_error_responses_with_model404_response_instance.model_dump(by_alias=True)

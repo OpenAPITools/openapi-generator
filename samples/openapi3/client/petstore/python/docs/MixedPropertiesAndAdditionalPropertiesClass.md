@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of MixedPropertiesAndAdditionalPropertiesClass from a JSON string
 mixed_properties_and_additional_properties_class_instance = MixedPropertiesAndAdditionalPropertiesClass.model_validate_json(json)
 # print the JSON string representation of the object
-print(MixedPropertiesAndAdditionalPropertiesClass.model_dump_json(by_alias=True, exclude_unset=True))
+print(mixed_properties_and_additional_properties_class_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 mixed_properties_and_additional_properties_class_dict = mixed_properties_and_additional_properties_class_instance.model_dump(by_alias=True)

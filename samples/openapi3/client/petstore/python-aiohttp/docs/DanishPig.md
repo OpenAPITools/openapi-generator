@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of DanishPig from a JSON string
 danish_pig_instance = DanishPig.model_validate_json(json)
 # print the JSON string representation of the object
-print(DanishPig.model_dump_json(by_alias=True, exclude_unset=True))
+print(danish_pig_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 danish_pig_dict = danish_pig_instance.model_dump(by_alias=True)

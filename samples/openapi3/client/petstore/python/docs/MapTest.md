@@ -20,7 +20,7 @@ json = "{}"
 # create an instance of MapTest from a JSON string
 map_test_instance = MapTest.model_validate_json(json)
 # print the JSON string representation of the object
-print(MapTest.model_dump_json(by_alias=True, exclude_unset=True))
+print(map_test_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 map_test_dict = map_test_instance.model_dump(by_alias=True)

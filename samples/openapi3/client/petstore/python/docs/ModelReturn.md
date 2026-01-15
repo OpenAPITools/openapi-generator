@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ModelReturn from a JSON string
 model_return_instance = ModelReturn.model_validate_json(json)
 # print the JSON string representation of the object
-print(ModelReturn.model_dump_json(by_alias=True, exclude_unset=True))
+print(model_return_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 model_return_dict = model_return_instance.model_dump(by_alias=True)

@@ -22,7 +22,7 @@ json = "{}"
 # create an instance of Pet from a JSON string
 pet_instance = Pet.model_validate_json(json)
 # print the JSON string representation of the object
-print(Pet.model_dump_json(by_alias=True, exclude_unset=True))
+print(pet_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 pet_dict = pet_instance.model_dump(by_alias=True)

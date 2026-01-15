@@ -16,7 +16,7 @@ json = "{}"
 # create an instance of DiscriminatorAllOfSub from a JSON string
 discriminator_all_of_sub_instance = DiscriminatorAllOfSub.model_validate_json(json)
 # print the JSON string representation of the object
-print(DiscriminatorAllOfSub.model_dump_json(by_alias=True, exclude_unset=True))
+print(discriminator_all_of_sub_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 discriminator_all_of_sub_dict = discriminator_all_of_sub_instance.model_dump(by_alias=True)

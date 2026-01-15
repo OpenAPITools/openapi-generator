@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Feeding from a JSON string
 feeding_instance = Feeding.model_validate_json(json)
 # print the JSON string representation of the object
-print(Feeding.model_dump_json(by_alias=True, exclude_unset=True))
+print(feeding_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 feeding_dict = feeding_instance.model_dump(by_alias=True)

@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ArrayOfArrayOfNumberOnly from a JSON string
 array_of_array_of_number_only_instance = ArrayOfArrayOfNumberOnly.model_validate_json(json)
 # print the JSON string representation of the object
-print(ArrayOfArrayOfNumberOnly.model_dump_json(by_alias=True, exclude_unset=True))
+print(array_of_array_of_number_only_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 array_of_array_of_number_only_dict = array_of_array_of_number_only_instance.model_dump(by_alias=True)

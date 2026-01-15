@@ -29,6 +29,10 @@ class DefaultValue(BaseModel):
     to test the default value of properties
     """ # noqa: E501
     array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
+    array_string_enum_default: Optional[List[List[Array_string_enum_defaultEnum]]] = Field(
+        None,
+        description="array_string_enum_default of the DefaultValue"
+    )
     array_string_default: Optional[List[StrictStr]] = None
     array_integer_default: Optional[List[StrictInt]] = None
     array_string: Optional[List[StrictStr]] = None

@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of Animal from a JSON string
 animal_instance = Animal.model_validate_json(json)
 # print the JSON string representation of the object
-print(Animal.model_dump_json(by_alias=True, exclude_unset=True))
+print(animal_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 animal_dict = animal_instance.model_dump(by_alias=True)

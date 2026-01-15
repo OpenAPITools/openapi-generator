@@ -26,11 +26,11 @@ class Feeding(BaseModel):
     """
     Feeding
     """ # noqa: E501
-    task_name: Literal['cleaning'] = Field(
+    task_name: Literal["cleaning"] = Field(
         ...,
         description="task_name of the Feeding"
     )
-    function_name: Literal['care_nourish'] = Field(
+    function_name: Literal["care_nourish"] = Field(
         ...,
         description="function_name of the Feeding"
     )

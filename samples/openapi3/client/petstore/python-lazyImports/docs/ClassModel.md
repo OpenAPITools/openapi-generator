@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ClassModel from a JSON string
 class_model_instance = ClassModel.model_validate_json(json)
 # print the JSON string representation of the object
-print(ClassModel.model_dump_json(by_alias=True, exclude_unset=True))
+print(class_model_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 class_model_dict = class_model_instance.model_dump(by_alias=True)

@@ -28,6 +28,10 @@ class Query(BaseModel):
     Query
     """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
+    outcomes: Optional[List[List[OutcomesEnum]]] = Field(
+        None,
+        description="outcomes of the Query"
+    )
     __properties: ClassVar[List[str]] = ["id", "outcomes"]
 
     @field_validator('outcomes')

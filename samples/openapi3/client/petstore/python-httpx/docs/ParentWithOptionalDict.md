@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ParentWithOptionalDict from a JSON string
 parent_with_optional_dict_instance = ParentWithOptionalDict.model_validate_json(json)
 # print the JSON string representation of the object
-print(ParentWithOptionalDict.model_dump_json(by_alias=True, exclude_unset=True))
+print(parent_with_optional_dict_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 parent_with_optional_dict_dict = parent_with_optional_dict_instance.model_dump(by_alias=True)

@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of OneOfEnumString from a JSON string
 one_of_enum_string_instance = OneOfEnumString.model_validate_json(json)
 # print the JSON string representation of the object
-print(OneOfEnumString.model_dump_json(by_alias=True, exclude_unset=True))
+print(one_of_enum_string_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 one_of_enum_string_dict = one_of_enum_string_instance.model_dump(by_alias=True)

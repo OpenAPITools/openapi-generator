@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of DataQuery from a JSON string
 data_query_instance = DataQuery.model_validate_json(json)
 # print the JSON string representation of the object
-print(DataQuery.model_dump_json(by_alias=True, exclude_unset=True))
+print(data_query_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 data_query_dict = data_query_instance.model_dump(by_alias=True)

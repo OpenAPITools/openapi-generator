@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of PropertyNameCollision from a JSON string
 property_name_collision_instance = PropertyNameCollision.model_validate_json(json)
 # print the JSON string representation of the object
-print(PropertyNameCollision.model_dump_json(by_alias=True, exclude_unset=True))
+print(property_name_collision_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 property_name_collision_dict = property_name_collision_instance.model_dump(by_alias=True)

@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of MapOfArrayOfModel from a JSON string
 map_of_array_of_model_instance = MapOfArrayOfModel.model_validate_json(json)
 # print the JSON string representation of the object
-print(MapOfArrayOfModel.model_dump_json(by_alias=True, exclude_unset=True))
+print(map_of_array_of_model_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 map_of_array_of_model_dict = map_of_array_of_model_instance.model_dump(by_alias=True)

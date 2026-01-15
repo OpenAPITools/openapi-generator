@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of MultiArrays from a JSON string
 multi_arrays_instance = MultiArrays.model_validate_json(json)
 # print the JSON string representation of the object
-print(MultiArrays.model_dump_json(by_alias=True, exclude_unset=True))
+print(multi_arrays_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 multi_arrays_dict = multi_arrays_instance.model_dump(by_alias=True)

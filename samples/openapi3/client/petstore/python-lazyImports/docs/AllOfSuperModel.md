@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of AllOfSuperModel from a JSON string
 all_of_super_model_instance = AllOfSuperModel.model_validate_json(json)
 # print the JSON string representation of the object
-print(AllOfSuperModel.model_dump_json(by_alias=True, exclude_unset=True))
+print(all_of_super_model_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 all_of_super_model_dict = all_of_super_model_instance.model_dump(by_alias=True)

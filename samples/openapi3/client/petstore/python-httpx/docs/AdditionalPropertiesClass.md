@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of AdditionalPropertiesClass from a JSON string
 additional_properties_class_instance = AdditionalPropertiesClass.model_validate_json(json)
 # print the JSON string representation of the object
-print(AdditionalPropertiesClass.model_dump_json(by_alias=True, exclude_unset=True))
+print(additional_properties_class_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 additional_properties_class_dict = additional_properties_class_instance.model_dump(by_alias=True)

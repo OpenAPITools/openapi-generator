@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of DeprecatedObject from a JSON string
 deprecated_object_instance = DeprecatedObject.model_validate_json(json)
 # print the JSON string representation of the object
-print(DeprecatedObject.model_dump_json(by_alias=True, exclude_unset=True))
+print(deprecated_object_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 deprecated_object_dict = deprecated_object_instance.model_dump(by_alias=True)

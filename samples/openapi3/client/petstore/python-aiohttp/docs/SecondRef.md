@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of SecondRef from a JSON string
 second_ref_instance = SecondRef.model_validate_json(json)
 # print the JSON string representation of the object
-print(SecondRef.model_dump_json(by_alias=True, exclude_unset=True))
+print(second_ref_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 second_ref_dict = second_ref_instance.model_dump(by_alias=True)

@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of NumberPropertiesOnly from a JSON string
 number_properties_only_instance = NumberPropertiesOnly.model_validate_json(json)
 # print the JSON string representation of the object
-print(NumberPropertiesOnly.model_dump_json(by_alias=True, exclude_unset=True))
+print(number_properties_only_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 number_properties_only_dict = number_properties_only_instance.model_dump(by_alias=True)

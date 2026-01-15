@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of BasquePig from a JSON string
 basque_pig_instance = BasquePig.model_validate_json(json)
 # print the JSON string representation of the object
-print(BasquePig.model_dump_json(by_alias=True, exclude_unset=True))
+print(basque_pig_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 basque_pig_dict = basque_pig_instance.model_dump(by_alias=True)

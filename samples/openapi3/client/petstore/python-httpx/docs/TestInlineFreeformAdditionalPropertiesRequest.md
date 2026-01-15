@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of TestInlineFreeformAdditionalPropertiesRequest from a JSON string
 test_inline_freeform_additional_properties_request_instance = TestInlineFreeformAdditionalPropertiesRequest.model_validate_json(json)
 # print the JSON string representation of the object
-print(TestInlineFreeformAdditionalPropertiesRequest.model_dump_json(by_alias=True, exclude_unset=True))
+print(test_inline_freeform_additional_properties_request_instance.model_dump_json(by_alias=True, exclude_unset=True))
 
 # convert the object into a dict
 test_inline_freeform_additional_properties_request_dict = test_inline_freeform_additional_properties_request_instance.model_dump(by_alias=True)
