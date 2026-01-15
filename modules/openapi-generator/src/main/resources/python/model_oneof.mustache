@@ -1,14 +1,12 @@
 from __future__ import annotations
-import json
-import pprint
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from pydantic import BaseModel, ConfigDict, StrictStr, Field, RootModel, model_validator
-from typing import Any, Union, List, Set, Optional, Dict, Union, Literal, Self
+from pydantic import Field, RootModel
+from typing import Union
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 

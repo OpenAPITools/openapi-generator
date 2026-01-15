@@ -1,7 +1,4 @@
 from __future__ import annotations
-from inspect import getfullargspec
-import json
-import pprint
 import re  # noqa: F401
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
@@ -9,7 +6,7 @@ import re  # noqa: F401
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict, Literal, Self
+from typing import Union
 from pydantic import Field, RootModel
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
