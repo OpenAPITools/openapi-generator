@@ -12,9 +12,11 @@ import {Action} from "redux-ts-simple";
 {{#imports}}
 import {
     {{className}},
+} from '../models/{{className}}{{importFileExtension}}';
+import {
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
-} from '../models/{{className}}{{importFileExtension}}';
+} from '../models/{{className}}Record{{importFileExtension}}';
 {{/imports}}
 
 {{#passthroughImports}}
@@ -22,6 +24,7 @@ import {
     {{.}},
 } from '../models/{{.}}{{importFileExtension}}';
 {{/passthroughImports}}
+
 {{#hasEnums}}
 {{#operations}}
 {{#operation}}
