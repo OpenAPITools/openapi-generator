@@ -13,13 +13,11 @@
 
 
 from __future__ import annotations
-import re  # noqa: F401
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Optional
+import pprint
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
-from typing import Union
 from pydantic import Field, RootModel
+from typing import Any, Dict, Optional, Union
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -47,5 +45,17 @@ class AnyOfPig(RootModel[Union[BasquePig, DanishPig]]):
             return getattr(root, name)
 
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Optional[Union[Dict[str, Any], BasquePig, DanishPig]]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.model_dump(by_alias=True, mode="json"))
 
 

@@ -1,13 +1,10 @@
 from __future__ import annotations
-import re  # noqa: F401
-{{#vendorExtensions.x-py-other-imports}}
-{{{.}}}
-{{/vendorExtensions.x-py-other-imports}}
+import pprint
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union
 from pydantic import Field, RootModel
+from typing import Any, Dict, Optional, Union
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
 
@@ -35,6 +32,18 @@ class {{classname}}(RootModel[Union[{{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyO
             return getattr(root, name)
 
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Optional[Union[Dict[str, Any], {{#anyOf}}{{.}}{{^-last}}, {{/-last}}{{/anyOf}}]]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.model_dump(by_alias=True, mode="json"))
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}

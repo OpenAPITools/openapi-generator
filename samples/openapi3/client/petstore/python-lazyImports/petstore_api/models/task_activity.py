@@ -13,13 +13,12 @@
 
 
 from __future__ import annotations
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
+import pprint
 from petstore_api.models.bathing import Bathing
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.poop_cleaning import PoopCleaning
 from pydantic import Field, RootModel
-from typing import Union
+from typing import Any, Dict, Optional, Union
 
 TASKACTIVITY_ONE_OF_SCHEMAS = ["Bathing", "Feeding", "PoopCleaning"]
 
@@ -45,4 +44,16 @@ class TaskActivity(RootModel[Union[Bathing, Feeding, PoopCleaning]]):
             return getattr(root, name)
 
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Optional[Union[Dict[str, Any], ]]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.model_dump(by_alias=True, mode="json"))
 
