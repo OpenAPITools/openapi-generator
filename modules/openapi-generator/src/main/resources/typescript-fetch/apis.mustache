@@ -5,18 +5,14 @@
 
 import * as runtime from '../runtime{{importFileExtension}}';
 {{#imports}}
-import type {
-    {{className}},
-} from '../models/{{className}}{{importFileExtension}}';
 {{^withoutRuntimeChecks}}
 import {
-    {{className}},
+    type {{className}},
     {{className}}FromJSON,
     {{className}}ToJSON,
 } from '../models/{{className}}{{importFileExtension}}';
 {{/withoutRuntimeChecks}}
 {{/imports}}
-
 
 {{#operations}}
 {{#operation}}

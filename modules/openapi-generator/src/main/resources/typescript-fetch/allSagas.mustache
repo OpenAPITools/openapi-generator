@@ -4,7 +4,7 @@ import {all, fork} from "redux-saga/effects";
 {{#apis}}
 import {
     {{#lambda.camelcase}}{{classFilename}}{{/lambda.camelcase}}AllSagas,
-} from "./classFilename";
+} from "./{{classFilename}}{{importFileExtension}}";
 {{/apis}}
 {{/apiInfo}}
 
