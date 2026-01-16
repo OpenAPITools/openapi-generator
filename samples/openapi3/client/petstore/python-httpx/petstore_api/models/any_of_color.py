@@ -15,7 +15,7 @@
 from __future__ import annotations
 import pprint
 from pydantic import Field, RootModel
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Union
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]
 
@@ -48,7 +48,7 @@ class AnyOfColor(RootModel[Union[List[int], str]]):
         """Returns the JSON representation of the actual instance"""
         return self.model_dump_json(by_alias=True)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], List[int], str]]:
+    def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""
         return self.model_dump(by_alias=True)
 

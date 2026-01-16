@@ -17,7 +17,7 @@ import pprint
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from pydantic import Field, RootModel
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Union
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -50,7 +50,7 @@ class AnyOfPig(RootModel[Union[BasquePig, DanishPig]]):
         """Returns the JSON representation of the actual instance"""
         return self.model_dump_json(by_alias=True)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], BasquePig, DanishPig]]:
+    def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""
         return self.model_dump(by_alias=True)
 
