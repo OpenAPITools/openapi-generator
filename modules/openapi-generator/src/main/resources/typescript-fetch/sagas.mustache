@@ -14,13 +14,13 @@ import {
     {{className}},
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
-} from '../models/{{className}}';
+} from '../models/{{className}}{{importFileExtension}}';
 {{/imports}}
 
 {{#passthroughImports}}
 import {
     {{.}},
-} from '../models/{{.}}';
+} from '../models/{{.}}{{importFileExtension}}';
 {{/passthroughImports}}
 {{#hasEnums}}
 {{#operations}}
