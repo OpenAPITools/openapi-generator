@@ -34,6 +34,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Build 
+        run: devtools::build()
+        shell: Rscript {0}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
