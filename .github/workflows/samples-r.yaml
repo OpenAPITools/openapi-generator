@@ -37,10 +37,12 @@ jobs:
       - name: Install devtools
         run: install.packages("devtools")
         shell: Rscript {0}
+        working-directory: ${{ matrix.sample }}
 
       - name: Build 
-        run: devtools::build("${{ matrix.samples }}")
+        run: devtools::build()
         shell: Rscript {0}
+        working-directory: ${{ matrix.sample }}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
