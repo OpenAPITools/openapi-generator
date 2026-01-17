@@ -45,8 +45,18 @@ else
   java -version
   #./mvnw clean install
 
-  sudo apt install r-base r-base-dev -y
+  sudo apt-get update
+  sudo apt-get install -y apt-transport-https software-properties-common
+  # Add CRAN repository for R 4.x
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+  sudo add-apt-repository 'deb https://cloud.r-project.org jammy-cran40/'
+  sudo apt-get update
+  sudo apt-get install -y r-base
+
+  #sudo apt install r-base r-base-dev -y
   sudo apt-get install r-base-core libssl-dev libcurl4-openssl-dev -y # for httr
+
+  R version
 
   (cd samples/client/petstore/R && mvn integration-test)
   #(cd samples/client/petstore/R-httr2 && mvn integration-test)
