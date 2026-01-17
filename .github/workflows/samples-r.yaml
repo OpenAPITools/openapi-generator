@@ -44,13 +44,13 @@ jobs:
         shell: Rscript {0}
         working-directory: ${{ matrix.sample }}
 
-      - uses: r-lib/actions/setup-r-dependencies
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: ${{ matrix.sample }}
           extra-packages: any::rcmdcheck
           needs: check
 
-      - uses: r-lib/actions/check-r-package
+      - uses: r-lib/actions/check-r-package@v2
         with:
           working-directory: ${{ matrix.sample }}
           upload-snapshots: true
