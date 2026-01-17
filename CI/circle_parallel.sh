@@ -43,6 +43,12 @@ elif [ "$NODE_INDEX" = "3" ]; then
 else
   echo "Running node $NODE_INDEX ..."
   java -version
-  ./mvnw clean install
+  #./mvnw clean install
+
+  sudo apt install r-base r-base-dev -y
+  sudo apt-get install r-base-core libssl-dev libcurl4-openssl-dev -y # for httr
+
+  (cd samples/client/petstore/R && mvn integration-test)
+  #(cd samples/client/petstore/R-httr2 && mvn integration-test)
 
 fi
