@@ -58,6 +58,6 @@ jobs:
           error-on: '"error"'
 
       - name: Install local package
-        run: R CMD INSTALL --preclean *tar.gz
+        run: R CMD INSTALL .
         shell: bash # Ensure correct shell for command execution
         working-directory: ${{ matrix.sample }}
