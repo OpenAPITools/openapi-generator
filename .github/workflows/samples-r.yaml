@@ -57,3 +57,7 @@ jobs:
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
           error-on: '"error"'
 
+      - name: Install local package
+        run: R CMD INSTALL --preclean *tar.gz
+        shell: bash # Ensure correct shell for command execution
+        working-directory: ${{ matrix.sample }}
