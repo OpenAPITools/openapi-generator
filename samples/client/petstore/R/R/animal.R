@@ -1,5 +1,3 @@
-sdlfkaj;kldsfj;kl;sdj
-
 #' Create a new Animal
 #'
 #' @description
