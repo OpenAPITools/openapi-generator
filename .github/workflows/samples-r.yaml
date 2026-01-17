@@ -45,6 +45,7 @@ jobs:
         working-directory: ${{ matrix.sample }}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        working-directory: ${{ matrix.sample }}
         with:
           extra-packages: any::rcmdcheck
           needs: check
