@@ -45,14 +45,14 @@ jobs:
         working-directory: ${{ matrix.sample }}
 
       - uses: r-lib/actions/setup-r-dependencies
-        working-directory: ${{ matrix.sample }}
         with:
+          working-directory: ${{ matrix.sample }}
           extra-packages: any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package
-        working-directory: ${{ matrix.sample }}
         with:
+          working-directory: ${{ matrix.sample }}
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
 
