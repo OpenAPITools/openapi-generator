@@ -39,7 +39,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Build 
-        run: devtools::build()
+        run: devtools::build("${{ matrix.samples }}")
         shell: Rscript {0}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
