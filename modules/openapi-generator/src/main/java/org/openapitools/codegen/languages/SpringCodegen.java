@@ -122,6 +122,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_SORT_VALIDATION = "generateSortValidation";
     public static final String GENERATE_PAGEABLE_CONSTRAINT_VALIDATION = "generatePageableConstraintValidation";
     public static final String SUBSTITUTE_GENERIC_PAGED_MODEL = "substituteGenericPagedModel";
+    public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
     @Getter
     public enum RequestMappingMode {
@@ -196,6 +197,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean generateSortValidation = false;
     @Setter protected boolean generatePageableConstraintValidation = false;
     @Setter protected boolean substituteGenericPagedModel = false;
+    @Getter @Setter
+    protected String clientRegistrationId = null;
 
     // Map from operationId to allowed sort values for @ValidSort annotation generation
     private Map<String, List<String>> sortValidationEnums = new HashMap<>();
@@ -344,6 +347,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             .defaultValue("false")
         );
         cliOptions.add(CliOption.newBoolean(USE_JSPECIFY, "Use Jspecify for null checks", useJspecify));
+        cliOptions.add(CliOption.newString(CLIENT_REGISTRATION_ID, "Client registration ID for OAuth2 in Spring HTTP Interface (@ClientRegistrationId annotation)."));
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -557,6 +561,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(OPTIONAL_ACCEPT_NULLABLE, this::setOptionalAcceptNullable);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BUILT_IN_VALIDATION, this::setUseSpringBuiltInValidation);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, this::setUseDeductionForOneOfInterfaces);
+        convertPropertyToStringAndWriteBack(CLIENT_REGISTRATION_ID, this::setClientRegistrationId);
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -996,6 +1001,11 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+
+                // Add clientRegistrationId for spring-http-interface with OAuth
+                if (SPRING_HTTP_INTERFACE.equals(library) && clientRegistrationId != null && !clientRegistrationId.isEmpty()) {
+                    operation.vendorExtensions.put("clientRegistrationId", clientRegistrationId);
+                }
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
