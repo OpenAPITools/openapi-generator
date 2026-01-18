@@ -188,10 +188,11 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return Pet
-    add_pet_optional = function(pet = NULL, data_file = NULL, ...) {
-      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ...)
+    add_pet_optional = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$add_pet_optional_with_http_info(pet, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -209,9 +210,10 @@ FakeApi <- R6::R6Class(
     #' @param pet (optional) Pet object that needs to be added to the store
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (Pet) with additional information such as HTTP status code, headers
-    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ...) {
+    add_pet_optional_with_http_info = function(pet = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -264,6 +266,10 @@ FakeApi <- R6::R6Class(
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
         deserialized_resp_obj <- tryCatch(
           self$api_client$DeserializeResponse(local_var_resp, "Pet"),
@@ -310,10 +316,11 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return User
-    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
-      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ...)
+    fake_data_file = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
+      local_var_response <- self$fake_data_file_with_http_info(dummy, var_data_file, data_file = data_file, ..., .parse = .parse)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -332,9 +339,10 @@ FakeApi <- R6::R6Class(
     #' @param var_data_file (optional) header data file
     #' @param data_file (optional) name of the data file to save the result
     #' @param ... Other optional arguments
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
     #'
     #' @return API response (User) with additional information such as HTTP status code, headers
-    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ...) {
+    fake_data_file_with_http_info = function(dummy, var_data_file = NULL, data_file = NULL, ..., .parse = TRUE) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -394,6 +402,10 @@ FakeApi <- R6::R6Class(
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
