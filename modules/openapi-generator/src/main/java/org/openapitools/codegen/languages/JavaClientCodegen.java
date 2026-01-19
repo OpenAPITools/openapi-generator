@@ -152,6 +152,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean supportVertxFuture = false;
     @Setter protected boolean useSealedOneOfInterfaces = false;
     @Setter protected boolean useUnaryInterceptor = false;
+
     protected String authFolder;
     /**
      * Serialization library.
