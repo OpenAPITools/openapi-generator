@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
-{{#operations}}{{#operation}}{{#vendorExtensions.clientRegistrationId}}
+{{#operations}}{{#clientRegistrationId}}
 import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;
-{{/vendorExtensions.clientRegistrationId}}{{/operation}}{{/operations}}
+{{/clientRegistrationId}}{{/operations}}
 import org.springframework.web.multipart.MultipartFile;
 {{#reactive}}
 
@@ -35,6 +35,9 @@ import {{javaxPackage}}.annotation.Generated;
 {{>generatedAnnotation}}
 
 {{#operations}}
+{{#clientRegistrationId}}
+@ClientRegistrationId("{{clientRegistrationId}}")
+{{/clientRegistrationId}}
 public interface {{classname}} {
 {{#operation}}
 
@@ -60,9 +63,6 @@ public interface {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    {{#vendorExtensions.clientRegistrationId}}
-    @ClientRegistrationId("{{vendorExtensions.clientRegistrationId}}")
-    {{/vendorExtensions.clientRegistrationId}}
     {{^useResponseEntity}}
     @ResponseStatus({{#springHttpStatus}}{{#responses.0}}{{{code}}}{{/responses.0}}{{/springHttpStatus}})
     {{/useResponseEntity}}
