@@ -137,8 +137,29 @@
                         <goals>
                             <goal>compile</goal>
                             <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <!-- see https://github.com/davidB/scala-maven-plugin/issues/604 why a workaround is needed -->
+                        <id>attach-javadocs</id>
+                        <goals>
                             <goal>doc-jar</goal>
                         </goals>
+                        <configuration>
+                            <scaladocClassName>dotty.tools.scaladoc.Main</scaladocClassName>
+                            <sourceDir>${project.build.outputDirectory}</sourceDir>
+                            <args>-nobootcp</args>
+                            <includes>
+                                <include>**/*.tasty</include>
+                            </includes>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.scala-lang</groupId>
+                                    <artifactId>scaladoc_3</artifactId>
+                                    <version>3.7.4</version>
+                                </dependency>
+                            </dependencies>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
