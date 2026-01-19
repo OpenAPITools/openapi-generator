@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)

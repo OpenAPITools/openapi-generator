@@ -19,7 +19,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class FakeBigDecimalMap200Response  implements Serializable {
   private BigDecimal someId;
   private @Valid Map<String, BigDecimal> someMap = new HashMap<>();

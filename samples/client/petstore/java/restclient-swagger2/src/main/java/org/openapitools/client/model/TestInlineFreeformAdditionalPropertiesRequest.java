@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";
   @jakarta.annotation.Nullable

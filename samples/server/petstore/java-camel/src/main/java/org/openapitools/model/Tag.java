@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @JacksonXmlRootElement(localName = "Tag")
 @XmlRootElement(name = "Tag")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Tag {
 
   private Long id;

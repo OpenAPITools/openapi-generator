@@ -18,7 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="")
 @JsonTypeName("_foo_get_default_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class FooGetDefaultResponse  implements Serializable {
   private Foo string;
 

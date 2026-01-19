@@ -33,7 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = Banana.class, name = "BANANA")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface Fruit {
     public FruitType getFruitType();
 }
