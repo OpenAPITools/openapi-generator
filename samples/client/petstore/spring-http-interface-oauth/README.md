@@ -30,17 +30,22 @@ openapi-generator-cli generate \
 
 ## Generated Code
 
-The generated interface methods will include the `@ClientRegistrationId` annotation:
+The generated interface will include the `@ClientRegistrationId` annotation at the class level:
 
 ```java
 @ClientRegistrationId("petstore-oauth")
-@HttpExchange(
-    method = "GET",
-    value = "/pet/{petId}",
-    accept = { "application/json" }
-)
-ResponseEntity<PetDto> getPetById(@PathVariable("petId") Long petId);
+public interface PetApi {
+
+    @HttpExchange(
+        method = "GET",
+        value = "/pet/{petId}",
+        accept = { "application/json" }
+    )
+    ResponseEntity<PetDto> getPetById(@PathVariable("petId") Long petId);
+}
 ```
+
+This follows the Spring Security recommendation to add `@ClientRegistrationId` at the type level to avoid repeating the declaration on every method.
 
 ## Spring Security Integration
 

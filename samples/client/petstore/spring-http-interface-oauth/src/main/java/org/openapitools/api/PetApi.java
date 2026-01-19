@@ -20,6 +20,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 
+@ClientRegistrationId("petstore-oauth")
 public interface PetApi {
 
     /**
@@ -28,7 +29,6 @@ public interface PetApi {
      * @param petDto Pet object that needs to be added to the store (required)
      * @return successful operation (status code 200)
      */
-    @ClientRegistrationId("petstore-oauth")
     @HttpExchange(
         method = "POST",
         value = "/pet",
@@ -45,7 +45,6 @@ public interface PetApi {
      * @param petId ID of pet to return (required)
      * @return successful operation (status code 200)
      */
-    @ClientRegistrationId("petstore-oauth")
     @HttpExchange(
         method = "GET",
         value = "/pet/{petId}",
@@ -61,7 +60,6 @@ public interface PetApi {
      * @param petDto Pet object that needs to be updated in the store (required)
      * @return successful operation (status code 200)
      */
-    @ClientRegistrationId("petstore-oauth")
     @HttpExchange(
         method = "PUT",
         value = "/pet",
