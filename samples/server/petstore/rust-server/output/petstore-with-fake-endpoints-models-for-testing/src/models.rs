@@ -1097,13 +1097,11 @@ pub struct ArrayTest {
     #[serde(rename = "array_array_of_model")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
     #[serde(rename = "array_of_enum")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_of_enum: Option<Vec<models::MapTestMapMapOfEnumValueValue>>,
@@ -2642,20 +2640,17 @@ pub struct EnumArrays {
     #[serde(rename = "just_symbol")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub just_symbol: Option<models::EnumArraysJustSymbol>,
 
     #[serde(rename = "array_enum")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<models::EnumArraysArrayEnumInner>>,
 
     #[serde(rename = "array_array_enum")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_enum: Option<Vec<Vec<models::EnumArraysArrayArrayEnumInnerInner>>>,
@@ -3330,7 +3325,6 @@ pub struct EnumTest {
     #[serde(rename = "enum_string")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_string: Option<models::EnumTestEnumString>,
 
@@ -3342,20 +3336,17 @@ pub struct EnumTest {
     #[serde(rename = "enum_integer")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_integer: Option<models::EnumTestEnumInteger>,
 
     #[serde(rename = "enum_number")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub enum_number: Option<models::TestEnumParametersEnumQueryDoubleParameter>,
 
     #[serde(rename = "outerEnum")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub outer_enum: Option<models::OuterEnum>,
@@ -4664,13 +4655,11 @@ pub struct MapTest {
     #[serde(rename = "map_map_of_enum")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>>,
 
     #[serde(rename = "map_of_enum_string")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<std::collections::HashMap<String, models::MapTestMapMapOfEnumValueValue>>,
@@ -4980,7 +4969,6 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
 
     #[serde(rename = "map")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
@@ -5736,7 +5724,6 @@ pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
@@ -5930,6 +5917,15 @@ impl std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for ObjectWithOnlyAdditionalProperties {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the ObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -6064,7 +6060,6 @@ pub struct Order {
 
     #[serde(rename = "status")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::OrderStatus>,
@@ -6442,6 +6437,15 @@ impl std::ops::DerefMut for OuterBoolean {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterBoolean {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterBoolean value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -6914,6 +6918,15 @@ impl std::ops::DerefMut for OuterNumber {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterNumber {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the OuterNumber value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -7056,6 +7069,15 @@ impl std::ops::DerefMut for OuterString {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for OuterString {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 impl std::fmt::Display for OuterString {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0.clone())
@@ -7168,7 +7190,6 @@ pub struct Pet {
     #[serde(rename = "category")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub category: Option<models::Category>,
 
@@ -7183,13 +7204,11 @@ pub struct Pet {
     #[serde(rename = "tags")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub tags: Option<Vec<models::Tag>>,
 
     #[serde(rename = "status")]
 
-    #[cfg_attr(feature = "validate", validate)]
     #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<models::PetStatus>,

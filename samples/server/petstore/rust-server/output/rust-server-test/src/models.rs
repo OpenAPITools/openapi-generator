@@ -12,9 +12,9 @@ use serde_valid::Validate;
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_thing: Option<swagger::Nullable<String>>,
 
@@ -214,6 +214,15 @@ impl std::ops::DerefMut for AdditionalPropertiesObject {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for AdditionalPropertiesObject {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer
@@ -997,7 +1006,6 @@ pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub inner: Option<models::ObjectOfObjectsInner>,
 
@@ -1525,6 +1533,15 @@ impl std::ops::DerefMut for UnnamedReference {
     }
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for UnnamedReference {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
 /// Converts the UnnamedReference value to the Query Parameters representation (style=form, explode=false)
 /// specified in <https://swagger.io/docs/specification/serialization/>
 /// Should be implemented in a serde serializer

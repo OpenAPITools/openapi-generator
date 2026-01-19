@@ -14,7 +14,6 @@ pub struct MultipartRelatedRequest {
     #[serde(rename = "object_field")]
 
     #[cfg_attr(feature = "validate", validate)]
-    #[cfg_attr(feature = "validate", validate)]
     #[serde(skip_serializing_if="Option::is_none")]
     pub object_field: Option<models::MultipartRequestObjectField>,
 
