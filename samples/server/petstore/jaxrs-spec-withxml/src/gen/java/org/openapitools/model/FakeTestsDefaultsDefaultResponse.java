@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 
 
 @JsonTypeName("fake_tests_defaults_default_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")    @XmlAccessorType(XmlAccessType.FIELD)
      @XmlType(name = "FakeTestsDefaultsDefaultResponse", propOrder =
     { "stringEnum", "integerEnum", "stringEnumInline", "integerEnumInline"
     })
