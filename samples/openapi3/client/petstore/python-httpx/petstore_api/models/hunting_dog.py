@@ -21,7 +21,8 @@ from pydantic import ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class HuntingDog(Creature):

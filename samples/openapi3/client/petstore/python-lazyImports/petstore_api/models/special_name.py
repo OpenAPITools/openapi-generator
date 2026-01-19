@@ -20,7 +20,8 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.category import Category
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class SpecialName(BaseModel):
@@ -29,7 +30,7 @@ class SpecialName(BaseModel):
     """ # noqa: E501
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
-    var_schema: Optional[Var_schemaEnum] = Field(
+    var_schema: Optional[Literal["'available'", "'pending'", "'sold'"]] = Field(
         None,
         description="pet status in the store"
     )
@@ -42,8 +43,8 @@ class SpecialName(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['available', 'pending', 'sold']):
-            raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
+        if value not in set(["'available'", "'pending'", "'sold'"]):
+            raise ValueError("must be one of enum values ("'available'", "'pending'", "'sold'")")
         return value
 
     model_config = ConfigDict(

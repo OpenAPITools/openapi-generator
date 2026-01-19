@@ -21,7 +21,8 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class NumberPropertiesOnly(BaseModel):

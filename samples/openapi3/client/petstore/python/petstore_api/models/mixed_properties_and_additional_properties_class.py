@@ -22,7 +22,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from petstore_api.models.animal import Animal
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):

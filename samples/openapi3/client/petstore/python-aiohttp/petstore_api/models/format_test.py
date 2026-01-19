@@ -23,7 +23,8 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictInt, Stric
 from typing import Any, ClassVar, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from uuid import UUID
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class FormatTest(BaseModel):

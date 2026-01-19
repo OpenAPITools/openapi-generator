@@ -20,7 +20,8 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class Order(BaseModel):
@@ -31,7 +32,7 @@ class Order(BaseModel):
     pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
-    status: Optional[StatusEnum] = Field(
+    status: Optional[Literal["'placed'", "'approved'", "'delivered'"]] = Field(
         None,
         description="Order Status"
     )
@@ -44,8 +45,8 @@ class Order(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['placed', 'approved', 'delivered']):
-            raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
+        if value not in set(["'placed'", "'approved'", "'delivered'"]):
+            raise ValueError("must be one of enum values ("'placed'", "'approved'", "'delivered'")")
         return value
 
     model_config = ConfigDict(

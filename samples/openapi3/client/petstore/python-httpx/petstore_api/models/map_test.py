@@ -19,7 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class MapTest(BaseModel):
@@ -27,7 +28,7 @@ class MapTest(BaseModel):
     MapTest
     """ # noqa: E501
     map_map_of_string: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_enum_string: Optional[Dict[str, str]] = Field(
+    map_of_enum_string: Optional[Literal["'UPPER'", "'lower'"]] = Field(
         None,
         description="map_of_enum_string of the MapTest"
     )
@@ -42,8 +43,8 @@ class MapTest(BaseModel):
             return value
 
         for i in value.values():
-            if i not in set(['UPPER', 'lower']):
-                raise ValueError("dict values must be one of enum values ('UPPER', 'lower')")
+            if i not in set(["'UPPER'", "'lower'"]):
+                raise ValueError("dict values must be one of enum values ("'UPPER'", "'lower'")")
         return value
 
     model_config = ConfigDict(

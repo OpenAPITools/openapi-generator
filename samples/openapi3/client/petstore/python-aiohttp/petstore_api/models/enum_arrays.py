@@ -19,18 +19,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """ # noqa: E501
-    just_symbol: Optional[Just_symbolEnum] = Field(
+    just_symbol: Optional[Literal["'>='", "'$'"]] = Field(
         None,
         description="just_symbol of the EnumArrays"
     )
-    array_enum: Optional[List[List[Array_enumEnum]]] = Field(
+    array_enum: Optional[List[Literal["'fish'", "'crab'"]]] = Field(
         None,
         description="array_enum of the EnumArrays"
     )
@@ -42,8 +43,8 @@ class EnumArrays(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['>=', '$']):
-            raise ValueError("must be one of enum values ('>=', '$')")
+        if value not in set(["'>='", "'$'"]):
+            raise ValueError("must be one of enum values ("'>='", "'$'")")
         return value
 
     @field_validator('array_enum')
@@ -53,8 +54,8 @@ class EnumArrays(BaseModel):
             return value
 
         for i in value:
-            if i not in set(['fish', 'crab']):
-                raise ValueError("each list item must be one of ('fish', 'crab')")
+            if i not in set(["'fish'", "'crab'"]):
+                raise ValueError("each list item must be one of ("'fish'", "'crab'")")
         return value
 
     model_config = ConfigDict(

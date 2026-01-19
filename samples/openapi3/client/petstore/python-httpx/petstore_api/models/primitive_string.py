@@ -20,7 +20,8 @@ import json
 from pydantic import ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.base_discriminator import BaseDiscriminator
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class PrimitiveString(BaseDiscriminator):

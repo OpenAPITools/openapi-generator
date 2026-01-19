@@ -20,7 +20,8 @@ import json
 from pydantic import ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class Cat(Animal):

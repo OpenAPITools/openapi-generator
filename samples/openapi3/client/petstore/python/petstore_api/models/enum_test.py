@@ -25,40 +25,43 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class EnumTest(BaseModel):
     """
     EnumTest
     """ # noqa: E501
-    enum_string: Optional[Enum_stringEnum] = Field(
+    enum_string: Optional[Literal["'UPPER'", "'lower'", "''"]] = Field(
         None,
         description="enum_string of the EnumTest"
     )
-    enum_string_required: Enum_string_requiredEnum = Field(
+    enum_string_required: Literal["'UPPER'", "'lower'", "''"] = Field(
         ...,
         description="enum_string_required of the EnumTest"
     )
-    enum_integer_default: Optional[Enum_integer_defaultEnum] = Field(
+    enum_integer_default: Optional[Literal[1, 5, 14]] = Field(
         None,
         description="enum_integer_default of the EnumTest"
     )
-    enum_integer: Optional[Enum_integerEnum] = Field(
+    enum_integer: Optional[Literal[1, -1]] = Field(
         None,
         description="enum_integer of the EnumTest"
     )
-    enum_number: Optional[Enum_numberEnum] = Field(
+    enum_number: Optional[Literal[1.1, -1.2]] = Field(
         None,
         description="enum_number of the EnumTest"
     )
     enum_string_single_member: Literal["abc"] = Field(
         None,
-        description="enum_string_single_member of the EnumTest"
+        description="enum_string_single_member of the EnumTest",
+        alias="enum_string_single_member"
     )
     enum_integer_single_member: Literal[100] = Field(
         None,
-        description="enum_integer_single_member of the EnumTest"
+        description="enum_integer_single_member of the EnumTest",
+        alias="enum_integer_single_member"
     )
     outer_enum: Optional[OuterEnum] = Field(default=None, alias="outerEnum")
     outer_enum_integer: Optional[OuterEnumInteger] = Field(default=None, alias="outerEnumInteger")
@@ -75,15 +78,15 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['UPPER', 'lower', '']):
-            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        if value not in set(["'UPPER'", "'lower'", "''"]):
+            raise ValueError("must be one of enum values ("'UPPER'", "'lower'", "''")")
         return value
 
     @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['UPPER', 'lower', '']):
-            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        if value not in set(["'UPPER'", "'lower'", "''"]):
+            raise ValueError("must be one of enum values ("'UPPER'", "'lower'", "''")")
         return value
 
     @field_validator('enum_integer_default')
@@ -122,8 +125,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['abc']):
-            raise ValueError("must be one of enum values ('abc')")
+        if value not in set(["'abc'"]):
+            raise ValueError("must be one of enum values ("'abc'")")
         return value
 
     @field_validator('enum_integer_single_member')

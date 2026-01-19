@@ -19,7 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class Bathing(BaseModel):
@@ -28,11 +29,13 @@ class Bathing(BaseModel):
     """ # noqa: E501
     task_name: Literal["cleaning_deep"] = Field(
         ...,
-        description="task_name of the Bathing"
+        description="task_name of the Bathing",
+        alias="task_name"
     )
     function_name: Literal["care_nourish"] = Field(
         ...,
-        description="function_name of the Bathing"
+        description="function_name of the Bathing",
+        alias="function_name"
     )
     content: StrictStr
     __properties: ClassVar[List[str]] = ["task_name", "function_name", "content"]
@@ -40,15 +43,15 @@ class Bathing(BaseModel):
     @field_validator('task_name')
     def task_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['cleaning_deep']):
-            raise ValueError("must be one of enum values ('cleaning_deep')")
+        if value not in set(["'cleaning_deep'"]):
+            raise ValueError("must be one of enum values ("'cleaning_deep'")")
         return value
 
     @field_validator('function_name')
     def function_name_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['care_nourish']):
-            raise ValueError("must be one of enum values ('care_nourish')")
+        if value not in set(["'care_nourish'"]):
+            raise ValueError("must be one of enum values ("'care_nourish'")")
         return value
 
     model_config = ConfigDict(

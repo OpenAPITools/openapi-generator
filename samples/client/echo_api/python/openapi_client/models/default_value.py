@@ -21,7 +21,8 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from openapi_client.models.string_enum_ref import StringEnumRef
-from typing import Optional, Set, Literal, Self
+from typing import Optional, Set, Literal
+from typing import Self
 from pydantic import Field
 
 class DefaultValue(BaseModel):
@@ -29,7 +30,7 @@ class DefaultValue(BaseModel):
     to test the default value of properties
     """ # noqa: E501
     array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
-    array_string_enum_default: Optional[List[List[Array_string_enum_defaultEnum]]] = Field(
+    array_string_enum_default: Optional[List[Literal["'success'", "'failure'", "'unclassified'"]]] = Field(
         None,
         description="array_string_enum_default of the DefaultValue"
     )
@@ -48,8 +49,8 @@ class DefaultValue(BaseModel):
             return value
 
         for i in value:
-            if i not in set(['success', 'failure', 'unclassified']):
-                raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
+            if i not in set(["'success'", "'failure'", "'unclassified'"]):
+                raise ValueError("each list item must be one of ("'success'", "'failure'", "'unclassified'")")
         return value
 
     model_config = ConfigDict(
