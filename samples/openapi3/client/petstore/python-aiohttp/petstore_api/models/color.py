@@ -25,8 +25,8 @@ class Color(RootModel[Union[List[int], str]]):
     """
     RGB array, RGBA array, or hex string.
     """
-    root: Union[List[int], str] = Field(
-      ...
+    root: Union[List[int], str, None] = Field(
+      None
     )
 
     def __getattr__(self, name):

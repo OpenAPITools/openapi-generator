@@ -33,7 +33,7 @@ class TestModelWithEnumDefault(BaseModel):
     test_string: Optional[StrictStr] = None
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
-    test_inline_defined_enum_with_default: Optional[Literal["'A'", "'B'", "'C'"]] = Field(
+    test_inline_defined_enum_with_default: Optional[Literal['A', 'B', 'C']] = Field(
         None,
         description="test_inline_defined_enum_with_default of the TestModelWithEnumDefault"
     )
@@ -46,8 +46,8 @@ class TestModelWithEnumDefault(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'A'", "'B'", "'C'"]):
-            raise ValueError("must be one of enum values ("'A'", "'B'", "'C'")")
+        if value not in set(['A', 'B', 'C']):
+            raise ValueError("must be one of enum values ('A', 'B', 'C')")
         return value
 
     model_config = ConfigDict(

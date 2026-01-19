@@ -30,7 +30,7 @@ class SpecialName(BaseModel):
     """ # noqa: E501
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
-    var_schema: Optional[Literal["'available'", "'pending'", "'sold'"]] = Field(
+    var_schema: Optional[Literal['available', 'pending', 'sold']] = Field(
         None,
         description="pet status in the store"
     )
@@ -43,8 +43,8 @@ class SpecialName(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'available'", "'pending'", "'sold'"]):
-            raise ValueError("must be one of enum values ("'available'", "'pending'", "'sold'")")
+        if value not in set(['available', 'pending', 'sold']):
+            raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 
     model_config = ConfigDict(

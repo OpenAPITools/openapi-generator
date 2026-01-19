@@ -29,7 +29,7 @@ class Query(BaseModel):
     Query
     """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
-    outcomes: Optional[List[Literal["'SUCCESS'", "'FAILURE'", "'SKIPPED'"]]] = Field(
+    outcomes: Optional[List[Literal['SUCCESS', 'FAILURE', 'SKIPPED']]] = Field(
         None,
         description="outcomes of the Query"
     )
@@ -42,8 +42,8 @@ class Query(BaseModel):
             return value
 
         for i in value:
-            if i not in set(["'SUCCESS'", "'FAILURE'", "'SKIPPED'"]):
-                raise ValueError("each list item must be one of ("'SUCCESS'", "'FAILURE'", "'SKIPPED'")")
+            if i not in set(['SUCCESS', 'FAILURE', 'SKIPPED']):
+                raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return value
 
     model_config = ConfigDict(

@@ -33,11 +33,11 @@ class EnumTest(BaseModel):
     """
     EnumTest
     """ # noqa: E501
-    enum_string: Optional[Literal["'UPPER'", "'lower'", "''"]] = Field(
+    enum_string: Optional[Literal['UPPER', 'lower', '']] = Field(
         None,
         description="enum_string of the EnumTest"
     )
-    enum_string_required: Literal["'UPPER'", "'lower'", "''"] = Field(
+    enum_string_required: Literal['UPPER', 'lower', ''] = Field(
         ...,
         description="enum_string_required of the EnumTest"
     )
@@ -77,15 +77,15 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'UPPER'", "'lower'", "''"]):
-            raise ValueError("must be one of enum values ("'UPPER'", "'lower'", "''")")
+        if value not in set(['UPPER', 'lower', '']):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
     @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(["'UPPER'", "'lower'", "''"]):
-            raise ValueError("must be one of enum values ("'UPPER'", "'lower'", "''")")
+        if value not in set(['UPPER', 'lower', '']):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
     @field_validator('enum_integer_default')
@@ -124,8 +124,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'abc'"]):
-            raise ValueError("must be one of enum values ("'abc'")")
+        if value not in set(['abc']):
+            raise ValueError("must be one of enum values ('abc')")
         return value
 
     @field_validator('enum_integer_single_member')

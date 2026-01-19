@@ -44,7 +44,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{/-last}}
             {{^-last}}
               {{! Multiple value enum - use Literal for inline enums }}
-    {{name}}: {{#required}}Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]{{/required}}{{^required}}Optional[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]{{/required}} = Field(
+    {{name}}: {{#required}}Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]{{/required}}{{^required}}Optional[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]{{/required}} = Field(
         {{#required}}...{{/required}}{{^required}}None{{/required}},
         description="{{description}}{{^description}}{{{name}}} of the {{classname}}{{/description}}"
     )
@@ -54,7 +54,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
       {{/isArray}}
       {{#isArray}}
         {{! Array enum - use List[Literal] }}
-    {{name}}: {{#required}}List[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]{{/required}}{{^required}}Optional[List[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]]{{/required}} = Field(
+    {{name}}: {{#required}}List[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]{{/required}}{{^required}}Optional[List[Literal[{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]]]{{/required}} = Field(
         {{#required}}...{{/required}}{{^required}}None{{/required}},
         description="{{description}}{{^description}}{{{name}}} of the {{classname}}{{/description}}"
     )
@@ -111,18 +111,18 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#isContainer}}
         {{#isArray}}
         for i in value:
-            if i not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
-                raise ValueError("each list item must be one of ({{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
+            if i not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
+                raise ValueError("each list item must be one of ({{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isArray}}
         {{#isMap}}
         for i in value.values():
-            if i not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
-                raise ValueError("dict values must be one of enum values ({{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
+            if i not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
+                raise ValueError("dict values must be one of enum values ({{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
-        if value not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
-            raise ValueError("must be one of enum values ({{#allowableValues}}{{#enumVars}}{{#isString}}"{{{value}}}"{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
+        if value not in set([{{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}]):
+            raise ValueError("must be one of enum values ({{#allowableValues}}{{#enumVars}}{{#isString}}{{{value}}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}})")
         {{/isContainer}}
         return value
     {{/isEnum}}

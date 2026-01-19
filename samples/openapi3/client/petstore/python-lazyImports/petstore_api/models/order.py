@@ -32,7 +32,7 @@ class Order(BaseModel):
     pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
-    status: Optional[Literal["'placed'", "'approved'", "'delivered'"]] = Field(
+    status: Optional[Literal['placed', 'approved', 'delivered']] = Field(
         None,
         description="Order Status"
     )
@@ -46,8 +46,8 @@ class Order(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'placed'", "'approved'", "'delivered'"]):
-            raise ValueError("must be one of enum values ("'placed'", "'approved'", "'delivered'")")
+        if value not in set(['placed', 'approved', 'delivered']):
+            raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
         return value
 
     model_config = ConfigDict(

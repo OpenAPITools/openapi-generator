@@ -35,7 +35,7 @@ class Pet(BaseModel):
     name: StrictStr
     photo_urls: Annotated[List[StrictStr], Field(min_length=0)] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
-    status: Optional[Literal["'available'", "'pending'", "'sold'"]] = Field(
+    status: Optional[Literal['available', 'pending', 'sold']] = Field(
         None,
         description="pet status in the store"
     )
@@ -48,8 +48,8 @@ class Pet(BaseModel):
         if value is None:
             return value
 
-        if value not in set(["'available'", "'pending'", "'sold'"]):
-            raise ValueError("must be one of enum values ("'available'", "'pending'", "'sold'")")
+        if value not in set(['available', 'pending', 'sold']):
+            raise ValueError("must be one of enum values ('available', 'pending', 'sold')")
         return value
 
     model_config = ConfigDict(
