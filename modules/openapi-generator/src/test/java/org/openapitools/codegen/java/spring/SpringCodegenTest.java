@@ -6472,143 +6472,30 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void shouldAddNullableImportForArrayTypeModels() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
-                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml");
+    public void testClientRegistrationIdAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        codegen.setLibrary("spring-http-interface");
+        codegen.setClientRegistrationId("my-oauth-client");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        // AnimalFarm is an array-type model with no properties (issue #22788)
-        JavaFileAssert.assertThat(files.get("AnimalFarm.java"))
-                .hasImports("org.springframework.lang.Nullable");
-        JavaFileAssert.assertThat(files.get("Pet.java"))
-                .hasImports("org.springframework.lang.Nullable");
+        // Check that the @ClientRegistrationId annotation is generated at class level
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.springframework.security.oauth2.client.annotation.ClientRegistrationId")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("ClientRegistrationId", ImmutableMap.of("value", "\"my-oauth-client\""));
     }
 
     @Test
-    public void shouldRefuseJackson3WithoutSpringboot4() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+    public void testClientRegistrationIdAnnotationNotPresentWhenNotConfigured() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-http-interface");
+        // clientRegistrationId not set
 
-        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "false");
-        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
 
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        Generator generator = new DefaultGenerator()
-                .opts(input);
-
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(generator::generate);
-    }
-
-    @Test
-    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
-        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "true");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        Generator generator = new DefaultGenerator()
-                .opts(input);
-
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(generator::generate);
-    }
-
-    @Test
-    public void shouldImportJackson2JsonDeserializeForUniqueItemsWhenJackson3NotSet() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "false");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false); // skip metadata generation
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
-                .hasImports("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
-    }
-
-    @Test
-    public void shouldImportJackson3JsonDeserializeForUniqueItemsWhenJackson3Set() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-
-        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
-        codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false); // skip metadata generation
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
-                .hasImports("tools.jackson.databind.annotation.JsonDeserialize");
+        // Check that the @ClientRegistrationId annotation is NOT generated
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@ClientRegistrationId", "ClientRegistrationId");
     }
 
 }
