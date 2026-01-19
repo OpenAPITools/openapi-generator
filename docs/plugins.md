@@ -130,7 +130,7 @@ This Mill library provides a Mill module that can be used to generate code from 
 ```scala
 //| mill-version: 1.0.6
 //| mvnDeps:
-//|   - org.openapitools:openapi-generator-mill-plugin:7.19.0 # 1.
+//|   - org.openapitools:openapi-generator-mill-plugin:7.20.0 # 1.
 
 import mill.*
 
