@@ -196,8 +196,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // the undeclared properties.
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
+    public CodegenProperty propertyNames;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<>();
+    public List<String> nameOnlyVars = new ArrayList<>();
     public CodegenProperty mostInnerItems;
     @Getter @Setter
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -463,6 +465,20 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     @Override
     public void setAdditionalProperties(CodegenProperty additionalProperties) {
         this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public CodegenProperty getPropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public void setPropertyNames(CodegenProperty propertyNames) {
+        this.propertyNames = propertyNames;
+        if (!propertyNames.getIsEnum()) {
+            return;
+        }
+        nameOnlyVars.addAll(propertyNames.get_enum());
     }
 
     @Override
@@ -1190,6 +1206,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
                 Objects.equals(additionalProperties, that.additionalProperties) &&
+                Objects.equals(propertyNames, that.propertyNames) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
@@ -1220,7 +1237,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword, isFreeFormObject,
                 isArray, isMap, isOptional, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
-                allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
+                allowableValues, items, mostInnerItems, additionalProperties, propertyNames, vars, requiredVars,
                 vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
