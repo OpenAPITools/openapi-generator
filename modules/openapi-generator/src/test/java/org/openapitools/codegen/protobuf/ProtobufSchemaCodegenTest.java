@@ -484,7 +484,6 @@ public class ProtobufSchemaCodegenTest {
         System.setProperty("line.separator", "\n");
 
         File output = Files.createTempDirectory("test").toFile();
-        System.out.println("ExtractEnums Temporary output directory: " + output.getAbsolutePath());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
@@ -572,15 +571,15 @@ public class ProtobufSchemaCodegenTest {
         System.setProperty("line.separator", "\n");
 
         File output = Files.createTempDirectory("test").toFile();
-        System.out.println("With combined options Temporary output directory: " + output.getAbsolutePath());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("protobuf-schema")
                 .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
-                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true)
+                .addAdditionalProperty("removeEnumValuePrefix", false)
+                .addAdditionalProperty(START_ENUMS_WITH_UNSPECIFIED, true)
                 .addAdditionalProperty(USE_SIMPLIFIED_ENUM_NAMES, true)
-                .addAdditionalProperty(START_ENUMS_WITH_UNSPECIFIED, true);
+                .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
 
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
@@ -829,7 +828,6 @@ public class ProtobufSchemaCodegenTest {
             System.setProperty("line.separator", "\n");
 
             File output = Files.createTempDirectory("test").toFile();
-            System.out.println("InlineEnums Temporary output directory: " + output.getAbsolutePath());
 
             final CodegenConfigurator configurator = new CodegenConfigurator()
                     .setGeneratorName("protobuf-schema")
@@ -915,6 +913,9 @@ public class ProtobufSchemaCodegenTest {
                 .setGeneratorName("protobuf-schema")
                 .setInputSpec("src/test/resources/3_0/protobuf-schema/extracted_enum.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty("removeEnumValuePrefix", false)
+                .addAdditionalProperty(START_ENUMS_WITH_UNSPECIFIED, true)
+                .addAdditionalProperty(USE_SIMPLIFIED_ENUM_NAMES, true)
                 .addAdditionalProperty(EXTRACT_ENUMS_TO_SEPARATE_FILES, true);
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();

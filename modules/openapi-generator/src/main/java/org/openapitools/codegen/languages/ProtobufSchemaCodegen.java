@@ -830,6 +830,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
 
         // Extract enum properties to separate files if enabled
         if (this.extractEnumsToSeparateFiles) {
+            // Recompute allModels after managing children properties
+            // This ensures inherited properties are included in the vars
+            allModels = this.getAllModels(objs);
+            
             // First, update property data types for referenced enum models
             this.updateReferencedEnumPropertyDataTypes(objs, allModels);
             
@@ -890,6 +894,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 String dataTypeToCheck = null;
                 CodegenProperty itemToCheck = property;
                 
+                // Determine what data type to check
                 if (property.isArray && property.items != null) {
                     dataTypeToCheck = property.items.dataType;
                     itemToCheck = property.items;
@@ -906,21 +911,49 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 }
                 
                 // Look for an enum model that matches this dataType
-                CodegenModel referencedModel = allModels.get(dataTypeToCheck);
+                // Note: Need to apply toModelName to ensure correct key lookup since getAllModels() uses this
+                String modelNameKey = toModelName(dataTypeToCheck);
+                
+                // If the dataType already ends with .Enum, it's already been wrapped
+                // Strip the .Enum suffix to find the underlying enum model
+                if (dataTypeToCheck.endsWith("." + ENUM_WRAPPER_INNER_NAME)) {
+                    // Strip the .Enum suffix for lookup
+                    modelNameKey = toModelName(dataTypeToCheck.substring(0, dataTypeToCheck.length() - ("." + ENUM_WRAPPER_INNER_NAME).length()));
+                }
+                
+                CodegenModel referencedModel = allModels.get(modelNameKey);
                 if (referencedModel != null && referencedModel.isEnum) {
+                    
+                    // Use the actual classname from the enum model for consistency with how it's used in templates
+                    String enumWrapperName = referencedModel.getClassname();
+                    
+                    // For referenced enums, the wrapper name is just the enum model's classname
+                    // (not a composite like "ModelName_PropertyName" which is for inline enums)
+                    
+                    // Check if already properly wrapped with .Enum suffix
+                    String expectedWrappedType = enumWrapperName + "." + ENUM_WRAPPER_INNER_NAME;
+                    
                     // This property references an enum model, update its data type to include .Enum suffix
                     // Also mark it as a referenced extracted enum and add import
                     property.vendorExtensions.put(VENDOR_EXT_ENUM_EXTRACTED, true);
                     property.vendorExtensions.put("x-protobuf-enum-reference-import", true);
-                    String enumWrapperName = dataTypeToCheck; // The message wrapper name is the enum model name
                     property.vendorExtensions.put(VENDOR_EXT_ENUM_WRAPPER_MESSAGE, enumWrapperName);
                     
                     // Update the data type of the item to include .Enum suffix
-                    String wrappedEnumType = enumWrapperName + "." + ENUM_WRAPPER_INNER_NAME;
-                    itemToCheck.dataType = wrappedEnumType;
+                    itemToCheck.dataType = expectedWrappedType;
                     
-                    // Also update the x-protobuf-data-type for protobuf rendering
-                    property.vendorExtensions.put("x-protobuf-data-type", wrappedEnumType);
+                    // Update the vendor extension for protobuf rendering
+                    // This is critical for arrays, as the template uses x-protobuf-data-type
+                    // For arrays: x-protobuf-data-type must reference the wrapped enum type
+                    // For direct properties: the dataType in the template is used
+                    if (property.isArray) {
+                        // For array properties, the template uses x-protobuf-data-type which comes from items.dataType
+                        // Make sure it's updated there
+                        property.vendorExtensions.put("x-protobuf-data-type", expectedWrappedType);
+                    } else {
+                        // For non-array properties, also update vendor extension for consistency
+                        property.vendorExtensions.put("x-protobuf-data-type", expectedWrappedType);
+                    }
                     
                     // Add import for the referenced enum to the current model
                     this.addImport(objs, model, enumWrapperName);
