@@ -61,6 +61,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
+    public CodegenProperty propertyNames;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
     public CodegenProperty mostInnerItems;
@@ -856,6 +857,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setAdditionalProperties(CodegenProperty additionalProperties) {
         this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public CodegenProperty getPropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public void setPropertyNames(CodegenProperty propertyNames) {
+        this.propertyNames = propertyNames;
     }
 
     @Override
