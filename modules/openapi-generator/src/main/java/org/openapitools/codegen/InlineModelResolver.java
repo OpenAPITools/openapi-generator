@@ -282,6 +282,9 @@ public class InlineModelResolver {
                 return true;
             }
         }
+        if (ModelUtils.hasEnumPropertyNames(schema)) {
+            return true;
+        }
 
         return false;
     }

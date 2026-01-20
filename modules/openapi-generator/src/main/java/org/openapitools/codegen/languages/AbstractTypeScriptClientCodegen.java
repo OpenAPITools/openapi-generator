@@ -662,7 +662,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             if (Boolean.TRUE.equals(inner.getNullable())) {
                 nullSafeSuffix += " | null";
             }
-            return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
+            return "Record<string, " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "File";
         } else if (ModelUtils.isBinarySchema(p)) {
