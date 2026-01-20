@@ -1578,7 +1578,6 @@ components:
           format: uuid
           type: string
         password:
-          format: password
           maxLength: 64
           minLength: 10
           type: string
@@ -2268,7 +2267,6 @@ components:
           type: string
         password:
           description: None
-          format: password
           maxLength: 64
           minLength: 10
           type: string

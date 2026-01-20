@@ -449,6 +449,7 @@ paths:
           description: The password for login in clear text
           required: true
           type: string
+          format: password
       responses:
         '200':
           description: successful operation
@@ -622,6 +623,7 @@ definitions:
         type: string
       password:
         type: string
+        format: password
       phone:
         type: string
       userStatus:
