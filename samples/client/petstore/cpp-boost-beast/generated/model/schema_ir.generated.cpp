@@ -280,6 +280,7 @@ SchemaResourceRegistry buildRegistry() {
         SchemaNode n;
         n.resourceIdentity = 0;
         n.typeFlags = 8u;
+        n.annFormat = "\"password\"";
         n.sourceName = "User_component_prop5";
         n.schemaPath = "#/components/schemas/User/properties/password";
         n.absSchemaUri = "urn:openapi-generator:cpp-boost-beast:schema#/components/schemas/User/properties/password";

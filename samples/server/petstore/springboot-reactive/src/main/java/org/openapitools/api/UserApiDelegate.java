@@ -130,7 +130,7 @@ public interface UserApiDelegate {
             }
     
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
+                String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>********</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
                 result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
                 break;
             }

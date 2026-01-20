@@ -44,6 +44,7 @@ public class User {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
+  @lombok.ToString.Exclude
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String password;
 
