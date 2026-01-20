@@ -5320,6 +5320,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    protected void updateParameterForNumber(CodegenParameter codegenParameter, Schema parameterSchema) {
+        codegenParameter.isPrimitiveType = true;
+        if (ModelUtils.isFloatSchema(parameterSchema)) { // float
+            codegenParameter.isFloat = true;
+        } else if (ModelUtils.isDoubleSchema(parameterSchema)) { // double
+            codegenParameter.isDouble = true;
+        }
+    }
+
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
@@ -5455,12 +5464,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isBooleanSchema(parameterSchema)) {
             codegenParameter.isPrimitiveType = true;
         } else if (ModelUtils.isNumberSchema(parameterSchema)) {
-            codegenParameter.isPrimitiveType = true;
-            if (ModelUtils.isFloatSchema(parameterSchema)) { // float
-                codegenParameter.isFloat = true;
-            } else if (ModelUtils.isDoubleSchema(parameterSchema)) { // double
-                codegenParameter.isDouble = true;
-            }
+            updateParameterForNumber(codegenParameter, parameterSchema);
         } else if (ModelUtils.isIntegerSchema(parameterSchema)) { // integer type
             codegenParameter.isPrimitiveType = true;
             if (ModelUtils.isLongSchema(parameterSchema)) { // int64/long format
