@@ -120,3 +120,56 @@ openApiGenerate {
 ```
 
 *If you want to create separate tasks (for example when you have more than one api spec and require different parameters for each), this is how to do so in Gradle 7+: `tasks.register('taskName', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) { ... }`.*
+
+## Mill
+
+This Mill library provides a Mill module that can be used to generate code from OpenAPI specifications.
+
+### Example
+
+```scala
+//| mill-version: 1.0.6
+//| mvnDeps:
+//|   - org.openapitools:openapi-generator-mill-plugin:7.20.0 # 1.
+
+import mill.*
+
+import org.openapitools.generator.mill.OpenApiModule // 2.
+
+object `package` extends JavaModule with MavenModule with OpenApiModule { // 3.
+
+  // other Mill config...
+  
+  object openapi extends OpenApiConfig { // 4.
+    def inputSpec: T[PathRef] = Task.Source(BuildCtx.workspaceRoot / "api" / "petstore.yaml")
+    // other config options...
+  }
+
+  override def generatedSources: T[Seq[PathRef]] = Seq(
+    PathRef(Task.dest),
+    openapi.generate(), // 5.
+  )
+}
+```
+
+1. Add the plugin to your `build.mill` as `mvnDeps` in the header section
+2. import `org.openapitools.generator.mill.OpenApiModule`
+3. add `OpenApiModule` to the module definition
+4. configure 1-n `OpenApiConfig` as sub-modules
+5. run the generation as part of the `compile` task
+
+This gives access to the following tasks:
+
+| Task                      | Description                                                                                 |
+|---------------------------|---------------------------------------------------------------------------------------------|
+| <configName>.generate     | Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents. |
+| <configName>.validateSpec | Validates the configured spec                                                               |
+
+and a command
+
+| Command             | Description                                    |
+|---------------------|------------------------------------------------|
+| validateOpenapiSpec | Takes the path to a spec file and validates it |
+
+
+For full details of all options, see the [plugin README](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-mill-plugin).
