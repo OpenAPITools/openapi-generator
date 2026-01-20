@@ -1854,7 +1854,7 @@ public class OpenAPINormalizer {
                         schema.addAnyOfItem(new BooleanSchema());
                         break;
                     default:
-                        LOGGER.error("Type {} not yet supported in openapi-normalizer to process OpenAPI 3.1 spec with multiple types.");
+                        LOGGER.error("Type {} not yet supported in openapi-normalizer to process OpenAPI 3.1 spec with multiple types.", String.valueOf(type));
                         LOGGER.error("Please report the issue via https://github.com/OpenAPITools/openapi-generator/issues/new/.");
                 }
             }
