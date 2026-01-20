@@ -49,7 +49,7 @@ class TaskActivity(RootModel[Union[Bathing, Feeding, PoopCleaning]]):
 
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
-        """Returns the object represented by the Dict"""
+        """Returns the object represented by the python Dict"""
         return cls.model_validate(obj)
 
     @classmethod

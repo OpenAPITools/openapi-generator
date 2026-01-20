@@ -48,7 +48,7 @@ class Pig(RootModel[Union[BasquePig, DanishPig]]):
 
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
-        """Returns the object represented by the Dict"""
+        """Returns the object represented by the python Dict"""
         return cls.model_validate(obj)
 
     @classmethod
