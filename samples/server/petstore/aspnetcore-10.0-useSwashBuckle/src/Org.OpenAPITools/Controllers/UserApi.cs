@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(404);
             string exampleJson = null;
             exampleJson = "{\n  \"id\" : 0,\n  \"username\" : \"username\",\n  \"firstName\" : \"firstName\",\n  \"lastName\" : \"lastName\",\n  \"email\" : \"email\",\n  \"password\" : \"password\",\n  \"phone\" : \"phone\",\n  \"userStatus\" : 6\n}";
-            exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>aeiou</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
+            exampleJson = "<User>\n  <id>123456789</id>\n  <username>aeiou</username>\n  <firstName>aeiou</firstName>\n  <lastName>aeiou</lastName>\n  <email>aeiou</email>\n  <password>********</password>\n  <phone>aeiou</phone>\n  <userStatus>123</userStatus>\n</User>";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<User>(exampleJson)

@@ -59,6 +59,7 @@ public class User {
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String email;
 
+  @lombok.ToString.Exclude
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("password")
