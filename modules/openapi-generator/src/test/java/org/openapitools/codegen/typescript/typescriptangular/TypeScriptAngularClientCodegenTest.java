@@ -489,4 +489,40 @@ public class TypeScriptAngularClientCodegenTest {
         assertThat(fileContents).containsSubsequence("'options',\n", "<any>options,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
         assertThat(fileContents).containsSubsequence("'inputOptions',\n", "<any>inputOptions,\n", "QueryParamStyle.DeepObject,\n", "true,\n");
     }
+
+    @Test
+    public void testMapWithArrayOfEnumsUsesCorrectEnumName() throws IOException {
+        // GIVEN - a schema with a map property containing an array of enums
+        // This tests the fix for the issue where maps with array of enums generated
+        // "InnerEnum" type reference instead of the correct qualified enum name.
+        final String specPath = "src/test/resources/3_0/issue_19393_map_of_inner_enum.yaml";
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // WHEN
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("typescript-angular")
+            .setInputSpec(specPath)
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        // THEN - verify the map property uses the correct qualified enum name, not "InnerEnum"
+        final String fileContents = Files.readString(Paths.get(output + "/model/employeeWithMultiMapOfEnum.ts"));
+        
+        // The property type should use the correctly qualified enum name
+        // Note: the test spec uses uniqueItems: true so Set is used instead of Array
+        assertThat(fileContents).contains("projectRoles?: { [key: string]: Set<EmployeeWithMultiMapOfEnum.ProjectRolesEnum>; }");
+        
+        // Should NOT contain the incorrect "InnerEnum" reference
+        assertThat(fileContents).doesNotContain("InnerEnum");
+        
+        // The enum should be defined in the namespace
+        assertThat(fileContents).contains("export const ProjectRolesEnum = {");
+        assertThat(fileContents).contains("export type ProjectRolesEnum = typeof ProjectRolesEnum[keyof typeof ProjectRolesEnum];");
+    }
 }
