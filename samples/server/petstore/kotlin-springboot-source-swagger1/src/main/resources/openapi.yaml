@@ -446,6 +446,7 @@ paths:
         name: password
         required: true
         schema:
+          format: password
           type: string
       responses:
         "200":
@@ -638,6 +639,7 @@ components:
         email:
           type: string
         password:
+          format: password
           type: string
         phone:
           type: string
