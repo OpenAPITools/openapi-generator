@@ -503,7 +503,8 @@
           "in" : "query",
           "description" : "The password for login in clear text",
           "required" : true,
-          "type" : "string"
+          "type" : "string",
+          "format": "password"
         } ],
         "responses" : {
           "200" : {
@@ -711,7 +712,8 @@
           "type" : "string"
         },
         "password" : {
-          "type" : "string"
+          "type" : "string",
+          "format" : "password"
         },
         "phone" : {
           "type" : "string"

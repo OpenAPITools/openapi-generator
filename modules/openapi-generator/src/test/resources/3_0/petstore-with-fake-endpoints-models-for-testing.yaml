@@ -471,6 +471,7 @@ paths:
           required: true
           schema:
             type: string
+            format: password
       responses:
         '200':
           description: successful operation
@@ -1449,6 +1450,7 @@ components:
           type: string
         password:
           type: string
+          format: password
         phone:
           type: string
         userStatus:
