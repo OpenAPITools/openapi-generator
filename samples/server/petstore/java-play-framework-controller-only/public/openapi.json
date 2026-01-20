@@ -611,6 +611,7 @@
           "name" : "password",
           "required" : true,
           "schema" : {
+            "format" : "password",
             "type" : "string"
           }
         } ],
@@ -874,6 +875,7 @@
             "type" : "string"
           },
           "password" : {
+            "format" : "password",
             "type" : "string"
           },
           "phone" : {
