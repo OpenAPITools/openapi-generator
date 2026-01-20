@@ -15,7 +15,6 @@
 from __future__ import annotations
 import pprint
 import re  # noqa: F401
-import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
@@ -25,9 +24,7 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from typing import Optional, Set, Literal
 from typing import Self
-from pydantic import Field
 
 class EnumTest(BaseModel):
     """
@@ -53,12 +50,12 @@ class EnumTest(BaseModel):
         None,
         description="enum_number of the EnumTest"
     )
-    enum_string_single_member: Literal["abc"] = Field(
+    enum_string_single_member: Optional[Literal["abc"]] = Field(
         None,
         description="enum_string_single_member of the EnumTest",
         alias="enum_string_single_member"
     )
-    enum_integer_single_member: Literal[100] = Field(
+    enum_integer_single_member: Optional[Literal[100]] = Field(
         None,
         description="enum_integer_single_member of the EnumTest",
         alias="enum_integer_single_member"
@@ -144,6 +141,24 @@ class EnumTest(BaseModel):
         protected_namespaces=(),
     )
 
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

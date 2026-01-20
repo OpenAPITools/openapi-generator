@@ -15,15 +15,12 @@
 from __future__ import annotations
 import pprint
 import re  # noqa: F401
-import json
 
 from pydantic import ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Optional, Set, Literal
 from typing import Self
-from pydantic import Field
 
 class HuntingDog(Creature):
     """
@@ -38,6 +35,24 @@ class HuntingDog(Creature):
         protected_namespaces=(),
     )
 
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""

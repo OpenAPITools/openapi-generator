@@ -1,7 +1,6 @@
 from __future__ import annotations
 import pprint
 import re  # noqa: F401
-import json
 
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
@@ -9,9 +8,7 @@ import json
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Optional, Set, Literal
 from typing import Self
-from pydantic import Field
 
 {{#hasChildren}}
 {{#discriminator}}
@@ -36,7 +33,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
           {{#-first}}
             {{#-last}}
               {{! Single value enum - use Literal }}
-    {{name}}: Literal[{{#isString}}"{{{.}}}"{{/isString}}{{^isString}}{{{.}}}{{/isString}}] = Field(
+    {{name}}: {{#required}}Literal[{{#isString}}"{{{.}}}"{{/isString}}{{^isString}}{{{.}}}{{/isString}}]{{/required}}{{^required}}Optional[Literal[{{#isString}}"{{{.}}}"{{/isString}}{{^isString}}{{{.}}}{{/isString}}]]{{/required}} = Field(
         {{#required}}...{{/required}}{{^required}}None{{/required}},
         description="{{description}}{{^description}}{{{name}}} of the {{classname}}{{/description}}",
         alias="{{{baseName}}}"
@@ -156,6 +153,24 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
 {{/discriminator}}
 {{/hasChildren}}
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
