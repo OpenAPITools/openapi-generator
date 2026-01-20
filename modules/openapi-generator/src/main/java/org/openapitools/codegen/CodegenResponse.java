@@ -114,7 +114,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isPassword, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
                 isMap, isOptional, isArray, isBinary, isFile, schema, jsonSchema, vendorExtensions, items, additionalProperties,
-                vars, requiredVars, isNull, isVoid, hasValidation, isShort, isUnboundedInteger,
+                propertyNames, vars, requiredVars, isNull, isVoid, hasValidation, isShort, isUnboundedInteger,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern(),
                 is1xx, is2xx, is3xx, is4xx, is5xx, additionalPropertiesIsAnyType, hasVars, hasRequired,
@@ -178,6 +178,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 Objects.equals(content, that.getContent()) &&
                 Objects.equals(responseHeaders, that.getResponseHeaders()) &&
                 Objects.equals(composedSchemas, that.getComposedSchemas()) &&
+                Objects.equals(propertyNames, that.propertyNames) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(headers, that.headers) &&
