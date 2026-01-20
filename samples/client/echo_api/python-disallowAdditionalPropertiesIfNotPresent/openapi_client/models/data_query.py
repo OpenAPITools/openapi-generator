@@ -21,7 +21,8 @@ from datetime import datetime
 from pydantic import ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from openapi_client.models.query import Query
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class DataQuery(Query):
     """
@@ -42,7 +43,7 @@ class DataQuery(Query):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

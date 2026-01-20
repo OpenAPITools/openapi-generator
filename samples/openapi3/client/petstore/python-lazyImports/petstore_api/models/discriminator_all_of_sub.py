@@ -19,7 +19,8 @@ import re  # noqa: F401
 from pydantic import ConfigDict
 from typing import Any, ClassVar, Dict, List
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
@@ -38,7 +39,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

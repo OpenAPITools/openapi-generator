@@ -19,7 +19,8 @@ import re  # noqa: F401
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class Tag(BaseModel):
     """
@@ -39,7 +40,7 @@ class Tag(BaseModel):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

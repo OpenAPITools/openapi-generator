@@ -24,7 +24,8 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class EnumTest(BaseModel):
     """
@@ -145,7 +146,7 @@ class EnumTest(BaseModel):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

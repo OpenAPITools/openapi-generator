@@ -47,7 +47,7 @@ class AnyOfColor(RootModel[Union[List[int], str]]):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the python Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

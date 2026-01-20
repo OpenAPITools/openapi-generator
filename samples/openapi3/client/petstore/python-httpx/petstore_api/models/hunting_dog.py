@@ -20,7 +20,8 @@ from pydantic import ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class HuntingDog(Creature):
     """
@@ -39,7 +40,7 @@ class HuntingDog(Creature):
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

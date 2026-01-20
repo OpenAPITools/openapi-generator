@@ -8,7 +8,8 @@ import re  # noqa: F401
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Self
+from typing import Literal, Self
+from pydantic import Field
 
 {{#hasChildren}}
 {{#discriminator}}
@@ -156,7 +157,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     @classmethod
     def from_dict(cls, obj: Dict[str, Any]) -> Self:
         """Returns the object represented by the Dict"""
-        return cls.model_validate(obj)
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
