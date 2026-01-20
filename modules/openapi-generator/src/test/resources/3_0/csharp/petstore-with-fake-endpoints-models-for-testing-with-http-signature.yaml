@@ -2856,7 +2856,6 @@ components:
               format: float32
             - type: object
               $ref: '#/components/schemas/MixedSubId'
-              
           description:  Mixed anyOf types for testing
     MixedSubId:
       properties:

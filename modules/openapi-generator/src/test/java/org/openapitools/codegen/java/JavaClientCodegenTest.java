@@ -3241,7 +3241,7 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.toString().replace("\\", "/"));
 
         final Map<String, File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate()
-                .stream().collect(Collectors.toMap(File::getName, Function.identity()));;
+                .stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
         final JavaFileAssert apiClient = JavaFileAssert.assertThat(files.get("ApiClient.java"))
                 .printFileContent();
@@ -3553,23 +3553,23 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName(JAVA_GENERATOR)
-            .setLibrary(JavaClientCodegen.NATIVE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileDoesNotContain(
-            "import io.swagger.v3.oas.annotations.media.Schema;"
+                "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
 
@@ -3582,23 +3582,23 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName(JAVA_GENERATOR)
-            .setLibrary(JavaClientCodegen.NATIVE)
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/native/issue21991.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
 
         JavaFileAssert.assertThat(apiFile).fileContains(
-            "import io.swagger.v3.oas.annotations.media.Schema;"
+                "import io.swagger.v3.oas.annotations.media.Schema;"
         );
     }
 
@@ -3753,7 +3753,7 @@ public class JavaClientCodegenTest {
 
         JavaFileAssert.assertThat(oneOfFile).fileContains(
                 "final TypeAdapter<some.pkg.A> adaptersomepkgA = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.A.class));",
-                        "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
+                "final TypeAdapter<some.pkg.B> adaptersomepkgB = gson.getDelegateAdapter(this, TypeToken.get(some.pkg.B.class));",
                 "public some.pkg.A getsomepkgA() throws ClassCastException {",
                 "public some.pkg.B getsomepkgB() throws ClassCastException {"
         );
@@ -3803,10 +3803,11 @@ public class JavaClientCodegenTest {
         //chain method calls for object initialization
         class MethodCallVisitor extends VoidVisitorAdapter<Void> {
             Map<String, Expression> expressionMap = new HashMap<>();
+
             @Override
             public void visit(MethodCallExpr n, Void arg) {
                 expressionMap.put(n.getNameAsString(), n.getArgument(0));
-                if(n.getScope().isPresent()) {
+                if (n.getScope().isPresent()) {
                     n.getScope().get().accept(this, arg);
                 }
             }
@@ -3993,7 +3994,7 @@ public class JavaClientCodegenTest {
         assertFileContains(
                 output.resolve("src/main/java/org/openapitools/client/api/QueryApi.java"),
                 "queryParams.putAll(apiClient.parameterToMultiValueMapJson(ApiClient.CollectionFormat" +
-                ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
+                        ".valueOf(\"csv\".toUpperCase(Locale.ROOT)), \"json_serialized_object_array_ref_string_query\", jsonSerializedObjectArrayRefStringQuery));"
         );
     }
 
@@ -4063,4 +4064,30 @@ public class JavaClientCodegenTest {
                 .isInterface()
                 .assertTypeAnnotations().containsWithName("SuppressWarnings");
     }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true"));
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertTypeAnnotations().doesNotContainWithName("JsonIgnoreProperties");
+    }
+
+    @Test
+    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeAdded() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+    }
+
+    @Test
+    public void testOneOfInterfaceWithEnumDiscriminatorHavingCustomDescription3_1() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_1/oneof_polymorphism_and_inheritance.yaml", WEBCLIENT,
+                Map.of(USE_ONE_OF_INTERFACES, "true"));
+        JavaFileAssert.assertThat(files.get("Fruit.java"))
+                .isInterface()
+                .fileContains("public FruitType getFruitType()");
+    }
+
 }

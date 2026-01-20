@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-internal struct Model200Response: Sendable, Codable, ParameterConvertible {
+internal struct Model200Response: Sendable, Codable {
 
     internal private(set) var name: Int?
     internal private(set) var _class: String?

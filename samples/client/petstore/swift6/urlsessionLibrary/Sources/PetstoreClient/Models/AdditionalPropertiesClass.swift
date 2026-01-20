@@ -12,7 +12,7 @@ public typealias AdditionalPropertiesClass = PetstoreClientAPI.AdditionalPropert
 
 extension PetstoreClientAPI {
 
-public final class AdditionalPropertiesClass: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class AdditionalPropertiesClass: @unchecked Sendable, Codable, Hashable {
 
     public private(set) var mapString: [String: String]?
     public private(set) var mapMapString: [String: [String: String]]?

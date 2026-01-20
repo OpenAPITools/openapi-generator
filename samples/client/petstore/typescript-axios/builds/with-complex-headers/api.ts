@@ -18,7 +18,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
@@ -156,16 +156,16 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             if (header1 != null) {
                 localVarHeaderParameter['header1'] = typeof header1 === 'string'
                     ? header1
-                    : JSON.stringify(header1);
+                    : JSON.stringify(header1, replaceWithSerializableTypeIfNeeded);
             }
             if (header2) {
-                let mapped = header2.map(value => (<any>"Array<Pet>" !== "Array<string>") ? JSON.stringify(value) : (value || ""));
+                let mapped = header2.map(value => (<any>"Array<Pet>" !== "Array<string>") ? JSON.stringify(value, replaceWithSerializableTypeIfNeeded) : (value || ""));
                 localVarHeaderParameter['header2'] = mapped.join(COLLECTION_FORMATS["csv"]);
             }
             if (accept != null) {
                 localVarHeaderParameter['Accept'] = typeof accept === 'string'
                     ? accept
-                    : JSON.stringify(accept);
+                    : JSON.stringify(accept, replaceWithSerializableTypeIfNeeded);
             }
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};

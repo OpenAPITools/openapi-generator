@@ -44,8 +44,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class PetApi {
   /**
    * Utility class for extending HttpRequest.Builder functionality.
@@ -267,10 +268,13 @@ public class PetApi {
 
     localVarRequestBuilder.header("Content-Type", "application/json");
     localVarRequestBuilder.header("Accept", "application/xml, application/json");
+    localVarRequestBuilder.header("Accept-Encoding", "gzip");
 
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
-      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+      Supplier<InputStream> localVarRequestBodySupplier = () -> new ByteArrayInputStream(localVarPostBody);
+      localVarRequestBuilder.header("Content-Encoding", "gzip");
+      localVarRequestBuilder.method("POST", ApiClient.gzipRequestBody(localVarRequestBodySupplier));
     } catch (IOException e) {
       throw new ApiException(e);
     }

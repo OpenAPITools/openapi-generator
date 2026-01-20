@@ -60,6 +60,13 @@ else
 
     # shellcheck disable=SC2086
     # shellcheck disable=SC2068
-    java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]}
+    if java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]} 2>&1 | tee /dev/pts/0 | grep -q -i "exception"; then
+      echo "Found exception(s) when running the generator(s) to update the samples."
+      export GENERATE_ERROR=1
+    fi
 fi
 
+if [[ -n "$GENERATE_ERROR" ]]; then
+  echo "Found exception(s) when running the generator(s) to update the samples."
+  exit 1
+fi

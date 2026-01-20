@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Cat: Sendable, Codable, ParameterConvertible {
+internal struct Cat: Sendable, Codable {
 
     internal private(set) var className: String
     internal private(set) var color: String? = "red"

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ReadOnlyFirst: NSObject, Codable, ParameterConvertible {
+@objcMembers public class ReadOnlyFirst: NSObject, Codable {
 
     public var bar: String?
     public var baz: String?

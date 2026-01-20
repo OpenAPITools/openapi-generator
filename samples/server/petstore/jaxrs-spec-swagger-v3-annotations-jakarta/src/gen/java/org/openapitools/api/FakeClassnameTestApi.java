@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 */
 @Path("/fake_classname_test")
 @Tag(name = "fake_classname_test")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class FakeClassnameTestApi {
 
     @PATCH

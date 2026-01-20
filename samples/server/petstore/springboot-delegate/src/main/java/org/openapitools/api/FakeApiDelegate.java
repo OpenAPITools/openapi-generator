@@ -31,7 +31,7 @@ import javax.annotation.Generated;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

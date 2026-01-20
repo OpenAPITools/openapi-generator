@@ -8,8 +8,8 @@
 #include "Helpers.h"
 #include <list>
 
-#include <map>
 #include "Order.h"
+#include <map>
 
 namespace Tiny {
 

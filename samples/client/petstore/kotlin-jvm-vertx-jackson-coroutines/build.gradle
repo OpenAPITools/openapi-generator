@@ -53,19 +53,18 @@ test {
     useJUnitPlatform()
 }
 
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
 
 java {

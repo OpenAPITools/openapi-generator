@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.toMap;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
 
     protected static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");

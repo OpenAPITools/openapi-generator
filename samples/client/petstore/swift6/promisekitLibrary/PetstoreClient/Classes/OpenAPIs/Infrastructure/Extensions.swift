@@ -50,8 +50,10 @@ extension UUID: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable { self }
 }
 
-extension RawRepresentable where RawValue: ParameterConvertible, RawValue: Sendable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable { return self.rawValue }
+extension RawRepresentable where RawValue: ParameterConvertible {
+    func asParameter(codableHelper: CodableHelper) -> any Sendable {
+        rawValue.asParameter(codableHelper: codableHelper)
+    }
 }
 
 private func encodeIfPossible<T: Sendable>(_ object: T, codableHelper: CodableHelper) -> any Sendable {
@@ -93,15 +95,6 @@ extension Data: ParameterConvertible {
 extension Date: ParameterConvertible {
     func asParameter(codableHelper: CodableHelper) -> any Sendable {
         return codableHelper.dateFormatter.string(from: self)
-    }
-}
-
-extension ParameterConvertible where Self: Encodable {
-    func asParameter(codableHelper: CodableHelper) -> any Sendable {
-        guard let data = try? codableHelper.jsonEncoder.encode(self) else {
-            fatalError("Could not encode to json: \(self)")
-        }
-        return data.asParameter(codableHelper: codableHelper)
     }
 }
 

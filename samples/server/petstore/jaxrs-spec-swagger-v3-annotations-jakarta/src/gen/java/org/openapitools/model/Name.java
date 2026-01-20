@@ -18,7 +18,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @Schema(description="Model for testing model name same as property name")
 @JsonTypeName("Name")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Name  implements Serializable {
   private Integer name;
   private Integer snakeCase;

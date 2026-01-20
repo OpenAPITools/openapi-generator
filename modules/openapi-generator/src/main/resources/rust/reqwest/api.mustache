@@ -204,6 +204,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^isObject}}
     {{^isModel}}
     {{^isEnum}}
+    {{^isEnumRef}}
     {{#isPrimitiveType}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
@@ -214,7 +215,18 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
     };
     {{/isPrimitiveType}}
+    {{/isEnumRef}}
     {{/isEnum}}
+    {{#isEnum}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+    };
+    {{/isEnum}}
+    {{#isEnumRef}}
+    if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+    };
+    {{/isEnumRef}}
     {{/isModel}}
     {{/isObject}}
     {{/isNullable}}
@@ -255,17 +267,22 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
         {{/isModel}}
         {{#isEnum}}
-        req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
         {{/isEnum}}
+        {{#isEnumRef}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+        {{/isEnumRef}}
         {{^isObject}}
         {{^isModel}}
         {{^isEnum}}
+        {{^isEnumRef}}
         {{#isPrimitiveType}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
         {{/isPrimitiveType}}
+        {{/isEnumRef}}
         {{/isEnum}}
         {{/isModel}}
         {{/isObject}}
@@ -405,11 +422,19 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{#supportAsync}}
     {{^required}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-       multipart_form = multipart_form.file("{{{baseName}}}", param_value.as_os_str()).await?;
+        let file = TokioFile::open(param_value).await?;
+        let stream = FramedRead::new(file, BytesCodec::new());
+        let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+        multipart_form = multipart_form.part("{{{baseName}}}", file_part);
     }
     {{/required}}
     {{#required}}
-    multipart_form = multipart_form.file("{{{baseName}}}", {{{vendorExtensions.x-rust-param-identifier}}}.as_os_str()).await?;
+    let file = TokioFile::open(&{{{vendorExtensions.x-rust-param-identifier}}}).await?;
+    let stream = FramedRead::new(file, BytesCodec::new());
+    let file_name = {{{vendorExtensions.x-rust-param-identifier}}}.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+    let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+    multipart_form = multipart_form.part("{{{baseName}}}", file_part);
     {{/required}}
     {{/supportAsync}}
     {{/isFile}}

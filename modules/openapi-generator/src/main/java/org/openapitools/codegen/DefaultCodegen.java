@@ -3301,7 +3301,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
-            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) refSchema.getProperties().get(discPropName));
+            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, getDiscriminatorSchema(refSchema, discPropName));
             CodegenProperty cp = new CodegenProperty();
             if (ModelUtils.isStringSchema(discSchema)) {
                 cp.isString = true;
@@ -3632,14 +3632,7 @@ public class DefaultCodegen implements CodegenConfig {
         // FIXME: there are other ways to define the type of the discriminator property (inline
         //  for example). Handling those scenarios is too complicated for me, I'm leaving it for
         //  the future..
-        String propertyType =
-                Optional.ofNullable(schema.getProperties())
-                        .map(p -> (Schema<?>) p.get(discriminatorPropertyName))
-                        .map(Schema::get$ref)
-                        .map(ModelUtils::getSimpleRef)
-                        .map(this::toModelName)
-                        .orElseGet(() -> typeMapping.get("string"));
-        discriminator.setPropertyType(propertyType);
+        discriminator.setPropertyType(getDiscriminatorPropertyType(schema, discriminatorPropertyName));
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional
@@ -3701,6 +3694,39 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.getMappedModels().addAll(uniqueDescendants);
 
         return discriminator;
+    }
+
+    /**
+     * Get the Schema for the discriminator type. Requires special handling due to siblings from OAS 3.1.
+     * An example of a sibling is an enum-ref that has its own description. This will lead to the enum being
+     * referenced as an allOf that in turn has a ref, rather than a regular ref directly to the enum.
+     *
+     * @param schema            The input OAS schema.
+     * @param discriminatorName The name of the discriminator property.
+     */
+    protected Schema getDiscriminatorSchema(Schema schema, String discriminatorName) {
+        if (schema.getProperties() == null) {
+            return null;
+        }
+        Schema discSchema = (Schema) schema.getProperties().get(discriminatorName);
+        if (ModelUtils.isAllOf(discSchema)) {
+            discSchema = (Schema) discSchema.getAllOf().get(0);
+        }
+        return discSchema;
+    }
+
+    /**
+     * Get the property type for the discriminator
+     *
+     * @param schema                    The input OAS schema.
+     * @param discriminatorPropertyName The name of the discriminator property.
+     */
+    protected String getDiscriminatorPropertyType(Schema schema, String discriminatorPropertyName) {
+        return Optional.ofNullable(getDiscriminatorSchema(schema, discriminatorPropertyName))
+                .map(Schema::get$ref)
+                .map(ModelUtils::getSimpleRef)
+                .map(this::toModelName)
+                .orElseGet(() -> typeMapping.get("string"));
     }
 
     /**
@@ -5323,9 +5349,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
-        if (parameter.getSchema() != null && parameter.getSchema().getExtensions() != null && !parameter.getSchema().getExtensions().isEmpty()) {
-            codegenParameter.vendorExtensions.putAll(parameter.getSchema().getExtensions());
-        }
 
         Schema parameterSchema;
 
@@ -5358,6 +5381,10 @@ public class DefaultCodegen implements CodegenConfig {
             parameterModelName = getParameterDataType(parameter, parameterSchema);
         } else {
             parameterSchema = null;
+        }
+
+        if (parameterSchema != null && parameterSchema.getExtensions() != null && !parameterSchema.getExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions.putAll(parameterSchema.getExtensions());
         }
 
         if (parameter instanceof QueryParameter || "query".equalsIgnoreCase(parameter.getIn())) {

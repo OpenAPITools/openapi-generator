@@ -489,7 +489,7 @@ public class ApiClient {
     if (encoding.isPresent()) {
       for (String token : encoding.get().split(",")) {
         if ("gzip".equalsIgnoreCase(token.trim())) {
-          return new GZIPInputStream(body);
+          return new GZIPInputStream(body, 8192);
         }
       }
     }
@@ -531,9 +531,9 @@ public class ApiClient {
     }
 
     private boolean fillBuffer() throws IOException {
-      ensureInitialized();
       while (chunkPosition >= currentChunk.length) {
         buffer.reset();
+        ensureInitialized();
         if (finished) {
           return false;
         }
@@ -570,6 +570,9 @@ public class ApiClient {
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException {
+      if (len == 0) {
+        return 0;
+      }
       if (!fillBuffer()) {
         return -1;
       }

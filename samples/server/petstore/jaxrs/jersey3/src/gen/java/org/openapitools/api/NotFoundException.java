@@ -1,6 +1,6 @@
 package org.openapitools.api;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NotFoundException extends ApiException {
     private int code;
     public NotFoundException (int code, String msg) {

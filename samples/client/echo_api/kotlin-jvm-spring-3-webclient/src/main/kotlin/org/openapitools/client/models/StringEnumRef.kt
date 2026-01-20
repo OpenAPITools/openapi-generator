@@ -62,11 +62,15 @@ enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
          */
         @JvmStatic
         @JsonCreator
-        fun decode(data: kotlin.Any?): StringEnumRef? = data?.let {
-          val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
-            it == value || normalizedData == "$value".lowercase()
+        fun decode(data: kotlin.Any?): StringEnumRef {
+          if (data == null) {
+            throw IllegalArgumentException("Value for StringEnumRef cannot be null")
           }
+          val normalizedData = "$data".lowercase()
+          return values().firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }
+            ?: unknown_default_open_api
         }
     }
 }

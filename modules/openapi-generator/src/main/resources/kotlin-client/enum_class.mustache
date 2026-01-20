@@ -106,14 +106,34 @@ import kotlinx.serialization.*
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
-        {{#jackson}}@JvmStatic
-        @JsonCreator
-        {{/jackson}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
+{{^jackson}}
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
           values().firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }
+{{/jackson}}
+{{#jackson}}
+        @JvmStatic
+        @JsonCreator
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}{{#isNullable}}?{{/isNullable}} {
+          if (data == null) {
+{{#isNullable}}
+            return null
+{{/isNullable}}
+{{^isNullable}}
+            throw IllegalArgumentException("Value for {{classname}} cannot be null")
+{{/isNullable}}
+          }
+          val normalizedData = "$data".lowercase()
+          return values().firstOrNull { value ->
+            data == value || normalizedData == "$value".lowercase()
+          }{{#isNullable}}{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}
+            ?: {{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}
+            ?: throw IllegalArgumentException("Unknown {{classname}} value: $data"){{/enumUnknownDefaultCase}}{{/isNullable}}
+        }
+{{/jackson}}
     }
 }
 {{#kotlinx_serialization}}{{#enumUnknownDefaultCase}}

@@ -181,7 +181,7 @@ Returns a list of pets
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**page_explode** | Option<[**Page**](.md)> | Object containing page `size` and page `number`. |  |
+**page_explode** | Option<[**Page**](Page.md)> | Object containing page `size` and page `number`. |  |
 
 ### Return type
 
@@ -211,7 +211,7 @@ Returns a list of pets
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**page** | Option<[**Page**](.md)> | The page number |  |
+**page** | Option<[**Page**](Page.md)> | The page number |  |
 
 ### Return type
 

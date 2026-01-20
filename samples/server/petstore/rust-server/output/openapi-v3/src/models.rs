@@ -290,9 +290,9 @@ impl AdditionalPropertiesWithList {
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesWithNullable {
     #[serde(rename = "nullableString")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_string: Option<swagger::Nullable<String>>,
 
@@ -3446,30 +3446,30 @@ pub struct NullableTest {
     pub nullable: swagger::Nullable<String>,
 
     #[serde(rename = "nullableWithNullDefault")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_null_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithPresentDefault")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_present_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableWithNoDefault")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_with_no_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableArray")]
-
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_array: Option<swagger::Nullable<Vec<String>>>,
 

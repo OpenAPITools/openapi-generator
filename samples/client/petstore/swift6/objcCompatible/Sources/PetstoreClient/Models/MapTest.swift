@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class MapTest: NSObject, Codable, ParameterConvertible {
+@objcMembers public class MapTest: NSObject, Codable {
 
     public enum MapOfEnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"

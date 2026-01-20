@@ -142,15 +142,17 @@
     #' @param data_file (optional) name of the data file to save the result
     {{/returnType}}
     #' @param ... Other optional arguments
+    {{#returnType}}
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    {{/returnType}}
     #'
     #' @return {{{returnType}}}{{^returnType}}void{{/returnType}}
-    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
-      local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...)
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...{{#returnType}}, .parse = TRUE{{/returnType}}) {
+      local_var_response <- self${{{operationId}}}{{WithHttpInfo}}({{#allParams}}{{paramName}}, {{/allParams}}{{#vendorExtensions.x-streaming}}stream_callback = stream_callback, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = data_file, {{/returnType}}...{{#returnType}}, .parse = .parse{{/returnType}})
       {{#vendorExtensions.x-streaming}}
       if (typeof(stream_callback) == "closure") { # return void if streaming is enabled
         return(invisible(NULL))
       }
-
       {{/vendorExtensions.x-streaming}}
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         return(local_var_response$content)
@@ -179,9 +181,12 @@
     #' @param data_file (optional) name of the data file to save the result
     {{/returnType}}
     #' @param ... Other optional arguments
+    {{#returnType}}
+    #' @param .parse Logical. If \code{TRUE} then the response will be parsed to a generated type. If \code{FALSE} the response will be returned as unparsed text.
+    {{/returnType}}
     #'
     #' @return API response ({{{returnType}}}{{^returnType}}void{{/returnType}}) with additional information such as HTTP status code, headers
-    {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...) {
+    {{{operationId}}}{{WithHttpInfo}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}} = {{^defaultValue}}NULL{{/defaultValue}}{{{defaultValue}}}, {{/optionalParams}}{{#vendorExtensions.x-streaming}}stream_callback = NULL, {{/vendorExtensions.x-streaming}}{{#returnType}}data_file = NULL, {{/returnType}}...{{#returnType}}, .parse = TRUE{{/returnType}}) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -560,13 +565,21 @@
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
         }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
+        }
 
-        ApiResponse$new(content,resp)
+        ApiResponse$new(content = content, response = resp, status_code = local_var_resp$status_code)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         # save response in a file
         if (!is.null(data_file)) {
           self$api_client$WriteFile(local_var_resp, data_file)
+        }
+        if (!.parse) {
+          local_var_resp$content <- local_var_resp$response_as_text()
+          return(local_var_resp)
         }
 
         deserialized_resp_obj <- tryCatch(
@@ -609,7 +622,9 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        ApiResponse$new(paste("Server returned ", local_var_resp$status_code, " response status code."), local_var_resp)
+        ApiResponse$new(content = paste("Server returned ", local_var_resp$status_code, " response status code."),
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 400 && local_var_resp$status_code <= 499) {
         {{#returnExceptionOnFailure}}
@@ -626,7 +641,9 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        ApiResponse$new("API client error", local_var_resp)
+        ApiResponse$new(content = "API client error",
+                        response = local_var_resp,
+                        status_code = local_var_resp$status_code)
         {{/returnExceptionOnFailure}}
       } else if (local_var_resp$status_code >= 500 && local_var_resp$status_code <= 599) {
         {{#returnExceptionOnFailure}}
@@ -643,7 +660,7 @@
         {{/useRlangExceptionHandling}}
         {{/returnExceptionOnFailure}}
         {{^returnExceptionOnFailure}}
-        if (is.null(local_var_resp$response) || local_var_resp$response == "") {
+        if (is.null(local_var_resp$response) || all(local_var_resp$response == "")) {
           local_var_resp$response <- "API server error"
         }
         return(local_var_resp)

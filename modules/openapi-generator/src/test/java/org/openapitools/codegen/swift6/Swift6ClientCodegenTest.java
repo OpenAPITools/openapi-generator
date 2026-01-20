@@ -363,4 +363,42 @@ public class Swift6ClientCodegenTest {
             output.deleteOnExit();
         }
     }
+
+    @Test(description = "test oneOf with discriminator generates discriminator-first decoding", enabled = true)
+    public void oneOfDiscriminatorFirstDecodingTest() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift6")
+                    .setInputSpec("src/test/resources/3_0/oneOfDiscriminator.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+
+            File modelFile = files.stream()
+                    .filter(f -> f.getName().equals("FruitOneOfEnumMappingDisc.swift"))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("FruitOneOfEnumMappingDisc.swift not found"));
+
+            String content = Files.readString(modelFile.toPath());
+
+            // Verify discriminator-first decoding pattern
+            Assert.assertTrue(content.contains("private enum DiscriminatorCodingKey: String, CodingKey"));
+            Assert.assertTrue(content.contains("let keyedContainer = try decoder.container(keyedBy: DiscriminatorCodingKey.self)"));
+            Assert.assertTrue(content.contains("switch discriminatorValue"));
+            Assert.assertTrue(content.contains("case \"APPLE\":"));
+            Assert.assertTrue(content.contains("self = .typeAppleOneOfEnumMappingDisc(try AppleOneOfEnumMappingDisc(from: decoder))"));
+            Assert.assertFalse(content.contains("if let value = try? container.decode(AppleOneOfEnumMappingDisc.self)"));
+
+        } finally {
+            output.deleteOnExit();
+        }
+    }
 }

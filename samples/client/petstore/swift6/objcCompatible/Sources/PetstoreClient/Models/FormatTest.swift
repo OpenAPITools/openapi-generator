@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class FormatTest: NSObject, Codable, ParameterConvertible {
+@objcMembers public class FormatTest: NSObject, Codable {
 
     public static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     public static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)

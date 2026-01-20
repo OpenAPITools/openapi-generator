@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Category: Sendable, Codable, ParameterConvertible, Hashable {
+internal struct Category: Sendable, Codable, Hashable {
 
     internal private(set) var id: Int64?
     internal private(set) var name: String? = "default-name"

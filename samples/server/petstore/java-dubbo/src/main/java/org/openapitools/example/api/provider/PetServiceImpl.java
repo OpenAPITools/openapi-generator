@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaDubboServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 
 @DubboService
 public class PetServiceImpl implements PetService {

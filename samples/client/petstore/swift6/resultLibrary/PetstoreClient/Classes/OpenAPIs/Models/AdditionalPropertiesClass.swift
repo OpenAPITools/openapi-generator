@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct AdditionalPropertiesClass: Sendable, Codable, ParameterConvertible {
+internal struct AdditionalPropertiesClass: Sendable, Codable {
 
     internal private(set) var mapString: [String: String]?
     internal private(set) var mapMapString: [String: [String: String]]?

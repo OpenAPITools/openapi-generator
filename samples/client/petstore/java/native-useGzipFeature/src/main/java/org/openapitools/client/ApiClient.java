@@ -21,6 +21,7 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -37,6 +38,9 @@ import java.util.StringJoiner;
 import java.util.function.Consumer;
 import java.util.Optional;
 import java.util.zip.GZIPInputStream;
+import java.util.function.Supplier;
+import java.util.Objects;
+import java.util.zip.GZIPOutputStream;
 import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -54,7 +58,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * <p>The setter methods of this class return the current object to facilitate
  * a fluent style of configuration.</p>
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.19.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient {
 
   protected HttpClient.Builder builder;
@@ -478,11 +482,122 @@ public class ApiClient {
     if (encoding.isPresent()) {
       for (String token : encoding.get().split(",")) {
         if ("gzip".equalsIgnoreCase(token.trim())) {
-          return new GZIPInputStream(body);
+          return new GZIPInputStream(body, 8192);
         }
       }
     }
     return body;
   }
 
+  /**
+   * Wraps a request body supplier with a streaming GZIP compressor so large payloads
+   * can be sent without buffering the entire contents in memory.
+   *
+   * @param bodySupplier Supplies the original request body InputStream
+   * @return BodyPublisher that emits gzip-compressed bytes from the supplied stream
+   */
+  public static HttpRequest.BodyPublisher gzipRequestBody(Supplier<InputStream> bodySupplier) {
+    Objects.requireNonNull(bodySupplier, "bodySupplier must not be null");
+    return HttpRequest.BodyPublishers.ofInputStream(() -> new GzipCompressingInputStream(bodySupplier));
+  }
+
+  private static final class GzipCompressingInputStream extends InputStream {
+    private final Supplier<InputStream> supplier;
+    private final byte[] readBuffer = new byte[8192];
+    private final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    private InputStream source;
+    private GZIPOutputStream gzipStream;
+    private byte[] currentChunk = new byte[0];
+    private int chunkPosition = 0;
+    private boolean finished = false;
+
+    private GzipCompressingInputStream(Supplier<InputStream> supplier) {
+      this.supplier = Objects.requireNonNull(supplier, "bodySupplier must not be null");
+    }
+
+    private void ensureInitialized() throws IOException {
+      if (source == null) {
+        source = Objects.requireNonNull(supplier.get(), "bodySupplier returned null InputStream");
+        gzipStream = new GZIPOutputStream(buffer, true);
+      }
+    }
+
+    private boolean fillBuffer() throws IOException {
+      while (chunkPosition >= currentChunk.length) {
+        buffer.reset();
+        ensureInitialized();
+        if (finished) {
+          return false;
+        }
+        int bytesRead = source.read(readBuffer);
+        if (bytesRead == -1) {
+          gzipStream.finish();
+          gzipStream.close();
+          source.close();
+          finished = true;
+        } else {
+          gzipStream.write(readBuffer, 0, bytesRead);
+          gzipStream.flush();
+        }
+        currentChunk = buffer.toByteArray();
+        chunkPosition = 0;
+        if (currentChunk.length == 0 && !finished) {
+          continue;
+        }
+        if (currentChunk.length == 0 && finished) {
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    @Override
+    public int read() throws IOException {
+      if (!fillBuffer()) {
+        return -1;
+      }
+      return currentChunk[chunkPosition++] & 0xFF;
+    }
+
+    @Override
+    public int read(byte[] b, int off, int len) throws IOException {
+      if (len == 0) {
+        return 0;
+      }
+      if (!fillBuffer()) {
+        return -1;
+      }
+      int bytesToCopy = Math.min(len, currentChunk.length - chunkPosition);
+      System.arraycopy(currentChunk, chunkPosition, b, off, bytesToCopy);
+      chunkPosition += bytesToCopy;
+      return bytesToCopy;
+    }
+
+    @Override
+    public void close() throws IOException {
+      IOException exception = null;
+      if (source != null) {
+        try {
+          source.close();
+        } catch (IOException e) {
+          exception = e;
+        } finally {
+          source = null;
+        }
+      }
+      if (gzipStream != null) {
+        try {
+          gzipStream.close();
+        } catch (IOException e) {
+          exception = exception == null ? e : exception;
+        } finally {
+          gzipStream = null;
+        }
+      }
+      if (exception != null) {
+        throw exception;
+      }
+    }
+  }
 }
