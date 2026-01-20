@@ -18,7 +18,7 @@ from petstore_api.models.bathing import Bathing
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.poop_cleaning import PoopCleaning
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, Self
 
 
 TASKACTIVITY_ONE_OF_SCHEMAS = ["Bathing", "Feeding", "PoopCleaning"]
@@ -46,6 +46,16 @@ class TaskActivity(RootModel[Union[Bathing, Feeding, PoopCleaning]]):
             return getattr(root, name)
 
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""

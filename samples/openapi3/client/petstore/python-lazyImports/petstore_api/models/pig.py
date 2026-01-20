@@ -17,7 +17,7 @@ import pprint
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union
+from typing import Any, Dict, Union, Self
 
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
@@ -45,6 +45,16 @@ class Pig(RootModel[Union[BasquePig, DanishPig]]):
             return getattr(root, name)
 
         raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
