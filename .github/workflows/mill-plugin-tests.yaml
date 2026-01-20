@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
       - name: Restore cache (read-only)
         # only use restore keys, no save key because we need to clear the cache before running the examples
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             ~/.m2/repository
