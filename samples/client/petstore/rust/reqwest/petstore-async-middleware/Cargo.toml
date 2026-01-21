@@ -16,7 +16,7 @@ uuid = { version = "^1.8", features = ["serde", "v4"] }
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
 reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
-reqwest-middleware = { version = "^0.5", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
 
 [features]
 default = ["native-tls"]
