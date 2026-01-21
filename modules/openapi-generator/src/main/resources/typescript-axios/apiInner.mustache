@@ -67,6 +67,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
             const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
+            const allowsAnonymous = {{allowsAnonymous}};
 
     {{#authMethods}}
             // authentication {{name}} required
@@ -76,23 +77,23 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             await setAWS4SignatureInterceptor(globalAxios, configuration)
             {{/withAWSV4Signature}}
             {{#isKeyInHeader}}
-            await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", configuration)
+            await setApiKeyToObject(localVarHeaderParameter, "{{keyParamName}}", configuration, allowsAnonymous)
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
-            await setApiKeyToObject(localVarQueryParameter, "{{keyParamName}}", configuration)
+            await setApiKeyToObject(localVarQueryParameter, "{{keyParamName}}", configuration, allowsAnonymous)
             {{/isKeyInQuery}}
             {{/isApiKey}}
             {{#isBasicBasic}}
             // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
+            setBasicAuthToObject(localVarRequestOptions, configuration, allowsAnonymous)
             {{/isBasicBasic}}
             {{#isBasicBearer}}
             // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+            await setBearerAuthToObject(localVarHeaderParameter, configuration, allowsAnonymous)
             {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}], configuration, allowsAnonymous)
             {{/isOAuth}}
 
     {{/authMethods}}
