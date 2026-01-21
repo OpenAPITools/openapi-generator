@@ -25,7 +25,7 @@ from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.hunting_dog import HuntingDog
+from petstore_api.models.hunting_dog import HuntingDog
 
 class Creature(BaseModel):
     """

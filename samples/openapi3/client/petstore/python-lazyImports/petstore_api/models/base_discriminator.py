@@ -24,8 +24,8 @@ from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.primitive_string import PrimitiveString
-    from petstore_api.models.info import Info
+from petstore_api.models.primitive_string import PrimitiveString
+from petstore_api.models.info import Info
 
 class BaseDiscriminator(BaseModel):
     """

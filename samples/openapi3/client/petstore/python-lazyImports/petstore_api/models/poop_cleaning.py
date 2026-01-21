@@ -25,12 +25,12 @@ class PoopCleaning(BaseModel):
     """
     PoopCleaning
     """ # noqa: E501
-    task_name: Literal["cleaning"] = Field(
+    task_name: Literal['cleaning'] = Field(
         ...,
         description="task_name of the PoopCleaning",
         alias="task_name"
     )
-    function_name: Literal["care"] = Field(
+    function_name: Literal['care'] = Field(
         ...,
         description="function_name of the PoopCleaning",
         alias="function_name"

@@ -24,7 +24,7 @@ from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
+from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
 
 class DiscriminatorAllOfSuper(BaseModel):
     """

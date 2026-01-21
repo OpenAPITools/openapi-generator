@@ -51,12 +51,12 @@ class EnumTest(BaseModel):
         None,
         description="enum_number of the EnumTest"
     )
-    enum_string_single_member: Optional[Literal["abc"]] = Field(
+    enum_string_single_member: Literal['abc'] = Field(
         None,
         description="enum_string_single_member of the EnumTest",
         alias="enum_string_single_member"
     )
-    enum_integer_single_member: Optional[Literal[100]] = Field(
+    enum_integer_single_member: Literal['100'] = Field(
         None,
         description="enum_integer_single_member of the EnumTest",
         alias="enum_integer_single_member"

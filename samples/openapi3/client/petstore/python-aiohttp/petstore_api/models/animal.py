@@ -24,8 +24,8 @@ from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from petstore_api.models.cat import Cat
-    from petstore_api.models.dog import Dog
+from petstore_api.models.cat import Cat
+from petstore_api.models.dog import Dog
 
 class Animal(BaseModel):
     """
