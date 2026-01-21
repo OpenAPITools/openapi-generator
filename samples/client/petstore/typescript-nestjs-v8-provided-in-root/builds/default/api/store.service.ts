@@ -95,7 +95,7 @@ export class StoreService {
      * @param reportProgress flag to report request and response progress.
      * @param {*} [getInventoryOpts.config] Override http request option.
      */
-    public getInventory(getInventoryOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<{ [key: string]: number; }>>;
+    public getInventory(getInventoryOpts?: { config?: AxiosRequestConfig }): Observable<AxiosResponse<Record<string, number>>>;
     public getInventory(getInventoryOpts?: { config?: AxiosRequestConfig }): Observable<any> {
         let headers = {...this.defaultHeaders};
 
@@ -124,7 +124,7 @@ export class StoreService {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
-                return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
+                return this.httpClient.get<Record<string, number>>(`${this.basePath}/store/inventory`,
                     {
                         withCredentials: this.configuration.withCredentials,
                         ...getInventoryOpts?.config,

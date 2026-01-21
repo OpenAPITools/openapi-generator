@@ -84,7 +84,7 @@ export function deleteOrder<T>(requestParameters: DeleteOrderRequest, requestCon
  * Returns a map of status codes to quantities
  * Returns pet inventories by status
  */
-function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: string]: number; }> = {}): QueryConfig<T> {
+function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, Record<string, number>> = {}): QueryConfig<T> {
     let queryParameters = null;
 
 
@@ -120,7 +120,7 @@ function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: 
 * Returns a map of status codes to quantities
 * Returns pet inventories by status
 */
-export function getInventory<T>( requestConfig?: runtime.TypedQueryConfig<T, { [key: string]: number; }>): QueryConfig<T> {
+export function getInventory<T>( requestConfig?: runtime.TypedQueryConfig<T, Record<string, number>>): QueryConfig<T> {
     return getInventoryRaw( requestConfig);
 }
 

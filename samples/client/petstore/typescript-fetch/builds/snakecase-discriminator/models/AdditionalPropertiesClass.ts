@@ -21,16 +21,16 @@ import { mapValues } from '../runtime';
 export interface AdditionalPropertiesClass {
     /**
      * 
-     * @type {{ [key: string]: string; }}
+     * @type {Record<string, string>}
      * @memberof AdditionalPropertiesClass
      */
-    mapProperty?: { [key: string]: string; };
+    mapProperty?: Record<string, string>;
     /**
      * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
+     * @type {Record<string, Record<string, string>>}
      * @memberof AdditionalPropertiesClass
      */
-    mapOfMapProperty?: { [key: string]: { [key: string]: string; }; };
+    mapOfMapProperty?: Record<string, Record<string, string>>;
 }
 
 /**

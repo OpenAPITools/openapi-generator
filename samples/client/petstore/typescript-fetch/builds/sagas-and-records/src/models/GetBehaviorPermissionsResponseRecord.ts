@@ -34,7 +34,7 @@ import {
 export const GetBehaviorPermissionsResponseRecordProps = {
     recType: "GetBehaviorPermissionsResponseApiRecord" as "GetBehaviorPermissionsResponseApiRecord",
     meta: ResponseMetaRecord(),
-    data: null as { [key: string]: boolean; } | null,
+    data: null as Record<string, boolean> | null,
 };
 
 export type GetBehaviorPermissionsResponseRecordPropsType = typeof GetBehaviorPermissionsResponseRecordProps;
@@ -57,7 +57,7 @@ class GetBehaviorPermissionsResponseRecordUtils extends ApiRecordUtils<GetBehavi
         return apiObject;
     }
 
-    public fromApiPassthrough(apiObject: GetBehaviorPermissionsResponse): { [key: string]: boolean; } {
+    public fromApiPassthrough(apiObject: GetBehaviorPermissionsResponse): Record<string, boolean> {
         return apiObject.data!;
     }
 

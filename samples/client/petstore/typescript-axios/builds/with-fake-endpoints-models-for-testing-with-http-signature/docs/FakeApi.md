@@ -287,7 +287,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FakeApi(configuration);
 
-let requestBody: { [key: string]: any; }; //request body
+let requestBody: Record<string, any>; //request body
 
 const { status, data } = await apiInstance.testAdditionalPropertiesReference(
     requestBody
@@ -298,7 +298,7 @@ const { status, data } = await apiInstance.testAdditionalPropertiesReference(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **{ [key: string]: any; }**| request body | |
+| **requestBody** | **Record<string, any>**| request body | |
 
 
 ### Return type
@@ -726,7 +726,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FakeApi(configuration);
 
-let requestBody: { [key: string]: string; }; //request body
+let requestBody: Record<string, string>; //request body
 
 const { status, data } = await apiInstance.testInlineAdditionalProperties(
     requestBody
@@ -737,7 +737,7 @@ const { status, data } = await apiInstance.testInlineAdditionalProperties(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **{ [key: string]: string; }**| request body | |
+| **requestBody** | **Record<string, string>**| request body | |
 
 
 ### Return type
@@ -946,7 +946,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FakeApi(configuration);
 
-let requestBody: { [key: string]: string; }; //request body
+let requestBody: Record<string, string>; //request body
 
 const { status, data } = await apiInstance.testStringMapReference(
     requestBody
@@ -957,7 +957,7 @@ const { status, data } = await apiInstance.testStringMapReference(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | **{ [key: string]: string; }**| request body | |
+| **requestBody** | **Record<string, string>**| request body | |
 
 
 ### Return type

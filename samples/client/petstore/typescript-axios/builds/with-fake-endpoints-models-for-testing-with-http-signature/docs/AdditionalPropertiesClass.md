@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_property** | **{ [key: string]: string; }** |  | [optional] [default to undefined]
-**map_of_map_property** | **{ [key: string]: { [key: string]: string; }; }** |  | [optional] [default to undefined]
+**map_property** | **Record&lt;string, string&gt;** |  | [optional] [default to undefined]
+**map_of_map_property** | **Record&lt;string, Record&lt;string, string&gt;&gt;** |  | [optional] [default to undefined]
 
 ## Example
 

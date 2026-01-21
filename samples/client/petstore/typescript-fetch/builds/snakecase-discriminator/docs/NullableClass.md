@@ -15,9 +15,9 @@ Name | Type
 `arrayNullableProp` | Array&lt;object&gt;
 `arrayAndItemsNullableProp` | Array&lt;object | null&gt;
 `arrayItemsNullable` | Array&lt;object | null&gt;
-`objectNullableProp` | { [key: string]: object; }
-`objectAndItemsNullableProp` | { [key: string]: object | null; }
-`objectItemsNullable` | { [key: string]: object | null; }
+`objectNullableProp` | Record&lt;string, object&gt;
+`objectAndItemsNullableProp` | Record&lt;string, object | null&gt;
+`objectItemsNullable` | Record&lt;string, object | null&gt;
 
 ## Example
 

@@ -24,17 +24,17 @@ import type { RequestArgs } from './base';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 export interface AdditionalPropertiesClass {
-    'map_property'?: { [key: string]: string; };
-    'map_of_map_property'?: { [key: string]: { [key: string]: string; }; };
+    'map_property'?: Record<string, string>;
+    'map_of_map_property'?: Record<string, Record<string, string>>;
     'anytype_1'?: any;
     'map_with_undeclared_properties_anytype_1'?: object;
     'map_with_undeclared_properties_anytype_2'?: object;
-    'map_with_undeclared_properties_anytype_3'?: { [key: string]: any; };
+    'map_with_undeclared_properties_anytype_3'?: Record<string, any>;
     /**
      * an object with no declared properties and no undeclared properties, hence it\'s an empty map.
      */
     'empty_map'?: object;
-    'map_with_undeclared_properties_string'?: { [key: string]: string; };
+    'map_with_undeclared_properties_string'?: Record<string, string>;
 }
 /**
  * Object with allOf ref to double
@@ -328,10 +328,10 @@ export const MammalAnyofTypeEnum = {
 export type MammalAnyofTypeEnum = typeof MammalAnyofTypeEnum[keyof typeof MammalAnyofTypeEnum];
 
 export interface MapTest {
-    'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    'map_of_enum_string'?: { [key: string]: string; };
-    'direct_map'?: { [key: string]: boolean; };
-    'indirect_map'?: { [key: string]: boolean; };
+    'map_map_of_string'?: Record<string, Record<string, string>>;
+    'map_of_enum_string'?: Record<string, InnerEnum>;
+    'direct_map'?: Record<string, boolean>;
+    'indirect_map'?: Record<string, boolean>;
 }
 
 export const MapTestMapOfEnumStringEnum = {
@@ -344,7 +344,7 @@ export type MapTestMapOfEnumStringEnum = typeof MapTestMapOfEnumStringEnum[keyof
 export interface MixedPropertiesAndAdditionalPropertiesClass {
     'uuid'?: string;
     'dateTime'?: string;
-    'map'?: { [key: string]: Animal; };
+    'map'?: Record<string, Animal>;
 }
 /**
  * Model for testing model name starting with number
@@ -383,9 +383,9 @@ export interface NullableClass {
     'array_nullable_prop'?: Array<object> | null;
     'array_and_items_nullable_prop'?: Array<object | null> | null;
     'array_items_nullable'?: Array<object | null>;
-    'object_nullable_prop'?: { [key: string]: object; } | null;
-    'object_and_items_nullable_prop'?: { [key: string]: object | null; } | null;
-    'object_items_nullable'?: { [key: string]: object | null; };
+    'object_nullable_prop'?: Record<string, object> | null;
+    'object_and_items_nullable_prop'?: Record<string, object | null> | null;
+    'object_items_nullable'?: Record<string, object | null>;
 }
 /**
  * @type NullableShape
@@ -1034,11 +1034,11 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {Record<string, any>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testAdditionalPropertiesReference: async (requestBody: { [key: string]: any; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testAdditionalPropertiesReference: async (requestBody: Record<string, any>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'requestBody' is not null or undefined
             assertParamExists('testAdditionalPropertiesReference', 'requestBody', requestBody)
             const localVarPath = `/fake/additionalProperties-reference`;
@@ -1432,11 +1432,11 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary test inline additionalProperties
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testInlineAdditionalProperties: async (requestBody: { [key: string]: string; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testInlineAdditionalProperties: async (requestBody: Record<string, string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'requestBody' is not null or undefined
             assertParamExists('testInlineAdditionalProperties', 'requestBody', requestBody)
             const localVarPath = `/fake/inline-additionalProperties`;
@@ -1609,11 +1609,11 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary test referenced string map
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testStringMapReference: async (requestBody: { [key: string]: string; }, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testStringMapReference: async (requestBody: Record<string, string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'requestBody' is not null or undefined
             assertParamExists('testStringMapReference', 'requestBody', requestBody)
             const localVarPath = `/fake/stringMap-reference`;
@@ -1737,11 +1737,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {Record<string, any>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testAdditionalPropertiesReference(requestBody: Record<string, any>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testAdditionalPropertiesReference(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testAdditionalPropertiesReference']?.[localVarOperationServerIndex]?.url;
@@ -1852,11 +1852,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary test inline additionalProperties
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testInlineAdditionalProperties(requestBody: Record<string, string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testInlineAdditionalProperties(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testInlineAdditionalProperties']?.[localVarOperationServerIndex]?.url;
@@ -1908,11 +1908,11 @@ export const FakeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary test referenced string map
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async testStringMapReference(requestBody: Record<string, string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.testStringMapReference(requestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.testStringMapReference']?.[localVarOperationServerIndex]?.url;
@@ -1994,11 +1994,11 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary test referenced additionalProperties
-         * @param {{ [key: string]: any; }} requestBody request body
+         * @param {Record<string, any>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        testAdditionalPropertiesReference(requestBody: Record<string, any>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testAdditionalPropertiesReference(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2088,11 +2088,11 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary test inline additionalProperties
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        testInlineAdditionalProperties(requestBody: Record<string, string>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testInlineAdditionalProperties(requestBody, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2132,11 +2132,11 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @summary test referenced string map
-         * @param {{ [key: string]: string; }} requestBody request body
+         * @param {Record<string, string>} requestBody request body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        testStringMapReference(requestBody: Record<string, string>, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.testStringMapReference(requestBody, options).then((request) => request(axios, basePath));
         },
     };
@@ -2220,11 +2220,11 @@ export class FakeApi extends BaseAPI {
     /**
      * 
      * @summary test referenced additionalProperties
-     * @param {{ [key: string]: any; }} requestBody request body
+     * @param {Record<string, any>} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testAdditionalPropertiesReference(requestBody: { [key: string]: any; }, options?: RawAxiosRequestConfig) {
+    public testAdditionalPropertiesReference(requestBody: Record<string, any>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testAdditionalPropertiesReference(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2321,11 +2321,11 @@ export class FakeApi extends BaseAPI {
     /**
      * 
      * @summary test inline additionalProperties
-     * @param {{ [key: string]: string; }} requestBody request body
+     * @param {Record<string, string>} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testInlineAdditionalProperties(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
+    public testInlineAdditionalProperties(requestBody: Record<string, string>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testInlineAdditionalProperties(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2369,11 +2369,11 @@ export class FakeApi extends BaseAPI {
     /**
      * 
      * @summary test referenced string map
-     * @param {{ [key: string]: string; }} requestBody request body
+     * @param {Record<string, string>} requestBody request body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public testStringMapReference(requestBody: { [key: string]: string; }, options?: RawAxiosRequestConfig) {
+    public testStringMapReference(requestBody: Record<string, string>, options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).testStringMapReference(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -3464,7 +3464,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
+        async getInventory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Record<string, number>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoreApi.getInventory']?.[localVarOperationServerIndex]?.url;
@@ -3521,7 +3521,7 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }> {
+        getInventory(options?: RawAxiosRequestConfig): AxiosPromise<Record<string, number>> {
             return localVarFp.getInventory(options).then((request) => request(axios, basePath));
         },
         /**

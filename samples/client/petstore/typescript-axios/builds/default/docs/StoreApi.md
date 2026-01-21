@@ -62,7 +62,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getInventory**
-> { [key: string]: number; } getInventory()
+> Record<string, number> getInventory()
 
 Returns a map of status codes to quantities
 
@@ -86,7 +86,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**{ [key: string]: number; }**
+**Record<string, number>**
 
 ### Authorization
 
