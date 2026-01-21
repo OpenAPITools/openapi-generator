@@ -14,6 +14,7 @@ part 'additional_properties_class.g.dart';
 /// Properties:
 /// * [mapProperty] 
 /// * [mapOfMapProperty] 
+/// * [mapOfArrayInteger] 
 @BuiltValue()
 abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesClass, AdditionalPropertiesClassBuilder> {
   @BuiltValueField(wireName: r'map_property')
@@ -21,6 +22,9 @@ abstract class AdditionalPropertiesClass implements Built<AdditionalPropertiesCl
 
   @BuiltValueField(wireName: r'map_of_map_property')
   BuiltMap<String, BuiltMap<String, String>>? get mapOfMapProperty;
+
+  @BuiltValueField(wireName: r'map_of_array_integer')
+  BuiltMap<String, BuiltList<int>>? get mapOfArrayInteger;
 
   AdditionalPropertiesClass._();
 
@@ -59,6 +63,13 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
         specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
       );
     }
+    if (object.mapOfArrayInteger != null) {
+      yield r'map_of_array_integer';
+      yield serializers.serialize(
+        object.mapOfArrayInteger,
+        specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(int)])]),
+      );
+    }
   }
 
   @override
@@ -95,6 +106,13 @@ class _$AdditionalPropertiesClassSerializer implements PrimitiveSerializer<Addit
             specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltMap, [FullType(String), FullType(String)])]),
           ) as BuiltMap<String, BuiltMap<String, String>>;
           result.mapOfMapProperty.replace(valueDes);
+          break;
+        case r'map_of_array_integer':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(BuiltMap, [FullType(String), FullType(BuiltList, [FullType(int)])]),
+          ) as BuiltMap<String, BuiltList<int>>;
+          result.mapOfArrayInteger.replace(valueDes);
           break;
         default:
           unhandled.add(key);
