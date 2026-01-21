@@ -1579,19 +1579,6 @@ public class DefaultGenerator implements Generator {
                         continue;
                     }
 
-                    // Check if anonymous access is allowed (empty SecurityRequirement means anonymous is allowed)
-                    // This must be checked before processing auth methods to properly handle mixed security requirements
-                    boolean allowsAnonymous = checkAllowsAnonymous(securities);
-                    if (!allowsAnonymous && securities == null) {
-                        // If no operation-level securities, check global securities
-                        allowsAnonymous = checkAllowsAnonymous(globalSecurities);
-                    }
-                    // If no securities at all (neither operation nor global), anonymous is allowed by default
-                    if (!allowsAnonymous && securities == null && (globalSecurities == null || globalSecurities.isEmpty())) {
-                        allowsAnonymous = true;
-                    }
-                    codegenOperation.allowsAnonymous = allowsAnonymous;
-
                     Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
 
                     if (authMethods != null && !authMethods.isEmpty()) {
@@ -1799,25 +1786,6 @@ public class DefaultGenerator implements Generator {
         objs.setImports(imports);
         config.postProcessModels(objs);
         return objs;
-    }
-
-    /**
-     * Check if the security requirements allow anonymous access.
-     * An empty SecurityRequirement (empty map) indicates anonymous access is allowed.
-     *
-     * @param securities List of security requirements to check
-     * @return true if any security requirement is empty (allows anonymous), false otherwise
-     */
-    private boolean checkAllowsAnonymous(List<SecurityRequirement> securities) {
-        if (securities == null || securities.isEmpty()) {
-            return false;
-        }
-        for (SecurityRequirement req : securities) {
-            if (req == null || req.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {

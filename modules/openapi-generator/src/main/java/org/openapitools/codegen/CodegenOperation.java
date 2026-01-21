@@ -30,8 +30,7 @@ public class CodegenOperation {
             hasVersionHeaders = false, hasVersionQueryParams = false,
             isResponseBinary = false, isResponseFile = false, isResponseOptional = false, hasReference = false, defaultReturnType = false,
             isDeprecated, isCallbackRequest, uniqueItems,
-            hasErrorResponseObject, // if 4xx, 5xx responses have at least one error object defined
-            allowsAnonymous = false; // if the operation allows anonymous access (empty security requirement)
+            hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
     public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
@@ -404,7 +403,6 @@ public class CodegenOperation {
         final StringBuffer sb = new StringBuffer("CodegenOperation{");
         sb.append("responseHeaders=").append(responseHeaders);
         sb.append(", hasAuthMethods=").append(hasAuthMethods);
-        sb.append(", allowsAnonymous=").append(allowsAnonymous);
         sb.append(", hasConsumes=").append(hasConsumes);
         sb.append(", hasProduces=").append(hasProduces);
         sb.append(", hasOptionalParams=").append(hasOptionalParams);
@@ -477,7 +475,6 @@ public class CodegenOperation {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenOperation that = (CodegenOperation) o;
         return hasAuthMethods == that.hasAuthMethods &&
-                allowsAnonymous == that.allowsAnonymous &&
                 hasConsumes == that.hasConsumes &&
                 hasProduces == that.hasProduces &&
                 hasOptionalParams == that.hasOptionalParams &&
@@ -546,7 +543,7 @@ public class CodegenOperation {
     @Override
     public int hashCode() {
 
-        return Objects.hash(responseHeaders, hasAuthMethods, allowsAnonymous, hasConsumes, hasProduces, hasOptionalParams,
+        return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams,
                 returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
                 isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,

@@ -29,70 +29,36 @@ export const assertParamExists = function (functionName: string, paramName: stri
     }
 }
 
-export const setApiKeyToObject = async function (object: any, keyParamName: string, configuration?: Configuration, allowsAnonymous?: boolean) {
+export const setApiKeyToObject = async function (object: any, keyParamName: string, configuration?: Configuration) {
     if (configuration && configuration.apiKey) {
-        try {
-            const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-                ? await configuration.apiKey(keyParamName)
-                : await configuration.apiKey;
-            if (localVarApiKeyValue) {
-                object[keyParamName] = localVarApiKeyValue;
-            }
-        } catch (error) {
-            if (!allowsAnonymous) {
-                throw error;
-            }
-            // If anonymous is allowed, silently ignore authentication failures
-        }
+        const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+            ? await configuration.apiKey(keyParamName)
+            : await configuration.apiKey;
+        object[keyParamName] = localVarApiKeyValue;
     }
 }
 
-export const setBasicAuthToObject = function (object: any, configuration?: Configuration, allowsAnonymous?: boolean) {
+export const setBasicAuthToObject = function (object: any, configuration?: Configuration) {
     if (configuration && (configuration.username || configuration.password)) {
-        try {
-            object["auth"] = { username: configuration.username, password: configuration.password };
-        } catch (error) {
-            if (!allowsAnonymous) {
-                throw error;
-            }
-            // If anonymous is allowed, silently ignore authentication failures
-        }
+        object["auth"] = { username: configuration.username, password: configuration.password };
     }
 }
 
-export const setBearerAuthToObject = async function (object: any, configuration?: Configuration, allowsAnonymous?: boolean) {
+export const setBearerAuthToObject = async function (object: any, configuration?: Configuration) {
     if (configuration && configuration.accessToken) {
-        try {
-            const accessToken = typeof configuration.accessToken === 'function'
-                ? await configuration.accessToken()
-                : await configuration.accessToken;
-            if (accessToken) {
-                object["Authorization"] = "Bearer " + accessToken;
-            }
-        } catch (error) {
-            if (!allowsAnonymous) {
-                throw error;
-            }
-            // If anonymous is allowed, silently ignore authentication failures
-        }
+        const accessToken = typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        object["Authorization"] = "Bearer " + accessToken;
     }
 }
 
-export const setOAuthToObject = async function (object: any, name: string, scopes: string[], configuration?: Configuration, allowsAnonymous?: boolean) {
+export const setOAuthToObject = async function (object: any, name: string, scopes: string[], configuration?: Configuration) {
     if (configuration && configuration.accessToken) {
-        try {
-            const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                ? await configuration.accessToken(name, scopes)
-                : await configuration.accessToken;
-            if (localVarAccessTokenValue) {
-                object["Authorization"] = "Bearer " + localVarAccessTokenValue;
-            }
-        } catch (error) {
-            if (!allowsAnonymous) {
-                throw error;
-            }
-            // If anonymous is allowed, silently ignore authentication failures
-        }
+        const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken(name, scopes)
+            : await configuration.accessToken;
+        object["Authorization"] = "Bearer " + localVarAccessTokenValue;
     }
 }
 
