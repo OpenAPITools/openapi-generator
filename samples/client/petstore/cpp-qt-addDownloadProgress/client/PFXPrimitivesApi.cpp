@@ -62,6 +62,12 @@ void PFXPrimitivesApi::setServerIndex(const QString &operation, int serverIndex)
     }
 }
 
+void PFXPrimitivesApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
+    }
+}
+
 void PFXPrimitivesApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName, apiKey);
 }
