@@ -160,10 +160,11 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const allowsAnonymous = false;
 
             // authentication http_auth required
             // http basic authentication required
-            setBasicAuthToObject(localVarRequestOptions, configuration)
+            setBasicAuthToObject(localVarRequestOptions, configuration, allowsAnonymous)
 
             localVarHeaderParameter['Accept'] = 'text/plain';
 
@@ -194,10 +195,11 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const allowsAnonymous = false;
 
             // authentication http_bearer_auth required
             // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+            await setBearerAuthToObject(localVarHeaderParameter, configuration, allowsAnonymous)
 
             localVarHeaderParameter['Accept'] = 'text/plain';
 
