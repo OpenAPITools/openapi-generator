@@ -76,22 +76,22 @@ export interface NullableClass {
     arrayItemsNullable?: Array<object | null>;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {Record<string, object>}
      * @memberof NullableClass
      */
-    objectNullableProp?: { [key: string]: object; } | null;
+    objectNullableProp?: Record<string, object> | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
+     * @type {Record<string, object | null>}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
+    objectAndItemsNullableProp?: Record<string, object | null> | null;
     /**
      * 
-     * @type {{ [key: string]: object | null; }}
+     * @type {Record<string, object | null>}
      * @memberof NullableClass
      */
-    objectItemsNullable?: { [key: string]: object | null; };
+    objectItemsNullable?: Record<string, object | null>;
 }
 
 /**

@@ -51,7 +51,7 @@ export interface PayloadGetBehaviorPermissionsRequest {
 }
 
 export const getBehaviorPermissionsRequest = createSagaAction<PayloadGetBehaviorPermissionsRequest>("getBehaviorPermissionsRequest");
-export const getBehaviorPermissionsSuccess = createSagaAction<{ [key: string]: boolean; }>("getBehaviorPermissionsSuccess");
+export const getBehaviorPermissionsSuccess = createSagaAction<Record<string, boolean>>("getBehaviorPermissionsSuccess");
 export const getBehaviorPermissionsFailure = createSagaAction<{error: any, requestPayload: PayloadGetBehaviorPermissions}>("getBehaviorPermissionsFailure");
 
 export const getBehaviorPermissions = createSagaAction<PayloadGetBehaviorPermissions>("getBehaviorPermissions");

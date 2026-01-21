@@ -187,10 +187,10 @@ public class TypeScriptFetchClientCodegenTest {
         parentSchema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/Child"));
 
         ModelUtils.setGenerateAliasAsModel(false);
-        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Array<string>; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Record<string, Array<string>>");
 
         ModelUtils.setGenerateAliasAsModel(true);
-        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "{ [key: string]: Child; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(parentSchema), "Record<string, Child>");
     }
 
     @Test

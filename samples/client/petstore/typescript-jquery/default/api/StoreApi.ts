@@ -112,7 +112,7 @@ export class StoreApi {
      * @summary Returns pet inventories by status
      */
     public getInventory(extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
-    { response: JQueryXHR; body: { [key: string]: number; };  },
+    { response: JQueryXHR; body: Record<string, number>;  },
     { response: JQueryXHR; errorThrown: string }
     > {
         let localVarPath = this.basePath + '/store/inventory';
@@ -156,11 +156,11 @@ export class StoreApi {
         }
 
         let dfd = $.Deferred<
-            { response: JQueryXHR; body: { [key: string]: number; };  },
+            { response: JQueryXHR; body: Record<string, number>;  },
             { response: JQueryXHR; errorThrown: string }
         >();
         $.ajax(requestOptions).then(
-            (data: { [key: string]: number; }, textStatus: string, jqXHR: JQueryXHR) =>
+            (data: Record<string, number>, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve({response: jqXHR, body: data}),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
                 dfd.reject({response: xhr, errorThrown: errorThrown})

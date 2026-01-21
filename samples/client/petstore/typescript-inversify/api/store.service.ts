@@ -66,8 +66,8 @@ export class StoreService {
      * Returns a map of status codes to quantities
      
      */
-    public getInventory(observe?: 'body', headers?: Headers): Observable<{ [key: string]: number; }>;
-    public getInventory(observe?: 'response', headers?: Headers): Observable<HttpResponse<{ [key: string]: number; }>>;
+    public getInventory(observe?: 'body', headers?: Headers): Observable<Record<string, number>>;
+    public getInventory(observe?: 'response', headers?: Headers): Observable<HttpResponse<Record<string, number>>>;
     public getInventory(observe: any = 'body', headers: Headers = {}): Observable<any> {
         // authentication (api_key) required
         if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['api_key']) {
@@ -75,10 +75,10 @@ export class StoreService {
         }
         headers['Accept'] = 'application/json';
 
-        const response: Observable<HttpResponse<{ [key: string]: number; }>> = this.httpClient.get(`${this.basePath}/store/inventory`, headers);
+        const response: Observable<HttpResponse<Record<string, number>>> = this.httpClient.get(`${this.basePath}/store/inventory`, headers);
         if (observe === 'body') {
                return response.pipe(
-                   map((httpResponse: HttpResponse) => <{ [key: string]: number; }>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Record<string, number>>(httpResponse.response))
                );
         }
         return response;

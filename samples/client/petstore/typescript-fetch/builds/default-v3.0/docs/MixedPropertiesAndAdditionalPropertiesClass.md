@@ -8,7 +8,7 @@ Name | Type
 ------------ | -------------
 `uuid` | string
 `dateTime` | Date
-`map` | [{ [key: string]: Animal; }](Animal.md)
+`map` | [Record&lt;string, Animal&gt;](Animal.md)
 
 ## Example
 
