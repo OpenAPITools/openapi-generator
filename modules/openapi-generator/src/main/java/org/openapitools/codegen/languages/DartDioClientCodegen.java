@@ -36,6 +36,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
@@ -649,8 +650,25 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
         OperationMap operations = objs.getOperations();
-        List<CodegenOperation> operationList = operations.getOperation();
+        processImports(operations.getOperation(), imports -> objs.put("imports", imports));
+        return objs;
+    }
 
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        super.postProcessWebhooksWithModels(objs, allModels);
+        OperationMap operations = objs.getWebhooks();
+        processImports(operations.getOperation(), imports -> objs.put("imports", imports));
+        return objs;
+    }
+
+    /**
+     * Processes imports for operations or webhooks, applying the same logic to both.
+     *
+     * @param operationList the list of CodegenOperation to process
+     * @param setImports the handler to apply the processed imports
+     */
+    private void processImports(List<CodegenOperation> operationList, java.util.function.Consumer<List<String>> setImports) {
         Set<String> resultImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
@@ -687,7 +705,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             if (SERIALIZATION_LIBRARY_JSON_SERIALIZABLE.equals(library)) {
                 // built_value serialization uses Uint8List for all MultipartFile types
                 // in json_serialization, MultipartFile is used as the file parameter type, but
-                // MultipartFile isn't readable, instead we convert this to a Uin8List
+                // MultipartFile isn't readable, instead we convert this to a Uint8List
                 if (op.isResponseFile) {
                     op.imports.add("Uint8List");
                     op.returnType = "Uint8List";
@@ -729,9 +747,7 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
             }
         }
         // for some reason "import" structure is changed ..
-        objs.put("imports", resultImports.stream().sorted().collect(Collectors.toList()));
-
-        return objs;
+        setImports.accept(resultImports.stream().sorted().collect(Collectors.toList()));
     }
 
     private void addBuiltValueSerializerImport(String type) {
