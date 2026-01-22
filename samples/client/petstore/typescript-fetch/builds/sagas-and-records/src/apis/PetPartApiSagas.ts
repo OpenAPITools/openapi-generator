@@ -32,14 +32,12 @@ import {
     GetPetPartTypeResponseRecord,
     getPetPartTypeResponseRecordUtils,
 } from '../models/GetPetPartTypeResponseRecord';
-
 import {
     MatchingPartsRecord,
 } from '../models/MatchingPartsRecord';
 import {
     PetPartType,
 } from '../models/PetPartType';
-
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petPartApi"});
 

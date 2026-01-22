@@ -32,11 +32,9 @@ import {
     GetBehaviorTypeResponseRecord,
     getBehaviorTypeResponseRecordUtils,
 } from '../models/GetBehaviorTypeResponseRecord';
-
 import {
     BehaviorType,
 } from '../models/BehaviorType';
-
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_behaviorApi"});
 

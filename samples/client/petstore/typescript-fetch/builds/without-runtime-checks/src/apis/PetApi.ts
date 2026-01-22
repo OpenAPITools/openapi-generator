@@ -13,6 +13,12 @@
  */
 
 import * as runtime from '../runtime';
+import {
+    type ModelApiResponse,
+} from '../models/index';
+import {
+    type Pet,
+} from '../models/index';
 
 export interface AddPetRequest {
     body: Pet;

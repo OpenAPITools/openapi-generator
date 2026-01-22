@@ -60,11 +60,9 @@ import {
     PetRegionsResponseRecord,
     petRegionsResponseRecordUtils,
 } from '../models/PetRegionsResponseRecord';
-
 import {
     UserRecord,
 } from '../models/UserRecord';
-
 
 import {
     FindPetsByStatusStatusEnum,

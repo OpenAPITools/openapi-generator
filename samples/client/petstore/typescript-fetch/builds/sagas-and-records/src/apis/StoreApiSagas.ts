@@ -26,8 +26,6 @@ import {
     orderRecordUtils,
 } from '../models/OrderRecord';
 
-
-
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_storeApi"});
 
 export const storeApiSagaMap = new Map<string, () => Generator<any, any, any>>([
