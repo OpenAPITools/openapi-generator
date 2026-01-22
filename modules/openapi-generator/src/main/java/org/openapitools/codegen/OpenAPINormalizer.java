@@ -573,8 +573,6 @@ public class OpenAPINormalizer {
                 //    $ref: #/components/headers/Location
                 Schema updatedHeader = normalizeSchema(h.getSchema(), new HashSet<>());
                 h.setSchema(updatedHeader);
-                throw new RuntimeException("trigger build failure");
-
             }
         }
     }
@@ -724,7 +722,7 @@ public class OpenAPINormalizer {
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         // normalize reference schema
-        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
             normalizeReferenceSchema(schema);
         }
 
