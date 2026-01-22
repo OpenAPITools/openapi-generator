@@ -12,23 +12,34 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     GetMatchingPartsResponse,
+} from '../models/GetMatchingPartsResponse';
+import {
     GetMatchingPartsResponseRecord,
     getMatchingPartsResponseRecordUtils,
+} from '../models/GetMatchingPartsResponseRecord';
+import {
     GetPetPartTypeResponse,
+} from '../models/GetPetPartTypeResponse';
+import {
     GetPetPartTypeResponseRecord,
     getPetPartTypeResponseRecordUtils,
+} from '../models/GetPetPartTypeResponseRecord';
+
+import {
     MatchingPartsRecord,
+} from '../models/MatchingPartsRecord';
+import {
     PetPartType,
-} from '../models/index';
+} from '../models/PetPartType';
+
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_petPartApi"});
 

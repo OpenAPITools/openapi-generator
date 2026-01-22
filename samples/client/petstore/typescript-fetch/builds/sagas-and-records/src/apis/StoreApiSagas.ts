@@ -12,18 +12,21 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     Order,
+} from '../models/Order';
+import {
     OrderRecord,
     orderRecordUtils,
-} from '../models/index';
+} from '../models/OrderRecord';
+
+
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_storeApi"});
 

@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 export const BASE_PATH = "http://localhost:3000".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {

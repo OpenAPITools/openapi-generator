@@ -12,21 +12,28 @@
  * Do not edit the class manually.
  */
 
-
-import {Api} from './index';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
-import {Action} from "redux-ts-simple";
+import { Api } from './index';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords";
+import { Action } from "redux-ts-simple";
 
 import {
     DefaultMetaOnlyResponse,
+} from '../models/DefaultMetaOnlyResponse';
+import {
     DefaultMetaOnlyResponseRecord,
     defaultMetaOnlyResponseRecordUtils,
+} from '../models/DefaultMetaOnlyResponseRecord';
+import {
     User,
+} from '../models/User';
+import {
     UserRecord,
     userRecordUtils,
-} from '../models/index';
+} from '../models/UserRecord';
+
+
 
 const createSagaAction = <T>(type: string) => originalCreateSagaAction<T>(type, {namespace: "api_userApi"});
 
