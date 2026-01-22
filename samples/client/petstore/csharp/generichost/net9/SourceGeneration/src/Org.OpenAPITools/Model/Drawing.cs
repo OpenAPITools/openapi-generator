@@ -186,7 +186,7 @@ namespace Org.OpenAPITools.Model
                             nullableShape = new Option<NullableShape?>(JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "shapeOrNull":
-                            shapeOrNull = new Option<ShapeOrNull?>(JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions));
+                            shapeOrNull = new Option<ShapeOrNull?>(JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "shapes":
                             shapes = new Option<List<Shape>?>(JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -199,6 +199,9 @@ namespace Org.OpenAPITools.Model
 
             if (mainShape.IsSet && mainShape.Value == null)
                 throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
+
+            if (shapeOrNull.IsSet && shapeOrNull.Value == null)
+                throw new ArgumentNullException(nameof(shapeOrNull), "Property is not nullable for class Drawing.");
 
             if (shapes.IsSet && shapes.Value == null)
                 throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
@@ -233,6 +236,9 @@ namespace Org.OpenAPITools.Model
             if (drawing.MainShapeOption.IsSet && drawing.MainShape == null)
                 throw new ArgumentNullException(nameof(drawing.MainShape), "Property is required for class Drawing.");
 
+            if (drawing.ShapeOrNullOption.IsSet && drawing.ShapeOrNull == null)
+                throw new ArgumentNullException(nameof(drawing.ShapeOrNull), "Property is required for class Drawing.");
+
             if (drawing.ShapesOption.IsSet && drawing.Shapes == null)
                 throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
 
@@ -250,13 +256,10 @@ namespace Org.OpenAPITools.Model
                 else
                     writer.WriteNull("nullableShape");
             if (drawing.ShapeOrNullOption.IsSet)
-                if (drawing.ShapeOrNullOption.Value != null)
-                {
-                    writer.WritePropertyName("shapeOrNull");
-                    JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
-                }
-                else
-                    writer.WriteNull("shapeOrNull");
+            {
+                writer.WritePropertyName("shapeOrNull");
+                JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
+            }
             if (drawing.ShapesOption.IsSet)
             {
                 writer.WritePropertyName("shapes");

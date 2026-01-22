@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
-        [DataMember(Name = "shapeOrNull", EmitDefaultValue = true)]
+        [DataMember(Name = "shapeOrNull", EmitDefaultValue = false)]
         public ShapeOrNull ShapeOrNull { get; set; }
 
         /// <summary>

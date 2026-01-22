@@ -2497,8 +2497,8 @@ components:
           type: string
     fruitReq:
       additionalProperties: false
-      nullable: true
       oneOf:
+      - type: "null"
       - $ref: "#/components/schemas/appleReq"
       - $ref: "#/components/schemas/bananaReq"
     appleReq:
@@ -2547,8 +2547,8 @@ components:
         in OAS schema >= 3.1.
       discriminator:
         propertyName: shapeType
-      nullable: true
       oneOf:
+      - type: "null"
       - $ref: "#/components/schemas/Triangle"
       - $ref: "#/components/schemas/Quadrilateral"
     NullableShape:
@@ -2832,20 +2832,17 @@ components:
     CopyActivity:
       allOf:
       - $ref: "#/components/schemas/EntityBase"
-      - properties:
-          $schema:
-            enum:
-            - ScopeActivity
-            type: string
-          copyActivitytt:
-            type: string
-        required:
-        - $schema
-        - copyActivitytt
-        type: object
-        example: null
+      properties:
+        $schema:
+          enum:
+          - ScopeActivity
+          type: string
+        copyActivitytt:
+          type: string
+      required:
+      - $schema
+      - copyActivitytt
       type: object
-      example: null
     EntityBase:
       discriminator:
         mapping:
@@ -2884,13 +2881,10 @@ components:
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"
-      - properties:
-          code:
-            $ref: "#/components/schemas/TestResultCode"
-        type: object
-        example: null
+      properties:
+        code:
+          $ref: "#/components/schemas/TestResultCode"
       type: object
-      example: null
     TestResultCode:
       description: Result code
       enum:
