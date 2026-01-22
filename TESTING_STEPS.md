@@ -70,17 +70,29 @@ git push origin claude/fix-html-array-types-aPDDX
 
 ## Verification
 
-To verify the fix is working correctly, look for any endpoint in the generated HTML that has an array body parameter. For example, in the Petstore spec, the `/user/createWithArray` endpoint should show:
+### Concrete Example from Current Sample
+
+In the existing `samples/documentation/html/index.html` at **line 1037**, the `createUsersWithArrayInput` endpoint currently shows:
 
 ```html
-<div class="param">user array[<a href="#User">User</a>] (required)</div>
+<div class="param">User <a href="#User">User</a> (required)</div>
 ```
 
-Instead of:
+**Problem**: This endpoint accepts an `array[User]` but only displays "User"
+
+After regeneration with the fix, line 1037 should show:
 
 ```html
-<div class="param">user <a href="#User">User</a> (required)</div>
+<div class="param">User array[<a href="#User">User</a>] (required)</div>
 ```
+
+**Result**: Will correctly display "User array[User] (required)"
+
+### How to Verify
+
+1. After regenerating samples, open `samples/documentation/html/index.html`
+2. Navigate to line 1037 (or search for "createUsersWithArrayInput" and look at the Request body section)
+3. Confirm the body parameter shows `array[User]` instead of just `User`
 
 ## Current Status
 
