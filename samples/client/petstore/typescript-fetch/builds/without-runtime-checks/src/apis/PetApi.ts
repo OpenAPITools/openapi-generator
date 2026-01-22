@@ -13,11 +13,9 @@
  */
 
 import * as runtime from '../runtime';
-import {
-    type ModelApiResponse,
-} from '../models/index';
-import {
-    type Pet,
+import type {
+    ModelApiResponse,
+    Pet,
 } from '../models/index';
 
 export interface AddPetRequest {

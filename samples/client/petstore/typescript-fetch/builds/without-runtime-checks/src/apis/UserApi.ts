@@ -13,8 +13,8 @@
  */
 
 import * as runtime from '../runtime';
-import {
-    type User,
+import type {
+    User,
 } from '../models/index';
 
 export interface CreateUserRequest {

@@ -13,8 +13,8 @@
  */
 
 import * as runtime from '../runtime';
-import {
-    type Order,
+import type {
+    Order,
 } from '../models/index';
 
 export interface DeleteOrderRequest {
