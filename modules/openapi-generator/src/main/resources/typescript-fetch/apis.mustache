@@ -6,11 +6,14 @@ import * as runtime from '../runtime{{importFileExtension}}';
 {{#imports}}
 import {
     type {{className}},
+{{#withoutRuntimeChecks}}
+} from '../models/index{{importFileExtension}}';
+{{/withoutRuntimeChecks}}
 {{^withoutRuntimeChecks}}
     {{className}}FromJSON,
     {{className}}ToJSON,
-{{/withoutRuntimeChecks}}
 } from '../models/{{className}}{{importFileExtension}}';
+{{/withoutRuntimeChecks}}
 {{/imports}}
 
 {{#operations}}
