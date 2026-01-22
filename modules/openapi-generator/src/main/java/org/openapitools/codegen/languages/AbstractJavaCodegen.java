@@ -453,6 +453,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),
                 this::setAdditionalEnumTypeAnnotations);
+        convertPropertyToTypeAndWriteBack(SKIP_X_IMPLEMENTS,
+                interfacesToSkipImplementing -> Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(interfacesToSkipImplementing.trim())),
+                this::setSkipXImplements);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));

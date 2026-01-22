@@ -513,7 +513,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
-            this.setAdditionalModelTypeAnnotations(Arrays.asList(additionalAnnotationsList.trim().split("\\s*(;|\\r?\\n)\\s*")));
+            this.setAdditionalModelTypeAnnotations(Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(additionalAnnotationsList.trim())));
         }
 
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
