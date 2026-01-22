@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class OuterComposite {
@@ -21,24 +22,27 @@ export class OuterComposite {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "myNumber",
             "baseName": "my_number",
             "type": "number",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "myString",
             "baseName": "my_string",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "myBoolean",
             "baseName": "my_boolean",
             "type": "boolean",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {
