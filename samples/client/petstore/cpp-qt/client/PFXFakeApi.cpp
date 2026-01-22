@@ -60,6 +60,12 @@ void PFXFakeApi::setServerIndex(const QString &operation, int serverIndex) {
     }
 }
 
+void PFXFakeApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
+    }
+}
+
 void PFXFakeApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName, apiKey);
 }

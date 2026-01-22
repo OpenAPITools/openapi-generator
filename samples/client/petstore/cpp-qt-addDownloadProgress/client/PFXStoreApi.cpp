@@ -66,6 +66,12 @@ void PFXStoreApi::setServerIndex(const QString &operation, int serverIndex) {
     }
 }
 
+void PFXStoreApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
+    }
+}
+
 void PFXStoreApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName, apiKey);
 }

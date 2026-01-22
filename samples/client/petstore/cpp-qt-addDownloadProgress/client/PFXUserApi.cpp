@@ -81,6 +81,12 @@ void PFXUserApi::setServerIndex(const QString &operation, int serverIndex) {
     }
 }
 
+void PFXUserApi::setServerIndex(int serverIndex) {
+    for (auto keyIt = _serverIndices.keyBegin(); keyIt != _serverIndices.keyEnd(); keyIt++) {
+        setServerIndex(*keyIt, serverIndex);
+    }
+}
+
 void PFXUserApi::setApiKey(const QString &apiKeyName, const QString &apiKey) {
     _apiKeys.insert(apiKeyName, apiKey);
 }
