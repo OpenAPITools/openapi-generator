@@ -17,13 +17,11 @@ import {
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
 } from '../models/{{className}}Record{{importFileExtension}}';
 {{/imports}}
-
 {{#passthroughImports}}
 import {
     {{.}},
 } from '../models/{{.}}{{importFileExtension}}';
 {{/passthroughImports}}
-
 {{#hasEnums}}
 {{#operations}}
 {{#operation}}
