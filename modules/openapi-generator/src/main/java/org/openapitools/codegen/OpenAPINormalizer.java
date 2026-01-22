@@ -722,7 +722,7 @@ public class OpenAPINormalizer {
      */
     public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
         // normalize reference schema
-        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
             normalizeReferenceSchema(schema);
         }
 

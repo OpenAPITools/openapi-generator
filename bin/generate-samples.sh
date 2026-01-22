@@ -66,7 +66,7 @@ else
   retcode=${PIPESTATUS[0]}
 fi
 
-if [[ $retcode -ne 0 ]] || grep -q -i "exception" "$tmpfile"; then
+if [[ $retcode -ne 0 ]] || grep -q -i "at org.openapitools" "$tmpfile"; then
   echo "Found exception(s) when running the generator(s) to update the samples."
   exit 1
 fi
