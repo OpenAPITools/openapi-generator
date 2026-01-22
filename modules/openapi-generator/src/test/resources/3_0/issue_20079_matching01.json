@@ -1,0 +1,24 @@
+{
+  "code": "52",
+  "creditCard": "4123 6453 2222 1746",
+  "date": "31/04/1999",
+  "windowsAbsolutePath": "\\\\server\\share\\file",
+
+  "email1": "abc.123@def456.com",
+  "email2": "*@qrstuv@wxyz.12345.com",
+  "htmlHexadecimalColorCode1": "AB1234",
+  "htmlHexadecimalColorCode2": "AB 11 00",
+  "ipAddress": "10.25.101.216",
+
+  "javaComments": "/* a comment */",
+  "money": "$1.00",
+  "positiveNegativeDecimalValue": "+41",
+  "password1": "abcd",
+  "password2": "AB_cd",
+
+  "phoneNumber": "519-883-6898",
+  "sentence1": "Hello, how are you?",
+  "sentence2": "Hello, how are you?",
+  "socialSecurityNumber": "123-45-6789",
+  "url": "http://www.sample.com"
+}

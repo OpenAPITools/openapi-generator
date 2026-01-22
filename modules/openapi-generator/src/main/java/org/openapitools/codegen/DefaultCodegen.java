@@ -943,6 +943,11 @@ public class DefaultCodegen implements CodegenConfig {
     public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
+
+        if (openAPI == null) {
+            return false;
+        }
+
         if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
             originalSpecVersion = (String) openAPI.getExtensions().get(xOriginalSwaggerVersion);
         } else {
