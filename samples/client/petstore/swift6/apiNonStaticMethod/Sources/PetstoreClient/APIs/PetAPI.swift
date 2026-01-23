@@ -42,7 +42,7 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func addPet(body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         addPetWithRequestBuilder(body: body).execute { result in
@@ -196,7 +196,7 @@ open class PetAPI {
      - parameter apiKey: (header)  (optional)
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func deletePet(petId: Int64, apiKey: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { result in
@@ -362,7 +362,7 @@ open class PetAPI {
      - parameter status: (query) Status values that need to be considered for filter 
      - returns: Promise<[Pet]>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func findPetsByStatus(status: [Status_findPetsByStatus]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
         findPetsByStatusWithRequestBuilder(status: status).execute { result in
@@ -516,7 +516,7 @@ open class PetAPI {
      - parameter tags: (query) Tags to filter by 
      - returns: Promise<[Pet]>
      */
-    @available(*, deprecated, message: "This operation is deprecated. | We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "This operation is deprecated. | NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func findPetsByTags(tags: [String]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
         findPetsByTagsWithRequestBuilder(tags: tags).execute { result in
@@ -674,7 +674,7 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to return 
      - returns: Promise<Pet>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func getPetById(petId: Int64) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
         getPetByIdWithRequestBuilder(petId: petId).execute { result in
@@ -827,7 +827,7 @@ open class PetAPI {
      - parameter body: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func updatePet(body: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updatePetWithRequestBuilder(body: body).execute { result in
@@ -980,7 +980,7 @@ open class PetAPI {
      - parameter status: (form) Updated status of the pet (optional)
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { result in
@@ -1152,7 +1152,7 @@ open class PetAPI {
      - parameter file: (form) file to upload (optional)
      - returns: Promise<ApiResponse>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: Data? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { result in
@@ -1324,7 +1324,7 @@ open class PetAPI {
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: Promise<ApiResponse>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func uploadFileWithRequiredFile(petId: Int64, requiredFile: Data, additionalMetadata: String? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
         uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { result in

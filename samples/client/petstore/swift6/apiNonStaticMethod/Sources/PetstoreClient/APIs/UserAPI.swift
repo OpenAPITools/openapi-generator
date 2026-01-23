@@ -42,7 +42,7 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUser(body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUserWithRequestBuilder(body: body).execute { result in
@@ -189,7 +189,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUsersWithArrayInput(body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
@@ -335,7 +335,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func createUsersWithListInput(body: [User]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithListInputWithRequestBuilder(body: body).execute { result in
@@ -481,7 +481,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func deleteUser(username: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteUserWithRequestBuilder(username: username).execute { result in
@@ -631,7 +631,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: Promise<User>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func getUserByName(username: String) -> Promise<User> {
         let deferred = Promise<User>.pending()
         getUserByNameWithRequestBuilder(username: username).execute { result in
@@ -782,7 +782,7 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: Promise<String>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func loginUser(username: String, password: String) -> Promise<String> {
         let deferred = Promise<String>.pending()
         loginUserWithRequestBuilder(username: username, password: password).execute { result in
@@ -936,7 +936,7 @@ open class UserAPI {
      
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func logoutUser() -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         logoutUserWithRequestBuilder().execute { result in
@@ -1079,7 +1079,7 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: Promise<Void>
      */
-    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func updateUser(username: String, body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updateUserWithRequestBuilder(username: username, body: body).execute { result in
