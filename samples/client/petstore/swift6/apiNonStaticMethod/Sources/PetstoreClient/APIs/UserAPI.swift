@@ -116,6 +116,7 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUser(body: User) async throws(ErrorResponse) {
         return try await createUserWithRequestBuilder(body: body).execute().body
@@ -262,6 +263,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithArrayInput(body: [User]) async throws(ErrorResponse) {
         return try await createUsersWithArrayInputWithRequestBuilder(body: body).execute().body
@@ -407,6 +409,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createUsersWithListInput(body: [User]) async throws(ErrorResponse) {
         return try await createUsersWithListInputWithRequestBuilder(body: body).execute().body
@@ -552,6 +555,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteUser(username: String) async throws(ErrorResponse) {
         return try await deleteUserWithRequestBuilder(username: username).execute().body
@@ -701,6 +705,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: User
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserByName(username: String) async throws(ErrorResponse) -> User {
         return try await getUserByNameWithRequestBuilder(username: username).execute().body
@@ -854,6 +859,7 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: String
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func loginUser(username: String, password: String) async throws(ErrorResponse) -> String {
         return try await loginUserWithRequestBuilder(username: username, password: password).execute().body
@@ -1001,6 +1007,7 @@ open class UserAPI {
      
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func logoutUser() async throws(ErrorResponse) {
         return try await logoutUserWithRequestBuilder().execute().body
@@ -1149,6 +1156,7 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updateUser(username: String, body: User) async throws(ErrorResponse) {
         return try await updateUserWithRequestBuilder(username: username, body: body).execute().body

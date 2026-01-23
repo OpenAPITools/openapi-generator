@@ -97,6 +97,7 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
         return requestTask
     }
 
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     open func execute() async throws(ErrorResponse) -> Response<T> {

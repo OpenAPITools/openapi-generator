@@ -16,6 +16,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteOrderWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute().body
@@ -56,6 +57,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [String: Int]
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> [String: Int] {
         return try await getInventoryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
@@ -96,6 +98,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Order
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Order {
         return try await getOrderByIdWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration).execute().body
@@ -137,6 +140,7 @@ open class StoreAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Order
      */
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Order {
         return try await placeOrderWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
