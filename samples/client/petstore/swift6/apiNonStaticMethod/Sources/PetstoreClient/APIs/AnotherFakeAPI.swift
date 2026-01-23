@@ -42,6 +42,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: Promise<Client>
      */
+    @available(*, deprecated, message: "We are considering deprecating PromiseKit support in the Swift 6 generator. Feedback: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func call123testSpecialTags(body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         call123testSpecialTagsWithRequestBuilder(body: body).execute { result in
