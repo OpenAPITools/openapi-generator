@@ -42,6 +42,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func deleteOrder(orderId: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteOrderWithRequestBuilder(orderId: orderId).execute { result in
@@ -189,6 +190,7 @@ open class StoreAPI {
      
      - returns: Promise<[String: Int]>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func getInventory() -> Promise<[String: Int]> {
         let deferred = Promise<[String: Int]>.pending()
         getInventoryWithRequestBuilder().execute { result in
@@ -333,6 +335,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Promise<Order>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func getOrderById(orderId: Int64) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         getOrderByIdWithRequestBuilder(orderId: orderId).execute { result in
@@ -482,6 +485,7 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: Promise<Order>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func placeOrder(body: Order) -> Promise<Order> {
         let deferred = Promise<Order>.pending()
         placeOrderWithRequestBuilder(body: body).execute { result in

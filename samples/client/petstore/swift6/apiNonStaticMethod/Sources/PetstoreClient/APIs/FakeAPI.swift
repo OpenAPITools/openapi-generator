@@ -40,6 +40,7 @@ open class FakeAPI {
      - parameter body: (body) Input boolean as post body (optional)
      - returns: Promise<Bool>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func fakeOuterBooleanSerialize(body: Bool? = nil) -> Promise<Bool> {
         let deferred = Promise<Bool>.pending()
         fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute { result in
@@ -179,6 +180,7 @@ open class FakeAPI {
      - parameter body: (body) Input composite as post body (optional)
      - returns: Promise<OuterComposite>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> Promise<OuterComposite> {
         let deferred = Promise<OuterComposite>.pending()
         fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { result in
@@ -318,6 +320,7 @@ open class FakeAPI {
      - parameter body: (body) Input number as post body (optional)
      - returns: Promise<Double>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func fakeOuterNumberSerialize(body: Double? = nil) -> Promise<Double> {
         let deferred = Promise<Double>.pending()
         fakeOuterNumberSerializeWithRequestBuilder(body: body).execute { result in
@@ -457,6 +460,7 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: Promise<String>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func fakeOuterStringSerialize(body: String? = nil) -> Promise<String> {
         let deferred = Promise<String>.pending()
         fakeOuterStringSerializeWithRequestBuilder(body: body).execute { result in
@@ -596,6 +600,7 @@ open class FakeAPI {
      - parameter body: (body)  
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testBodyWithFileSchema(body: FileSchemaTestClass) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithFileSchemaWithRequestBuilder(body: body).execute { result in
@@ -737,6 +742,7 @@ open class FakeAPI {
      - parameter body: (body)  
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testBodyWithQueryParams(query: String, body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { result in
@@ -885,6 +891,7 @@ open class FakeAPI {
      - parameter body: (body) client model 
      - returns: Promise<Client>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testClientModel(body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         testClientModelWithRequestBuilder(body: body).execute { result in
@@ -1057,6 +1064,7 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute { result in
@@ -1370,6 +1378,7 @@ open class FakeAPI {
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute { result in
@@ -1575,6 +1584,7 @@ open class FakeAPI {
      - parameter int64Group: (query) Integer in group parameters (optional)
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { result in
@@ -1753,6 +1763,7 @@ open class FakeAPI {
      - parameter param: (body) request body 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testInlineAdditionalProperties(param: [String: String]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { result in
@@ -1900,6 +1911,7 @@ open class FakeAPI {
      - parameter param2: (form) field2 
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testJsonFormData(param: String, param2: String) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute { result in

@@ -94,9 +94,7 @@ extension {{projectName}}API {
      - parameter apiConfiguration: The configuration for the http request.{{/apiStaticMethod}}
      - returns: Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
      */
-    {{#isDeprecated}}
-    @available(*, deprecated, message: "This operation is deprecated.")
-    {{/isDeprecated}}
+    @available(*, deprecated, message: "{{#isDeprecated}}This operation is deprecated. | {{/isDeprecated}}NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} {{#apiStaticMethod}}class {{/apiStaticMethod}}func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}[{{enumName}}_{{operationId}}]{{/isContainer}}{{^isContainer}}{{enumName}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared{{/apiStaticMethod}}) -> Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pending()
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#apiStaticMethod}}{{#hasParams}}, {{/hasParams}}apiConfiguration: apiConfiguration{{/apiStaticMethod}}).execute { result in
