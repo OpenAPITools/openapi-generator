@@ -16,7 +16,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await createUserWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -55,7 +54,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await createUsersWithArrayInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -93,7 +91,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await createUsersWithListInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -131,7 +128,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteUserWithRequestBuilder(username: username, apiConfiguration: apiConfiguration).execute().body
@@ -173,7 +169,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: User
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> User {
         return try await getUserByNameWithRequestBuilder(username: username, apiConfiguration: apiConfiguration).execute().body
@@ -215,7 +210,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: String
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> String {
         return try await loginUserWithRequestBuilder(username: username, password: password, apiConfiguration: apiConfiguration).execute().body
@@ -258,7 +252,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await logoutUserWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
@@ -296,7 +289,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await updateUserWithRequestBuilder(username: username, body: body, apiConfiguration: apiConfiguration).execute().body

@@ -116,7 +116,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteOrder(orderId: String) async throws(ErrorResponse) {
         return try await deleteOrderWithRequestBuilder(orderId: orderId).execute().body
@@ -261,7 +260,6 @@ open class StoreAPI {
      
      - returns: [String: Int]
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getInventory() async throws(ErrorResponse) -> [String: Int] {
         return try await getInventoryWithRequestBuilder().execute().body
@@ -409,7 +407,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Order
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getOrderById(orderId: Int64) async throws(ErrorResponse) -> Order {
         return try await getOrderByIdWithRequestBuilder(orderId: orderId).execute().body
@@ -559,7 +556,6 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: Order
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func placeOrder(body: Order) async throws(ErrorResponse) -> Order {
         return try await placeOrderWithRequestBuilder(body: body).execute().body

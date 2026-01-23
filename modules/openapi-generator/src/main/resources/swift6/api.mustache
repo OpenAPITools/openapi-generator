@@ -209,7 +209,6 @@ extension {{projectName}}API {
      - parameter apiConfiguration: The configuration for the http request.{{/apiStaticMethod}}
      - returns: {{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}
      */
-    @concurrent
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}

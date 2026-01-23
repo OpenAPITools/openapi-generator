@@ -116,7 +116,6 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: Client
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func call123testSpecialTags(body: Client) async throws(ErrorResponse) -> Client {
         return try await call123testSpecialTagsWithRequestBuilder(body: body).execute().body

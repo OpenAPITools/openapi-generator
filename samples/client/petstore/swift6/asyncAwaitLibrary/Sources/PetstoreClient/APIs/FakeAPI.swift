@@ -15,7 +15,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Bool
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Bool {
         return try await fakeOuterBooleanSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -52,7 +51,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: OuterComposite
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> OuterComposite {
         return try await fakeOuterCompositeSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -89,7 +87,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Double
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Double {
         return try await fakeOuterNumberSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -126,7 +123,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: String
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> String {
         return try await fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -163,7 +159,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testBodyWithFileSchemaWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -201,7 +196,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, apiConfiguration: apiConfiguration).execute().body
@@ -242,7 +236,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Client
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) -> Client {
         return try await testClientModelWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
@@ -294,7 +287,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, apiConfiguration: apiConfiguration).execute().body
@@ -441,7 +433,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, apiConfiguration: apiConfiguration).execute().body
@@ -506,7 +497,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, apiConfiguration: apiConfiguration).execute().body
@@ -557,7 +547,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testInlineAdditionalPropertiesWithRequestBuilder(param: param, apiConfiguration: apiConfiguration).execute().body
@@ -596,7 +585,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
-    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await testJsonFormDataWithRequestBuilder(param: param, param2: param2, apiConfiguration: apiConfiguration).execute().body
