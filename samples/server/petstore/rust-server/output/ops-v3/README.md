@@ -145,6 +145,12 @@ The generated library has a few optional features that can be activated through 
 * `client`
     * This defaults to enabled and creates the basic skeleton of a client implementation based on hyper
     * The constructed client implements the API trait by making remote API call.
+* `client-tls`
+    * This defaults to enabled and provides HTTPS support using native-tls (macOS/Windows/iOS).
+    * Enable this feature for TLS support on Apple and Windows platforms.
+* `client-openssl`
+    * This defaults to enabled and provides HTTPS support using OpenSSL (Linux and other platforms).
+    * Enable this feature for TLS support on Linux and other Unix-like platforms.
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
@@ -152,6 +158,22 @@ The generated library has a few optional features that can be activated through 
 * `validate`
     * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
     * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
+
+### Minimal dependencies (no TLS)
+
+If you only need HTTP support and want to minimize dependencies (e.g., to avoid OpenSSL build requirements), you can disable the default TLS features:
+
+```toml
+[dependencies]
+ops-v3 = { version = "0.0.1", default-features = false, features = ["server"] }
+```
+
+Or for client-only without TLS:
+
+```toml
+[dependencies]
+ops-v3 = { version = "0.0.1", default-features = false, features = ["client"] }
+```
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 

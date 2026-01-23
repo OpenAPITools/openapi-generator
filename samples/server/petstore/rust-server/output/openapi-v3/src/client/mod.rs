@@ -188,6 +188,10 @@ impl<Connector, C> Client<
 #[derive(Debug, Clone)]
 pub enum HyperClient {
     Http(hyper_util::client::legacy::Client<hyper_util::client::legacy::connect::HttpConnector, BoxBody<Bytes, Infallible>>),
+    #[cfg(any(
+        all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
+        all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
+    ))]
     Https(hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>),
 }
 
@@ -199,7 +203,11 @@ impl Service<Request<BoxBody<Bytes, Infallible>>> for HyperClient {
     fn call(&self, req: Request<BoxBody<Bytes, Infallible>>) -> Self::Future {
        match self {
           HyperClient::Http(client) => client.request(req),
-          HyperClient::Https(client) => client.request(req)
+          #[cfg(any(
+              all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
+              all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
+          ))]
+          HyperClient::Https(client) => client.request(req),
        }
     }
 }
@@ -225,11 +233,22 @@ impl<C> Client<DropContextService<HyperClient, C>, C> where
             "http" => {
                 HyperClient::Http(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector.build()))
             },
+            #[cfg(any(
+                all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
+                all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
+            ))]
             "https" => {
                 let connector = connector.https()
                    .build()
                    .map_err(ClientInitError::SslError)?;
                 HyperClient::Https(hyper_util::client::legacy::Client::builder(hyper_util::rt::TokioExecutor::new()).build(connector))
+            },
+            #[cfg(not(any(
+                all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
+                all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
+            )))]
+            "https" => {
+                return Err(ClientInitError::TlsNotEnabled);
             },
             _ => {
                 return Err(ClientInitError::InvalidScheme);
@@ -273,12 +292,16 @@ impl<C> Client<
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+#[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+#[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
+#[cfg(any(
+    all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
+    all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
+))]
 impl<C> Client<
     DropContextService<
         hyper_util::service::TowerToHyperService<
@@ -311,7 +334,7 @@ impl<C> Client<
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<http://www.my-api-implementation.com>"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     pub fn try_new_https_pinned<CA>(
         base_path: &str,
         ca_certificate: CA,
@@ -334,7 +357,7 @@ impl<C> Client<
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     pub fn try_new_https_mutual<CA, K, D>(
         base_path: &str,
         ca_certificate: CA,
@@ -392,12 +415,15 @@ pub enum ClientInitError {
     /// Missing Hostname
     MissingHost,
 
+    /// HTTPS requested but TLS features not enabled
+    TlsNotEnabled,
+
     /// SSL Connection Error
-    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+    #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     SslError(native_tls::Error),
 
     /// SSL Connection Error
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     SslError(openssl::error::ErrorStack),
 }
 

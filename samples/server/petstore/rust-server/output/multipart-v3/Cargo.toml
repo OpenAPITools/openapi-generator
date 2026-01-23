@@ -8,11 +8,23 @@ license = "Unlicense"
 edition = "2018"
 
 [features]
-default = ["client", "server"]
+default = ["client", "server", "client-tls", "client-openssl"]
 client = [
     "multipart", "multipart/client", "swagger/multipart_form",
     "mime_multipart", "swagger/multipart_related",
-    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "url"
+]
+# TLS support using native-tls (macOS/Windows/iOS) or hyper-tls
+client-tls = [
+    "client",
+    "hyper-tls", "native-tls",
+    "swagger/tls"
+]
+# TLS support using OpenSSL (Linux and other platforms)
+client-openssl = [
+    "client",
+    "hyper-openssl", "openssl",
+    "swagger/tls"
 ]
 server = [
     "multipart", "multipart/server", "swagger/multipart_form",
@@ -41,7 +53,7 @@ openssl = { version = "0.10", optional = true }
 async-trait = "0.1.88"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = { version = "7.0.0", features = ["serdejson", "server", "client", "tls"] }
+swagger = { version = "7.0.0", features = ["serdejson", "server", "client"] }
 headers = "0.4.0"
 log = "0.4.27"
 
