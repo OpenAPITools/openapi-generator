@@ -82,7 +82,7 @@ import Alamofire{{/useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static let shared = {{projectName}}APIConfiguration()
 }{{^useVapor}}
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T>: @unchecked Sendable, Identifiable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var headers: [String: String]
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} let parameters: [String: any Sendable]?
@@ -119,9 +119,24 @@ import Alamofire{{/useAlamofire}}
     }
 
     {{#useAsyncAwait}}
+    #if compiler(>=6.2)
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #else
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #endif
+
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    private func _execute() async throws(ErrorResponse) -> Response<T> {
         do {
             let requestTask = self.requestTask
             return try await withTaskCancellationHandler {
@@ -135,7 +150,6 @@ import Alamofire{{/useAlamofire}}
                     self.execute { result in
                         switch result {
                         case let .success(response):
-                            nonisolated(unsafe) let response = response
                             continuation.resume(returning: response)
                         case let .failure(error):
                             continuation.resume(throwing: error)
@@ -153,7 +167,7 @@ import Alamofire{{/useAlamofire}}
             }
         }
     }
-    
+
     {{/useAsyncAwait}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
@@ -167,7 +181,7 @@ import Alamofire{{/useAlamofire}}
     }
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol RequestBuilderFactory {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} protocol RequestBuilderFactory: Sendable {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }{{/useVapor}}

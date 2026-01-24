@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Client: NSObject, Codable {
+@objcMembers public final class Client: NSObject, Codable, @unchecked Sendable {
 
     public var client: String?
 

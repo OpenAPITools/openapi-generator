@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Order: NSObject, Codable {
+@objcMembers public final class Order: NSObject, Codable, @unchecked Sendable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case placed = "placed"

@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing reserved words */
-@objcMembers public class Return: NSObject, Codable {
+@objcMembers public final class Return: NSObject, Codable, @unchecked Sendable {
 
     public var _return: Int?
     public var _returnNum: NSNumber? {

@@ -61,7 +61,7 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public static let shared = PetstoreClientAPIConfiguration()
 }
 
-open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
+open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     public var credential: URLCredential?
     public var headers: [String: String]
     public let parameters: [String: any Sendable]?
@@ -97,9 +97,24 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
         return requestTask
     }
 
+    #if compiler(>=6.2)
+    @concurrent
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     open func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #else
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    open func execute() async throws(ErrorResponse) -> Response<T> {
+        try await _execute()
+    }
+    #endif
+
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    @discardableResult
+    private func _execute() async throws(ErrorResponse) -> Response<T> {
         do {
             let requestTask = self.requestTask
             return try await withTaskCancellationHandler {
@@ -113,7 +128,6 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
                     self.execute { result in
                         switch result {
                         case let .success(response):
-                            nonisolated(unsafe) let response = response
                             continuation.resume(returning: response)
                         case let .failure(error):
                             continuation.resume(throwing: error)
@@ -131,7 +145,7 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
             }
         }
     }
-    
+
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
             headers[name] = value
@@ -144,7 +158,7 @@ open class RequestBuilder<T>: @unchecked Sendable, Identifiable {
     }
 }
 
-public protocol RequestBuilderFactory {
+public protocol RequestBuilderFactory: Sendable {
     func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
     func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }
