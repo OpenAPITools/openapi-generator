@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class EnumTest: NSObject, Codable {
+@objcMembers public final class EnumTest: NSObject, Codable, @unchecked Sendable {
 
     public enum EnumString: String, Sendable, Codable, CaseIterable {
         case upper = "UPPER"

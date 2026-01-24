@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class SpecialModelName: NSObject, Codable {
+@objcMembers public final class SpecialModelName: NSObject, Codable, @unchecked Sendable {
 
     public var specialPropertyName: Int64?
     public var specialPropertyNameNum: NSNumber? {

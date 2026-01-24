@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ArrayTest: NSObject, Codable {
+@objcMembers public final class ArrayTest: NSObject, Codable, @unchecked Sendable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

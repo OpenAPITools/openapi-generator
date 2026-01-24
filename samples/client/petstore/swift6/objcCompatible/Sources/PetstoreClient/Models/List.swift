@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class List: NSObject, Codable {
+@objcMembers public final class List: NSObject, Codable, @unchecked Sendable {
 
     public var _123list: String?
 

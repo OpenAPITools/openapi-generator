@@ -40,7 +40,7 @@ extension URLSession: URLSessionProtocol {
 
 extension URLSessionDataTask: URLSessionDataTaskProtocol {}
 
-internal class URLSessionRequestBuilderFactory: RequestBuilderFactory {
+internal final class URLSessionRequestBuilderFactory: RequestBuilderFactory, Sendable {
     internal init() {}
 
     internal func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -69,7 +69,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     var credentialStore = SynchronizedDictionary<Int, URLCredential>()
 }
 
-internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
+internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
 
     required internal init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
@@ -319,7 +319,7 @@ internal class URLSessionRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendab
 
 }
 
-internal class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
+internal class URLSessionDecodableRequestBuilder<T: Decodable & Sendable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
     override fileprivate func processRequestResponse(urlRequest: URLRequest, data: Data?, httpResponse: HTTPURLResponse, error: Error?, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
 
         switch T.self {
