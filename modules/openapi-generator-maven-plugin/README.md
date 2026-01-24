@@ -216,6 +216,33 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
     </dependencies>
 </plugin>
 ```
+## Example: Generate a Java client using the Maven plugin
+
+If you want to generate a Java client from an OpenAPI spec as part of your Maven build, you can use the plugin like this.
+
+Here’s a simple example that reads an OpenAPI YAML file and generates the client code into the `target` folder:
+
+```xml
+<plugin>
+  <groupId>org.openapitools</groupId>
+  <artifactId>openapi-generator-maven-plugin</artifactId>
+  <version>7.5.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>generate</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+    <generatorName>java</generatorName>
+    <output>${project.build.directory}/generated-sources/openapi</output>
+    <apiPackage>com.example.api</apiPackage>
+    <modelPackage>com.example.model</modelPackage>
+    <invokerPackage>com.example.invoker</invokerPackage>
+  </configuration>
+</plugin>
 
 ### Sample configuration
 
