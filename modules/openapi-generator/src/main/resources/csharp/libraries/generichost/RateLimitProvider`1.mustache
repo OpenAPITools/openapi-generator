@@ -16,7 +16,11 @@ namespace {{packageName}}.{{clientPackage}}
     /// <typeparam name="TTokenBase"></typeparam>
     {{>visibility}} class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        public Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new{{^net70OrLater}} Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>>{{/net70OrLater}}();
+        /// <summary>
+        /// Dictionary mapping header names to channels of available tokens for rate limiting.
+        /// Each channel buffers tokens that have become available and are ready for use.
+        /// </summary>
+        protected internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new{{^net70OrLater}} Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>>{{/net70OrLater}}();
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -85,7 +89,7 @@ namespace {{packageName}}.{{clientPackage}}
         }
 
         /// <inheritdoc/>
-        public override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
+        protected internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(global::System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase>{{nrt?}} tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
