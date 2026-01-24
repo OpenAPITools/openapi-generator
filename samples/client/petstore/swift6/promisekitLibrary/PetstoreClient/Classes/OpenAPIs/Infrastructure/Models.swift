@@ -69,7 +69,7 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-public enum ErrorResponse: Error, @unchecked Sendable {
+public enum ErrorResponse: Error, Sendable {
     case error(Int, Data?, URLResponse?, Error)
 }
 
@@ -81,7 +81,7 @@ public enum DownloadException: Error, Sendable {
     case requestMissingURL
 }
 
-public enum DecodableRequestBuilderError: Error, @unchecked Sendable {
+public enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode
