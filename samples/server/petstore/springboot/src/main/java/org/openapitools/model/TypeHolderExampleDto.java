@@ -49,7 +49,8 @@ public class TypeHolderExampleDto {
   /**
    * Constructor with only required parameters
    */
-  public TypeHolderExampleDto(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public TypeHolderExampleDto(@JsonProperty("string_item") String stringItem, @JsonProperty("number_item") BigDecimal numberItem, @JsonProperty("float_item") Float floatItem, @JsonProperty("integer_item") Integer integerItem, @JsonProperty("bool_item") Boolean boolItem, @JsonProperty("array_item") List<Integer> arrayItem) {
     this.stringItem = stringItem;
     this.numberItem = numberItem;
     this.floatItem = floatItem;

@@ -36,7 +36,8 @@ public class HasOnlyReadOnly {
   /**
    * Constructor with all args parameters
    */
-  public HasOnlyReadOnly(@Nullable String bar, @Nullable String foo) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public HasOnlyReadOnly(@Nullable @JsonProperty("bar") String bar, @Nullable @JsonProperty("foo") String foo) {
       this.bar = bar;
       this.foo = foo;
   }

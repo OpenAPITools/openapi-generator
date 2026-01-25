@@ -37,7 +37,8 @@ public class Banana implements Fruit {
   /**
    * Constructor with only required parameters
    */
-  public Banana(Integer length) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Banana(@JsonProperty("length") Integer length) {
     this.length = length;
     this.fruitType = fruitType;
   }

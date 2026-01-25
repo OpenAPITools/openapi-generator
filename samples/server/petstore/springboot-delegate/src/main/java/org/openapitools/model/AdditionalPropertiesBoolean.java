@@ -36,7 +36,8 @@ public class AdditionalPropertiesBoolean {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesBoolean(@Nullable String name) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public AdditionalPropertiesBoolean(@Nullable @JsonProperty("name") String name) {
       this.name = name;
   }
 

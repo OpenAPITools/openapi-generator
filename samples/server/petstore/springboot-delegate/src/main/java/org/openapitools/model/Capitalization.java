@@ -42,7 +42,8 @@ public class Capitalization {
   /**
    * Constructor with all args parameters
    */
-  public Capitalization(@Nullable String smallCamel, @Nullable String capitalCamel, @Nullable String smallSnake, @Nullable String capitalSnake, @Nullable String scAETHFlowPoints, @Nullable String ATT_NAME) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Capitalization(@Nullable @JsonProperty("smallCamel") String smallCamel, @Nullable @JsonProperty("CapitalCamel") String capitalCamel, @Nullable @JsonProperty("small_Snake") String smallSnake, @Nullable @JsonProperty("Capital_Snake") String capitalSnake, @Nullable @JsonProperty("SCA_ETH_Flow_Points") String scAETHFlowPoints, @Nullable @JsonProperty("ATT_NAME") String ATT_NAME) {
       this.smallCamel = smallCamel;
       this.capitalCamel = capitalCamel;
       this.smallSnake = smallSnake;

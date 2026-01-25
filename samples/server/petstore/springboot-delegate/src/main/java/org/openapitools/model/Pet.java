@@ -99,7 +99,8 @@ public class Pet {
   /**
    * Constructor with all args parameters
    */
-  public Pet(@Nullable Long id, @Nullable Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, @Nullable StatusEnum status) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Pet(@Nullable @JsonProperty("id") Long id, @Nullable @JsonProperty("category") Category category, @JsonProperty("name") String name, @JsonProperty("photoUrls") Set<String> photoUrls, @JsonProperty("tags") List<@Valid Tag> tags, @Nullable @JsonProperty("status") StatusEnum status) {
       this.id = id;
       this.category = category;
       this.name = name;

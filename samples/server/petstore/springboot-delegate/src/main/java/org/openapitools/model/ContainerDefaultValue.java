@@ -55,7 +55,8 @@ public class ContainerDefaultValue {
   /**
    * Constructor with all args parameters
    */
-  public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ContainerDefaultValue(@JsonProperty("nullable_array") List<String> nullableArray, @JsonProperty("nullable_required_array") List<String> nullableRequiredArray, @JsonProperty("required_array") List<String> requiredArray, @JsonProperty("nullable_array_with_default") List<String> nullableArrayWithDefault) {
       this.nullableArray = JsonNullable.of(nullableArray);
       this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
       this.requiredArray = requiredArray;

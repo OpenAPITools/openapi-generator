@@ -83,7 +83,8 @@ public class ParentWithNullable {
   /**
    * Constructor with all args parameters
    */
-  public ParentWithNullable(@Nullable TypeEnum type, String nullableProperty) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ParentWithNullable(@Nullable @JsonProperty("type") TypeEnum type, @JsonProperty("nullableProperty") String nullableProperty) {
       this.type = type;
       this.nullableProperty = JsonNullable.of(nullableProperty);
   }

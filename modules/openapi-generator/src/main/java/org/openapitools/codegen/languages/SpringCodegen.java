@@ -1155,10 +1155,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         // conditionally force the generation of no args constructor
         for (CodegenModel cm : allModels.values()) {
             boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
+            boolean hasAllArgsConstructor = cm.vendorExtensions.containsKey("x-java-all-args-constructor");
             if (!hasLombokNoArgsConstructor
-                    && (cm.hasRequired || cm.vendorExtensions.containsKey("x-java-all-args-constructor"))) {
+                    && (cm.hasRequired || hasAllArgsConstructor)) {
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
+
+            if (cm.hasRequired &&
+                    this.generatedConstructorWithRequiredArgs &&
+                    !hasAllArgsConstructor &&
+                    cm.requiredVars.size() == cm.allVars.size() &&
+                    isJackson()) {
+                // add @JsonCreator and @JsonProperty on required argument constructor
+                cm.vendorExtensions.put("x-java-required-constructor-jsoncreator", true);
+            }
+
         }
         return objs;
     }

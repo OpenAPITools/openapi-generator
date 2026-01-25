@@ -37,7 +37,8 @@ public class Model200Response {
   /**
    * Constructor with all args parameters
    */
-  public Model200Response(@Nullable Integer name, @Nullable String propertyClass) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Model200Response(@Nullable @JsonProperty("name") Integer name, @Nullable @JsonProperty("class") String propertyClass) {
       this.name = name;
       this.propertyClass = propertyClass;
   }

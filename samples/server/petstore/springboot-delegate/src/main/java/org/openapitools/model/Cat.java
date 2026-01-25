@@ -52,7 +52,8 @@ public class Cat extends Animal {
   /**
    * Constructor with all args parameters
    */
-  public Cat(@Nullable Boolean declawed, String className, String color) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Cat(@Nullable @JsonProperty("declawed") Boolean declawed, @JsonProperty("className") String className, @JsonProperty("color") String color) {
       super(className, color);
       this.declawed = declawed;
   }

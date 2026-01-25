@@ -33,7 +33,8 @@ public class File {
   /**
    * Constructor with all args parameters
    */
-  public File(@Nullable String sourceURI) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public File(@Nullable @JsonProperty("sourceURI") String sourceURI) {
       this.sourceURI = sourceURI;
   }
 

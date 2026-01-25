@@ -80,7 +80,8 @@ public class MapTest {
   /**
    * Constructor with all args parameters
    */
-  public MapTest(Map<String, Map<String, String>> mapMapOfString, Map<String, InnerEnum> mapOfEnumString, Map<String, Boolean> directMap, Map<String, Boolean> indirectMap) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public MapTest(@JsonProperty("map_map_of_string") Map<String, Map<String, String>> mapMapOfString, @JsonProperty("map_of_enum_string") Map<String, InnerEnum> mapOfEnumString, @JsonProperty("direct_map") Map<String, Boolean> directMap, @JsonProperty("indirect_map") Map<String, Boolean> indirectMap) {
       this.mapMapOfString = mapMapOfString;
       this.mapOfEnumString = mapOfEnumString;
       this.directMap = directMap;

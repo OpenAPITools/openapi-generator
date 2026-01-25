@@ -37,7 +37,8 @@ public class AdditionalPropertiesNumber {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesNumber(@Nullable String name) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public AdditionalPropertiesNumber(@Nullable @JsonProperty("name") String name) {
       this.name = name;
   }
 

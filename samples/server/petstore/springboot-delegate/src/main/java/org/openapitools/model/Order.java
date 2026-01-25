@@ -83,7 +83,8 @@ public class Order {
   /**
    * Constructor with all args parameters
    */
-  public Order(@Nullable Long id, @Nullable Long petId, @Nullable Integer quantity, @Nullable OffsetDateTime shipDate, @Nullable StatusEnum status, Boolean complete) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Order(@Nullable @JsonProperty("id") Long id, @Nullable @JsonProperty("petId") Long petId, @Nullable @JsonProperty("quantity") Integer quantity, @Nullable @JsonProperty("shipDate") OffsetDateTime shipDate, @Nullable @JsonProperty("status") StatusEnum status, @JsonProperty("complete") Boolean complete) {
       this.id = id;
       this.petId = petId;
       this.quantity = quantity;

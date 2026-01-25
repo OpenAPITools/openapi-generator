@@ -34,7 +34,8 @@ public class ReadOnlyFirst {
   /**
    * Constructor with all args parameters
    */
-  public ReadOnlyFirst(@Nullable String bar, @Nullable String baz) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ReadOnlyFirst(@Nullable @JsonProperty("bar") String bar, @Nullable @JsonProperty("baz") String baz) {
       this.bar = bar;
       this.baz = baz;
   }

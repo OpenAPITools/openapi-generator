@@ -40,7 +40,8 @@ public class ChildWithNullable extends ParentWithNullable {
   /**
    * Constructor with all args parameters
    */
-  public ChildWithNullable(@Nullable String otherProperty, @Nullable TypeEnum type, String nullableProperty) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ChildWithNullable(@Nullable @JsonProperty("otherProperty") String otherProperty, @Nullable @JsonProperty("type") TypeEnum type, @JsonProperty("nullableProperty") String nullableProperty) {
       super(type, nullableProperty);
       this.otherProperty = otherProperty;
   }

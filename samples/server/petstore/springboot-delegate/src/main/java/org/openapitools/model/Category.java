@@ -41,7 +41,8 @@ public class Category {
   /**
    * Constructor with all args parameters
    */
-  public Category(@Nullable Long id, String name) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Category(@Nullable @JsonProperty("id") Long id, @JsonProperty("name") String name) {
       this.id = id;
       this.name = name;
   }
