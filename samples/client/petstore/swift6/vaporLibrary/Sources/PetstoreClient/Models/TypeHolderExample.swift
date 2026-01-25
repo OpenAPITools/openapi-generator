@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct TypeHolderExample: Content, Hashable {
+public struct TypeHolderExample: Sendable, Content, Hashable {
 
     public var stringItem: String
     public var numberItem: Double
@@ -46,7 +46,5 @@ public struct TypeHolderExample: Content, Hashable {
         try container.encode(boolItem, forKey: .boolItem)
         try container.encode(arrayItem, forKey: .arrayItem)
     }
-
-
 }
 

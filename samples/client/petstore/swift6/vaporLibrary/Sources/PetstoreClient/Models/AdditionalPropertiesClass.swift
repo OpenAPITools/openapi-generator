@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct AdditionalPropertiesClass: Content, Hashable {
+public struct AdditionalPropertiesClass: Sendable, Content, Hashable {
 
     public var mapString: [String: String]?
     public var mapNumber: [String: Double]?
@@ -66,7 +66,5 @@ public struct AdditionalPropertiesClass: Content, Hashable {
         try container.encodeIfPresent(anytype2, forKey: .anytype2)
         try container.encodeIfPresent(anytype3, forKey: .anytype3)
     }
-
-
 }
 

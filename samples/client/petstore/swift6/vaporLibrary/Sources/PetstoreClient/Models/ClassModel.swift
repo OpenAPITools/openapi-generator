@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public struct ClassModel: Content, Hashable {
+public struct ClassModel: Sendable, Content, Hashable {
 
     public var `class`: String?
 
@@ -27,7 +27,5 @@ public struct ClassModel: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(`class`, forKey: .`class`)
     }
-
-
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model name starting with number */
-public struct Model200Response: Content, Hashable {
+public struct Model200Response: Sendable, Content, Hashable {
 
     public var name: Int?
     public var `class`: String?
@@ -31,7 +31,5 @@ public struct Model200Response: Content, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(`class`, forKey: .`class`)
     }
-
-
 }
 

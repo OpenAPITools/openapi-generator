@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct Cat: Content, Hashable {
+public struct Cat: Sendable, Content, Hashable {
 
     public var className: String
     public var color: String? = "red"
@@ -34,7 +34,5 @@ public struct Cat: Content, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
-
-
 }
 

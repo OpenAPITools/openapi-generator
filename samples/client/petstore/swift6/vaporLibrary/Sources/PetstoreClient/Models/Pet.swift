@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct Pet: Content, Hashable {
+public struct Pet: Sendable, Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case available = "available"
@@ -53,8 +53,6 @@ public struct Pet: Content, Hashable {
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
     }
-
-
 }
 
 

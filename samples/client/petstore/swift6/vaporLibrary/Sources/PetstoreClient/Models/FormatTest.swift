@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct FormatTest: Content, Hashable {
+public struct FormatTest: Sendable, Content, Hashable {
 
     public static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     public static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
@@ -85,7 +85,5 @@ public struct FormatTest: Content, Hashable {
         try container.encode(password, forKey: .password)
         try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
     }
-
-
 }
 

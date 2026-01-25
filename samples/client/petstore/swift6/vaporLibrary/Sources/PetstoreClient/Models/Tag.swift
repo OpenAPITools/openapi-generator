@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct Tag: Content, Hashable {
+public struct Tag: Sendable, Content, Hashable {
 
     public var id: Int64?
     public var name: String?
@@ -30,8 +30,6 @@ public struct Tag: Content, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
     }
-
-
 }
 
 

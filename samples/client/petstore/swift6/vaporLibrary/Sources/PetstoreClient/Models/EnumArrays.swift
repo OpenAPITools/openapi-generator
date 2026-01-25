@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct EnumArrays: Content, Hashable {
+public struct EnumArrays: Sendable, Content, Hashable {
 
     public enum JustSymbol: String, Sendable, Content, Hashable, CaseIterable {
         case greaterThanOrEqualTo = ">="
@@ -38,7 +38,5 @@ public struct EnumArrays: Content, Hashable {
         try container.encodeIfPresent(justSymbol, forKey: .justSymbol)
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
-
-
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct ReadOnlyFirst: Content, Hashable {
+public struct ReadOnlyFirst: Sendable, Content, Hashable {
 
     public var bar: String?
     public var baz: String?
@@ -30,7 +30,5 @@ public struct ReadOnlyFirst: Content, Hashable {
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(baz, forKey: .baz)
     }
-
-
 }
 

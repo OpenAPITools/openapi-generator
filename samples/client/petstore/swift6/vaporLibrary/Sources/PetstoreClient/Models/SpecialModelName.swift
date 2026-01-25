@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct SpecialModelName: Content, Hashable {
+public struct SpecialModelName: Sendable, Content, Hashable {
 
     public var specialPropertyName: Int64?
 
@@ -26,7 +26,5 @@ public struct SpecialModelName: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
-
-
 }
 

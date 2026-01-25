@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct ArrayTest: Content, Hashable {
+public struct ArrayTest: Sendable, Content, Hashable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
@@ -34,7 +34,5 @@ public struct ArrayTest: Content, Hashable {
         try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
-
-
 }
 

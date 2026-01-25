@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct AdditionalPropertiesString: Content, Hashable {
+public struct AdditionalPropertiesString: Sendable, Content, Hashable {
 
     public var name: String?
 
@@ -55,7 +55,5 @@ public struct AdditionalPropertiesString: Content, Hashable {
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         additionalProperties = try additionalPropertiesContainer.decodeMap(String.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }
 

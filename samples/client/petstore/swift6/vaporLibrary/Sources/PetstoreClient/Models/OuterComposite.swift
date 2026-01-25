@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct OuterComposite: Content, Hashable {
+public struct OuterComposite: Sendable, Content, Hashable {
 
     public var myNumber: Double?
     public var myString: String?
@@ -34,7 +34,5 @@ public struct OuterComposite: Content, Hashable {
         try container.encodeIfPresent(myString, forKey: .myString)
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
-
-
 }
 

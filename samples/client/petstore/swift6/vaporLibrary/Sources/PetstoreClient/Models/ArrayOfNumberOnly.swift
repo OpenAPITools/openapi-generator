@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct ArrayOfNumberOnly: Content, Hashable {
+public struct ArrayOfNumberOnly: Sendable, Content, Hashable {
 
     public var arrayNumber: [Double]?
 
@@ -26,7 +26,5 @@ public struct ArrayOfNumberOnly: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
-
-
 }
 

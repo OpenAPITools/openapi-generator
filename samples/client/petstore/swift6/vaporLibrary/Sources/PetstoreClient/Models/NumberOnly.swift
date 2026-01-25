@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct NumberOnly: Content, Hashable {
+public struct NumberOnly: Sendable, Content, Hashable {
 
     public var justNumber: Double?
 
@@ -26,7 +26,5 @@ public struct NumberOnly: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(justNumber, forKey: .justNumber)
     }
-
-
 }
 

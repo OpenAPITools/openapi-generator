@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct List: Content, Hashable {
+public struct List: Sendable, Content, Hashable {
 
     public var _123list: String?
 
@@ -26,7 +26,5 @@ public struct List: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_123list, forKey: ._123list)
     }
-
-
 }
 

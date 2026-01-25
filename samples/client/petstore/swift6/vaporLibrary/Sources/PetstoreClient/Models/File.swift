@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Must be named &#x60;File&#x60; for test. */
-public struct File: Content, Hashable {
+public struct File: Sendable, Content, Hashable {
 
     /** Test capitalization */
     public var sourceURI: String?
@@ -28,7 +28,5 @@ public struct File: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
-
-
 }
 

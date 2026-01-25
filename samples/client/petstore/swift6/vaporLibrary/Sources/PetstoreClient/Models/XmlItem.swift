@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct XmlItem: Content, Hashable {
+public struct XmlItem: Sendable, Content, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?
@@ -138,7 +138,5 @@ public struct XmlItem: Content, Hashable {
         try container.encodeIfPresent(prefixNsArray, forKey: .prefixNsArray)
         try container.encodeIfPresent(prefixNsWrappedArray, forKey: .prefixNsWrappedArray)
     }
-
-
 }
 

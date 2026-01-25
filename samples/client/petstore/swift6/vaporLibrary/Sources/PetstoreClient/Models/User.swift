@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct User: Content, Hashable {
+public struct User: Sendable, Content, Hashable {
 
     public var id: Int64?
     public var username: String?
@@ -55,8 +55,6 @@ public struct User: Content, Hashable {
         try container.encodeIfPresent(phone, forKey: .phone)
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
-
-
 }
 
 

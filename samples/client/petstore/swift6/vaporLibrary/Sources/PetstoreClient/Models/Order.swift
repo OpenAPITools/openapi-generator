@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct Order: Content, Hashable {
+public struct Order: Sendable, Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case placed = "placed"
@@ -52,8 +52,6 @@ public struct Order: Content, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(complete, forKey: .complete)
     }
-
-
 }
 
 

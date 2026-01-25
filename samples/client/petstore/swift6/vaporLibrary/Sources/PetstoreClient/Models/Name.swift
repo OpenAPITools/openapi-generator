@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model name same as property name */
-public struct Name: Content, Hashable {
+public struct Name: Sendable, Content, Hashable {
 
     public var name: Int
     public var snakeCase: Int?
@@ -39,7 +39,5 @@ public struct Name: Content, Hashable {
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
-
-
 }
 

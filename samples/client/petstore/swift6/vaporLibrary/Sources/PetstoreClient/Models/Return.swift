@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing reserved words */
-public struct Return: Content, Hashable {
+public struct Return: Sendable, Content, Hashable {
 
     public var `return`: Int?
 
@@ -27,7 +27,5 @@ public struct Return: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(`return`, forKey: .`return`)
     }
-
-
 }
 

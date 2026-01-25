@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct MapTest: Content, Hashable {
+public struct MapTest: Sendable, Content, Hashable {
 
     public enum MapOfEnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
@@ -42,7 +42,5 @@ public struct MapTest: Content, Hashable {
         try container.encodeIfPresent(directMap, forKey: .directMap)
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
-
-
 }
 

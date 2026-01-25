@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct Capitalization: Content, Hashable {
+public struct Capitalization: Sendable, Content, Hashable {
 
     public var smallCamel: String?
     public var capitalCamel: String?
@@ -47,7 +47,5 @@ public struct Capitalization: Content, Hashable {
         try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
-
-
 }
 

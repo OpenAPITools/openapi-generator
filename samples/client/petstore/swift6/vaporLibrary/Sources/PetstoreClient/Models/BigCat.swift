@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct BigCat: Content, Hashable {
+public struct BigCat: Sendable, Content, Hashable {
 
     public enum Kind: String, Sendable, Content, Hashable, CaseIterable {
         case lions = "lions"
@@ -32,7 +32,5 @@ public struct BigCat: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(kind, forKey: .kind)
     }
-
-
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct StringBooleanMap: Content, Hashable {
+public struct StringBooleanMap: Sendable, Content, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {
@@ -46,7 +46,5 @@ public struct StringBooleanMap: Content, Hashable {
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
 }
 

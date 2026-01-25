@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct EnumTest: Content, Hashable {
+public struct EnumTest: Sendable, Content, Hashable {
 
     public enum EnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"
@@ -60,7 +60,5 @@ public struct EnumTest: Content, Hashable {
         try container.encodeIfPresent(enumNumber, forKey: .enumNumber)
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
-
-
 }
 

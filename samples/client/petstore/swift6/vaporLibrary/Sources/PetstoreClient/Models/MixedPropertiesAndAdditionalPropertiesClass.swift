@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Sendable, Content, Hashable {
 
     public var uuid: UUID?
     public var dateTime: Date?
@@ -34,7 +34,5 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
         try container.encodeIfPresent(dateTime, forKey: .dateTime)
         try container.encodeIfPresent(map, forKey: .map)
     }
-
-
 }
 

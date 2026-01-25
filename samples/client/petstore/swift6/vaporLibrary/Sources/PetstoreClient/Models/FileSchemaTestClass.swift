@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct FileSchemaTestClass: Content, Hashable {
+public struct FileSchemaTestClass: Sendable, Content, Hashable {
 
     public var file: File?
     public var files: [File]?
@@ -30,7 +30,5 @@ public struct FileSchemaTestClass: Content, Hashable {
         try container.encodeIfPresent(file, forKey: .file)
         try container.encodeIfPresent(files, forKey: .files)
     }
-
-
 }
 

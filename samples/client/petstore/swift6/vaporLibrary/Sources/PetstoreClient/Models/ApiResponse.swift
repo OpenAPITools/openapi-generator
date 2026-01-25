@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct ApiResponse: Content, Hashable {
+public struct ApiResponse: Sendable, Content, Hashable {
 
     public var code: Int?
     public var type: String?
@@ -34,7 +34,5 @@ public struct ApiResponse: Content, Hashable {
         try container.encodeIfPresent(type, forKey: .type)
         try container.encodeIfPresent(message, forKey: .message)
     }
-
-
 }
 

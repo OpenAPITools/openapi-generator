@@ -104,7 +104,7 @@ open class StoreAPI {
      - returns: `EventLoopFuture` of `GetInventory` 
      */
     open class func getInventory(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory> {
-        return getInventoryRaw(headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
+        return getInventoryRaw(headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
             switch response.status.code {
             case 200:
                 return .http200(value: try response.content.decode([String: Int].self, using: apiConfiguration.contentConfiguration.requireDecoder(for: [String: Int].defaultContentType)), raw: response)

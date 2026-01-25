@@ -341,7 +341,7 @@ open class UserAPI {
      - returns: `EventLoopFuture` of `LogoutUser` 
      */
     open class func logoutUser(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser> {
-        return logoutUserRaw(headers: headers, beforeSend: beforeSend).flatMapThrowing { response -> LogoutUser in
+        return logoutUserRaw(headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> LogoutUser in
             switch response.status.code {
             default:
                 return .http0(raw: response)
