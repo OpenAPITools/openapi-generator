@@ -45,7 +45,7 @@ class  Enum_Test
 public:
     Enum_Test() = default;
     explicit Enum_Test(boost::property_tree::ptree const& pt);
-    virtual ~Enum_Test() = default;
+    virtual ~Enum_Test();
 
     Enum_Test(const Enum_Test& other) = default; // copy constructor
     Enum_Test(Enum_Test&& other) noexcept = default; // move constructor

@@ -40,7 +40,7 @@ class  OuterComposite
 public:
     OuterComposite() = default;
     explicit OuterComposite(boost::property_tree::ptree const& pt);
-    virtual ~OuterComposite() = default;
+    virtual ~OuterComposite();
 
     OuterComposite(const OuterComposite& other) = default; // copy constructor
     OuterComposite(OuterComposite&& other) noexcept = default; // move constructor

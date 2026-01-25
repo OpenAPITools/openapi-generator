@@ -40,7 +40,7 @@ class  ReadOnlyFirst
 public:
     ReadOnlyFirst() = default;
     explicit ReadOnlyFirst(boost::property_tree::ptree const& pt);
-    virtual ~ReadOnlyFirst() = default;
+    virtual ~ReadOnlyFirst();
 
     ReadOnlyFirst(const ReadOnlyFirst& other) = default; // copy constructor
     ReadOnlyFirst(ReadOnlyFirst&& other) noexcept = default; // move constructor

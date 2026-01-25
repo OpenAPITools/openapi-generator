@@ -42,7 +42,7 @@ class  NullableClass
 public:
     NullableClass() = default;
     explicit NullableClass(boost::property_tree::ptree const& pt);
-    virtual ~NullableClass() = default;
+    virtual ~NullableClass();
 
     NullableClass(const NullableClass& other) = default; // copy constructor
     NullableClass(NullableClass&& other) noexcept = default; // move constructor
