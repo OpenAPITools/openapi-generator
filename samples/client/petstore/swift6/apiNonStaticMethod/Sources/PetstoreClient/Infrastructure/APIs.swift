@@ -99,20 +99,17 @@ open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
 
     #if compiler(>=6.2)
     @concurrent
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     open func execute() async throws(ErrorResponse) -> Response<T> {
         try await _execute()
     }
     #else
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     open func execute() async throws(ErrorResponse) -> Response<T> {
         try await _execute()
     }
     #endif
 
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @discardableResult
     private func _execute() async throws(ErrorResponse) -> Response<T> {
         do {

@@ -87,7 +87,6 @@ open class FakeClassnameTags123API {
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testClassname(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -117,7 +116,6 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testClassname(body: Client) async throws(ErrorResponse) -> Client {
         return try await testClassnameWithRequestBuilder(body: body).execute().body
     }
