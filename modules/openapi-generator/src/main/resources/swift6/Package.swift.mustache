@@ -34,7 +34,7 @@ let package = Package(
         .package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "6.8.0")),
         {{/useRxSwift}}
         {{#useVapor}}
-        .package(url: "https://github.com/vapor/vapor", from: "4.99.0")
+        .package(url: "https://github.com/vapor/vapor", from: "4.99.0"),
         {{/useVapor}}
     ],
     targets: [

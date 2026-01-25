@@ -17,7 +17,7 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func createUserRaw(body: User, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func createUserRaw(body: User, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/user"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -25,7 +25,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -46,7 +46,7 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: `EventLoopFuture` of `CreateUser` 
      */
-    open class func createUser(body: User, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUser> {
+    open class func createUser(body: User, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUser> {
         return createUserRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> CreateUser in
             switch response.status.code {
             default:
@@ -61,7 +61,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func createUsersWithArrayInputRaw(body: [User], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func createUsersWithArrayInputRaw(body: [User], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/user/createWithArray"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -69,7 +69,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -89,7 +89,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `CreateUsersWithArrayInput` 
      */
-    open class func createUsersWithArrayInput(body: [User], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithArrayInput> {
+    open class func createUsersWithArrayInput(body: [User], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithArrayInput> {
         return createUsersWithArrayInputRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> CreateUsersWithArrayInput in
             switch response.status.code {
             default:
@@ -104,7 +104,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func createUsersWithListInputRaw(body: [User], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func createUsersWithListInputRaw(body: [User], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/user/createWithList"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -112,7 +112,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.POST, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.POST, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -132,7 +132,7 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: `EventLoopFuture` of `CreateUsersWithListInput` 
      */
-    open class func createUsersWithListInput(body: [User], headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithListInput> {
+    open class func createUsersWithListInput(body: [User], headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<CreateUsersWithListInput> {
         return createUsersWithListInputRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> CreateUsersWithListInput in
             switch response.status.code {
             default:
@@ -148,7 +148,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func deleteUserRaw(username: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func deleteUserRaw(username: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = String(describing: username)
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -159,7 +159,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.DELETE, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.DELETE, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -181,7 +181,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: `EventLoopFuture` of `DeleteUser` 
      */
-    open class func deleteUser(username: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteUser> {
+    open class func deleteUser(username: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteUser> {
         return deleteUserRaw(username: username, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> DeleteUser in
             switch response.status.code {
             case 400:
@@ -200,7 +200,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getUserByNameRaw(username: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getUserByNameRaw(username: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = String(describing: username)
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -211,7 +211,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -233,7 +233,7 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: `EventLoopFuture` of `GetUserByName` 
      */
-    open class func getUserByName(username: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetUserByName> {
+    open class func getUserByName(username: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetUserByName> {
         return getUserByNameRaw(username: username, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetUserByName in
             switch response.status.code {
             case 200:
@@ -256,7 +256,7 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func loginUserRaw(username: String, password: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func loginUserRaw(username: String, password: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/user/login"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -264,7 +264,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             struct QueryParams: Content {
@@ -296,7 +296,7 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: `EventLoopFuture` of `LoginUser` 
      */
-    open class func loginUser(username: String, password: String, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LoginUser> {
+    open class func loginUser(username: String, password: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LoginUser> {
         return loginUserRaw(username: username, password: password, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> LoginUser in
             switch response.status.code {
             case 200:
@@ -314,7 +314,7 @@ open class UserAPI {
      GET /user/logout
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func logoutUserRaw(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func logoutUserRaw(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/user/logout"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -322,7 +322,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.GET, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.GET, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -340,7 +340,7 @@ open class UserAPI {
      GET /user/logout
      - returns: `EventLoopFuture` of `LogoutUser` 
      */
-    open class func logoutUser(headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser> {
+    open class func logoutUser(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<LogoutUser> {
         return logoutUserRaw(headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> LogoutUser in
             switch response.status.code {
             default:
@@ -357,7 +357,7 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func updateUserRaw(username: String, body: User, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func updateUserRaw(username: String, body: User, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/user/{username}"
         let usernamePreEscape = String(describing: username)
         let usernamePostEscape = usernamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -368,7 +368,7 @@ open class UserAPI {
             fatalError("apiConfiguration.apiClient is not set.")
         }
 
-        return localVariableApiClient.send(.PUT, headers: headers, to: URI(string: localVariableURLString)) { localVariableRequest in
+        return localVariableApiClient.send(.PUT, headers: headers ?? apiConfiguration.customHeaders, to: URI(string: localVariableURLString)) { localVariableRequest in
             try apiConfiguration.apiWrapper(&localVariableRequest)
             
             
@@ -392,7 +392,7 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: `EventLoopFuture` of `UpdateUser` 
      */
-    open class func updateUser(username: String, body: User, headers: HTTPHeaders = PetstoreClientAPIConfiguration.shared.customHeaders, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdateUser> {
+    open class func updateUser(username: String, body: User, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<UpdateUser> {
         return updateUserRaw(username: username, body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> UpdateUser in
             switch response.status.code {
             case 400:
