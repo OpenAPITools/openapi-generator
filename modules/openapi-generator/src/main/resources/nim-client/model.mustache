@@ -1,23 +1,184 @@
 {{>header}}
 import json
 import tables
+import marshal
+import options
 
 {{#imports}}import {{import}}
-{{/imports}}{{#models}}{{#model}}{{#vars}}{{#isEnum}}
+{{/imports}}{{#models}}{{#model}}{{#isEnum}}
+type {{{classname}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
+  {{{name}}}{{/enumVars}}{{/allowableValues}}
+
+{{#vendorExtensions.x-is-integer-enum}}
+func `%`*(v: {{{classname}}}): JsonNode =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{classname}}}.{{{name}}}: %({{{value}}}){{/enumVars}}{{/allowableValues}}
+
+{{/vendorExtensions.x-is-integer-enum}}
+{{^vendorExtensions.x-is-integer-enum}}
+func `%`*(v: {{{classname}}}): JsonNode =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{classname}}}.{{{name}}}: %{{{value}}}{{/enumVars}}{{/allowableValues}}
+
+{{/vendorExtensions.x-is-integer-enum}}
+func `$`*(v: {{{classname}}}): string =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{classname}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
+{{#vendorExtensions.x-is-integer-enum}}
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  if node.kind != JInt:
+    raise newException(ValueError, "Expected integer for enum {{{classname}}}, got " & $node.kind)
+  let intVal = node.getInt()
+  case intVal:{{#allowableValues}}{{#enumVars}}
+  of {{{value}}}:
+    return {{{classname}}}.{{{name}}}{{/enumVars}}{{/allowableValues}}
+  else:
+    raise newException(ValueError, "Invalid enum value for {{{classname}}}: " & $intVal)
+{{/vendorExtensions.x-is-integer-enum}}{{^vendorExtensions.x-is-integer-enum}}
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  if node.kind != JString:
+    raise newException(ValueError, "Expected string for enum {{{classname}}}, got " & $node.kind)
+  let strVal = node.getStr()
+  case strVal:{{#allowableValues}}{{#enumVars}}
+  of $({{{value}}}):
+    return {{{classname}}}.{{{name}}}{{/enumVars}}{{/allowableValues}}
+  else:
+    raise newException(ValueError, "Invalid enum value for {{{classname}}}: " & strVal)
+{{/vendorExtensions.x-is-integer-enum}}
+{{/isEnum}}{{^isEnum}}{{#vendorExtensions.x-is-one-of}}
+# OneOf type
+type {{{classname}}}Kind* {.pure.} = enum{{#composedSchemas.oneOf}}
+  {{{name}}}Variant{{/composedSchemas.oneOf}}
+
+type {{{classname}}}* = object
+  ## {{{description}}}
+  case kind*: {{{classname}}}Kind{{#composedSchemas.oneOf}}
+  of {{{classname}}}Kind.{{{name}}}Variant:
+    {{{baseName}}}Value*: {{{dataType}}}{{/composedSchemas.oneOf}}
+
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  ## Custom deserializer for oneOf type - tries each variant{{#composedSchemas.oneOf}}
+  try:
+    return {{{classname}}}(kind: {{{classname}}}Kind.{{{name}}}Variant, {{{baseName}}}Value: to(node, {{{dataType}}}))
+  except Exception as e:
+    when defined(debug):
+      echo "Failed to deserialize as {{{dataType}}}: ", e.msg{{/composedSchemas.oneOf}}
+  raise newException(ValueError, "Unable to deserialize into any variant of {{{classname}}}. JSON: " & $node)
+{{/vendorExtensions.x-is-one-of}}{{#vendorExtensions.x-is-any-of}}
+# AnyOf type
+type {{{classname}}}Kind* {.pure.} = enum{{#composedSchemas.anyOf}}
+  {{{name}}}Variant{{/composedSchemas.anyOf}}
+
+type {{{classname}}}* = object
+  ## {{{description}}}
+  case kind*: {{{classname}}}Kind{{#composedSchemas.anyOf}}
+  of {{{classname}}}Kind.{{{name}}}Variant:
+    {{{baseName}}}Value*: {{{dataType}}}{{/composedSchemas.anyOf}}
+
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  ## Custom deserializer for anyOf type - tries each variant{{#composedSchemas.anyOf}}
+  try:
+    return {{{classname}}}(kind: {{{classname}}}Kind.{{{name}}}Variant, {{{baseName}}}Value: to(node, {{{dataType}}}))
+  except Exception as e:
+    when defined(debug):
+      echo "Failed to deserialize as {{{dataType}}}: ", e.msg{{/composedSchemas.anyOf}}
+  raise newException(ValueError, "Unable to deserialize into any variant of {{{classname}}}. JSON: " & $node)
+{{/vendorExtensions.x-is-any-of}}{{^vendorExtensions.x-is-one-of}}{{^vendorExtensions.x-is-any-of}}{{#vars}}{{#isEnum}}
 type {{{enumName}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
   {{{name}}}{{/enumVars}}{{/allowableValues}}
 {{/isEnum}}{{/vars}}
 type {{{classname}}}* = object
   ## {{{description}}}{{#vars}}
-  {{{name}}}*: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{.}}}{{/description}}{{/vars}}
-{{#vars}}{{#isEnum}}
+  {{{name}}}*: {{#isEnum}}{{#vendorExtensions.x-is-optional}}Option[{{{enumName}}}]{{/vendorExtensions.x-is-optional}}{{^vendorExtensions.x-is-optional}}{{{enumName}}}{{/vendorExtensions.x-is-optional}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{.}}}{{/description}}{{/vars}}
+{{#vars}}{{#isEnum}}{{#vendorExtensions.x-is-integer-enum}}
 func `%`*(v: {{{enumName}}}): JsonNode =
-  let str = case v:{{#allowableValues}}{{#enumVars}}
-    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
-
-  JsonNode(kind: JString, str: str)
-
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{enumName}}}.{{{name}}}: %({{{value}}}){{/enumVars}}{{/allowableValues}}
+{{/vendorExtensions.x-is-integer-enum}}{{^vendorExtensions.x-is-integer-enum}}
+func `%`*(v: {{{enumName}}}): JsonNode =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{enumName}}}.{{{name}}}: %{{{value}}}{{/enumVars}}{{/allowableValues}}
+{{/vendorExtensions.x-is-integer-enum}}
 func `$`*(v: {{{enumName}}}): string =
   result = case v:{{#allowableValues}}{{#enumVars}}
-    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
-{{/isEnum}}{{/vars}}{{/model}}{{/models}}
+    of {{{enumName}}}.{{{name}}}: $({{{value}}}){{/enumVars}}{{/allowableValues}}
+{{#vendorExtensions.x-is-integer-enum}}
+proc to*(node: JsonNode, T: typedesc[{{{enumName}}}]): {{{enumName}}} =
+  if node.kind != JInt:
+    raise newException(ValueError, "Expected integer for enum {{{enumName}}}, got " & $node.kind)
+  let intVal = node.getInt()
+  case intVal:{{#allowableValues}}{{#enumVars}}
+  of {{{value}}}:
+    return {{{enumName}}}.{{{name}}}{{/enumVars}}{{/allowableValues}}
+  else:
+    raise newException(ValueError, "Invalid enum value for {{{enumName}}}: " & $intVal)
+{{/vendorExtensions.x-is-integer-enum}}{{^vendorExtensions.x-is-integer-enum}}
+proc to*(node: JsonNode, T: typedesc[{{{enumName}}}]): {{{enumName}}} =
+  if node.kind != JString:
+    raise newException(ValueError, "Expected string for enum {{{enumName}}}, got " & $node.kind)
+  let strVal = node.getStr()
+  case strVal:{{#allowableValues}}{{#enumVars}}
+  of $({{{value}}}):
+    return {{{enumName}}}.{{{name}}}{{/enumVars}}{{/allowableValues}}
+  else:
+    raise newException(ValueError, "Invalid enum value for {{{enumName}}}: " & strVal)
+{{/vendorExtensions.x-is-integer-enum}}
+{{/isEnum}}{{/vars}}{{#vendorExtensions.x-has-custom-json-names}}
+
+# Custom JSON deserialization for {{{classname}}} with custom field names
+proc to*(node: JsonNode, T: typedesc[{{{classname}}}]): {{{classname}}} =
+  result = {{{classname}}}()
+  if node.kind == JObject:{{#vars}}{{#vendorExtensions.x-json-name}}{{#vendorExtensions.x-is-optional}}
+    if node.hasKey("{{{vendorExtensions.x-json-name}}}") and node["{{{vendorExtensions.x-json-name}}}"].kind != JNull:{{#vendorExtensions.x-is-array-with-custom-json}}
+      # Optional array of types with custom JSON - manually iterate and deserialize
+      let arrayNode = node["{{{vendorExtensions.x-json-name}}}"]
+      if arrayNode.kind == JArray:
+        var arr: seq[{{{vendorExtensions.x-array-inner-type}}}] = @[]
+        for item in arrayNode.items:
+          arr.add(to(item, {{{vendorExtensions.x-array-inner-type}}}))
+        result.{{{name}}} = some(arr){{/vendorExtensions.x-is-array-with-custom-json}}{{^vendorExtensions.x-is-array-with-custom-json}}{{#vendorExtensions.x-is-external-enum}}
+      result.{{{name}}} = some({{{vendorExtensions.x-enum-module}}}.to(node["{{{vendorExtensions.x-json-name}}}"], {{{vendorExtensions.x-enum-type}}})){{/vendorExtensions.x-is-external-enum}}{{^vendorExtensions.x-is-external-enum}}{{#isEnum}}
+      result.{{{name}}} = some(to(node["{{{vendorExtensions.x-json-name}}}"], {{{enumName}}})){{/isEnum}}{{^isEnum}}
+      result.{{{name}}} = some(to(node["{{{vendorExtensions.x-json-name}}}"], typeof(result.{{{name}}}.get()))){{/isEnum}}{{/vendorExtensions.x-is-external-enum}}{{/vendorExtensions.x-is-array-with-custom-json}}{{/vendorExtensions.x-is-optional}}{{^vendorExtensions.x-is-optional}}
+    if node.hasKey("{{{vendorExtensions.x-json-name}}}"):{{#vendorExtensions.x-is-array-with-custom-json}}
+      # Array of types with custom JSON - manually iterate and deserialize
+      let arrayNode = node["{{{vendorExtensions.x-json-name}}}"]
+      if arrayNode.kind == JArray:
+        result.{{{name}}} = @[]
+        for item in arrayNode.items:
+          result.{{{name}}}.add(to(item, {{{vendorExtensions.x-array-inner-type}}})){{/vendorExtensions.x-is-array-with-custom-json}}{{^vendorExtensions.x-is-array-with-custom-json}}{{#vendorExtensions.x-is-external-enum}}
+      result.{{{name}}} = {{{vendorExtensions.x-enum-module}}}.to(node["{{{vendorExtensions.x-json-name}}}"], {{{vendorExtensions.x-enum-type}}}){{/vendorExtensions.x-is-external-enum}}{{^vendorExtensions.x-is-external-enum}}{{#isEnum}}
+      result.{{{name}}} = to(node["{{{vendorExtensions.x-json-name}}}"], {{{enumName}}}){{/isEnum}}{{^isEnum}}
+      result.{{{name}}} = to(node["{{{vendorExtensions.x-json-name}}}"], {{{dataType}}}){{/isEnum}}{{/vendorExtensions.x-is-external-enum}}{{/vendorExtensions.x-is-array-with-custom-json}}{{/vendorExtensions.x-is-optional}}{{/vendorExtensions.x-json-name}}{{^vendorExtensions.x-json-name}}{{#vendorExtensions.x-is-optional}}
+    if node.hasKey("{{{baseName}}}") and node["{{{baseName}}}"].kind != JNull:{{#vendorExtensions.x-is-array-with-custom-json}}
+      # Optional array of types with custom JSON - manually iterate and deserialize
+      let arrayNode = node["{{{baseName}}}"]
+      if arrayNode.kind == JArray:
+        var arr: seq[{{{vendorExtensions.x-array-inner-type}}}] = @[]
+        for item in arrayNode.items:
+          arr.add(to(item, {{{vendorExtensions.x-array-inner-type}}}))
+        result.{{{name}}} = some(arr){{/vendorExtensions.x-is-array-with-custom-json}}{{^vendorExtensions.x-is-array-with-custom-json}}{{#vendorExtensions.x-is-external-enum}}
+      result.{{{name}}} = some({{{vendorExtensions.x-enum-module}}}.to(node["{{{baseName}}}"], {{{vendorExtensions.x-enum-type}}})){{/vendorExtensions.x-is-external-enum}}{{^vendorExtensions.x-is-external-enum}}{{#isEnum}}
+      result.{{{name}}} = some(to(node["{{{baseName}}}"], {{{enumName}}})){{/isEnum}}{{^isEnum}}
+      result.{{{name}}} = some(to(node["{{{baseName}}}"], typeof(result.{{{name}}}.get()))){{/isEnum}}{{/vendorExtensions.x-is-external-enum}}{{/vendorExtensions.x-is-array-with-custom-json}}{{/vendorExtensions.x-is-optional}}{{^vendorExtensions.x-is-optional}}
+    if node.hasKey("{{{baseName}}}"):{{#vendorExtensions.x-is-array-with-custom-json}}
+      # Array of types with custom JSON - manually iterate and deserialize
+      let arrayNode = node["{{{baseName}}}"]
+      if arrayNode.kind == JArray:
+        result.{{{name}}} = @[]
+        for item in arrayNode.items:
+          result.{{{name}}}.add(to(item, {{{vendorExtensions.x-array-inner-type}}})){{/vendorExtensions.x-is-array-with-custom-json}}{{^vendorExtensions.x-is-array-with-custom-json}}{{#vendorExtensions.x-is-external-enum}}
+      result.{{{name}}} = {{{vendorExtensions.x-enum-module}}}.to(node["{{{baseName}}}"], {{{vendorExtensions.x-enum-type}}}){{/vendorExtensions.x-is-external-enum}}{{^vendorExtensions.x-is-external-enum}}{{#isEnum}}
+      result.{{{name}}} = to(node["{{{baseName}}}"], {{{enumName}}}){{/isEnum}}{{^isEnum}}
+      result.{{{name}}} = to(node["{{{baseName}}}"], {{{dataType}}}){{/isEnum}}{{/vendorExtensions.x-is-external-enum}}{{/vendorExtensions.x-is-array-with-custom-json}}{{/vendorExtensions.x-is-optional}}{{/vendorExtensions.x-json-name}}{{/vars}}
+
+# Custom JSON serialization for {{{classname}}} with custom field names
+proc `%`*(obj: {{{classname}}}): JsonNode =
+  result = newJObject(){{#vars}}{{#vendorExtensions.x-json-name}}{{#vendorExtensions.x-is-optional}}
+  if obj.{{{name}}}.isSome():
+    result["{{{vendorExtensions.x-json-name}}}"] = %obj.{{{name}}}.get(){{/vendorExtensions.x-is-optional}}{{^vendorExtensions.x-is-optional}}
+  result["{{{vendorExtensions.x-json-name}}}"] = %obj.{{{name}}}{{/vendorExtensions.x-is-optional}}{{/vendorExtensions.x-json-name}}{{^vendorExtensions.x-json-name}}{{#vendorExtensions.x-is-optional}}
+  if obj.{{{name}}}.isSome():
+    result["{{{baseName}}}"] = %obj.{{{name}}}.get(){{/vendorExtensions.x-is-optional}}{{^vendorExtensions.x-is-optional}}
+  result["{{{baseName}}}"] = %obj.{{{name}}}{{/vendorExtensions.x-is-optional}}{{/vendorExtensions.x-json-name}}{{/vars}}
+{{/vendorExtensions.x-has-custom-json-names}}{{/vendorExtensions.x-is-any-of}}{{/vendorExtensions.x-is-one-of}}{{/isEnum}}{{/model}}{{/models}}

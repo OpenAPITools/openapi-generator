@@ -33,7 +33,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "ClassModel")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ClassModel")
@@ -57,7 +57,7 @@ public class ClassModel {
    * @return propertyClass
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "_class")
 
@@ -66,7 +66,7 @@ public class ClassModel {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "_class")
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {

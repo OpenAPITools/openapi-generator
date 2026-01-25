@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -57,7 +57,7 @@ public class Tag {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -65,7 +65,7 @@ public class Tag {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -82,7 +82,7 @@ public class Tag {
    * @return name
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -90,7 +90,7 @@ public class Tag {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
@@ -170,7 +170,7 @@ public class Tag {
     // add `id` to the URL query string
     if (getId() != null) {
       try {
-        joiner.add(String.format("%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getId()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -180,7 +180,7 @@ public class Tag {
     // add `name` to the URL query string
     if (getName() != null) {
       try {
-        joiner.add(String.format("%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

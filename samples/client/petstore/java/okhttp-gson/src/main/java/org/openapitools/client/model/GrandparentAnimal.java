@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * GrandparentAnimal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
@@ -183,7 +183,7 @@ public class GrandparentAnimal {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!GrandparentAnimal.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in GrandparentAnimal is not found in the empty JSON string", GrandparentAnimal.openapiRequiredFields.toString()));
         }
       }
 
@@ -193,7 +193,7 @@ public class GrandparentAnimal {
           ParentPet.validateJsonElement(jsonElement);
           break;
         default:
-          throw new IllegalArgumentException(String.format("The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The value of the `pet_type` field `%s` does not match any key defined in the discriminator's mapping.", discriminatorValue));
       }
   }
 

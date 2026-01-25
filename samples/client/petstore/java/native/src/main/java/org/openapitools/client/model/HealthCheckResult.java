@@ -41,7 +41,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
@@ -64,7 +64,7 @@ public class HealthCheckResult {
         return nullableMessage.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JsonNullable<String> getNullableMessage_JsonNullable() {
@@ -159,7 +159,7 @@ public class HealthCheckResult {
 
     // add `NullableMessage` to the URL query string
     if (getNullableMessage() != null) {
-      joiner.add(String.format("%sNullableMessage%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableMessage()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sNullableMessage%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getNullableMessage()))));
     }
 
     return joiner.toString();

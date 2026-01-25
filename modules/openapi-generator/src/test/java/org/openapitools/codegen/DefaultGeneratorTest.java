@@ -672,6 +672,32 @@ public class DefaultGeneratorTest {
     }
 
     @Test
+    public void testHandlesRelativeUrlsWithSpecialChars() {
+        final Map<String, String> specToBasePath = Map.of(
+          "src/test/resources/3_0/relative-url-point.yaml", "/api/v4.0",
+          "src/test/resources/3_0/relative-url-dash.yaml", "/api-v3",
+          "src/test/resources/3_0/relative-url-tilde.yaml", "/~api/v5",
+          "src/test/resources/3_0/relative-url-at.yaml", "/api/@6"
+        );
+
+        specToBasePath.forEach((spec, expectedBasePath) -> {
+            OpenAPI openAPI = TestUtils.parseFlattenSpec(spec);
+            ClientOptInput opts = new ClientOptInput();
+            opts.openAPI(openAPI);
+            DefaultCodegen config = new DefaultCodegen();
+            config.setStrictSpecBehavior(false);
+            opts.config(config);
+            final DefaultGenerator generator = new DefaultGenerator();
+            generator.opts(opts);
+            generator.configureGeneratorProperties();
+
+            Map<String, Object> bundle = generator.buildSupportFileBundle(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            final String actualBasePath = (String) bundle.get("basePath");
+            Assert.assertEquals(actualBasePath, expectedBasePath);
+        });
+    }
+
+    @Test
     public void testHandlesRelativeUrlsInServers() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10056.yaml");
         ClientOptInput opts = new ClientOptInput();
@@ -773,36 +799,6 @@ public class DefaultGeneratorTest {
         // The bug causes a StackOverflowError when calling generateModels
         generator.generateModels(files, allModels, filteredSchemas, aliasModels);
         // all fine, we have passed
-    }
-
-
-    private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
-        DefaultGenerator generator = new DefaultGenerator(false);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, recursively);
-        return generator;
-    }
-
-    private ClientOptInput createOptInputIssue19220(Path target) {
-        return createOptInputIssue("19220", target);
-    }
-
-    private ClientOptInput createOptInputIssue18444(Path target) {
-        return createOptInputIssue("18444", target);
-    }
-
-    private ClientOptInput createOptInputIssue(String issueNumber, Path target) {
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("spring")
-                .setInputSpec("src/test/resources/bugs/issue_" + issueNumber + ".json")
-                .setOutputDir(target.toAbsolutePath().toString());
-        return configurator.toClientOptInput();
     }
 
     @Test
@@ -1041,6 +1037,34 @@ public class DefaultGeneratorTest {
             GlobalSettings.reset();
             output.deleteOnExit();
         }
+    }
 
+    private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
+        DefaultGenerator generator = new DefaultGenerator(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.GENERATE_RECURSIVE_DEPENDENT_MODELS, recursively);
+        return generator;
+    }
+
+    private ClientOptInput createOptInputIssue19220(Path target) {
+        return createOptInputIssue("19220", target);
+    }
+
+    private ClientOptInput createOptInputIssue18444(Path target) {
+        return createOptInputIssue("18444", target);
+    }
+
+    private ClientOptInput createOptInputIssue(String issueNumber, Path target) {
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/bugs/issue_" + issueNumber + ".json")
+                .setOutputDir(target.toAbsolutePath().toString());
+        return configurator.toClientOptInput();
     }
 }

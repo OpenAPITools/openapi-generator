@@ -206,6 +206,15 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     }
 
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
+
     // use content.mediaType.schema.getContains instead of this
     @Override
     public CodegenProperty getContains() {

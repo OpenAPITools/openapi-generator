@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -54,14 +54,14 @@ public class Foo {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBar(@javax.annotation.Nullable String bar) {
     this.bar = bar;
@@ -142,7 +142,7 @@ public class Foo {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     return joiner.toString();

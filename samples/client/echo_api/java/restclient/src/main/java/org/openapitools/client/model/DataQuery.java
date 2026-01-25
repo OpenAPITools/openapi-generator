@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
   @jakarta.annotation.Nullable
@@ -65,7 +65,7 @@ public class DataQuery extends Query {
    * @return suffix
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSuffix() {
@@ -73,7 +73,7 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SUFFIX)
+  @JsonProperty(value = JSON_PROPERTY_SUFFIX, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSuffix(@jakarta.annotation.Nullable String suffix) {
     this.suffix = suffix;
@@ -90,7 +90,7 @@ public class DataQuery extends Query {
    * @return text
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getText() {
@@ -98,7 +98,7 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TEXT)
+  @JsonProperty(value = JSON_PROPERTY_TEXT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setText(@jakarta.annotation.Nullable String text) {
     this.text = text;
@@ -115,7 +115,7 @@ public class DataQuery extends Query {
    * @return date
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Instant getDate() {
@@ -123,7 +123,7 @@ public class DataQuery extends Query {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE)
+  @JsonProperty(value = JSON_PROPERTY_DATE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDate(@jakarta.annotation.Nullable Instant date) {
     this.date = date;

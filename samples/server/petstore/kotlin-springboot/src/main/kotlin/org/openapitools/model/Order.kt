@@ -37,7 +37,7 @@ data class Order(
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-    ) : Serializable{
+) : Serializable {
 
     /**
     * Order Status

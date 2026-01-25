@@ -584,6 +584,42 @@ paths:
       responses:
         '200':
           description: OK
+    put:
+      tags:
+        - fake
+      summary: Updates a pet in the store with form data (number)
+      description: ''
+      operationId: updatePetWithFormNumber
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '405':
+          description: Invalid input
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: integer type
+                  type: integer
+                status2:
+                  description: number type
+                  type: number
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'

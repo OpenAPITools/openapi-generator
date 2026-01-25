@@ -33,7 +33,7 @@ import jakarta.validation.Valid;
 @JsonPropertyOrder({
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
@@ -55,7 +55,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -63,7 +63,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;

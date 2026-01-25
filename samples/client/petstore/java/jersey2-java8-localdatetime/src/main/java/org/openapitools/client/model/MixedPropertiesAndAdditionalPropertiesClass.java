@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @javax.annotation.Nullable
@@ -66,7 +66,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public UUID getUuid() {
@@ -74,7 +74,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_UUID)
+  @JsonProperty(value = JSON_PROPERTY_UUID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setUuid(@javax.annotation.Nullable UUID uuid) {
     this.uuid = uuid;
@@ -91,7 +91,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public LocalDateTime getDateTime() {
@@ -99,7 +99,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DATE_TIME)
+  @JsonProperty(value = JSON_PROPERTY_DATE_TIME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDateTime(@javax.annotation.Nullable LocalDateTime dateTime) {
     this.dateTime = dateTime;
@@ -124,7 +124,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Map<String, Animal> getMap() {
@@ -132,7 +132,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MAP)
+  @JsonProperty(value = JSON_PROPERTY_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;

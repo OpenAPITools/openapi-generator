@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String SERIALIZED_NAME_NULLABLE_MESSAGE = "NullableMessage";
   @SerializedName(SERIALIZED_NAME_NULLABLE_MESSAGE)
@@ -194,12 +194,12 @@ public class HealthCheckResult {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!HealthCheckResult.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in HealthCheckResult is not found in the empty JSON string", HealthCheckResult.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in HealthCheckResult is not found in the empty JSON string", HealthCheckResult.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("NullableMessage") != null && !jsonObj.get("NullableMessage").isJsonNull()) && !jsonObj.get("NullableMessage").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `NullableMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("NullableMessage").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `NullableMessage` to be a primitive type in the JSON string but got `%s`", jsonObj.get("NullableMessage").toString()));
       }
   }
 
@@ -260,7 +260,7 @@ public class HealthCheckResult {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

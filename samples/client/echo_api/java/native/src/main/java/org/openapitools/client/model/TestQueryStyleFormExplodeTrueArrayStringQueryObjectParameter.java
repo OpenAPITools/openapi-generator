@@ -37,7 +37,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.JSON_PROPERTY_VALUES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public static final String JSON_PROPERTY_VALUES = "values";
   @javax.annotation.Nullable
@@ -64,14 +64,14 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
    * @return values
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public List<String> getValues() {
     return values;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUES)
+  @JsonProperty(value = JSON_PROPERTY_VALUES, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setValues(@javax.annotation.Nullable List<String> values) {
     this.values = values;
@@ -153,8 +153,8 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     // add `values` to the URL query string
     if (getValues() != null) {
       for (int i = 0; i < getValues().size(); i++) {
-        joiner.add(String.format("%svalues%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+        joiner.add(String.format(java.util.Locale.ROOT, "%svalues%s%s=%s", prefix, suffix,
+            "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
             ApiClient.urlEncode(ApiClient.valueToString(getValues().get(i)))));
       }
     }

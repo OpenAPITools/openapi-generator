@@ -32,13 +32,13 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         id: py
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           key: ${{ runner.os }}-python-${{ steps.py.outputs.python-version }}-
           path: |

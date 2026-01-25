@@ -36,7 +36,7 @@ import org.openapitools.client.ApiClient;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -59,14 +59,14 @@ public class Category {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Long getId() {
     return id;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -83,14 +83,14 @@ public class Category {
    * @return name
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getName() {
     return name;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;
@@ -173,12 +173,12 @@ public class Category {
 
     // add `id` to the URL query string
     if (getId() != null) {
-      joiner.add(String.format("%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sid%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getId()))));
     }
 
     // add `name` to the URL query string
     if (getName() != null) {
-      joiner.add(String.format("%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sname%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getName()))));
     }
 
     return joiner.toString();

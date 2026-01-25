@@ -60,7 +60,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -180,7 +180,7 @@ public class Triangle extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
 
         /**

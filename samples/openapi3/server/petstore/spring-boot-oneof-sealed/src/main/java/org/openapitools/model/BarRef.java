@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public final class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef() {
@@ -38,16 +38,6 @@ public final class BarRef extends EntityRef implements BarRefOrValue {
     super(atType);
   }
 
-
-  public BarRef name(String name) {
-    super.name(name);
-    return this;
-  }
-
-  public BarRef atReferredType(String atReferredType) {
-    super.atReferredType(atReferredType);
-    return this;
-  }
 
   public BarRef href(String href) {
     super.href(href);
@@ -71,6 +61,16 @@ public final class BarRef extends EntityRef implements BarRefOrValue {
 
   public BarRef atType(String atType) {
     super.atType(atType);
+    return this;
+  }
+
+  public BarRef name(String name) {
+    super.name(name);
+    return this;
+  }
+
+  public BarRef atReferredType(String atReferredType) {
+    super.atReferredType(atReferredType);
     return this;
   }
   @Override
@@ -102,7 +102,7 @@ public final class BarRef extends EntityRef implements BarRefOrValue {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }
@@ -127,18 +127,6 @@ public final class BarRef extends EntityRef implements BarRefOrValue {
       return this;
     }
 
-    @Override
-    public BarRef.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    @Override
-    public BarRef.Builder atReferredType(String atReferredType) {
-      this.instance.atReferredType(atReferredType);
-      return this;
-    }
-    
     @Override
     public BarRef.Builder href(String href) {
       this.instance.href(href);
@@ -166,6 +154,18 @@ public final class BarRef extends EntityRef implements BarRefOrValue {
     @Override
     public BarRef.Builder atType(String atType) {
       this.instance.atType(atType);
+      return this;
+    }
+    
+    @Override
+    public BarRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    @Override
+    public BarRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
       return this;
     }
     

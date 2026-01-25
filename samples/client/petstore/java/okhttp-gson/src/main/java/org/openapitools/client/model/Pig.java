@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Pig extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Pig.class.getName());
 
@@ -120,7 +120,7 @@ public class Pig extends AbstractOpenApiSchema {
                                 newPig.setActualInstance(deserialized);
                                 return newPig;
                             default:
-                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", jsonObject.get("className").getAsString()));
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", jsonObject.get("className").getAsString()));
                         }
                     }
 
@@ -137,7 +137,7 @@ public class Pig extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'BasquePig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for BasquePig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'BasquePig'", e);
                     }
                     // deserialize DanishPig
@@ -149,7 +149,7 @@ public class Pig extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'DanishPig'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for DanishPig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'DanishPig'", e);
                     }
 
@@ -159,7 +159,7 @@ public class Pig extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Pig: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -258,7 +258,7 @@ public class Pig extends AbstractOpenApiSchema {
             BasquePig.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for BasquePig failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for BasquePig failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with DanishPig
@@ -266,11 +266,11 @@ public class Pig extends AbstractOpenApiSchema {
             DanishPig.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for DanishPig failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for DanishPig failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

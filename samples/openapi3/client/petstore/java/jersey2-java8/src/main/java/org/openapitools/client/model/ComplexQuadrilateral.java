@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   ComplexQuadrilateral.JSON_PROPERTY_SHAPE_TYPE,
   ComplexQuadrilateral.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ComplexQuadrilateral {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   @javax.annotation.Nonnull
@@ -62,7 +62,7 @@ public class ComplexQuadrilateral {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -70,7 +70,7 @@ public class ComplexQuadrilateral {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
@@ -87,7 +87,7 @@ public class ComplexQuadrilateral {
    * @return quadrilateralType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getQuadrilateralType() {
@@ -95,7 +95,7 @@ public class ComplexQuadrilateral {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;

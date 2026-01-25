@@ -38,7 +38,7 @@ import io.github.threetenjaxb.core.*;
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "TestInlineFreeformAdditionalPropertiesRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TestInlineFreeformAdditionalPropertiesRequest")
@@ -62,7 +62,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
    * @return someProperty
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someProperty")
 
@@ -71,7 +71,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SOME_PROPERTY)
+  @JsonProperty(value = JSON_PROPERTY_SOME_PROPERTY, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someProperty")
   public void setSomeProperty(@javax.annotation.Nullable String someProperty) {

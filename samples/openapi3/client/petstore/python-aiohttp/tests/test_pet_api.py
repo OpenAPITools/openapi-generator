@@ -24,7 +24,6 @@ from .util import id_gen
 
 import json
 
-import urllib3
 
 HOST = 'http://localhost:80/v2'
 

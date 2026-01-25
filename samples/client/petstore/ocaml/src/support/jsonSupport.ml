@@ -50,6 +50,19 @@ let of_int32 x = `Intlit (Int32.to_string x)
 
 let of_int64 x = `Intlit (Int64.to_string x)
 
-let of_list_of of_f l = `List (List.map of_f l)
+let of_list_of of_f l = `List (Stdlib.List.map of_f l)
 
-let of_map_of of_f l = `Assoc (List.map (fun (k, v) -> (k, of_f v)) l)
+let of_map_of of_f l = `Assoc (Stdlib.List.map (fun (k, v) -> (k, of_f v)) l)
+
+let to_map_of of_f json =
+  match json with
+  | `Assoc l ->
+    Stdlib.List.fold_right
+      (fun (k, json) acc ->
+        match (of_f json, acc) with
+        | Stdlib.Result.Ok parsed_v, Stdlib.Result.Ok tl ->
+          Stdlib.Result.Ok ((k, parsed_v) :: tl)
+        | Stdlib.Result.Error e, _ -> Stdlib.Result.Error e
+        | _, Stdlib.Result.Error e -> Stdlib.Result.Error e)
+      l (Stdlib.Result.Ok [])
+  | _ -> Stdlib.Result.Error "Expected"

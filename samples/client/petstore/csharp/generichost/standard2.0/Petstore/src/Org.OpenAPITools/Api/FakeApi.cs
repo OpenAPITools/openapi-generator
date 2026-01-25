@@ -10,7 +10,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -1299,7 +1301,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFakeHealthGet(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1376,10 +1378,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -1519,7 +1521,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFakeOuterBooleanSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1617,10 +1619,10 @@ namespace Org.OpenAPITools.Api
                         "*/*"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -1771,7 +1773,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFakeOuterCompositeSerialize(ref suppressDefaultLog, apiResponseLocalVar, outerComposite);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1871,10 +1873,10 @@ namespace Org.OpenAPITools.Api
                         "*/*"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -2014,7 +2016,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFakeOuterNumberSerialize(ref suppressDefaultLog, apiResponseLocalVar, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2112,10 +2114,10 @@ namespace Org.OpenAPITools.Api
                         "*/*"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -2267,7 +2269,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFakeOuterStringSerialize(ref suppressDefaultLog, apiResponseLocalVar, requiredStringUuid, body);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2378,10 +2380,10 @@ namespace Org.OpenAPITools.Api
                         "*/*"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -2518,7 +2520,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetArrayOfEnums(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2595,10 +2597,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -2735,7 +2737,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetMixedAnyOf(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2812,10 +2814,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -2952,7 +2954,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetMixedOneOf(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3029,10 +3031,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -3183,7 +3185,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestAdditionalPropertiesReference(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3396,7 +3398,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestBodyWithFileSchema(ref suppressDefaultLog, apiResponseLocalVar, fileSchemaTestClass);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3614,7 +3616,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestBodyWithQueryParams(ref suppressDefaultLog, apiResponseLocalVar, query, user);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3838,7 +3840,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestClientModel(ref suppressDefaultLog, apiResponseLocalVar, modelClient);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3937,10 +3939,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
                     httpRequestMessageLocalVar.Method = new HttpMethod("PATCH");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -4124,7 +4126,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, number, patternWithoutDelimiter, varByte, varDouble, binary, callback, date, dateTime, int32, int64, integer, password, varFloat, varString);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -4488,7 +4490,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestEnumParameters(ref suppressDefaultLog, apiResponseLocalVar, enumFormString, enumFormStringArray, enumHeaderString, enumHeaderStringArray, enumQueryDouble, enumQueryInteger, enumQueryString, enumQueryStringArray);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -4766,7 +4768,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestGroupParameters(ref suppressDefaultLog, apiResponseLocalVar, requiredBooleanGroup, requiredInt64Group, requiredStringGroup, booleanGroup, int64Group, stringGroup);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -5017,7 +5019,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestInlineAdditionalProperties(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -5230,7 +5232,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestInlineFreeformAdditionalProperties(ref suppressDefaultLog, apiResponseLocalVar, testInlineFreeformAdditionalPropertiesRequest);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -5448,7 +5450,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestJsonFormData(ref suppressDefaultLog, apiResponseLocalVar, param, param2);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -5706,7 +5708,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestQueryParameterCollectionFormat(ref suppressDefaultLog, apiResponseLocalVar, context, http, ioutil, pipe, requiredNotNullable, url, notRequiredNotNullable, notRequiredNullable, requiredNullable);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -5963,7 +5965,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTestStringMapReference(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>

@@ -1,9 +1,6 @@
 .gitattributes
 .gitignore
-PetApi.md
 README.md
-StoreApi.md
-UserApi.md
 apis/PetApi.service.ts
 apis/PetApi.ts
 apis/StoreApi.service.ts
@@ -14,6 +11,9 @@ apis/baseapi.ts
 apis/exception.ts
 auth/auth.ts
 configuration.ts
+docs/PetApi.md
+docs/StoreApi.md
+docs/UserApi.md
 git_push.sh
 http/http.ts
 http/isomorphic-fetch.ts

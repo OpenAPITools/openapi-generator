@@ -37,7 +37,7 @@ import org.openapitools.client.ApiClient;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   @javax.annotation.Nonnull
@@ -60,14 +60,14 @@ public class BananaReq {
    * @return lengthCm
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public BigDecimal getLengthCm() {
     return lengthCm;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_LENGTH_CM)
+  @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setLengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
@@ -84,14 +84,14 @@ public class BananaReq {
    * @return sweet
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getSweet() {
     return sweet;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SWEET)
+  @JsonProperty(value = JSON_PROPERTY_SWEET, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSweet(@javax.annotation.Nullable Boolean sweet) {
     this.sweet = sweet;
@@ -174,12 +174,12 @@ public class BananaReq {
 
     // add `lengthCm` to the URL query string
     if (getLengthCm() != null) {
-      joiner.add(String.format("%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%slengthCm%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getLengthCm()))));
     }
 
     // add `sweet` to the URL query string
     if (getSweet() != null) {
-      joiner.add(String.format("%ssweet%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSweet()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%ssweet%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getSweet()))));
     }
 
     return joiner.toString();

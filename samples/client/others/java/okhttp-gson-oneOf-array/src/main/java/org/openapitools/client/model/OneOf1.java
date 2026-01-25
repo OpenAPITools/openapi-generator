@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * OneOf1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class OneOf1 {
   public static final String SERIALIZED_NAME_MESSAGE1 = "message1";
   @SerializedName(SERIALIZED_NAME_MESSAGE1)
@@ -139,7 +139,7 @@ public class OneOf1 {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!OneOf1.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in OneOf1 is not found in the empty JSON string", OneOf1.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in OneOf1 is not found in the empty JSON string", OneOf1.openapiRequiredFields.toString()));
         }
       }
 
@@ -147,12 +147,12 @@ public class OneOf1 {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!OneOf1.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `OneOf1` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `OneOf1` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("message1") != null && !jsonObj.get("message1").isJsonNull()) && !jsonObj.get("message1").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `message1` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message1").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message1` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message1").toString()));
       }
   }
 

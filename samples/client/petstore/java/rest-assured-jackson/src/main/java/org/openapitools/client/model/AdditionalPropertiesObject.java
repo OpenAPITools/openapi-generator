@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   AdditionalPropertiesObject.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -56,7 +56,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
@@ -64,7 +64,7 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;

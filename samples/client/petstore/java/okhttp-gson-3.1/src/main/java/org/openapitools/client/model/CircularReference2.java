@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * CircularReference2
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class CircularReference2 {
   public static final String SERIALIZED_NAME_PROP1 = "prop1";
   @SerializedName(SERIALIZED_NAME_PROP1)
@@ -183,7 +183,7 @@ public class CircularReference2 {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!CircularReference2.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in CircularReference2 is not found in the empty JSON string", CircularReference2.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in CircularReference2 is not found in the empty JSON string", CircularReference2.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
@@ -250,7 +250,7 @@ public class CircularReference2 {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

@@ -35,7 +35,7 @@ import java.util.StringJoiner;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @javax.annotation.Nullable
@@ -63,7 +63,7 @@ public class OuterComposite {
    * @return myNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getMyNumber() {
@@ -71,7 +71,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_MY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyNumber(@javax.annotation.Nullable BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -88,7 +88,7 @@ public class OuterComposite {
    * @return myString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMyString() {
@@ -96,7 +96,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyString(@javax.annotation.Nullable String myString) {
     this.myString = myString;
@@ -113,7 +113,7 @@ public class OuterComposite {
    * @return myBoolean
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getMyBoolean() {
@@ -121,7 +121,7 @@ public class OuterComposite {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonProperty(value = JSON_PROPERTY_MY_BOOLEAN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -203,7 +203,7 @@ public class OuterComposite {
     // add `my_number` to the URL query string
     if (getMyNumber() != null) {
       try {
-        joiner.add(String.format("%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_number%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -213,7 +213,7 @@ public class OuterComposite {
     // add `my_string` to the URL query string
     if (getMyString() != null) {
       try {
-        joiner.add(String.format("%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_string%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyString()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -223,7 +223,7 @@ public class OuterComposite {
     // add `my_boolean` to the URL query string
     if (getMyBoolean() != null) {
       try {
-        joiner.add(String.format("%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%smy_boolean%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getMyBoolean()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

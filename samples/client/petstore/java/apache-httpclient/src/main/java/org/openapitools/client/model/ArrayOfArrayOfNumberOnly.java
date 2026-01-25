@@ -36,7 +36,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @javax.annotation.Nullable
@@ -64,7 +64,7 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
@@ -72,7 +72,7 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayNumber(@javax.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -152,8 +152,8 @@ public class ArrayOfArrayOfNumberOnly {
       for (int i = 0; i < getArrayArrayNumber().size(); i++) {
         if (getArrayArrayNumber().get(i) != null) {
           try {
-            joiner.add(String.format("%sArrayArrayNumber%s%s=%s", prefix, suffix,
-                "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+            joiner.add(String.format(java.util.Locale.ROOT, "%sArrayArrayNumber%s%s=%s", prefix, suffix,
+                "".equals(suffix) ? "" : String.format(java.util.Locale.ROOT, "%s%d%s", containerPrefix, i, containerSuffix),
                 URLEncoder.encode(String.valueOf(getArrayArrayNumber().get(i)), "UTF-8").replaceAll("\\+", "%20")));
           } catch (UnsupportedEncodingException e) {
             // Should never happen, UTF-8 is always supported

@@ -47,7 +47,7 @@ data class Pet(
 
     @Schema(example = "null", description = "pet status in the store")
     @get:JsonProperty("status") val status: Pet.Status? = null
-    ) {
+) {
 
     /**
     * pet status in the store

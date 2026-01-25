@@ -9,6 +9,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
+- url: http://localhost/v2
 - description: petstore server
   url: "http://{server}.swagger.io:{port}/v2"
   variables:
@@ -24,7 +25,7 @@ servers:
       - "80"
       - "8080"
 - description: The local server
-  url: "https://localhost:8080/{version}"
+  url: "http://localhost:8080/{version}"
   variables:
     version:
       default: v2
@@ -32,7 +33,7 @@ servers:
       - v1
       - v2
 - description: The local server without variables
-  url: https://127.0.0.1/no_variable
+  url: http://127.0.0.1/no_variable
 tags:
 - description: Everything about your Pets
   name: pet
@@ -100,6 +101,7 @@ paths:
       tags:
       - pet
     servers:
+    - url: http://localhost/v2
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:
@@ -1265,6 +1267,52 @@ paths:
               schema:
                 type: object
           description: success
+  /fake/query-array-with-default-values:
+    post:
+      operationId: query_array_with_default_values
+      parameters:
+      - explode: true
+        in: query
+        name: arrayparam
+        required: false
+        schema:
+          default:
+          - test1
+          - test2
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: enumarrayparam
+        required: false
+        schema:
+          default:
+          - example1
+          items:
+            $ref: "#/components/schemas/ExampleEnum"
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: stringparam
+        required: false
+        schema:
+          default: test3
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Ok
+      summary: to test query array with default values
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -1852,6 +1900,25 @@ components:
             type: array
           type: array
       type: object
+    ArrayTestWithWrapped:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            wrapped: true
+      type: object
+    ArrayTestWithWrappedAndName:
+      properties:
+        array_of_string:
+          items:
+            type: string
+          type: array
+          xml:
+            name: item
+            wrapped: true
+      type: object
     NumberOnly:
       properties:
         JustNumber:
@@ -2265,6 +2332,11 @@ components:
       - items:
           type: string
         type: array
+    ExampleEnum:
+      enum:
+      - example1
+      - example2
+      type: string
     _foo_get_default_response:
       example:
         string:
@@ -2431,7 +2503,7 @@ components:
     petstore_auth:
       flows:
         implicit:
-          authorizationUrl: http://petstore.swagger.io/api/oauth/dialog
+          authorizationUrl: http://localhost/api/oauth/dialog
           scopes:
             write:pets: modify pets in your account
             read:pets: read your pets

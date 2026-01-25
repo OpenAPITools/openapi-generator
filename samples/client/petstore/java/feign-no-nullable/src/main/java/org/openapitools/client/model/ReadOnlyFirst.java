@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -62,7 +62,7 @@ public class ReadOnlyFirst {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -84,7 +84,7 @@ public class ReadOnlyFirst {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBaz() {
@@ -92,7 +92,7 @@ public class ReadOnlyFirst {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;

@@ -50,7 +50,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class MyExamplePostRequest extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MyExamplePostRequest.class.getName());
 
@@ -94,14 +94,14 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.getAsJsonPrimitive().isString()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                         }
                         actualAdapter = adapterString;
                         match++;
                         log.log(Level.FINER, "Input data matches schema 'String'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for String failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'String'", e);
                     }
 
@@ -111,7 +111,7 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for MyExamplePostRequest: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for MyExamplePostRequest: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -191,15 +191,15 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         // validate the json string with String
         try {
             if (!jsonElement.getAsJsonPrimitive().isString()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type String in the JSON string but got `%s`", jsonElement.toString()));
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for String failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for String failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for MyExamplePostRequest with oneOf schemas: String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for MyExamplePostRequest with oneOf schemas: String. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

@@ -13,8 +13,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pizza {
-    #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
-    pub pizza_size: Option<f64>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,
@@ -30,17 +28,19 @@ pub struct Pizza {
     /// When sub-classing, this defines the sub-class Extensible name
     #[serde(rename = "@type")]
     pub at_type: String,
+    #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
+    pub pizza_size: Option<f64>,
 }
 
 impl Pizza {
     pub fn new(at_type: String) -> Pizza {
         Pizza {
-            pizza_size: None,
             href: None,
             id: None,
             at_schema_location: None,
             at_base_type: None,
             at_type,
+            pizza_size: None,
         }
     }
 }

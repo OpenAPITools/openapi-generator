@@ -61,6 +61,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
+import static org.openapitools.codegen.CodegenConstants.X_INTERNAL;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
@@ -486,7 +487,7 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = ModelUtils.getSchemas(this.openAPI).get(name);
 
-                if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get("x-internal"))) {
+                if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get(X_INTERNAL))) {
                     LOGGER.info("Model {} not generated since x-internal is set to true", name);
                     continue;
                 } else if (ModelUtils.isFreeFormObject(schema, openAPI)) { // check to see if it's a free-form object
@@ -1564,7 +1565,7 @@ public class DefaultGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
+                if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get(X_INTERNAL))) {
                     // skip operation if x-internal sets to true
                     LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
                             httpMethod, resourcePath, operation.getOperationId());

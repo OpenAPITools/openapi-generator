@@ -60,7 +60,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @JsonDeserialize(using = Mammal.MammalDeserializer.class)
 @JsonSerialize(using = Mammal.MammalSerializer.class)
 public class Mammal extends AbstractOpenApiSchema {
@@ -180,7 +180,7 @@ public class Mammal extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
 
         /**
@@ -347,7 +347,7 @@ public class Mammal extends AbstractOpenApiSchema {
     }
     if (getActualInstance() instanceof Zebra) {
         if (getActualInstance() != null) {
-          joiner.add(String.format("%sone_of_1%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
+          joiner.add(String.format(java.util.Locale.ROOT, "%sone_of_1%s=%s", prefix, suffix, ApiClient.urlEncode(String.valueOf(getActualInstance()))));
         }
         return joiner.toString();
     }

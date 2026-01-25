@@ -12,7 +12,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -221,7 +223,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// The <see cref="IRolesReportGetApiResponse"/>
     /// </summary>
-    public interface IRolesReportGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<List>?>
+    public interface IRolesReportGetApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<List<RolesReportsHash>>?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -452,7 +454,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterFooGet(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -529,10 +531,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -684,7 +686,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetCountry(ref suppressDefaultLog, apiResponseLocalVar, country);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -889,7 +891,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterHello(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -966,10 +968,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1107,7 +1109,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterRedirectOrDefault(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1184,10 +1186,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1331,7 +1333,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterRolesReportGet(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1408,10 +1410,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1501,11 +1503,11 @@ namespace Org.OpenAPITools.Api
             /// Deserializes the response if the response is 200 Ok
             /// </summary>
             /// <returns></returns>
-            public List<List>? Ok()
+            public List<List<RolesReportsHash>>? Ok()
             {
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<List<List>>(RawContent, _jsonSerializerOptions)
+                    ? System.Text.Json.JsonSerializer.Deserialize<List<List<RolesReportsHash>>>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
@@ -1514,7 +1516,7 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out List<List>? result)
+            public bool TryOk([NotNullWhen(true)]out List<List<RolesReportsHash>>? result)
             {
                 result = null;
 
@@ -1549,7 +1551,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterTest(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1626,10 +1628,10 @@ namespace Org.OpenAPITools.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 

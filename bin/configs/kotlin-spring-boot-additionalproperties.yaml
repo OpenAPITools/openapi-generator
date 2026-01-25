@@ -1,0 +1,14 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-additionalproperties
+library: spring-boot
+inputSpec: samples/server/petstore/kotlin-springboot-additionalproperties/src/main/resources/openapi.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serviceImplementation: "true"
+  serializableModel: "true"
+  beanValidations: "true"
+  useSpringBoot3: "true"
+  requestMappingMode: api_interface

@@ -30,7 +30,7 @@ import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 import org.openapitools.client.infrastructure.*
 
-class BodyApi(client: WebClient) : ApiClient(client) {
+open class BodyApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -45,7 +45,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBinaryGif(): Mono<java.io.File> {
         return testBinaryGifWithHttpInfo()
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -80,7 +80,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyApplicationOctetstreamBinary(body: java.io.File? = null): Mono<kotlin.String> {
         return testBodyApplicationOctetstreamBinaryWithHttpInfo(body = body)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -116,7 +116,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyMultipartFormdataArrayOfBinary(files: kotlin.collections.List<java.io.File>): Mono<kotlin.String> {
         return testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files = files)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -152,7 +152,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyMultipartFormdataSingleBinary(myFile: java.io.File? = null): Mono<kotlin.String> {
         return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile = myFile)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -188,7 +188,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): Mono<kotlin.String> {
         return testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -224,7 +224,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyPet(pet: Pet? = null): Mono<Pet> {
         return testEchoBodyPetWithHttpInfo(pet = pet)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -260,7 +260,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyPetResponseString(pet: Pet? = null): Mono<kotlin.String> {
         return testEchoBodyPetResponseStringWithHttpInfo(pet = pet)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -296,7 +296,7 @@ class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyTagResponseString(tag: Tag? = null): Mono<kotlin.String> {
         return testEchoBodyTagResponseStringWithHttpInfo(tag = tag)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

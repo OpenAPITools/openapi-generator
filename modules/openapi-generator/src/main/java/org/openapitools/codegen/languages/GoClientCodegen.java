@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.Iterables;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
@@ -440,6 +441,35 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return null;
         }
 
+        if (ModelUtils.isArraySchema(p)) {
+            StringJoiner joinedDefaultValues = new StringJoiner(", ");
+            Object defaultValues = p.getDefault();
+            if (defaultValues instanceof ArrayNode) {
+                for (var value : (ArrayNode) defaultValues) {
+                    if (value.isNull()) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value.isTextual()) {
+                        joinedDefaultValues.add("\"" + escapeText(value.asText()) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
+                }
+                return "{" + joinedDefaultValues + "}";
+            } else if (defaultValues instanceof List<?>) {
+                for (var value : (List<?>) defaultValues) {
+                    if (value == null) {
+                        joinedDefaultValues.add("nil");
+                    } else if (value instanceof String) {
+                        joinedDefaultValues.add("\"" + escapeText((String) value) + "\"");
+                    } else {
+                        joinedDefaultValues.add(value.toString());
+                    }
+                }
+                return "{" + joinedDefaultValues + "}";
+            }
+            return null;
+        }
+
         return super.toDefaultValue(p);
     }
 
@@ -508,7 +538,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 addedFmtImport = true;
             }
 
-            if (model.hasRequired) {
+            if (generateUnmarshalJSON && model.hasRequired) {
                 if (!model.isAdditionalPropertiesTrue &&
                         (model.oneOf == null || model.oneOf.isEmpty()) &&
                         (model.anyOf == null || model.anyOf.isEmpty())) {

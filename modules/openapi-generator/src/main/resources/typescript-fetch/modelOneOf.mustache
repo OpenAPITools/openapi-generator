@@ -89,6 +89,13 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         }
     }
     {{/isNumeric}}
+    {{#isBoolean}}
+    if (Array.isArray(json)) {
+        if (json.every(item => typeof item === 'boolean'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return json;
+        }
+    }
+    {{/isBoolean}}
     {{#isString}}
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
@@ -116,6 +123,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return json;
     }
     {{/isNumeric}}
+    {{#isBoolean}}
+    if (typeof json === 'boolean'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return json;
+    }
+    {{/isBoolean}}
     {{#isString}}
     if (typeof json === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}json === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
         return json;
@@ -194,6 +206,13 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
         }
     }
     {{/isNumeric}}
+    {{#isBoolean}}
+    if (Array.isArray(value)) {
+        if (value.every(item => typeof item === 'boolean'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
+            return value;
+        }
+    }
+    {{/isBoolean}}
     {{#isString}}
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}item === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}})) {
@@ -219,6 +238,11 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
         return value;
     }
     {{/isNumeric}}
+    {{#isBoolean}}
+    if (typeof value === 'boolean'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === {{.}}{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
+        return value;
+    }
+    {{/isBoolean}}
     {{#isString}}
     if (typeof value === 'string'{{#isEnum}} && ({{#allowableValues}}{{#values}}value === '{{.}}'{{^-last}} || {{/-last}}{{/values}}{{/allowableValues}}){{/isEnum}}) {
         return value;

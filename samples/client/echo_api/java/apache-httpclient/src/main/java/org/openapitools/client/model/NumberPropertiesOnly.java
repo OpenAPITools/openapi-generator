@@ -35,7 +35,7 @@ import java.util.StringJoiner;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
   @javax.annotation.Nullable
@@ -63,7 +63,7 @@ public class NumberPropertiesOnly {
    * @return number
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getNumber() {
@@ -71,7 +71,7 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setNumber(@javax.annotation.Nullable BigDecimal number) {
     this.number = number;
@@ -88,7 +88,7 @@ public class NumberPropertiesOnly {
    * @return _float
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Float getFloat() {
@@ -96,7 +96,7 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_FLOAT)
+  @JsonProperty(value = JSON_PROPERTY_FLOAT, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setFloat(@javax.annotation.Nullable Float _float) {
     this._float = _float;
@@ -115,7 +115,7 @@ public class NumberPropertiesOnly {
    * @return _double
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Double getDouble() {
@@ -123,7 +123,7 @@ public class NumberPropertiesOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_DOUBLE)
+  @JsonProperty(value = JSON_PROPERTY_DOUBLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDouble(@javax.annotation.Nullable Double _double) {
     this._double = _double;
@@ -205,7 +205,7 @@ public class NumberPropertiesOnly {
     // add `number` to the URL query string
     if (getNumber() != null) {
       try {
-        joiner.add(String.format("%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%snumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNumber()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -215,7 +215,7 @@ public class NumberPropertiesOnly {
     // add `float` to the URL query string
     if (getFloat() != null) {
       try {
-        joiner.add(String.format("%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sfloat%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFloat()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);
@@ -225,7 +225,7 @@ public class NumberPropertiesOnly {
     // add `double` to the URL query string
     if (getDouble() != null) {
       try {
-        joiner.add(String.format("%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%sdouble%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDouble()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

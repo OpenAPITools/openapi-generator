@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -610,5 +611,78 @@ public class PythonClientCodegenTest {
         assertFileContains(initFilePath, "from openapi_client.models.pet import Pet as Pet");
         assertFileContains(initFilePath, "from openapi_client.models.tag import Tag as Tag");
         assertFileContains(initFilePath, "from openapi_client.models.user import User as User");
+    }
+
+    @Test(description = "Verify default license format uses object notation when poetry1 is false")
+    public void testLicenseFormatInPyprojectToml() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "MIT");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "pyproject.toml"));
+        // When poetry1=false (default), license should use object notation: { text = "MIT" }
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "pyproject.toml"),
+            "license = { text = \"MIT\" }");
+    }
+
+    @Test(description = "Verify poetry1 mode uses string notation for license")
+    public void testPoetry1LicenseFormat() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "Apache-2.0")
+            .addAdditionalProperty("poetry1", true); // Enable legacy poetry1 mode
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+
+        // In poetry1 mode, license should use simple string format: "Apache-2.0"
+        TestUtils.assertFileContains(pyprojectPath, "license = \"Apache-2.0\"");
+
+        // Verify it does NOT use the new object format
+        TestUtils.assertFileNotContains(pyprojectPath, "license = { text = \"Apache-2.0\" }");
+    }
+
+    @Test(description = "Verify non-poetry1 mode uses object notation for license")
+    public void testNonPoetry1LicenseFormat() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/bugs/issue_21619.yaml")
+            .setOutputDir(output.getAbsolutePath())
+            .addAdditionalProperty("licenseInfo", "BSD-3-Clause")
+            .addAdditionalProperty("poetry1", false); // Explicitly disable poetry1 mode
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path pyprojectPath = Paths.get(output.getAbsolutePath(), "pyproject.toml");
+        TestUtils.assertFileExists(pyprojectPath);
+
+        // In non-poetry1 mode, license should use object format: { text = "BSD-3-Clause" }
+        TestUtils.assertFileContains(pyprojectPath, "license = { text = \"BSD-3-Clause\" }");
+
+        // Verify it does NOT use the legacy string format
+        TestUtils.assertFileNotContains(pyprojectPath, "license = \"BSD-3-Clause\"");
     }
 }

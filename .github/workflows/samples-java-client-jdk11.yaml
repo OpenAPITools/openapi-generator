@@ -5,6 +5,7 @@ on:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -17,12 +18,17 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
   pull_request:
     paths:
       - 'samples/client/petstore/java/**'
       - samples/client/petstore/jaxrs-cxf-client/**
+      - samples/client/petstore/jaxrs-cxf-client-swagger2/**
       - samples/client/petstore/java-micronaut-client/**
       - samples/openapi3/client/petstore/java/jersey2-java8-special-characters/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
@@ -35,6 +41,10 @@ on:
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
+      - samples/client/petstore/java/jersey3-oneOf/**
+      - samples/client/others/java/okhttp-gson-streaming/**
+      - samples/client/others/java/resteasy/**
+      - samples/client/others/java/apache-httpclient/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
 jobs:
@@ -46,10 +56,12 @@ jobs:
       matrix:
         sample:
           # clients
+          - samples/client/petstore/jaxrs-cxf-client-swagger2
           - samples/client/petstore/jaxrs-cxf-client
           - samples/client/petstore/java/native
           - samples/client/petstore/java/native-async
           - samples/client/petstore/java/native-jakarta
+          - samples/client/petstore/java/native-useGzipFeature
           - samples/client/petstore/java/retrofit2
           - samples/client/petstore/java/retrofit2rx2
           - samples/client/petstore/java/retrofit2rx3
@@ -97,14 +109,19 @@ jobs:
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
+          - samples/client/petstore/java/jersey3-oneOf/
+          - samples/client/others/java/okhttp-gson-streaming/
+          - samples/client/petstore/java/resteasy/
+          - samples/client/petstore/java/apache-httpclient/
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: 11
+          cache: gradle
       - name: Cache maven dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: maven-repository
         with:
@@ -116,7 +133,7 @@ jobs:
         run: mvn clean package --no-transfer-progress
 
       - name: Cache gradle dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: gradle-caches
         with:
@@ -124,7 +141,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
 
       - name: Cache gradle wrapper
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         env:
           cache-name: gradle-wrapper
         with:

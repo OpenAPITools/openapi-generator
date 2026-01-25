@@ -12,12 +12,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")
+
   private Integer code;
 
   @ApiModelProperty(value = "")
+
   private String type;
 
   @ApiModelProperty(value = "")
+
   private String message;
  /**
    * Get code

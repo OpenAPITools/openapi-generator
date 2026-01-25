@@ -64,8 +64,11 @@ components:
             type: integer
         type: object
       - $ref: "#/components/schemas/Person"
-      description: A representation of a child
-      properties:
-        boosterSeat:
-          type: boolean
+      - description: A representation of a child
+        properties:
+          boosterSeat:
+            type: boolean
+        type: object
+        example: null
+      example: null
 

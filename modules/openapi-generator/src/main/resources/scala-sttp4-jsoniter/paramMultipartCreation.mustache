@@ -1,0 +1,18 @@
+{{#required}}
+    {{#isFile}}
+        Some(multipartFile("{{baseName}}", {{paramName}}))
+    {{/isFile}}
+    {{^isFile}}{{#isFormParam}}{{^isPrimitiveType}}
+        Some(multipart("{{baseName}}", FormSerializable.serialize("{{baseName}}", {{{paramName}}}{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}))){{/isPrimitiveType}}{{/isFormParam}}{{#isPrimitiveType}}
+        Some(multipart("{{baseName}}", {{paramName}}.toString)){{/isPrimitiveType}}
+    {{/isFile}}
+{{/required}}
+{{^required}}
+    {{#isFile}}
+        {{paramName}}.map(multipartFile("{{baseName}}", _))
+    {{/isFile}}
+    {{^isFile}}{{#isFormParam}}{{^isPrimitiveType}}
+        {{paramName}}.map(value => multipart("{{baseName}}", FormSerializable.serialize("{{baseName}}", value{{#style}}, FormStyleFormat.{{style.toUpperCase}}{{/style}}{{^style}}, FormStyleFormat.FORM{{/style}}, {{isExplode}}))){{/isPrimitiveType}}{{/isFormParam}}{{#isPrimitiveType}}
+        {{paramName}}.map(value => multipart("{{baseName}}", value.toString)){{/isPrimitiveType}}
+    {{/isFile}}
+{{/required}}{{^-last}},{{/-last}}

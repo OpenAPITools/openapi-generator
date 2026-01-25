@@ -65,5 +65,5 @@ import {operationId} from './symlinkDir';
 The CommonJS syntax is as follows:
 
 ```
-import localName = require('./symlinkDir')';
+import localName = require('./symlinkDir');
 ```

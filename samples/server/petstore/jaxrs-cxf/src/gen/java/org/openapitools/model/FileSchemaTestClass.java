@@ -15,11 +15,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
+
   @Valid
+
   private ModelFile _file;
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<@Valid ModelFile> files = new ArrayList<>();
  /**
    * Get _file

@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   ScaleneTriangle.JSON_PROPERTY_SHAPE_TYPE,
   ScaleneTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ScaleneTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   @javax.annotation.Nonnull
@@ -62,7 +62,7 @@ public class ScaleneTriangle {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -70,7 +70,7 @@ public class ScaleneTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
@@ -87,7 +87,7 @@ public class ScaleneTriangle {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTriangleType() {
@@ -95,7 +95,7 @@ public class ScaleneTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;

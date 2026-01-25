@@ -5,7 +5,7 @@ description = "OpenAPI Petstore"
 authors = [
   {name = "OpenAPI Generator Community",email = "team@openapitools.org"},
 ]
-license = "Apache-2.0"
+license = { text = "Apache-2.0" }
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 requires-python = ">=3.9"
@@ -17,7 +17,6 @@ dependencies = [
   "pycryptodome (>=3.9.0)",
   "pydantic (>=2)",
   "typing-extensions (>=4.7.1)",
-  "lazy-imports (>=1,<2)"
 ]
 
 [project.urls]

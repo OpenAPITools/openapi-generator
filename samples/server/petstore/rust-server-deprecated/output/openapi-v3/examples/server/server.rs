@@ -177,10 +177,11 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     /// Test a Form Post
     async fn form_test(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>
     {
-        info!("form_test({:?}) - X-Span-ID: {:?}", required_array, context.get().0.clone());
+        info!("form_test({:?}, {:?}) - X-Span-ID: {:?}", required_array, enum_field, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
     async fn get_with_boolean_parameter(

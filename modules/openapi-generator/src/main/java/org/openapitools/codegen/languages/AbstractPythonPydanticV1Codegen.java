@@ -39,6 +39,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
+import static org.openapitools.codegen.CodegenConstants.X_REGEX;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen implements CodegenConfig {
@@ -1915,9 +1917,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
             }
 
-            vendorExtensions.put("x-regex", regex.replace("\"", "\\\""));
+            vendorExtensions.put(X_REGEX, regex.replace("\"", "\\\""));
             vendorExtensions.put("x-pattern", pattern.replace("\"", "\\\""));
-            vendorExtensions.put("x-modifiers", modifiers);
+            vendorExtensions.put(X_MODIFIERS, modifiers);
         }
     }
 

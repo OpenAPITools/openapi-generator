@@ -32,7 +32,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   ClassModel.JSON_PROPERTY_PROPERTY_CLASS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ClassModel {
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
   @javax.annotation.Nullable
@@ -52,7 +52,7 @@ public class ClassModel {
    * @return propertyClass
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -60,7 +60,7 @@ public class ClassModel {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
@@ -138,7 +138,7 @@ public class ClassModel {
     // add `_class` to the URL query string
     if (getPropertyClass() != null) {
       try {
-        joiner.add(String.format("%s_class%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPropertyClass()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%s_class%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPropertyClass()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

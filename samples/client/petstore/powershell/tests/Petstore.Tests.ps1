@@ -140,19 +140,19 @@ Describe -tag 'PSOpenAPITools' -name 'Integration Tests' {
 
             $HS = Get-PSHostSetting
 
-            $HS[0]["Url"] | Should -Be "http://{server}.swagger.io:{port}/v2"
-            $HS[0]["Description"] | Should -Be "petstore server"
-            $HS[0]["Variables"]["server"]["Description"] | Should -Be "No description provided"
-            $HS[0]["Variables"]["server"]["DefaultValue"] | Should -Be "petstore"
-            $HS[0]["Variables"]["server"]["EnumValues"] | Should -Be @("petstore",
+            $HS[1]["Url"] | Should -Be "http://{server}.swagger.io:{port}/v2"
+            $HS[1]["Description"] | Should -Be "petstore server"
+            $HS[1]["Variables"]["server"]["Description"] | Should -Be "No description provided"
+            $HS[1]["Variables"]["server"]["DefaultValue"] | Should -Be "petstore"
+            $HS[1]["Variables"]["server"]["EnumValues"] | Should -Be @("petstore",
                     "qa-petstore",
                     "dev-petstore")
 
         }
 
         It "Get-PSUrlFromHostSetting tests" {
-            Get-PSUrlFromHostSetting -Index 0 | Should -Be "http://petstore.swagger.io:80/v2"
-            Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "8080" } | Should -Be "http://petstore.swagger.io:8080/v2" 
+            Get-PSUrlFromHostSetting -Index 1 | Should -Be "http://petstore.swagger.io:80/v2"
+            Get-PSUrlFromHostSetting -Index 1 -Variables @{ "port" = "8080" } | Should -Be "http://petstore.swagger.io:8080/v2" 
             #Get-PSUrlFromHostSetting -Index 2 | Should -Throw -ExceptionType ([RuntimeException]) 
             #Get-PSUrlFromHostSetting -Index 2 -ErrorAction Stop | Should -Throw "RuntimeException: Invalid index 2 when selecting the host. Must -Be less than 2"
             #Get-PSUrlFromHostSetting -Index 0 -Variables @{ "port" = "1234" } -ErrorAction Stop | Should -Throw "RuntimeException: The variable 'port' in the host URL has invalid value 1234. Must -Be 80,8080"

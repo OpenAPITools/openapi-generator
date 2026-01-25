@@ -34,7 +34,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "OuterObjectWithEnumProperty")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "OuterObjectWithEnumProperty")
@@ -58,7 +58,7 @@ public class OuterObjectWithEnumProperty {
    * @return value
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "value")
 
@@ -67,7 +67,7 @@ public class OuterObjectWithEnumProperty {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_VALUE)
+  @JsonProperty(value = JSON_PROPERTY_VALUE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   @JacksonXmlProperty(localName = "value")
   public void setValue(@javax.annotation.Nonnull OuterEnumInteger value) {

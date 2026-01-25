@@ -1,43 +1,51 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A User who is purchasing from the pet store
- **/
+ * A User who is purchasing from the pet store
+ */
 @ApiModel(description="A User who is purchasing from the pet store")
 
 public class User  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private String username;
 
   @ApiModelProperty(value = "")
+
   private String firstName;
 
   @ApiModelProperty(value = "")
+
   private String lastName;
 
   @ApiModelProperty(value = "")
+
   private String email;
 
   @ApiModelProperty(value = "")
+
   private String password;
 
   @ApiModelProperty(value = "")
+
   private String phone;
 
-  @ApiModelProperty(value = "User Status")
  /**
-   * User Status
-  **/
+  * User Status
+  */
+  @ApiModelProperty(value = "User Status")
+
   private Integer userStatus;
  /**
    * Get id

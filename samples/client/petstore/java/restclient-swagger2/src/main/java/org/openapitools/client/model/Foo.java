@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   Foo.JSON_PROPERTY_BAR
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Foo {
   public static final String JSON_PROPERTY_BAR = "bar";
   @jakarta.annotation.Nullable
@@ -51,7 +51,7 @@ public class Foo {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -59,7 +59,7 @@ public class Foo {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBar(@jakarta.annotation.Nullable String bar) {
     this.bar = bar;

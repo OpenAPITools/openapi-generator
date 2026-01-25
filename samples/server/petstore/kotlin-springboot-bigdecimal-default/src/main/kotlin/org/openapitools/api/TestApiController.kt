@@ -42,10 +42,18 @@ class TestApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/test"],
+        value = [PATH_TEST_POST /* "/test" */],
         consumes = ["application/json"]
     )
-    fun testPost(@Parameter(description = "", required = true) @Valid @RequestBody apa: Apa): ResponseEntity<Unit> {
+    fun testPost(
+        @Parameter(description = "", required = true) @Valid @RequestBody apa: Apa
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = ""
+        const val PATH_TEST_POST: String = "/test"
     }
 }

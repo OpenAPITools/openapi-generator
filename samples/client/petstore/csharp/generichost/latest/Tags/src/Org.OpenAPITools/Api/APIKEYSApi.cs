@@ -13,7 +13,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -156,7 +158,7 @@ namespace Org.OpenAPITools.Api
             bool suppressDefaultLog = false;
             AfterGetApiKeysId(ref suppressDefaultLog, apiResponseLocalVar, id);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation("{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>

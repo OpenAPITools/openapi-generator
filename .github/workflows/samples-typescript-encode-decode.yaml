@@ -16,13 +16,13 @@ jobs:
           # clients
           - samples/client/others/typescript/encode-decode/test
         node-version:
-          - 16
-          - 18
           - 20
+          - 22
+          - 24
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
 

@@ -1,0 +1,15 @@
+generatorName: java-dubbo
+outputDir: samples/server/petstore/java-dubbo
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/java-dubbo
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  artifactId: openapi-dubbo-server-petstore
+  basePackage: "org.openapitools.example"
+  title: "OpenAPI Petstore"
+  serviceInterface: true
+  serviceImplementation: true
+  useTags: true
+  dubboVersion: "3.2.18"
+  javaVersion: "17"
+  registryAddress: "zookeeper://127.0.0.1:2181"

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * Query
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Query {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -226,13 +226,13 @@ public class Query {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!Query.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in Query is not found in the empty JSON string", Query.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in Query is not found in the empty JSON string", Query.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
       if (jsonObj.get("outcomes") != null && !jsonObj.get("outcomes").isJsonNull() && !jsonObj.get("outcomes").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `outcomes` to be an array in the JSON string but got `%s`", jsonObj.get("outcomes").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `outcomes` to be an array in the JSON string but got `%s`", jsonObj.get("outcomes").toString()));
       }
   }
 

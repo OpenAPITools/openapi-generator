@@ -42,10 +42,41 @@ class FakeApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = ["/fake/annotations"],
+        value = [PATH_ANNOTATIONS /* "/fake/annotations" */],
         consumes = ["application/json"]
     )
-    fun annotations(@Parameter(description = "", required = true) @Valid @RequestBody `annotation`: Annotation): ResponseEntity<Unit> {
+    fun annotations(
+        @Parameter(description = "", required = true) @Valid @RequestBody `annotation`: Annotation
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    @Operation(
+        summary = "Updates a pet in the store with form data (number)",
+        operationId = "updatePetWithFormNumber",
+        description = """""",
+        responses = [
+            ApiResponse(responseCode = "405", description = "Invalid input") ],
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+    )
+    @RequestMapping(
+        method = [RequestMethod.PUT],
+        value = [PATH_UPDATE_PET_WITH_FORM_NUMBER /* "/fake/annotations" */],
+        consumes = ["application/x-www-form-urlencoded"]
+    )
+    fun updatePetWithFormNumber(
+        @Parameter(description = "ID of pet that needs to be updated", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @Parameter(description = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @Parameter(description = "integer type") @Valid @RequestParam(value = "status", required = false) status: kotlin.Int?,
+        @Parameter(description = "number type") @Valid @RequestParam(value = "status2", required = false) status2: java.math.BigDecimal?
+    ): ResponseEntity<Unit> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+    companion object {
+        //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
+        const val PATH_ANNOTATIONS: String = "/fake/annotations"
+        const val PATH_UPDATE_PET_WITH_FORM_NUMBER: String = "/fake/annotations"
     }
 }

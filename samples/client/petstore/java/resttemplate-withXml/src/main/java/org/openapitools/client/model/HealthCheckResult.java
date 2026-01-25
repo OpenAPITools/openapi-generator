@@ -37,7 +37,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   HealthCheckResult.JSON_PROPERTY_NULLABLE_MESSAGE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "HealthCheckResult")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HealthCheckResult")
@@ -67,7 +67,7 @@ public class HealthCheckResult {
         return nullableMessage.orElse(null);
   }
 
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "NullableMessage")
 

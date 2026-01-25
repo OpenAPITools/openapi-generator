@@ -1,24 +1,26 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A category for a pet
- **/
+ * A category for a pet
+ */
 @ApiModel(description="A category for a pet")
 
 public class Category  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   private String name;
  /**
    * Get id

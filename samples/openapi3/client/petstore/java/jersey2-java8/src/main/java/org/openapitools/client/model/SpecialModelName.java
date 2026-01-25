@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   SpecialModelName.JSON_PROPERTY_SPECIAL_MODEL_NAME
 })
 @JsonTypeName("_special_model.name_")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @javax.annotation.Nullable
@@ -59,7 +59,7 @@ public class SpecialModelName {
    * @return $specialPropertyName
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {
@@ -67,7 +67,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set$SpecialPropertyName(@javax.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -84,7 +84,7 @@ public class SpecialModelName {
    * @return specialModelName
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getSpecialModelName() {
@@ -92,7 +92,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SPECIAL_MODEL_NAME)
+  @JsonProperty(value = JSON_PROPERTY_SPECIAL_MODEL_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setSpecialModelName(@javax.annotation.Nullable String specialModelName) {
     this.specialModelName = specialModelName;

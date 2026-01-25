@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -247,12 +247,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in MixedPropertiesAndAdditionalPropertiesClass is not found in the empty JSON string", MixedPropertiesAndAdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("uuid") != null && !jsonObj.get("uuid").isJsonNull()) && !jsonObj.get("uuid").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `uuid` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uuid").toString()));
       }
   }
 
@@ -313,7 +313,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

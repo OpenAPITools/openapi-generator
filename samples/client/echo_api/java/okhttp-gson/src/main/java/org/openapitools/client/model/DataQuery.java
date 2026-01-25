@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * DataQuery
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String SERIALIZED_NAME_SUFFIX = "suffix";
   @SerializedName(SERIALIZED_NAME_SUFFIX)
@@ -194,7 +194,7 @@ public class DataQuery extends Query {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!DataQuery.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in DataQuery is not found in the empty JSON string", DataQuery.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in DataQuery is not found in the empty JSON string", DataQuery.openapiRequiredFields.toString()));
         }
       }
 
@@ -202,15 +202,15 @@ public class DataQuery extends Query {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DataQuery.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `DataQuery` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("suffix") != null && !jsonObj.get("suffix").isJsonNull()) && !jsonObj.get("suffix").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `suffix` to be a primitive type in the JSON string but got `%s`", jsonObj.get("suffix").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `suffix` to be a primitive type in the JSON string but got `%s`", jsonObj.get("suffix").toString()));
       }
       if ((jsonObj.get("text") != null && !jsonObj.get("text").isJsonNull()) && !jsonObj.get("text").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `text` to be a primitive type in the JSON string but got `%s`", jsonObj.get("text").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `text` to be a primitive type in the JSON string but got `%s`", jsonObj.get("text").toString()));
       }
   }
 

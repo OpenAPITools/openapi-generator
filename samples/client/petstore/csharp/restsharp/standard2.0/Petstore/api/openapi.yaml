@@ -9,6 +9,7 @@ info:
   title: OpenAPI Petstore
   version: 1.0.0
 servers:
+- url: http://localhost/v2
 - description: petstore server
   url: "http://{server}.swagger.io:{port}/v2"
   variables:
@@ -114,6 +115,7 @@ paths:
       tags:
       - pet
     servers:
+    - url: http://localhost/v2
     - url: http://petstore.swagger.io/v2
     - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:

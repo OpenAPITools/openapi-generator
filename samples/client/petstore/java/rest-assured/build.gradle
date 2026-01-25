@@ -97,7 +97,7 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    rest_assured_version = "5.3.2"
+    rest_assured_version = "5.5.6"
     junit_version = "5.10.3"
     gson_version = "2.10.1"
     gson_fire_version = "1.9.0"

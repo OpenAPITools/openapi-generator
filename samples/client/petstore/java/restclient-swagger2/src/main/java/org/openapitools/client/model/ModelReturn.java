@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   ModelReturn.JSON_PROPERTY_RETURN
 })
 @JsonTypeName("Return")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ModelReturn {
   public static final String JSON_PROPERTY_RETURN = "return";
   @jakarta.annotation.Nullable
@@ -53,7 +53,7 @@ public class ModelReturn {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getReturn() {
@@ -61,7 +61,7 @@ public class ModelReturn {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_RETURN)
+  @JsonProperty(value = JSON_PROPERTY_RETURN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setReturn(@jakarta.annotation.Nullable Integer _return) {
     this._return = _return;

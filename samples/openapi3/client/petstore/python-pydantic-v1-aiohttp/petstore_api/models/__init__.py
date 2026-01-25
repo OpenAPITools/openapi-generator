@@ -42,6 +42,7 @@ from petstore_api.models.color import Color
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
 from petstore_api.models.danish_pig import DanishPig
+from petstore_api.models.data_output_format import DataOutputFormat
 from petstore_api.models.deprecated_object import DeprecatedObject
 from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
@@ -50,6 +51,7 @@ from petstore_api.models.dummy_model import DummyModel
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
+from petstore_api.models.enum_ref_with_default_value import EnumRefWithDefaultValue
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt

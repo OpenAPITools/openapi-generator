@@ -19,4 +19,5 @@ model/tag.ts
 model/user.ts
 param.ts
 provide-api.ts
+query.params.ts
 variables.ts

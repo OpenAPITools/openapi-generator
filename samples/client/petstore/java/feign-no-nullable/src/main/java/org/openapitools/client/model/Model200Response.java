@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("200_response")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -62,7 +62,7 @@ public class Model200Response {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getName() {
@@ -70,7 +70,7 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setName(@javax.annotation.Nullable Integer name) {
     this.name = name;
@@ -89,7 +89,7 @@ public class Model200Response {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPropertyClass() {
@@ -97,7 +97,7 @@ public class Model200Response {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
+  @JsonProperty(value = JSON_PROPERTY_PROPERTY_CLASS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;

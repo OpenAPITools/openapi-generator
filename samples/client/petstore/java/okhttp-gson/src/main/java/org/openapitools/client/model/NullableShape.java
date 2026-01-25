@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
 
@@ -120,7 +120,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                                 newNullableShape.setActualInstance(deserialized);
                                 return newNullableShape;
                             default:
-                                log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", jsonObject.get("shapeType").getAsString()));
+                                log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for NullableShape. Possible values: Quadrilateral Triangle", jsonObject.get("shapeType").getAsString()));
                         }
                     }
 
@@ -137,7 +137,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Triangle'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Triangle failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
                     }
                     // deserialize Quadrilateral
@@ -149,7 +149,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
                     }
 
@@ -159,7 +159,7 @@ public class NullableShape extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for NullableShape: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -263,7 +263,7 @@ public class NullableShape extends AbstractOpenApiSchema {
             Triangle.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Triangle failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Triangle failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Quadrilateral
@@ -271,11 +271,11 @@ public class NullableShape extends AbstractOpenApiSchema {
             Quadrilateral.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Quadrilateral failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for NullableShape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for NullableShape with oneOf schemas: Quadrilateral, Triangle. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

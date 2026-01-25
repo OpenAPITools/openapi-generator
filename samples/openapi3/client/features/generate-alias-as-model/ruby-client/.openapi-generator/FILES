@@ -14,6 +14,7 @@ lib/petstore.rb
 lib/petstore/api/usage_api.rb
 lib/petstore/api_client.rb
 lib/petstore/api_error.rb
+lib/petstore/api_model_base.rb
 lib/petstore/configuration.rb
 lib/petstore/models/array_alias.rb
 lib/petstore/models/map_alias.rb

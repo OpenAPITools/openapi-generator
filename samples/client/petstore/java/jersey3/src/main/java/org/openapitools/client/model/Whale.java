@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_CLASS_NAME
 })
 @JsonTypeName("whale")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   @jakarta.annotation.Nullable
@@ -67,7 +67,7 @@ public class Whale {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasBaleen() {
@@ -75,7 +75,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasBaleen(@jakarta.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
@@ -93,7 +93,7 @@ public class Whale {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getHasTeeth() {
@@ -101,7 +101,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasTeeth(@jakarta.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
@@ -120,7 +120,7 @@ public class Whale {
   @jakarta.annotation.Nonnull
   @NotNull
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getClassName() {
@@ -128,7 +128,7 @@ public class Whale {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(@jakarta.annotation.Nonnull String className) {
     this.className = className;

@@ -63,7 +63,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
   {{/gson}}
   {{#vendorExtensions.x-field-extra-annotation}}
-  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}

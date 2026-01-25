@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   InlineObject.JSON_PROPERTY_MESSAGE_ID
 })
 @JsonTypeName("inline_object")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class InlineObject {
   public static final String JSON_PROPERTY_MESSAGE_ID = "messageId";
   @jakarta.annotation.Nonnull
@@ -51,7 +51,7 @@ public class InlineObject {
    * @return messageId
    */
   @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonProperty(value = JSON_PROPERTY_MESSAGE_ID, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public UUID getMessageId() {
@@ -59,7 +59,7 @@ public class InlineObject {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_MESSAGE_ID)
+  @JsonProperty(value = JSON_PROPERTY_MESSAGE_ID, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setMessageId(@jakarta.annotation.Nonnull UUID messageId) {
     this.messageId = messageId;

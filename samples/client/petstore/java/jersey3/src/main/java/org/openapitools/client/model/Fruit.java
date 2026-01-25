@@ -59,7 +59,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @JsonDeserialize(using = Fruit.FruitDeserializer.class)
 @JsonSerialize(using = Fruit.FruitSerializer.class)
 public class Fruit extends AbstractOpenApiSchema {
@@ -133,7 +133,7 @@ public class Fruit extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Fruit: %d classes match result, expected 1", match));
         }
 
         /**

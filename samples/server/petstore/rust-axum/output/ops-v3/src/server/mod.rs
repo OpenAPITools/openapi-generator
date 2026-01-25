@@ -1,16 +1,24 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use headers::Host;
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
+use crate::{header, types::*};
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
 
 /// Setup API Server.
 pub fn new<I, A, E>(api_impl: I) -> Router
@@ -69,7 +77,7 @@ fn op10_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op10_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -125,7 +133,7 @@ fn op11_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op11_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -181,7 +189,7 @@ fn op12_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op12_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -237,7 +245,7 @@ fn op13_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op13_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -293,7 +301,7 @@ fn op14_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op14_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -349,7 +357,7 @@ fn op15_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op15_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -405,7 +413,7 @@ fn op16_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op16_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -461,7 +469,7 @@ fn op17_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op17_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -517,7 +525,7 @@ fn op18_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op18_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -573,7 +581,7 @@ fn op19_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op19_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -629,7 +637,7 @@ fn op1_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op1_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -685,7 +693,7 @@ fn op20_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op20_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -741,7 +749,7 @@ fn op21_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op21_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -797,7 +805,7 @@ fn op22_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op22_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -853,7 +861,7 @@ fn op23_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op23_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -909,7 +917,7 @@ fn op24_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op24_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -965,7 +973,7 @@ fn op25_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op25_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1021,7 +1029,7 @@ fn op26_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op26_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1077,7 +1085,7 @@ fn op27_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op27_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1133,7 +1141,7 @@ fn op28_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op28_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1189,7 +1197,7 @@ fn op29_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op29_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1245,7 +1253,7 @@ fn op2_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op2_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1301,7 +1309,7 @@ fn op30_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op30_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1357,7 +1365,7 @@ fn op31_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op31_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1413,7 +1421,7 @@ fn op32_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op32_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1469,7 +1477,7 @@ fn op33_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op33_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1525,7 +1533,7 @@ fn op34_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op34_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1581,7 +1589,7 @@ fn op35_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op35_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1637,7 +1645,7 @@ fn op36_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op36_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1693,7 +1701,7 @@ fn op37_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op37_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1749,7 +1757,7 @@ fn op3_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op3_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1805,7 +1813,7 @@ fn op4_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op4_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1861,7 +1869,7 @@ fn op5_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op5_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1917,7 +1925,7 @@ fn op6_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op6_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -1973,7 +1981,7 @@ fn op7_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op7_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2029,7 +2037,7 @@ fn op8_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op8_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>
@@ -2085,7 +2093,7 @@ fn op9_get_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn op9_get<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
 ) -> Result<Response, StatusCode>

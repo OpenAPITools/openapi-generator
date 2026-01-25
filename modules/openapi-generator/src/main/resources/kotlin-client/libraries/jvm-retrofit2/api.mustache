@@ -77,7 +77,8 @@ import okhttp3.MultipartBody
     /**
     * enum for parameter {{paramName}}
     */
-    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
+    {{#kotlinx_serialization}}@Serializable
+    {{/kotlinx_serialization}}{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{enumName}}{{operationIdCamelCase}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}) {
     {{^enumUnknownDefaultCase}}
         {{#allowableValues}}
             {{#enumVars}}

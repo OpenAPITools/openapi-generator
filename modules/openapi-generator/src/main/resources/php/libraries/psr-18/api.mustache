@@ -178,10 +178,10 @@ use function sprintf;
      * {{.}}
      *
 {{/description}}
-{{#vendorExtensions.x-group-parameters}}
+{{#exts.x-group-parameters}}
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
-{{/vendorExtensions.x-group-parameters}}
+{{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -199,9 +199,9 @@ use function sprintf;
      * @throws \InvalidArgumentException
      * @return {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}void{{/returnType}}
      */
-    public function {{operationId}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
     {
-        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
+        {{#returnType}}list($response) = {{/returnType}}$this->{{operationId}}WithHttpInfo({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}});{{#returnType}}
         return $response;{{/returnType}}
     }
 
@@ -216,10 +216,10 @@ use function sprintf;
      * {{.}}
      *
 {{/description}}
-{{#vendorExtensions.x-group-parameters}}
+{{#exts.x-group-parameters}}
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
-{{/vendorExtensions.x-group-parameters}}
+{{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -237,9 +237,9 @@ use function sprintf;
      * @throws \InvalidArgumentException
      * @return array of {{#returnType}}{{#responses}}{{#dataType}}{{^-first}}|{{/-first}}{{/dataType}}{{{dataType}}}{{/responses}}{{/returnType}}{{^returnType}}null{{/returnType}}, HTTP status code, HTTP response headers (array of strings)
      */
-    public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}WithHttpInfo({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
     {
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}});
 
         try {
             try {
@@ -357,10 +357,10 @@ use function sprintf;
      * {{.}}
      *
 {{/description}}
-{{#vendorExtensions.x-group-parameters}}
+{{#exts.x-group-parameters}}
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
-{{/vendorExtensions.x-group-parameters}}
+{{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -377,9 +377,9 @@ use function sprintf;
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function {{operationId}}Async({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Async({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
     {
-        return $this->{{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+        return $this->{{operationId}}AsyncWithHttpInfo({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
             ->then(
                 function ($response) {
                     return $response[0];
@@ -398,10 +398,10 @@ use function sprintf;
      * {{.}}
      *
 {{/description}}
-{{#vendorExtensions.x-group-parameters}}
+{{#exts.x-group-parameters}}
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
-{{/vendorExtensions.x-group-parameters}}
+{{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -418,10 +418,10 @@ use function sprintf;
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function {{operationId}}AsyncWithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}AsyncWithHttpInfo({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
     {
         $returnType = '{{{returnType}}}';
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}});
 
         return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
@@ -463,10 +463,10 @@ use function sprintf;
     /**
      * Create request for operation '{{{operationId}}}'
      *
-{{#vendorExtensions.x-group-parameters}}
+{{#exts.x-group-parameters}}
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
-{{/vendorExtensions.x-group-parameters}}
+{{/exts.x-group-parameters}}
 {{#servers}}
 {{#-first}}
      * This operation contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
@@ -483,15 +483,15 @@ use function sprintf;
      * @throws \InvalidArgumentException
      * @return RequestInterface
      */
-    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Request({{^exts.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{/exts.x-group-parameters}}{{#exts.x-group-parameters}}$associative_array{{/exts.x-group-parameters}})
     {
-        {{#vendorExtensions.x-group-parameters}}
+        {{#exts.x-group-parameters}}
         // unbox the parameters from the associative array
         {{#allParams}}
         ${{paramName}} = array_key_exists('{{paramName}}', $associative_array) ? $associative_array['{{paramName}}'] : {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
         {{/allParams}}
 
-        {{/vendorExtensions.x-group-parameters}}
+        {{/exts.x-group-parameters}}
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set

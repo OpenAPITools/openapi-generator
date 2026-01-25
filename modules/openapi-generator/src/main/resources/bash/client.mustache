@@ -674,7 +674,7 @@ read -r -d '' appdescription <<EOF
 {{#x-bash-codegen-app-description}}{{{x-bash-codegen-app-description}}}{{/x-bash-codegen-app-description}}
 {{^x-bash-codegen-app-description}}{{{appDescription}}}{{/x-bash-codegen-app-description}}
 EOF
-echo "$appdescription" | paste -sd' ' | fold -sw 80
+echo "$appdescription" | paste -sd' ' - | fold -sw 80
 }
 
 
@@ -700,23 +700,23 @@ print_version() {
 ##############################################################################
 print_{{operationId}}_help() {
     echo ""
-    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "${BOLD}${WHITE}{{operationId}} - {{{summary}}}{{#authMethods}}${OFF}${BLUE}(AUTH - {{#isBasicBasic}}BASIC{{/isBasicBasic}}{{#isApiKey}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{/isApiKey}}{{#isOAuth}}OAuth2{{/isOAuth}}){{/authMethods}}${OFF}" | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-bash-codegen-description}}
-    echo -e "{{{x-bash-codegen-description}}}" | paste -sd' ' | fold -sw 80
+    echo -e "{{{x-bash-codegen-description}}}" | paste -sd' ' - | fold -sw 80
     echo -e ""
 {{/x-bash-codegen-description}}
 {{^x-bash-codegen-description}}
 {{#notes}}
-    echo -e "{{{.}}}" | paste -sd' ' | fold -sw 80
+    echo -e "{{{.}}}" | paste -sd' ' - | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/x-bash-codegen-description}}
 {{/vendorExtensions}}
 {{^vendorExtensions}}
 {{#notes}}
-    echo -e "{{{.}}}" | paste -sd' ' | fold -sw 80
+    echo -e "{{{.}}}" | paste -sd' ' - | fold -sw 80
     echo -e ""
 {{/notes}}
 {{/vendorExtensions}}
@@ -725,24 +725,24 @@ print_{{operationId}}_help() {
 {{/hasParams}}
 {{#allParams}}
 {{#isPathParam}}
-    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}=value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}=value${OFF}" | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/    /'
 {{/isPathParam}}
 {{#isQueryParam}}
     echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}}${YELLOW}{{#isContainer}} Specify as: {{#vendorExtensions}}{{#x-codegen-collection-multi}}{{baseName}}=value1 {{baseName}}=value2 {{baseName}}=...{{/x-codegen-collection-multi}}{{#x-codegen-collection-csv}}{{baseName}}="value1,value2,..."{{/x-codegen-collection-csv}}{{#x-codegen-collection-pipes}}{{baseName}}="value1|value2|..."{{/x-codegen-collection-pipes}}{{#x-codegen-collection-ssv}}{{baseName}}="value1 value2 ..."{{/x-codegen-collection-ssv}}{{#x-codegen-collection-tsv}}{{baseName}}="value1\\tvalue2\\t..."{{/x-codegen-collection-tsv}}{{/vendorExtensions}}{{/isContainer}}{{^isContainer}} Specify as: {{baseName}}=value{{/isContainer}}${OFF}" \
-        | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+        | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/    /'
 {{/isQueryParam}}
 {{#isHeaderParam}}
-    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}:value${OFF}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}{{baseName}}${OFF} ${BLUE}[{{dataType}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}{{#defaultValue}} ${CYAN}(default: {{defaultValue}}){{/defaultValue}}${OFF} - {{{description}}} ${YELLOW}Specify as: {{baseName}}:value${OFF}" | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/    /'
 {{/isHeaderParam}}
 {{/allParams}}
 {{#allParams}}
 {{#isBodyParam}}
-    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/    /'
+    echo -e "  * ${GREEN}body${OFF} ${BLUE}[{{#consumes}}{{{mediaType}}}{{^-last}},{{/-last}}{{/consumes}}]${OFF}{{#required}} ${RED}(required)${OFF}{{/required}}${OFF} - {{{description}}}" | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/    /'
     echo -e ""
 {{#vendorExtensions}}
 {{#x-codegen-body-example}}
     echo -e "${BOLD}${WHITE}Body content example${OFF}"
-    echo -e '{{{x-codegen-body-example}}}' | paste -sd' ' | fold -sw 80
+    echo -e '{{{x-codegen-body-example}}}' | paste -sd' ' - | fold -sw 80
     echo -e ""
 {{/x-codegen-body-example}}
 {{/vendorExtensions}}
@@ -752,14 +752,14 @@ print_{{operationId}}_help() {
     echo -e "${BOLD}${WHITE}Responses${OFF}"
 {{#responses}}
     code={{code}}
-    echo -e "${result_color_table[${code:0:1}]}  {{code}};{{{message}}}${OFF}" | paste -sd' ' | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
+    echo -e "${result_color_table[${code:0:1}]}  {{code}};{{{message}}}${OFF}" | paste -sd' ' - | column -t -s ';' | fold -sw 80 | sed '2,$s/^/       /'
 {{#headers}}
 {{#-first}}
         echo -e "       ${BOLD}${WHITE}Response headers${OFF}"
 {{/-first}}
 {{/headers}}
 {{#headers}}
-        echo -e "       ${BLUE}{{baseName}}${OFF} - {{{description}}}" | paste -sd' ' | fold -sw 80 | sed '2,$s/^/        /'
+        echo -e "       ${BLUE}{{baseName}}${OFF} - {{{description}}}" | paste -sd' ' - | fold -sw 80 | sed '2,$s/^/        /'
 {{/headers}}
 {{/responses}}
 {{#vendorExtensions}}

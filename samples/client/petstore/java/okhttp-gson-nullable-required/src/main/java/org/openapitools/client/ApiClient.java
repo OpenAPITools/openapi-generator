@@ -91,7 +91,8 @@ public class ApiClient {
     protected InputStream sslCaCert;
     protected boolean verifyingSsl;
     protected KeyManager[] keyManagers;
-
+    protected String tlsServerName;
+    
     protected OkHttpClient httpClient;
     protected JSON json;
 
@@ -235,8 +236,8 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2
-     * @return An instance of OkHttpClient
+     * @param basePath Base path of the URL (e.g http://petstore.swagger.io/v2)
+     * @return An instance of ApiClient
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
@@ -284,7 +285,7 @@ public class ApiClient {
      * Set HTTP client, which must never be null.
      *
      * @param newHttpClient An instance of OkHttpClient
-     * @return Api Client
+     * @return ApiClient
      * @throws java.lang.NullPointerException when newHttpClient is null
      */
     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
@@ -375,6 +376,29 @@ public class ApiClient {
      */
     public ApiClient setKeyManagers(KeyManager[] managers) {
         this.keyManagers = managers;
+        applySslSettings();
+        return this;
+    }
+
+    /**
+     * Get TLS server name for SNI (Server Name Indication).
+     *
+     * @return The TLS server name
+     */
+    public String getTlsServerName() {
+        return tlsServerName;
+    }
+
+    /**
+     * Set TLS server name for SNI (Server Name Indication).
+     * This is used to verify the server certificate against a specific hostname
+     * instead of the hostname in the URL.
+     *
+     * @param tlsServerName The TLS server name to use for certificate verification
+     * @return ApiClient
+     */
+    public ApiClient setTlsServerName(String tlsServerName) {
+        this.tlsServerName = tlsServerName;
         applySslSettings();
         return this;
     }
@@ -1021,7 +1045,17 @@ public class ApiClient {
         }
         try {
             if (isJsonMime(contentType)) {
-                return JSON.deserialize(respBody.byteStream(), returnType);
+                if (returnType.equals(String.class)) {
+                    String respBodyString = respBody.string();
+                    if (respBodyString.isEmpty()) {
+                        return null;
+                    }
+                    // Use String-based deserialize for String return type with fallback
+                    return JSON.deserialize(respBodyString, returnType);
+                } else {
+                    // Use InputStream-based deserialize which supports responses > 2GB
+                    return JSON.deserialize(respBody.byteStream(), returnType);
+                }
             } else if (returnType.equals(String.class)) {
                 String respBodyString = respBody.string();
                 if (respBodyString.isEmpty()) {
@@ -1364,7 +1398,8 @@ public class ApiClient {
             if (serverIndex != null) {
                 if (serverIndex < 0 || serverIndex >= servers.size()) {
                     throw new ArrayIndexOutOfBoundsException(String.format(
-                    "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
+                        java.util.Locale.ROOT,
+                        "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
                     ));
                 }
                 baseURL = servers.get(serverIndex).URL(serverVariables);
@@ -1436,11 +1471,11 @@ public class ApiClient {
      */
     public void processCookieParams(Map<String, String> cookieParams, Request.Builder reqBuilder) {
         for (Entry<String, String> param : cookieParams.entrySet()) {
-            reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
+            reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
         }
         for (Entry<String, String> param : defaultCookieMap.entrySet()) {
             if (!cookieParams.containsKey(param.getKey())) {
-                reqBuilder.addHeader("Cookie", String.format("%s=%s", param.getKey(), param.getValue()));
+                reqBuilder.addHeader("Cookie", String.format(java.util.Locale.ROOT, "%s=%s", param.getKey(), param.getValue()));
             }
         }
     }
@@ -1637,7 +1672,17 @@ public class ApiClient {
                     trustManagerFactory.init(caKeyStore);
                 }
                 trustManagers = trustManagerFactory.getTrustManagers();
-                hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                if (tlsServerName != null && !tlsServerName.isEmpty()) {
+                    hostnameVerifier = new HostnameVerifier() {
+                        @Override
+                        public boolean verify(String hostname, SSLSession session) {
+                            // Verify the certificate against tlsServerName instead of the actual hostname
+                            return OkHostnameVerifier.INSTANCE.verify(tlsServerName, session);
+                        }
+                    };
+                } else {
+                    hostnameVerifier = OkHostnameVerifier.INSTANCE;
+                }
             }
 
             SSLContext sslContext = SSLContext.getInstance("TLS");

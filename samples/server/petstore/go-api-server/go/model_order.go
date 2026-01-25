@@ -17,17 +17,15 @@ import (
 
 
 
-// Order - An order for a pets from the pet store
 type Order struct {
-	SpecialInfo
-
-	Id int64 `json:"id,omitempty"`
 
 	PetId int64 `json:"petId,omitempty"`
 
 	Quantity int32 `json:"quantity,omitempty"`
 
 	ShipDate time.Time `json:"shipDate,omitempty"`
+
+	Id int64 `json:"id,omitempty"`
 
 	// Order Status
 	Status string `json:"status,omitempty"`
@@ -46,10 +44,6 @@ func AssertOrderRequired(obj Order) error {
 		if isZero := IsZeroValue(el); isZero {
 			return &RequiredError{Field: name}
 		}
-	}
-
-	if err := AssertSpecialInfoRequired(obj.SpecialInfo); err != nil {
-		return err
 	}
 
 	return nil

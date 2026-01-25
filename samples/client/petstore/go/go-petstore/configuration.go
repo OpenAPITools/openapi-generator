@@ -99,7 +99,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "http://petstore.swagger.io:80/v2",
+				URL: "http://localhost/v2",
 				Description: "No description provided",
 			},
 		},

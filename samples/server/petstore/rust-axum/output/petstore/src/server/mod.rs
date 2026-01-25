@@ -1,16 +1,24 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
-use http::{header::CONTENT_TYPE, HeaderMap, HeaderName, HeaderValue, Method, StatusCode};
+use headers::Host;
+use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
+use crate::{header, types::*};
+#[allow(unused_imports)]
+use crate::{
+    models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
+    models::check_xss_string, models::check_xss_vec_string,
+};
 
 /// Setup API Server.
 pub fn new<I, A, E, C>(api_impl: I) -> Router
@@ -91,7 +99,7 @@ fn add_pet_validation(body: models::Pet) -> std::result::Result<(models::Pet,), 
 #[tracing::instrument(skip_all)]
 async fn add_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -170,7 +178,7 @@ fn delete_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::DeletePetPathParams>,
@@ -261,7 +269,7 @@ fn find_pets_by_status_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_status<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByStatusQueryParams>,
     State(api_impl): State<I>,
@@ -336,7 +344,7 @@ fn find_pets_by_tags_validation(
 #[tracing::instrument(skip_all)]
 async fn find_pets_by_tags<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::FindPetsByTagsQueryParams>,
     State(api_impl): State<I>,
@@ -411,7 +419,7 @@ fn get_pet_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_pet_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::GetPetByIdPathParams>,
@@ -508,7 +516,7 @@ fn update_pet_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Pet>,
@@ -608,7 +616,7 @@ fn update_pet_with_form_validation(
 #[tracing::instrument(skip_all)]
 async fn update_pet_with_form<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UpdatePetWithFormPathParams>,
     State(api_impl): State<I>,
@@ -674,7 +682,7 @@ fn upload_file_validation(
 #[tracing::instrument(skip_all)]
 async fn upload_file<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::UploadFilePathParams>,
     State(api_impl): State<I>,
@@ -753,7 +761,7 @@ fn delete_order_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::DeleteOrderPathParams>,
     State(api_impl): State<I>,
@@ -817,7 +825,7 @@ fn get_inventory_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn get_inventory<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -905,7 +913,7 @@ fn get_order_by_id_validation(
 #[tracing::instrument(skip_all)]
 async fn get_order_by_id<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetOrderByIdPathParams>,
     State(api_impl): State<I>,
@@ -991,7 +999,7 @@ fn place_order_validation(
 #[tracing::instrument(skip_all)]
 async fn place_order<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Order>,
@@ -1073,7 +1081,7 @@ fn create_user_validation(
 #[tracing::instrument(skip_all)]
 async fn create_user<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1156,7 +1164,7 @@ fn create_users_with_array_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_array_input<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1240,7 +1248,7 @@ fn create_users_with_list_input_validation(
 #[tracing::instrument(skip_all)]
 async fn create_users_with_list_input<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1316,7 +1324,7 @@ fn delete_user_validation(
 #[tracing::instrument(skip_all)]
 async fn delete_user<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::DeleteUserPathParams>,
@@ -1395,7 +1403,7 @@ fn get_user_by_name_validation(
 #[tracing::instrument(skip_all)]
 async fn get_user_by_name<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     Path(path_params): Path<models::GetUserByNamePathParams>,
     State(api_impl): State<I>,
@@ -1473,7 +1481,7 @@ fn login_user_validation(
 #[tracing::instrument(skip_all)]
 async fn login_user<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     QueryExtra(query_params): QueryExtra<models::LoginUserQueryParams>,
     State(api_impl): State<I>,
@@ -1596,7 +1604,7 @@ fn logout_user_validation() -> std::result::Result<(), ValidationErrors> {
 #[tracing::instrument(skip_all)]
 async fn logout_user<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     State(api_impl): State<I>,
@@ -1680,7 +1688,7 @@ fn update_user_validation(
 #[tracing::instrument(skip_all)]
 async fn update_user<I, A, E, C>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     headers: HeaderMap,
     Path(path_params): Path<models::UpdateUserPathParams>,

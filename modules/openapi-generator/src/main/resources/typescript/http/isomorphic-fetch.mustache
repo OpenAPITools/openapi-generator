@@ -2,7 +2,7 @@ import {HttpLibrary, RequestContext, ResponseContext} from './http{{importFileEx
 import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{importFileExtension}}'{{/useRxJS}};
 {{#platforms}}
 {{#node}}
-import fetch from "node-fetch";
+import { fetch } from 'undici';
 {{/node}}
 {{#browser}}
 import "whatwg-fetch";
@@ -22,7 +22,7 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             signal: request.getSignal(),
             {{#platforms}}
             {{#node}}
-            agent: request.getAgent(),
+            dispatcher: request.getDispatcher(),
             {{/node}}
             {{#browser}}
             credentials: "same-origin"

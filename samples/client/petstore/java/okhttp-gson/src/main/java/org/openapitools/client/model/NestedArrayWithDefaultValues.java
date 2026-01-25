@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * NestedArrayWithDefaultValues
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NestedArrayWithDefaultValues {
   public static final String SERIALIZED_NAME_NESTED_ARRAY = "nestedArray";
   @SerializedName(SERIALIZED_NAME_NESTED_ARRAY)
@@ -192,13 +192,13 @@ public class NestedArrayWithDefaultValues {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NestedArrayWithDefaultValues.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in NestedArrayWithDefaultValues is not found in the empty JSON string", NestedArrayWithDefaultValues.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in NestedArrayWithDefaultValues is not found in the empty JSON string", NestedArrayWithDefaultValues.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
       if (jsonObj.get("nestedArray") != null && !jsonObj.get("nestedArray").isJsonNull() && !jsonObj.get("nestedArray").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `nestedArray` to be an array in the JSON string but got `%s`", jsonObj.get("nestedArray").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `nestedArray` to be an array in the JSON string but got `%s`", jsonObj.get("nestedArray").toString()));
       }
   }
 
@@ -259,7 +259,7 @@ public class NestedArrayWithDefaultValues {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

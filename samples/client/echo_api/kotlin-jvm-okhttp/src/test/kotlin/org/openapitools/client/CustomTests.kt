@@ -16,7 +16,6 @@ class CustomTests : ShouldSpec({
 
         parsedResult.body shouldContain """
             Content-Disposition: form-data; name="my-file"
-            Content-Length: 0
         """.trimIndent()
     }
 
@@ -27,8 +26,7 @@ class CustomTests : ShouldSpec({
         parsedResult.body shouldContain """
             Content-Disposition: form-data; name="my-file"; filename="test.txt"
             Content-Type: text/plain
-            Content-Length: 12
-            
+
             testing only
         """.trimIndent()
     }
@@ -40,15 +38,13 @@ class CustomTests : ShouldSpec({
         parsedResult.body shouldContain """
             Content-Disposition: form-data; name="files"; filename="test.txt"
             Content-Type: text/plain
-            Content-Length: 12
-            
+
             testing only
         """.trimIndent()
 
         parsedResult.body shouldContain """
             Content-Disposition: form-data; name="files"; filename="otherTestFile.txt"
             Content-Type: text/plain
-            Content-Length: 17
 
             Another test file
         """.trimIndent()

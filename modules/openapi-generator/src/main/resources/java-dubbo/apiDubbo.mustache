@@ -1,0 +1,66 @@
+package {{providerPackage}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+{{#hasModel}}
+import {{modelPackage}}.*;
+{{/hasModel}}
+{{#operations}}
+import {{interfacePackage}}.{{serviceName}};
+{{/operations}}
+import java.util.List;
+import java.util.Map;
+import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+{{#async}}
+import java.util.concurrent.CompletableFuture;
+{{/async}}
+import javax.annotation.Generated;
+
+
+{{>generatedAnnotation}}
+{{#operations}}
+@DubboService
+public class {{serviceName}}Impl implements {{serviceName}} {
+
+    private static final Logger logger = LoggerFactory.getLogger({{serviceName}}Impl.class);
+
+{{#operation}}
+    @Override
+{{#async}}
+    public CompletableFuture<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}(
+{{/async}}
+{{^async}}
+    public {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{nickname}}(
+{{/async}}
+{{#allParams}}
+        {{{dataType}}} {{paramName}}{{^-last}},{{/-last}}
+{{/allParams}}
+    ) {
+        logger.info("Dubbo service method {{nickname}} called with parameters: {{#allParams}}{{paramName}}={}{{^-last}}, {{/-last}}{{/allParams}}"{{#allParams}}, {{paramName}}{{/allParams}});
+        
+{{#async}}
+        return CompletableFuture.supplyAsync(() -> {
+            // TODO: Implement your business logic here
+            // Replace this with actual implementation
+            return null;
+        });
+{{/async}}
+{{^async}}
+        // TODO: Implement your business logic here
+{{#returnType}}
+        // Replace this with actual implementation
+        return null;
+{{/returnType}}
+{{/async}}
+    }
+{{^-last}}
+
+{{/-last}}
+{{/operation}}
+}
+{{/operations}}

@@ -59,7 +59,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @JsonDeserialize(using = Shape.ShapeDeserializer.class)
 @JsonSerialize(using = Shape.ShapeSerializer.class)
 public class Shape extends AbstractOpenApiSchema {
@@ -153,7 +153,7 @@ public class Shape extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Shape: %d classes match result, expected 1", match));
         }
 
         /**

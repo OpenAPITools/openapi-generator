@@ -1,0 +1,40 @@
+name: Samples PowerShell
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/powershell/**
+  pull_request:
+    paths:
+      - samples/client/petstore/powershell/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Test Powershell Clients
+    strategy:
+      matrix:
+        sample:
+          - samples/client/petstore/powershell/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build the client
+        working-directory: ${{ matrix.sample }}
+        shell: pwsh
+        run: |
+          ./Build.ps1
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        shell: pwsh
+        run: |
+          Import-Module -Name './src/PSPetstore'
+          Invoke-Pester -PassThru
+
+

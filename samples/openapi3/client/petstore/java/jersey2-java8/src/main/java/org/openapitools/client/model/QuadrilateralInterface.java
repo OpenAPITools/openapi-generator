@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   QuadrilateralInterface.JSON_PROPERTY_QUADRILATERAL_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String JSON_PROPERTY_QUADRILATERAL_TYPE = "quadrilateralType";
   @javax.annotation.Nonnull
@@ -53,7 +53,7 @@ public class QuadrilateralInterface {
    * @return quadrilateralType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getQuadrilateralType() {
@@ -61,7 +61,7 @@ public class QuadrilateralInterface {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_QUADRILATERAL_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setQuadrilateralType(@javax.annotation.Nonnull String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;

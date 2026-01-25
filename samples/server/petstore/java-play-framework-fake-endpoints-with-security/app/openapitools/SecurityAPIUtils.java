@@ -123,7 +123,7 @@ public class SecurityAPIUtils {
                 final PublicKey publicKey = jwk.getPublicKey();
 
                 if (!(publicKey instanceof RSAPublicKey)) {
-                    throw new IllegalArgumentException(String.format("Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
+                    throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Key with ID %s was found in JWKS but is not a RSA-key.", keyId));
                 }
 
                 Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) publicKey, null);

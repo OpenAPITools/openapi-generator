@@ -74,6 +74,7 @@ lib/petstore/api/store_api.rb
 lib/petstore/api/user_api.rb
 lib/petstore/api_client.rb
 lib/petstore/api_error.rb
+lib/petstore/api_model_base.rb
 lib/petstore/configuration.rb
 lib/petstore/models/additional_properties_class.rb
 lib/petstore/models/all_of_with_single_ref.rb

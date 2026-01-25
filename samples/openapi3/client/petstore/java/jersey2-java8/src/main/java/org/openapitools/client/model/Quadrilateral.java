@@ -63,7 +63,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
 @JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
@@ -110,7 +110,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     newQuadrilateral.setActualInstance(deserialized);
                     return newQuadrilateral;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
+                    log.log(Level.WARNING, String.format(java.util.Locale.ROOT, "Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
             }
 
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
@@ -153,7 +153,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new IOException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
         }
 
         /**

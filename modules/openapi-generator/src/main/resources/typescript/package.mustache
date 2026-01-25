@@ -24,13 +24,11 @@
   {{/supportsES6}}
   "exports": {
     ".": {
-      {{#supportsES6}}
       "import": "./dist/index.js",
-      {{/supportsES6}}
       {{^supportsES6}}
       "require": "./dist/index.js",
       {{/supportsES6}}
-      "types": "./dist/index.d.js"
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -46,8 +44,7 @@
       {{#fetch-api}}
         {{#platforms}}
           {{#node}}
-    "node-fetch": "^2.7.0",
-    "@types/node-fetch": "^2.6.13",
+    "undici": "^7.16.0",
           {{/node}}
           {{#browser}}
     "whatwg-fetch": "^3.0.0",
@@ -61,7 +58,7 @@
     {{/frameworks}}
     {{#platforms}}
       {{#node}}
-    "@types/node": "^16.18.126",
+    "@types/node": "^20.17.10",
     "form-data": "^4.0.4",
       {{/node}}
     {{/platforms}}

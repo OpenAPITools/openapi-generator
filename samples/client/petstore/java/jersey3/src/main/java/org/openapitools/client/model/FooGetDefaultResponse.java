@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
 @JsonTypeName("_foo_get_default_response")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class FooGetDefaultResponse {
   public static final String JSON_PROPERTY_STRING = "string";
   @jakarta.annotation.Nullable
@@ -59,7 +59,7 @@ public class FooGetDefaultResponse {
   @jakarta.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Foo getString() {
@@ -67,7 +67,7 @@ public class FooGetDefaultResponse {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_STRING)
+  @JsonProperty(value = JSON_PROPERTY_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setString(@jakarta.annotation.Nullable Foo string) {
     this.string = string;

@@ -10,6 +10,9 @@ import type {
  * {{{.}}}{{/description}}
  * @export
  * @interface {{classname}}
+{{#deprecated}}
+ * @deprecated
+{{/deprecated}}
  */
 export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
@@ -18,6 +21,9 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
     /**{{#description}}
      * {{{.}}}{{/description}}
+     {{#deprecated}}
+     * @deprecated
+     {{/deprecated}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
@@ -30,6 +36,9 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 /**
  * @export
  * @enum {string}
+{{#deprecated}}
+ * @deprecated
+{{/deprecated}}
  */
 export enum {{classname}}{{enumName}} {
 {{#allowableValues}}

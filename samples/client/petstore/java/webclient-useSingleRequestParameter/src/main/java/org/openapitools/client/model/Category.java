@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -54,7 +54,7 @@ public class Category {
    * @return id
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
@@ -62,7 +62,7 @@ public class Category {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
@@ -79,7 +79,7 @@ public class Category {
    * @return name
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getName() {
@@ -87,7 +87,7 @@ public class Category {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setName(@javax.annotation.Nonnull String name) {
     this.name = name;

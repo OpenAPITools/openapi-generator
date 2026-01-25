@@ -8,9 +8,12 @@ servers:
 components:
   schemas:
     AreaCode:
-      oneOf:
-      - $ref: "#/components/schemas/StateTerritoryCode"
-      - $ref: "#/components/schemas/MarineAreaCode"
+      enum:
+      - AL
+      - AK
+      - AM
+      - AN
+      type: string
     StateTerritoryCode:
       enum:
       - AL

@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class MammalAnyof extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(MammalAnyof.class.getName());
 
@@ -123,7 +123,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Whale'", e);
                     }
                     // deserialize Zebra
@@ -136,7 +136,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Zebra'", e);
                     }
                     // deserialize Pig
@@ -149,11 +149,11 @@ public class MammalAnyof extends AbstractOpenApiSchema {
                         return ret;
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Pig'", e);
                     }
 
-                    throw new IOException(String.format("Failed deserialization for MammalAnyof: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for MammalAnyof: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -268,7 +268,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
             Whale.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Whale failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Whale failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Zebra
@@ -276,7 +276,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
             Zebra.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Zebra failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Zebra failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Pig
@@ -284,10 +284,10 @@ public class MammalAnyof extends AbstractOpenApiSchema {
             Pig.validateJsonElement(jsonElement);
             return;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Pig failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pig failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
-        throw new IOException(String.format("The JSON string is invalid for MammalAnyof with anyOf schemas: Pig, Whale, Zebra. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+        throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for MammalAnyof with anyOf schemas: Pig, Whale, Zebra. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     }
 
     /**

@@ -1,1 +1,26 @@
-{{#isContainer}}{{#items}}(List.map {{> to_string}}){{/items}}{{/isContainer}}{{^isEnum}}{{#isLong}}Int64.to_string{{/isLong}}{{#isInteger}}Int32.to_string{{/isInteger}}{{#isFloat}}string_of_float{{/isFloat}}{{#isNumber}}string_of_float{{/isNumber}}{{#isDouble}}string_of_float{{/isDouble}}{{#isBoolean}}string_of_bool{{/isBoolean}}{{#isFile}}(fun x -> x){{/isFile}}{{#isDate}}(fun x -> x){{/isDate}}{{#isDateTime}}(fun x -> x){{/isDateTime}}{{#isString}}(fun x -> x){{/isString}}{{#isByteArray}}(fun x -> x){{/isByteArray}}{{#isModel}}{{{vendorExtensions.x-model-module}}}.show{{/isModel}}{{/isEnum}}{{^isModel}}{{^isContainer}}{{#isEnum}}Enums.show_{{{datatypeWithEnum}}}{{/isEnum}}{{/isContainer}}{{/isModel}}
+{{#isArray}}
+    {{#items}}(Stdlib.List.map {{> to_string}}){{/items}}
+{{/isArray}}
+{{#isMap}}{{! For maps, only transform the value, the call site will take care of properly transforming the key-value pairs since it depends on the context. }}
+    {{#items}}{{> to_string}}{{/items}}
+{{/isMap}}
+{{^isEnum}}
+    {{#isLong}}Int64.to_string{{/isLong}}
+    {{#isInteger}}Int32.to_string{{/isInteger}}
+    {{#isFloat}}string_of_float{{/isFloat}}
+    {{#isNumber}}string_of_float{{/isNumber}}
+    {{#isDouble}}string_of_float{{/isDouble}}
+    {{#isBoolean}}string_of_bool{{/isBoolean}}
+    {{#isFile}}(fun x -> x){{/isFile}}
+    {{#isDate}}(fun x -> x){{/isDate}}
+    {{#isDateTime}}(fun x -> x){{/isDateTime}}
+    {{#isString}}(fun x -> x){{/isString}}
+    {{#isByteArray}}(fun x -> x){{/isByteArray}}
+    {{#isModel}}{{{vendorExtensions.x-model-module}}}.show{{/isModel}}
+{{/isEnum}}
+{{^isModel}}
+    {{^isContainer}}
+        {{#isEnum}}Enums.show_{{{datatypeWithEnum}}}{{/isEnum}}
+        {{#isEnumRef}}(failwith "Unsupported: enum reference"){{/isEnumRef}}
+    {{/isContainer}}
+{{/isModel}}

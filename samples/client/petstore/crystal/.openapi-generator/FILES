@@ -1,5 +1,4 @@
 .gitignore
-.travis.yml
 README.md
 git_push.sh
 shard.yml
@@ -20,3 +19,4 @@ src/petstore/models/order.cr
 src/petstore/models/pet.cr
 src/petstore/models/tag.cr
 src/petstore/models/user.cr
+src/petstore/recursive_hash.cr

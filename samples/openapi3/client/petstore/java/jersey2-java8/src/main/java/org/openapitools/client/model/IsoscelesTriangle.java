@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   IsoscelesTriangle.JSON_PROPERTY_SHAPE_TYPE,
   IsoscelesTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class IsoscelesTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   @javax.annotation.Nonnull
@@ -58,7 +58,7 @@ public class IsoscelesTriangle {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -66,7 +66,7 @@ public class IsoscelesTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
@@ -83,7 +83,7 @@ public class IsoscelesTriangle {
    * @return triangleType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getTriangleType() {
@@ -91,7 +91,7 @@ public class IsoscelesTriangle {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_TRIANGLE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setTriangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;

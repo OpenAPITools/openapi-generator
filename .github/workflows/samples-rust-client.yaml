@@ -1,0 +1,72 @@
+name: Samples Rust Clients
+
+on:
+  push:
+    paths:
+      - "samples/client/others/rust/**"
+      - "samples/client/petstore/rust-server/**"
+  pull_request:
+    paths:
+      - "samples/client/others/rust/**"
+      - "samples/client/petstore/rust/**"
+
+jobs:
+  build:
+    name: Build Rust
+    runs-on: ubuntu-latest
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # these folders contain sub-projects of rust clients, servers
+          - samples/client/others/rust/
+          - samples/client/petstore/rust/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-targets: false # Don't cache workspace target directories as they don't exist
+          cache-directories:
+            ${{ matrix.sample }}/target
+          workspaces: |
+            ${{ matrix.sample }}/output/*
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: cargo build --all-targets --all-features
+      - name: Tests
+        working-directory: ${{ matrix.sample }}
+        run: |
+          set -e
+
+          # Iterate through each example and test various features
+          for package in $(find . -maxdepth 1 -mindepth 1 -type d)
+          do
+            # Not all versions have a client example
+            if test -f examples/client/main.rs; then
+              cargo build --example client --features="client"
+            fi
+
+            # Test the CLI works if present
+            if test -f bin/cli.rs; then
+              cargo build --bin ${package##*/} --features cli
+              target/debug/${package##*/} --help
+            fi
+            cargo fmt
+            cargo test
+            cargo clippy
+            cargo doc
+          done

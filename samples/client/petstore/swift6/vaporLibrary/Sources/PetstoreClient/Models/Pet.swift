@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Pet: Content, Hashable {
+public struct Pet: Sendable, Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case available = "available"
@@ -53,28 +53,7 @@ public final class Pet: Content, Hashable {
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(status, forKey: .status)
     }
-
-    public static func == (lhs: Pet, rhs: Pet) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.category == rhs.category &&
-        lhs.name == rhs.name &&
-        lhs.photoUrls == rhs.photoUrls &&
-        lhs.tags == rhs.tags &&
-        lhs.status == rhs.status
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(category?.hashValue)
-        hasher.combine(name.hashValue)
-        hasher.combine(photoUrls.hashValue)
-        hasher.combine(tags?.hashValue)
-        hasher.combine(status?.hashValue)
-        
-    }
 }
 
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension Pet: Identifiable {}

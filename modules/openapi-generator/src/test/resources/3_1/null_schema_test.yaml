@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /person/display/{personId}:
+    get:
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          description: The id of the person to retrieve
+          schema:
+            type: string
+      operationId: list
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnyOfTest"
+components:
+  schemas:
+    AnyOfTest:
+      description: to test anyOf
+      anyOf:
+        - type: string
+        - type: 'null'
+        - type: null
+        - $ref: null
+    OneOfTest:
+      description: to test oneOf
+      oneOf:
+        - type: integer
+        - type: 'null'
+        - type: null
+        - $ref: null
+    OneOfTest2:
+      description: to test oneOf
+      oneOf:
+        - type: string
+        - type: 'null'
+    OneOfNullableTest:
+      description: to test oneOf nullable
+      oneOf:
+        - type: integer
+        - type: string
+        - $ref: null
+    Parent:
+      type: object
+      properties:
+        dummy:
+          $ref: '#/components/schemas/IntegerRef'
+        string_ref:
+          anyOf:
+            - $ref: '#/components/schemas/StringRef'
+    AnyOfStringArrayOfString:
+      anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string
+    AnyOfAnyType:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object
+        - type: string
+        - type: number
+        - type: integer
+    AnyOfAnyTypeWithRef:
+      anyOf:
+        - type: boolean
+        - type: array
+          items: { }
+        - type: object
+        - type: string
+        - type: number
+        - $ref: '#/components/schemas/IntegerRef'
+    IntegerRef:
+      type: integer
+    StringRef:
+      type: string
+    OneOfAnyType:
+      oneOf:
+        - type: object
+        - type: boolean
+        - type: number
+        - type: string
+        - type: integer
+        - type: array
+          items: {}
+    OneOfRef:
+      oneOf:
+        - $ref: '#/components/schemas/IntegerRef'
+    OneOfMultiRef:
+      oneOf:
+        - $ref: '#/components/schemas/IntegerRef'
+        - $ref: '#/components/schemas/StringRef'
+    JustDescription:
+      description: A schema with just description

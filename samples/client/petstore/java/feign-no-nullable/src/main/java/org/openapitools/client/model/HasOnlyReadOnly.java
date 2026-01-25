@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 })
 @JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -65,7 +65,7 @@ public class HasOnlyReadOnly {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -81,7 +81,7 @@ public class HasOnlyReadOnly {
    */
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {

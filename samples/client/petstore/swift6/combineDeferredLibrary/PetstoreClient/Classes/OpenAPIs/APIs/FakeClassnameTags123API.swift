@@ -20,7 +20,6 @@ open class FakeClassnameTags123API {
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClassname(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask

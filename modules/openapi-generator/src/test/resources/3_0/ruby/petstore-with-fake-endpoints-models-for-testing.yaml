@@ -2162,3 +2162,33 @@ components:
           type: string
         type_:
           type: string
+    OneOfPrimitiveTypes:
+      oneOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+        - type: string
+          format: date
+        - type: string
+          format: date-time
+        - type: array
+          items:
+            type: string
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: integer
+        - type: array
+          items:
+            type: boolean
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: string
+            format: date-time

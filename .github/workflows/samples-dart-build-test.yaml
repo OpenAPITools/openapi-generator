@@ -1,0 +1,59 @@
+name: Samples Dart (build, test)
+
+on:
+  push:
+    branches:
+    paths:
+      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      - samples/openapi3/client/petstore/dart-dio/oneof/**
+      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
+      - samples/openapi3/client/petstore/dart-dio/binary_response/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
+  pull_request:
+    paths:
+      #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
+      #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      - samples/openapi3/client/petstore/dart-dio/oneof/**
+      - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
+      - samples/openapi3/client/petstore/dart-dio/binary_response/**
+      - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/**
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        sdk: ["3.9.0"]
+        sample:
+          #- samples/openapi3/client/petstore/dart2/petstore_client_lib_fake/
+          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
+          #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
+          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
+          - samples/openapi3/client/petstore/dart-dio/oneof/
+          - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/
+          - samples/openapi3/client/petstore/dart-dio/binary_response/
+          - samples/openapi3/client/petstore/dart-dio/petstore-timemachine/
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: ${{ matrix.sdk }}
+
+      - name: pub get
+        working-directory: ${{ matrix.sample }}
+        run: dart pub get
+
+      - name: build_runner build
+        working-directory: ${{ matrix.sample }}
+        run: dart run build_runner build
+
+      - name: test
+        working-directory: ${{ matrix.sample }}
+        run: dart test

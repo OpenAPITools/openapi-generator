@@ -7,6 +7,7 @@ The value may be a shape or the \'null\' value. This is introduced in OAS schema
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **shapeType** | **string** |  | [default to undefined]
+**triangleType** | **string** |  | [default to undefined]
 **quadrilateralType** | **string** |  | [default to undefined]
 
 ## Example
@@ -16,6 +17,7 @@ import { ShapeOrNull } from './api';
 
 const instance: ShapeOrNull = {
     shapeType,
+    triangleType,
     quadrilateralType,
 };
 ```

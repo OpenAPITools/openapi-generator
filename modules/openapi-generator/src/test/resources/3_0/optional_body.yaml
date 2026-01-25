@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: optional body
+  version: 1.0.1
+servers:
+  - url: https://api.123.com/api/v1
+tags:
+  - name: just-api
+    description: Everything about API functions
+paths:
+  /silly:
+    post:
+      tags:
+        - just-api
+      operationId: send_optional_payload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payload"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/text:
+              schema:
+                type: string
+components:
+  schemas:
+    Payload:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Some kind of token - usually received by Email

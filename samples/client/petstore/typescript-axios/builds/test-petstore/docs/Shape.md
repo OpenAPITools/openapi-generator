@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **shapeType** | **string** |  | [default to undefined]
+**triangleType** | **string** |  | [default to undefined]
 **quadrilateralType** | **string** |  | [default to undefined]
 
 ## Example
@@ -15,6 +16,7 @@ import { Shape } from './api';
 
 const instance: Shape = {
     shapeType,
+    triangleType,
     quadrilateralType,
 };
 ```

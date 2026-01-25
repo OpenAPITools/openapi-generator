@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,32 +10,40 @@ import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * A pet for sale in the pet store
- **/
+ * A pet for sale in the pet store
+ */
 @ApiModel(description="A pet for sale in the pet store")
 
 public class Pet  {
   
   @ApiModelProperty(value = "")
+
   private Long id;
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private Category category;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
+
   private String name;
 
   @ApiModelProperty(required = true, value = "")
+
   private List<String> photoUrls = new ArrayList<>();
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private List<@Valid Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
@@ -71,10 +78,11 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
     }
 }
 
-  @ApiModelProperty(value = "pet status in the store")
  /**
-   * pet status in the store
-  **/
+  * pet status in the store
+  */
+  @ApiModelProperty(value = "pet status in the store")
+
   private StatusEnum status;
  /**
    * Get id

@@ -2134,6 +2134,7 @@ components:
       properties:
         "@type":
           type: string
+        any_type_property: {}
     SingleRefType:
       type: string
       title: SingleRefType

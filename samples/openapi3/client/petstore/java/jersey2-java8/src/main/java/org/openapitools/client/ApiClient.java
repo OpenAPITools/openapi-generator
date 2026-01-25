@@ -86,7 +86,7 @@ import org.openapitools.client.auth.OAuth;
 /**
  * <p>ApiClient class.</p>
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected static final Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
 
@@ -1224,6 +1224,7 @@ public class ApiClient extends JavaTimeFormatter {
       if (index < 0 || index >= serverConfigurations.size()) {
         throw new ArrayIndexOutOfBoundsException(
             String.format(
+                java.util.Locale.ROOT,
                 "Invalid index %d when selecting the host settings. Must be less than %d",
                 index, serverConfigurations.size()));
       }
@@ -1293,10 +1294,8 @@ public class ApiClient extends JavaTimeFormatter {
     try {
       response = sendRequest(method, invocationBuilder, entity);
 
-      final int statusCode = response.getStatusInfo().getStatusCode();
-
       // If OAuth is used and a status 401 is received, renew the access token and retry the request
-      if (authNames != null && statusCode == Status.UNAUTHORIZED.getStatusCode()) {
+      if (authNames != null && response.getStatusInfo().getStatusCode() == Status.UNAUTHORIZED.getStatusCode()) {
         for (String authName : authNames) {
           Authentication authentication = authentications.get(authName);
           if (authentication instanceof OAuth) {
@@ -1310,6 +1309,8 @@ public class ApiClient extends JavaTimeFormatter {
           }
         }
       }
+      
+      final int statusCode = response.getStatusInfo().getStatusCode();
 
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 

@@ -1,1 +1,1 @@
-{{^isFile}}{{{dataType}}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isFile}}{{#isFile}}{{#isArray}}Array<{{/isArray}}org.springframework.web.multipart.MultipartFile{{#isArray}}>{{/isArray}}{{^isArray}}{{^required}}?{{/required}}{{/isArray}}{{/isFile}}
+{{^isFile}}{{{dataType}}}{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isFile}}{{#isFile}}{{#isArray}}Array<{{/isArray}}org.springframework.web.multipart.MultipartFile{{#isArray}}>{{/isArray}}{{#isNullable}}?{{/isNullable}}{{/isFile}}

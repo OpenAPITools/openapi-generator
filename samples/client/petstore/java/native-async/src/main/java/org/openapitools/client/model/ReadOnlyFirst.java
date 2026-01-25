@@ -36,7 +36,7 @@ import org.openapitools.client.ApiClient;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -62,7 +62,7 @@ public class ReadOnlyFirst {
    * @return bar
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBar() {
     return bar;
@@ -81,14 +81,14 @@ public class ReadOnlyFirst {
    * @return baz
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getBaz() {
     return baz;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_BAZ)
+  @JsonProperty(value = JSON_PROPERTY_BAZ, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
@@ -171,12 +171,12 @@ public class ReadOnlyFirst {
 
     // add `bar` to the URL query string
     if (getBar() != null) {
-      joiner.add(String.format("%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbar%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBar()))));
     }
 
     // add `baz` to the URL query string
     if (getBaz() != null) {
-      joiner.add(String.format("%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sbaz%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getBaz()))));
     }
 
     return joiner.toString();

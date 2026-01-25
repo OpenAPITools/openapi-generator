@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FakeOneOfWIthSameErasureGet200Response.class.getName());
 
@@ -100,14 +100,14 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
                     try {
                         // validate the JSON object to see if any exception is thrown
                         if (!jsonElement.isJsonArray()) {
-                            throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
                         }
 
                         JsonArray array = jsonElement.getAsJsonArray();
                         // validate array items
                         for(JsonElement element : array) {
                             if (!element.getAsJsonPrimitive().isString()) {
-                                throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                             }
                         }
                         actualAdapter = adapterListString;
@@ -115,7 +115,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
                         log.log(Level.FINER, "Input data matches schema 'List<String>'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
                     }
 
@@ -125,7 +125,7 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for FakeOneOfWIthSameErasureGet200Response: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for FakeOneOfWIthSameErasureGet200Response: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -219,22 +219,22 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         // validate the json string with List<String>
         try {
             if (!jsonElement.isJsonArray()) {
-                throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
             }
             JsonArray array = jsonElement.getAsJsonArray();
             // validate array items
             for(JsonElement element : array) {
                 if (!element.getAsJsonPrimitive().isString()) {
-                    throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                    throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
                 }
             }
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for List<String> failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for FakeOneOfWIthSameErasureGet200Response with oneOf schemas: List<Integer>, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for FakeOneOfWIthSameErasureGet200Response with oneOf schemas: List<Integer>, List<String>. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

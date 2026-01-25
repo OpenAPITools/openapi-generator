@@ -13,29 +13,7 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-if __import__("typing").TYPE_CHECKING:
-    # import models into model package
-    from openapi_client.models.bird import Bird
-    from openapi_client.models.category import Category
-    from openapi_client.models.data_query import DataQuery
-    from openapi_client.models.default_value import DefaultValue
-    from openapi_client.models.number_properties_only import NumberPropertiesOnly
-    from openapi_client.models.pet import Pet
-    from openapi_client.models.query import Query
-    from openapi_client.models.string_enum_ref import StringEnumRef
-    from openapi_client.models.tag import Tag
-    from openapi_client.models.test_form_object_multipart_request_marker import TestFormObjectMultipartRequestMarker
-    from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-    
-else:
-    from lazy_imports import LazyModule, as_package, load
-
-    load(
-        LazyModule(
-            *as_package(__file__),
-            """# import models into model package
+# import models into model package
 from openapi_client.models.bird import Bird
 from openapi_client.models.category import Category
 from openapi_client.models.data_query import DataQuery
@@ -49,8 +27,3 @@ from openapi_client.models.test_form_object_multipart_request_marker import Test
 from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-""",
-            name=__name__,
-            doc=__doc__,
-        )
-    )

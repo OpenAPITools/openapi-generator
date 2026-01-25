@@ -24,7 +24,10 @@ __all__ = [
     {{/-last}}{{#-last}},{{/-last}}{{/model}}{{/models}}
 ]
 
-if __import__("typing").TYPE_CHECKING:
+{{^lazyImports}}
+{{>exports_package}}
+{{/lazyImports}}
+{{#lazyImports}}if __import__("typing").TYPE_CHECKING:
     {{>exports_package}}
 else:
     from lazy_imports import LazyModule, as_package, load
@@ -39,6 +42,7 @@ else:
             doc=__doc__,
         )
     )
+{{/lazyImports}}
 {{#recursionLimit}}
 
 __import__('sys').setrecursionlimit({{{.}}})

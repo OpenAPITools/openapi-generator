@@ -1,5 +1,7 @@
 # OpenAPI\Client\UserApi
 
+Operations about user
+
 All URIs are relative to http://petstore.swagger.io:80/v2, except if the operation defines another base path.
 
 | Method | HTTP request | Description |

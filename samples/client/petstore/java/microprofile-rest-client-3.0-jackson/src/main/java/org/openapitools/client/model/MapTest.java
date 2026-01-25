@@ -90,7 +90,7 @@ public class MapTest  {
    * Get mapMapOfString
    * @return mapMapOfString
    **/
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
@@ -99,7 +99,7 @@ public class MapTest  {
   /**
    * Set mapMapOfString
    */
-  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_MAP_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -122,7 +122,7 @@ public class MapTest  {
    * Get mapOfEnumString
    * @return mapOfEnumString
    **/
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
@@ -131,7 +131,7 @@ public class MapTest  {
   /**
    * Set mapOfEnumString
    */
-  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
+  @JsonProperty(value = JSON_PROPERTY_MAP_OF_ENUM_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -154,7 +154,7 @@ public class MapTest  {
    * Get directMap
    * @return directMap
    **/
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Boolean> getDirectMap() {
     return directMap;
@@ -163,7 +163,7 @@ public class MapTest  {
   /**
    * Set directMap
    */
-  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_DIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -186,7 +186,7 @@ public class MapTest  {
    * Get indirectMap
    * @return indirectMap
    **/
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
@@ -195,7 +195,7 @@ public class MapTest  {
   /**
    * Set indirectMap
    */
-  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
+  @JsonProperty(value = JSON_PROPERTY_INDIRECT_MAP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;

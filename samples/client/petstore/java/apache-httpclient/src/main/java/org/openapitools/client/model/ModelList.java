@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   ModelList.JSON_PROPERTY_123LIST
 })
 @JsonTypeName("List")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ModelList {
   public static final String JSON_PROPERTY_123LIST = "123-list";
   @javax.annotation.Nullable
@@ -53,7 +53,7 @@ public class ModelList {
    * @return _123list
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String get123list() {
@@ -61,7 +61,7 @@ public class ModelList {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_123LIST)
+  @JsonProperty(value = JSON_PROPERTY_123LIST, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
@@ -139,7 +139,7 @@ public class ModelList {
     // add `123-list` to the URL query string
     if (get123list() != null) {
       try {
-        joiner.add(String.format("%s123-list%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123list()), "UTF-8").replaceAll("\\+", "%20")));
+        joiner.add(String.format(java.util.Locale.ROOT, "%s123-list%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(get123list()), "UTF-8").replaceAll("\\+", "%20")));
       } catch (UnsupportedEncodingException e) {
         // Should never happen, UTF-8 is always supported
         throw new RuntimeException(e);

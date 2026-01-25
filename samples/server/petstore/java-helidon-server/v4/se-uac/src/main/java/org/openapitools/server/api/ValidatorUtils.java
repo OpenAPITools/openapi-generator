@@ -23,7 +23,7 @@ public final class ValidatorUtils {
     public static boolean validateMin(Integer value, Integer min) {
         checkNonNull(value);
         if (value < min) {
-            throw new ValidationException(String.format("%s is less than %s", value, min));
+            throw new ValidationException(String.format(java.util.Locale.ROOT, "%s is less than %s", value, min));
         }
         return true;
     }
@@ -31,7 +31,7 @@ public final class ValidatorUtils {
     public static boolean validateMax(Integer value, Integer max) {
         checkNonNull(value);
         if (value > max) {
-            throw new ValidationException(String.format("%s is more than %s", value, max));
+            throw new ValidationException(String.format(java.util.Locale.ROOT, "%s is more than %s", value, max));
         }
         return true;
     }
@@ -68,7 +68,7 @@ public final class ValidatorUtils {
         if (value.matches(pattern)) {
             return true;
         }
-        throw new ValidationException(String.format("'%s' does not match the pattern '%s'", value, pattern));
+        throw new ValidationException(String.format(java.util.Locale.ROOT, "'%s' does not match the pattern '%s'", value, pattern));
     }
 
     public static boolean validateMin(BigDecimal value, String stringMinValue, boolean inclusive) {
@@ -85,7 +85,7 @@ public final class ValidatorUtils {
             }
         }
         throw new ValidationException(
-            String.format("%s is not valid value. Min value '%s'. Inclusive - %s.", value, stringMinValue, inclusive)
+            String.format(java.util.Locale.ROOT, "%s is not valid value. Min value '%s'. Inclusive - %s.", value, stringMinValue, inclusive)
         );
     }
 
@@ -103,7 +103,7 @@ public final class ValidatorUtils {
             }
         }
         throw new ValidationException(
-            String.format("%s is not valid value. Max value '%s'. Inclusive - %s.", value, stringMaxValue, inclusive)
+            String.format(java.util.Locale.ROOT, "%s is not valid value. Max value '%s'. Inclusive - %s.", value, stringMaxValue, inclusive)
         );
     }
 
@@ -163,7 +163,7 @@ public final class ValidatorUtils {
 
         <T> T check(String paramName, T paramValue, List<T> validValues) {
             if (!validValues.contains(paramValue)) {
-                errorsCollector.fatal(String.format("Invalid value %s = '%s' not among %s",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Invalid value %s = '%s' not among %s",
                                                     paramName,
                                                     paramValue,
                                                     validValues));
@@ -173,21 +173,21 @@ public final class ValidatorUtils {
 
         <T> T require(String paramName, T paramValue) {
             if (paramValue == null || ((paramValue instanceof Optional opt) && opt.isEmpty())) {
-                errorsCollector.fatal(String.format("Missing required param: %s", paramName));
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Missing required param: %s", paramName));
             }
             return paramValue;
         }
 
         <T> List<T> require(String paramName, List<T> paramValues) {
             if (paramValues.isEmpty()) {
-                errorsCollector.fatal(String.format("Empty required parameter: %s", paramName));
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Empty required parameter: %s", paramName));
             }
             return paramValues;
         }
 
         <T> T require(String paramName, Optional<T> optionalValue) {
             if (optionalValue.isEmpty()) {
-                errorsCollector.fatal(String.format("Empty required parameter: %s", paramName));
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Empty required parameter: %s", paramName));
             }
             return optionalValue.orElse(null);
         }
@@ -195,7 +195,7 @@ public final class ValidatorUtils {
         boolean validateMin(String paramName, Long value, Long min, boolean isExclusive) {
             boolean result = value == null || value > min || !isExclusive && value.equals(min);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %d violates %sminimum %d",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %d violates %sminimum %d",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -243,7 +243,7 @@ public final class ValidatorUtils {
         boolean validateMin(String paramName, Float value, Float min, boolean isExclusive) {
             boolean result = value == null || value.compareTo(min) > 0 || isExclusive && value.equals(min);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %f violates %sminimum %f",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %f violates %sminimum %f",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -263,7 +263,7 @@ public final class ValidatorUtils {
         boolean validateMin(String paramName, BigDecimal value, BigDecimal min, boolean isExclusive) {
             boolean result = value == null || value.compareTo(min) > 0 || !isExclusive && value.equals(min);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %f violates %sminimum %f",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %f violates %sminimum %f",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -279,7 +279,7 @@ public final class ValidatorUtils {
         boolean validateMax(String paramName, Long value, Long max, boolean isExclusive) {
             boolean result = value == null || value < max || !isExclusive && value.equals(max);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %d violates %smaximum %d",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %d violates %smaximum %d",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -327,7 +327,7 @@ public final class ValidatorUtils {
         boolean validateMax(String paramName, Float value, Float max, boolean isExclusive) {
             boolean result = value == null || value.compareTo(max) < 0 || isExclusive && value.equals(max);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %f violates %smaximum %f",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %f violates %smaximum %f",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -347,7 +347,7 @@ public final class ValidatorUtils {
         boolean validateMax(String paramName, BigDecimal value, BigDecimal max, boolean isExclusive) {
             boolean result = value == null || value.compareTo(max) < 0 || !isExclusive && value.equals(max);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s %f violates %smaximum %f",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s %f violates %smaximum %f",
                                                     paramName,
                                                     value,
                                                     isExclusive ? "exclusive " : "",
@@ -363,7 +363,7 @@ public final class ValidatorUtils {
         boolean validatePattern(String paramName, String value, String pattern) {
             boolean result = value == null || value.matches(pattern);
             if (!result) {
-                errorsCollector.fatal(String.format("Parameter %s '%s' does not match pattern '%s'",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s '%s' does not match pattern '%s'",
                                                     paramName,
                                                     value,
                                                     pattern));
@@ -386,7 +386,7 @@ public final class ValidatorUtils {
                 default -> value.getClass().isArray() ? Array.getLength(value) : -1;
             };
             if (size == -1) {
-                errorsCollector.fatal(String.format("Parameter %s with type %s unrecognized for validating size",
+                errorsCollector.fatal(String.format(java.util.Locale.ROOT, "Parameter %s with type %s unrecognized for validating size",
                                                     paramName,
                                                     value.getClass().getName()));
                 return false;

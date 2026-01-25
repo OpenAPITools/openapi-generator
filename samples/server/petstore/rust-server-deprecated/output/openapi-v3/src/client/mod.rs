@@ -744,7 +744,8 @@ impl<S, C> Api<C> for Client<S, C> where
     }
     async fn form_test(
         &self,
-        param_required_array: Option<&Vec<String>>,
+        param_required_array: &Vec<String>,
+        param_enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -779,7 +780,6 @@ impl<S, C> Api<C> for Client<S, C> where
 
         // Consumes form body
         let mut params = vec![];
-        if let Some(param_required_array) = param_required_array {
         // style=form,explode=true
         for param_required_array in param_required_array {
         #[allow(clippy::uninlined_format_args)]
@@ -787,7 +787,10 @@ impl<S, C> Api<C> for Client<S, C> where
             format!("{:?}", param_required_array)
         ));
         }
-        }
+        #[allow(clippy::uninlined_format_args)]
+        params.push(("enum_field",
+            format!("{:?}", param_enum_field)
+        ));
 
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 

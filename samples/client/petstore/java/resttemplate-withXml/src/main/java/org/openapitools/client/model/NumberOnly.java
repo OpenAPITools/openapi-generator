@@ -34,7 +34,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "NumberOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "NumberOnly")
@@ -58,7 +58,7 @@ public class NumberOnly {
    * @return justNumber
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "JustNumber")
 
@@ -67,7 +67,7 @@ public class NumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "JustNumber")
   public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {

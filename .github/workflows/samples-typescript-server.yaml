@@ -1,0 +1,34 @@
+name: Samples TS servers
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/typescript-nestjs-server/**
+  pull_request:
+    paths:
+      - samples/server/petstore/typescript-nestjs-server/**
+jobs:
+  build:
+    name: Build projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18.x"
+          - "20.x"
+        sample:
+          - samples/server/petstore/typescript-nestjs-server/
+    steps:
+      - uses: actions/checkout@v5
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm' # Or 'yarn'
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: npm test
+        working-directory: ${{ matrix.sample }}
+        run: npm test

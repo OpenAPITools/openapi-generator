@@ -17,47 +17,63 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FormatTest  {
   
   @ApiModelProperty(value = "")
+
   private Integer integer;
 
   @ApiModelProperty(value = "")
+
   private Integer int32;
 
   @ApiModelProperty(value = "")
+
   private Long int64;
 
   @ApiModelProperty(required = true, value = "")
+
   @Valid
+
   private BigDecimal number;
 
   @ApiModelProperty(value = "")
+
   private Float _float;
 
   @ApiModelProperty(value = "")
+
   private Double _double;
 
   @ApiModelProperty(value = "")
+
   private String string;
 
   @ApiModelProperty(required = true, value = "")
+
   private byte[] _byte;
 
   @ApiModelProperty(value = "")
+
   private File binary;
 
   @ApiModelProperty(required = true, value = "")
+
   private LocalDate date;
 
   @ApiModelProperty(value = "")
+
   private Date dateTime;
 
   @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+
   private UUID uuid;
 
   @ApiModelProperty(required = true, value = "")
+
   private String password;
 
   @ApiModelProperty(value = "")
+
   @Valid
+
   private BigDecimal bigDecimal;
  /**
    * Get integer

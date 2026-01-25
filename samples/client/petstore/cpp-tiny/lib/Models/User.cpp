@@ -211,7 +211,7 @@ User::getId()
 }
 
 void
-User::setId(long  id)
+User::setId(long id)
 {
 	this->id = id;
 }
@@ -223,7 +223,7 @@ User::getUsername()
 }
 
 void
-User::setUsername(std::string  username)
+User::setUsername(std::string username)
 {
 	this->username = username;
 }
@@ -235,7 +235,7 @@ User::getFirstName()
 }
 
 void
-User::setFirstName(std::string  firstName)
+User::setFirstName(std::string firstName)
 {
 	this->firstName = firstName;
 }
@@ -247,7 +247,7 @@ User::getLastName()
 }
 
 void
-User::setLastName(std::string  lastName)
+User::setLastName(std::string lastName)
 {
 	this->lastName = lastName;
 }
@@ -259,7 +259,7 @@ User::getEmail()
 }
 
 void
-User::setEmail(std::string  email)
+User::setEmail(std::string email)
 {
 	this->email = email;
 }
@@ -271,7 +271,7 @@ User::getPassword()
 }
 
 void
-User::setPassword(std::string  password)
+User::setPassword(std::string password)
 {
 	this->password = password;
 }
@@ -283,7 +283,7 @@ User::getPhone()
 }
 
 void
-User::setPhone(std::string  phone)
+User::setPhone(std::string phone)
 {
 	this->phone = phone;
 }
@@ -295,7 +295,7 @@ User::getUserStatus()
 }
 
 void
-User::setUserStatus(int  userStatus)
+User::setUserStatus(int userStatus)
 {
 	this->userStatus = userStatus;
 }

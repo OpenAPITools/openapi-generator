@@ -119,12 +119,18 @@ namespace Org.OpenAPITools.Client
         {
             Proxy = null;
             UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.0.0/csharp");
-            BasePath = "http://petstore.swagger.io:80/v2";
+            BasePath = "http://localhost/v2";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
             Servers = new List<IReadOnlyDictionary<string, object>>()
             {
+                {
+                    new Dictionary<string, object> {
+                        {"url", "http://localhost/v2"},
+                        {"description", "No description provided"},
+                    }
+                },
                 {
                     new Dictionary<string, object> {
                         {"url", "http://{server}.swagger.io:{port}/v2"},
@@ -197,6 +203,13 @@ namespace Org.OpenAPITools.Client
                         {
                             new Dictionary<string, object>
                             {
+                                {"url", "http://localhost/v2"},
+                                {"description", "No description provided"}
+                            }
+                        },
+                        {
+                            new Dictionary<string, object>
+                            {
                                 {"url", "http://petstore.swagger.io/v2"},
                                 {"description", "No description provided"}
                             }
@@ -213,6 +226,13 @@ namespace Org.OpenAPITools.Client
                 {
                     "PetApi.UpdatePet", new List<IReadOnlyDictionary<string, object>>
                     {
+                        {
+                            new Dictionary<string, object>
+                            {
+                                {"url", "http://localhost/v2"},
+                                {"description", "No description provided"}
+                            }
+                        },
                         {
                             new Dictionary<string, object>
                             {
@@ -243,7 +263,7 @@ namespace Org.OpenAPITools.Client
             IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
-            string basePath = "http://petstore.swagger.io:80/v2") : this()
+            string basePath = "http://localhost/v2") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");

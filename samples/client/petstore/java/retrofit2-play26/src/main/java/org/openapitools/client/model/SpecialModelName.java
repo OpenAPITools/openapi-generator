@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
 @JsonTypeName("$special[model.name]")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @jakarta.annotation.Nullable
@@ -53,7 +53,7 @@ public class SpecialModelName {
    */
   @jakarta.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long get$SpecialPropertyName() {
@@ -61,7 +61,7 @@ public class SpecialModelName {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void set$SpecialPropertyName(@jakarta.annotation.Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

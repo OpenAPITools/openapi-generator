@@ -2832,17 +2832,20 @@ components:
     CopyActivity:
       allOf:
       - $ref: "#/components/schemas/EntityBase"
-      properties:
-        $schema:
-          enum:
-          - ScopeActivity
-          type: string
-        copyActivitytt:
-          type: string
-      required:
-      - $schema
-      - copyActivitytt
+      - properties:
+          $schema:
+            enum:
+            - ScopeActivity
+            type: string
+          copyActivitytt:
+            type: string
+        required:
+        - $schema
+        - copyActivitytt
+        type: object
+        example: null
       type: object
+      example: null
     EntityBase:
       discriminator:
         mapping:
@@ -2868,13 +2871,26 @@ components:
           description: list of named parameters for current message
           type: object
       type: object
+    ListAlias:
+      items:
+        type: string
+      type: array
+    DeepListAlias:
+      items:
+        items:
+          type: string
+        type: array
+      type: array
     TestResult:
       allOf:
       - $ref: "#/components/schemas/Result"
-      properties:
-        code:
-          $ref: "#/components/schemas/TestResultCode"
+      - properties:
+          code:
+            $ref: "#/components/schemas/TestResultCode"
+        type: object
+        example: null
       type: object
+      example: null
     TestResultCode:
       description: Result code
       enum:

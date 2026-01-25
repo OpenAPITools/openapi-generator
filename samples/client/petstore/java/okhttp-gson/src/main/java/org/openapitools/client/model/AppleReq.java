@@ -48,7 +48,7 @@ import org.openapitools.client.JSON;
 /**
  * AppleReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @SerializedName(SERIALIZED_NAME_CULTIVAR)
@@ -162,7 +162,7 @@ public class AppleReq {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AppleReq.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AppleReq is not found in the empty JSON string", AppleReq.openapiRequiredFields.toString()));
         }
       }
 
@@ -170,19 +170,19 @@ public class AppleReq {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AppleReq.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AppleReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `AppleReq` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : AppleReq.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("cultivar").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `cultivar` to be a primitive type in the JSON string but got `%s`", jsonObj.get("cultivar").toString()));
       }
   }
 

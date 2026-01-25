@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonPropertyOrder({
   ArrayOfArrayOfNumberOnly.JSON_PROPERTY_ARRAY_ARRAY_NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @jakarta.annotation.Nullable
@@ -61,7 +61,7 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
    */
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
@@ -69,7 +69,7 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayArrayNumber(@jakarta.annotation.Nullable List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;

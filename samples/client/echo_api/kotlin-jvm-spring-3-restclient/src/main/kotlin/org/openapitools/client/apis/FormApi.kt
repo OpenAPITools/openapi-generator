@@ -27,7 +27,7 @@ import org.springframework.http.MediaType
 
 import org.openapitools.client.infrastructure.*
 
-class FormApi(client: RestClient) : ApiClient(client) {
+open class FormApi(client: RestClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)

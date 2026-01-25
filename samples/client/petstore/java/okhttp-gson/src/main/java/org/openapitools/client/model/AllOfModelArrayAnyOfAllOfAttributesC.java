@@ -64,7 +64,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfAttributesC.class.getName());
 
@@ -120,7 +120,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
                         log.log(Level.FINER, "Input data matches schema 'Pet'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pet failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Pet'", e);
                     }
                     // deserialize Order
@@ -132,7 +132,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
                         log.log(Level.FINER, "Input data matches schema 'Order'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Order failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Order'", e);
                     }
 
@@ -142,7 +142,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for AllOfModelArrayAnyOfAllOfAttributesC: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for AllOfModelArrayAnyOfAllOfAttributesC: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -241,7 +241,7 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
             Pet.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Pet failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Pet failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Order
@@ -249,11 +249,11 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
             Order.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Order failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Order failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for AllOfModelArrayAnyOfAllOfAttributesC with oneOf schemas: Order, Pet. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for AllOfModelArrayAnyOfAllOfAttributesC with oneOf schemas: Order, Pet. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

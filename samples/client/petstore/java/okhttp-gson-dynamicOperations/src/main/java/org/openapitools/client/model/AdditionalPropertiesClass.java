@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -464,7 +464,7 @@ public class AdditionalPropertiesClass {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
 
@@ -472,7 +472,7 @@ public class AdditionalPropertiesClass {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.UserApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://localhost/v2*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -36,7 +36,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var user = new User(); // User | Created user object
 
@@ -121,7 +121,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var user = new List<User>(); // List<User> | List of user object
 
@@ -206,7 +206,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var user = new List<User>(); // List<User> | List of user object
 
@@ -293,7 +293,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var username = "username_example";  // string | The name that needs to be deleted
 
@@ -379,7 +379,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var username = "username_example";  // string | The name that needs to be fetched. Use user1 for testing.
 
@@ -472,7 +472,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var username = "username_example";  // string | The user name for login
             var password = "password_example";  // string | The password for login in clear text
@@ -564,7 +564,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
 
             try
@@ -646,7 +646,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://localhost/v2";
             var apiInstance = new UserApi(config);
             var username = "username_example";  // string | name that need to be deleted
             var user = new User(); // User | Updated user object

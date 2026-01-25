@@ -39,7 +39,7 @@ import io.github.threetenjaxb.core.*;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 @XmlRootElement(name = "ArrayTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ArrayTest")
@@ -81,7 +81,7 @@ public class ArrayTest {
    * @return arrayOfString
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_of_string")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -91,7 +91,7 @@ public class ArrayTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_OF_STRING, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_of_string")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -118,7 +118,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_integer")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -128,7 +128,7 @@ public class ArrayTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_integer")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -155,7 +155,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_model")
   @JacksonXmlElementWrapper(useWrapping = false)
@@ -165,7 +165,7 @@ public class ArrayTest {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "array_array_of_model")
   @JacksonXmlElementWrapper(useWrapping = false)

@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -235,12 +235,12 @@ public class OuterComposite {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!OuterComposite.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in OuterComposite is not found in the empty JSON string", OuterComposite.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("my_string") != null && !jsonObj.get("my_string").isJsonNull()) && !jsonObj.get("my_string").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `my_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("my_string").toString()));
       }
   }
 
@@ -301,7 +301,7 @@ public class OuterComposite {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object

@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   NumberOnly.JSON_PROPERTY_JUST_NUMBER
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NumberOnly {
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   @jakarta.annotation.Nullable
@@ -58,7 +58,7 @@ public class NumberOnly {
   @jakarta.annotation.Nullable
   @Valid
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getJustNumber() {
@@ -66,7 +66,7 @@ public class NumberOnly {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_NUMBER)
+  @JsonProperty(value = JSON_PROPERTY_JUST_NUMBER, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustNumber(@jakarta.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;

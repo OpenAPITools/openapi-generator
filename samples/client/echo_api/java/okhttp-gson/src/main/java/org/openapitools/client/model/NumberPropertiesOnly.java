@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
@@ -191,7 +191,7 @@ public class NumberPropertiesOnly {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!NumberPropertiesOnly.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in NumberPropertiesOnly is not found in the empty JSON string", NumberPropertiesOnly.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in NumberPropertiesOnly is not found in the empty JSON string", NumberPropertiesOnly.openapiRequiredFields.toString()));
         }
       }
 
@@ -199,7 +199,7 @@ public class NumberPropertiesOnly {
       // check to see if the JSON string contains additional fields
       for (Map.Entry<String, JsonElement> entry : entries) {
         if (!NumberPropertiesOnly.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NumberPropertiesOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `NumberPropertiesOnly` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();

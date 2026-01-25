@@ -39,7 +39,7 @@ import org.openapitools.client.ApiClient;
   Whale.JSON_PROPERTY_HAS_TEETH,
   Whale.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   @javax.annotation.Nullable
@@ -66,14 +66,14 @@ public class Whale {
    * @return hasBaleen
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getHasBaleen() {
     return hasBaleen;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_BALEEN)
+  @JsonProperty(value = JSON_PROPERTY_HAS_BALEEN, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
@@ -90,14 +90,14 @@ public class Whale {
    * @return hasTeeth
    */
   @javax.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Boolean getHasTeeth() {
     return hasTeeth;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_HAS_TEETH)
+  @JsonProperty(value = JSON_PROPERTY_HAS_TEETH, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setHasTeeth(@javax.annotation.Nullable Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
@@ -114,14 +114,14 @@ public class Whale {
    * @return className
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
     return className;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
@@ -197,17 +197,17 @@ public class Whale {
 
     // add `hasBaleen` to the URL query string
     if (getHasBaleen() != null) {
-      joiner.add(String.format("%shasBaleen%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasBaleen()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%shasBaleen%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasBaleen()))));
     }
 
     // add `hasTeeth` to the URL query string
     if (getHasTeeth() != null) {
-      joiner.add(String.format("%shasTeeth%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasTeeth()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%shasTeeth%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getHasTeeth()))));
     }
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
     }
 
     return joiner.toString();

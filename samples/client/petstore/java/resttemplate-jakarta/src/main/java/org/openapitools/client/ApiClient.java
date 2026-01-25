@@ -73,7 +73,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -125,7 +125,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         // Set default User-Agent.
-        setUserAgent("Java-SDK");
+        setUserAgent("OpenAPI-Generator/1.0.0/java");
 
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
@@ -773,7 +773,7 @@ public class ApiClient extends JavaTimeFormatter {
         String delimiter = "";
         for (final Map.Entry<String, List<String>> entry : cookies.entrySet()) {
             final String value = entry.getValue().get(entry.getValue().size() - 1);
-            cookieValue.append(String.format("%s%s=%s", delimiter, entry.getKey(), value));
+            cookieValue.append(String.format(java.util.Locale.ROOT, "%s%s=%s", delimiter, entry.getKey(), value));
             delimiter = "; ";
         }
         return cookieValue.toString();

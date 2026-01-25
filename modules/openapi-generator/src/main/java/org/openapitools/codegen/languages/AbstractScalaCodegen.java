@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -529,6 +528,21 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (identifier.matches("[a-zA-Z_$][\\w_$]+") && !isReservedWord(identifier)) {
             return identifier;
         }
+
+        // below code block only for scala-sttp4-jsoniter for backward copmatibility
+        if (this instanceof ScalaSttp4JsoniterClientCodegen) {
+            if (identifier.matches("[0-9]*")) {
+                return escapeReservedWord(identifier);
+            }
+            if (!capitalized || StringUtils.isNumeric(name)) {
+                // starts with a small letter, could be a keyword or a number
+                return escapeReservedWord(identifier);
+            } else {
+                // no keywords start with large letter
+                return identifier;
+            }
+        }
+
         return escapeReservedWord(identifier);
     }
 

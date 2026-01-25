@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct StringBooleanMap: Sendable, Codable, ParameterConvertible {
+internal struct StringBooleanMap: Sendable, Codable {
 
 
     internal enum CodingKeys: CodingKey, CaseIterable {

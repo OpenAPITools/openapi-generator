@@ -5,13 +5,9 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
 import org.apache.cxf.jaxrs.ext.multipart.*;
 
 import io.swagger.annotations.Api;

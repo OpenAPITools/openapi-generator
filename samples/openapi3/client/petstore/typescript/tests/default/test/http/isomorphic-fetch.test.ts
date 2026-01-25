@@ -67,5 +67,29 @@ for (let libName in libs) {
                     done();
             }).catch(done)
         })
+        
+    })
+    describe("Header Case Sensitivity", () => {
+        it("different case header key is replaced", () => {
+            let requestContext = new petstore.RequestContext("http://httpbin.org/cookies", petstore.HttpMethod.GET);
+            expect(requestContext.getHeaders().testkey1).to.be.undefined;
+
+            requestContext.setHeaderParam("testkey1","testvalue1");
+            expect(requestContext.getHeaders().testkey1).to.eq("testvalue1");
+
+            requestContext.setHeaderParam("tEsTkeY1","testvalue2");
+            expect(requestContext.getHeaders().testkey1).to.be.undefined;
+            expect(requestContext.getHeaders().tEsTkeY1).to.eq("testvalue2");
+        })
+        it("indentical header key writes replace content", () => {
+            let requestContext = new petstore.RequestContext("http://httpbin.org/cookies", petstore.HttpMethod.GET);
+            expect(requestContext.getHeaders().testkey1).to.be.undefined;
+
+            requestContext.setHeaderParam("testkey1","testvalue1");
+            expect(requestContext.getHeaders().testkey1).to.eq("testvalue1");
+
+            requestContext.setHeaderParam("testkey1","testvalue2");
+            expect(requestContext.getHeaders().testkey1).to.eq("testvalue2");
+        })
     })
 }

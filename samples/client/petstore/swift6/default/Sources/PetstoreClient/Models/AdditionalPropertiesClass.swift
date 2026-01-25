@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AdditionalPropertiesClass: Sendable, Codable, ParameterConvertible, Hashable {
+public struct AdditionalPropertiesClass: Sendable, Codable, Hashable {
 
     public var mapString: [String: String]?
     public var mapNumber: [String: Double]?

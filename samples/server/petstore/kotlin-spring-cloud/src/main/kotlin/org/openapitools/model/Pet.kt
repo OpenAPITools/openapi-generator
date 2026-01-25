@@ -42,7 +42,7 @@ data class Pet(
 
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: Pet.Status? = null
-    ) : Serializable{
+) : Serializable {
 
     /**
     * pet status in the store

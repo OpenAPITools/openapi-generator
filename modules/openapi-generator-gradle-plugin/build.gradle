@@ -81,6 +81,10 @@ tasks.withType(ReleaseNexusStagingRepository).configureEach {
     onlyIf { nexusPublishing.useStaging.get() }
 }
 
+tasks.named("validatePlugins").configure {
+    enableStricterValidation = true
+}
+
 gradlePlugin {
     website = "https://openapi-generator.tech/"
     vcsUrl = "https://github.com/OpenAPITools/openapi-generator"

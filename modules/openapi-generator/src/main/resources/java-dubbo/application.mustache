@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: {{artifactId}}-provider
+
+dubbo:
+  application:
+    name: {{artifactId}}
+    logger: slf4j
+  registry:
+    address: {{registryAddress}}
+  # 协议配置
+  protocol:
+    name: tri
+    port: -1 # auto-increment port
+
+logging:
+  level:
+    root: INFO
+    org.apache.dubbo: INFO
+    {{invokerPackage}}: DEBUG

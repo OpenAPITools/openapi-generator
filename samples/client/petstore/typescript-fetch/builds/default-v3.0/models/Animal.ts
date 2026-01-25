@@ -58,6 +58,7 @@ export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): An
         if (json['className'] === 'DOG') {
             return DogFromJSONTyped(json, ignoreDiscriminator);
         }
+
     }
     return {
         

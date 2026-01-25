@@ -58,7 +58,7 @@ public class Category  {
    * Get id
    * @return id
    **/
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public Long getId() {
@@ -68,7 +68,7 @@ public class Category  {
   /**
    * Set id
    */
-  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
   public void setId(Long id) {
@@ -84,7 +84,7 @@ public class Category  {
    * Get name
    * @return name
    **/
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
   public String getName() {
@@ -94,7 +94,7 @@ public class Category  {
   /**
    * Set name
    */
-  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "name")
   public void setName(String name) {

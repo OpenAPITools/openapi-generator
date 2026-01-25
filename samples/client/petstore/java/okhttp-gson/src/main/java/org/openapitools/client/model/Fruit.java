@@ -60,7 +60,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Fruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Fruit.class.getName());
 
@@ -116,7 +116,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Apple'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Apple'", e);
                     }
                     // deserialize Banana
@@ -128,7 +128,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         log.log(Level.FINER, "Input data matches schema 'Banana'");
                     } catch (Exception e) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
                         log.log(Level.FINER, "Input data does not match schema 'Banana'", e);
                     }
 
@@ -138,7 +138,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         return ret;
                     }
 
-                    throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for Fruit: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()));
                 }
             }.nullSafe();
         }
@@ -237,7 +237,7 @@ public class Fruit extends AbstractOpenApiSchema {
             Apple.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Apple failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Apple failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         // validate the json string with Banana
@@ -245,11 +245,11 @@ public class Fruit extends AbstractOpenApiSchema {
             Banana.validateJsonElement(jsonElement);
             validCount++;
         } catch (Exception e) {
-            errorMessages.add(String.format("Deserialization for Banana failed with `%s`.", e.getMessage()));
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Banana failed with `%s`.", e.getMessage()));
             // continue to the next one
         }
         if (validCount != 1) {
-            throw new IOException(String.format("The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
+            throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for Fruit with oneOf schemas: Apple, Banana. %d class(es) match the result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", validCount, errorMessages, jsonElement.toString()));
         }
     }
 

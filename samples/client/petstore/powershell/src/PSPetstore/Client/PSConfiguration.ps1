@@ -23,7 +23,7 @@ function Get-PSConfiguration {
     $Configuration = $Script:Configuration
 
     if ([string]::IsNullOrEmpty($Configuration["BaseUrl"])) {
-        $Configuration["BaseUrl"] = "http://petstore.swagger.io:80/v2";
+        $Configuration["BaseUrl"] = "http://localhost/v2";
     }
 
     if (!$Configuration.containsKey("Username")) {
@@ -311,6 +311,10 @@ System.Collections.Hashtable[]
 #>
 function Get-PSHostSetting {
     return ,@(
+          @{
+            "Url" = "http://localhost/v2";
+            "Description" = "No description provided";
+          },
           @{
             "Url" = "http://{server}.swagger.io:{port}/v2";
             "Description" = "petstore server";

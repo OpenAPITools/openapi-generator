@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+
 #include "UserAPI.h"
 
 #define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
+#define MAX_NUMBER_LENGTH_LONG 21
 
 
 // Create user
@@ -590,6 +592,118 @@ end:
         apiClient->dataReceivedLen = 0;
     }
     
+    
+    
+    
+    
+    free(localVarPath);
+
+}
+
+// test int32, int64 float and double query parameters in API
+//
+// This can test int32, int64 float and double query parameters in API.
+//
+void
+UserAPI_testInt32Int64FloatDouble(apiClient_t *apiClient, float floatnum, double doublenum, int *int32num, long int64num)
+{
+    list_t    *localVarQueryParameters = list_createList();
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = NULL;
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+    size_t     localVarBodyLength = 0;
+
+    // clear the error code from the previous api call
+    apiClient->response_code = 0;
+
+    // create the path
+    char *localVarPath = strdup("/user/test_int32_int64_float_double");
+
+
+
+
+
+    // query parameters
+    char *keyQuery_floatnum = NULL;
+    char * valueQuery_floatnum = NULL;
+    keyValuePair_t *keyPairQuery_floatnum = 0;
+    {
+        keyQuery_floatnum = strdup("floatnum");
+        int s = snprintf(NULL, 0, "%.7e", floatnum);
+        if (s >= 0)
+        {
+            valueQuery_floatnum = calloc(1,s+1);
+            snprintf(valueQuery_floatnum, s+1, "%.7e", floatnum);
+        }
+        keyPairQuery_floatnum = keyValuePair_create(keyQuery_floatnum, valueQuery_floatnum);
+        list_addElement(localVarQueryParameters,keyPairQuery_floatnum);
+    }
+
+    // query parameters
+    char *keyQuery_doublenum = NULL;
+    char * valueQuery_doublenum = NULL;
+    keyValuePair_t *keyPairQuery_doublenum = 0;
+    {
+        keyQuery_doublenum = strdup("doublenum");
+        int s = snprintf(NULL, 0, "%.16e", doublenum);
+        if (s >= 0)
+        {
+            valueQuery_doublenum = calloc(1,s+1);
+            snprintf(valueQuery_doublenum, s+1, "%.16e", doublenum);
+        }
+        keyPairQuery_doublenum = keyValuePair_create(keyQuery_doublenum, valueQuery_doublenum);
+        list_addElement(localVarQueryParameters,keyPairQuery_doublenum);
+    }
+
+    // query parameters
+    char *keyQuery_int32num = NULL;
+    char * valueQuery_int32num = NULL;
+    keyValuePair_t *keyPairQuery_int32num = 0;
+    if (int32num)
+    {
+        keyQuery_int32num = strdup("int32num");
+        valueQuery_int32num = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueQuery_int32num, MAX_NUMBER_LENGTH, "%d", *int32num);
+        keyPairQuery_int32num = keyValuePair_create(keyQuery_int32num, valueQuery_int32num);
+        list_addElement(localVarQueryParameters,keyPairQuery_int32num);
+    }
+
+    // query parameters
+    char *keyQuery_int64num = NULL;
+    char * valueQuery_int64num ;
+    keyValuePair_t *keyPairQuery_int64num = 0;
+    {
+        keyQuery_int64num = strdup("int64num");
+        valueQuery_int64num = calloc(1,MAX_NUMBER_LENGTH_LONG);
+        snprintf(valueQuery_int64num, MAX_NUMBER_LENGTH_LONG, "%d", int64num);
+        keyPairQuery_int64num = keyValuePair_create(keyQuery_int64num, valueQuery_int64num);
+        list_addElement(localVarQueryParameters,keyPairQuery_int64num);
+    }
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    localVarBodyLength,
+                    "GET");
+
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","successful operation");
+    //}
+    //No return type
+end:
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
+    }
+    list_freeList(localVarQueryParameters);
     
     
     

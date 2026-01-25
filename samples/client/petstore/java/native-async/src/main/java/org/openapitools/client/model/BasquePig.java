@@ -35,7 +35,7 @@ import org.openapitools.client.ApiClient;
 @JsonPropertyOrder({
   BasquePig.JSON_PROPERTY_CLASS_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   @javax.annotation.Nonnull
@@ -54,14 +54,14 @@ public class BasquePig {
    * @return className
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public String getClassName() {
     return className;
   }
 
 
-  @JsonProperty(JSON_PROPERTY_CLASS_NAME)
+  @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setClassName(@javax.annotation.Nonnull String className) {
     this.className = className;
@@ -142,7 +142,7 @@ public class BasquePig {
 
     // add `className` to the URL query string
     if (getClassName() != null) {
-      joiner.add(String.format("%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
+      joiner.add(String.format(java.util.Locale.ROOT, "%sclassName%s=%s", prefix, suffix, ApiClient.urlEncode(ApiClient.valueToString(getClassName()))));
     }
 
     return joiner.toString();

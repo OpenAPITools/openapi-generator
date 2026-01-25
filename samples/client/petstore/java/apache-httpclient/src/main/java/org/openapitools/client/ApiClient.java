@@ -82,7 +82,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -939,6 +939,7 @@ public class ApiClient extends JavaTimeFormatter {
     if (serverIndex != null) {
       if (serverIndex < 0 || serverIndex >= servers.size()) {
         throw new ArrayIndexOutOfBoundsException(String.format(
+          java.util.Locale.ROOT,
           "Invalid index %d when selecting the host settings. Must be less than %d", serverIndex, servers.size()
         ));
       }

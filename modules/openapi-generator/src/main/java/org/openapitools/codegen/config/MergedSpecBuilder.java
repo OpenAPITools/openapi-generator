@@ -5,7 +5,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.lang3.ObjectUtils;
 import org.openapitools.codegen.auth.AuthParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +61,7 @@ public class MergedSpecBuilder {
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
         List<SpecWithPaths> allPaths = new ArrayList<>();
+        List<Server> allServers = new ArrayList<>();
 
         for (String specRelatedPath : specRelatedPaths) {
             String specPath = inputSpecRootDirectory + File.separator + specRelatedPath;
@@ -74,13 +78,14 @@ public class MergedSpecBuilder {
                         isJson = true;
                     }
                 }
+                allServers.addAll(ObjectUtils.defaultIfNull(result.getServers(), Collections.emptyList()));
                 allPaths.add(new SpecWithPaths(specRelatedPath, result.getPaths().keySet()));
             } catch (Exception e) {
                 LOGGER.error("Failed to read file: {}. It would be ignored", specPath);
             }
         }
 
-        Map<String, Object> mergedSpec = generatedMergedSpec(openapiVersion, allPaths);
+        Map<String, Object> mergedSpec = generatedMergedSpec(openapiVersion, allPaths, allServers);
         String mergedFilename = this.mergeFileName + (isJson ? ".json" : ".yaml");
         Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
 
@@ -94,8 +99,8 @@ public class MergedSpecBuilder {
         return mergedFilePath.toString();
     }
 
-    private Map<String, Object> generatedMergedSpec(String openapiVersion, List<SpecWithPaths> allPaths) {
-        Map<String, Object> spec = generateHeader(openapiVersion, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion);
+    private Map<String, Object> generatedMergedSpec(String openapiVersion, List<SpecWithPaths> allPaths, List<Server> allServers) {
+        Map<String, Object> spec = generateHeader(openapiVersion, mergedFileInfoName, mergedFileInfoDescription, mergedFileInfoVersion, allServers);
         Map<String, Object> paths = new HashMap<>();
         spec.put("paths", paths);
 
@@ -111,7 +116,7 @@ public class MergedSpecBuilder {
         return spec;
     }
 
-    private static Map<String, Object> generateHeader(String openapiVersion, String title, String description, String version) {
+    private static Map<String, Object> generateHeader(String openapiVersion, String title, String description, String version, List<Server> allServers) {
         Map<String, Object> map = new HashMap<>();
         map.put("openapi", openapiVersion);
         map.put("info", ImmutableMap.of(
@@ -119,9 +124,17 @@ public class MergedSpecBuilder {
                 "description", description,
                 "version", version
         ));
-        map.put("servers", Collections.singleton(
-                ImmutableMap.of("url", "http://localhost:8080")
-        ));
+
+        Set<ImmutableMap<String, String>> servers = allServers.stream()
+                .map(Server::getUrl)
+                .distinct()
+                .map(url -> ImmutableMap.of("url", url))
+                .collect(Collectors.collectingAndThen(Collectors.toSet(), Optional::of))
+                .filter(Predicate.not(Set::isEmpty))
+                .orElseGet(() -> Collections.singleton(ImmutableMap.of("url", "http://localhost:8080")));
+
+        map.put("servers", servers);
+
         return map;
     }
 

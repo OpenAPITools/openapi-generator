@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.*;
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
 @JsonTypeName("hasOnlyReadOnly")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -51,8 +51,8 @@ public class HasOnlyReadOnly {
    */
   @JsonCreator
   public HasOnlyReadOnly(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
-    @JsonProperty(JSON_PROPERTY_FOO) String foo
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false) String bar, 
+    @JsonProperty(value = JSON_PROPERTY_FOO, required = false) String foo
   ) {
     this();
     this.bar = bar;
@@ -65,7 +65,7 @@ public class HasOnlyReadOnly {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_BAR)
+  @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBar() {
@@ -80,7 +80,7 @@ public class HasOnlyReadOnly {
    */
   @javax.annotation.Nullable
 
-  @JsonProperty(JSON_PROPERTY_FOO)
+  @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFoo() {

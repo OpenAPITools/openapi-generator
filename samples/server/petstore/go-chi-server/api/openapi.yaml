@@ -996,44 +996,48 @@ components:
       allOf:
       - $ref: "#/components/schemas/OrderInfo"
       - $ref: "#/components/schemas/SpecialInfo"
-      description: An order for a pets from the pet store
+      - description: An order for a pets from the pet store
+        properties:
+          id:
+            format: int64
+            type: integer
+          petId:
+            format: int64
+            type: integer
+          quantity:
+            format: int32
+            type: integer
+          shipDate:
+            format: date-time
+            type: string
+          status:
+            description: Order Status
+            enum:
+            - placed
+            - approved
+            - delivered
+            type: string
+          complete:
+            default: false
+            type: boolean
+          comment:
+            nullable: true
+            type: string
+        required:
+        - comment
+        title: Pet Order
+        type: object
+        example: null
       example:
-        petId: 6
-        quantity: 1
+        petId: 5
+        quantity: 5
         comment: comment
-        id: 0
+        id: 1
         shipDate: 2000-01-23T04:56:07.000+00:00
+        type: type
         complete: false
+        promotion: true
         status: placed
-      properties:
-        id:
-          format: int64
-          type: integer
-        petId:
-          format: int64
-          type: integer
-        quantity:
-          format: int32
-          type: integer
-        shipDate:
-          format: date-time
-          type: string
-        status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
-        complete:
-          default: false
-          type: boolean
-        comment:
-          nullable: true
-          type: string
-      required:
-      - comment
-      title: Pet Order
       type: object
       xml:
         name: Order

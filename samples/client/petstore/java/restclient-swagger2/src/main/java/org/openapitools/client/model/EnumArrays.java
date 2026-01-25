@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -129,7 +129,7 @@ public class EnumArrays {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public JustSymbolEnum getJustSymbol() {
@@ -137,7 +137,7 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonProperty(value = JSON_PROPERTY_JUST_SYMBOL, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setJustSymbol(@jakarta.annotation.Nullable JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -163,7 +163,7 @@ public class EnumArrays {
    */
   @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public List<ArrayEnumEnum> getArrayEnum() {
@@ -171,7 +171,7 @@ public class EnumArrays {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonProperty(value = JSON_PROPERTY_ARRAY_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

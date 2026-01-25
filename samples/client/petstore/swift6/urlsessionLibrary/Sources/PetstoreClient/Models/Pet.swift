@@ -12,7 +12,7 @@ public typealias Pet = PetstoreClientAPI.Pet
 
 extension PetstoreClientAPI {
 
-public final class Pet: @unchecked Sendable, Codable, ParameterConvertible, Hashable {
+public final class Pet: @unchecked Sendable, Codable, Hashable {
 
     public enum Status: String, Sendable, Codable, CaseIterable {
         case available = "available"
@@ -83,5 +83,4 @@ public final class Pet: @unchecked Sendable, Codable, ParameterConvertible, Hash
 
 }
 
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
 extension PetstoreClientAPI.Pet: Identifiable {}

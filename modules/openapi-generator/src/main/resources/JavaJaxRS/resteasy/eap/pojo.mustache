@@ -14,7 +14,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   {{#vendorExtensions.x-field-extra-annotation}}
-  {{{vendorExtensions.x-field-extra-annotation}}}
+  {{{.}}}
   {{/vendorExtensions.x-field-extra-annotation}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 

@@ -7,32 +7,32 @@ pattern set
     @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}}
-    @get:Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
+    @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not
 }}{{#minLength}}{{^maxLength}}
-    @get:Size(min={{minLength}}){{/maxLength}}{{/minLength}}{{!
+    @get:Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
 }}{{^minLength}}{{#maxLength}}
-    @get:Size(max={{.}}){{/maxLength}}{{/minLength}}{{!
+    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}
-    @get:Size(min={{minItems}},max={{maxItems}}) {{/maxItems}}{{/minItems}}{{!
+    @get:Size(min={{minItems}},max={{maxItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxItems}}{{/minItems}}{{!
 @Size: minItems set, maxItems not
 }}{{#minItems}}{{^maxItems}}
-    @get:Size(min={{minItems}}){{/maxItems}}{{/minItems}}{{!
+    @get:Size(min={{minItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxItems}}{{/minItems}}{{!
 @Size: minItems not set && maxItems set
 }}{{^minItems}}{{#maxItems}}
-    @get:Size(max={{.}}){{/maxItems}}{{/minItems}}{{!
+    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxItems}}{{/minItems}}{{!
 check for integer or long / all others=decimal type with @Decimal*
 isInteger set
 }}{{#isInteger}}{{#minimum}}
-    @get:Min({{.}}){{/minimum}}{{#maximum}}
-    @get:Max({{.}}){{/maximum}}{{/isInteger}}{{!
+    @get:Min(value={{.}}{{#vendorExtensions.x-minimum-message}}, message="{{vendorExtensions.x-minimum-message}}"{{/vendorExtensions.x-minimum-message}}){{/minimum}}{{#maximum}}
+    @get:Max(value={{.}}{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isInteger}}{{!
 isLong set
 }}{{#isLong}}{{#minimum}}
-    @get:Min({{.}}L){{/minimum}}{{#maximum}}
-    @get:Max({{.}}L){{/maximum}}{{/isLong}}{{!
+    @get:Min(value={{.}}L{{#vendorExtensions.x-minimum-message}}, message="{{vendorExtensions.x-minimum-message}}"{{/vendorExtensions.x-minimum-message}}){{/minimum}}{{#maximum}}
+    @get:Max(value={{.}}L{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}}
-    @get:DecimalMin("{{.}}"){{/minimum}}{{#maximum}}
-    @get:DecimalMax("{{.}}"){{/maximum}}{{/isLong}}{{/isInteger}}
+    @get:DecimalMin(value="{{.}}"{{#vendorExtensions.x-minimum-message}}, message="{{vendorExtensions.x-minimum-message}}"{{/vendorExtensions.x-minimum-message}}){{/minimum}}{{#maximum}}
+    @get:DecimalMax(value="{{.}}"{{#vendorExtensions.x-maximum-message}}, message="{{vendorExtensions.x-maximum-message}}"{{/vendorExtensions.x-maximum-message}}){{/maximum}}{{/isLong}}{{/isInteger}}

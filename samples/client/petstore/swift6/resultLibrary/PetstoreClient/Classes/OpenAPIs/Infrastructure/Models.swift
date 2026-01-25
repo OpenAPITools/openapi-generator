@@ -69,11 +69,11 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
-internal enum ErrorResponse: Error {
+internal enum ErrorResponse: Error, Sendable {
     case error(Int, Data?, URLResponse?, Error)
 }
 
-internal enum DownloadException: Error {
+internal enum DownloadException: Error, Sendable {
     case responseDataMissing
     case responseFailed
     case requestMissing
@@ -81,7 +81,7 @@ internal enum DownloadException: Error {
     case requestMissingURL
 }
 
-internal enum DecodableRequestBuilderError: Error {
+internal enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse
     case unsuccessfulHTTPStatusCode

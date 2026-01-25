@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct HasOnlyReadOnly: Sendable, Codable, ParameterConvertible {
+internal struct HasOnlyReadOnly: Sendable, Codable {
 
     internal private(set) var bar: String?
     internal private(set) var foo: String?

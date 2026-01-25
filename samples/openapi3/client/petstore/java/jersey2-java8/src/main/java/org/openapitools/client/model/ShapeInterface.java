@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ShapeInterface.JSON_PROPERTY_SHAPE_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.16.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ShapeInterface {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   @javax.annotation.Nonnull
@@ -53,7 +53,7 @@ public class ShapeInterface {
    * @return shapeType
    */
   @javax.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
   public String getShapeType() {
@@ -61,7 +61,7 @@ public class ShapeInterface {
   }
 
 
-  @JsonProperty(JSON_PROPERTY_SHAPE_TYPE)
+  @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
   public void setShapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
