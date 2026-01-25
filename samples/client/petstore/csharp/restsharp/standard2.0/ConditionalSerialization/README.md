@@ -141,6 +141,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
 *PetApi* | [**UploadFileWithRequiredFile**](docs/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*PetApi* | [**UploadFiles**](docs/PetApi.md#uploadfiles) | **POST** /pet/{petId}/uploadImages | uploads an images
 *StoreApi* | [**DeleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**GetInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**GetOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
