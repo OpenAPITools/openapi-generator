@@ -1161,13 +1161,19 @@ public class SpringCodegen extends AbstractJavaCodegen
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
 
-            if (cm.hasRequired &&
+            if (!this.withXml &&
+                    cm.hasRequired &&
                     this.generatedConstructorWithRequiredArgs &&
                     !hasAllArgsConstructor &&
                     cm.requiredVars.size() == cm.allVars.size() &&
                     isJackson()) {
-                // add @JsonCreator and @JsonProperty on required argument constructor
                 cm.vendorExtensions.put("x-java-required-constructor-jsoncreator", true);
+                /* add @JsonCreator and @JsonProperty on required argument constructor
+                 * currently only enabled for
+                 *   jackson and no withXml
+                 *   all fields are initialzed in the required constructor
+                 *   no all arg constructor
+                 */
             }
 
         }
