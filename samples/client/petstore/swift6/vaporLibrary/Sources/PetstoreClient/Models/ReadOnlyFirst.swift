@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ReadOnlyFirst: Content, Hashable {
+public struct ReadOnlyFirst: Sendable, Content, Hashable {
 
     public var bar: String?
     public var baz: String?
@@ -29,18 +29,6 @@ public final class ReadOnlyFirst: Content, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(bar, forKey: .bar)
         try container.encodeIfPresent(baz, forKey: .baz)
-    }
-
-    public static func == (lhs: ReadOnlyFirst, rhs: ReadOnlyFirst) -> Bool {
-        lhs.bar == rhs.bar &&
-        lhs.baz == rhs.baz
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(bar?.hashValue)
-        hasher.combine(baz?.hashValue)
-        
     }
 }
 

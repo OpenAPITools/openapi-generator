@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ArrayOfNumberOnly: Content, Hashable {
+public struct ArrayOfNumberOnly: Sendable, Content, Hashable {
 
     public var arrayNumber: [Double]?
 
@@ -25,16 +25,6 @@ public final class ArrayOfNumberOnly: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
-    }
-
-    public static func == (lhs: ArrayOfNumberOnly, rhs: ArrayOfNumberOnly) -> Bool {
-        lhs.arrayNumber == rhs.arrayNumber
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(arrayNumber?.hashValue)
-        
     }
 }
 

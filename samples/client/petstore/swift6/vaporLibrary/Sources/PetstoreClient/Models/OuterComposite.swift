@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class OuterComposite: Content, Hashable {
+public struct OuterComposite: Sendable, Content, Hashable {
 
     public var myNumber: Double?
     public var myString: String?
@@ -33,20 +33,6 @@ public final class OuterComposite: Content, Hashable {
         try container.encodeIfPresent(myNumber, forKey: .myNumber)
         try container.encodeIfPresent(myString, forKey: .myString)
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
-    }
-
-    public static func == (lhs: OuterComposite, rhs: OuterComposite) -> Bool {
-        lhs.myNumber == rhs.myNumber &&
-        lhs.myString == rhs.myString &&
-        lhs.myBoolean == rhs.myBoolean
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(myNumber?.hashValue)
-        hasher.combine(myString?.hashValue)
-        hasher.combine(myBoolean?.hashValue)
-        
     }
 }
 
