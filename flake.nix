@@ -15,6 +15,7 @@
             buildInputs = with pkgs;[
               jdk11
               maven
+              typos
             ];
           };
       }
