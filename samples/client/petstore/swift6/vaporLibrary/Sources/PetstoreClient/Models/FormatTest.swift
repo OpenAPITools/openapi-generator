@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class FormatTest: Content, Hashable {
+public struct FormatTest: Sendable, Content, Hashable {
 
     public static let integerRule = NumericRule<Int>(minimum: 10, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
     public static let int32Rule = NumericRule<Int>(minimum: 20, exclusiveMinimum: false, maximum: 200, exclusiveMaximum: false, multipleOf: nil)
@@ -84,42 +84,6 @@ public final class FormatTest: Content, Hashable {
         try container.encodeIfPresent(uuid, forKey: .uuid)
         try container.encode(password, forKey: .password)
         try container.encodeIfPresent(bigDecimal, forKey: .bigDecimal)
-    }
-
-    public static func == (lhs: FormatTest, rhs: FormatTest) -> Bool {
-        lhs.integer == rhs.integer &&
-        lhs.int32 == rhs.int32 &&
-        lhs.int64 == rhs.int64 &&
-        lhs.number == rhs.number &&
-        lhs.float == rhs.float &&
-        lhs.double == rhs.double &&
-        lhs.string == rhs.string &&
-        lhs.byte == rhs.byte &&
-        lhs.binary == rhs.binary &&
-        lhs.date == rhs.date &&
-        lhs.dateTime == rhs.dateTime &&
-        lhs.uuid == rhs.uuid &&
-        lhs.password == rhs.password &&
-        lhs.bigDecimal == rhs.bigDecimal
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(integer?.hashValue)
-        hasher.combine(int32?.hashValue)
-        hasher.combine(int64?.hashValue)
-        hasher.combine(number.hashValue)
-        hasher.combine(float?.hashValue)
-        hasher.combine(double?.hashValue)
-        hasher.combine(string?.hashValue)
-        hasher.combine(byte.hashValue)
-        hasher.combine(binary?.hashValue)
-        hasher.combine(date.hashValue)
-        hasher.combine(dateTime?.hashValue)
-        hasher.combine(uuid?.hashValue)
-        hasher.combine(password.hashValue)
-        hasher.combine(bigDecimal?.hashValue)
-        
     }
 }
 

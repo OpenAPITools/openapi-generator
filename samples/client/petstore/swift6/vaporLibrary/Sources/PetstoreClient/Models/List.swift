@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class List: Content, Hashable {
+public struct List: Sendable, Content, Hashable {
 
     public var _123list: String?
 
@@ -25,16 +25,6 @@ public final class List: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_123list, forKey: ._123list)
-    }
-
-    public static func == (lhs: List, rhs: List) -> Bool {
-        lhs._123list == rhs._123list
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(_123list?.hashValue)
-        
     }
 }
 

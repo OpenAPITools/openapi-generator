@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class SpecialModelName: Content, Hashable {
+public struct SpecialModelName: Sendable, Content, Hashable {
 
     public var specialPropertyName: Int64?
 
@@ -25,16 +25,6 @@ public final class SpecialModelName: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
-    }
-
-    public static func == (lhs: SpecialModelName, rhs: SpecialModelName) -> Bool {
-        lhs.specialPropertyName == rhs.specialPropertyName
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(specialPropertyName?.hashValue)
-        
     }
 }
 

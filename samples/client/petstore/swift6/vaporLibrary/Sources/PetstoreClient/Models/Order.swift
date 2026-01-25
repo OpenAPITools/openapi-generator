@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Order: Content, Hashable {
+public struct Order: Sendable, Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case placed = "placed"
@@ -51,26 +51,6 @@ public final class Order: Content, Hashable {
         try container.encodeIfPresent(shipDate, forKey: .shipDate)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(complete, forKey: .complete)
-    }
-
-    public static func == (lhs: Order, rhs: Order) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.petId == rhs.petId &&
-        lhs.quantity == rhs.quantity &&
-        lhs.shipDate == rhs.shipDate &&
-        lhs.status == rhs.status &&
-        lhs.complete == rhs.complete
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(petId?.hashValue)
-        hasher.combine(quantity?.hashValue)
-        hasher.combine(shipDate?.hashValue)
-        hasher.combine(status?.hashValue)
-        hasher.combine(complete?.hashValue)
-        
     }
 }
 

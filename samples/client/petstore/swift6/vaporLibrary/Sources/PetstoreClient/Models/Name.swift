@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model name same as property name */
-public final class Name: Content, Hashable {
+public struct Name: Sendable, Content, Hashable {
 
     public var name: Int
     public var snakeCase: Int?
@@ -38,22 +38,6 @@ public final class Name: Content, Hashable {
         try container.encodeIfPresent(snakeCase, forKey: .snakeCase)
         try container.encodeIfPresent(property, forKey: .property)
         try container.encodeIfPresent(_123number, forKey: ._123number)
-    }
-
-    public static func == (lhs: Name, rhs: Name) -> Bool {
-        lhs.name == rhs.name &&
-        lhs.snakeCase == rhs.snakeCase &&
-        lhs.property == rhs.property &&
-        lhs._123number == rhs._123number
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name.hashValue)
-        hasher.combine(snakeCase?.hashValue)
-        hasher.combine(property?.hashValue)
-        hasher.combine(_123number?.hashValue)
-        
     }
 }
 

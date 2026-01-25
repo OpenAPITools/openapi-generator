@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ArrayTest: Content, Hashable {
+public struct ArrayTest: Sendable, Content, Hashable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
@@ -33,20 +33,6 @@ public final class ArrayTest: Content, Hashable {
         try container.encodeIfPresent(arrayOfString, forKey: .arrayOfString)
         try container.encodeIfPresent(arrayArrayOfInteger, forKey: .arrayArrayOfInteger)
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
-    }
-
-    public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
-        lhs.arrayOfString == rhs.arrayOfString &&
-        lhs.arrayArrayOfInteger == rhs.arrayArrayOfInteger &&
-        lhs.arrayArrayOfModel == rhs.arrayArrayOfModel
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(arrayOfString?.hashValue)
-        hasher.combine(arrayArrayOfInteger?.hashValue)
-        hasher.combine(arrayArrayOfModel?.hashValue)
-        
     }
 }
 
