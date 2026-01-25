@@ -19,8 +19,8 @@ import Alamofire{{/useAlamofire}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var basePath: String{{#useVapor}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: HTTPHeaders
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiClient: Vapor.Client?
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: (inout Vapor.ClientRequest) throws -> ()
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration{{/useVapor}}{{^useVapor}}
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var contentConfiguration: ContentConfiguration{{/useVapor}}{{^useVapor}}
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var customHeaders: [String: String]
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var credential: URLCredential?
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} var requestBuilderFactory: RequestBuilderFactory
@@ -49,8 +49,8 @@ import Alamofire{{/useAlamofire}}
         basePath: String = "{{{basePath}}}",{{#useVapor}}
         customHeaders: HTTPHeaders = [:],
         apiClient: Vapor.Client? = nil,
-        apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in },
-        contentConfiguration = ContentConfiguration.default(){{/useVapor}}{{^useVapor}}
+        apiWrapper: @escaping @Sendable (inout Vapor.ClientRequest) throws -> () = { _ in },
+        contentConfiguration: ContentConfiguration = ContentConfiguration.default(){{/useVapor}}{{^useVapor}}
         customHeaders: [String: String] = [:],
         credential: URLCredential? = nil,
         requestBuilderFactory: RequestBuilderFactory = {{#useAlamofire}}AlamofireRequestBuilderFactory(){{/useAlamofire}}{{#useURLSession}}URLSessionRequestBuilderFactory(){{/useURLSession}},
@@ -63,10 +63,10 @@ import Alamofire{{/useAlamofire}}
         stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer()){{/useAlamofire}}{{/useVapor}}
     ) {
         self.basePath = basePath{{#useVapor}}
-        customHeaders = customHeaders
-        apiClient = apiClient
-        apiWrapper = apiWrapper
-        contentConfiguration = contentConfiguration{{/useVapor}}{{^useVapor}}
+        self.customHeaders = customHeaders
+        self.apiClient = apiClient
+        self.apiWrapper = apiWrapper
+        self.contentConfiguration = contentConfiguration{{/useVapor}}{{^useVapor}}
         self.customHeaders = customHeaders
         self.credential = credential
         self.requestBuilderFactory = requestBuilderFactory
