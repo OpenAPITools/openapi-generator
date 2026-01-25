@@ -20,7 +20,6 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = addPetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -82,7 +81,6 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -153,7 +151,6 @@ open class PetAPI {
      - returns: AnyPublisher<[Pet], Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[Pet], Error> {
         let requestBuilder = findPetsByStatusWithRequestBuilder(status: status, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -216,7 +213,6 @@ open class PetAPI {
      */
     #if canImport(Combine)
     @available(*, deprecated, message: "This operation is deprecated.")
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[Pet], Error> {
         let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -279,7 +275,6 @@ open class PetAPI {
      - returns: AnyPublisher<Pet, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Pet, Error> {
         let requestBuilder = getPetByIdWithRequestBuilder(petId: petId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -341,7 +336,6 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = updatePetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -401,7 +395,6 @@ open class PetAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -472,7 +465,6 @@ open class PetAPI {
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -543,7 +535,6 @@ open class PetAPI {
      - returns: AnyPublisher<ApiResponse, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask

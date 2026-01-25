@@ -20,7 +20,6 @@ open class AnotherFakeAPI {
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func call123testSpecialTags(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Client, Error> {
         let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask

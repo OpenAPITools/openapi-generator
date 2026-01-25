@@ -87,7 +87,6 @@ open class AnotherFakeAPI {
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func call123testSpecialTags(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -117,7 +116,6 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func call123testSpecialTags(body: Client) async throws(ErrorResponse) -> Client {
         return try await call123testSpecialTagsWithRequestBuilder(body: body).execute().body
     }

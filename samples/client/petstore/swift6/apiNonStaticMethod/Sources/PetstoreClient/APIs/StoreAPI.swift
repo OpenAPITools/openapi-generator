@@ -87,7 +87,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteOrder(orderId: String) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
@@ -117,7 +116,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: Void
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteOrder(orderId: String) async throws(ErrorResponse) {
         return try await deleteOrderWithRequestBuilder(orderId: orderId).execute().body
     }
@@ -233,7 +231,6 @@ open class StoreAPI {
      - returns: AnyPublisher<[String: Int], Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getInventory() -> AnyPublisher<[String: Int], Error> {
         let requestBuilder = getInventoryWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
@@ -262,7 +259,6 @@ open class StoreAPI {
      
      - returns: [String: Int]
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getInventory() async throws(ErrorResponse) -> [String: Int] {
         return try await getInventoryWithRequestBuilder().execute().body
     }
@@ -380,7 +376,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Order, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getOrderById(orderId: Int64) -> AnyPublisher<Order, Error> {
         let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
@@ -410,7 +405,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: Order
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getOrderById(orderId: Int64) async throws(ErrorResponse) -> Order {
         return try await getOrderByIdWithRequestBuilder(orderId: orderId).execute().body
     }
@@ -530,7 +524,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Order, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func placeOrder(body: Order) -> AnyPublisher<Order, Error> {
         let requestBuilder = placeOrderWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -560,7 +553,6 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: Order
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func placeOrder(body: Order) async throws(ErrorResponse) -> Order {
         return try await placeOrderWithRequestBuilder(body: body).execute().body
     }

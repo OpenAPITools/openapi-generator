@@ -20,7 +20,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Void, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteOrder(orderId: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -78,7 +77,6 @@ open class StoreAPI {
      - returns: AnyPublisher<[String: Int], Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getInventory(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[String: Int], Error> {
         let requestBuilder = getInventoryWithRequestBuilder(apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -136,7 +134,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Order, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getOrderById(orderId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Order, Error> {
         let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -195,7 +192,6 @@ open class StoreAPI {
      - returns: AnyPublisher<Order, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func placeOrder(body: Order, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Order, Error> {
         let requestBuilder = placeOrderWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
