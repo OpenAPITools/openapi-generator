@@ -28,14 +28,6 @@ public struct ClassModel: Content, Hashable {
         try container.encodeIfPresent(`class`, forKey: .`class`)
     }
 
-    public static func == (lhs: ClassModel, rhs: ClassModel) -> Bool {
-        lhs.`class` == rhs.`class`
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(`class`?.hashValue)
-        
-    }
 }
 

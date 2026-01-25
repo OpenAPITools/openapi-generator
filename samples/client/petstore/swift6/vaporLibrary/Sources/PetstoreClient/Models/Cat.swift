@@ -35,18 +35,6 @@ public struct Cat: Content, Hashable {
         try container.encodeIfPresent(declawed, forKey: .declawed)
     }
 
-    public static func == (lhs: Cat, rhs: Cat) -> Bool {
-        lhs.className == rhs.className &&
-        lhs.color == rhs.color &&
-        lhs.declawed == rhs.declawed
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(className.hashValue)
-        hasher.combine(color?.hashValue)
-        hasher.combine(declawed?.hashValue)
-        
-    }
 }
 

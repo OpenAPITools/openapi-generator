@@ -61,22 +61,6 @@ public struct EnumTest: Content, Hashable {
         try container.encodeIfPresent(outerEnum, forKey: .outerEnum)
     }
 
-    public static func == (lhs: EnumTest, rhs: EnumTest) -> Bool {
-        lhs.enumString == rhs.enumString &&
-        lhs.enumStringRequired == rhs.enumStringRequired &&
-        lhs.enumInteger == rhs.enumInteger &&
-        lhs.enumNumber == rhs.enumNumber &&
-        lhs.outerEnum == rhs.outerEnum
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(enumString?.hashValue)
-        hasher.combine(enumStringRequired.hashValue)
-        hasher.combine(enumInteger?.hashValue)
-        hasher.combine(enumNumber?.hashValue)
-        hasher.combine(outerEnum?.hashValue)
-        
-    }
 }
 

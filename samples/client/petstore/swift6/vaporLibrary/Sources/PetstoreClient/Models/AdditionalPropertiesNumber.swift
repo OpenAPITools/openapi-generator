@@ -56,14 +56,6 @@ public struct AdditionalPropertiesNumber: Content, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Double.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
-    public static func == (lhs: AdditionalPropertiesNumber, rhs: AdditionalPropertiesNumber) -> Bool {
-        lhs.name == rhs.name
-        && lhs.additionalProperties == rhs.additionalProperties
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name?.hashValue)
-        hasher.combine(additionalProperties.hashValue)
-    }
 }
 

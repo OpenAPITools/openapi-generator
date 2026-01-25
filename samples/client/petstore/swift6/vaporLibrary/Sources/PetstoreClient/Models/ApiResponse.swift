@@ -35,18 +35,6 @@ public struct ApiResponse: Content, Hashable {
         try container.encodeIfPresent(message, forKey: .message)
     }
 
-    public static func == (lhs: ApiResponse, rhs: ApiResponse) -> Bool {
-        lhs.code == rhs.code &&
-        lhs.type == rhs.type &&
-        lhs.message == rhs.message
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(code?.hashValue)
-        hasher.combine(type?.hashValue)
-        hasher.combine(message?.hashValue)
-        
-    }
 }
 

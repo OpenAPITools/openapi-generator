@@ -27,14 +27,6 @@ public struct Client: Content, Hashable {
         try container.encodeIfPresent(client, forKey: .client)
     }
 
-    public static func == (lhs: Client, rhs: Client) -> Bool {
-        lhs.client == rhs.client
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(client?.hashValue)
-        
-    }
 }
 

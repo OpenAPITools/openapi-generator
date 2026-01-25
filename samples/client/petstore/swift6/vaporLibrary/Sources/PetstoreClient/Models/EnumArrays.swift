@@ -39,16 +39,6 @@ public struct EnumArrays: Content, Hashable {
         try container.encodeIfPresent(arrayEnum, forKey: .arrayEnum)
     }
 
-    public static func == (lhs: EnumArrays, rhs: EnumArrays) -> Bool {
-        lhs.justSymbol == rhs.justSymbol &&
-        lhs.arrayEnum == rhs.arrayEnum
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(justSymbol?.hashValue)
-        hasher.combine(arrayEnum?.hashValue)
-        
-    }
 }
 

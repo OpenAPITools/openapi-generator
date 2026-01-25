@@ -33,14 +33,6 @@ public struct BigCat: Content, Hashable {
         try container.encodeIfPresent(kind, forKey: .kind)
     }
 
-    public static func == (lhs: BigCat, rhs: BigCat) -> Bool {
-        lhs.kind == rhs.kind
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(kind?.hashValue)
-        
-    }
 }
 

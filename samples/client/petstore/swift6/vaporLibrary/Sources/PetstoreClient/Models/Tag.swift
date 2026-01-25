@@ -31,17 +31,7 @@ public struct Tag: Content, Hashable {
         try container.encodeIfPresent(name, forKey: .name)
     }
 
-    public static func == (lhs: Tag, rhs: Tag) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.name == rhs.name
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(name?.hashValue)
-        
-    }
 }
 
 

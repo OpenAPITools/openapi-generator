@@ -43,22 +43,6 @@ public struct TypeHolderDefault: Content, Hashable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 
-    public static func == (lhs: TypeHolderDefault, rhs: TypeHolderDefault) -> Bool {
-        lhs.stringItem == rhs.stringItem &&
-        lhs.numberItem == rhs.numberItem &&
-        lhs.integerItem == rhs.integerItem &&
-        lhs.boolItem == rhs.boolItem &&
-        lhs.arrayItem == rhs.arrayItem
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(stringItem.hashValue)
-        hasher.combine(numberItem.hashValue)
-        hasher.combine(integerItem.hashValue)
-        hasher.combine(boolItem.hashValue)
-        hasher.combine(arrayItem.hashValue)
-        
-    }
 }
 

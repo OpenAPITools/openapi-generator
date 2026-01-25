@@ -27,14 +27,6 @@ public struct ArrayOfNumberOnly: Content, Hashable {
         try container.encodeIfPresent(arrayNumber, forKey: .arrayNumber)
     }
 
-    public static func == (lhs: ArrayOfNumberOnly, rhs: ArrayOfNumberOnly) -> Bool {
-        lhs.arrayNumber == rhs.arrayNumber
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(arrayNumber?.hashValue)
-        
-    }
 }
 

@@ -29,14 +29,6 @@ public struct File: Content, Hashable {
         try container.encodeIfPresent(sourceURI, forKey: .sourceURI)
     }
 
-    public static func == (lhs: File, rhs: File) -> Bool {
-        lhs.sourceURI == rhs.sourceURI
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(sourceURI?.hashValue)
-        
-    }
 }
 

@@ -35,18 +35,6 @@ public struct OuterComposite: Content, Hashable {
         try container.encodeIfPresent(myBoolean, forKey: .myBoolean)
     }
 
-    public static func == (lhs: OuterComposite, rhs: OuterComposite) -> Bool {
-        lhs.myNumber == rhs.myNumber &&
-        lhs.myString == rhs.myString &&
-        lhs.myBoolean == rhs.myBoolean
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(myNumber?.hashValue)
-        hasher.combine(myString?.hashValue)
-        hasher.combine(myBoolean?.hashValue)
-        
-    }
 }
 

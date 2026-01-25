@@ -28,14 +28,6 @@ public struct Return: Content, Hashable {
         try container.encodeIfPresent(`return`, forKey: .`return`)
     }
 
-    public static func == (lhs: Return, rhs: Return) -> Bool {
-        lhs.`return` == rhs.`return`
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(`return`?.hashValue)
-        
-    }
 }
 

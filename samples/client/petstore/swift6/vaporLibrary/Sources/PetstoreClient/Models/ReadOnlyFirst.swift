@@ -31,16 +31,6 @@ public struct ReadOnlyFirst: Content, Hashable {
         try container.encodeIfPresent(baz, forKey: .baz)
     }
 
-    public static func == (lhs: ReadOnlyFirst, rhs: ReadOnlyFirst) -> Bool {
-        lhs.bar == rhs.bar &&
-        lhs.baz == rhs.baz
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(bar?.hashValue)
-        hasher.combine(baz?.hashValue)
-        
-    }
 }
 

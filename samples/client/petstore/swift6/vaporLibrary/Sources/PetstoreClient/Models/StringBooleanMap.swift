@@ -47,12 +47,6 @@ public struct StringBooleanMap: Content, Hashable {
         additionalProperties = try additionalPropertiesContainer.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
 
-    public static func == (lhs: StringBooleanMap, rhs: StringBooleanMap) -> Bool {
-        lhs.additionalProperties == rhs.additionalProperties
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(additionalProperties.hashValue)
-    }
 }
 

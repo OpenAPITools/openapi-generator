@@ -31,16 +31,6 @@ public struct Animal: Content, Hashable {
         try container.encodeIfPresent(color, forKey: .color)
     }
 
-    public static func == (lhs: Animal, rhs: Animal) -> Bool {
-        lhs.className == rhs.className &&
-        lhs.color == rhs.color
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(className.hashValue)
-        hasher.combine(color?.hashValue)
-        
-    }
 }
 

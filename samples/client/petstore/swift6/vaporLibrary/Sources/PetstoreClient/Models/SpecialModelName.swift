@@ -27,14 +27,6 @@ public struct SpecialModelName: Content, Hashable {
         try container.encodeIfPresent(specialPropertyName, forKey: .specialPropertyName)
     }
 
-    public static func == (lhs: SpecialModelName, rhs: SpecialModelName) -> Bool {
-        lhs.specialPropertyName == rhs.specialPropertyName
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(specialPropertyName?.hashValue)
-        
-    }
 }
 

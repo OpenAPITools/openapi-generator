@@ -35,18 +35,6 @@ public struct MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
         try container.encodeIfPresent(map, forKey: .map)
     }
 
-    public static func == (lhs: MixedPropertiesAndAdditionalPropertiesClass, rhs: MixedPropertiesAndAdditionalPropertiesClass) -> Bool {
-        lhs.uuid == rhs.uuid &&
-        lhs.dateTime == rhs.dateTime &&
-        lhs.map == rhs.map
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(uuid?.hashValue)
-        hasher.combine(dateTime?.hashValue)
-        hasher.combine(map?.hashValue)
-        
-    }
 }
 

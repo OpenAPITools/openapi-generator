@@ -48,24 +48,6 @@ public struct Capitalization: Content, Hashable {
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
 
-    public static func == (lhs: Capitalization, rhs: Capitalization) -> Bool {
-        lhs.smallCamel == rhs.smallCamel &&
-        lhs.capitalCamel == rhs.capitalCamel &&
-        lhs.smallSnake == rhs.smallSnake &&
-        lhs.capitalSnake == rhs.capitalSnake &&
-        lhs.sCAETHFlowPoints == rhs.sCAETHFlowPoints &&
-        lhs.ATT_NAME == rhs.ATT_NAME
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(smallCamel?.hashValue)
-        hasher.combine(capitalCamel?.hashValue)
-        hasher.combine(smallSnake?.hashValue)
-        hasher.combine(capitalSnake?.hashValue)
-        hasher.combine(sCAETHFlowPoints?.hashValue)
-        hasher.combine(ATT_NAME?.hashValue)
-        
-    }
 }
 

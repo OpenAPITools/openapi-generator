@@ -47,24 +47,6 @@ public struct TypeHolderExample: Content, Hashable {
         try container.encode(arrayItem, forKey: .arrayItem)
     }
 
-    public static func == (lhs: TypeHolderExample, rhs: TypeHolderExample) -> Bool {
-        lhs.stringItem == rhs.stringItem &&
-        lhs.numberItem == rhs.numberItem &&
-        lhs.floatItem == rhs.floatItem &&
-        lhs.integerItem == rhs.integerItem &&
-        lhs.boolItem == rhs.boolItem &&
-        lhs.arrayItem == rhs.arrayItem
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(stringItem.hashValue)
-        hasher.combine(numberItem.hashValue)
-        hasher.combine(floatItem.hashValue)
-        hasher.combine(integerItem.hashValue)
-        hasher.combine(boolItem.hashValue)
-        hasher.combine(arrayItem.hashValue)
-        
-    }
 }
 

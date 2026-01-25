@@ -43,20 +43,6 @@ public struct MapTest: Content, Hashable {
         try container.encodeIfPresent(indirectMap, forKey: .indirectMap)
     }
 
-    public static func == (lhs: MapTest, rhs: MapTest) -> Bool {
-        lhs.mapMapOfString == rhs.mapMapOfString &&
-        lhs.mapOfEnumString == rhs.mapOfEnumString &&
-        lhs.directMap == rhs.directMap &&
-        lhs.indirectMap == rhs.indirectMap
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(mapMapOfString?.hashValue)
-        hasher.combine(mapOfEnumString?.hashValue)
-        hasher.combine(directMap?.hashValue)
-        hasher.combine(indirectMap?.hashValue)
-        
-    }
 }
 

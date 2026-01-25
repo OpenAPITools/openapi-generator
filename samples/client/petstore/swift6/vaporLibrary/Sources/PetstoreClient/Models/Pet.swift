@@ -54,25 +54,7 @@ public struct Pet: Content, Hashable {
         try container.encodeIfPresent(status, forKey: .status)
     }
 
-    public static func == (lhs: Pet, rhs: Pet) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.category == rhs.category &&
-        lhs.name == rhs.name &&
-        lhs.photoUrls == rhs.photoUrls &&
-        lhs.tags == rhs.tags &&
-        lhs.status == rhs.status
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(category?.hashValue)
-        hasher.combine(name.hashValue)
-        hasher.combine(photoUrls.hashValue)
-        hasher.combine(tags?.hashValue)
-        hasher.combine(status?.hashValue)
-        
-    }
 }
 
 

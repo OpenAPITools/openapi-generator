@@ -40,20 +40,6 @@ public struct Name: Content, Hashable {
         try container.encodeIfPresent(_123number, forKey: ._123number)
     }
 
-    public static func == (lhs: Name, rhs: Name) -> Bool {
-        lhs.name == rhs.name &&
-        lhs.snakeCase == rhs.snakeCase &&
-        lhs.property == rhs.property &&
-        lhs._123number == rhs._123number
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(name.hashValue)
-        hasher.combine(snakeCase?.hashValue)
-        hasher.combine(property?.hashValue)
-        hasher.combine(_123number?.hashValue)
-        
-    }
 }
 

@@ -35,18 +35,6 @@ public struct ArrayTest: Content, Hashable {
         try container.encodeIfPresent(arrayArrayOfModel, forKey: .arrayArrayOfModel)
     }
 
-    public static func == (lhs: ArrayTest, rhs: ArrayTest) -> Bool {
-        lhs.arrayOfString == rhs.arrayOfString &&
-        lhs.arrayArrayOfInteger == rhs.arrayArrayOfInteger &&
-        lhs.arrayArrayOfModel == rhs.arrayArrayOfModel
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(arrayOfString?.hashValue)
-        hasher.combine(arrayArrayOfInteger?.hashValue)
-        hasher.combine(arrayArrayOfModel?.hashValue)
-        
-    }
 }
 

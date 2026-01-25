@@ -31,16 +31,6 @@ public struct FileSchemaTestClass: Content, Hashable {
         try container.encodeIfPresent(files, forKey: .files)
     }
 
-    public static func == (lhs: FileSchemaTestClass, rhs: FileSchemaTestClass) -> Bool {
-        lhs.file == rhs.file &&
-        lhs.files == rhs.files
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(file?.hashValue)
-        hasher.combine(files?.hashValue)
-        
-    }
 }
 

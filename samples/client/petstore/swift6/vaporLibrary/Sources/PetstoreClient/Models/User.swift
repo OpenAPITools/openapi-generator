@@ -56,29 +56,7 @@ public struct User: Content, Hashable {
         try container.encodeIfPresent(userStatus, forKey: .userStatus)
     }
 
-    public static func == (lhs: User, rhs: User) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.username == rhs.username &&
-        lhs.firstName == rhs.firstName &&
-        lhs.lastName == rhs.lastName &&
-        lhs.email == rhs.email &&
-        lhs.password == rhs.password &&
-        lhs.phone == rhs.phone &&
-        lhs.userStatus == rhs.userStatus
-        
-    }
 
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(id?.hashValue)
-        hasher.combine(username?.hashValue)
-        hasher.combine(firstName?.hashValue)
-        hasher.combine(lastName?.hashValue)
-        hasher.combine(email?.hashValue)
-        hasher.combine(password?.hashValue)
-        hasher.combine(phone?.hashValue)
-        hasher.combine(userStatus?.hashValue)
-        
-    }
 }
 
 
