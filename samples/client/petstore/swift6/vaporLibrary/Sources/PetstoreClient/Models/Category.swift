@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Category: Content, Hashable {
+public struct Category: Content, Hashable {
 
     public var id: Int64?
     public var name: String = "default-name"

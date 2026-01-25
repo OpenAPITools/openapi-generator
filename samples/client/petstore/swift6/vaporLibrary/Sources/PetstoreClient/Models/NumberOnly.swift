@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class NumberOnly: Content, Hashable {
+public struct NumberOnly: Content, Hashable {
 
     public var justNumber: Double?
 

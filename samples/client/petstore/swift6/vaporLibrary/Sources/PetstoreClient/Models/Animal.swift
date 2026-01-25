@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Animal: Content, Hashable {
+public struct Animal: Content, Hashable {
 
     public var className: String
     public var color: String? = "red"

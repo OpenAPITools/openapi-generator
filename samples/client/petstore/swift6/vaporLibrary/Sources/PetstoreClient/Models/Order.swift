@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Order: Content, Hashable {
+public struct Order: Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case placed = "placed"

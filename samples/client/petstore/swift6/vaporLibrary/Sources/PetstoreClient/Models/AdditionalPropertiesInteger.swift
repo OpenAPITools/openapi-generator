@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class AdditionalPropertiesInteger: Content, Hashable {
+public struct AdditionalPropertiesInteger: Content, Hashable {
 
     public var name: String?
 

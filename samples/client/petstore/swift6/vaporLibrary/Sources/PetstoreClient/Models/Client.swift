@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Client: Content, Hashable {
+public struct Client: Content, Hashable {
 
     public var client: String?
 

@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model name same as property name */
-public final class Name: Content, Hashable {
+public struct Name: Content, Hashable {
 
     public var name: Int
     public var snakeCase: Int?

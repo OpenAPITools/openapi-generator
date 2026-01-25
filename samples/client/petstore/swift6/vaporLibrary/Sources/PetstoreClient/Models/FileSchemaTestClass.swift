@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class FileSchemaTestClass: Content, Hashable {
+public struct FileSchemaTestClass: Content, Hashable {
 
     public var file: File?
     public var files: [File]?

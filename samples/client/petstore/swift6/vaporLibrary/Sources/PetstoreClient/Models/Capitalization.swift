@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Capitalization: Content, Hashable {
+public struct Capitalization: Content, Hashable {
 
     public var smallCamel: String?
     public var capitalCamel: String?

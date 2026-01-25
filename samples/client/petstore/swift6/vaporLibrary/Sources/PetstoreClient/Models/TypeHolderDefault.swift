@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class TypeHolderDefault: Content, Hashable {
+public struct TypeHolderDefault: Content, Hashable {
 
     public var stringItem: String = "what"
     public var numberItem: Double

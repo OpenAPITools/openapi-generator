@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing reserved words */
-public final class Return: Content, Hashable {
+public struct Return: Content, Hashable {
 
     public var `return`: Int?
 

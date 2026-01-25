@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
+public struct MixedPropertiesAndAdditionalPropertiesClass: Content, Hashable {
 
     public var uuid: UUID?
     public var dateTime: Date?

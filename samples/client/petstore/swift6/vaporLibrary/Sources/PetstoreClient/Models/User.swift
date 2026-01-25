@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class User: Content, Hashable {
+public struct User: Content, Hashable {
 
     public var id: Int64?
     public var username: String?

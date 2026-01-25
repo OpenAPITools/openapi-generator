@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class XmlItem: Content, Hashable {
+public struct XmlItem: Content, Hashable {
 
     public var attributeString: String?
     public var attributeNumber: Double?

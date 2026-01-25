@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ArrayTest: Content, Hashable {
+public struct ArrayTest: Content, Hashable {
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?

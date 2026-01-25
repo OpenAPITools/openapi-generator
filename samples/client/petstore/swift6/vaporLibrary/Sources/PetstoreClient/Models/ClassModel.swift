@@ -9,7 +9,7 @@ import Foundation
 import Vapor
 
 /** Model for testing model with \&quot;_class\&quot; property */
-public final class ClassModel: Content, Hashable {
+public struct ClassModel: Content, Hashable {
 
     public var `class`: String?
 

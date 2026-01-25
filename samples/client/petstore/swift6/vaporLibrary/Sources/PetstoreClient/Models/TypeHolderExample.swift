@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class TypeHolderExample: Content, Hashable {
+public struct TypeHolderExample: Content, Hashable {
 
     public var stringItem: String
     public var numberItem: Double

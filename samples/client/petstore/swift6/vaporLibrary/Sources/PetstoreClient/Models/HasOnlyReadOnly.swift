@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class HasOnlyReadOnly: Content, Hashable {
+public struct HasOnlyReadOnly: Content, Hashable {
 
     public var bar: String?
     public var foo: String?

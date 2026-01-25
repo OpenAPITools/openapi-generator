@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class SpecialModelName: Content, Hashable {
+public struct SpecialModelName: Content, Hashable {
 
     public var specialPropertyName: Int64?
 

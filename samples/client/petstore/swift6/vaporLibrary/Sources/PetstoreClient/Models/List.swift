@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class List: Content, Hashable {
+public struct List: Content, Hashable {
 
     public var _123list: String?
 

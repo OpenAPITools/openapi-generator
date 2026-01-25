@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ApiResponse: Content, Hashable {
+public struct ApiResponse: Content, Hashable {
 
     public var code: Int?
     public var type: String?

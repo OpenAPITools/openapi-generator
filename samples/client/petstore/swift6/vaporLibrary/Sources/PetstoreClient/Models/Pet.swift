@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Pet: Content, Hashable {
+public struct Pet: Content, Hashable {
 
     public enum Status: String, Sendable, Content, Hashable, CaseIterable {
         case available = "available"

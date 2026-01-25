@@ -14,21 +14,21 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
     public var basePath: String
     public var customHeaders: HTTPHeaders
     public var apiClient: Vapor.Client?
-    public var apiWrapper: (inout Vapor.ClientRequest) throws -> ()
-    public var contentConfiguration
+    public var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
+    public var contentConfiguration: ContentConfiguration
 
     public init(
         basePath: String = "http://petstore.swagger.io:80/v2",
         customHeaders: HTTPHeaders = [:],
         apiClient: Vapor.Client? = nil,
-        apiWrapper: (inout Vapor.ClientRequest) throws -> () = { _ in },
-        contentConfiguration = ContentConfiguration.default()
+        apiWrapper: @escaping @Sendable (inout Vapor.ClientRequest) throws -> () = { _ in },
+        contentConfiguration: ContentConfiguration = ContentConfiguration.default()
     ) {
         self.basePath = basePath
-        customHeaders = customHeaders
-        apiClient = apiClient
-        apiWrapper = apiWrapper
-        contentConfiguration = contentConfiguration
+        self.customHeaders = customHeaders
+        self.apiClient = apiClient
+        self.apiWrapper = apiWrapper
+        self.contentConfiguration = contentConfiguration
     }
 
     public static let shared = PetstoreClientAPIConfiguration()

@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class StringBooleanMap: Content, Hashable {
+public struct StringBooleanMap: Content, Hashable {
 
 
     public enum CodingKeys: CodingKey, CaseIterable {

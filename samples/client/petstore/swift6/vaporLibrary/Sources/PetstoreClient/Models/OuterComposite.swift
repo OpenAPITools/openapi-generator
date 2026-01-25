@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class OuterComposite: Content, Hashable {
+public struct OuterComposite: Content, Hashable {
 
     public var myNumber: Double?
     public var myString: String?

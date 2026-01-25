@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class BigCat: Content, Hashable {
+public struct BigCat: Content, Hashable {
 
     public enum Kind: String, Sendable, Content, Hashable, CaseIterable {
         case lions = "lions"

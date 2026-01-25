@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class ArrayOfArrayOfNumberOnly: Content, Hashable {
+public struct ArrayOfArrayOfNumberOnly: Content, Hashable {
 
     public var arrayArrayNumber: [[Double]]?
 

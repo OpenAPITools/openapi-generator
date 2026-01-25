@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class EnumTest: Content, Hashable {
+public struct EnumTest: Content, Hashable {
 
     public enum EnumString: String, Sendable, Content, Hashable, CaseIterable {
         case upper = "UPPER"

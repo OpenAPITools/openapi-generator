@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class AdditionalPropertiesClass: Content, Hashable {
+public struct AdditionalPropertiesClass: Content, Hashable {
 
     public var mapString: [String: String]?
     public var mapNumber: [String: Double]?

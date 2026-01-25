@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class EnumArrays: Content, Hashable {
+public struct EnumArrays: Content, Hashable {
 
     public enum JustSymbol: String, Sendable, Content, Hashable, CaseIterable {
         case greaterThanOrEqualTo = ">="
