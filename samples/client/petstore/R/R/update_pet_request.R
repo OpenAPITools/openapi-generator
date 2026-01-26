@@ -77,7 +77,7 @@ UpdatePetRequest <- R6::R6Class(
       UpdatePetRequestObject <- list()
       if (!is.null(self$`jsonData`)) {
         UpdatePetRequestObject[["jsonData"]] <-
-          self$`jsonData`$toSimpleType()
+          self$extractSimpleType(self$`jsonData`)
       }
       if (!is.null(self$`binaryDataN2Information`)) {
         UpdatePetRequestObject[["binaryDataN2Information"]] <-
@@ -89,6 +89,29 @@ UpdatePetRequest <- R6::R6Class(
 
       return(UpdatePetRequestObject)
     },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
+    }
 
     #' @description
     #' Deserialize JSON string into an instance of UpdatePetRequest
