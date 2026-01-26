@@ -53,8 +53,7 @@ public class User {
   /**
    * Constructor with all args parameters
    */
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public User(@Nullable @JsonProperty("id") Long id, @Nullable @JsonProperty("username") String username, @Nullable @JsonProperty("firstName") String firstName, @Nullable @JsonProperty("lastName") String lastName, @Nullable @JsonProperty("email") String email, @Nullable @JsonProperty("password") String password, @Nullable @JsonProperty("phone") String phone, @Nullable @JsonProperty("userStatus") Integer userStatus) {
+  public User(@Nullable Long id, @Nullable String username, @Nullable String firstName, @Nullable String lastName, @Nullable String email, @Nullable String password, @Nullable String phone, @Nullable Integer userStatus) {
       this.id = id;
       this.username = username;
       this.firstName = firstName;

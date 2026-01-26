@@ -1161,19 +1161,22 @@ public class SpringCodegen extends AbstractJavaCodegen
                 cm.vendorExtensions.put("x-java-no-args-constructor", true);
             }
 
-            if (!this.withXml &&
-                    cm.hasRequired &&
-                    this.generatedConstructorWithRequiredArgs &&
-                    !hasAllArgsConstructor &&
-                    cm.requiredVars.size() == cm.allVars.size() &&
-                    isJackson()) {
-                cm.vendorExtensions.put("x-java-required-constructor-jsoncreator", true);
-                /* add @JsonCreator and @JsonProperty on required argument constructor
-                 * currently only enabled for
-                 *   jackson and no withXml
-                 *   all fields are initialzed in the required constructor
-                 *   no all arg constructor
-                 */
+
+            // add @JsonCreator on constructor
+            if (!this.withXml && jackson) {
+                if (hasAllArgsConstructor) {
+                    // add @JsonCreator and @JsonProperty on the all argument constructor
+                    cm.vendorExtensions.put("java-all-args-constructor-jsoncreator", true);
+                    List<CodegenProperty> properties = (List<CodegenProperty>)cm.vendorExtensions.get("x-java-all-args-constructor-vars");
+                    properties.forEach(p -> p.vendorExtensions.put("x-java-all-args-jsonProperty", p.baseName));
+                } else if (this.generatedConstructorWithRequiredArgs && cm.hasRequired && cm.requiredVars.size() == cm.allVars.size()) {
+                    /* add @JsonCreator and @JsonProperty on the required argument constructor
+                     *   all fields are initialzed in the required constructor
+                     *   no all arg constructor
+                     */
+                    cm.vendorExtensions.put("x-java-required-constructor-jsoncreator", true);
+                    cm.requiredVars.forEach(p -> p.vendorExtensions.put("x-java-required-args-jsonProperty", p.baseName));
+                }
             }
 
         }

@@ -102,10 +102,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   /**
    * Constructor with only required parameters{{#generateConstructorWithAllArgs}}{{^vendorExtensions.x-java-all-args-constructor}} and all parameters{{/vendorExtensions.x-java-all-args-constructor}}{{/generateConstructorWithAllArgs}}
    */
-  {{#vendorExtensions.x-java-required-constructor-jsoncreator}}
+   {{#vendorExtensions.x-java-required-constructor-jsoncreator}}
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  {{/vendorExtensions.x-java-required-constructor-jsoncreator}}
-  public {{classname}}({{^vendorExtensions.x-java-required-constructor-jsoncreator}}{{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}{{/vendorExtensions.x-java-required-constructor-jsoncreator}}{{#vendorExtensions.x-java-required-constructor-jsoncreator}}{{#requiredVars}}@JsonProperty("{{baseName}}") {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}{{/vendorExtensions.x-java-required-constructor-jsoncreator}}) {
+   {{/vendorExtensions.x-java-required-constructor-jsoncreator}}
+  public {{classname}}({{#requiredVars}}{{#vendorExtensions.x-java-required-args-jsonProperty}}@JsonProperty("{{.}}") {{/vendorExtensions.x-java-required-args-jsonProperty}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}
     super({{#parentRequiredVars}}{{name}}{{^-last}}, {{/-last}}{{/parentRequiredVars}});
     {{/parent}}
@@ -127,9 +127,11 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   /**
    * Constructor with all args parameters
-   */{{#jackson}}
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES){{/jackson}}
-  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableAnnotation}}{{#jackson}}@JsonProperty("{{baseName}}") {{/jackson}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+   */
+   {{#vendorExtensions.java-all-args-constructor-jsoncreator}}
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+   {{/vendorExtensions.java-all-args-constructor-jsoncreator}}
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableAnnotation}}{{#vendorExtensions.x-java-all-args-jsonProperty}}@JsonProperty("{{.}}") {{/vendorExtensions.x-java-all-args-jsonProperty}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
   {{#parent}}
       super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
   {{/parent}}
