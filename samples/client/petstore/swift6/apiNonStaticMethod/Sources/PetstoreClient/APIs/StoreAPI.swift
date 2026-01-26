@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class StoreAPI {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -86,7 +84,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func deleteOrder(orderId: String) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteOrderWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
@@ -108,7 +105,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Delete purchase order by ID
@@ -230,7 +226,6 @@ open class StoreAPI {
      
      - returns: AnyPublisher<[String: Int], Error>
      */
-    #if canImport(Combine)
     open func getInventory() -> AnyPublisher<[String: Int], Error> {
         let requestBuilder = getInventoryWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
@@ -252,7 +247,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Returns pet inventories by status
@@ -375,7 +369,6 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: AnyPublisher<Order, Error>
      */
-    #if canImport(Combine)
     open func getOrderById(orderId: Int64) -> AnyPublisher<Order, Error> {
         let requestBuilder = getOrderByIdWithRequestBuilder(orderId: orderId)
         let requestTask = requestBuilder.requestTask
@@ -397,7 +390,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Find purchase order by ID
@@ -523,7 +515,6 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: AnyPublisher<Order, Error>
      */
-    #if canImport(Combine)
     open func placeOrder(body: Order) -> AnyPublisher<Order, Error> {
         let requestBuilder = placeOrderWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -545,7 +536,6 @@ open class StoreAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Place an order for a pet
