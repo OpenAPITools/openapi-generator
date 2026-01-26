@@ -34,8 +34,9 @@ import {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for test without sending the request
      */
-    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+    async testRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -43,12 +44,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
+        const requestConfig = await this.testRequestConfig(initOverrides);
+        const response = await this.request(requestConfig, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestResponseFromJSON(jsonValue));
     }
@@ -61,8 +69,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for testArray without sending the request
      */
-    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+    async testArrayRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -70,12 +79,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-array`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
+        const requestConfig = await this.testArrayRequestConfig(initOverrides);
+        const response = await this.request(requestConfig, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestArrayResponseFromJSON(jsonValue));
     }
@@ -88,8 +104,9 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for testDiscriminator without sending the request
      */
-    async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
+    async testDiscriminatorRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -97,12 +114,19 @@ export class DefaultApi extends runtime.BaseAPI {
 
         let urlPath = `/test-discriminator`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
+        const requestConfig = await this.testDiscriminatorRequestConfig(initOverrides);
+        const response = await this.request(requestConfig, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestDiscriminatorResponseFromJSON(jsonValue));
     }
