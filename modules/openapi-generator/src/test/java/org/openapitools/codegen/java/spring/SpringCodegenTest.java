@@ -5364,7 +5364,7 @@ public class SpringCodegenTest {
                 .fileContains(
                         "public Item(" +
                                 "@JsonProperty(\"mandatoryName\") String mandatoryName," +
-                                " @Nullable @JsonProperty(\"optionalDescription\") String optionalDescription," +
+                                " @JsonProperty(\"optionalDescription\") @Nullable String optionalDescription," +
                                 " @JsonProperty(\"optionalOneWithDefault\") String optionalOneWithDefault," +
                                 " @JsonProperty(\"nullableStr\") String nullableStr," +
                                 " @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
@@ -5399,7 +5399,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .fileContains(
                         ", @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
-                                " @Nullable @JsonProperty(\"optionalContainer\") List<String> optionalContainer," +
+                                " @JsonProperty(\"optionalContainer\") @Nullable List<String> optionalContainer," +
                                 " @JsonProperty(\"optionalContainerWithDefault\") List<String> optionalContainerWithDefault," +
                                 " @JsonProperty(\"nullableContainer\") List<String> nullableContainer)"
                 );
@@ -5473,9 +5473,9 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .fileContains(
                         " @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
-                                " @Nullable @JsonProperty(\"optionalContainer\") List<String> optionalContainer," +
+                                " @JsonProperty(\"optionalContainer\") @Nullable List<String> optionalContainer," +
                                 " @JsonProperty(\"optionalContainerWithDefault\") List<String> optionalContainerWithDefault," +
-                                " @Nullable @JsonProperty(\"nullableContainer\") List<String> nullableContainer)"
+                                " @JsonProperty(\"nullableContainer\") @Nullable List<String> nullableContainer)"
                 );
     }
 

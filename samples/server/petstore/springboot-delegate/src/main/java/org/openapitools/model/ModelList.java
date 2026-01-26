@@ -35,7 +35,7 @@ public class ModelList {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public ModelList(@Nullable @JsonProperty("123-list") String _123list) {
+  public ModelList(@JsonProperty("123-list") @Nullable String _123list) {
       this._123list = _123list;
   }
 

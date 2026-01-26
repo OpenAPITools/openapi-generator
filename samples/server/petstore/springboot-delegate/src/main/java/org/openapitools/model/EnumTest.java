@@ -196,7 +196,7 @@ public class EnumTest {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public EnumTest(@Nullable @JsonProperty("enum_string") EnumStringEnum enumString, @JsonProperty("enum_string_required") EnumStringRequiredEnum enumStringRequired, @Nullable @JsonProperty("enum_integer") EnumIntegerEnum enumInteger, @Nullable @JsonProperty("enum_number") EnumNumberEnum enumNumber, @Nullable @JsonProperty("outerEnum") OuterEnum outerEnum) {
+  public EnumTest(@JsonProperty("enum_string") @Nullable EnumStringEnum enumString, @JsonProperty("enum_string_required") EnumStringRequiredEnum enumStringRequired, @JsonProperty("enum_integer") @Nullable EnumIntegerEnum enumInteger, @JsonProperty("enum_number") @Nullable EnumNumberEnum enumNumber, @JsonProperty("outerEnum") @Nullable OuterEnum outerEnum) {
       this.enumString = enumString;
       this.enumStringRequired = enumStringRequired;
       this.enumInteger = enumInteger;

@@ -79,7 +79,7 @@ public class FormatTest {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public FormatTest(@Nullable @JsonProperty("integer") Integer integer, @Nullable @JsonProperty("int32") Integer int32, @Nullable @JsonProperty("int64") Long int64, @JsonProperty("number") BigDecimal number, @Nullable @JsonProperty("float") Float _float, @Nullable @JsonProperty("double") Double _double, @Nullable @JsonProperty("string") String string, @JsonProperty("byte") byte[] _byte, @Nullable @JsonProperty("binary") org.springframework.core.io.Resource binary, @JsonProperty("date") LocalDate date, @Nullable @JsonProperty("dateTime") OffsetDateTime dateTime, @Nullable @JsonProperty("uuid") UUID uuid, @JsonProperty("password") String password, @Nullable @JsonProperty("BigDecimal") BigDecimal bigDecimal) {
+  public FormatTest(@JsonProperty("integer") @Nullable Integer integer, @JsonProperty("int32") @Nullable Integer int32, @JsonProperty("int64") @Nullable Long int64, @JsonProperty("number") BigDecimal number, @JsonProperty("float") @Nullable Float _float, @JsonProperty("double") @Nullable Double _double, @JsonProperty("string") @Nullable String string, @JsonProperty("byte") byte[] _byte, @JsonProperty("binary") @Nullable org.springframework.core.io.Resource binary, @JsonProperty("date") LocalDate date, @JsonProperty("dateTime") @Nullable OffsetDateTime dateTime, @JsonProperty("uuid") @Nullable UUID uuid, @JsonProperty("password") String password, @JsonProperty("BigDecimal") @Nullable BigDecimal bigDecimal) {
       this.integer = integer;
       this.int32 = int32;
       this.int64 = int64;

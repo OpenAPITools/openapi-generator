@@ -45,7 +45,7 @@ public class Dog extends Animal {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public Dog(@Nullable @JsonProperty("breed") String breed, @JsonProperty("className") String className, @JsonProperty("color") String color) {
+  public Dog(@JsonProperty("breed") @Nullable String breed, @JsonProperty("className") String className, @JsonProperty("color") String color) {
       super(className, color);
       this.breed = breed;
   }

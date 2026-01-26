@@ -45,7 +45,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public MixedPropertiesAndAdditionalPropertiesClass(@Nullable @JsonProperty("uuid") UUID uuid, @Nullable @JsonProperty("dateTime") OffsetDateTime dateTime, @JsonProperty("map") Map<String, Animal> map) {
+  public MixedPropertiesAndAdditionalPropertiesClass(@JsonProperty("uuid") @Nullable UUID uuid, @JsonProperty("dateTime") @Nullable OffsetDateTime dateTime, @JsonProperty("map") Map<String, Animal> map) {
       this.uuid = uuid;
       this.dateTime = dateTime;
       this.map = map;

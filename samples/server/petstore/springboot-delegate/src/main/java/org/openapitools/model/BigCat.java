@@ -85,7 +85,7 @@ public class BigCat extends Cat {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public BigCat(@Nullable @JsonProperty("kind") KindEnum kind, @Nullable @JsonProperty("declawed") Boolean declawed, @JsonProperty("className") String className, @JsonProperty("color") String color) {
+  public BigCat(@JsonProperty("kind") @Nullable KindEnum kind, @JsonProperty("declawed") @Nullable Boolean declawed, @JsonProperty("className") String className, @JsonProperty("color") String color) {
       super(declawed, className, color);
       this.kind = kind;
   }

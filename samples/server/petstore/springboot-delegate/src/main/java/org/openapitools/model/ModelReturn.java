@@ -36,7 +36,7 @@ public class ModelReturn {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public ModelReturn(@Nullable @JsonProperty("return") Integer _return) {
+  public ModelReturn(@JsonProperty("return") @Nullable Integer _return) {
       this._return = _return;
   }
 

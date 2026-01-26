@@ -131,7 +131,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    {{#vendorExtensions.java-all-args-constructor-jsoncreator}}
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
    {{/vendorExtensions.java-all-args-constructor-jsoncreator}}
-  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{>nullableAnnotation}}{{#vendorExtensions.x-java-all-args-jsonProperty}}@JsonProperty("{{.}}") {{/vendorExtensions.x-java-all-args-jsonProperty}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
+  public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#vendorExtensions.x-java-all-args-jsonProperty}}@JsonProperty("{{.}}") {{/vendorExtensions.x-java-all-args-jsonProperty}}{{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
   {{#parent}}
       super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
   {{/parent}}

@@ -35,7 +35,7 @@ public class SpecialModelName {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public SpecialModelName(@Nullable @JsonProperty("$special[property.name]") Long $specialPropertyName) {
+  public SpecialModelName(@JsonProperty("$special[property.name]") @Nullable Long $specialPropertyName) {
       this.$specialPropertyName = $specialPropertyName;
   }
 

@@ -40,7 +40,7 @@ public class FileSchemaTestClass {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public FileSchemaTestClass(@Nullable @JsonProperty("file") File file, @JsonProperty("files") List<@Valid File> files) {
+  public FileSchemaTestClass(@JsonProperty("file") @Nullable File file, @JsonProperty("files") List<@Valid File> files) {
       this.file = file;
       this.files = files;
   }

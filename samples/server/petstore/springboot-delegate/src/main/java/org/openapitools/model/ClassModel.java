@@ -34,7 +34,7 @@ public class ClassModel {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public ClassModel(@Nullable @JsonProperty("_class") String propertyClass) {
+  public ClassModel(@JsonProperty("_class") @Nullable String propertyClass) {
       this.propertyClass = propertyClass;
   }
 

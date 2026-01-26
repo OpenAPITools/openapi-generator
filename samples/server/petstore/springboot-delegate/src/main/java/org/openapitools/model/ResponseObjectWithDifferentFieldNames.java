@@ -39,7 +39,7 @@ public class ResponseObjectWithDifferentFieldNames {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public ResponseObjectWithDifferentFieldNames(@Nullable @JsonProperty("normalPropertyName") String normalPropertyName, @Nullable @JsonProperty("UPPER_CASE_PROPERTY_SNAKE") String UPPER_CASE_PROPERTY_SNAKE, @Nullable @JsonProperty("lower-case-property-dashes") String lowerCasePropertyDashes, @Nullable @JsonProperty("property name with spaces") String propertyNameWithSpaces) {
+  public ResponseObjectWithDifferentFieldNames(@JsonProperty("normalPropertyName") @Nullable String normalPropertyName, @JsonProperty("UPPER_CASE_PROPERTY_SNAKE") @Nullable String UPPER_CASE_PROPERTY_SNAKE, @JsonProperty("lower-case-property-dashes") @Nullable String lowerCasePropertyDashes, @JsonProperty("property name with spaces") @Nullable String propertyNameWithSpaces) {
       this.normalPropertyName = normalPropertyName;
       this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
       this.lowerCasePropertyDashes = lowerCasePropertyDashes;

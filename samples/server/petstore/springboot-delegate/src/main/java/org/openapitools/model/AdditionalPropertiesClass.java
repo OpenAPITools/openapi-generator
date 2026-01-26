@@ -68,7 +68,7 @@ public class AdditionalPropertiesClass {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public AdditionalPropertiesClass(@JsonProperty("map_string") Map<String, String> mapString, @JsonProperty("map_number") Map<String, BigDecimal> mapNumber, @JsonProperty("map_integer") Map<String, Integer> mapInteger, @JsonProperty("map_boolean") Map<String, Boolean> mapBoolean, @JsonProperty("map_array_integer") Map<String, List<Integer>> mapArrayInteger, @JsonProperty("map_array_anytype") Map<String, List<Object>> mapArrayAnytype, @JsonProperty("map_map_string") Map<String, Map<String, String>> mapMapString, @JsonProperty("map_map_anytype") Map<String, Map<String, Object>> mapMapAnytype, @Nullable @JsonProperty("anytype_1") Object anytype1, @JsonProperty("anytype_2") Object anytype2, @Nullable @JsonProperty("anytype_3") Object anytype3) {
+  public AdditionalPropertiesClass(@JsonProperty("map_string") Map<String, String> mapString, @JsonProperty("map_number") Map<String, BigDecimal> mapNumber, @JsonProperty("map_integer") Map<String, Integer> mapInteger, @JsonProperty("map_boolean") Map<String, Boolean> mapBoolean, @JsonProperty("map_array_integer") Map<String, List<Integer>> mapArrayInteger, @JsonProperty("map_array_anytype") Map<String, List<Object>> mapArrayAnytype, @JsonProperty("map_map_string") Map<String, Map<String, String>> mapMapString, @JsonProperty("map_map_anytype") Map<String, Map<String, Object>> mapMapAnytype, @JsonProperty("anytype_1") @Nullable Object anytype1, @JsonProperty("anytype_2") Object anytype2, @JsonProperty("anytype_3") @Nullable Object anytype3) {
       this.mapString = mapString;
       this.mapNumber = mapNumber;
       this.mapInteger = mapInteger;

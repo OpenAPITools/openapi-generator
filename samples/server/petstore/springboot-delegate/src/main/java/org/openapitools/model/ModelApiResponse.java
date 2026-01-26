@@ -39,7 +39,7 @@ public class ModelApiResponse {
    * Constructor with all args parameters
    */
   @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  public ModelApiResponse(@Nullable @JsonProperty("code") Integer code, @Nullable @JsonProperty("type") String type, @Nullable @JsonProperty("message") String message) {
+  public ModelApiResponse(@JsonProperty("code") @Nullable Integer code, @JsonProperty("type") @Nullable String type, @JsonProperty("message") @Nullable String message) {
       this.code = code;
       this.type = type;
       this.message = message;
