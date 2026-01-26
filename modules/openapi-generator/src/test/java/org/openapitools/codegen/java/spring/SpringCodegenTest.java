@@ -4833,6 +4833,8 @@ public class SpringCodegenTest {
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
                 .hasParameter("pageInfo")
+                .toConstructor()
+                .assertConstructorAnnotations().containsWithName("JsonCreator");
         ;
     }
 
@@ -4895,6 +4897,7 @@ public class SpringCodegenTest {
                 .hasParameter("name").toConstructor()
                 .hasParameter("type").toConstructor()
                 .hasParameter("hairType").toConstructor()
+                .assertConstructorAnnotations().containsWithName("JsonCreator");
         ;
     }
 
@@ -4910,13 +4913,20 @@ public class SpringCodegenTest {
                 .assertConstructor("LocalDate", "String", "String")
                 .hasParameter("dateOfBirth").toConstructor()
                 .hasParameter("name").toConstructor()
-                .hasParameter("type").toConstructor();
+                .hasParameter("type").toConstructor()
+                .assertConstructorAnnotations().containsWithName("JsonCreator").toConstructor()
+                .toFileAssert()
+                .assertConstructor("String")
+                .assertConstructorAnnotations().doesNotContainWithName("JsonCreator").toConstructor();
         JavaFileAssert.assertThat(files.get("Cat.java"))
                 .assertConstructor("Integer", "String", "LocalDate", "String", "String");
 
         // test required constructor
         JavaFileAssert.assertThat(files.get("Page.java"))
                 .assertConstructor("Integer")
+                .assertConstructorAnnotations().containsWithName("JsonCreator")
+                .toConstructor()
+                .assertConstructorAnnotations().containsWithName("JsonCreator").toConstructor()
                 .toFileAssert()
                 .fileContains("Constructor with only required parameters and all parameters");
 
@@ -5353,14 +5363,14 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(file)
                 .fileContains(
                         "public Item(" +
-                                "String mandatoryName," +
-                                " @Nullable String optionalDescription," +
-                                " String optionalOneWithDefault," +
-                                " String nullableStr," +
-                                " List<String> mandatoryContainer," +
-                                " List<String> optionalContainer," +
-                                " List<String> optionalContainerWithDefault," +
-                                " List<String> nullableContainer)"
+                                "@JsonProperty(\"mandatoryName\") String mandatoryName," +
+                                " @Nullable @JsonProperty(\"optionalDescription\") String optionalDescription," +
+                                " @JsonProperty(\"optionalOneWithDefault\") String optionalOneWithDefault," +
+                                " @JsonProperty(\"nullableStr\") String nullableStr," +
+                                " @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
+                                " @JsonProperty(\"optionalContainer\") List<String> optionalContainer," +
+                                " @JsonProperty(\"optionalContainerWithDefault\") List<String> optionalContainerWithDefault," +
+                                " @JsonProperty(\"nullableContainer\") List<String> nullableContainer)"
                 );
     }
 
@@ -5388,10 +5398,10 @@ public class SpringCodegenTest {
                 .doesNotHaveAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
                 .fileContains(
-                        ", List<String> mandatoryContainer," +
-                                " @Nullable List<String> optionalContainer," +
-                                " List<String> optionalContainerWithDefault," +
-                                " List<String> nullableContainer)"
+                        ", @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
+                                " @Nullable @JsonProperty(\"optionalContainer\") List<String> optionalContainer," +
+                                " @JsonProperty(\"optionalContainerWithDefault\") List<String> optionalContainerWithDefault," +
+                                " @JsonProperty(\"nullableContainer\") List<String> nullableContainer)"
                 );
     }
 
@@ -5419,8 +5429,8 @@ public class SpringCodegenTest {
                 .doesNotHaveAnnotation("Nullable");
         JavaFileAssert.assertThat(file)
                 .fileContains(
-                        "public Item(String mandatoryName, String optionalDescription," +
-                                " String optionalOneWithDefault, String nullableStr"
+                        "public Item(@JsonProperty(\"mandatoryName\") String mandatoryName, @JsonProperty(\"optionalDescription\") String optionalDescription," +
+                                " @JsonProperty(\"optionalOneWithDefault\") String optionalOneWithDefault, @JsonProperty(\"nullableStr\") String nullableStr"
                 );
     }
 
@@ -5462,10 +5472,10 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(file)
                 .fileContains(
-                        " List<String> mandatoryContainer," +
-                                " @Nullable List<String> optionalContainer," +
-                                " List<String> optionalContainerWithDefault," +
-                                " @Nullable List<String> nullableContainer)"
+                        " @JsonProperty(\"mandatoryContainer\") List<String> mandatoryContainer," +
+                                " @Nullable @JsonProperty(\"optionalContainer\") List<String> optionalContainer," +
+                                " @JsonProperty(\"optionalContainerWithDefault\") List<String> optionalContainerWithDefault," +
+                                " @Nullable @JsonProperty(\"nullableContainer\") List<String> nullableContainer)"
                 );
     }
 
