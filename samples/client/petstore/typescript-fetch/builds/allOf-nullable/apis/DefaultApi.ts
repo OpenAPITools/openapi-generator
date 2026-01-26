@@ -34,7 +34,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for list without sending the request
      */
-    async listRequestOpts(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async listRequestOpts(requestParameters: ListRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -61,8 +61,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
-        const requestConfig = await this.listRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.listRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClubFromJSON(jsonValue));
     }

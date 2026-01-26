@@ -34,7 +34,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for _123testSpecialTags without sending the request
      */
-    async _123testSpecialTagsRequestOpts(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async _123testSpecialTagsRequestOpts(requestParameters: 123testSpecialTagsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -65,8 +65,8 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags
      */
     async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestConfig = await this._123testSpecialTagsRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this._123testSpecialTagsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }

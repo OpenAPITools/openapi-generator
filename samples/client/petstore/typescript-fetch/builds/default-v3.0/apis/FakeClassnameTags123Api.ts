@@ -34,7 +34,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
     /**
      * Creates request options for testClassname without sending the request
      */
-    async testClassnameRequestOpts(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testClassnameRequestOpts(requestParameters: TestClassnameRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -69,8 +69,8 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      */
     async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestConfig = await this.testClassnameRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.testClassnameRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }

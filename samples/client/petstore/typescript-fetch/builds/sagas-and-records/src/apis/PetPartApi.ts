@@ -46,7 +46,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Creates request options for getFakePetPartType without sending the request
      */
-    async getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -74,8 +74,8 @@ export class PetPartApi extends runtime.BaseAPI {
      * Returns single pet part type for the petPart id.
      */
     async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
-        const requestConfig = await this.getFakePetPartTypeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.getFakePetPartTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetPetPartTypeResponseFromJSON(jsonValue));
     }
@@ -91,7 +91,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Creates request options for getMatchingParts without sending the request
      */
-    async getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -160,8 +160,8 @@ export class PetPartApi extends runtime.BaseAPI {
      * Get the matching parts for the given pet part.
      */
     async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
-        const requestConfig = await this.getMatchingPartsRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.getMatchingPartsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetMatchingPartsResponseFromJSON(jsonValue));
     }

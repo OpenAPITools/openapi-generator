@@ -61,7 +61,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestGetInline without sending the request
      */
-    async fakeEnumRequestGetInlineRequestOpts(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestGetInlineRequestOpts(requestParameters: FakeEnumRequestGetInlineRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -96,8 +96,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async fakeEnumRequestGetInlineRaw(requestParameters: FakeEnumRequestGetInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
-        const requestConfig = await this.fakeEnumRequestGetInlineRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.fakeEnumRequestGetInlineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInline200ResponseFromJSON(jsonValue));
     }
@@ -112,7 +112,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestGetRef without sending the request
      */
-    async fakeEnumRequestGetRefRequestOpts(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestGetRefRequestOpts(requestParameters: FakeEnumRequestGetRefRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -147,8 +147,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async fakeEnumRequestGetRefRaw(requestParameters: FakeEnumRequestGetRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
-        const requestConfig = await this.fakeEnumRequestGetRefRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.fakeEnumRequestGetRefRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnumPatternObjectFromJSON(jsonValue));
     }
@@ -163,7 +163,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestPostInline without sending the request
      */
-    async fakeEnumRequestPostInlineRequestOpts(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestPostInlineRequestOpts(requestParameters: FakeEnumRequestPostInlineRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -185,8 +185,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async fakeEnumRequestPostInlineRaw(requestParameters: FakeEnumRequestPostInlineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeEnumRequestGetInline200Response>> {
-        const requestConfig = await this.fakeEnumRequestPostInlineRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.fakeEnumRequestPostInlineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeEnumRequestGetInline200ResponseFromJSON(jsonValue));
     }
@@ -201,7 +201,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestPostRef without sending the request
      */
-    async fakeEnumRequestPostRefRequestOpts(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeEnumRequestPostRefRequestOpts(requestParameters: FakeEnumRequestPostRefRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -223,8 +223,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async fakeEnumRequestPostRefRaw(requestParameters: FakeEnumRequestPostRefRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnumPatternObject>> {
-        const requestConfig = await this.fakeEnumRequestPostRefRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        const requestOptions = await this.fakeEnumRequestPostRefRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnumPatternObjectFromJSON(jsonValue));
     }
