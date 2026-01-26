@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class BigCat: Content, Hashable {
+public struct BigCat: Sendable, Content, Hashable {
 
     public enum Kind: String, Sendable, Content, Hashable, CaseIterable {
         case lions = "lions"
@@ -31,16 +31,6 @@ public final class BigCat: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(kind, forKey: .kind)
-    }
-
-    public static func == (lhs: BigCat, rhs: BigCat) -> Bool {
-        lhs.kind == rhs.kind
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(kind?.hashValue)
-        
     }
 }
 

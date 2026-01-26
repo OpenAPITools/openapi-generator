@@ -42,6 +42,7 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: Promise<Client>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open func testClassname(body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
         testClassnameWithRequestBuilder(body: body).execute { result in
@@ -86,7 +87,6 @@ open class FakeClassnameTags123API {
      - returns: AnyPublisher<Client, Error>
      */
     #if canImport(Combine)
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testClassname(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -116,7 +116,6 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: Client
      */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func testClassname(body: Client) async throws(ErrorResponse) -> Client {
         return try await testClassnameWithRequestBuilder(body: body).execute().body
     }

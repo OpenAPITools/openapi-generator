@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable {
+@objcMembers public final class MixedPropertiesAndAdditionalPropertiesClass: NSObject, Codable, @unchecked Sendable {
 
     public var uuid: UUID?
     public var dateTime: Date?

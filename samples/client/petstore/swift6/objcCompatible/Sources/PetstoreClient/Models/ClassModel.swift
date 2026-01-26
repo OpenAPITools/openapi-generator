@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-@objcMembers public class ClassModel: NSObject, Codable {
+@objcMembers public final class ClassModel: NSObject, Codable, @unchecked Sendable {
 
     public var _class: String?
 

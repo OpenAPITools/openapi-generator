@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Dog: NSObject, Codable {
+@objcMembers public final class Dog: NSObject, Codable, @unchecked Sendable {
 
     public var _className: String
     public var color: String? = "red"

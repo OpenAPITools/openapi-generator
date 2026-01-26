@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Cat: NSObject, Codable {
+@objcMembers public final class Cat: NSObject, Codable, @unchecked Sendable {
 
     public var _className: String
     public var color: String? = "red"
