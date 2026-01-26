@@ -5,7 +5,7 @@
 OpenAPI Petstore
 
 - API version: 1.0.0
-- Generator version: 7.19.0-SNAPSHOT
+- Generator version: 7.20.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -123,6 +123,13 @@ If your endpoint has multiple server objects in the servers array, you can set t
 void setServerIndex(const QString &operation, int serverIndex);
 ```
 Parameter "operation" should be your operationid. "serverIndex" is the index you want to set as your default server. The function will check if there is a server with your index.
+
+Alternatively, to set the server index globally for all operations:
+```c++
+void setServerIndex(int serverIndex);
+```
+This will apply the specified server index to all operations in the API.
+
 Here is an example of multiple servers in the servers array. The first server will have index 0 and the second will have index 1.
 ```yaml
 servers:

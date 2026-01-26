@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ApiResponse: NSObject, Codable {
+@objcMembers public final class ApiResponse: NSObject, Codable, @unchecked Sendable {
 
     public var code: Int?
     public var codeNum: NSNumber? {

@@ -106,6 +106,17 @@ impl std::ops::DerefMut for {{{classname}}} {
     }
 }
 
+{{^hasConflictingModelNames}}
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for {{{classname}}} {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+{{/hasConflictingModelNames}}
 {{#exts.x-to-string-support}}
 {{#exts.x-is-string}}
 impl std::fmt::Display for {{{classname}}} {
@@ -364,13 +375,13 @@ pub struct {{{classname}}} {
         )]
 {{/hasConflictingModelNames}}
 {{/hasValidation}}
+{{#required}}
 {{^hasConflictingModelNames}}{{>validate}}{{/hasConflictingModelNames}}
 {{^hasConflictingModelNames}}
 {{#exts.x-needs-nested-validation}}
-    #[cfg_attr(feature = "validate", validate)]
+    {{^minLength}}{{^maxLength}}{{^minItems}}{{^maxItems}}#[cfg_attr(feature = "validate", validate)]{{/maxItems}}{{/minItems}}{{/maxLength}}{{/minLength}}
 {{/exts.x-needs-nested-validation}}
 {{/hasConflictingModelNames}}
-{{#required}}
     pub {{{name}}}: {{{dataType}}},
 {{/required}}
 {{^required}}
@@ -378,9 +389,10 @@ pub struct {{{classname}}} {
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
 {{/isNullable}}
+{{^hasConflictingModelNames}}{{>validate}}{{/hasConflictingModelNames}}
 {{^hasConflictingModelNames}}
 {{#exts.x-needs-nested-validation}}
-    #[cfg_attr(feature = "validate", validate)]
+    {{^minLength}}{{^maxLength}}{{^minItems}}{{^maxItems}}#[cfg_attr(feature = "validate", validate)]{{/maxItems}}{{/minItems}}{{/maxLength}}{{/minLength}}
 {{/exts.x-needs-nested-validation}}
 {{/hasConflictingModelNames}}
     #[serde(skip_serializing_if="Option::is_none")]

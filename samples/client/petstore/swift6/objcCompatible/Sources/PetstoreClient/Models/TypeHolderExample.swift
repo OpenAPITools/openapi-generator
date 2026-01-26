@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class TypeHolderExample: NSObject, Codable {
+@objcMembers public final class TypeHolderExample: NSObject, Codable, @unchecked Sendable {
 
     public var stringItem: String
     public var numberItem: Double

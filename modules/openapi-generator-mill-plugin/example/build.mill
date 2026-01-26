@@ -1,7 +1,8 @@
 //| mill-version: 1.0.6
-//| mvnDeps:
-//|   - com.lihaoyi::mill-contrib-versionfile:$MILL_VERSION
-//|   - org.openapitools:openapi-generator-mill-plugin:$MILL_OPENAPITOOLS_PLUGIN_VERSION
+//| # usually you would add the plugin dependency like the following,
+//| # but for testing with SNAPSHOT versions, the plugin dependency is added in the meta-build
+//| # mvnDeps:
+//| #  - org.openapitools:openapi-generator-mill-plugin:$MILL_OPENAPITOOLS_PLUGIN_VERSION
 //|
 package build
 
@@ -12,15 +13,12 @@ import mill.scalalib.publish.PomSettings
 import mill.util.BuildInfo.{millBinPlatform, millVersion}
 import javalib.*
 
-import mill.contrib.versionfile.VersionFileModule
 import org.openapitools.generator.mill.OpenApiModule
 
 object `package` extends JavaModule with MavenModule with OpenApiModule {
 
-  // dependency on openapi-generator is set in Mills meta-build
-  // this is needed to point to a local maven repo
   override def mvnDeps = Seq(
-    mvn"jakarta.platform:jakarta.jakartaee-api:11.0.0",
+    mvn"jakarta.platform:jakarta.jakartaee-api:10.0.0",
     mvn"com.fasterxml.jackson.core:jackson-databind:2.20.0",
     mvn"org.openapitools:jackson-databind-nullable:0.2.8"
   )

@@ -47,26 +47,26 @@ For example:
 
 echo "$header"
 
-if [[ ${#files[@]} -eq 1 && "${files[0]}" != *'*'* ]]; then
-    # shellcheck disable=SC2086
-    # shellcheck disable=SC2068
-    java ${JAVA_OPTS} -jar "$executable" generate -c ${files[0]} ${args[@]}
-else
-    echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
-    #sleep 5
-    if [ ${#files[@]} -eq 0 ]; then
-      files=("${root}"/bin/configs/*.yaml)
-    fi
+tmpfile=$(mktemp)
+trap "rm -f $tmpfile" EXIT
 
-    # shellcheck disable=SC2086
-    # shellcheck disable=SC2068
-    if java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]} 2>&1 | tee /dev/pts/0 | grep -q -i "exception"; then
-      echo "Found exception(s) when running the generator(s) to update the samples."
-      export GENERATE_ERROR=1
-    fi
+if [[ ${#files[@]} -eq 1 && "${files[0]}" != *'*'* ]]; then
+  # shellcheck disable=SC2086
+  # shellcheck disable=SC2068
+  java ${JAVA_OPTS} -jar "$executable" generate -c ${files[0]} ${args[@]} 2>&1 | tee "$tmpfile"
+  retcode=${PIPESTATUS[0]}
+else
+  if [ ${#files[@]} -eq 0 ]; then
+    files=("${root}"/bin/configs/*.yaml)
+  fi
+
+  # shellcheck disable=SC2086
+  # shellcheck disable=SC2068
+  java ${JAVA_OPTS} -jar "$executable" batch ${BATCH_OPTS} --includes-base-dir "${root}" --fail-fast  -- ${files[@]} 2>&1 | tee "$tmpfile"
+  retcode=${PIPESTATUS[0]}
 fi
 
-if [[ -n "$GENERATE_ERROR" ]]; then
+if [[ $retcode -ne 0 ]] || grep -q -i "at org.openapitools" "$tmpfile"; then
   echo "Found exception(s) when running the generator(s) to update the samples."
   exit 1
 fi

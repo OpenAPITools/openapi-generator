@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: Example - Polymorphic Config
+  version: 1.0.0
+paths: { }
+components:
+  schemas:
+    # -------------------------
+    # Base type with discriminator
+    # -------------------------
+    BaseConfiguration:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          $ref: '#/components/schemas/ConfigurationType'
+      required:
+        - type
+      discriminator:
+        propertyName: type
+        mapping:
+          CHILD_ONE: '#/components/schemas/ChildOneConfiguration'
+          CHILD_TWO: '#/components/schemas/ChildTwoConfiguration'
+
+    ConfigurationType:
+      type: string
+      description: Example discriminator enum
+      enum:
+        - CHILD_ONE
+        - CHILD_TWO
+
+    # -------------------------
+    # Child 1
+    # -------------------------
+    ChildOneConfiguration:
+      allOf:
+        - $ref: '#/components/schemas/BaseConfiguration'
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              $ref: '#/components/schemas/ConfigurationType'
+            additionalFieldOne:
+              type: string
+          additionalProperties: true
+
+    # -------------------------
+    # Child 2
+    # -------------------------
+    ChildTwoConfiguration:
+      allOf:
+        - $ref: '#/components/schemas/BaseConfiguration'
+        - type: object
+          required:
+            - type
+          properties:
+            type:
+              $ref: '#/components/schemas/ConfigurationType'
+            additionalFieldTwo:
+              type: integer
+          additionalProperties: true

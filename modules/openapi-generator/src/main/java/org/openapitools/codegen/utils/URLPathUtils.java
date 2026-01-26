@@ -235,7 +235,7 @@ public class URLPathUtils {
     public static boolean isRelativeUrl(List<Server> servers) {
         if (servers != null && servers.size() > 0) {
             final Server firstServer = servers.get(0);
-            return Pattern.matches("^(\\/[\\w\\d]+)+", firstServer.getUrl());
+            return Pattern.matches("^(\\/[\\w\\d.~@-]+)+", firstServer.getUrl());
         }
         return false;
     }

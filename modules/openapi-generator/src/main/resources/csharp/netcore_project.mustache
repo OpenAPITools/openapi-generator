@@ -36,13 +36,74 @@
     <PackageReference Include="RestSharp" Version="112.0.0" />
     {{/useRestSharp}}
     {{#useGenericHost}}
-    <PackageReference Include="Microsoft.Extensions.Http" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.0  {{/net6.0}}{{#net7.0}}7.0.0  {{/net7.0}}{{#net8.0}}8.0.1  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{#net10.0}}10.0.1 {{/net10.0}}{{/lambda.first}}" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="{{#lambda.first}}{{#netStandard}}5.0.0  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.1  {{/net6.0}}{{#net7.0}}7.0.1  {{/net7.0}}{{#net8.0}}8.0.1  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{#net10.0}}10.0.1 {{/net10.0}}{{/lambda.first}}" />
+    {{#netStandard}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'netstandard1.4' or '$(TargetFramework)' == 'netstandard1.5' or '$(TargetFramework)' == 'netstandard1.6' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'netstandard1.4' or '$(TargetFramework)' == 'netstandard1.5' or '$(TargetFramework)' == 'netstandard1.6' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" Version="6.0.1" />
+    {{/netStandard}}
+    {{#net47}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472'" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472'" Version="7.0.0" />
+    {{/net47}}
+    {{#net48}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481'" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481'" Version="7.0.0" />
+    {{/net48}}
+    {{#net6.0}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net6.0'" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net6.0'" Version="6.0.1" />
+    {{/net6.0}}
+    {{#net7.0}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net7.0'" Version=7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net7.0'" Version="7.0.1" />
+    {{/net7.0}}
+    {{#net8.0}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.1" />
+    {{/net8.0}}
+    {{#net9.0}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.6" />
+    {{/net9.0}}
+    {{#net10.0}}
+    <PackageReference Include="Microsoft.Extensions.Http" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    {{/net10.0}}
     {{#supportsRetry}}
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="{{#lambda.first}}{{#netStandard}}5.0.1  {{/netStandard}}{{#net47}}7.0.0  {{/net47}}{{#net48}}7.0.0  {{/net48}}{{#net6.0}}6.0.19  {{/net6.0}}{{#net7.0}}7.0.11  {{/net7.0}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{#net10.0}}10.0.1 {{/net10.0}}{{/lambda.first}}" />
+    {{#netStandard}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'netstandard1.4' or '$(TargetFramework)' == 'netstandard1.5' or '$(TargetFramework)' == 'netstandard1.6' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'" Version="5.0.1" />
+    {{/netStandard}}
+    {{#net47}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net47' or '$(TargetFramework)' == 'net471' or '$(TargetFramework)' == 'net472'" Version="7.0.0" />
+    {{/net47}}
+    {{#net48}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481'" Version="7.0.0" />
+    {{/net48}}
+    {{#net6.0}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net6.0'" Version="6.0.36" />
+    {{/net6.0}}
+    {{#net7.0}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net7.0'" Version="7.0.20" />
+    {{/net7.0}}
+    {{#net8.0}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.20" />
+    {{/net8.0}}
+    {{#net9.0}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.6" />
+    {{/net9.0}}
+    {{#net10.0}}
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    {{/net10.0}}
     {{/supportsRetry}}
     {{#net80OrLater}}
-    <PackageReference Include="Microsoft.Net.Http.Headers" Version="{{#lambda.first}}{{#net8.0}}8.0.8  {{/net8.0}}{{#net9.0}}9.0.5  {{/net9.0}}{{#net10.0}}10.0.1 {{/net10.0}}{{/lambda.first}}" />
+    {{#net8.0}}
+    <PackageReference Include="Microsoft.Net.Http.Headers" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.17" />
+    {{/net8.0}}
+    {{#net9.0}}
+    <PackageReference Include="Microsoft.Net.Http.Headers" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.6" />
+    {{/net9.0}}
+    {{#net10.0}}
+    <PackageReference Include="Microsoft.Net.Http.Headers" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    {{/net10.0}}
     {{/net80OrLater}}
     {{^net60OrLater}}
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
