@@ -2,19 +2,19 @@ import { Map, Record, RecordOf } from 'immutable';
 
 import {
     CategoryRecordEntity,
-} from "./models/Category"
+} from "./models/CategoryRecord"
 import {
     OrderRecordEntity,
-} from "./models/Order"
+} from "./models/OrderRecord"
 import {
     PetRecordEntity,
-} from "./models/Pet"
+} from "./models/PetRecord"
 import {
     TagRecordEntity,
-} from "./models/Tag"
+} from "./models/TagRecord"
 import {
     UserRecordEntity,
-} from "./models/User"
+} from "./models/UserRecord"
 
 export const ApiEntitiesRecordProps = {
     recType: "ApiEntitiesRecord" as "ApiEntitiesRecord",
