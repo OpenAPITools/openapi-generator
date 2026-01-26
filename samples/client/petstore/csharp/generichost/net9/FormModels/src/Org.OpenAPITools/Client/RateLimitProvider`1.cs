@@ -19,7 +19,11 @@ namespace Org.OpenAPITools.Client
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        public Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new();
+        /// <summary>
+        /// Dictionary mapping header names to channels of available tokens for rate limiting.
+        /// Each channel buffers tokens that have become available and are ready for use.
+        /// </summary>
+        protected internal Dictionary<string, global::System.Threading.Channels.Channel<TTokenBase>> AvailableTokens { get; } = new();
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -71,7 +75,7 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <inheritdoc/>
-        public override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
+        protected internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
             if (!AvailableTokens.TryGetValue(header, out global::System.Threading.Channels.Channel<TTokenBase> tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
