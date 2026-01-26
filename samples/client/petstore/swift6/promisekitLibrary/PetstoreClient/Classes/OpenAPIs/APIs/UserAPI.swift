@@ -17,6 +17,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func createUser(body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUserWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -63,6 +64,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func createUsersWithArrayInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithArrayInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -108,6 +110,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func createUsersWithListInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         createUsersWithListInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute { result in
@@ -153,6 +156,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func deleteUser(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         deleteUserWithRequestBuilder(username: username, apiConfiguration: apiConfiguration).execute { result in
@@ -202,6 +206,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<User>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func getUserByName(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<User> {
         let deferred = Promise<User>.pending()
         getUserByNameWithRequestBuilder(username: username, apiConfiguration: apiConfiguration).execute { result in
@@ -251,6 +256,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<String>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func loginUser(username: String, password: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<String> {
         let deferred = Promise<String>.pending()
         loginUserWithRequestBuilder(username: username, password: password, apiConfiguration: apiConfiguration).execute { result in
@@ -301,6 +307,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func logoutUser(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         logoutUserWithRequestBuilder(apiConfiguration: apiConfiguration).execute { result in
@@ -346,6 +353,7 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Promise<Void>
      */
+    @available(*, deprecated, message: "NOTICE: We are considering deprecating PromiseKit support in the Swift 6 generator. If you are still using it, please share your use case here: https://github.com/OpenAPITools/openapi-generator/issues/22791")
     open class func updateUser(username: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
         updateUserWithRequestBuilder(username: username, body: body, apiConfiguration: apiConfiguration).execute { result in

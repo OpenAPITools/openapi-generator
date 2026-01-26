@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class ReadOnlyFirst: NSObject, Codable {
+@objcMembers public final class ReadOnlyFirst: NSObject, Codable, @unchecked Sendable {
 
     public var bar: String?
     public var baz: String?
