@@ -32,9 +32,10 @@ export interface TestClassnameRequest {
 export class FakeClassnameTags123Api extends runtime.BaseAPI {
 
     /**
-     * Creates request options for testClassname without sending the request
+     * To test class name in snake case
+     * To test class name in snake case
      */
-    async testClassnameRequestOpts(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -55,22 +56,13 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
 
         let urlPath = `/fake_classname_test`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ClientToJSON(requestParameters['client']),
-        };
-    }
-
-    /**
-     * To test class name in snake case
-     * To test class name in snake case
-     */
-    async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestConfig = await this.testClassnameRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }
