@@ -128,7 +128,7 @@ export interface TestGroupParametersRequest {
 }
 
 export interface TestInlineAdditionalPropertiesRequest {
-    requestBody: { [key: string]: string; };
+    requestBody: Record<string, string>;
 }
 
 export interface TestJsonFormDataRequest {

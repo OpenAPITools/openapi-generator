@@ -443,7 +443,7 @@ public class TypeScriptFetchModelTest {
         codegen.additionalProperties().put("nullSafeAdditionalProps", true);
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string | undefined; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "Record<string, string | undefined>");
     }
 
     @Test(description = "Don't add null safe additional property indexer by default")
@@ -453,7 +453,7 @@ public class TypeScriptFetchModelTest {
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.getTypeDeclaration(model), "{ [key: string]: string; }");
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "Record<string, string>");
     }
 
     @Test(description = "Don't generate new schemas for readonly references")

@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_map_of_string** | **{ [key: string]: { [key: string]: string; }; }** |  | [optional] [default to undefined]
-**map_of_enum_string** | **{ [key: string]: string; }** |  | [optional] [default to undefined]
-**direct_map** | **{ [key: string]: boolean; }** |  | [optional] [default to undefined]
-**indirect_map** | **{ [key: string]: boolean; }** |  | [optional] [default to undefined]
+**map_map_of_string** | **Record&lt;string, Record&lt;string, string&gt;&gt;** |  | [optional] [default to undefined]
+**map_of_enum_string** | **Record&lt;string, string&gt;** |  | [optional] [default to undefined]
+**direct_map** | **Record&lt;string, boolean&gt;** |  | [optional] [default to undefined]
+**indirect_map** | **Record&lt;string, boolean&gt;** |  | [optional] [default to undefined]
 
 ## Example
 

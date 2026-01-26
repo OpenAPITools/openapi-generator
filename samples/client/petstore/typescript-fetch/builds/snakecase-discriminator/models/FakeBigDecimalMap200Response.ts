@@ -27,10 +27,10 @@ export interface FakeBigDecimalMap200Response {
     someId?: number;
     /**
      * 
-     * @type {{ [key: string]: number; }}
+     * @type {Record<string, number>}
      * @memberof FakeBigDecimalMap200Response
      */
-    someMap?: { [key: string]: number; };
+    someMap?: Record<string, number>;
 }
 
 /**

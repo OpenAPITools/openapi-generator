@@ -64,13 +64,13 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>>;
+    getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Record<string, number>>>;
 
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: number; }>;
+    getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Record<string, number>>;
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
@@ -152,7 +152,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+    async getInventoryRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Record<string, number>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -178,7 +178,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: number; }> {
+    async getInventory(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Record<string, number>> {
         const response = await this.getInventoryRaw(initOverrides);
         return await response.value();
     }
