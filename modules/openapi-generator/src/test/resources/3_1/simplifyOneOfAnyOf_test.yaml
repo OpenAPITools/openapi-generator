@@ -130,6 +130,7 @@ components:
         - title: ITEM A
           description: This permission is for item A.
           const: 1
+          deprecated: true
         - title: ITEM B
           description: This permission is for item B.
           const: 2

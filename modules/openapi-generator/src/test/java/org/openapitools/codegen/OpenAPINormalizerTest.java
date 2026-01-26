@@ -1101,8 +1101,9 @@ public class OpenAPINormalizerTest {
         assertEquals(schema14.getType(), null);
 
         Schema schema16 = openAPI.getComponents().getSchemas().get("TypeIntegerWithOneOf");
-        // oneOf should have been removed as the schema is essentially a primitive type
-        assertEquals(schema16.getOneOf(), null);
+        assertEquals(schema16.getOneOf().size(),3);
+        assertEquals(((Schema) schema16.getOneOf().get(0)).getConst(), 1);
+        assertEquals(((Schema) schema16.getOneOf().get(0)).getDeprecated(), true);
 
         Schema schema18 = openAPI.getComponents().getSchemas().get("OneOfNullAndRef3");
         // original oneOf removed and simplified to just $ref (oneOf sub-schema) instead
