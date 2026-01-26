@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class PetAPI {
 
@@ -19,7 +17,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func addPet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = addPetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -41,7 +38,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Add a new pet to the store
@@ -82,7 +78,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func deletePet(petId: Int64, apiKey: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = deletePetWithRequestBuilder(petId: petId, apiKey: apiKey, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -104,7 +99,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Deletes a pet
@@ -154,7 +148,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<[Pet], Error>
      */
-    #if canImport(Combine)
     open class func findPetsByStatus(status: [Status_findPetsByStatus], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[Pet], Error> {
         let requestBuilder = findPetsByStatusWithRequestBuilder(status: status, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -176,7 +169,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Finds Pets by status
@@ -217,7 +209,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<[Pet], Error>
      */
-    #if canImport(Combine)
     @available(*, deprecated, message: "This operation is deprecated.")
     open class func findPetsByTags(tags: [String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<[Pet], Error> {
         let requestBuilder = findPetsByTagsWithRequestBuilder(tags: tags, apiConfiguration: apiConfiguration)
@@ -240,7 +231,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Finds Pets by tags
@@ -282,7 +272,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Pet, Error>
      */
-    #if canImport(Combine)
     open class func getPetById(petId: Int64, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Pet, Error> {
         let requestBuilder = getPetByIdWithRequestBuilder(petId: petId, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -304,7 +293,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Find pet by ID
@@ -345,7 +333,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func updatePet(body: Pet, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = updatePetWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -367,7 +354,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Update an existing pet
@@ -406,7 +392,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -428,7 +413,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Updates a pet in the store with form data
@@ -478,7 +462,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<ApiResponse, Error>
      */
-    #if canImport(Combine)
     open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -500,7 +483,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      uploads an image
@@ -550,7 +532,6 @@ open class PetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<ApiResponse, Error>
      */
-    #if canImport(Combine)
     open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<ApiResponse, Error> {
         let requestBuilder = uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -572,7 +553,6 @@ open class PetAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      uploads an image (required)

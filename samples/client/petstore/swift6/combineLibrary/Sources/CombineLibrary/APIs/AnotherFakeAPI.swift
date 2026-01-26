@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class AnotherFakeAPI {
 
@@ -19,7 +17,6 @@ open class AnotherFakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open class func call123testSpecialTags(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Client, Error> {
         let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -39,7 +36,6 @@ open class AnotherFakeAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test special tags

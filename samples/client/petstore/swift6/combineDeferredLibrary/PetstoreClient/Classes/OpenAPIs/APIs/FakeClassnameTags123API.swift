@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class FakeClassnameTags123API {
 
@@ -19,7 +17,6 @@ open class FakeClassnameTags123API {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open class func testClassname(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -41,7 +38,6 @@ open class FakeClassnameTags123API {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test class name in snake case

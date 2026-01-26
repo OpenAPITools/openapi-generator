@@ -8,9 +8,7 @@
 import Foundation{{#usePromiseKit}}
 @preconcurrency import PromiseKit{{/usePromiseKit}}{{#useRxSwift}}
 @preconcurrency import RxSwift{{/useRxSwift}}{{#useCombine}}
-#if canImport(Combine)
-import Combine
-#endif{{/useCombine}}{{#useVapor}}
+import Combine{{/useCombine}}{{#useVapor}}
 import Vapor{{/useVapor}}{{#swiftUseApiNamespace}}
 
 extension {{projectName}}API {
@@ -161,7 +159,6 @@ extension {{projectName}}API {
      - parameter apiConfiguration: The configuration for the http request.{{/apiStaticMethod}}
      - returns: AnyPublisher<{{{returnType}}}{{#returnType}}{{#isResponseOptional}}?{{/isResponseOptional}}{{/returnType}}{{^returnType}}Void{{/returnType}}, Error>
      */
-    #if canImport(Combine)
     {{#isDeprecated}}
     @available(*, deprecated, message: "This operation is deprecated.")
     {{/isDeprecated}}
@@ -194,7 +191,6 @@ extension {{projectName}}API {
         .eraseToAnyPublisher()
         {{/combineDeferred}}
     }
-    #endif
 {{/useCombine}}
 {{#useAsyncAwait}}
 
