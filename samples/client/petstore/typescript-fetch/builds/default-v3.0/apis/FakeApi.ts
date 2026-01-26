@@ -174,9 +174,9 @@ export interface TestStringMapReferenceRequest {
 export class FakeApi extends runtime.BaseAPI {
 
     /**
-     * Creates request options for fakeBigDecimalMap without sending the request
+     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
-    async fakeBigDecimalMapRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeBigDecimalMapRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeBigDecimalMap200Response>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -184,20 +184,12 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/BigDecimalMap`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        };
-    }
-
-    /**
-     * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
-     */
-    async fakeBigDecimalMapRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeBigDecimalMap200Response>> {
-        const requestConfig = await this.fakeBigDecimalMapRequestConfig(initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeBigDecimalMap200ResponseFromJSON(jsonValue));
     }
@@ -211,9 +203,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeHealthGet without sending the request
+     * Health check endpoint
      */
-    async fakeHealthGetRequestOpts(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeHealthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HealthCheckResult>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -221,20 +213,12 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/health`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        };
-    }
-
-    /**
-     * Health check endpoint
-     */
-    async fakeHealthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HealthCheckResult>> {
-        const requestConfig = await this.fakeHealthGetRequestConfig(initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => HealthCheckResultFromJSON(jsonValue));
     }
@@ -248,9 +232,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeHttpSignatureTest without sending the request
+     * test http signature authentication
      */
-    async fakeHttpSignatureTestRequestOpts(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['pet'] == null) {
             throw new runtime.RequiredError(
                 'pet',
@@ -275,21 +259,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/http-signature-test`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters['pet']),
-        };
-    }
-
-    /**
-     * test http signature authentication
-     */
-    async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.fakeHttpSignatureTestRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -302,9 +278,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeOuterBooleanSerialize without sending the request
+     * Test serialization of outer boolean types
      */
-    async fakeOuterBooleanSerializeRequestOpts(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeOuterBooleanSerializeRaw(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -314,21 +290,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/outer/boolean`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        };
-    }
-
-    /**
-     * Test serialization of outer boolean types
-     */
-    async fakeOuterBooleanSerializeRaw(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
-        const requestConfig = await this.fakeOuterBooleanSerializeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
             return new runtime.JSONApiResponse<boolean>(response);
@@ -346,9 +314,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeOuterCompositeSerialize without sending the request
+     * Test serialization of object with outer number type
      */
-    async fakeOuterCompositeSerializeRequestOpts(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeOuterCompositeSerializeRaw(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterComposite>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -358,21 +326,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/outer/composite`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: OuterCompositeToJSON(requestParameters['outerComposite']),
-        };
-    }
-
-    /**
-     * Test serialization of object with outer number type
-     */
-    async fakeOuterCompositeSerializeRaw(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterComposite>> {
-        const requestConfig = await this.fakeOuterCompositeSerializeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OuterCompositeFromJSON(jsonValue));
     }
@@ -386,9 +346,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeOuterNumberSerialize without sending the request
+     * Test serialization of outer number types
      */
-    async fakeOuterNumberSerializeRequestOpts(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeOuterNumberSerializeRaw(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -398,21 +358,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/outer/number`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        };
-    }
-
-    /**
-     * Test serialization of outer number types
-     */
-    async fakeOuterNumberSerializeRaw(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
-        const requestConfig = await this.fakeOuterNumberSerializeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
             return new runtime.JSONApiResponse<number>(response);
@@ -430,9 +382,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakeOuterStringSerialize without sending the request
+     * Test serialization of outer string types
      */
-    async fakeOuterStringSerializeRequestOpts(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakeOuterStringSerializeRaw(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -442,21 +394,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/outer/string`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        };
-    }
-
-    /**
-     * Test serialization of outer string types
-     */
-    async fakeOuterStringSerializeRaw(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestConfig = await this.fakeOuterStringSerializeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
             return new runtime.JSONApiResponse<string>(response);
@@ -474,9 +418,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for fakePropertyEnumIntegerSerialize without sending the request
+     * Test serialization of enum (int) properties with examples
      */
-    async fakePropertyEnumIntegerSerializeRequestOpts(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
         if (requestParameters['outerObjectWithEnumProperty'] == null) {
             throw new runtime.RequiredError(
                 'outerObjectWithEnumProperty',
@@ -493,21 +437,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/property/enum-int`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: OuterObjectWithEnumPropertyToJSON(requestParameters['outerObjectWithEnumProperty']),
-        };
-    }
-
-    /**
-     * Test serialization of enum (int) properties with examples
-     */
-    async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
-        const requestConfig = await this.fakePropertyEnumIntegerSerializeRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OuterObjectWithEnumPropertyFromJSON(jsonValue));
     }
@@ -521,9 +457,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testAdditionalPropertiesReference without sending the request
+     * 
+     * test referenced additionalProperties
      */
-    async testAdditionalPropertiesReferenceRequestOpts(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testAdditionalPropertiesReferenceRaw(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',
@@ -540,22 +477,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/additionalProperties-reference`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['requestBody'],
-        };
-    }
-
-    /**
-     * 
-     * test referenced additionalProperties
-     */
-    async testAdditionalPropertiesReferenceRaw(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testAdditionalPropertiesReferenceRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -569,9 +497,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testBodyWithBinary without sending the request
+     * For this test, the body has to be a binary file.
      */
-    async testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -588,21 +516,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/body-with-binary`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        };
-    }
-
-    /**
-     * For this test, the body has to be a binary file.
-     */
-    async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testBodyWithBinaryRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -615,9 +535,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testBodyWithFileSchema without sending the request
+     * For this test, the body for this request must reference a schema named `File`.
      */
-    async testBodyWithFileSchemaRequestOpts(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['fileSchemaTestClass'] == null) {
             throw new runtime.RequiredError(
                 'fileSchemaTestClass',
@@ -634,21 +554,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/body-with-file-schema`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: FileSchemaTestClassToJSON(requestParameters['fileSchemaTestClass']),
-        };
-    }
-
-    /**
-     * For this test, the body for this request must reference a schema named `File`.
-     */
-    async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testBodyWithFileSchemaRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -661,9 +573,8 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testBodyWithQueryParams without sending the request
      */
-    async testBodyWithQueryParamsRequestOpts(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['query'] == null) {
             throw new runtime.RequiredError(
                 'query',
@@ -691,20 +602,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/body-with-query-params`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: UserToJSON(requestParameters['user']),
-        };
-    }
-
-    /**
-     */
-    async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testBodyWithQueryParamsRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -716,9 +620,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testClientModel without sending the request
+     * To test \"client\" model
+     * To test \"client\" model
      */
-    async testClientModelRequestOpts(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -735,22 +640,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ClientToJSON(requestParameters['client']),
-        };
-    }
-
-    /**
-     * To test \"client\" model
-     * To test \"client\" model
-     */
-    async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestConfig = await this.testClientModelRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
     }
@@ -765,9 +661,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testEndpointParameters without sending the request
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      */
-    async testEndpointParametersRequestOpts(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testEndpointParametersRaw(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['number'] == null) {
             throw new runtime.RequiredError(
                 'number',
@@ -878,22 +775,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        };
-    }
-
-    /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     */
-    async testEndpointParametersRaw(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testEndpointParametersRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -907,9 +795,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testEnumParameters without sending the request
+     * To test enum parameters
+     * To test enum parameters
      */
-    async testEnumParametersRequestOpts(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testEnumParametersRaw(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         if (requestParameters['enumQueryStringArray'] != null) {
@@ -967,22 +856,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        };
-    }
-
-    /**
-     * To test enum parameters
-     * To test enum parameters
-     */
-    async testEnumParametersRaw(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testEnumParametersRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -996,9 +876,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testGroupParameters without sending the request
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
      */
-    async testGroupParametersRequestOpts(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testGroupParametersRaw(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['requiredStringGroup'] == null) {
             throw new runtime.RequiredError(
                 'requiredStringGroup',
@@ -1059,21 +940,12 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        };
-    }
-
-    /**
-     * Fake endpoint to test group parameters (optional)
-     * Fake endpoint to test group parameters (optional)
-     */
-    async testGroupParametersRaw(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testGroupParametersRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1087,9 +959,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testInlineAdditionalProperties without sending the request
+     * 
+     * test inline additionalProperties
      */
-    async testInlineAdditionalPropertiesRequestOpts(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',
@@ -1106,22 +979,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/inline-additionalProperties`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['requestBody'],
-        };
-    }
-
-    /**
-     * 
-     * test inline additionalProperties
-     */
-    async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testInlineAdditionalPropertiesRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1135,9 +999,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testInlineFreeformAdditionalProperties without sending the request
+     * 
+     * test inline free-form additionalProperties
      */
-    async testInlineFreeformAdditionalPropertiesRequestOpts(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testInlineFreeformAdditionalPropertiesRaw(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['testInlineFreeformAdditionalPropertiesRequest'] == null) {
             throw new runtime.RequiredError(
                 'testInlineFreeformAdditionalPropertiesRequest',
@@ -1154,22 +1019,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/inline-freeform-additionalProperties`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: TestInlineFreeformAdditionalPropertiesRequestToJSON(requestParameters['testInlineFreeformAdditionalPropertiesRequest']),
-        };
-    }
-
-    /**
-     * 
-     * test inline free-form additionalProperties
-     */
-    async testInlineFreeformAdditionalPropertiesRaw(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testInlineFreeformAdditionalPropertiesRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1183,9 +1039,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testJsonFormData without sending the request
+     * 
+     * test json serialization of form data
      */
-    async testJsonFormDataRequestOpts(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['param'] == null) {
             throw new runtime.RequiredError(
                 'param',
@@ -1229,22 +1086,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/jsonFormData`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        };
-    }
-
-    /**
-     * 
-     * test json serialization of form data
-     */
-    async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testJsonFormDataRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1258,9 +1106,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testNullable without sending the request
+     * 
+     * test nullable parent property
      */
-    async testNullableRequestOpts(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testNullableRaw(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['childWithNullable'] == null) {
             throw new runtime.RequiredError(
                 'childWithNullable',
@@ -1277,22 +1126,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/nullable`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ChildWithNullableToJSON(requestParameters['childWithNullable']),
-        };
-    }
-
-    /**
-     * 
-     * test nullable parent property
-     */
-    async testNullableRaw(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testNullableRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1306,9 +1146,9 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testQueryParameterCollectionFormat without sending the request
+     * To test the collection format in query parameters
      */
-    async testQueryParameterCollectionFormatRequestOpts(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['pipe'] == null) {
             throw new runtime.RequiredError(
                 'pipe',
@@ -1388,20 +1228,12 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/test-query-parameters`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-        };
-    }
-
-    /**
-     * To test the collection format in query parameters
-     */
-    async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testQueryParameterCollectionFormatRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1414,9 +1246,10 @@ export class FakeApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates request options for testStringMapReference without sending the request
+     * 
+     * test referenced string map
      */
-    async testStringMapReferenceRequestOpts(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.RequestOpts> {
+    async testStringMapReferenceRaw(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',
@@ -1433,22 +1266,13 @@ export class FakeApi extends runtime.BaseAPI {
 
         let urlPath = `/fake/stringMap-reference`;
 
-        return {
+        const response = await this.request({
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['requestBody'],
-        };
-    }
-
-    /**
-     * 
-     * test referenced string map
-     */
-    async testStringMapReferenceRaw(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestConfig = await this.testStringMapReferenceRequestConfig(requestParameters, initOverrides);
-        const response = await this.request(requestConfig, initOverrides);
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
