@@ -1,0 +1,24 @@
+openapi: 3.0.4
+info:
+  title: "Different response schemas including an empty one"
+  version: "1.0.0"
+paths:
+  /example:
+    get:
+      operationId: exampleGet
+      responses:
+        200:
+          description: "A successful response with data"
+          content:
+            application/json:
+              schema:
+                type: integer
+        400:
+          description: "A bad request with a message"
+          content:
+            application/json:
+              schema:
+                type: string
+        500:
+          description: "An internal server error with no content"
+          content: { }
