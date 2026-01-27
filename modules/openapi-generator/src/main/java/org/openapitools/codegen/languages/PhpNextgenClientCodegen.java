@@ -214,7 +214,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                 String phpReturnType = String.join("|", phpReturnTypeOptions);
                 String docReturnType = String.join("|", docReturnTypeOptions);
                 if (hasEmptyResponse) {
-                    phpReturnType = "?" + phpReturnType;
+                    if (phpReturnTypeOptions.size() > 1) {
+                        phpReturnType = phpReturnType + "|null";
+                    } else {
+                        phpReturnType = "?" + phpReturnType;
+                    }
                     docReturnType = docReturnType + "|null";
                 }
 
