@@ -7,6 +7,8 @@ typedef struct binary_t
 {
     uint8_t* data;
     unsigned int len;
+    char *filename;
+    char *filepath;
 } binary_t;
 
 binary_t* instantiate_binary_t(char* data, int len);
