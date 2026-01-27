@@ -15,30 +15,36 @@ class AdditionalPropertiesClass {
   AdditionalPropertiesClass({
     this.mapProperty = const {},
     this.mapOfMapProperty = const {},
+    this.mapOfArrayInteger = const {},
   });
 
   Map<String, String> mapProperty;
 
   Map<String, Map<String, String>> mapOfMapProperty;
 
+  Map<String, List<int>> mapOfArrayInteger;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
     _deepEquality.equals(other.mapProperty, mapProperty) &&
-    _deepEquality.equals(other.mapOfMapProperty, mapOfMapProperty);
+    _deepEquality.equals(other.mapOfMapProperty, mapOfMapProperty) &&
+    _deepEquality.equals(other.mapOfArrayInteger, mapOfArrayInteger);
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (mapProperty.hashCode) +
-    (mapOfMapProperty.hashCode);
+    (mapOfMapProperty.hashCode) +
+    (mapOfArrayInteger.hashCode);
 
   @override
-  String toString() => 'AdditionalPropertiesClass[mapProperty=$mapProperty, mapOfMapProperty=$mapOfMapProperty]';
+  String toString() => 'AdditionalPropertiesClass[mapProperty=$mapProperty, mapOfMapProperty=$mapOfMapProperty, mapOfArrayInteger=$mapOfArrayInteger]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'map_property'] = this.mapProperty;
       json[r'map_of_map_property'] = this.mapOfMapProperty;
+      json[r'map_of_array_integer'] = this.mapOfArrayInteger;
     return json;
   }
 
@@ -63,6 +69,9 @@ class AdditionalPropertiesClass {
       return AdditionalPropertiesClass(
         mapProperty: mapCastOfType<String, String>(json, r'map_property') ?? const {},
         mapOfMapProperty: mapCastOfType<String, dynamic>(json, r'map_of_map_property') ?? const {},
+        mapOfArrayInteger: json[r'map_of_array_integer'] == null
+          ? const {}
+            : (json[r'map_of_array_integer'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == null ? const <int>[] : (v as List).cast<int>())),
       );
     }
     return null;
