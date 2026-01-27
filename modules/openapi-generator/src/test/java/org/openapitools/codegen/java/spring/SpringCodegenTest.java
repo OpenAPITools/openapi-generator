@@ -4905,7 +4905,8 @@ public class SpringCodegenTest {
     public void generateAllArgsConstructor() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/java/all_args_constructor.yaml", null,
                 Map.of(AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
-                codegenConfig -> codegenConfig.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true"));
+                codegenConfig -> codegenConfig.addOpenapiNormalizer("REFACTOR_ALLOF_WITH_PROPERTIES_ONLY", " true")
+                        .setImportMappings(Map.of("Nullable", "org.jspecify.annotations.Nullable")));
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .assertConstructor("String")
                 .hasParameter("type").toConstructor()
