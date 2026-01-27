@@ -173,7 +173,7 @@ public class PhpNextgenClientCodegenTest {
                 .map(String::trim)
                 .collect(Collectors.toList());
 
-        Assert.assertListContains(modelContent, a -> a.equals("): integer|string|null"), "Expected to find nullable return type declaration.");
-        Assert.assertListNotContains(modelContent, a -> a.equals("): ?integer|string"), "Expected to not find invalid union type with '?'.");
+        Assert.assertListContains(modelContent, a -> a.equals("): int|string|null"), "Expected to find nullable return type declaration.");
+        Assert.assertListNotContains(modelContent, a -> a.equals("): ?int|string"), "Expected to not find invalid union type with '?'.");
     }
 }
