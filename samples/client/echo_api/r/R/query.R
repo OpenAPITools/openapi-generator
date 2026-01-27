@@ -101,7 +101,7 @@ Query <- R6::R6Class(
         }
       }
       FALSE
-    }
+    },
 
     #' @description
     #' Deserialize JSON string into an instance of Query
