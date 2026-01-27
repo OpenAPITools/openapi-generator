@@ -66,22 +66,22 @@ secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
-reqwest = { version = "^0.12", default-features = false, features = ["json", "blocking", "multipart"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "blocking", "multipart", "query", "form"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "blocking", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
 {{/supportMiddleware}}
 {{/supportAsync}}
 {{#supportAsync}}
 {{#useAsyncFileStream}}
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{/useAsyncFileStream}}
 {{^useAsyncFileStream}}
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "query", "form"] }
 {{/useAsyncFileStream}}
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 async-trait = "^0.1"
@@ -93,13 +93,13 @@ google-cloud-token = "^0.1"
 [features]
 default = [{{#reqwestDefaultFeatures}}"{{.}}"{{^-last}}, {{/-last}}{{/reqwestDefaultFeatures}}]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = ["reqwest/rustls-tls"]
+rustls = ["reqwest/rustls"]
 {{/reqwest}}
 {{#reqwestTrait}}
 async-trait = "^0.1"
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 {{#supportMiddleware}}
-reqwest-middleware = { version = "^0.4", features = ["json", "multipart"] }
+reqwest-middleware = { version = "^0.5", features = ["json", "multipart", "query", "form"] }
 {{/supportMiddleware}}
 {{#supportTokenSource}}
 # TODO: propose to Yoshidan to externalize this as non google related crate, so that it can easily be extended for other cloud providers.
@@ -114,7 +114,7 @@ bon = { version = "2.3", optional = true }
 [features]
 default = [{{#reqwestDefaultFeatures}}"{{.}}"{{^-last}}, {{/-last}}{{/reqwestDefaultFeatures}}]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = ["reqwest/rustls-tls"]
+rustls = ["reqwest/rustls"]
 {{#mockall}}
 mockall = ["dep:mockall"]
 {{/mockall}}

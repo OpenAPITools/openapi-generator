@@ -15,9 +15,9 @@ url = "^2.5"
 uuid = { version = "^1.8", features = ["serde", "v4"] }
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
-reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "stream", "query", "form"] }
 
 [features]
 default = ["native-tls"]
 native-tls = ["reqwest/native-tls"]
-rustls-tls = ["reqwest/rustls-tls"]
+rustls = ["reqwest/rustls"]
