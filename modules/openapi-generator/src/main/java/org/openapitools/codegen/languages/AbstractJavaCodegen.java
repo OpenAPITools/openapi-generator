@@ -56,6 +56,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.lang.model.SourceVersion;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -63,6 +64,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -90,7 +92,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
-    public static final String SKIP_X_IMPLEMENTS = "skipXImplements";
+    public static final String X_IMPLEMENTS_OVERRIDES = "xImplementsOverrides";
+    private static final String X_IMPLEMENTS_OVERRIDES_SKIP = "skip";
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
@@ -181,7 +184,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
     @Getter
     @Setter
-    protected List<String> skipXImplements = new LinkedList<>();
+    protected Map<String, String> xImplementsOverrides = new HashMap<>();
     protected Map<String, Boolean> lombokAnnotations = null;
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
@@ -342,7 +345,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_ENUM_TYPE_ANNOTATIONS, "Additional annotations for enum type(class level annotations)"));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
-        cliOptions.add(CliOption.newString(SKIP_X_IMPLEMENTS, "Ability to exclude interfaces that are specified using x-implements vendor extension. List separated by semicolon(;) or new line (Linux or Windows)"));
+        cliOptions.add(CliOption.newString(X_IMPLEMENTS_OVERRIDES, "Ability to exclude or replace interfaces that are specified using x-implements vendor extension. TODO:::"));
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
@@ -453,9 +456,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         convertPropertyToTypeAndWriteBack(ADDITIONAL_ENUM_TYPE_ANNOTATIONS,
                 annotations -> Arrays.asList(annotations.split(";")),
                 this::setAdditionalEnumTypeAnnotations);
-        convertPropertyToTypeAndWriteBack(SKIP_X_IMPLEMENTS,
-                interfacesToSkipImplementing -> Arrays.asList(SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX.split(interfacesToSkipImplementing.trim())),
-                this::setSkipXImplements);
+        if (additionalProperties.containsKey(X_IMPLEMENTS_OVERRIDES)) {
+            this.setXImplementsOverrides(getPropertyAsStringMap(X_IMPLEMENTS_OVERRIDES));
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -2005,25 +2008,40 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // skip interfaces predefined in x-implements if excluded via x-implements-skip-interfaces
-        if (!this.skipXImplements.isEmpty()) {
-            LOGGER.info("Models will be post-processed to remove any implementations of the following interfaces: {}", this.skipXImplements);
-            List<String> interfacesToNotImplement = this.skipXImplements;
+        // skip or substitute interfaces predefined in x-implements via xImplementsOverrides
+        if (!this.xImplementsOverrides.isEmpty()) {
+            List<String> interfacesToSkip = this.xImplementsOverrides.entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(X_IMPLEMENTS_OVERRIDES_SKIP))
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+            Map<String, String> interfacesSubstituteFromTo = this.xImplementsOverrides.entrySet().stream()
+                    .filter(entry -> !entry.getValue().equals(X_IMPLEMENTS_OVERRIDES_SKIP))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
             for (ModelMap mo : objs.getModels()) {
                 CodegenModel cm = mo.getModel();
                 if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                    List<String> originalXImplements = (ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
-                    List<String> preservedXImplements = originalXImplements
+                    List<String> xImplementsInModelOriginal = (List<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
+                    List<String> xImplementsInModelSkipped = xImplementsInModelOriginal
                             .stream()
-                            .filter(interfaceToImplement -> !interfacesToNotImplement.contains(interfaceToImplement))
-                            .collect(Collectors.toCollection(ArrayList::new));
-                    List<String> filteredOutXImplements = originalXImplements
-                            .stream()
-                            .filter(interfacesToNotImplement::contains)
+                            .filter(interfacesToSkip::contains)
                             .collect(Collectors.toList());
-                    LOGGER.info("Following interfaces will be skipped for model {}: {}", cm.classname, filteredOutXImplements);
-                    // implement only the non-filtered-out interfaces
-                    cm.getVendorExtensions().replace(X_IMPLEMENTS, preservedXImplements);
+                    Map<String, String> xImplementsInModelSubstituteFromTo = interfacesSubstituteFromTo.entrySet().stream()
+                            .filter(entry -> xImplementsInModelOriginal.contains(entry.getKey()))
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                    if (!xImplementsInModelSkipped.isEmpty()) {
+                        LOGGER.info("Following interfaces will be skipped for model {}: {}", cm.classname, xImplementsInModelSkipped);
+                    }
+                    if (!xImplementsInModelSubstituteFromTo.isEmpty()) {
+                        LOGGER.info("Following interfaces will be replaced for model {}: {}", cm.classname, xImplementsInModelSubstituteFromTo.entrySet().stream()
+                                .map(entry -> " from [" + entry.getKey() + "] to [" + entry.getValue() + "]")
+                                .collect(Collectors.joining(",")));
+                    }
+                    List<String> xImplementsInModelProcessed = xImplementsInModelOriginal.stream()
+                            .filter(Predicate.not(xImplementsInModelSkipped::contains))
+                            .map(item -> xImplementsInModelSubstituteFromTo.getOrDefault(item, item))
+                            .collect(Collectors.toList());
+                    // implement only the non-filtered-out interfaces and replaced interfaces
+                    cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplementsInModelProcessed);
                 }
             }
         }
