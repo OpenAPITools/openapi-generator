@@ -126,26 +126,23 @@ impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper
 #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_tls::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 type HttpsConnector = hyper_openssl::client::legacy::HttpsConnector<hyper_util::client::legacy::connect::HttpConnector>;
 
-#[cfg(any(
-    all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")),
-    all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios")))
-))]
+#[cfg(feature = "client-tls")]
 impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper_util::client::legacy::Client<HttpsConnector, BoxBody<Bytes, Infallible>>>, C>, C> where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server.
-    #[cfg(all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    /// Create a client with a TLS connection to the server using native-tls.
+    #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
     pub fn new_https()  -> Result<Self, native_tls::Error>
     {
         let https_connector = Connector::builder().https().build()?;
         Ok(Self::new_with_connector(https_connector))
     }
 
-    /// Create a client with a TLS connection to the server.
-    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    /// Create a client with a TLS connection to the server using OpenSSL.
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn new_https() -> Result<Self, openssl::error::ErrorStack>
     {
         let https_connector = Connector::builder().https().build()?;
@@ -156,7 +153,7 @@ impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper
     ///
     /// # Arguments
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
-    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn new_https_pinned<CA>(
         ca_certificate: CA,
     ) -> Result<Self, openssl::error::ErrorStack> where
@@ -175,7 +172,7 @@ impl<C> Client<DropContextService<hyper_util::service::TowerToHyperService<hyper
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
-    #[cfg(all(feature = "client-openssl", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
+    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
     pub fn new_https_mutual<CA, K, D>(
         ca_certificate: CA,
         client_key: K,
