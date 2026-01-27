@@ -3653,6 +3653,23 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
 
+    @Test(dataProvider = "supportedLibraries")
+    void testLombokRequiredArgsConstructor(Library library) {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library.getValue())
+                .setAdditionalProperties(Map.of(
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.RequiredArgsConstructor"
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Pet.java"))
+                .hasNoConstructor();
+    }
+
     /**
      * This checks bug issue-20718
      * A situation when schemaMapping is used and oneOf also is used with one of the schema-mapped dataTypes and the dataType
