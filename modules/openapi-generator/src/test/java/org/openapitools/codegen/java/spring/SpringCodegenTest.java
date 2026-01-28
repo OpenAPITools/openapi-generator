@@ -826,24 +826,20 @@ public class SpringCodegenTest {
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
         JavaFileAssert.assertThat(files.get("Animal.java"))
-                .implementsInterfaces("com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip", "com.custompackage.InterfaceToSubstitute")
-                .doesNotImplementInterfaces("com.custompackage.SubstitutedInterface");
+                .implementsInterfaces("com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip");
     }
 
     @Test
-    public void testXImplementsOverrides() throws IOException {
+    public void testXImplementsSkip() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
-        String interfaceToSubstitute = "com.custompackage.InterfaceToSubstitute";
-        String substitutedInterface = "com.custompackage.SubstitutedInterface";
         String interfaceToSkip = "com.custompackage.InterfaceToSkip";
-        String skipKeyword = "skip";
-        codegen.additionalProperties().put(X_IMPLEMENTS_OVERRIDES, Map.of(interfaceToSubstitute, substitutedInterface, interfaceToSkip, skipKeyword));
+        codegen.additionalProperties().put(X_IMPLEMENTS_SKIP, List.of(interfaceToSkip));
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
         JavaFileAssert.assertThat(files.get("Animal.java"))
-                .implementsInterfaces("com.custompackage.InterfaceToKeep", substitutedInterface)
-                .doesNotImplementInterfaces(interfaceToSubstitute, interfaceToSkip);
+                .implementsInterfaces("com.custompackage.InterfaceToKeep")
+                .doesNotImplementInterfaces(interfaceToSkip);
     }
 
     @Test
@@ -859,7 +855,7 @@ public class SpringCodegenTest {
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
         JavaFileAssert.assertThat(files.get("Animal.java"))
-                .implementsInterfaces(anotherInterface, "com.custompackage.InterfaceToSubstitute", "com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip")
+                .implementsInterfaces(anotherInterface, "com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip")
                 .doesNotImplementInterfaces("com.custompackage.SubstitutedInterface");
 
         JavaFileAssert.assertThat(files.get("Foo.java"))

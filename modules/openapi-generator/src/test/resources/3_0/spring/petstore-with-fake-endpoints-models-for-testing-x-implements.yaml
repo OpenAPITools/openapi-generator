@@ -1576,7 +1576,6 @@ components:
     Animal:
       type: object
       x-implements:
-        - com.custompackage.InterfaceToSubstitute
         - com.custompackage.InterfaceToSkip
         - com.custompackage.InterfaceToKeep
       discriminator:

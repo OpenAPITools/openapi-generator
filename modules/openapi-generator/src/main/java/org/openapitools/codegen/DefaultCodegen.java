@@ -7140,6 +7140,23 @@ public class DefaultCodegen implements CodegenConfig {
         this.ignoreFilePathOverride = ignoreFileOverride;
     }
 
+    public List<String> getPropertyAsStringList(String propertyKey) {
+        final Object value = additionalProperties.get(propertyKey);
+        if (value instanceof List) {
+            List<?> list = (List<?>) value;
+            List<String> stringList = new ArrayList<>();
+            for (Object item : list) {
+                if (item != null) {
+                    stringList.add(item.toString());
+                }
+            }
+            return stringList;
+        } else if (value instanceof String) {
+            return Collections.singletonList((String) value);
+        }
+        return Collections.emptyList();
+    }
+
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
         if (value instanceof Map) {
