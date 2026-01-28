@@ -94,6 +94,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String X_IMPLEMENTS_OVERRIDES = "xImplementsOverrides";
     private static final String X_IMPLEMENTS_OVERRIDES_SKIP = "skip";
+    public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS = "additionalOneOfTypeAnnotations";
     public static final String ADDITIONAL_ENUM_TYPE_ANNOTATIONS = "additionalEnumTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
@@ -185,6 +186,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Getter
     @Setter
     protected Map<String, String> xImplementsOverrides = new HashMap<>();
+    @Getter
+    @Setter
+    protected Map<String, List<String>> schemaImplements = new HashMap<>();
     protected Map<String, Boolean> lombokAnnotations = null;
     @Getter @Setter
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
@@ -458,6 +462,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 this::setAdditionalEnumTypeAnnotations);
         if (additionalProperties.containsKey(X_IMPLEMENTS_OVERRIDES)) {
             this.setXImplementsOverrides(getPropertyAsStringMap(X_IMPLEMENTS_OVERRIDES));
+        }
+        if (additionalProperties.containsKey(SCHEMA_IMPLEMENTS)) {
+            this.setSchemaImplements(getPropertyAsStringListMap(SCHEMA_IMPLEMENTS));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
@@ -2029,10 +2036,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .filter(entry -> xImplementsInModelOriginal.contains(entry.getKey()))
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     if (!xImplementsInModelSkipped.isEmpty()) {
-                        LOGGER.info("Following interfaces will be skipped for model {}: {}", cm.classname, xImplementsInModelSkipped);
+                        LOGGER.info("Following interfaces configured via additional property '{}' will be skipped for model {}: {}", cm.classname, X_IMPLEMENTS_OVERRIDES, xImplementsInModelSkipped);
                     }
                     if (!xImplementsInModelSubstituteFromTo.isEmpty()) {
-                        LOGGER.info("Following interfaces will be replaced for model {}: {}", cm.classname, xImplementsInModelSubstituteFromTo.entrySet().stream()
+                        LOGGER.info("Following interfaces configured via additional property '{}' will be replaced for model {}: {}", cm.classname, X_IMPLEMENTS_OVERRIDES, xImplementsInModelSubstituteFromTo.entrySet().stream()
                                 .map(entry -> " from [" + entry.getKey() + "] to [" + entry.getValue() + "]")
                                 .collect(Collectors.joining(",")));
                     }
@@ -2042,6 +2049,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .collect(Collectors.toList());
                     // implement only the non-filtered-out interfaces and replaced interfaces
                     cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplementsInModelProcessed);
+                }
+            }
+        }
+        // add interfaces defined outside of open api spec
+        if (!this.schemaImplements.isEmpty()) {
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (this.schemaImplements.containsKey(cm.getSchemaName())) {
+                    LOGGER.info("Adding interface(s) {} configured via additional property '{}' to model {}", this.schemaImplements.get(cm.getSchemaName()), SCHEMA_IMPLEMENTS, cm.classname);
+                    cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
+                    List<String> xImplementsInModel = (List<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
+                    List<String> schemaImplements = this.schemaImplements.get(cm.getSchemaName());
+                    List<String> combinedSchemaImplements = Stream.concat(xImplementsInModel.stream(), schemaImplements.stream())
+                            .collect(Collectors.toList());
+                    // Add all the interfaces combined
+                    cm.getVendorExtensions().replace(X_IMPLEMENTS, combinedSchemaImplements);
                 }
             }
         }

@@ -834,12 +834,36 @@ public class SpringCodegenTest {
     public void testXImplementsOverrides() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
-        codegen.additionalProperties().put(X_IMPLEMENTS_OVERRIDES, Map.of("com.custompackage.InterfaceToSubstitute", "com.custompackage.SubstitutedInterface", "com.custompackage.InterfaceToSkip", "skip"));
+        String interfaceToSubstitute = "com.custompackage.InterfaceToSubstitute";
+        String substitutedInterface = "com.custompackage.SubstitutedInterface";
+        String interfaceToSkip = "com.custompackage.InterfaceToSkip";
+        String skipKeyword = "skip";
+        codegen.additionalProperties().put(X_IMPLEMENTS_OVERRIDES, Map.of(interfaceToSubstitute, substitutedInterface, interfaceToSkip, skipKeyword));
 
         final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
         JavaFileAssert.assertThat(files.get("Animal.java"))
-                .implementsInterfaces("com.custompackage.InterfaceToKeep", "com.custompackage.SubstitutedInterface")
-                .doesNotImplementInterfaces("com.custompackage.InterfaceToSubstitute", "com.custompackage.InterfaceToSkip");
+                .implementsInterfaces("com.custompackage.InterfaceToKeep", substitutedInterface)
+                .doesNotImplementInterfaces(interfaceToSubstitute, interfaceToSkip);
+    }
+
+    @Test
+    public void testSchemaImplements() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String fooInterface = "com.custompackage.FooInterface";
+        String fooAnotherInterface = "com.custompackage.FooAnotherInterface";
+        String anotherInterface = "com.custompackage.AnimalAnotherInterface";
+        codegen.additionalProperties().put(SCHEMA_IMPLEMENTS, Map.of(
+                "Foo", List.of(fooInterface, fooAnotherInterface), /* add multiple interfaces (as list) */
+                "Animal", anotherInterface)); /* add just one interface */
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces(anotherInterface, "com.custompackage.InterfaceToSubstitute", "com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip")
+                .doesNotImplementInterfaces("com.custompackage.SubstitutedInterface");
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .implementsInterfaces(fooInterface, fooAnotherInterface);
     }
 
     @Test
@@ -1147,7 +1171,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
         List<File> files = generator.opts(input).generate();
 
-        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
+        return files.stream().sorted().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }
 
     /*

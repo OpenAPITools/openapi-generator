@@ -7153,6 +7153,26 @@ public class DefaultCodegen implements CodegenConfig {
         return Collections.emptyMap();
     }
 
+    public Map<String, List<String>> getPropertyAsStringListMap(String propertyKey) {
+        final Object value = additionalProperties.get(propertyKey);
+        if (value instanceof Map) {
+            Map<?, ?> rawMap = (Map<?, ?>) value;
+            Map<String, List<String>> stringMap = new HashMap<>();
+            for (Map.Entry<?, ?> entry : rawMap.entrySet()) {
+                Object entryValue = entry.getValue();
+                if (entryValue instanceof List) {
+                    List<String> stringList = ((List<?>) entryValue).stream()
+                            .map(String::valueOf)
+                            .collect(Collectors.toList());
+                    stringMap.put(String.valueOf(entry.getKey()), stringList);
+                } else {
+                    stringMap.put(String.valueOf(entry.getKey()), Collections.singletonList(String.valueOf(entryValue)));
+                }
+            }
+            return stringMap;
+        }
+        return Collections.emptyMap();
+    }
 
     public boolean convertPropertyToBoolean(String propertyKey) {
         final Object booleanValue = additionalProperties.get(propertyKey);
