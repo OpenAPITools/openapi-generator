@@ -12,18 +12,17 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  ModelApiResponse,
-  Pet,
-} from '../models/index';
 import {
+    type ModelApiResponse,
     ModelApiResponseFromJSON,
     ModelApiResponseToJSON,
+} from '../models/ModelApiResponse';
+import {
+    type Pet,
     PetFromJSON,
     PetToJSON,
-} from '../models/index';
+} from '../models/Pet';
 
 export interface AddPetRequest {
     body: Pet;

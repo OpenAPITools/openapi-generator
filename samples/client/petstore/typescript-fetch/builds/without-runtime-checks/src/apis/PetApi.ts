@@ -12,11 +12,10 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  ModelApiResponse,
-  Pet,
+    ModelApiResponse,
+    Pet,
 } from '../models/index';
 
 export interface AddPetRequest {
