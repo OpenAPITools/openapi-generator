@@ -1153,6 +1153,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @RequiredArgsConstructor
     static class ConstructorSpecs {
 
+        static final String NULL_UNMARKED = "@org.jspecify.annotations.NullUnmarked";
         static final String JSON_CREATOR = "@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)";
         private final String constructorAnnotation;
         private final boolean useJsonProperty;
@@ -1167,7 +1168,7 @@ public class SpringCodegen extends AbstractJavaCodegen
      *
      * TODO: make it configurable
      */
-    private boolean isUseJspecify() {
+    public boolean isUseJspecify() {
         return importMapping.getOrDefault("Nullable", "")
                 .contains("jspecify");
     }
@@ -1178,6 +1179,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         Map<String, CodegenModel> allModels = getAllModels(objs);
         // conditionally force the generation of no args constructor
+
         for (CodegenModel cm : allModels.values()) {
             boolean hasLombokNoArgsConstructor = lombokAnnotations != null && lombokAnnotations.containsKey("NoArgsConstructor");
             boolean hasAllArgsConstructor = cm.vendorExtensions.containsKey("x-java-all-args-constructor");
@@ -1185,34 +1187,26 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (!hasLombokNoArgsConstructor
                     && (cm.hasRequired || hasAllArgsConstructor)) {
 
-                String annotation = (cm.hasRequired && isUseJspecify())? "@org.jspecify.annotations.NullUnmarked": null;
+                String annotation = (cm.hasRequired && isUseJspecify())? ConstructorSpecs.NULL_UNMARKED: null;
 
                 ConstructorSpecs noArgSpec = new ConstructorSpecs(annotation, false);
                 cm.vendorExtensions.put("x-java-no-args-constructor", noArgSpec);
             }
 
+            // improve the generation of required and all arguments constructor
+            boolean jsonPropertyAllowed = !this.withXml && jackson;
             boolean requiredJsonProperty = false;
-            // add @JsonCreator on constructor
-            if (!this.withXml && jackson) {
-                if (hasAllArgsConstructor) {
-                    // add @JsonCreator and @JsonProperty on the all argument constructor
-                    cm.vendorExtensions.put("x-java-all-args-constructor",  ConstructorSpecs.useJsonProperty(true));
-//                    List<CodegenProperty> properties = (List<CodegenProperty>)cm.vendorExtensions.get("x-java-all-args-constructor-vars");
-//                    properties.forEach(p -> p.vendorExtensions.put("x-java-all-args-jsonProperty", p.baseName));
-                } else if (this.generatedConstructorWithRequiredArgs && cm.hasRequired && cm.requiredVars.size() == cm.allVars.size()) {
-                    /* add @JsonCreator and @JsonProperty on the required argument constructor
-                     *   all fields are initialzed in the required constructor
-                     *   no all arg constructor
-                     */
-                    requiredJsonProperty = true;
-//                    cm.vendorExtensions.put("x-java-required-constructor-jsoncreator", true);
-//                    cm.requiredVars.forEach(p -> p.vendorExtensions.put("x-java-required-args-jsonProperty", p.baseName));
-                }
-                if (generatedConstructorWithRequiredArgs && cm.hasRequired) {
-                    cm.vendorExtensions.put("x-java-required-args-constructor", ConstructorSpecs.useJsonProperty(requiredJsonProperty));
-                }
+            if (hasAllArgsConstructor) {
+                // add @JsonCreator and @JsonProperty on the all arguments constructor
+                cm.vendorExtensions.put("x-java-all-args-constructor", ConstructorSpecs.useJsonProperty(jsonPropertyAllowed));
+            } else if (this.generatedConstructorWithRequiredArgs && cm.hasRequired && cm.requiredVars.size() == cm.allVars.size()) {
+                /* add @JsonCreator and @JsonProperty on the required argument constructor
+                 */
+                requiredJsonProperty = jsonPropertyAllowed;
             }
-
+            if (generatedConstructorWithRequiredArgs && cm.hasRequired) {
+                cm.vendorExtensions.put("x-java-required-args-constructor", ConstructorSpecs.useJsonProperty(requiredJsonProperty));
+            }
         }
         return objs;
     }

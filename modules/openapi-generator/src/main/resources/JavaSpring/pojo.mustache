@@ -91,7 +91,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#vendorExtensions.x-java-no-args-constructor}}
 
   {{#constructorAnnotation}}
-  {{.}}
+  {{{.}}}
   {{/constructorAnnotation}}
   public {{classname}}() {
     super();
@@ -105,7 +105,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    * Constructor with only required parameters{{#generateConstructorWithAllArgs}}{{^vendorExtensions.x-java-all-args-constructor}} and all parameters{{/vendorExtensions.x-java-all-args-constructor}}{{/generateConstructorWithAllArgs}}
    */
    {{#constructorAnnotation}}
-   {{.}}
+  {{{.}}}
    {{/constructorAnnotation}}
   public {{classname}}({{#requiredVars}}{{#useJsonProperty}}@JsonProperty("{{baseName}}") {{/useJsonProperty}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}
@@ -130,7 +130,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
    * Constructor with all args parameters
    */
    {{#constructorAnnotation}}
-   {{.}}
+  {{{.}}}
    {{/constructorAnnotation}}
   public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#useJsonProperty}}@JsonProperty("{{baseName}}") {{/useJsonProperty}}{{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
   {{#parent}}
