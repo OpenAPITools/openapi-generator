@@ -471,6 +471,7 @@ paths:
         name: password
         required: true
         schema:
+          format: password
           type: string
       responses:
         "200":
@@ -682,6 +683,7 @@ components:
           title: email
           type: string
         password:
+          format: password
           title: password
           type: string
         phone:

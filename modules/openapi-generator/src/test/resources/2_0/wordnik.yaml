@@ -429,6 +429,7 @@ paths:
           description: "The user's password"
           required: true
           type: string
+          format: password
       responses:
         '200':
           description: A valid authentication token
@@ -1352,6 +1353,7 @@ definitions:
         type: string
       password:
         type: string
+        format: password
   WordOfTheDay:
     properties:
       definitions:
