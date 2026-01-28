@@ -156,5 +156,18 @@ namespace Org.OpenAPITools.Test.Api
             var model = response.Ok();
             Assert.IsType<ApiResponse>(model);
         }
+
+        /// <summary>
+        /// Test UploadFiles
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task UploadFilesAsyncTest()
+        {
+            List<System.IO.Stream> files = default!;
+            long petId = default!;
+            var response = await _instance.UploadFilesAsync(files, petId);
+            var model = response.Ok();
+            Assert.IsType<ApiResponse>(model);
+        }
     }
 }

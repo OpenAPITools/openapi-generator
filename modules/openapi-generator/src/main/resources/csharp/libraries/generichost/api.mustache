@@ -471,14 +471,15 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
                     List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParameterLocalVars = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));{{/-first}}{{^isFile}}{{#required}}
-
+                    {{/-first}}
+                    {{^isFile}}
+                    {{#required}}
                     formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
                     {{/required}}
@@ -490,15 +491,45 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isFile}}
                     {{#isFile}}
                     {{#required}}
-                    multipartContentLocalVar.Add(new StreamContent({{paramName}}));
+                    {{#isContainer}}
+                    foreach (global::System.IO.Stream streamLocalVar in {{paramName}})
+                    {
+                        var streamContentLocalVar = new StreamContent(streamLocalVar);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                    }
 
+                    {{/isContainer}}
+                    {{^isContainer}}
+                    var streamContentLocalVar = new StreamContent({{paramName}});
+                    multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+
+                    {{/isContainer}}
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        multipartContentLocalVar.Add(new StreamContent({{paramName}}.Value));
+                    {
+                        {{#isContainer}}
+                        foreach (global::System.IO.Stream streamLocalVar in {{paramName}}.Value)
+                        {
+                            var streamContentLocalVar = new StreamContent(streamLocalVar);
+                            multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                        }
+                        {{/isContainer}}
+                        {{^isContainer}}
+                        var streamContentLocalVar = new StreamContent({{paramName}}.Value);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                        {{/isContainer}}
+                    }
 
                     {{/required}}
                     {{/isFile}}
+                    {{/formParams}}
+                    {{#formParams}}
+                    {{#-first}}
+                    if (formParameterLocalVars.Count > 0)
+                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+
+                    {{/-first}}
                     {{/formParams}}
                     {{#bodyParam}}
                     {{#required}}
