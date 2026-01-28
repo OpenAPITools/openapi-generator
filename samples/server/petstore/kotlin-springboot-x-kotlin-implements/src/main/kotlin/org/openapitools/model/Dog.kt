@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Dog(
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @get:JsonProperty("bark", required = true) val bark: kotlin.Boolean,
+    @get:JsonProperty("bark", required = true) override val bark: kotlin.Boolean,
 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @get:JsonProperty("breed", required = true) val breed: Dog.Breed,
+    @get:JsonProperty("breed", required = true) override val breed: Dog.Breed,
 
     @ApiModelProperty(example = "null", required = true, value = "Whether the dog enjoys fetching")
     @get:JsonProperty("likesFetch", required = true) override val likesFetch: kotlin.Boolean,
@@ -59,7 +59,7 @@ data class Dog(
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("color") override val color: Color? = null
-) : Pet, com.some.pack.Fetchable, java.io.Serializable {
+) : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {
 
     /**
     * 

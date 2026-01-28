@@ -1041,6 +1041,80 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateSerializableModelWithSchemaImplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of(
+                "Pet", "com.some.pack.WithId",
+                "Category", List.of("com.some.pack.CategoryInterface"),
+                "Dog", List.of("com.some.pack.Canine")
+        ));
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS_FIELDS, Map.of(
+                "Pet", List.of("id"),
+                "Category", List.of("name", "id"),
+                "Dog", List.of("bark", "breed")
+        ));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path dog = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                dog,
+                "@get:JsonProperty(\"bark\", required = true) override val bark: kotlin.Boolean,",
+                "@get:JsonProperty(\"breed\", required = true) override val breed: Dog.Breed,",
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
+                "@get:JsonProperty(\"photoUrls\", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,",
+                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
+                "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
+                "@get:JsonProperty(\"category\") override val category: Category? = null,",
+                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
+                "@get:JsonProperty(\"color\") override val color: Color? = null",
+                ") : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+
+        Path pet = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(
+                pet,
+                "interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {",
+                "override val name: kotlin.String",
+                "val photoUrls: kotlin.collections.List<kotlin.String>",
+                "val petType: kotlin.String",
+                "override val id: kotlin.Long?",
+                "override val category: Category?",
+                "val tags: kotlin.collections.List<Tag>?",
+                "val color: Color?",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+
+        Path category = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Category.kt");
+        assertFileContains(
+                category,
+                "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
+                "@get:JsonProperty(\"name\") override val name: kotlin.String? = null",
+                ") : com.some.pack.CategoryInterface, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
     public void generateHttpInterfaceReactiveWithReactorResponseEntity() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -1363,8 +1437,9 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(
                 path,
                 "import java.io.Serializable",
-                ") : Pet, Serializable,  com.some.pack.Fetchable {",
-                ") : Pet, Serializable {",
+                "Serializable",
+                ") : Pet, java.io.Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -2792,7 +2867,7 @@ public class KotlinSpringServerCodegenTest {
                                 + "        @PathVariable(\"petId\") petId: kotlin.Long"
                                 + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
-                                    "fun logoutUser(): ResponseEntity<Unit>"
+                                "fun logoutUser(): ResponseEntity<Unit>"
                         ),
                         root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
                                 "fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>")

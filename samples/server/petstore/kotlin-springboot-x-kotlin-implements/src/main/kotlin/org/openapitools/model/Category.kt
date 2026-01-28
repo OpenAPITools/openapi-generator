@@ -21,11 +21,11 @@ import io.swagger.annotations.ApiModelProperty
 data class Category(
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("id") val id: kotlin.Long? = null,
+    @get:JsonProperty("id") override val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @get:JsonProperty("name") val name: kotlin.String? = null
-) : java.io.Serializable {
+    @get:JsonProperty("name") override val name: kotlin.String? = null
+) : com.some.pack.CategoryInterface, java.io.Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

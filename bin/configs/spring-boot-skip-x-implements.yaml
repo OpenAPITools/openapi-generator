@@ -12,3 +12,6 @@ additionalProperties:
   xImplementsOverrides:
     com.custompackage.InterfaceToSubstitute: com.custompackage.SubstitutedInterface
     com.custompackage.InterfaceToSkip: skip
+  schemaImplements:
+    Foo: [ com.custompackage.FooInterface, com.custompackage.FooIntergace ]
+    Animal: [ com.custompackage.AnimalInterfaceImplleeements ]
