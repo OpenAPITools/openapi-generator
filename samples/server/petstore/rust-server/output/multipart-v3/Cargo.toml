@@ -8,7 +8,7 @@ license = "Unlicense"
 edition = "2018"
 
 [features]
-default = ["client", "server"]
+default = ["client", "server", "client-tls"]
 client = [
     "multipart", "multipart/client", "swagger/multipart_form",
     "mime_multipart", "swagger/multipart_related",
@@ -105,12 +105,14 @@ clap = "4.5"
 env_logger = "0.11"
 tokio = { version = "1.49", features = ["full"] }
 native-tls = "0.2"
-openssl = "0.10"
-tokio-openssl = "0.6"
 pin-project = "1.1.10"
 
 # Bearer authentication, used in examples
 jsonwebtoken = {version = "10.0.0", features = ["rust_crypto"]}
+
+[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dev-dependencies]
+openssl = "0.10"
+tokio-openssl = "0.6"
 
 [[example]]
 name = "client"
