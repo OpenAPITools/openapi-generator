@@ -30,6 +30,7 @@ class ParentWithNullable {
     name: r'type',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -42,6 +43,7 @@ class ParentWithNullable {
     name: r'nullableProperty',
     required: false,
     includeIfNull: false,
+
   )
 
 
