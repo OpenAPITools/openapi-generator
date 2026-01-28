@@ -55,7 +55,8 @@ public class Animal {
   /**
    * Constructor with all args parameters
    */
-  public Animal(String className, String color) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Animal(@JsonProperty("className") String className, @JsonProperty("color") String color) {
       this.className = className;
       this.color = color;
   }

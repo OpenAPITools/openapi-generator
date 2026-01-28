@@ -37,7 +37,8 @@ public final class Apple implements Fruit {
   /**
    * Constructor with only required parameters
    */
-  public Apple(Integer seeds) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Apple(@JsonProperty("seeds") Integer seeds) {
     this.seeds = seeds;
     this.fruitType = fruitType;
   }

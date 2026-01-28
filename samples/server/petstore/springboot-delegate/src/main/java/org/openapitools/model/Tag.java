@@ -34,7 +34,8 @@ public class Tag {
   /**
    * Constructor with all args parameters
    */
-  public Tag(@Nullable Long id, @Nullable String name) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Tag(@JsonProperty("id") @Nullable Long id, @JsonProperty("name") @Nullable String name) {
       this.id = id;
       this.name = name;
   }

@@ -47,7 +47,8 @@ public class TypeHolderDefaultDto {
   /**
    * Constructor with only required parameters
    */
-  public TypeHolderDefaultDto(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public TypeHolderDefaultDto(@JsonProperty("string_item") String stringItem, @JsonProperty("number_item") BigDecimal numberItem, @JsonProperty("integer_item") Integer integerItem, @JsonProperty("bool_item") Boolean boolItem, @JsonProperty("array_item") List<Integer> arrayItem) {
     this.stringItem = stringItem;
     this.numberItem = numberItem;
     this.integerItem = integerItem;

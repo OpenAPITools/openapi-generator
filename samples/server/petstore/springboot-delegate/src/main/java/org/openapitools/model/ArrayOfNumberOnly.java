@@ -37,7 +37,8 @@ public class ArrayOfNumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public ArrayOfNumberOnly(List<BigDecimal> arrayNumber) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ArrayOfNumberOnly(@JsonProperty("ArrayNumber") List<BigDecimal> arrayNumber) {
       this.arrayNumber = arrayNumber;
   }
 

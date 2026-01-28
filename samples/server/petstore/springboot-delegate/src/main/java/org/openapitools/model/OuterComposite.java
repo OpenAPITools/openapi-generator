@@ -37,7 +37,8 @@ public class OuterComposite {
   /**
    * Constructor with all args parameters
    */
-  public OuterComposite(@Nullable BigDecimal myNumber, @Nullable String myString, @Nullable Boolean myBoolean) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public OuterComposite(@JsonProperty("my_number") @Nullable BigDecimal myNumber, @JsonProperty("my_string") @Nullable String myString, @JsonProperty("my_boolean") @Nullable Boolean myBoolean) {
       this.myNumber = myNumber;
       this.myString = myString;
       this.myBoolean = myBoolean;
