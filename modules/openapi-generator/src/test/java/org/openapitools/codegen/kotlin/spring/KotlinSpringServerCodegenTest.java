@@ -1003,8 +1003,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
                 path,
-                "import java.io.Serializable",
-                ") : Serializable {",
+                ") : java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -1035,9 +1034,8 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
         assertFileContains(
                 path,
-                "import java.io.Serializable",
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
-                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, com.some.pack.Fetchable, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
