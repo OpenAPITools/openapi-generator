@@ -308,7 +308,7 @@ impl<C> Client<
 > where
     C: Clone + Send + Sync + 'static
 {
-    /// Create a client with a TLS connection to the server using native-tls.
+    /// Create a client with a TLS connection to the server.
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
@@ -322,7 +322,7 @@ impl<C> Client<
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
-    /// Create a client with a TLS connection to the server using OpenSSL.
+    /// Create a client with a TLS connection to the server using OpenSSL via swagger.
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"
@@ -336,7 +336,7 @@ impl<C> Client<
         Self::try_new_with_connector(base_path, Some("https"), https_connector)
     }
 
-    /// Create a client with a TLS connection to the server using a pinned certificate
+    /// Create a client with a TLS connection to the server using a pinned certificate.
     ///
     /// # Arguments
     /// * `base_path` - base path of the client API, i.e. "<https://www.my-api-implementation.com>"

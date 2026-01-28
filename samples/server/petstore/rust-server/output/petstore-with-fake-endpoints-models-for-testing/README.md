@@ -134,10 +134,9 @@ The generated library has a few optional features that can be activated through 
     * This defaults to enabled and creates the basic skeleton of a client implementation based on hyper
     * The constructed client implements the API trait by making remote API call.
 * `client-tls`
-    * Optional feature that provides HTTPS support with automatic TLS backend selection:
+    * This default to enabled and provides HTTPS support with automatic TLS backend selection:
         - macOS/Windows/iOS: native-tls + hyper-tls
         - Linux/Unix/others: OpenSSL + hyper-openssl
-    * Not enabled by default to minimize dependencies.
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
@@ -146,13 +145,13 @@ The generated library has a few optional features that can be activated through 
     * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
     * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
 
-### Enabling HTTPS/TLS Support
+### HTTPS/TLS Support
 
-By default, only HTTP support is included. To enable HTTPS, add the `client-tls` feature:
+HTTPS support is included by default. To disable it (for example, to reduce dependencies), you can:
 
 ```toml
 [dependencies]
-petstore-with-fake-endpoints-models-for-testing = { version = "1.0.0", features = ["client-tls"] }
+petstore-with-fake-endpoints-models-for-testing = { version = "1.0.0", default-features = false, features = ["client", "server"] }
 ```
 
 **For server with callbacks that need HTTPS:**
@@ -164,8 +163,6 @@ petstore-with-fake-endpoints-models-for-testing = { version = "1.0.0", features 
 The TLS backend is automatically selected based on your target platform:
 - **macOS, Windows, iOS**: Uses `native-tls` (system TLS libraries)
 - **Linux, Unix, other platforms**: Uses `openssl`
-
-This ensures the best compatibility and native integration on each platform.
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 

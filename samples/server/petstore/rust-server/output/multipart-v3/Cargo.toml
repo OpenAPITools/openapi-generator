@@ -8,7 +8,7 @@ license = "Unlicense"
 edition = "2018"
 
 [features]
-default = ["client", "server"]
+default = ["client", "server", "client-tls"]
 client = [
     "multipart", "multipart/client", "swagger/multipart_form",
     "mime_multipart", "swagger/multipart_related",
@@ -76,12 +76,6 @@ url = { version = "2.5", optional = true }
 # Client-specific
 tower-service = "0.3.3"
 
-# TLS support - all listed here, actual usage determined by cfg attributes in code
-native-tls = { version = "0.2", optional = true }
-hyper-tls = { version = "0.6", optional = true }
-openssl = { version = "0.10", optional = true }
-hyper-openssl = { version = "0.10", optional = true }
-
 # Server, and client callback-specific
 percent-encoding = { version = "2.3.2", optional = true }
 
@@ -99,18 +93,31 @@ frunk_core = { version = "0.4.3", optional = true }
 frunk-enum-derive = { version = "0.3.0", optional = true }
 frunk-enum-core = { version = "0.3.0", optional = true }
 
+# TLS dependencies - platform-specific backends
+# On macOS/Windows/iOS, use native-tls via hyper-tls
+[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
+native-tls = { version = "0.2", optional = true }
+hyper-tls = { version = "0.6", optional = true }
+
+# On other platforms (Linux, etc.), use OpenSSL via hyper-openssl
+[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
+openssl = { version = "0.10", optional = true }
+hyper-openssl = { version = "0.10", optional = true }
+
 [dev-dependencies]
 always_send = "0.1.1"
 clap = "4.5"
 env_logger = "0.11"
 tokio = { version = "1.49", features = ["full"] }
 native-tls = "0.2"
-openssl = "0.10"
-tokio-openssl = "0.6"
 pin-project = "1.1.10"
 
 # Bearer authentication, used in examples
 jsonwebtoken = {version = "10.0.0", features = ["rust_crypto"]}
+
+[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dev-dependencies]
+openssl = "0.10"
+tokio-openssl = "0.6"
 
 [[example]]
 name = "client"
