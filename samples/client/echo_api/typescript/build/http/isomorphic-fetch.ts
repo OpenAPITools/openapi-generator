@@ -1,6 +1,6 @@
 import {HttpLibrary, RequestContext, ResponseContext} from './http';
 import { from, Observable } from '../rxjsStub';
-import fetch from "node-fetch";
+import { fetch } from 'undici';
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
@@ -13,7 +13,7 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             body: body as any,
             headers: request.getHeaders(),
             signal: request.getSignal(),
-            agent: request.getAgent(),
+            dispatcher: request.getDispatcher(),
         }).then((resp: any) => {
             const headers: { [name: string]: string } = {};
             resp.headers.forEach((value: string, name: string) => {
@@ -22,7 +22,8 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
             const body = {
               text: () => resp.text(),
-              binary: () => resp.buffer()
+              binary: () => resp.buffer(),
+              stream: () => resp.body
             };
             return new ResponseContext(resp.status, headers, body);
         });

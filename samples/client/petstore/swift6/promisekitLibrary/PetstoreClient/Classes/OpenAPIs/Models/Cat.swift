@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Cat: Sendable, Codable, ParameterConvertible, Hashable {
+public struct Cat: Sendable, Codable, Hashable {
 
     public var className: String
     public var color: String? = "red"

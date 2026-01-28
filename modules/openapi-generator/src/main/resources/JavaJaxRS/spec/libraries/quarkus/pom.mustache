@@ -44,9 +44,15 @@
 {{#useSwaggerAnnotations}}
     <io.swagger.annotations.version>1.6.10</io.swagger.annotations.version>
 {{/useSwaggerAnnotations}}
+{{#useSwaggerV3Annotations}}
+    <io.swagger.v3.annotations.version>2.2.21</io.swagger.v3.annotations.version>
+{{/useSwaggerV3Annotations}}
 {{#useMutiny}}
     <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
 {{/useMutiny}}
+{{#openApiNullable}}
+    <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
+{{/openApiNullable}}
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -118,6 +124,14 @@
         <scope>provided</scope>
      </dependency>
 {{/useSwaggerAnnotations}}
+{{#useSwaggerV3Annotations}}
+     <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>${io.swagger.v3.annotations.version}</version>
+        <scope>provided</scope>
+     </dependency>
+{{/useSwaggerV3Annotations}}
 {{#useMutiny}}
     <dependency>
       <groupId>io.smallrye</groupId>
@@ -126,6 +140,13 @@
       <scope>test</scope>
     </dependency>
 {{/useMutiny}}
+{{#openApiNullable}}
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${jackson-databind-nullable-version}</version>
+    </dependency>
+{{/openApiNullable}}
   </dependencies>
   <build>
     <plugins>

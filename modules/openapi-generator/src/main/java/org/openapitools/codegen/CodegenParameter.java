@@ -534,6 +534,15 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         return sb.toString();
     }
 
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
+
     // use schema.getContains or content.mediaType.schema.getContains instead of this
     @Override
     public CodegenProperty getContains() {

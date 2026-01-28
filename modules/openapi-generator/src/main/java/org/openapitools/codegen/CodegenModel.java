@@ -265,6 +265,15 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
 
+    /**
+     * An alias for vendor extensions, e.g. one can use {{exts.x-something}} for cleaner template
+     *
+     * @return vendor extensions
+     */
+    public Map<String, Object> getExts() {
+        return vendorExtensions;
+    }
+
     @Override
     public CodegenProperty getContains() {
         return contains;
@@ -364,7 +373,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String getDiscriminatorName() {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
-
 
     @Override
     public String getPattern() {

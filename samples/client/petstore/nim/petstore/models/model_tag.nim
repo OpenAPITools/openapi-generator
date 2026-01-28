@@ -9,9 +9,12 @@
 
 import json
 import tables
+import marshal
+import options
 
 
 type Tag* = object
   ## A tag for a pet
-  id*: int64
-  name*: string
+  id*: Option[int64]
+  name*: Option[string]
+

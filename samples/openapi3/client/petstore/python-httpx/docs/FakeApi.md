@@ -1328,7 +1328,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    uuid_example = '84529ad2-2265-4e15-b76b-c17025d848f6' # str | uuid example
+    uuid_example = UUID('84529ad2-2265-4e15-b76b-c17025d848f6') # UUID | uuid example
 
     try:
         # test uuid example
@@ -1344,7 +1344,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uuid_example** | **str**| uuid example | 
+ **uuid_example** | **UUID**| uuid example | 
 
 ### Return type
 

@@ -15,7 +15,7 @@ on:
       - samples/client/petstore/csharp/unityWebRequest/net8/**
 jobs:
   build:
-    name: Build .Net projects
+    name: Build .Net 8 projects
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,7 +34,7 @@ jobs:
           - samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-dotnet@v5.0.0
+      - uses: actions/setup-dotnet@v5.1.0
         with:
           dotnet-version: '8.0.x'
       - name: Build

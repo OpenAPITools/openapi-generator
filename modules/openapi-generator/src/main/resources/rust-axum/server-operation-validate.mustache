@@ -119,12 +119,12 @@
     {{#pattern}}
     {{#isString}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::Regex = regex::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::Regex = regex::Regex::new("{{ pattern }}").unwrap();
     }
     {{/isString}}
     {{^isString}}
     lazy_static::lazy_static! {
-        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new(r"{{ pattern }}").unwrap();
+        static ref RE_{{#lambda.uppercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.uppercase}}: regex::bytes::Regex = regex::bytes::Regex::new("{{ pattern }}").unwrap();
     }
     fn validate_byte_{{#lambda.lowercase}}{{{operationIdCamelCase}}}BodyValidator{{/lambda.lowercase}}(
         b: &[u8]

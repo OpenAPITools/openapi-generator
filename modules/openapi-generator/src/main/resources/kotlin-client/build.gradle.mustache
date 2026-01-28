@@ -103,18 +103,23 @@ idea {
 }
 {{/idea}}
 {{#explicitApi}}
+
 kotlin {
     explicitApi()
 }
 {{/explicitApi}}
-{{#jvm-spring-webclient}}{{#useSpringBoot3}}
+{{#jvm-spring-webclient}}
+{{#useSpringBoot3}}
+
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-{{/useSpringBoot3}}{{/jvm-spring-webclient}}
+{{/useSpringBoot3}}
+{{/jvm-spring-webclient}}
 {{#jvm-spring-restclient}}
+
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
@@ -122,6 +127,7 @@ kotlin {
 }
 {{/jvm-spring-restclient}}
 {{#kotlinx-datetime}}
+
 kotlin {
     sourceSets {
         all {
@@ -132,6 +138,7 @@ kotlin {
     }
 }
 {{/kotlinx-datetime}}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
@@ -214,7 +221,6 @@ dependencies {
     {{/jackson}}
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     {{#jvm-vertx}}
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"
@@ -224,6 +230,10 @@ dependencies {
     implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
     {{/useCoroutines}}
     {{/jvm-vertx}}
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+    {{#jvm-spring}}
+    testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"
+    {{/jvm-spring}}
 }
 {{#kotlinx_serialization}}
 
@@ -233,3 +243,18 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     }
 }
 {{/kotlinx_serialization}}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = '{{groupId}}'
+            artifactId = '{{artifactId}}'
+            version = '{{artifactVersion}}'
+            from components.java
+        }
+    }
+}

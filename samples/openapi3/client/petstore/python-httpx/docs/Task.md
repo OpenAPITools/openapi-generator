@@ -6,7 +6,7 @@ Used to test oneOf enums with only one string value.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
+**id** | **UUID** |  | 
 **activity** | [**TaskActivity**](TaskActivity.md) |  | 
 
 ## Example

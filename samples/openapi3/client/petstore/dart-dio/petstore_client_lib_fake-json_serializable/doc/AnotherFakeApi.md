@@ -29,7 +29,7 @@ final ModelClient modelClient = ; // ModelClient | client model
 try {
     final response = api.call123testSpecialTags(modelClient);
     print(response);
-} catch on DioException (e) {
+} on DioException catch (e) {
     print('Exception when calling AnotherFakeApi->call123testSpecialTags: $e\n');
 }
 ```

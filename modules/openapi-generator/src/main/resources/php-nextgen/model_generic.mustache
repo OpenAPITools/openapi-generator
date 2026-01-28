@@ -376,12 +376,12 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Gets {{name}}
      *
-     * @return {{{dataType}}}{{^required}}|null{{/required}}
+     * @return {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}}
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
      */
-    public function {{getter}}(): {{vendorExtensions.x-php-prop-type}}
+    public function {{getter}}(): {{exts.x-php-prop-type}}
     {
         return $this->container['{{name}}'];
     }
@@ -389,14 +389,14 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
     /**
      * Sets {{name}}
      *
-     * @param {{{dataType}}}{{^required}}|null{{/required}} ${{name}}{{#description}} {{{.}}}{{/description}}{{^description}} {{{name}}}{{/description}}
+     * @param {{{dataType}}}{{#notRequiredOrIsNullable}}|null{{/notRequiredOrIsNullable}} ${{name}}{{#description}} {{{.}}}{{/description}}{{^description}} {{{name}}}{{/description}}
      *
      * @return $this
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
      */
-    public function {{setter}}({{vendorExtensions.x-php-prop-type}} ${{name}}): static
+    public function {{setter}}({{exts.x-php-prop-type}} ${{name}}): static
     {
         {{#isNullable}}
         if (is_null(${{name}})) {

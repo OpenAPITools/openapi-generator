@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: query-param-form-with-array
+  version: 1.0.0
+paths:
+  /search_explode:
+    get:
+      operationId: search_explode
+      parameters:
+        - in: query
+          name: ids
+          description: Ids
+          style: form
+          explode: true
+          required: false
+          schema:
+            type: array
+            items:
+              type: number
+        - in: query
+          name: filter
+          style: form
+          explode: true
+          description: Filter
+          required: false
+          schema:
+            $ref: '#/components/schemas/Filter'
+        - in: query
+          name: country
+          style: form
+          explode: true
+          description: Filter
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+
+  /search_not_explode:
+    get:
+      operationId: search_not_explode
+      parameters:
+        - in: query
+          name: ids
+          description: Ids
+          style: form
+          explode: false
+          required: false
+          schema:
+            type: array
+            items:
+              type: number
+        - in: query
+          name: filter
+          style: form
+          explode: false
+          description: Filter
+          required: false
+          schema:
+            $ref: '#/components/schemas/Filter'
+        - in: query
+          name: country
+          style: form
+          explode: false
+          description: Filter
+          required: false
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - name
+        - age
+        - nicknames
+      properties:
+        name:
+          type: string
+          description: The name
+        age:
+          type: integer
+          minimum: 0
+          default: 5
+          nullable: false
+          description: The age
+        nicknames:
+          type: array
+          items:
+            type: string
+
+    Response:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          description: Array of items.
+          nullable: false
+          items:
+            $ref: '#/components/schemas/Item'
+
+    Filter:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name
+        age:
+          type: integer
+          minimum: 0
+          default: 5
+          nullable: false
+          description: The age
+        nicknames:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            example: Nick

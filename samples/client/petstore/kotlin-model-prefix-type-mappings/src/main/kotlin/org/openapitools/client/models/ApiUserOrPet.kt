@@ -35,8 +35,6 @@ import java.io.IOException
  * 
  *
  */
-
-
 data class ApiUserOrPet(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -155,3 +153,4 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
         }
     }
 }
+

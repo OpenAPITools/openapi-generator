@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-internal struct ClassModel: Sendable, Codable, ParameterConvertible {
+internal struct ClassModel: Sendable, Codable {
 
     internal private(set) var _class: String?
 

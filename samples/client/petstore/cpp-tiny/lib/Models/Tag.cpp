@@ -85,7 +85,7 @@ Tag::getId()
 }
 
 void
-Tag::setId(long  id)
+Tag::setId(long id)
 {
 	this->id = id;
 }
@@ -97,7 +97,7 @@ Tag::getName()
 }
 
 void
-Tag::setName(std::string  name)
+Tag::setName(std::string name)
 {
 	this->name = name;
 }

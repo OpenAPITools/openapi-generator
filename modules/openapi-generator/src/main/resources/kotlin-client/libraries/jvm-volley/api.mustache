@@ -26,7 +26,7 @@ import {{packageName}}.infrastructure.CollectionFormats.*
 * can pass that to the request queue like:
 * Volley.newRequestQueue(context.applicationContext, myCustomHttpStack)
 */
-{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}class {{classname}} (
+{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}open {{/nonPublicApi}}class {{classname}} (
     private val context: Context,
     private val requestQueue: Lazy<RequestQueue> = lazy(initializer = {
         Volley.newRequestQueue(context.applicationContext)

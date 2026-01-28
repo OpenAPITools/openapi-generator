@@ -7,18 +7,30 @@ import { {{classname}}Controller } from './controllers';
 {{/apis}}
 {{/apiInfo}}
 
+export type ApiModuleConfiguration = {
+  /**
+  * your Api implementations
+  */
+  apiImplementations: ApiImplementations,
+  /**
+  * additional Providers that may be used by your implementations
+  */
+  providers?: Provider[],
+}
+
 @Module({})
 export class ApiModule {
-  static forRoot(apiImplementations: ApiImplementations): DynamicModule {
+  static forRoot(configuration: ApiModuleConfiguration): DynamicModule {
       const providers: Provider[] = [
 {{#apiInfo}}
 {{#apis}}
         {
           provide: {{classname}},
-          useClass: apiImplementations.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
+          useClass: configuration.apiImplementations.{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}
         },
 {{/apis}}
 {{/apiInfo}}
+        ...(configuration.providers || []),
       ];
 
       return {

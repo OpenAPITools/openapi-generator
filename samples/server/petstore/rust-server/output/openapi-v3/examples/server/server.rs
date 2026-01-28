@@ -176,9 +176,9 @@ use swagger::ApiError;
 #[async_trait]
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 {
-    async fn any_of_get(
+    async fn any_of_get<'a>(
         &self,
-        any_of: Option<&Vec<models::AnyOfObject>>,
+        any_of: Option<&'a Vec<models::AnyOfObject>>,
         context: &C) -> Result<AnyOfGetResponse, ApiError>
     {
         info!("any_of_get({:?}) - X-Span-ID: {:?}", any_of, context.get().0.clone());
@@ -194,9 +194,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    async fn complex_query_param_get(
+    async fn complex_query_param_get<'a>(
         &self,
-        list_of_strings: Option<&Vec<models::StringObject>>,
+        list_of_strings: Option<&'a Vec<models::StringObject>>,
         context: &C) -> Result<ComplexQueryParamGetResponse, ApiError>
     {
         info!("complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
@@ -204,9 +204,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Test examples
-    async fn examples_test(
+    async fn examples_test<'a>(
         &self,
-        ids: Option<&Vec<String>>,
+        ids: Option<&'a Vec<String>>,
         context: &C) -> Result<ExamplesTestResponse, ApiError>
     {
         info!("examples_test({:?}) - X-Span-ID: {:?}", ids, context.get().0.clone());
@@ -214,12 +214,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     }
 
     /// Test a Form Post
-    async fn form_test(
+    async fn form_test<'a>(
         &self,
-        required_array: Option<&Vec<String>>,
+        required_array: &'a Vec<String>,
+        enum_field: models::FormTestRequestEnumField,
         context: &C) -> Result<FormTestResponse, ApiError>
     {
-        info!("form_test({:?}) - X-Span-ID: {:?}", required_array, context.get().0.clone());
+        info!("form_test({:?}, {:?}) - X-Span-ID: {:?}", required_array, enum_field, context.get().0.clone());
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
@@ -232,9 +233,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         Err(ApiError("Api-Error: Operation is NOT implemented".into()))
     }
 
-    async fn json_complex_query_param_get(
+    async fn json_complex_query_param_get<'a>(
         &self,
-        list_of_strings: Option<&Vec<models::StringObject>>,
+        list_of_strings: Option<&'a Vec<models::StringObject>>,
         context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>
     {
         info!("json_complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());

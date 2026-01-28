@@ -1,14 +1,14 @@
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
-{{#vendorExtensions.x-must-use-response}}
+{{#exts.x-must-use-response}}
 #[must_use]
-{{/vendorExtensions.x-must-use-response}}
+{{/exts.x-must-use-response}}
 pub enum {{{operationId}}}Response {
 {{#responses}}
   {{#message}}
     /// {{{.}}}{{/message}}
-    {{#vendorExtensions}}
+    {{#exts}}
     {{{x-response-id}}}
-    {{/vendorExtensions}}
+    {{/exts}}
     {{^dataType}}
       {{#hasHeaders}}
     {
@@ -16,25 +16,25 @@ pub enum {{{operationId}}}Response {
     {{/dataType}}
     {{#dataType}}
       {{^hasHeaders}}
-        {{#vendorExtensions}}
+        {{#exts}}
           {{#x-produces-plain-text}}
     (String)
           {{/x-produces-plain-text}}
           {{^x-produces-plain-text}}
     ({{{dataType}}})
           {{/x-produces-plain-text}}
-        {{/vendorExtensions}}
+        {{/exts}}
       {{/hasHeaders}}
       {{#hasHeaders}}
     {
-        {{#vendorExtensions}}
+        {{#exts}}
           {{#x-produces-plain-text}}
         body: String,
             {{/x-produces-plain-text}}
             {{^x-produces-plain-text}}
         body: {{{dataType}}},
             {{/x-produces-plain-text}}
-          {{/vendorExtensions}}
+          {{/exts}}
       {{/hasHeaders}}
     {{/dataType}}
     {{#headers}}

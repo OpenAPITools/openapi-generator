@@ -385,7 +385,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         if(ModelUtils.isArraySchema(schema)) {
             Schema itemsSchema = ModelUtils.getSchemaItems(schema);
             itemsSchema = ModelUtils.getReferencedSchema(openAPI, itemsSchema);
-            if(ModelUtils.isModel(itemsSchema)) {
+            if(ModelUtils.isModel(itemsSchema) || (itemsSchema != null && ModelUtils.isEnumSchema(itemsSchema))) {
                 String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getSchemaItems(schema).get$ref()) + ARRAY_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             }else if (ModelUtils.isPrimitiveType(itemsSchema)){
@@ -400,7 +400,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         } else if(ModelUtils.isMapSchema(schema)) {
             Schema mapValueSchema = ModelUtils.getAdditionalProperties(schema);
             mapValueSchema = ModelUtils.getReferencedSchema(openAPI, mapValueSchema);
-            if(ModelUtils.isModel(mapValueSchema) ) {
+            if(ModelUtils.isModel(mapValueSchema) || (mapValueSchema != null && ModelUtils.isEnumSchema(mapValueSchema))) {
                 String newSchemaName = ModelUtils.getSimpleRef(ModelUtils.getAdditionalProperties(schema).get$ref()) + MAP_SUFFIX;
                 return addSchemas(schema, newSchemaName, visitedSchemas);
             }else if (ModelUtils.isPrimitiveType(mapValueSchema)){
@@ -442,7 +442,19 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             List<Schema> oneOfs = schema.getOneOf();
             List<Schema> newOneOfs = new ArrayList<>();
             for (Schema oneOf : oneOfs) {
-                Schema oneOfSchema = ModelUtils.getReferencedSchema(openAPI, oneOf);
+                Schema oneOfSchema = oneOf;
+                if (ModelUtils.isAllOf(oneOf) && oneOf.getAllOf() != null && oneOf.getAllOf().size() == 1) {
+                    Object allOfObj = oneOf.getAllOf().get(0);
+                    if (allOfObj instanceof Schema) {
+                        Schema allOfItem = (Schema) allOfObj;
+                        if (StringUtils.isNotEmpty(allOfItem.get$ref())) {
+                            oneOfSchema = ModelUtils.getReferencedSchema(openAPI, allOfItem);
+                        }
+                    }
+                } else {
+                    oneOfSchema = ModelUtils.getReferencedSchema(openAPI, oneOf);
+                }
+
                 if (ModelUtils.isArraySchema(oneOfSchema)) {
                     Schema innerSchema = generateNestedSchema(oneOfSchema, visitedSchemas);
                     innerSchema.setTitle(oneOf.getTitle());
@@ -1116,7 +1128,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             } else {
                 Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
                 if(additionalProperties == null) {
-                   return; 
+                   return;
                 } else if (additionalProperties.getTitle() != null) {
                     addtionalPropertiesName = additionalProperties.getTitle();
                 } else if (additionalProperties.get$ref() != null) {
@@ -1124,8 +1136,8 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     addtionalPropertiesName = toVarName(toModelName(ref));
                 }
             }
-            
-            properties.put(addtionalPropertiesName, schema);        
+
+            properties.put(addtionalPropertiesName, schema);
         }
     }
 }

@@ -159,21 +159,15 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FormTest**
-> FormTest(optional)
+> FormTest(required_array, enum_field)
 Test a Form Post
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **optional** | **map[string]interface{}** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a map[string]interface{}.
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_array** | [**String**](String.md)|  | 
+  **required_array** | [**String**](String.md)|  | 
+  **enum_field** | [**FormTest_request_enum_field**](FormTest_request_enum_field.md)|  | 
 
 ### Return type
 

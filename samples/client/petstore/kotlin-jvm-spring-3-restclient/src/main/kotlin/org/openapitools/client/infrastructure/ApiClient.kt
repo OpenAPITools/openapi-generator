@@ -10,7 +10,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 open class ApiClient(protected val client: RestClient) {
 
-    protected inline fun <reified I : Any, reified T: Any?> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
+    protected inline fun <reified I : Any, reified T: Any> request(requestConfig: RequestConfig<I>): ResponseEntity<T> {
         return prepare(defaults(requestConfig))
             .retrieve()
             .toEntity(object : ParameterizedTypeReference<T>() {})

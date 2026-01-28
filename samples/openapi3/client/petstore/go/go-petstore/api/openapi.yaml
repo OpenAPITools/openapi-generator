@@ -1267,6 +1267,52 @@ paths:
               schema:
                 type: object
           description: success
+  /fake/query-array-with-default-values:
+    post:
+      operationId: query_array_with_default_values
+      parameters:
+      - explode: true
+        in: query
+        name: arrayparam
+        required: false
+        schema:
+          default:
+          - test1
+          - test2
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: enumarrayparam
+        required: false
+        schema:
+          default:
+          - example1
+          items:
+            $ref: "#/components/schemas/ExampleEnum"
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: stringparam
+        required: false
+        schema:
+          default: test3
+          type: string
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Ok
+      summary: to test query array with default values
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -2286,6 +2332,11 @@ components:
       - items:
           type: string
         type: array
+    ExampleEnum:
+      enum:
+      - example1
+      - example2
+      type: string
     _foo_get_default_response:
       example:
         string:

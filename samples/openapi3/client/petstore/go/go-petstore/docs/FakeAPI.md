@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**FakeOuterNumberSerialize**](FakeAPI.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeAPI.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
 [**GetParameterNameMapping**](FakeAPI.md#GetParameterNameMapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+[**QueryArrayWithDefaultValues**](FakeAPI.md#QueryArrayWithDefaultValues) | **Post** /fake/query-array-with-default-values | to test query array with default values
 [**TestAdditionalPropertiesReference**](FakeAPI.md#TestAdditionalPropertiesReference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 [**TestBodyWithFileSchema**](FakeAPI.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeAPI.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
@@ -412,6 +413,74 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## QueryArrayWithDefaultValues
+
+> QueryArrayWithDefaultValues(ctx).Arrayparam(arrayparam).Enumarrayparam(enumarrayparam).Stringparam(stringparam).Body(body).Execute()
+
+to test query array with default values
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	arrayparam := []string{"Inner_example"} // []string |  (optional) (default to {"test1", "test2"})
+	enumarrayparam := []openapiclient.ExampleEnum{openapiclient.ExampleEnum("example1")} // []ExampleEnum |  (optional) (default to {"example1"})
+	stringparam := "stringparam_example" // string |  (optional) (default to "test3")
+	body := "body_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.FakeAPI.QueryArrayWithDefaultValues(context.Background()).Arrayparam(arrayparam).Enumarrayparam(enumarrayparam).Stringparam(stringparam).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.QueryArrayWithDefaultValues``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiQueryArrayWithDefaultValuesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **arrayparam** | **[]string** |  | [default to {&quot;test1&quot;, &quot;test2&quot;}]
+ **enumarrayparam** | [**[]ExampleEnum**](ExampleEnum.md) |  | [default to {&quot;example1&quot;}]
+ **stringparam** | **string** |  | [default to &quot;test3&quot;]
+ **body** | **string** |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

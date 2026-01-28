@@ -597,7 +597,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     if let Some(param_value) = p_form_additional_metadata {
         multipart_form = multipart_form.text("additionalMetadata", param_value.to_string());
     }
-    if let Some(param_value) = p_form_file {
+    if let Some(ref param_value) = p_form_file {
         multipart_form = multipart_form.file("file", param_value)?;
     }
     req_builder = req_builder.multipart(multipart_form);

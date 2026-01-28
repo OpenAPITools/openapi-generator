@@ -17,7 +17,12 @@
 package org.openapitools.codegen.protobuf;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.MapSchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.ClientOptInput;
@@ -41,6 +46,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 
 import static org.openapitools.codegen.TestUtils.createCodegenModelWrapper;
 import static org.openapitools.codegen.languages.ProtobufSchemaCodegen.USE_SIMPLIFIED_ENUM_NAMES;
@@ -135,6 +141,64 @@ public class ProtobufSchemaCodegenTest {
         Path path = Paths.get(output + "/models/fruit.proto");
 
         assertFileEquals(path, Paths.get("src/test/resources/3_0/protobuf-schema/fruitAnyOf.proto"));
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testCodeGenWithOneOfDiscriminator31() throws IOException {
+        System.setProperty("line.separator", "\n");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("protobuf-schema")
+                .setInputSpec("src/test/resources/3_1/oneOf.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "models/fruit.proto");
+
+        // Get the processed OpenAPI with wrapper schemas
+        OpenAPI openAPI = clientOptInput.getOpenAPI();
+        ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        Schema fruitSchema = openAPI.getComponents().getSchemas().get("fruit");
+        Assert.assertNotNull(fruitSchema, "fruit schema should exist");
+
+        CodegenModel fruitModel = codegen.fromModel("fruit", fruitSchema);
+        codegen.postProcessModels(createCodegenModelWrapper(fruitModel));
+
+        Assert.assertNotNull(fruitModel.oneOf, "fruit model should have oneOf items");
+        Assert.assertTrue(fruitModel.oneOf.size() >= 2, "fruit model should have at least 2 oneOf items");
+
+        Assert.assertNotNull(fruitModel.vars, "fruit model should have vars");
+        Assert.assertTrue(fruitModel.vars.size() > 0, "fruit model should have at least one var");
+
+        Assert.assertEquals(fruitModel.vars.size(), 3, "fruit model should have 3 vars (one for each oneOf item)");
+
+        for (CodegenProperty var : fruitModel.vars) {
+            Assert.assertNotNull(var.name, "var name should not be null");
+            Assert.assertNotNull(var.dataType, "var dataType should not be null");
+            Assert.assertTrue(var.isModel, "var " + var.name + " should be a model type (isModel=" + var.isModel + ")");
+            Assert.assertFalse(var.isContainer, "var should not be a container (it references a model)");
+
+            // Check expected properties based on discriminator title
+            if (var.name.equals("apple_list")) {
+                Assert.assertEquals(var.dataType, "StringArray", "apple_list should reference StringArray");
+            } else if (var.name.equals("banana_map")) {
+                Assert.assertEquals(var.dataType, "FloatMap", "banana_map should reference FloatMap");
+            } else if (var.name.equals("orange_choice")) {
+                Assert.assertEquals(var.dataType, "Orange", "orange_choice should reference Orange");
+            } else {
+                Assert.fail("Unexpected var name: " + var.name + ". Expected one of: apple_list, banana_map, orange_choice");
+            }
+        }
 
         output.deleteOnExit();
     }
@@ -295,5 +359,51 @@ public class ProtobufSchemaCodegenTest {
         Assert.assertEquals(enumVars1.get(1).get("name"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("value"), "FOO");
         Assert.assertEquals(enumVars1.get(1).get("isString"), false);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that enums in arrays are treated as complex types")
+    public void enumInArrayIsTreatedAsComplexType() {
+        final Schema enumSchema = new StringSchema()._enum(Arrays.asList("APPLE", "BANANA", "ORANGE"));
+        final ArraySchema arraySchema = new ArraySchema();
+        arraySchema.setItems(enumSchema);
+
+        final Schema model = new Schema()
+                .description("a sample model with enum array")
+                .addProperties("fruitList", arraySchema);
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "fruitList");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(description = "Validate that enums in maps are treated as complex types")
+    public void enumInMapIsTreatedAsComplexType() {
+        final Schema enumSchema = new StringSchema()._enum(Arrays.asList("RED", "GREEN", "BLUE"));
+        final MapSchema mapSchema = new MapSchema();
+        mapSchema.setAdditionalProperties(enumSchema);
+
+        final Schema model = new Schema()
+                .description("a sample model with enum map")
+                .addProperties("colorMap", mapSchema);
+
+        final ProtobufSchemaCodegen codegen = new ProtobufSchemaCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.additionalProperties().put(USE_SIMPLIFIED_ENUM_NAMES, true);
+        codegen.processOpts();
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "colorMap");
     }
 }

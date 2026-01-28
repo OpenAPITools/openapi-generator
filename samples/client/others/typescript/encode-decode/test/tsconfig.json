@@ -1,20 +1,21 @@
 {
-  "compilerOptions": {
-      "moduleResolution": "node",
-      "module": "CommonJS",
-      "target": "ES5",
-      "noImplicitAny": true,
-      "sourceMap": false,
-      "outDir": "dist",
-      "types": [
-          "mocha"
-      ],
-      "lib": [
-          "es6",
-          "dom"
-      ]
-  },
-  "exclude": [
-      "node_modules"
-  ]
+    "compilerOptions": {
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
+        "target": "ES2020",
+        "noImplicitAny": true,
+        "sourceMap": false,
+        "outDir": "dist",
+        "types": [
+            "mocha"
+        ],
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "baseUrl": ".",
+    },
+    "exclude": [
+        "node_modules"
+    ]
 }

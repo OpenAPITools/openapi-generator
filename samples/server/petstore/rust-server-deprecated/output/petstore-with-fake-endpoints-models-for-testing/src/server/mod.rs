@@ -1073,7 +1073,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                      Ok(body) => {
                                 // Form parameters
                                 let param_enum_form_string =
-                                    None;
+                                    Some(models::TestEnumParametersRequestEnumFormString::Abc);
                                 let result = api_impl.test_enum_parameters(
                                             param_enum_header_string_array.as_ref(),
                                             param_enum_header_string,

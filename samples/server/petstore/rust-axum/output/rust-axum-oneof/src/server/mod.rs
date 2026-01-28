@@ -1,17 +1,19 @@
 use std::collections::HashMap;
 
 use axum::{body::Body, extract::*, response::Response, routing::*};
-use axum_extra::extract::{CookieJar, Host, Query as QueryExtra};
+use axum_extra::{
+    TypedHeader,
+    extract::{CookieJar, Query as QueryExtra},
+};
 use bytes::Bytes;
+use headers::Host;
 use http::{HeaderMap, HeaderName, HeaderValue, Method, StatusCode, header::CONTENT_TYPE};
 use tracing::error;
 use validator::{Validate, ValidationErrors};
 
-use crate::{header, types::*};
-
 #[allow(unused_imports)]
 use crate::{apis, models};
-
+use crate::{header, types::*};
 #[allow(unused_imports)]
 use crate::{
     models::check_xss_map, models::check_xss_map_nested, models::check_xss_map_string,
@@ -54,7 +56,7 @@ fn foo_validation(
 #[tracing::instrument(skip_all)]
 async fn foo<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<models::Message>,
@@ -134,7 +136,7 @@ fn i211431_validation(body: Vec<i32>) -> std::result::Result<(Vec<i32>,), Valida
 #[tracing::instrument(skip_all)]
 async fn i211431<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<Vec<i32>>,
@@ -218,7 +220,7 @@ fn i211432_validation(body: String) -> std::result::Result<(String,), Validation
 #[tracing::instrument(skip_all)]
 async fn i211432<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<String>,
@@ -301,7 +303,7 @@ fn i211433_validation(body: i32) -> std::result::Result<(i32,), ValidationErrors
 #[tracing::instrument(skip_all)]
 async fn i211433<I, A, E>(
     method: Method,
-    host: Host,
+    TypedHeader(host): TypedHeader<Host>,
     cookies: CookieJar,
     State(api_impl): State<I>,
     Json(body): Json<i32>,

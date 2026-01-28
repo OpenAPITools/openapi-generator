@@ -163,7 +163,7 @@ pub struct LoginUserQueryParams {
 }
 
 lazy_static::lazy_static! {
-    static ref RE_LOGINUSERQUERYPARAMS_USERNAME: regex::Regex = regex::Regex::new(r"^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$").unwrap();
+    static ref RE_LOGINUSERQUERYPARAMS_USERNAME: regex::Regex = regex::Regex::new("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$").unwrap();
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
@@ -356,7 +356,7 @@ pub struct Category {
 }
 
 lazy_static::lazy_static! {
-    static ref RE_CATEGORY_NAME: regex::Regex = regex::Regex::new(r"^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$").unwrap();
+    static ref RE_CATEGORY_NAME: regex::Regex = regex::Regex::new("^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$").unwrap();
 }
 
 impl Category {

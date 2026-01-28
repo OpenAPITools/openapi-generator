@@ -56,6 +56,14 @@ pet_t*
 PetAPI_getPetById(apiClient_t *apiClient, long petId);
 
 
+// Find pet by UUID
+//
+// Returns a single pet identified by UUID
+//
+pet_t*
+PetAPI_getPetByUuid(apiClient_t *apiClient, char *uuid);
+
+
 // Get a random picture of someone else's pet
 //
 binary_t*

@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Document API",
+    "version": "2025-11-25"
+  },
+"paths": {
+  "/documents": {
+    "get": {
+      "tags": [
+        "Document"
+      ],
+      "summary": "Download Document",
+      "operationId": "document-download",
+      "parameters": [
+        {
+          "name": "disposition",
+          "in": "query",
+          "description": "The disposition of the file.",
+          "required": false,
+          "deprecated": false,
+          "schema": {
+            "type": "string",
+            "default": "inline",
+            "enum": [
+              "attachment",
+              "inline"
+            ]
+          }
+        }
+      ],
+        "responses": {
+          "200": {
+            "description": "File content",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -59,10 +59,25 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
-    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-petstore-jvm-vertx'
+            version = '1.0.0'
+            from components.java
+        }
+    }
 }

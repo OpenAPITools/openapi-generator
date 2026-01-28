@@ -786,7 +786,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/myObject"
+                allOf:
+                - $ref: "#/components/schemas/myObject"
+                nullable: true
           description: ""
       tags:
       - fake
@@ -799,7 +801,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/myObject"
+                allOf:
+                - $ref: "#/components/schemas/myObject"
+                nullable: true
           description: ""
       tags:
       - fake
@@ -813,7 +817,9 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/myObject"
+                  allOf:
+                  - $ref: "#/components/schemas/myObject"
+                  nullable: true
                 nullable: true
                 type: array
           description: ""

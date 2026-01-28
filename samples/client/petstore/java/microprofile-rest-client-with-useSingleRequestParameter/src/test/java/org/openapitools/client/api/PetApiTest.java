@@ -188,7 +188,7 @@ public class PetApiTest {
         // TODO: test validations
         Long petId = null;
         String additionalMetadata = null;
-        org.apache.cxf.jaxrs.ext.multipart.Attachment _file = null;
+        File _file = null;
         //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
         //Assertions.assertNotNull(response);
 

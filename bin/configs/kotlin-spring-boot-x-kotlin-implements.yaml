@@ -5,10 +5,11 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
   documentationProvider: none
-  annotationLibrary: none
-  useSwaggerUI: "false"
-  serviceImplementation: "false"
-  skipDefaultInterface: "true"
-  interfaceOnly: "true"
-  serializableModel: "true"
-  beanValidations: "true"
+  annotationLibrary: swagger1
+  useSwaggerUI: false
+  serviceImplementation: false
+  skipDefaultInterface: true
+  interfaceOnly: true
+  serializableModel: true
+  beanValidations: true
+  includeHttpRequestContext: true

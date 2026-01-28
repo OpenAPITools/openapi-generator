@@ -473,9 +473,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                      Ok(body) => {
                                 // Form parameters
                                 let param_required_array =
-                                    None;
+                                    Vec::new();
+                                let param_enum_field =
+                                    models::FormTestRequestEnumField::OneEnum;
                                 let result = api_impl.form_test(
                                             param_required_array.as_ref(),
+                                            param_enum_field,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());

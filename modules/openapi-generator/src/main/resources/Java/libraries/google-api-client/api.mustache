@@ -123,7 +123,13 @@ public class {{classname}} {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content);
+        {{#headerParams}}
+        if ({{paramName}} != null) {
+            httpRequest.getHeaders().set("{{baseName}}", {{paramName}});
+        }
+        {{/headerParams}}
+        return httpRequest.execute();
     }{{#bodyParam}}
 
       {{#isDeprecated}}
@@ -159,7 +165,13 @@ public class {{classname}} {
               HttpContent content = {{#bodyParam}}{{paramName}} == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
                 new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, {{paramName}}){{/bodyParam}};
-              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
+              com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content);
+              {{#headerParams}}
+              if ({{paramName}} != null) {
+                  httpRequest.getHeaders().set("{{baseName}}", {{paramName}});
+              }
+              {{/headerParams}}
+              return httpRequest.execute();
       }{{/bodyParam}}
 
     {{#isDeprecated}}
@@ -201,7 +213,21 @@ public class {{classname}} {
         GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
         HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
+        com.google.api.client.http.HttpRequest httpRequest = apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content);
+        {{#hasHeaderParams}}
+        // Note: Header params passed via 'params' map are handled below
+        for (Map.Entry<String, Object> entry: params.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            // Check if this is a header parameter by name
+            {{#headerParams}}
+            if ("{{baseName}}".equals(key) && value != null) {
+                httpRequest.getHeaders().set(key, value);
+            }
+            {{/headerParams}}
+        }
+        {{/hasHeaderParams}}
+        return httpRequest.execute();
     }
 
 

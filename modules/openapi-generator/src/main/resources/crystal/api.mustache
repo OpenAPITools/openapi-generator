@@ -131,7 +131,7 @@ module {{moduleName}}
       cookie_params = Hash(String, String).new
 
       # query parameters
-      query_params = Hash(String, String).new
+      query_params = Hash(String, String | Array(String)).new
       {{#queryParams}}
       query_params["{{{baseName}}}"] = {{#collectionFormat}}@api_client.build_collection_param({{{paramName}}}, :{{{collectionFormat}}}) unless {{{paramName}}}.nil?{{/collectionFormat}}{{^collectionFormat}}{{{paramName}}}.to_s unless {{{paramName}}}.nil?{{/collectionFormat}}
       {{/queryParams}}
@@ -159,25 +159,25 @@ module {{moduleName}}
       # http body (model)
       post_body = {{#bodyParam}}{{{paramName}}}.to_json{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}}
 
-      # return_type
-      return_type = {{#returnType}}"{{{.}}}"{{/returnType}}{{^returnType}}nil{{/returnType}}
-
       # auth_names
       auth_names = {{#authMethods}}{{#-first}}[{{/-first}}"{{name}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/authMethods}}{{^authMethods}}[] of String{{/authMethods}}
 
-      data, status_code, headers = @api_client.call_api(:{{httpMethod}},
-                                                        local_var_path,
-                                                        :"{{classname}}.{{operationId}}",
-                                                        return_type,
-                                                        post_body,
-                                                        auth_names,
-                                                        header_params,
-                                                        query_params,
-                                                        cookie_params,
-                                                        form_params)
+      data, status_code, headers = @api_client.call_api(
+        http_method: :{{httpMethod}},
+        path: local_var_path,
+        operation: :"{{classname}}.{{operationId}}",
+        post_body: post_body,
+        auth_names: auth_names,
+        header_params: header_params,
+        query_params: query_params,
+        cookie_params: cookie_params,
+        form_params: form_params
+      )
+
       if @api_client.config.debugging
         Log.debug {"API called: {{classname}}#{{operationId}}\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"}
       end
+
       return {{#returnType}}{{{.}}}.from_json(data){{/returnType}}{{^returnType}}nil{{/returnType}}, status_code, headers
     end
 {{^-last}}

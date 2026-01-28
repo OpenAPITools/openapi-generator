@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - samples/client/others/typescript-angular/**
+      - samples/client/others/typescript-angular-v20/**
       # comment out angular released before Nov 2023
       #- samples/client/petstore/typescript-angular-v12-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
@@ -14,6 +15,7 @@ on:
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
       - samples/openapi3/client/petstore/typescript/builds/default/**
       # comment out due to build failure
       #- samples/openapi3/client/petstore/typescript/tests/default/**
@@ -43,6 +45,7 @@ on:
   pull_request:
     paths:
       - samples/client/others/typescript-angular/**
+      - samples/client/others/typescript-angular-v20/**
       #- samples/client/petstore/typescript-angular-v12-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v13-provided-in-root/**
       #- samples/client/petstore/typescript-angular-v14-provided-in-root/**
@@ -52,6 +55,7 @@ on:
       - samples/client/petstore/typescript-angular-v18-provided-in-root/**
       - samples/client/petstore/typescript-angular-v19-provided-in-root/**
       - samples/client/petstore/typescript-angular-v20-provided-in-root/**
+      - samples/client/petstore/typescript-angular-v21-provided-in-root/**
       - samples/openapi3/client/petstore/typescript/builds/default/**
       #- samples/openapi3/client/petstore/typescript/tests/default/**
       - samples/openapi3/client/petstore/typescript/builds/jquery/**
@@ -92,6 +96,7 @@ jobs:
           - "20.x"
         sample:
           - samples/client/others/typescript-angular/
+          - samples/client/others/typescript-angular-v20/
           #- samples/client/petstore/typescript-angular-v12-provided-in-root/
           #- samples/client/petstore/typescript-angular-v13-provided-in-root/
           #- samples/client/petstore/typescript-angular-v14-provided-in-root/
@@ -101,6 +106,7 @@ jobs:
           - samples/client/petstore/typescript-angular-v18-provided-in-root/
           - samples/client/petstore/typescript-angular-v19-provided-in-root/
           - samples/client/petstore/typescript-angular-v20-provided-in-root/
+          - samples/client/petstore/typescript-angular-v21-provided-in-root/
           - samples/openapi3/client/petstore/typescript/builds/default/
           #- samples/openapi3/client/petstore/typescript/tests/default/
           - samples/openapi3/client/petstore/typescript/builds/jquery/

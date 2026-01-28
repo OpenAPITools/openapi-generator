@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct TypeHolderDefault: Sendable, Codable, ParameterConvertible {
+internal struct TypeHolderDefault: Sendable, Codable {
 
     internal private(set) var stringItem: String = "what"
     internal private(set) var numberItem: Double

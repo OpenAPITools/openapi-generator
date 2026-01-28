@@ -28,7 +28,7 @@ import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.infrastructure.*
 
-class FormApi(client: WebClient) : ApiClient(client) {
+open class FormApi(client: WebClient) : ApiClient(client) {
 
     constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
@@ -43,7 +43,7 @@ class FormApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testFormIntegerBooleanString(integerForm: kotlin.Int? = null, booleanForm: kotlin.Boolean? = null, stringForm: kotlin.String? = null): Mono<kotlin.String> {
         return testFormIntegerBooleanStringWithHttpInfo(integerForm = integerForm, booleanForm = booleanForm, stringForm = stringForm)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)
@@ -81,7 +81,7 @@ class FormApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testFormOneof(form1: kotlin.String? = null, form2: kotlin.Int? = null, form3: kotlin.String? = null, form4: kotlin.Boolean? = null, id: kotlin.Long? = null, name: kotlin.String? = null): Mono<kotlin.String> {
         return testFormOneofWithHttpInfo(form1 = form1, form2 = form2, form3 = form3, form4 = form4, id = id, name = name)
-            .map { it.body }
+            .map { it.body!! }
     }
 
     @Throws(WebClientResponseException::class)

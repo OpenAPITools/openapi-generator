@@ -16,8 +16,9 @@ import javax.validation.Valid;
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
+@Path("/fake_classname_test")
 @Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.18.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface FakeClassnameTestApi {
 
     /**
@@ -27,7 +28,6 @@ public interface FakeClassnameTestApi {
      * @return successful operation
      */
     @PATCH
-    @Path("/fake_classname_test")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", authorizations = {

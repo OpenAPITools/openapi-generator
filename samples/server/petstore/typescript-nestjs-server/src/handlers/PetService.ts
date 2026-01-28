@@ -3,9 +3,13 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@nestjs/common';
 import { PetApi } from '../../builds/default/api';
 import { ApiResponse, Pet } from '../../builds/default/models';
+import { TestService } from '../TestService'
 
 @Injectable()
 export class PetService implements PetApi {
+
+  constructor(private readonly testService: TestService) {}
+
   addPet(pet: Pet, request: Request): Pet | Promise<Pet> | Observable<Pet> {
     console.log(JSON.stringify(pet));
     return pet;
