@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public final class Client: Content, Hashable {
+public struct Client: Sendable, Content, Hashable {
 
     public var client: String?
 
@@ -25,16 +25,6 @@ public final class Client: Content, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(client, forKey: .client)
-    }
-
-    public static func == (lhs: Client, rhs: Client) -> Bool {
-        lhs.client == rhs.client
-        
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(client?.hashValue)
-        
     }
 }
 

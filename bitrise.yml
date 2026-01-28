@@ -28,15 +28,6 @@ workflows:
 
             ./samples/client/petstore/swift6/swift6_test_all.sh
     - script@1.2.0:
-        title: Run Swift5 tests
-        inputs:
-        - content: |
-            #!/usr/bin/env bash
-
-            set -e
-
-            ./samples/client/petstore/swift5/swift5_test_all.sh
-    - script@1.2.0:
         title: Run swift-combine tests
         inputs:
         - content: |

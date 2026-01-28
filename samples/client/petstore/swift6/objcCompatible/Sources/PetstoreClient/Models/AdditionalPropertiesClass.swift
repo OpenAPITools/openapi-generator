@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class AdditionalPropertiesClass: NSObject, Codable {
+@objcMembers public final class AdditionalPropertiesClass: NSObject, Codable, @unchecked Sendable {
 
     public var mapString: [String: String]?
     public var mapMapString: [String: [String: String]]?

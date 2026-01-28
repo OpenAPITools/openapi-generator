@@ -19,6 +19,12 @@ namespace Org.OpenAPITools
     /// </summary>
     public abstract class TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        public abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default);
+        /// <summary>
+        /// Gets a token asynchronously for the specified header.
+        /// </summary>
+        /// <param name="header">The header name to retrieve a token for. Empty string for non-API-key authentication schemes.</param>
+        /// <param name="cancellation">Cancellation token for the asynchronous operation.</param>
+        /// <returns>A task that returns the requested token.</returns>
+        protected internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default);
     }
 }

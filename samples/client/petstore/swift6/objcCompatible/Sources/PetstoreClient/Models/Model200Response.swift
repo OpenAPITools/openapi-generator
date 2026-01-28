@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-@objcMembers public class Model200Response: NSObject, Codable {
+@objcMembers public final class Model200Response: NSObject, Codable, @unchecked Sendable {
 
     public var name: Int?
     public var nameNum: NSNumber? {

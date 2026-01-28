@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class FileSchemaTestClass: NSObject, Codable {
+@objcMembers public final class FileSchemaTestClass: NSObject, Codable, @unchecked Sendable {
 
     public var file: File?
     public var files: [File]?

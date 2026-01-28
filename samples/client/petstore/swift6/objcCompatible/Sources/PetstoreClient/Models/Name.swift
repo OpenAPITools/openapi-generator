@@ -8,7 +8,7 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-@objcMembers public class Name: NSObject, Codable {
+@objcMembers public final class Name: NSObject, Codable, @unchecked Sendable {
 
     public var name: Int
     public var snakeCase: NullEncodable<Int> = .encodeValue(11033)
