@@ -9,13 +9,13 @@ By using the [OpenAPI-Spec](https://openapis.org), you can easily generate an AP
 This is an example of building API stub interfaces in Java using the Spring framework.
 
 The stubs generated can be used in your existing Spring application for HTTP integration with other REST services
-To use auto-generated interfaces you have to create your own configuration which extends default abstract configurator & provide `WebClient` instance via constructor
+To use auto-generated interfaces you have to create your own configuration which extends default abstract configurator & provide `WebClientWebClientRestClient` instance via constructor
 ```java
 @Configuration
 public class MyConfiguration extends org.openapitools.configuration.HttpInterfacesAbstractConfigurator {
 
-    public MyConfiguration(WebClient myWebClient) { // separately created WebClient instance
-        super(myWebClient);
+    public MyConfiguration(WebClient client) {
+        super(client);
     }
 }
 ```

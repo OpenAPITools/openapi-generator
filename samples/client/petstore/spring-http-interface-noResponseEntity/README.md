@@ -14,8 +14,8 @@ To use auto-generated interfaces you have to create your own configuration which
 @Configuration
 public class MyConfiguration extends org.openapitools.configuration.HttpInterfacesAbstractConfigurator {
 
-    public MyConfiguration(WebClient myWebClient) { // separately created WebClient instance
-        super(myWebClient);
+    public MyConfiguration(RestClient client) {
+        super(client);
     }
 }
 ```

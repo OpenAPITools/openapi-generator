@@ -36,7 +36,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -128,7 +128,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -180,27 +184,44 @@
             <version>3.0.2</version>
         </dependency>
         <dependency>
+        {{#useJackson3}}
+            <groupId>tools.jackson.dataformat</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
             <groupId>com.fasterxml.jackson.dataformat</groupId>
+        {{/useJackson3}}
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
-          <groupId>jakarta.xml.bind</groupId>
-          <artifactId>jakarta.xml.bind-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
         <dependency>
+        {{#useJackson3}}
+            <groupId>tools.jackson.dataformat</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
           <groupId>com.fasterxml.jackson.dataformat</groupId>
+        {{/useJackson3}}
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        {{/useJackson3}}
         {{#joda}}
         <dependency>
+        {{#useJackson3}}
+            <groupId>tools.jackson.datatype</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
             <groupId>com.fasterxml.jackson.datatype</groupId>
+        {{/useJackson3}}
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
@@ -247,12 +268,22 @@
         </dependency>
 {{/lombok}}
         <dependency>
+        {{#useJackson3}}
+            <groupId>tools.jackson.core</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
             <groupId>com.fasterxml.jackson.core</groupId>
+        {{/useJackson3}}
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

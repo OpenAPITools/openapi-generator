@@ -6223,4 +6223,61 @@ public class SpringCodegenTest {
                                                                          ));
     }
 
+    @Test
+    public void testUniqueItemsImportsJackson2JsonDeserialize() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .hasImports("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+    }
+
+    @Test
+    public void testUniqueItemsImportsJackson3JsonDeserialize() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+
+        codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .hasImports("tools.jackson.databind.annotation.JsonDeserialize");
+    }
+
 }
