@@ -1,0 +1,15 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-x-implements-skip
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  documentationProvider: springfox
+  artifactId: springboot
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"
+  camelCaseDollarSign: "true"
+  modelNameSuffix: 'Dto'
+  xImplementsSkip: [ com.custompackage.InterfaceToSkip ]
+  schemaImplements:
+    Foo: [ com.custompackage.WithBar, com.custompackage.WithDefaultMethod ]
+    Animal: com.custompackage.WithColor
