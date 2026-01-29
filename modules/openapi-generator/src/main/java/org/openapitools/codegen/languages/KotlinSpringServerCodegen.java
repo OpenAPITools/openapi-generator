@@ -247,6 +247,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_RESPONSE_ENTITY,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity);
+        addOption(X_KOTLIN_IMPLEMENTS_SKIP, "A list of fully qualified interfaces that should NOT be implemented despite their presence in vendor extension `x-kotlin-implements`", "empty array");
+        addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema", "empty map of arrays by schema names");
+        addOption(SCHEMA_IMPLEMENTS, "A list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec)", "empty array");
+        addOption(SCHEMA_IMPLEMENTS_FIELDS, "A list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec)",
+                "empty map of arrays by schema names");
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
