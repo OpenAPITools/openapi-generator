@@ -968,11 +968,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
-
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-            model.imports.add("Nullable");
-        }
     }
 
     @Override
@@ -987,6 +982,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
             // remove swagger imports
             codegenModel.imports.remove("Schema");
+        }
+
+        // Add Nullable import for all models including array-type models (issue #22788)
+        if (getName().contains("spring")) {
+            codegenModel.imports.add("Nullable");
         }
 
         return codegenModel;
