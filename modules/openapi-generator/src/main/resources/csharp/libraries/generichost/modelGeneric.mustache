@@ -1,7 +1,7 @@
     /// <summary>
     /// {{description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    {{>visibility}} partial class {{classname}}{{#lambda.firstDot}}{{#parent}} : .{{/parent}}{{#validatable}} : .{{/validatable}}{{#equatable}}{{#readOnlyVars}}{{#-first}} : .{{/-first}}{{/readOnlyVars}}{{/equatable}}{{/lambda.firstDot}}{{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{>ImplementsIEquatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
+    {{>visibility}} partial class {{classname}}{{#lambda.firstDot}}{{#parent}} : .{{/parent}}{{#validatable}} : .{{/validatable}}{{#equatable}} : {{/equatable}}{{/lambda.firstDot}}{{#lambda.joinWithComma}}{{#parent}}{{{.}}}  {{/parent}}{{>ImplementsIEquatable}}{{#validatable}}IValidatableObject  {{/validatable}}{{/lambda.joinWithComma}}
     {
         {{#composedSchemas.oneOf}}
         {{^vendorExtensions.x-duplicated-data-type}}
@@ -281,8 +281,6 @@
             return sb.ToString();
         }
         {{#equatable}}
-        {{#readOnlyVars}}
-        {{#-first}}
 
         /// <summary>
         /// Returns true if objects are equal
@@ -311,29 +309,28 @@
             {{/useCompareNetObjects}}
             {{^useCompareNetObjects}}
             if (input == null)
+            {
                 return false;
-
-            return {{#parent}}base.Equals(input) && {{/parent}}{{#readOnlyVars}}{{^isInherited}}{{^isContainer}}
+            }
+            return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
-                    {{name}} == input.{{name}} ||
+                    this.{{name}} == input.{{name}} ||
                     {{^vendorExtensions.x-is-value-type}}
-                    ({{name}} != null &&
-                    {{name}}.Equals(input.{{name}}))
+                    (this.{{name}} != null &&
+                    this.{{name}}.Equals(input.{{name}}))
                     {{/vendorExtensions.x-is-value-type}}
                     {{#vendorExtensions.x-is-value-type}}
-                    {{name}}.Equals(input.{{name}})
+                    this.{{name}}.Equals(input.{{name}})
                     {{/vendorExtensions.x-is-value-type}}
                 ){{^-last}} && {{/-last}}{{/isContainer}}{{#isContainer}}
                 (
-                    {{name}} == input.{{name}} ||
-                    {{^vendorExtensions.x-is-value-type}}{{name}} != null &&
+                    this.{{name}} == input.{{name}} ||
+                    {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
-                    {{/vendorExtensions.x-is-value-type}}{{name}}.SequenceEqual(input.{{name}})
-                ){{^-last}} && {{/-last}}{{/isContainer}}{{/isInherited}}{{/readOnlyVars}}{{^readOnlyVars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/readOnlyVars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                    {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
+                ){{^-last}} && {{/-last}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
                 {{#isAdditionalPropertiesTrue}}
-                {{^parentModel}}
-                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
-                {{/parentModel}}
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
                 {{/isAdditionalPropertiesTrue}}
             {{/useCompareNetObjects}}
         }
@@ -352,14 +349,14 @@
                 {{^parent}}
                 int hashCode = 41;
                 {{/parent}}
-                {{#readOnlyVars}}
+                {{#vars}}
                 {{#required}}
                 {{^isNullable}}
                 hashCode = (hashCode * 59) + {{name}}.GetHashCode();
                 {{/isNullable}}
                 {{/required}}
-                {{/readOnlyVars}}
-                {{#readOnlyVars}}
+                {{/vars}}
+                {{#vars}}
                 {{#lambda.copy}}
                 if ({{name}} != null)
                     hashCode = (hashCode * 59) + {{name}}.GetHashCode();
@@ -373,7 +370,7 @@
                 {{#lambda.pasteOnce}}
                 {{/lambda.pasteOnce}}
                 {{/required}}
-                {{/readOnlyVars}}
+                {{/vars}}
                 {{#isAdditionalPropertiesTrue}}
                 {{^parentModel}}
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
@@ -383,8 +380,6 @@
                 return hashCode;
             }
         }
-        {{/-first}}
-        {{/readOnlyVars}}
         {{/equatable}}
 {{#validatable}}
 {{^parentModel}}
