@@ -984,10 +984,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("Schema");
         }
 
-        // Add Nullable import for all models including array-type models (issue #22788)
-        if (getName().contains("spring")) {
-            codegenModel.imports.add("Nullable");
-        }
+        addSpringNullableImport(codegenModel.imports);
 
         return codegenModel;
     }
@@ -1052,11 +1049,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
-              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
-        }
+        addSpringNullableImportForOperation(codegenOperation);
 
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -1218,5 +1211,24 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
+    }
+
+    private boolean isSpringCodegen() {
+        return getName().contains("spring");
+    }
+
+    private void addSpringNullableImport(Set<String> imports) {
+        if (isSpringCodegen()) {
+            imports.add("Nullable");
+        }
+    }
+
+    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
+        if (isSpringCodegen()) {
+            codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+        }
     }
 }
