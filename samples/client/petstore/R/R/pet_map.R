@@ -81,7 +81,6 @@ PetMap <- R6::R6Class(
       return(PetMapObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of PetMap
     #'

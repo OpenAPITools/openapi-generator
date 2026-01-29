@@ -81,7 +81,6 @@ BasquePig <- R6::R6Class(
       return(BasquePigObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of BasquePig
     #'

@@ -108,7 +108,6 @@ ModelApiResponse <- R6::R6Class(
       return(ModelApiResponseObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of ModelApiResponse
     #'

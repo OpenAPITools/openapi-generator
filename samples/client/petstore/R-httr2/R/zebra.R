@@ -84,7 +84,6 @@ Zebra <- R6::R6Class(
       return(ZebraObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Zebra
     #'

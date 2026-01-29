@@ -68,7 +68,6 @@ TestFormObjectMultipartRequestMarker <- R6::R6Class(
       return(TestFormObjectMultipartRequestMarkerObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of TestFormObjectMultipartRequestMarker
     #'

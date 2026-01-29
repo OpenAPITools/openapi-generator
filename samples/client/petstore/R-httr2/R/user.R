@@ -159,7 +159,6 @@ User <- R6::R6Class(
       return(UserObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of User
     #'

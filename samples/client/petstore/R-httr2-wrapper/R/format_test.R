@@ -255,7 +255,6 @@ FormatTest <- R6::R6Class(
       return(FormatTestObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of FormatTest
     #'

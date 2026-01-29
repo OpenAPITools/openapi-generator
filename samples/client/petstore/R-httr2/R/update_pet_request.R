@@ -76,7 +76,7 @@ UpdatePetRequest <- R6::R6Class(
       return(UpdatePetRequestObject)
     },
 
-    extractSimpleType = function(x) {
+    extractSimpleType = function(x) git{
       if (R6::is.R6(x)) {
         return(x$toSimpleType())
       } else if (!self$hasNestedR6(x)) {

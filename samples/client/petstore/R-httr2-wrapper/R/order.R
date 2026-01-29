@@ -150,7 +150,6 @@ Order <- R6::R6Class(
       return(OrderObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Order
     #'

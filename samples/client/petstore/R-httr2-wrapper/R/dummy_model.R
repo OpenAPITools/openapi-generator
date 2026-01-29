@@ -82,7 +82,6 @@ DummyModel <- R6::R6Class(
       return(DummyModelObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of DummyModel
     #'

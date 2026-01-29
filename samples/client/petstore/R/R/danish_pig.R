@@ -95,7 +95,6 @@ DanishPig <- R6::R6Class(
       return(DanishPigObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of DanishPig
     #'

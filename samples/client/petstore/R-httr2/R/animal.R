@@ -83,7 +83,6 @@ Animal <- R6::R6Class(
       return(AnimalObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Animal
     #'

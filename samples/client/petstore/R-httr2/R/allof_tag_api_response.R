@@ -120,7 +120,6 @@ AllofTagApiResponse <- R6::R6Class(
       return(AllofTagApiResponseObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of AllofTagApiResponse
     #'

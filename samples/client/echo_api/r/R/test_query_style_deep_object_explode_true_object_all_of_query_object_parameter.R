@@ -107,7 +107,6 @@ TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter <- R6::R6Clas
       return(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameterObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
     #'

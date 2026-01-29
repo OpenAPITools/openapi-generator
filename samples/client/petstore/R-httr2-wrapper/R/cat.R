@@ -109,7 +109,6 @@ Cat <- R6::R6Class(
       return(CatObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Cat
     #'

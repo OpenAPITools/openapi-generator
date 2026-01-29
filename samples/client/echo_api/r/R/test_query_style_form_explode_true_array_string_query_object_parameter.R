@@ -67,7 +67,6 @@ TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter <- R6::R6Class(
       return(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     #'

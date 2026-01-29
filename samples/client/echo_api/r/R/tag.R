@@ -81,7 +81,6 @@ Tag <- R6::R6Class(
       return(TagObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Tag
     #'

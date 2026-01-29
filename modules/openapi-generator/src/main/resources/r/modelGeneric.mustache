@@ -272,8 +272,8 @@
       {{/isAdditionalPropertiesTrue}}
       return({{classname}}Object)
     },
-
     {{#vendorExtensions.x-r-has-non-primitive-field}}
+
     extractSimpleType = function(x) git{
       if (R6::is.R6(x)) {
         return(x$toSimpleType())

@@ -95,7 +95,6 @@ Dog <- R6::R6Class(
       return(DogObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Dog
     #'

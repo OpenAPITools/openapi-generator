@@ -120,7 +120,6 @@ DataQuery <- R6::R6Class(
       return(DataQueryObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of DataQuery
     #'

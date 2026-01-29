@@ -81,7 +81,6 @@ Category <- R6::R6Class(
       return(CategoryObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Category
     #'

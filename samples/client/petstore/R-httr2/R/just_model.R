@@ -68,7 +68,6 @@ JustModel <- R6::R6Class(
       return(JustModelObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of JustModel
     #'

@@ -81,7 +81,6 @@ Bird <- R6::R6Class(
       return(BirdObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Bird
     #'

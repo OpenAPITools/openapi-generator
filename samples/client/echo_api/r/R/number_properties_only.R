@@ -91,7 +91,6 @@ NumberPropertiesOnly <- R6::R6Class(
       return(NumberPropertiesOnlyObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of NumberPropertiesOnly
     #'

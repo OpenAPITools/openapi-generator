@@ -108,7 +108,6 @@ Whale <- R6::R6Class(
       return(WhaleObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Whale
     #'

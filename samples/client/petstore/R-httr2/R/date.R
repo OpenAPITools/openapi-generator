@@ -98,7 +98,6 @@ Date <- R6::R6Class(
       return(DateObject)
     },
 
-
     #' @description
     #' Deserialize JSON string into an instance of Date
     #'
