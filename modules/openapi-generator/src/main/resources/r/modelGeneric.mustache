@@ -273,7 +273,8 @@
       return({{classname}}Object)
     },
 
-    extractSimpleType = function(x) {
+    {{#vendorExtensions.x-r-has-non-primitive-field}}
+    extractSimpleType = function(x) git{
       if (R6::is.R6(x)) {
         return(x$toSimpleType())
       } else if (!self$hasNestedR6(x)) {
@@ -295,6 +296,7 @@
       }
       FALSE
     },
+    {{/vendorExtensions.x-r-has-non-primitive-field}}
 
     #' @description
     #' Deserialize JSON string into an instance of {{{classname}}}
