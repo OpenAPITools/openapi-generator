@@ -22,7 +22,7 @@ import type { AddPetRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
   console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
-  const config = new Configuration({
+  const config = new Configuration({ 
     // To configure OAuth2 access token for authorization: petstore_auth implicit
     accessToken: "YOUR ACCESS TOKEN",
   });
@@ -96,7 +96,7 @@ Authentication schemes defined for the API:
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
-- **Scopes**:
+- **Scopes**: 
   - `write:pets`: modify pets in your account
   - `read:pets`: read your pets
 <a id="api_key"></a>
