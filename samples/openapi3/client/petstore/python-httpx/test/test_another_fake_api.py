@@ -17,16 +17,16 @@ import unittest
 from petstore_api.api.another_fake_api import AnotherFakeApi
 
 
-class TestAnotherFakeApi(unittest.TestCase):
+class TestAnotherFakeApi(unittest.IsolatedAsyncioTestCase):
     """AnotherFakeApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = AnotherFakeApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_call_123_test_special_tags(self) -> None:
+    async def test_call_123_test_special_tags(self) -> None:
         """Test case for call_123_test_special_tags
 
         To test special tags
