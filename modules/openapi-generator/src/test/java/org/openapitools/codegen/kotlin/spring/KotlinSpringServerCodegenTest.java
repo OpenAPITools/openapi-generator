@@ -1041,6 +1041,40 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateSerializableModelWithXimplementsSkip() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) val likesFetch: kotlin.Boolean,",
+                ") : Pet, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
     public void generateSerializableModelWithSchemaImplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -1093,7 +1127,7 @@ public class KotlinSpringServerCodegenTest {
         Path pet = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
                 pet,
-                "interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {",
+                "interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, com.some.pack.WithPhotoUrls, java.io.Serializable {",
                 "override val name: kotlin.String",
                 "val photoUrls: kotlin.collections.List<kotlin.String>",
                 "val petType: kotlin.String",
@@ -1110,6 +1144,45 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
                 "@get:JsonProperty(\"name\") override val name: kotlin.String? = null",
                 ") : com.some.pack.CategoryInterface, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateSerializableModelWithXimplementsSkipAndSchemaImplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        //remove the old interface with likesFetch attribute here
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+        //and add a new one that again should mark likesFetch as override
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of("Dog", List.of("com.some.different.pack.MyOwnFetchable")
+        ));
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS_FIELDS, Map.of("Dog", List.of("likesFetch")));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.different.pack.MyOwnFetchable, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
