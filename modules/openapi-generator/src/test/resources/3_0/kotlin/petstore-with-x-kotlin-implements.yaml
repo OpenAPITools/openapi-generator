@@ -509,8 +509,8 @@ components:
         mapping:
           Dog: '#/components/schemas/Dog'
           Cat: '#/components/schemas/Cat'
-      x-kotlin-implements: [ com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods ]
-      x-kotlin-implements-fields: [ name, category ]
+      x-kotlin-implements: [ com.some.pack.Named, com.some.pack.WithPhotoUrls, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods ]
+      x-kotlin-implements-fields: [ name, category, photoUrls ]
       required:
         - name
         - photoUrls

@@ -21,3 +21,6 @@ additionalProperties:
     Pet: id
     Category: [ name, id ]
     Dog: [ bark, breed ]
+  xKotlinImplementsSkip: [ com.some.pack.WithPhotoUrls ]
+  xKotlinImplementsFieldsSkip:
+    Pet: [ photoUrls ]

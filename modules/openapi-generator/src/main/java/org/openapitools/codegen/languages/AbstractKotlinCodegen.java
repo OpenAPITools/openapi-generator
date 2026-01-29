@@ -58,6 +58,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
+    public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";
+    public static final String X_KOTLIN_IMPLEMENTS_FIELDS_SKIP = "xKotlinImplementsFieldsSkip";
 
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 
@@ -96,6 +98,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Getter
     @Setter
     protected Map<String, List<String>> schemaImplementsFields = new HashMap<>();
+    @Getter
+    @Setter
+    protected List<String> xKotlinImplementsSkip = new ArrayList<>();
+    @Getter
+    @Setter
+    protected Map<String, List<String>> xKotlinImplementsFieldsSkip = new HashMap<>();
 
     public AbstractKotlinCodegen() {
         super();
@@ -529,6 +537,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (additionalProperties.containsKey(SCHEMA_IMPLEMENTS_FIELDS)) {
             this.setSchemaImplementsFields(getPropertyAsStringListMap(SCHEMA_IMPLEMENTS_FIELDS));
         }
+        if (additionalProperties.containsKey(X_KOTLIN_IMPLEMENTS_SKIP)) {
+            this.setXKotlinImplementsSkip(getPropertyAsStringList(X_KOTLIN_IMPLEMENTS_SKIP));
+        }
+        if (additionalProperties.containsKey(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP)) {
+            this.setXKotlinImplementsFieldsSkip(getPropertyAsStringListMap(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP));
+        }
 
         additionalProperties.put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, getSortParamsByRequiredFlag());
         additionalProperties.put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, getSortModelPropertiesByRequiredFlag());
@@ -857,27 +871,48 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         List<String> schemaImplementedInterfacesClasses = this.getSchemaImplements().getOrDefault(m.getSchemaName(), List.of());
         List<String> schemaImplementedInterfacesFields = this.getSchemaImplementsFields().getOrDefault(m.getSchemaName(), List.of());
         List<String> vendorExtensionImplementedInterfacesClasses = (List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS.getName());
+        List<String> interfacesToSkip = this.getXKotlinImplementsSkip().stream()
+                .filter(vendorExtensionImplementedInterfacesClasses::contains)
+                .collect(Collectors.toList());
+        if (!interfacesToSkip.isEmpty()) {
+            LOGGER.info("Interface(s) {} in model {} are skipped from being marked as implemented via additional property '{}'.",
+                    interfacesToSkip, name, X_KOTLIN_IMPLEMENTS_SKIP);
+        }
+        List<String> vendorExtensionImplementedInterfacesClassesFiltered = vendorExtensionImplementedInterfacesClasses.stream()
+                .filter(interfaceName -> !interfacesToSkip.contains(interfaceName))
+                .collect(Collectors.toList());
         List<String> vendorExtensionImplementedInterfacesFields = Optional.ofNullable((List<String>) m.getVendorExtensions().get(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName()))
                 .map(xKotlinImplementsFields -> {
-                    if (vendorExtensionImplementedInterfacesClasses.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
+                    if (vendorExtensionImplementedInterfacesClassesFiltered.isEmpty() && !xKotlinImplementsFields.isEmpty()) {
                         LOGGER.warn("Annotating {} with {} without {} is not supported. {} will be ignored.",
                                 name, VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName(), VendorExtension.X_KOTLIN_IMPLEMENTS.getName(),
                                 VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS.getName());
                     }
                     return xKotlinImplementsFields;
                 }).orElse(List.of());
-        List<String> combinedImplementedInterfacesClasses = Stream.concat(vendorExtensionImplementedInterfacesClasses.stream(), schemaImplementedInterfacesClasses.stream())
+        List<String> fieldsToSkip = this.getXKotlinImplementsFieldsSkip().getOrDefault(m.getSchemaName(), List.of())
+                .stream()
+                .filter(vendorExtensionImplementedInterfacesFields::contains)
+                .collect(Collectors.toList());
+        if (!fieldsToSkip.isEmpty()) {
+            LOGGER.info("Field(s) {} in model {} are skipped from being marked as inherited via additional property '{}'.",
+                    fieldsToSkip, name, X_KOTLIN_IMPLEMENTS_FIELDS_SKIP);
+        }
+        List<String> vendorExtensionImplementedInterfacesFieldsFiltered = vendorExtensionImplementedInterfacesFields.stream()
+                .filter(interfaceName -> !fieldsToSkip.contains(interfaceName))
+                .collect(Collectors.toList());
+        List<String> combinedImplementedInterfacesClasses = Stream.concat(vendorExtensionImplementedInterfacesClassesFiltered.stream(), schemaImplementedInterfacesClasses.stream())
                 .distinct()
                 .sorted()
                 .collect(Collectors.toList());
-        List<String> combinedImplementedInterfacesFields = Stream.concat(vendorExtensionImplementedInterfacesFields.stream(), schemaImplementedInterfacesFields.stream())
+        List<String> combinedImplementedInterfacesFields = Stream.concat(vendorExtensionImplementedInterfacesFieldsFiltered.stream(), schemaImplementedInterfacesFields.stream())
                 .distinct()
                 .collect(Collectors.toList());
         if (serializableModel && !combinedImplementedInterfacesClasses.contains("java.io.Serializable")) {
             combinedImplementedInterfacesClasses.add("java.io.Serializable");
         }
         m.getVendorExtensions().replace(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), combinedImplementedInterfacesClasses);
-        LOGGER.info("Model {} implements interfaces: {}", name, combinedImplementedInterfacesClasses);
+        LOGGER.info("Model {} implements interface(s): {}", name, combinedImplementedInterfacesClasses);
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         // Update allVars/requiredVars/optionalVars with isInherited
         // Each of these lists contains elements that are similar, but they are all cloned
