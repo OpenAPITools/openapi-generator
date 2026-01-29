@@ -7,7 +7,7 @@
 import Foundation
 import Alamofire
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class AlamofireRequestBuilderFactory: RequestBuilderFactory {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class AlamofireRequestBuilderFactory: RequestBuilderFactory, Sendable {
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init() {}
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type {
@@ -27,7 +27,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T>: RequestBuilder<T>, @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
     required {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: {{projectName}}APIConfiguration = {{projectName}}APIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
@@ -255,7 +255,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
 
 }
 
-{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireDecodableRequestBuilder<T: Decodable & Sendable>: AlamofireRequestBuilder<T>, @unchecked Sendable {
 
     override fileprivate func processRequest(request: DataRequest, managerId: String, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
         if let credential = self.credential {

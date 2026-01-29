@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objcMembers public class Tag: NSObject, Codable {
+@objcMembers public final class Tag: NSObject, Codable, @unchecked Sendable {
 
     public var _id: Int64?
     public var _idNum: NSNumber? {
