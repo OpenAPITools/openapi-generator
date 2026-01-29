@@ -88,6 +88,10 @@ public class CodegenDiscriminator {
             this.explicitMapping = explicitMapping;
         }
 
+        public boolean isExplicitMapping() {
+            return explicitMapping;
+        }
+
         public MappedModel(String mappingName, String modelName) {
             this(mappingName, modelName, false);
         }

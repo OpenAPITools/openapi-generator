@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |aggregateModelsName|Aggregated model filename. If set, all generated models will be combined into this single file.| |null|
 |customOptionsApi|Custom options for the api files.| |null|
 |customOptionsModel|Custom options for the model files.| |null|
+|extractEnumsToSeparateFiles|Extract enums to separate protobuf files and import them in models| |false|
 |numberedFieldNumberList|Field numbers in order.| |false|
 |startEnumsWithUnspecified|Introduces &quot;UNSPECIFIED&quot; as the first element of enumerations.| |false|
 |supportMultipleResponses|Support multiple responses| |true|
