@@ -3,6 +3,7 @@ name: Samples Kotlin server (jdk17)
 on:
   push:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -13,6 +14,7 @@ on:
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-springboot-3*/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-modelMutable/**'
@@ -34,6 +36,10 @@ jobs:
       matrix:
         sample:
           # server
+          - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism
           - samples/server/petstore/kotlin-server-required-and-nullable-properties
           - samples/server/petstore/kotlin-springboot-3
           - samples/server/petstore/kotlin-springboot-3-no-response-entity
