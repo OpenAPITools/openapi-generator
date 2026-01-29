@@ -2024,7 +2024,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .filter(o -> this.xImplementsSkip.contains(o))
                             .collect(Collectors.toList());
                     if (!xImplementsInModelSkipped.isEmpty()) {
-                        LOGGER.info("Following interfaces configured via additional property '{}' will be skipped for model {}: {}", X_IMPLEMENTS_SKIP, cm.classname, xImplementsInModelSkipped);
+                        LOGGER.info("Following interfaces configured via config option '{}' will be skipped for model {}: {}", X_IMPLEMENTS_SKIP, cm.classname, xImplementsInModelSkipped);
                     }
                     List<String> xImplementsInModelProcessed = xImplementsInModelOriginal.stream()
                             .filter(Predicate.not(xImplementsInModelSkipped::contains))
@@ -2039,7 +2039,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             for (ModelMap mo : objs.getModels()) {
                 CodegenModel cm = mo.getModel();
                 if (this.schemaImplements.containsKey(cm.getSchemaName())) {
-                    LOGGER.info("Adding interface(s) {} configured via additional property '{}' to model {}", this.schemaImplements.get(cm.getSchemaName()), SCHEMA_IMPLEMENTS, cm.classname);
+                    LOGGER.info("Adding interface(s) {} configured via config option '{}' to model {}", this.schemaImplements.get(cm.getSchemaName()), SCHEMA_IMPLEMENTS, cm.classname);
                     cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
                     List<String> xImplementsInModel = (List<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
                     List<String> schemaImplements = this.schemaImplements.get(cm.getSchemaName());

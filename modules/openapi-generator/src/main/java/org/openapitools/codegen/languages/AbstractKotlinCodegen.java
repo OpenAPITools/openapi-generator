@@ -875,7 +875,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .filter(vendorExtensionImplementedInterfacesClasses::contains)
                 .collect(Collectors.toList());
         if (!interfacesToSkip.isEmpty()) {
-            LOGGER.info("Interface(s) {} in model {} are skipped from being marked as implemented via additional property '{}'.",
+            LOGGER.info("Interface(s) {} in model {} are skipped from being marked as implemented via config option '{}'.",
                     interfacesToSkip, name, X_KOTLIN_IMPLEMENTS_SKIP);
         }
         List<String> vendorExtensionImplementedInterfacesClassesFiltered = vendorExtensionImplementedInterfacesClasses.stream()
@@ -895,7 +895,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 .filter(vendorExtensionImplementedInterfacesFields::contains)
                 .collect(Collectors.toList());
         if (!fieldsToSkip.isEmpty()) {
-            LOGGER.info("Field(s) {} in model {} are skipped from being marked as inherited via additional property '{}'.",
+            LOGGER.info("Field(s) {} in model {} are skipped from being marked as inherited via config option '{}'.",
                     fieldsToSkip, name, X_KOTLIN_IMPLEMENTS_FIELDS_SKIP);
         }
         List<String> vendorExtensionImplementedInterfacesFieldsFiltered = vendorExtensionImplementedInterfacesFields.stream()
