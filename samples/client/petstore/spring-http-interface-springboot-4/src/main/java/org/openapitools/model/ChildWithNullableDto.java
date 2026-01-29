@@ -1,0 +1,100 @@
+package org.openapitools.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.openapitools.model.ParentWithNullableDto;
+import org.springframework.lang.Nullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.constraints.NotNull;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * ChildWithNullableDto
+ */
+
+
+@JsonTypeName("ChildWithNullable")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+public class ChildWithNullableDto extends ParentWithNullableDto {
+
+  private @Nullable String otherProperty;
+
+  public ChildWithNullableDto otherProperty(@Nullable String otherProperty) {
+    this.otherProperty = otherProperty;
+    return this;
+  }
+
+  /**
+   * Get otherProperty
+   * @return otherProperty
+   */
+  
+  @JsonProperty("otherProperty")
+  public @Nullable String getOtherProperty() {
+    return otherProperty;
+  }
+
+  public void setOtherProperty(@Nullable String otherProperty) {
+    this.otherProperty = otherProperty;
+  }
+
+
+  public ChildWithNullableDto type(TypeEnum type) {
+    super.type(type);
+    return this;
+  }
+
+  public ChildWithNullableDto nullableProperty(String nullableProperty) {
+    super.nullableProperty(nullableProperty);
+    return this;
+  }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ChildWithNullableDto childWithNullable = (ChildWithNullableDto) o;
+    return Objects.equals(this.otherProperty, childWithNullable.otherProperty) &&
+        super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(otherProperty, super.hashCode());
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ChildWithNullableDto {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    otherProperty: ").append(toIndentedString(otherProperty)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(@Nullable Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+}
+
