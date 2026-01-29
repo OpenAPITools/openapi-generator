@@ -32,6 +32,7 @@ class ObjectThatReferencesObjectsWithDuplicateInlineEnums {
     name: r'object_one',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -44,6 +45,7 @@ class ObjectThatReferencesObjectsWithDuplicateInlineEnums {
     name: r'object_two',
     required: false,
     includeIfNull: false,
+
   )
 
 
