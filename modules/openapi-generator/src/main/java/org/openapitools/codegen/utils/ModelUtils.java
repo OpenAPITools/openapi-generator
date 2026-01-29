@@ -2334,6 +2334,10 @@ public class ModelUtils {
             }
         }
 
+        if (schema.getConst() != null) {
+            return false;
+        }
+
         if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
             // 3.1 spec
             if (schema.getTypes().size() == 1) { // 1 type only
