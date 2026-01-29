@@ -6,37 +6,23 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <properties>
-        {{#useSealed}}
         <java.version>17</java.version>
-        {{/useSealed}}
-        {{^useSealed}}
-        <java.version>1.8</java.version>
-        {{/useSealed}}
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        {{#springFoxDocumentationProvider}}
-        <springfox.version>2.9.2</springfox.version>
-        {{/springFoxDocumentationProvider}}
         {{#springDocDocumentationProvider}}
-        <springdoc.version>1.6.14</springdoc.version>
+        <springdoc.version>2.6.0</springdoc.version>
         {{/springDocDocumentationProvider}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
-        {{#swagger1AnnotationLibrary}}
-        <swagger-annotations.version>1.6.6</swagger-annotations.version>
-        {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations.version>2.2.7</swagger-annotations.version>
+        <swagger-annotations.version>2.2.42</swagger-annotations.version>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
-        {{#virtualService}}
-        <virtualan.version>2.5.2</virtualan.version>
-        {{/virtualService}}
         {{#useSwaggerUI}}
-        <swagger-ui.version>5.3.1</swagger-ui.version>
+        <swagger-ui.version>5.17.14</swagger-ui.version>
         {{/useSwaggerUI}}
+        {{#virtualService}}
+        <virtualan.version>2.5.5</virtualan.version>
+        {{/virtualService}}
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -49,10 +35,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#springFoxDocumentationProvider}}2.5.14{{/springFoxDocumentationProvider}}{{^springFoxDocumentationProvider}}2.7.15{{/springFoxDocumentationProvider}}</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
+
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -61,17 +48,17 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                {{#classifier}}
+                    {{#classifier}}
                   <classifier>{{{classifier}}}</classifier>
-                {{/classifier}}
-                {{#lombok}}
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                {{/lombok}}
+                    {{/classifier}}
+                    {{#lombok}}
+                  <excludes>
+                    <exclude>
+                      <groupId>org.projectlombok</groupId>
+                      <artifactId>lombok</artifactId>
+                    </exclude>
+                  </excludes>
+                    {{/lombok}}
                 </configuration>
             </plugin>
             {{/interfaceOnly}}
@@ -126,7 +113,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -137,26 +128,18 @@
         {{#useSwaggerUI}}
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-{{#reactive}}webflux-{{/reactive}}ui</artifactId>
+            <artifactId>springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-ui</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         {{/useSwaggerUI}}
         {{^useSwaggerUI}}
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-core</artifactId>
+          <artifactId>springdoc-openapi-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}webmvc{{/reactive}}-api</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
         {{/useSwaggerUI}}
         {{/springDocDocumentationProvider}}
-        {{#springFoxDocumentationProvider}}
-        <!--SpringFox dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-        {{/springFoxDocumentationProvider}}
         {{#useSwaggerUI}}
         {{^springDocDocumentationProvider}}
         <dependency>
@@ -170,15 +153,7 @@
         </dependency>
         {{/springDocDocumentationProvider}}
         {{/useSwaggerUI}}
-        {{^springFoxDocumentationProvider}}
         {{^springDocDocumentationProvider}}
-        {{#swagger1AnnotationLibrary}}
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations.version}</version>
-        </dependency>
-        {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -187,7 +162,6 @@
         </dependency>
         {{/swagger2AnnotationLibrary}}
         {{/springDocDocumentationProvider}}
-        {{/springFoxDocumentationProvider}}
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -197,21 +171,23 @@
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
-          <groupId>jakarta.xml.bind</groupId>
-          <artifactId>jakarta.xml.bind-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.fasterxml.jackson.dataformat</groupId>
-          <artifactId>jackson-dataformat-xml</artifactId>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        {{/useJackson3}}
         {{#joda}}
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
@@ -258,12 +234,17 @@
         </dependency>
 {{/lombok}}
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>{{jacksonPackage}}.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}{{^reactive}}mvc{{/reactive}}-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
