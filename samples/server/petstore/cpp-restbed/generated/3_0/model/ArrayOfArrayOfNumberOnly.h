@@ -40,7 +40,7 @@ class  ArrayOfArrayOfNumberOnly
 public:
     ArrayOfArrayOfNumberOnly() = default;
     explicit ArrayOfArrayOfNumberOnly(boost::property_tree::ptree const& pt);
-    virtual ~ArrayOfArrayOfNumberOnly() = default;
+    virtual ~ArrayOfArrayOfNumberOnly();
 
     ArrayOfArrayOfNumberOnly(const ArrayOfArrayOfNumberOnly& other) = default; // copy constructor
     ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnly&& other) noexcept = default; // move constructor

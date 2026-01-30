@@ -39,6 +39,7 @@ FileSchemaTestClass::FileSchemaTestClass(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+FileSchemaTestClass::~FileSchemaTestClass = default;
 
 std::string FileSchemaTestClass::toJsonString(bool prettyJson /* = false */) const
 {

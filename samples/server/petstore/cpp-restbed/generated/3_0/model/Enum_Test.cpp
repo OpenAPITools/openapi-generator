@@ -40,6 +40,7 @@ Enum_Test::Enum_Test(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Enum_Test::~Enum_Test = default;
 
 std::string Enum_Test::toJsonString(bool prettyJson /* = false */) const
 {

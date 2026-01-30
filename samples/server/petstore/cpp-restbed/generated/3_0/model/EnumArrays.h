@@ -42,7 +42,7 @@ class  EnumArrays
 public:
     EnumArrays() = default;
     explicit EnumArrays(boost::property_tree::ptree const& pt);
-    virtual ~EnumArrays() = default;
+    virtual ~EnumArrays();
 
     EnumArrays(const EnumArrays& other) = default; // copy constructor
     EnumArrays(EnumArrays&& other) noexcept = default; // move constructor

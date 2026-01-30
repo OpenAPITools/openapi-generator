@@ -39,6 +39,7 @@ Return::Return(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Return::~Return = default;
 
 std::string Return::toJsonString(bool prettyJson /* = false */) const
 {

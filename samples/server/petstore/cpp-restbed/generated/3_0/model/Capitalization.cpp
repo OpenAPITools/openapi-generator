@@ -39,6 +39,7 @@ Capitalization::Capitalization(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Capitalization::~Capitalization = default;
 
 std::string Capitalization::toJsonString(bool prettyJson /* = false */) const
 {

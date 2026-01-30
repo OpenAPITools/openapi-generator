@@ -39,6 +39,7 @@ Cat::Cat(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Cat::~Cat = default;
 
 std::string Cat::toJsonString(bool prettyJson /* = false */) const
 {

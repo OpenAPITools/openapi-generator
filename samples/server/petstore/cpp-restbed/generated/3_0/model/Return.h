@@ -39,7 +39,7 @@ class  Return
 public:
     Return() = default;
     explicit Return(boost::property_tree::ptree const& pt);
-    virtual ~Return() = default;
+    virtual ~Return();
 
     Return(const Return& other) = default; // copy constructor
     Return(Return&& other) noexcept = default; // move constructor

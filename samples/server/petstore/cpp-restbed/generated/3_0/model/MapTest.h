@@ -42,7 +42,7 @@ class  MapTest
 public:
     MapTest() = default;
     explicit MapTest(boost::property_tree::ptree const& pt);
-    virtual ~MapTest() = default;
+    virtual ~MapTest();
 
     MapTest(const MapTest& other) = default; // copy constructor
     MapTest(MapTest&& other) noexcept = default; // move constructor

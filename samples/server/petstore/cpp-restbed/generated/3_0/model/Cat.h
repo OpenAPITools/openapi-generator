@@ -42,7 +42,7 @@ class  Cat : public Animal
 public:
     Cat() = default;
     explicit Cat(boost::property_tree::ptree const& pt);
-    virtual ~Cat() = default;
+    virtual ~Cat();
 
     Cat(const Cat& other) = default; // copy constructor
     Cat(Cat&& other) noexcept = default; // move constructor

@@ -39,7 +39,7 @@ class  EnumClass
 public:
     EnumClass() = default;
     explicit EnumClass(boost::property_tree::ptree const& pt);
-    virtual ~EnumClass() = default;
+    virtual ~EnumClass();
 
     EnumClass(const EnumClass& other) = default; // copy constructor
     EnumClass(EnumClass&& other) noexcept = default; // move constructor

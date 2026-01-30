@@ -40,7 +40,7 @@ class  Client
 public:
     Client() = default;
     explicit Client(boost::property_tree::ptree const& pt);
-    virtual ~Client() = default;
+    virtual ~Client();
 
     Client(const Client& other) = default; // copy constructor
     Client(Client&& other) noexcept = default; // move constructor

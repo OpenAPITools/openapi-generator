@@ -40,7 +40,7 @@ class  HealthCheckResult
 public:
     HealthCheckResult() = default;
     explicit HealthCheckResult(boost::property_tree::ptree const& pt);
-    virtual ~HealthCheckResult() = default;
+    virtual ~HealthCheckResult();
 
     HealthCheckResult(const HealthCheckResult& other) = default; // copy constructor
     HealthCheckResult(HealthCheckResult&& other) noexcept = default; // move constructor

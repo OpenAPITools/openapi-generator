@@ -39,6 +39,7 @@ HealthCheckResult::HealthCheckResult(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+HealthCheckResult::~HealthCheckResult = default;
 
 std::string HealthCheckResult::toJsonString(bool prettyJson /* = false */) const
 {

@@ -122,6 +122,8 @@ FakeBigDecimalMapResource::FakeBigDecimalMapResource(const std::string& context 
 			std::placeholders::_1));
 }
 
+FakeBigDecimalMapResource::~FakeBigDecimalMapResource() = default;
+
 std::pair<int, std::string> FakeBigDecimalMapResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -235,6 +237,8 @@ FakeHealthResource::FakeHealthResource(const std::string& context /* = "/v2" */)
 			std::placeholders::_1));
 }
 
+FakeHealthResource::~FakeHealthResource() = default;
+
 std::pair<int, std::string> FakeHealthResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -347,6 +351,8 @@ FakeHttp_signature_testResource::FakeHttp_signature_testResource(const std::stri
 		std::bind(&FakeHttp_signature_testResource::handler_GET_internal, this,
 			std::placeholders::_1));
 }
+
+FakeHttp_signature_testResource::~FakeHttp_signature_testResource() = default;
 
 std::pair<int, std::string> FakeHttp_signature_testResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -467,6 +473,8 @@ FakeOuterBooleanResource::FakeOuterBooleanResource(const std::string& context /*
 			std::placeholders::_1));
 }
 
+FakeOuterBooleanResource::~FakeOuterBooleanResource() = default;
+
 std::pair<int, std::string> FakeOuterBooleanResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -582,6 +590,8 @@ FakeOuterCompositeResource::FakeOuterCompositeResource(const std::string& contex
 		std::bind(&FakeOuterCompositeResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+FakeOuterCompositeResource::~FakeOuterCompositeResource() = default;
 
 std::pair<int, std::string> FakeOuterCompositeResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -700,6 +710,8 @@ FakeOuterNumberResource::FakeOuterNumberResource(const std::string& context /* =
 			std::placeholders::_1));
 }
 
+FakeOuterNumberResource::~FakeOuterNumberResource() = default;
+
 std::pair<int, std::string> FakeOuterNumberResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -815,6 +827,8 @@ FakeOuterStringResource::FakeOuterStringResource(const std::string& context /* =
 		std::bind(&FakeOuterStringResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+FakeOuterStringResource::~FakeOuterStringResource() = default;
 
 std::pair<int, std::string> FakeOuterStringResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -933,6 +947,8 @@ FakePropertyEnum_intResource::FakePropertyEnum_intResource(const std::string& co
 			std::placeholders::_1));
 }
 
+FakePropertyEnum_intResource::~FakePropertyEnum_intResource() = default;
+
 std::pair<int, std::string> FakePropertyEnum_intResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -1050,6 +1066,8 @@ FakeAdditionalProperties_referenceResource::FakeAdditionalProperties_referenceRe
 			std::placeholders::_1));
 }
 
+FakeAdditionalProperties_referenceResource::~FakeAdditionalProperties_referenceResource() = default;
+
 std::pair<int, std::string> FakeAdditionalProperties_referenceResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -1164,6 +1182,8 @@ FakeBody_with_binaryResource::FakeBody_with_binaryResource(const std::string& co
 		std::bind(&FakeBody_with_binaryResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
+
+FakeBody_with_binaryResource::~FakeBody_with_binaryResource() = default;
 
 std::pair<int, std::string> FakeBody_with_binaryResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -1280,6 +1300,8 @@ FakeBody_with_file_schemaResource::FakeBody_with_file_schemaResource(const std::
 			std::placeholders::_1));
 }
 
+FakeBody_with_file_schemaResource::~FakeBody_with_file_schemaResource() = default;
+
 std::pair<int, std::string> FakeBody_with_file_schemaResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -1394,6 +1416,8 @@ FakeBody_with_query_paramsResource::FakeBody_with_query_paramsResource(const std
 		std::bind(&FakeBody_with_query_paramsResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
+
+FakeBody_with_query_paramsResource::~FakeBody_with_query_paramsResource() = default;
 
 std::pair<int, std::string> FakeBody_with_query_paramsResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -1520,6 +1544,8 @@ FakeResource::FakeResource(const std::string& context /* = "/v2" */)
 		std::bind(&FakeResource::handler_DELETE_internal, this,
 			std::placeholders::_1));
 }
+
+FakeResource::~FakeResource() = default;
 
 std::pair<int, std::string> FakeResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -1831,6 +1857,8 @@ FakeInline_additionalPropertiesResource::FakeInline_additionalPropertiesResource
 			std::placeholders::_1));
 }
 
+FakeInline_additionalPropertiesResource::~FakeInline_additionalPropertiesResource() = default;
+
 std::pair<int, std::string> FakeInline_additionalPropertiesResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -1945,6 +1973,8 @@ FakeInline_freeform_additionalPropertiesResource::FakeInline_freeform_additional
 		std::bind(&FakeInline_freeform_additionalPropertiesResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+FakeInline_freeform_additionalPropertiesResource::~FakeInline_freeform_additionalPropertiesResource() = default;
 
 std::pair<int, std::string> FakeInline_freeform_additionalPropertiesResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -2061,6 +2091,8 @@ FakeJsonFormDataResource::FakeJsonFormDataResource(const std::string& context /*
 			std::placeholders::_1));
 }
 
+FakeJsonFormDataResource::~FakeJsonFormDataResource() = default;
+
 std::pair<int, std::string> FakeJsonFormDataResource::handleFakeApiException(const FakeApiException& e)
 {
     return std::make_pair<int, std::string>(e.getStatus(), e.what());
@@ -2174,6 +2206,8 @@ FakeNullableResource::FakeNullableResource(const std::string& context /* = "/v2"
 		std::bind(&FakeNullableResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+FakeNullableResource::~FakeNullableResource() = default;
 
 std::pair<int, std::string> FakeNullableResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -2289,6 +2323,8 @@ FakeTest_query_parametersResource::FakeTest_query_parametersResource(const std::
 		std::bind(&FakeTest_query_parametersResource::handler_PUT_internal, this,
 			std::placeholders::_1));
 }
+
+FakeTest_query_parametersResource::~FakeTest_query_parametersResource() = default;
 
 std::pair<int, std::string> FakeTest_query_parametersResource::handleFakeApiException(const FakeApiException& e)
 {
@@ -2434,6 +2470,8 @@ FakeStringMap_referenceResource::FakeStringMap_referenceResource(const std::stri
 		std::bind(&FakeStringMap_referenceResource::handler_POST_internal, this,
 			std::placeholders::_1));
 }
+
+FakeStringMap_referenceResource::~FakeStringMap_referenceResource() = default;
 
 std::pair<int, std::string> FakeStringMap_referenceResource::handleFakeApiException(const FakeApiException& e)
 {

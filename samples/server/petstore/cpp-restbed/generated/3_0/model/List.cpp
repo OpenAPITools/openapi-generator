@@ -39,6 +39,7 @@ List::List(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+List::~List = default;
 
 std::string List::toJsonString(bool prettyJson /* = false */) const
 {

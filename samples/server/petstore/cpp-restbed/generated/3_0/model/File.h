@@ -40,7 +40,7 @@ class  File
 public:
     File() = default;
     explicit File(boost::property_tree::ptree const& pt);
-    virtual ~File() = default;
+    virtual ~File();
 
     File(const File& other) = default; // copy constructor
     File(File&& other) noexcept = default; // move constructor

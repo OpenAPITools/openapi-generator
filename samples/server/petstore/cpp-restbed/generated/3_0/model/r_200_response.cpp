@@ -39,6 +39,7 @@ r_200_response::r_200_response(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+r_200_response::~r_200_response = default;
 
 std::string r_200_response::toJsonString(bool prettyJson /* = false */) const
 {

@@ -42,7 +42,7 @@ class  ObjectWithDeprecatedFields
 public:
     ObjectWithDeprecatedFields() = default;
     explicit ObjectWithDeprecatedFields(boost::property_tree::ptree const& pt);
-    virtual ~ObjectWithDeprecatedFields() = default;
+    virtual ~ObjectWithDeprecatedFields();
 
     ObjectWithDeprecatedFields(const ObjectWithDeprecatedFields& other) = default; // copy constructor
     ObjectWithDeprecatedFields(ObjectWithDeprecatedFields&& other) noexcept = default; // move constructor

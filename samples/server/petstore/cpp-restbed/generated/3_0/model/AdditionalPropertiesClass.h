@@ -41,7 +41,7 @@ class  AdditionalPropertiesClass
 public:
     AdditionalPropertiesClass() = default;
     explicit AdditionalPropertiesClass(boost::property_tree::ptree const& pt);
-    virtual ~AdditionalPropertiesClass() = default;
+    virtual ~AdditionalPropertiesClass();
 
     AdditionalPropertiesClass(const AdditionalPropertiesClass& other) = default; // copy constructor
     AdditionalPropertiesClass(AdditionalPropertiesClass&& other) noexcept = default; // move constructor

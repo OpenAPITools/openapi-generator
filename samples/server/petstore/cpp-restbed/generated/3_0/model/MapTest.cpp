@@ -40,6 +40,7 @@ MapTest::MapTest(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+MapTest::~MapTest = default;
 
 std::string MapTest::toJsonString(bool prettyJson /* = false */) const
 {

@@ -40,7 +40,7 @@ class  Capitalization
 public:
     Capitalization() = default;
     explicit Capitalization(boost::property_tree::ptree const& pt);
-    virtual ~Capitalization() = default;
+    virtual ~Capitalization();
 
     Capitalization(const Capitalization& other) = default; // copy constructor
     Capitalization(Capitalization&& other) noexcept = default; // move constructor

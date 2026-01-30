@@ -39,6 +39,7 @@ SingleRefType::SingleRefType(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+SingleRefType::~SingleRefType = default;
 
 std::string SingleRefType::toJsonString(bool prettyJson /* = false */) const
 {

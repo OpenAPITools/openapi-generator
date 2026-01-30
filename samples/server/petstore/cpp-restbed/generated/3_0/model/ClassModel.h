@@ -40,7 +40,7 @@ class  ClassModel
 public:
     ClassModel() = default;
     explicit ClassModel(boost::property_tree::ptree const& pt);
-    virtual ~ClassModel() = default;
+    virtual ~ClassModel();
 
     ClassModel(const ClassModel& other) = default; // copy constructor
     ClassModel(ClassModel&& other) noexcept = default; // move constructor

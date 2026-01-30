@@ -40,7 +40,7 @@ class  DeprecatedObject
 public:
     DeprecatedObject() = default;
     explicit DeprecatedObject(boost::property_tree::ptree const& pt);
-    virtual ~DeprecatedObject() = default;
+    virtual ~DeprecatedObject();
 
     DeprecatedObject(const DeprecatedObject& other) = default; // copy constructor
     DeprecatedObject(DeprecatedObject&& other) noexcept = default; // move constructor

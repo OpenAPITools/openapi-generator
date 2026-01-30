@@ -39,7 +39,7 @@ class  NumberOnly
 public:
     NumberOnly() = default;
     explicit NumberOnly(boost::property_tree::ptree const& pt);
-    virtual ~NumberOnly() = default;
+    virtual ~NumberOnly();
 
     NumberOnly(const NumberOnly& other) = default; // copy constructor
     NumberOnly(NumberOnly&& other) noexcept = default; // move constructor

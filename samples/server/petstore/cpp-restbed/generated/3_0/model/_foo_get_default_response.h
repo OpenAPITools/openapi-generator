@@ -40,7 +40,7 @@ class  _foo_get_default_response
 public:
     _foo_get_default_response() = default;
     explicit _foo_get_default_response(boost::property_tree::ptree const& pt);
-    virtual ~_foo_get_default_response() = default;
+    virtual ~_foo_get_default_response();
 
     _foo_get_default_response(const _foo_get_default_response& other) = default; // copy constructor
     _foo_get_default_response(_foo_get_default_response&& other) noexcept = default; // move constructor

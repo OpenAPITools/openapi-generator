@@ -39,6 +39,7 @@ OuterEnum::OuterEnum(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+OuterEnum::~OuterEnum = default;
 
 std::string OuterEnum::toJsonString(bool prettyJson /* = false */) const
 {

@@ -40,7 +40,7 @@ class  List
 public:
     List() = default;
     explicit List(boost::property_tree::ptree const& pt);
-    virtual ~List() = default;
+    virtual ~List();
 
     List(const List& other) = default; // copy constructor
     List(List&& other) noexcept = default; // move constructor

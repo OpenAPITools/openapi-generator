@@ -31,6 +31,8 @@ Pet::Pet()
     
 }
 
+Pet::~Pet() = default;
+
 void Pet::validate() const
 {
     std::stringstream msg;

@@ -40,7 +40,7 @@ class  FakeBigDecimalMap_200_response
 public:
     FakeBigDecimalMap_200_response() = default;
     explicit FakeBigDecimalMap_200_response(boost::property_tree::ptree const& pt);
-    virtual ~FakeBigDecimalMap_200_response() = default;
+    virtual ~FakeBigDecimalMap_200_response();
 
     FakeBigDecimalMap_200_response(const FakeBigDecimalMap_200_response& other) = default; // copy constructor
     FakeBigDecimalMap_200_response(FakeBigDecimalMap_200_response&& other) noexcept = default; // move constructor

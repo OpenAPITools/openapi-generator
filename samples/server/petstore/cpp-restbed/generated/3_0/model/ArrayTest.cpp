@@ -39,6 +39,7 @@ ArrayTest::ArrayTest(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+ArrayTest::~ArrayTest = default;
 
 std::string ArrayTest::toJsonString(bool prettyJson /* = false */) const
 {

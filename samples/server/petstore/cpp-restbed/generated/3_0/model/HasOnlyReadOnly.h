@@ -40,7 +40,7 @@ class  HasOnlyReadOnly
 public:
     HasOnlyReadOnly() = default;
     explicit HasOnlyReadOnly(boost::property_tree::ptree const& pt);
-    virtual ~HasOnlyReadOnly() = default;
+    virtual ~HasOnlyReadOnly();
 
     HasOnlyReadOnly(const HasOnlyReadOnly& other) = default; // copy constructor
     HasOnlyReadOnly(HasOnlyReadOnly&& other) noexcept = default; // move constructor

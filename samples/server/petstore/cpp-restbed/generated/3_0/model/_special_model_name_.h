@@ -39,7 +39,7 @@ class  _special_model_name_
 public:
     _special_model_name_() = default;
     explicit _special_model_name_(boost::property_tree::ptree const& pt);
-    virtual ~_special_model_name_() = default;
+    virtual ~_special_model_name_();
 
     _special_model_name_(const _special_model_name_& other) = default; // copy constructor
     _special_model_name_(_special_model_name_&& other) noexcept = default; // move constructor

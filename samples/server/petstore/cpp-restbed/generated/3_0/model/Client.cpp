@@ -39,6 +39,7 @@ Client::Client(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+Client::~Client = default;
 
 std::string Client::toJsonString(bool prettyJson /* = false */) const
 {

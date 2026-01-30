@@ -40,7 +40,7 @@ class  Tag
 public:
     Tag() = default;
     explicit Tag(boost::property_tree::ptree const& pt);
-    virtual ~Tag() = default;
+    virtual ~Tag();
 
     Tag(const Tag& other) = default; // copy constructor
     Tag(Tag&& other) noexcept = default; // move constructor

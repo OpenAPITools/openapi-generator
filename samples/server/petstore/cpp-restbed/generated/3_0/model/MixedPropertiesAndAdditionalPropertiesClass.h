@@ -42,7 +42,7 @@ class  MixedPropertiesAndAdditionalPropertiesClass
 public:
     MixedPropertiesAndAdditionalPropertiesClass() = default;
     explicit MixedPropertiesAndAdditionalPropertiesClass(boost::property_tree::ptree const& pt);
-    virtual ~MixedPropertiesAndAdditionalPropertiesClass() = default;
+    virtual ~MixedPropertiesAndAdditionalPropertiesClass();
 
     MixedPropertiesAndAdditionalPropertiesClass(const MixedPropertiesAndAdditionalPropertiesClass& other) = default; // copy constructor
     MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClass&& other) noexcept = default; // move constructor

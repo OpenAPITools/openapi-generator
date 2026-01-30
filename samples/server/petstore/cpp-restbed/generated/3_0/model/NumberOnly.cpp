@@ -39,6 +39,7 @@ NumberOnly::NumberOnly(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+NumberOnly::~NumberOnly = default;
 
 std::string NumberOnly::toJsonString(bool prettyJson /* = false */) const
 {

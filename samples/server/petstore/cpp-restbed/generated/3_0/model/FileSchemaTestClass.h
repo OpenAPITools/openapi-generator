@@ -41,7 +41,7 @@ class  FileSchemaTestClass
 public:
     FileSchemaTestClass() = default;
     explicit FileSchemaTestClass(boost::property_tree::ptree const& pt);
-    virtual ~FileSchemaTestClass() = default;
+    virtual ~FileSchemaTestClass();
 
     FileSchemaTestClass(const FileSchemaTestClass& other) = default; // copy constructor
     FileSchemaTestClass(FileSchemaTestClass&& other) noexcept = default; // move constructor

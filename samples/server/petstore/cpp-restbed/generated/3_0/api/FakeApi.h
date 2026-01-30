@@ -81,7 +81,7 @@ class  FakeBigDecimalMapResource: public restbed::Resource
 {
 public:
     FakeBigDecimalMapResource(const std::string& context = "/v2");
-    virtual ~FakeBigDecimalMapResource() = default;
+    virtual ~FakeBigDecimalMapResource();
 
     FakeBigDecimalMapResource(
         const FakeBigDecimalMapResource& other) = default; // copy constructor
@@ -143,7 +143,7 @@ class  FakeHealthResource: public restbed::Resource
 {
 public:
     FakeHealthResource(const std::string& context = "/v2");
-    virtual ~FakeHealthResource() = default;
+    virtual ~FakeHealthResource();
 
     FakeHealthResource(
         const FakeHealthResource& other) = default; // copy constructor
@@ -205,7 +205,7 @@ class  FakeHttp_signature_testResource: public restbed::Resource
 {
 public:
     FakeHttp_signature_testResource(const std::string& context = "/v2");
-    virtual ~FakeHttp_signature_testResource() = default;
+    virtual ~FakeHttp_signature_testResource();
 
     FakeHttp_signature_testResource(
         const FakeHttp_signature_testResource& other) = default; // copy constructor
@@ -267,7 +267,7 @@ class  FakeOuterBooleanResource: public restbed::Resource
 {
 public:
     FakeOuterBooleanResource(const std::string& context = "/v2");
-    virtual ~FakeOuterBooleanResource() = default;
+    virtual ~FakeOuterBooleanResource();
 
     FakeOuterBooleanResource(
         const FakeOuterBooleanResource& other) = default; // copy constructor
@@ -329,7 +329,7 @@ class  FakeOuterCompositeResource: public restbed::Resource
 {
 public:
     FakeOuterCompositeResource(const std::string& context = "/v2");
-    virtual ~FakeOuterCompositeResource() = default;
+    virtual ~FakeOuterCompositeResource();
 
     FakeOuterCompositeResource(
         const FakeOuterCompositeResource& other) = default; // copy constructor
@@ -391,7 +391,7 @@ class  FakeOuterNumberResource: public restbed::Resource
 {
 public:
     FakeOuterNumberResource(const std::string& context = "/v2");
-    virtual ~FakeOuterNumberResource() = default;
+    virtual ~FakeOuterNumberResource();
 
     FakeOuterNumberResource(
         const FakeOuterNumberResource& other) = default; // copy constructor
@@ -453,7 +453,7 @@ class  FakeOuterStringResource: public restbed::Resource
 {
 public:
     FakeOuterStringResource(const std::string& context = "/v2");
-    virtual ~FakeOuterStringResource() = default;
+    virtual ~FakeOuterStringResource();
 
     FakeOuterStringResource(
         const FakeOuterStringResource& other) = default; // copy constructor
@@ -515,7 +515,7 @@ class  FakePropertyEnum_intResource: public restbed::Resource
 {
 public:
     FakePropertyEnum_intResource(const std::string& context = "/v2");
-    virtual ~FakePropertyEnum_intResource() = default;
+    virtual ~FakePropertyEnum_intResource();
 
     FakePropertyEnum_intResource(
         const FakePropertyEnum_intResource& other) = default; // copy constructor
@@ -577,7 +577,7 @@ class  FakeAdditionalProperties_referenceResource: public restbed::Resource
 {
 public:
     FakeAdditionalProperties_referenceResource(const std::string& context = "/v2");
-    virtual ~FakeAdditionalProperties_referenceResource() = default;
+    virtual ~FakeAdditionalProperties_referenceResource();
 
     FakeAdditionalProperties_referenceResource(
         const FakeAdditionalProperties_referenceResource& other) = default; // copy constructor
@@ -639,7 +639,7 @@ class  FakeBody_with_binaryResource: public restbed::Resource
 {
 public:
     FakeBody_with_binaryResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_binaryResource() = default;
+    virtual ~FakeBody_with_binaryResource();
 
     FakeBody_with_binaryResource(
         const FakeBody_with_binaryResource& other) = default; // copy constructor
@@ -701,7 +701,7 @@ class  FakeBody_with_file_schemaResource: public restbed::Resource
 {
 public:
     FakeBody_with_file_schemaResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_file_schemaResource() = default;
+    virtual ~FakeBody_with_file_schemaResource();
 
     FakeBody_with_file_schemaResource(
         const FakeBody_with_file_schemaResource& other) = default; // copy constructor
@@ -763,7 +763,7 @@ class  FakeBody_with_query_paramsResource: public restbed::Resource
 {
 public:
     FakeBody_with_query_paramsResource(const std::string& context = "/v2");
-    virtual ~FakeBody_with_query_paramsResource() = default;
+    virtual ~FakeBody_with_query_paramsResource();
 
     FakeBody_with_query_paramsResource(
         const FakeBody_with_query_paramsResource& other) = default; // copy constructor
@@ -825,7 +825,7 @@ class  FakeResource: public restbed::Resource
 {
 public:
     FakeResource(const std::string& context = "/v2");
-    virtual ~FakeResource() = default;
+    virtual ~FakeResource();
 
     FakeResource(
         const FakeResource& other) = default; // copy constructor
@@ -911,7 +911,7 @@ class  FakeInline_additionalPropertiesResource: public restbed::Resource
 {
 public:
     FakeInline_additionalPropertiesResource(const std::string& context = "/v2");
-    virtual ~FakeInline_additionalPropertiesResource() = default;
+    virtual ~FakeInline_additionalPropertiesResource();
 
     FakeInline_additionalPropertiesResource(
         const FakeInline_additionalPropertiesResource& other) = default; // copy constructor
@@ -973,7 +973,7 @@ class  FakeInline_freeform_additionalPropertiesResource: public restbed::Resourc
 {
 public:
     FakeInline_freeform_additionalPropertiesResource(const std::string& context = "/v2");
-    virtual ~FakeInline_freeform_additionalPropertiesResource() = default;
+    virtual ~FakeInline_freeform_additionalPropertiesResource();
 
     FakeInline_freeform_additionalPropertiesResource(
         const FakeInline_freeform_additionalPropertiesResource& other) = default; // copy constructor
@@ -1035,7 +1035,7 @@ class  FakeJsonFormDataResource: public restbed::Resource
 {
 public:
     FakeJsonFormDataResource(const std::string& context = "/v2");
-    virtual ~FakeJsonFormDataResource() = default;
+    virtual ~FakeJsonFormDataResource();
 
     FakeJsonFormDataResource(
         const FakeJsonFormDataResource& other) = default; // copy constructor
@@ -1097,7 +1097,7 @@ class  FakeNullableResource: public restbed::Resource
 {
 public:
     FakeNullableResource(const std::string& context = "/v2");
-    virtual ~FakeNullableResource() = default;
+    virtual ~FakeNullableResource();
 
     FakeNullableResource(
         const FakeNullableResource& other) = default; // copy constructor
@@ -1159,7 +1159,7 @@ class  FakeTest_query_parametersResource: public restbed::Resource
 {
 public:
     FakeTest_query_parametersResource(const std::string& context = "/v2");
-    virtual ~FakeTest_query_parametersResource() = default;
+    virtual ~FakeTest_query_parametersResource();
 
     FakeTest_query_parametersResource(
         const FakeTest_query_parametersResource& other) = default; // copy constructor
@@ -1221,7 +1221,7 @@ class  FakeStringMap_referenceResource: public restbed::Resource
 {
 public:
     FakeStringMap_referenceResource(const std::string& context = "/v2");
-    virtual ~FakeStringMap_referenceResource() = default;
+    virtual ~FakeStringMap_referenceResource();
 
     FakeStringMap_referenceResource(
         const FakeStringMap_referenceResource& other) = default; // copy constructor
