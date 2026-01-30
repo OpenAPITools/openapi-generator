@@ -101,7 +101,9 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @see requestBody
      */
     protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
-        val partHeaders = headers.toMutableMap() +
+        // Filter out Content-Type from headers as OkHttp requires it to be passed
+        // separately via asRequestBody(mediaType), not in the headers map
+        val partHeaders = headers.filterKeys { it != "Content-Type" }.toMutableMap() +
             ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
         val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
         addPart(
@@ -122,11 +124,20 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @see requestBody
      */
     protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
-        val partHeaders = headers.toMutableMap() +
+        val partContentType = headers["Content-Type"]
+        val partMediaType = partContentType?.toMediaTypeOrNull()
+        // Filter out Content-Type from headers as OkHttp requires it to be passed
+        // separately via toRequestBody(mediaType), not in the headers map
+        val partHeaders = headers.filterKeys { it != "Content-Type" }.toMutableMap() +
             ("Content-Disposition" to "form-data; name=\"$name\"")
+        val partBody = if (partContentType?.contains("json") == true) {
+            Serializer.gson.toJson(obj)
+        } else {
+            parameterToString(obj)
+        }
         addPart(
             partHeaders.toHeaders(),
-            parameterToString(obj).toRequestBody(null)
+            partBody.toRequestBody(partMediaType)
         )
     }
 
