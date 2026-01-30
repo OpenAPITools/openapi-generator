@@ -25,6 +25,8 @@ import kotlinx.serialization.encoding.*
  * 
  *
  * @param id 
+ * @param stringSet 
+ * @param stringArray 
  * @param featherType 
  * @param optionalProperty 
  */
@@ -34,6 +36,10 @@ import kotlinx.serialization.encoding.*
 data class Bird (
 
     @SerialName(value = "id") @Required override val id: kotlin.String,
+
+    @SerialName(value = "string_set") @Required override val stringSet: kotlin.collections.Set<kotlin.String>,
+
+    @SerialName(value = "string_array") @Required override val stringArray: kotlin.collections.List<kotlin.String>,
 
     @SerialName(value = "featherType") @Required val featherType: kotlin.String,
 

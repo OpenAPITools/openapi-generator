@@ -41,8 +41,19 @@ components:
           format: uuid
         optional_property:
           type: number
+        stringSet:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        stringArray:
+          type: array
+          items:
+            type: string
       required:
         - id
+        - string_set
+        - string_array
       discriminator:
         propertyName: discriminator
         mapping:

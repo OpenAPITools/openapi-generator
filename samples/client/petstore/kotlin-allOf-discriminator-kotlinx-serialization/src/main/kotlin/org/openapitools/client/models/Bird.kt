@@ -30,6 +30,8 @@ import kotlinx.serialization.encoding.Encoder
  * 
  *
  * @param id 
+ * @param stringSet 
+ * @param stringArray 
  * @param featherType 
  * @param optionalProperty 
  */
@@ -40,6 +42,12 @@ data class Bird (
 
     @Contextual @SerialName(value = "id")
     override val id: java.util.UUID,
+
+    @SerialName(value = "string_set")
+    override val stringSet: kotlin.collections.Set<kotlin.String>,
+
+    @SerialName(value = "string_array")
+    override val stringArray: kotlin.collections.List<kotlin.String>,
 
     @SerialName(value = "featherType")
     val featherType: kotlin.String,
