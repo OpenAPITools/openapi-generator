@@ -5,9 +5,9 @@
 | Name | Type | Description | Notes |
 | ------------ | ------------- | ------------- | ------------- |
 | **id** | **kotlin.String** |  |  |
-| **stringSet** | **kotlin.collections.Set&lt;kotlin.String&gt;** |  |  |
-| **stringArray** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  |
 | **optionalProperty** | **kotlin.Double** |  |  [optional] |
+| **stringSet** | **kotlin.collections.Set&lt;kotlin.String&gt;** |  |  [optional] |
+| **stringArray** | **kotlin.collections.List&lt;kotlin.String&gt;** |  |  [optional] |
 
 
 

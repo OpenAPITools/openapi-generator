@@ -25,9 +25,9 @@ import kotlinx.serialization.json.JsonClassDiscriminator
  * 
  *
  * @param id 
+ * @param optionalProperty 
  * @param stringSet 
  * @param stringArray 
- * @param optionalProperty 
  */
 @Serializable
 
@@ -37,9 +37,9 @@ import kotlinx.serialization.json.JsonClassDiscriminator
 sealed class Animal {
 
     @SerialName(value = "id") @Required abstract val id: kotlin.String
-    @SerialName(value = "string_set") @Required abstract val stringSet: kotlin.collections.Set<kotlin.String>
-    @SerialName(value = "string_array") @Required abstract val stringArray: kotlin.collections.List<kotlin.String>
     @SerialName(value = "optional_property") abstract val optionalProperty: kotlin.Double?
+    @SerialName(value = "stringSet") abstract val stringSet: kotlin.collections.Set<kotlin.String>?
+    @SerialName(value = "stringArray") abstract val stringArray: kotlin.collections.List<kotlin.String>?
 
 }
 

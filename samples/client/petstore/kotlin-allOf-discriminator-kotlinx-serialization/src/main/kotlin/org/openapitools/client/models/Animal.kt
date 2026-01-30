@@ -31,9 +31,9 @@ import kotlinx.serialization.json.JsonClassDiscriminator
  * 
  *
  * @param id 
+ * @param optionalProperty 
  * @param stringSet 
  * @param stringArray 
- * @param optionalProperty 
  */
 @Serializable
 
@@ -44,12 +44,12 @@ sealed class Animal {
 
     @Contextual @SerialName(value = "id")
     abstract val id: java.util.UUID
-    @SerialName(value = "string_set")
-    abstract val stringSet: kotlin.collections.Set<kotlin.String>
-    @SerialName(value = "string_array")
-    abstract val stringArray: kotlin.collections.List<kotlin.String>
     @Contextual @SerialName(value = "optional_property")
     abstract val optionalProperty: java.math.BigDecimal?
+    @SerialName(value = "stringSet")
+    abstract val stringSet: kotlin.collections.Set<kotlin.String>?
+    @SerialName(value = "stringArray")
+    abstract val stringArray: kotlin.collections.List<kotlin.String>?
 
 }
 
