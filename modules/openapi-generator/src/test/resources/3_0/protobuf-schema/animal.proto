@@ -12,20 +12,20 @@ syntax = "proto3";
 
 package openapitools;
 
-import public "models/characteristics.proto";
+import public "models/care_details.proto";
 
-message Pet {
+message Animal {
 
   string pet_type = 482112090;
 
   string name = 3373707;
 
-  Characteristics characteristics = 455429578;
+  string fur_color = 478695002;
+
+  bool is_indoor = 183319801;
+
+  CareDetails care_details = 176721135;
 
   string bark = 3016376;
-
-  bool loves_rocks = 465093427;
-
-  bool has_legs = 140596906;
 
 }
