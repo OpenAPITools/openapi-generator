@@ -1,0 +1,84 @@
+{{>License}}
+
+#pragma once
+#include <httplib.h>
+{{#includeVariantHeader}}{{{includeVariantHeader}}}{{/includeVariantHeader}}
+{{#includeOptionalHeader}}{{{includeOptionalHeader}}}{{/includeOptionalHeader}}
+{{#modelsUsed}}
+#include "models/{{.}}.h"
+{{/modelsUsed}}
+
+namespace {{apiNamespace}} {
+
+class {{apiClassnameInPascalCase}} {
+public:
+    {{apiClassnameInPascalCase}}() = default;
+    virtual ~{{apiClassnameInPascalCase}}() = default;
+    void registerRoutes(httplib::Server& svr);
+    {{#operations}}
+    {{#operation}}
+    {{#vendorExtensions}}
+
+    /**
+     * @brief Response type for {{handlerFunctionName}}.
+     */
+    using {{handlerFunctionResponse}} = std::variant<
+        {{#successType}}
+                        {{successType}}{{#errorTypes}}{{#-first}},{{/-first}}{{/errorTypes}}{{^errorTypes}}>;{{/errorTypes}}//success type
+        {{/successType}}
+    {{#errorTypes}}
+                        {{.}}{{#-last}}>;{{/-last}}{{^-last}},{{/-last}}{{#-first}}// error types{{/-first}}
+    {{/errorTypes}}
+    {{#hasAnyRequestSchema}}
+    struct {{handlerFunctionRequest}}
+    {
+        {{#requestModel}}
+        std::optional<{{requestModel}}> m_request;
+        {{/requestModel}}
+        {{#queryParams}}
+        {{#-first}}
+        //Query Parameters
+        {{/-first}}
+        {{dataType}} m_{{paramName}};
+        {{/queryParams}}
+        {{#headerParams}}
+        {{#-first}}
+        //Header Parameters
+        {{/-first}}
+        {{dataType}} m_{{paramName}};
+        {{/headerParams}}
+    };
+    {{/hasAnyRequestSchema}}
+    /**
+     * @brief Handler function for processing API requests.
+     *
+     * {{handlerFunctionName}} is a pure virtual function that must be implemented by derived classes to handle.
+     {{#hasAnyRequestSchema}}
+     * {{handlerFunctionRequest}} - struct containing all the query parameters and headers and schemas as available.
+     {{/hasAnyRequestSchema}}
+     {{#hasAnyResponseSchema}}
+     * @return {{handlerFunctionResponse}} The response type returned by the handler.
+     {{/hasAnyResponseSchema}}
+     */
+    virtual {{#hasAnyResponseSchema}}{{handlerFunctionResponse}}{{/hasAnyResponseSchema}}{{^hasAnyResponseSchema}}void{{/hasAnyResponseSchema}} {{handlerFunctionName}}({{#hasAnyRequestSchema}}const {{handlerFunctionRequest}}& params{{/hasAnyRequestSchema}})=0;
+
+    {{/vendorExtensions}}
+    {{/operation}}
+    {{/operations}}
+private:
+    // --- Helper function declarations ---
+    {{#operations}}
+    {{#operation}}
+    {{#vendorExtensions}}
+    {{#hasAnyRequestSchema}}
+    static {{handlerFunctionRequest}} parse{{operationIdPascalCase}}Params(const httplib::Request& req);
+    {{/hasAnyRequestSchema}}
+    {{#hasAnyResponseSchema}}
+    static void handle{{handlerFunctionResponse}}(const {{handlerFunctionResponse}}& result, httplib::Response& res);
+    {{/hasAnyResponseSchema}}
+    {{/vendorExtensions}}
+    {{/operation}}
+    {{/operations}}
+};
+
+} // namespace {{apiNamespace}}
