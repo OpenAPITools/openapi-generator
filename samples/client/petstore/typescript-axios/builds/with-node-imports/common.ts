@@ -97,7 +97,8 @@ export const setSearchParams = function (url: URL, ...objects: any[]) {
  * This function will run for every key-value pair encountered by JSON.stringify while traversing an object.
  * Converting a set to a string will return an empty object, so an intermediate conversion to an array is required.
  */
-export const replaceWithSerializableTypeIfNeeded = function(key: any, value: any) {
+// @ts-ignore
+export const replaceWithSerializableTypeIfNeeded = function(key: string, value: any) {
     if (value instanceof Set) {
         return Array.from(value);
     } else {
