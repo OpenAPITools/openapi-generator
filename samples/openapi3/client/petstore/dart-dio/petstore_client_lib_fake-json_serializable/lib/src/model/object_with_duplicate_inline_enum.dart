@@ -29,6 +29,7 @@ class ObjectWithDuplicateInlineEnum {
     name: r'attribute',
     required: false,
     includeIfNull: false,
+
   unknownEnumValue: Set<ObjectWithDuplicateInlineEnumAttributeEnum>.unknownDefaultOpenApi,
   )
 

@@ -33,6 +33,7 @@ class ArrayTest {
     name: r'array_of_string',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -45,6 +46,7 @@ class ArrayTest {
     name: r'array_array_of_integer',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -57,6 +59,7 @@ class ArrayTest {
     name: r'array_array_of_model',
     required: false,
     includeIfNull: false,
+
   )
 
 

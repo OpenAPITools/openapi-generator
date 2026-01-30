@@ -30,6 +30,7 @@ class Model200Response {
     name: r'name',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -42,6 +43,7 @@ class Model200Response {
     name: r'class',
     required: false,
     includeIfNull: false,
+
   )
 
 
