@@ -154,9 +154,9 @@ enum Operation {
         #[clap(value_parser = parse_json::<swagger::ByteArray>)]
         byte: swagger::ByteArray,
         /// None
-        integer: Option<i32>,
+        integer: Option<u32>,
         /// None
-        int32: Option<i32>,
+        int32: Option<u32>,
         /// None
         int64: Option<i64>,
         /// None
@@ -292,7 +292,7 @@ enum Operation {
     /// Find purchase order by ID
     GetOrderById {
         /// ID of pet that needs to be fetched
-        order_id: i64,
+        order_id: u64,
     },
     /// Create user
     CreateUser {
