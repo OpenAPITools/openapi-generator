@@ -1208,8 +1208,8 @@ impl<S, C, B> Api<C> for Client<S, C> where
         param_double: f64,
         param_pattern_without_delimiter: String,
         param_byte: swagger::ByteArray,
-        param_integer: Option<i32>,
-        param_int32: Option<i32>,
+        param_integer: Option<u32>,
+        param_int32: Option<u32>,
         param_int64: Option<i64>,
         param_float: Option<f32>,
         param_string: Option<String>,
@@ -3032,7 +3032,7 @@ impl<S, C, B> Api<C> for Client<S, C> where
     #[allow(clippy::vec_init_then_push)]
     async fn get_order_by_id(
         &self,
-        param_order_id: i64,
+        param_order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
