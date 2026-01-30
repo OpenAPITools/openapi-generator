@@ -2012,13 +2012,23 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 listIterator.add(newImportMap);
             }
         }
+        // make sure the x-implements is always a List and always at least empty
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
+                List<String> xImplements = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
+                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
+            } else {
+                cm.getVendorExtensions().put(X_IMPLEMENTS, new ArrayList<String>());
+            }
+        }
 
         // skip interfaces predefined in open api spec in x-implements via additional property xImplementsSkip
         if (!this.xImplementsSkip.isEmpty()) {
             for (ModelMap mo : objs.getModels()) {
                 CodegenModel cm = mo.getModel();
-                if (cm.getVendorExtensions().containsKey(X_IMPLEMENTS)) {
-                    List<String> xImplementsInModelOriginal = (List<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
+                if (!getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)).isEmpty()) {
+                    List<String> xImplementsInModelOriginal = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
                     List<String> xImplementsInModelSkipped = xImplementsInModelOriginal
                             .stream()
                             .filter(o -> this.xImplementsSkip.contains(o))
@@ -2040,8 +2050,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 CodegenModel cm = mo.getModel();
                 if (this.schemaImplements.containsKey(cm.getSchemaName())) {
                     LOGGER.info("Adding interface(s) {} configured via config option '{}' to model {}", this.schemaImplements.get(cm.getSchemaName()), SCHEMA_IMPLEMENTS, cm.classname);
-                    cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
-                    List<String> xImplementsInModel = (List<String>) cm.getVendorExtensions().get(X_IMPLEMENTS);
+                    List<String> xImplementsInModel = getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS));
                     List<String> schemaImplements = this.schemaImplements.get(cm.getSchemaName());
                     List<String> combinedSchemaImplements = Stream.concat(xImplementsInModel.stream(), schemaImplements.stream())
                             .collect(Collectors.toList());
@@ -2051,12 +2060,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-        // add x-implements for serializable to all models
-        for (ModelMap mo : objs.getModels()) {
-            CodegenModel cm = mo.getModel();
-            if (this.serializableModel) {
-                cm.getVendorExtensions().putIfAbsent(X_IMPLEMENTS, new ArrayList<String>());
-                ((ArrayList<String>) cm.getVendorExtensions().get(X_IMPLEMENTS)).add("Serializable");
+        // add Serializable to x-implements to all models if configured
+        if (this.serializableModel) {
+            for (ModelMap mo : objs.getModels()) {
+                CodegenModel cm = mo.getModel();
+                List<String> xImplements = new ArrayList<>(getObjectAsStringList(cm.getVendorExtensions().get(X_IMPLEMENTS)));
+                if (!xImplements.contains("Serializable")) {
+                    xImplements.add("Serializable");
+                }
+                cm.getVendorExtensions().replace(X_IMPLEMENTS, xImplements);
             }
         }
 

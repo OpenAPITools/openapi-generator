@@ -7142,6 +7142,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public List<String> getPropertyAsStringList(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
+        return getObjectAsStringList(value);
+    }
+
+    public static List<String> getObjectAsStringList(Object value) {
         if (value instanceof List) {
             List<?> list = (List<?>) value;
             List<String> stringList = new ArrayList<>();
@@ -7159,10 +7163,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, String> getPropertyAsStringMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
+        return getObjectAsStringMap(value);
+    }
+
+    public static Map<String, String> getObjectAsStringMap(Object value) {
         if (value instanceof Map) {
             Map<?, ?> rawMap = (Map<?, ?>) value;
             Map<String, String> stringMap = new HashMap<>();
-            for (Map.Entry<?, ?> entry : rawMap.entrySet()) {
+            for (Entry<?, ?> entry : rawMap.entrySet()) {
                 stringMap.put(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
             }
             return stringMap;
@@ -7172,10 +7180,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public Map<String, List<String>> getPropertyAsStringListMap(String propertyKey) {
         final Object value = additionalProperties.get(propertyKey);
+        return getObjectAsStringListMap(value);
+    }
+
+    public static Map<String, List<String>> getObjectAsStringListMap(Object value) {
         if (value instanceof Map) {
             Map<?, ?> rawMap = (Map<?, ?>) value;
             Map<String, List<String>> stringMap = new HashMap<>();
-            for (Map.Entry<?, ?> entry : rawMap.entrySet()) {
+            for (Entry<?, ?> entry : rawMap.entrySet()) {
                 Object entryValue = entry.getValue();
                 if (entryValue instanceof List) {
                     List<String> stringList = ((List<?>) entryValue).stream()
