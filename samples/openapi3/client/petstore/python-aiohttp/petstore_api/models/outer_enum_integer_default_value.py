@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class OuterEnumIntegerDefaultValue(IntEnum):
 
-class OuterEnumIntegerDefaultValue(int, Enum):
     """
     OuterEnumIntegerDefaultValue
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     NUMBER_MINUS_1 = -1
     NUMBER_0 = 0
     NUMBER_1 = 1
@@ -35,5 +33,4 @@ class OuterEnumIntegerDefaultValue(int, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of OuterEnumIntegerDefaultValue from a JSON string"""
         return cls(json.loads(json_str))
-
 
