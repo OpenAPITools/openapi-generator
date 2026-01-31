@@ -25,7 +25,6 @@ import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConfig
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.SupportingFile
@@ -45,13 +44,13 @@ import java.nio.charset.Charset
 @CacheableTask
 open class MetaTask : DefaultTask() {
     @get:Input
-    val generatorName = project.objects.property<String>()
+    val generatorName = project.objects.property(String::class.java)
 
     @get:Input
-    val packageName = project.objects.property<String>()
+    val packageName = project.objects.property(String::class.java)
 
     @get:OutputDirectory
-    val outputFolder = project.objects.property<String>()
+    val outputFolder = project.objects.property(String::class.java)
 
     @TaskAction
     fun doWork() {

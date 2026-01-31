@@ -26,6 +26,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 import org.openapitools.generator.gradle.plugin.tasks.GeneratorsTask
 import org.openapitools.generator.gradle.plugin.tasks.MetaTask
 import org.openapitools.generator.gradle.plugin.tasks.ValidateTask
+import kotlin.jvm.java
 
 /**
  * A plugin providing common Open API Generator use cases.
@@ -60,102 +61,102 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                 project
             )
 
-            generate.outputDir.set("$buildDir/generate-resources/main")
+            generate.outputDir.convention(project.layout.buildDirectory.map { it.asFile.resolve("generate-resources/main").absolutePath })
 
             tasks.apply {
-                register("openApiGenerators", GeneratorsTask::class.java).configure {
-                    group = pluginGroup
-                    description = "Lists generators available via Open API Generators."
+                register("openApiGenerators", GeneratorsTask::class.java).configure { task ->
+                    task.group = pluginGroup
+                    task.description = "Lists generators available via Open API Generators."
 
-                    include.set(generators.include)
+                    task.include.set(generators.include)
                 }
 
-                register("openApiMeta", MetaTask::class.java).configure {
-                    group = pluginGroup
-                    description = "Generates a new generator to be consumed via Open API Generator."
+                register("openApiMeta", MetaTask::class.java).configure { task ->
+                    task.group = pluginGroup
+                    task.description = "Generates a new generator to be consumed via Open API Generator."
 
-                    generatorName.set(meta.generatorName)
-                    packageName.set(meta.packageName)
-                    outputFolder.set(meta.outputFolder)
+                    task.generatorName.set(meta.generatorName)
+                    task.packageName.set(meta.packageName)
+                    task.outputFolder.set(meta.outputFolder)
                 }
 
-                register("openApiValidate", ValidateTask::class.java).configure {
-                    group = pluginGroup
-                    description = "Validates an Open API 2.0 or 3.x specification document."
+                register("openApiValidate", ValidateTask::class.java).configure { task ->
+                    task.group = pluginGroup
+                    task.description = "Validates an Open API 2.0 or 3.x specification document."
 
-                    inputSpec.set(validate.inputSpec)
-                    recommend.set(validate.recommend)
-                    treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
+                    task.inputSpec.set(validate.inputSpec)
+                    task.recommend.set(validate.recommend)
+                    task.treatWarningsAsErrors.set(validate.treatWarningsAsErrors)
                 }
 
-                register("openApiGenerate", GenerateTask::class.java).configure {
-                    group = pluginGroup
-                    description =
+                register("openApiGenerate", GenerateTask::class.java).configure { task ->
+                    task.group = pluginGroup
+                    task.description =
                         "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 
-                    verbose.set(generate.verbose)
-                    validateSpec.set(generate.validateSpec)
-                    generatorName.set(generate.generatorName)
-                    outputDir.set(generate.outputDir)
-                    inputSpec.set(generate.inputSpec)
-                    inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
-                    inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
-                    remoteInputSpec.set(generate.remoteInputSpec)
-                    templateDir.set(generate.templateDir)
-                    templateResourcePath.set(generate.templateResourcePath)
-                    auth.set(generate.auth)
-                    globalProperties.set(generate.globalProperties)
-                    configFile.set(generate.configFile)
-                    skipOverwrite.set(generate.skipOverwrite)
-                    packageName.set(generate.packageName)
-                    apiPackage.set(generate.apiPackage)
-                    modelPackage.set(generate.modelPackage)
-                    modelNamePrefix.set(generate.modelNamePrefix)
-                    modelNameSuffix.set(generate.modelNameSuffix)
-                    apiNameSuffix.set(generate.apiNameSuffix)
-                    instantiationTypes.set(generate.instantiationTypes)
-                    typeMappings.set(generate.typeMappings)
-                    additionalProperties.set(generate.additionalProperties)
-                    serverVariables.set(generate.serverVariables)
-                    languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
-                    openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
-                    importMappings.set(generate.importMappings)
-                    schemaMappings.set(generate.schemaMappings)
-                    inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
-                    inlineSchemaOptions.set(generate.inlineSchemaOptions)
-                    nameMappings.set(generate.nameMappings)
-                    modelNameMappings.set(generate.modelNameMappings)
-                    parameterNameMappings.set(generate.parameterNameMappings)
-                    openapiNormalizer.set(generate.openapiNormalizer)
-                    invokerPackage.set(generate.invokerPackage)
-                    groupId.set(generate.groupId)
-                    id.set(generate.id)
-                    version.set(generate.version)
-                    library.set(generate.library)
-                    gitHost.set(generate.gitHost)
-                    gitUserId.set(generate.gitUserId)
-                    gitRepoId.set(generate.gitRepoId)
-                    releaseNote.set(generate.releaseNote)
-                    httpUserAgent.set(generate.httpUserAgent)
-                    reservedWordsMappings.set(generate.reservedWordsMappings)
-                    ignoreFileOverride.set(generate.ignoreFileOverride)
-                    removeOperationIdPrefix.set(generate.removeOperationIdPrefix)
-                    skipOperationExample.set(generate.skipOperationExample)
-                    apiFilesConstrainedTo.set(generate.apiFilesConstrainedTo)
-                    modelFilesConstrainedTo.set(generate.modelFilesConstrainedTo)
-                    supportingFilesConstrainedTo.set(generate.supportingFilesConstrainedTo)
-                    generateModelTests.set(generate.generateModelTests)
-                    generateModelDocumentation.set(generate.generateModelDocumentation)
-                    generateApiTests.set(generate.generateApiTests)
-                    generateApiDocumentation.set(generate.generateApiDocumentation)
-                    configOptions.set(generate.configOptions)
-                    logToStderr.set(generate.logToStderr)
-                    enablePostProcessFile.set(generate.enablePostProcessFile)
-                    skipValidateSpec.set(generate.skipValidateSpec)
-                    generateAliasAsModel.set(generate.generateAliasAsModel)
-                    engine.set(generate.engine)
-                    cleanupOutput.set(generate.cleanupOutput)
-                    dryRun.set(generate.dryRun)
+                    task.verbose.set(generate.verbose)
+                    task.validateSpec.set(generate.validateSpec)
+                    task.generatorName.set(generate.generatorName)
+                    task.outputDir.set(generate.outputDir)
+                    task.inputSpec.set(generate.inputSpec)
+                    task.inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
+                    task.inputSpecRootDirectorySkipMerge.set(generate.inputSpecRootDirectorySkipMerge)
+                    task.remoteInputSpec.set(generate.remoteInputSpec)
+                    task.templateDir.set(generate.templateDir)
+                    task.templateResourcePath.set(generate.templateResourcePath)
+                    task.auth.set(generate.auth)
+                    task.globalProperties.set(generate.globalProperties)
+                    task.configFile.set(generate.configFile)
+                    task.skipOverwrite.set(generate.skipOverwrite)
+                    task.packageName.set(generate.packageName)
+                    task.apiPackage.set(generate.apiPackage)
+                    task.modelPackage.set(generate.modelPackage)
+                    task.modelNamePrefix.set(generate.modelNamePrefix)
+                    task.modelNameSuffix.set(generate.modelNameSuffix)
+                    task.apiNameSuffix.set(generate.apiNameSuffix)
+                    task.instantiationTypes.set(generate.instantiationTypes)
+                    task.typeMappings.set(generate.typeMappings)
+                    task.additionalProperties.set(generate.additionalProperties)
+                    task.serverVariables.set(generate.serverVariables)
+                    task.languageSpecificPrimitives.set(generate.languageSpecificPrimitives)
+                    task.openapiGeneratorIgnoreList.set(generate.openapiGeneratorIgnoreList)
+                    task.importMappings.set(generate.importMappings)
+                    task.schemaMappings.set(generate.schemaMappings)
+                    task.inlineSchemaNameMappings.set(generate.inlineSchemaNameMappings)
+                    task.inlineSchemaOptions.set(generate.inlineSchemaOptions)
+                    task.nameMappings.set(generate.nameMappings)
+                    task.modelNameMappings.set(generate.modelNameMappings)
+                    task.parameterNameMappings.set(generate.parameterNameMappings)
+                    task.openapiNormalizer.set(generate.openapiNormalizer)
+                    task.invokerPackage.set(generate.invokerPackage)
+                    task.groupId.set(generate.groupId)
+                    task.id.set(generate.id)
+                    task.version.set(generate.version)
+                    task.library.set(generate.library)
+                    task.gitHost.set(generate.gitHost)
+                    task.gitUserId.set(generate.gitUserId)
+                    task.gitRepoId.set(generate.gitRepoId)
+                    task.releaseNote.set(generate.releaseNote)
+                    task.httpUserAgent.set(generate.httpUserAgent)
+                    task.reservedWordsMappings.set(generate.reservedWordsMappings)
+                    task.ignoreFileOverride.set(generate.ignoreFileOverride)
+                    task.removeOperationIdPrefix.set(generate.removeOperationIdPrefix)
+                    task.skipOperationExample.set(generate.skipOperationExample)
+                    task.apiFilesConstrainedTo.set(generate.apiFilesConstrainedTo)
+                    task.modelFilesConstrainedTo.set(generate.modelFilesConstrainedTo)
+                    task.supportingFilesConstrainedTo.set(generate.supportingFilesConstrainedTo)
+                    task.generateModelTests.set(generate.generateModelTests)
+                    task.generateModelDocumentation.set(generate.generateModelDocumentation)
+                    task.generateApiTests.set(generate.generateApiTests)
+                    task.generateApiDocumentation.set(generate.generateApiDocumentation)
+                    task.configOptions.set(generate.configOptions)
+                    task.logToStderr.set(generate.logToStderr)
+                    task.enablePostProcessFile.set(generate.enablePostProcessFile)
+                    task.skipValidateSpec.set(generate.skipValidateSpec)
+                    task.generateAliasAsModel.set(generate.generateAliasAsModel)
+                    task.engine.set(generate.engine)
+                    task.cleanupOutput.set(generate.cleanupOutput)
+                    task.dryRun.set(generate.dryRun)
                 }
             }
         }

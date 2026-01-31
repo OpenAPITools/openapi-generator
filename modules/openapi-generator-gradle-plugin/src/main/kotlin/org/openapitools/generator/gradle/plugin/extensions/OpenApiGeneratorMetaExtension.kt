@@ -17,7 +17,6 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.property
 
 /**
  * Gradle project level extension object definition for the meta-generator task
@@ -28,21 +27,21 @@ open class OpenApiGeneratorMetaExtension(project: Project) {
     /**
      * The human-readable generator name of the newly created template generator.
      */
-    val generatorName = project.objects.property<String>()
+    val generatorName = project.objects.property(String::class.java)
 
     /**
      * The packageName generatorName to put the main class into (defaults to org.openapitools.codegen)
      */
-    val packageName = project.objects.property<String>()
+    val packageName = project.objects.property(String::class.java)
 
     /**
      * Where to write the generated files (current dir by default).
      */
-    val outputFolder = project.objects.property<String>()
+    val outputFolder = project.objects.property(String::class.java)
 
     init {
-        generatorName.set("default")
-        packageName.set("org.openapitools.codegen")
-        outputFolder.set("")
+        generatorName.convention("default")
+        packageName.convention("org.openapitools.codegen")
+        outputFolder.convention("")
     }
 }

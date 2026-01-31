@@ -32,7 +32,6 @@ import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator
 import org.openapitools.codegen.validations.oas.RuleConfiguration
 
@@ -56,15 +55,15 @@ import org.openapitools.codegen.validations.oas.RuleConfiguration
 open class ValidateTask : DefaultTask() {
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.property(String::class.java)
 
     @get:Optional
     @get:Input
-    val recommend = project.objects.property<Boolean>().convention(true)
+    val recommend = project.objects.property(Boolean::class.javaObjectType).convention(true)
 
     @get:Optional
     @get:Input
-    val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
+    val treatWarningsAsErrors = project.objects.property(Boolean::class.javaObjectType).convention(false)
 
     @get:Internal
     @set:Option(option = "input", description = "The input specification.")

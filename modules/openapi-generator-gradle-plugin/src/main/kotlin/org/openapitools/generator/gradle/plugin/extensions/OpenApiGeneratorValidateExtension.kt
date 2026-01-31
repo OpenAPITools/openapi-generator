@@ -17,7 +17,6 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.property
 
 /**
  * Gradle project level extension object definition for the generators task
@@ -28,15 +27,15 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
     /**
      * The input specification to validate. Supports all formats supported by the Parser.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec = project.objects.property(String::class.java)
 
     /**
      * Whether to offer recommendations related to the validated specification document.
      */
-    val recommend = project.objects.property<Boolean>().convention(true)
+    val recommend = project.objects.property(Boolean::class.javaObjectType).convention(true)
 
     /**
      * Whether to treat warnings as errors and fail the task.
      */
-    val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
+    val treatWarningsAsErrors = project.objects.property(Boolean::class.javaObjectType).convention(false)
 }

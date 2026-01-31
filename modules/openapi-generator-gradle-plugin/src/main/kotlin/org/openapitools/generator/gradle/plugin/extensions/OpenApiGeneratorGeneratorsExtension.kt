@@ -17,7 +17,6 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.listProperty
 import org.openapitools.codegen.meta.Stability
 
 /**
@@ -29,7 +28,7 @@ open class OpenApiGeneratorGeneratorsExtension(project: Project) {
     /**
      * A list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
      */
-    val include = project.objects.listProperty<String>()
+    val include = project.objects.listProperty(String::class.java)
 
     init {
         applyDefaults()
@@ -37,5 +36,5 @@ open class OpenApiGeneratorGeneratorsExtension(project: Project) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun applyDefaults() =
-        include.set(Stability.values().map { it.value() }.filterNot { it == Stability.DEPRECATED.value() })
+        include.convention(Stability.values().map { it.value() }.filterNot { it == Stability.DEPRECATED.value() })
 }

@@ -21,7 +21,6 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.listProperty
 import org.gradle.work.DisableCachingByDefault
 import org.openapitools.codegen.CodegenConfigLoader
 import org.openapitools.codegen.CodegenType
@@ -43,7 +42,7 @@ open class GeneratorsTask : DefaultTask() {
      * A list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
      */
     @get:Internal
-    val include = project.objects.listProperty<String>()
+    val include = project.objects.listProperty(String::class.java)
 
     @TaskAction
     fun doWork() {
