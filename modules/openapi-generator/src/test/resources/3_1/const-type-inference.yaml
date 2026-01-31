@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  title: "Const Type Inference Test"
+  version: 1.0.0
+components:
+  schemas:
+    ConstStyle:
+      type: object
+      properties:
+        stringValue:
+          const: "hello-world"
+        intValue:
+          const: 42
+    EnumStyle:
+      type: object
+      properties:
+        stringValue:
+          type: string
+          enum:
+            - "hello-world"
+        intValue:
+          type: integer
+          enum:
+            - 42

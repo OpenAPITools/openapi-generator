@@ -1181,6 +1181,23 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerConstTypeInference31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/const-type-inference.yaml");
+
+        assertNotEquals(
+                openAPI.getComponents().getSchemas().get("ConstStyle"),
+                openAPI.getComponents().getSchemas().get("EnumStyle")
+        );
+
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        assertEquals(
+                openAPI.getComponents().getSchemas().get("ConstStyle"),
+                openAPI.getComponents().getSchemas().get("EnumStyle")
+        );
+    }
+
+    @Test
     public void testOpenAPINormalizerProcessingAllOfSchema31Spec() {
         // to test array schema processing in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
