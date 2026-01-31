@@ -3,7 +3,7 @@
   "dependencies": {
     "@types/rewire": "^2.5.28",
     "form-data": "^4.0.4",
-    "rewire": "^7.0.0",
+    "rewire": "^9.0.1",
     "ts-node": "^3.3.0",
     "ts-petstore-client": "file:../../builds/default"
   },
