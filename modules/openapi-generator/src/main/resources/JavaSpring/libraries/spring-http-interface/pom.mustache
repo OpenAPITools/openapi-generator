@@ -96,6 +96,12 @@
                 <optional>true</optional>
             </dependency>
         {{/lombok}}
+        {{#clientRegistrationId}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        {{/clientRegistrationId}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

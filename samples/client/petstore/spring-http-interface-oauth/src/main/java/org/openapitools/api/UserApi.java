@@ -10,10 +10,8 @@ import org.openapitools.model.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
-
-import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;
-
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;
 
 import java.util.List;
 import java.util.Map;

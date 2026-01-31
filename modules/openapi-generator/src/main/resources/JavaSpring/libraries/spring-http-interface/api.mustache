@@ -15,10 +15,8 @@ import org.springframework.http.ResponseEntity;
 {{/useResponseEntity}}
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
-{{#operations}}{{#clientRegistrationId}}
-import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;
-{{/clientRegistrationId}}{{/operations}}
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;{{#operations}}{{#clientRegistrationId}}
+import org.springframework.security.oauth2.client.annotation.ClientRegistrationId;{{/clientRegistrationId}}{{/operations}}
 {{#reactive}}
 
 import org.springframework.http.codec.multipart.Part;
