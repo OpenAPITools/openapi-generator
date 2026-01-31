@@ -110,6 +110,22 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     }
 
     /**
+     * Serializes a multipart body part based on its content type.
+     * Uses JSON serialization for application/json content types, otherwise converts to string.
+     *
+     * @param obj The object to serialize
+     * @param contentType The Content-Type header value, if any
+     * @return The serialized string representation
+     */
+    protected inline fun <reified T> serializePartBody(obj: T?, contentType: String?): String {
+        return if (contentType?.contains("json") == true) {
+            Serializer.jacksonObjectMapper.writeValueAsString(obj)
+        } else {
+            parameterToString(obj)
+        }
+    }
+
+    /**
      * Adds any type to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
      * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
@@ -127,11 +143,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         // separately via toRequestBody(mediaType), not in the headers map
         val partHeaders = headers.filterKeys { it != "Content-Type" }.toMutableMap() +
             ("Content-Disposition" to "form-data; name=\"$name\"")
-        val partBody = if (partContentType?.contains("json") == true) {
-            Serializer.jacksonObjectMapper.writeValueAsString(obj)
-        } else {
-            parameterToString(obj)
-        }
+        val partBody = serializePartBody(obj, partContentType)
         addPart(
             partHeaders.toHeaders(),
             partBody.toRequestBody(partMediaType)
