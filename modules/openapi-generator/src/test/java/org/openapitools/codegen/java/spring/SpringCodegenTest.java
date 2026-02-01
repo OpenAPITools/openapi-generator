@@ -6223,4 +6223,31 @@ public class SpringCodegenTest {
                                                                          ));
     }
 
+    @Test
+    public void testClientRegistrationIdAnnotation() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-http-interface");
+        codegen.setClientRegistrationId("my-oauth-client");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        // Check that the @ClientRegistrationId annotation is generated at class level
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.springframework.security.oauth2.client.annotation.ClientRegistrationId")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("ClientRegistrationId", ImmutableMap.of("value", "\"my-oauth-client\""));
+    }
+
+    @Test
+    public void testClientRegistrationIdAnnotationNotPresentWhenNotConfigured() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-http-interface");
+        // clientRegistrationId not set
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+
+        // Check that the @ClientRegistrationId annotation is NOT generated
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@ClientRegistrationId", "ClientRegistrationId");
+    }
+
 }
