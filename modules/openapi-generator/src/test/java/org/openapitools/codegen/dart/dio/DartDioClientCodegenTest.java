@@ -115,4 +115,32 @@ public class DartDioClientCodegenTest {
         TestUtils.ensureContainsFile(files, output, "README.md");
         TestUtils.ensureContainsFile(files, output, "lib/src/api.dart");
     }
+
+    @Test
+    public void verifyEnumDiscriminatorUsesEnumType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_0/dart-dio/enum-discriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, DartDioClientCodegen.SERIALIZATION_LIBRARY_BUILT_VALUE)
+                .addAdditionalProperty(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, false)
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true);
+
+        ClientOptInput opts = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator().opts(opts);
+        List<File> files = generator.generate();
+        files.forEach(File::deleteOnExit);
+
+        File modelFile = new File(output, "lib/src/model/merchant_details_dto.dart");
+        TestUtils.ensureContainsFile(files, output, "lib/src/model/merchant_details_dto.dart");
+
+        String contents = Files.readString(modelFile.toPath(), StandardCharsets.UTF_8);
+        Assert.assertTrue(contents.contains("MerchantTypeEnum get discriminatorValue"));
+        Assert.assertTrue(contents.contains("MerchantTypeEnum.valueOf(r'TYPE_A')"));
+        Assert.assertFalse(contents.contains("String? get discriminatorValue"));
+    }
 }
