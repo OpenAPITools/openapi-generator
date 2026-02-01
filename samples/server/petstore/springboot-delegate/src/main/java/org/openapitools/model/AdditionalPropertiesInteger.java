@@ -36,7 +36,8 @@ public class AdditionalPropertiesInteger {
   /**
    * Constructor with all args parameters
    */
-  public AdditionalPropertiesInteger(@Nullable String name) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public AdditionalPropertiesInteger(@JsonProperty("name") @Nullable String name) {
       this.name = name;
   }
 

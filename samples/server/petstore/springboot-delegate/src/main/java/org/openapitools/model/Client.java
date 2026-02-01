@@ -32,7 +32,8 @@ public class Client {
   /**
    * Constructor with all args parameters
    */
-  public Client(@Nullable String client) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Client(@JsonProperty("client") @Nullable String client) {
       this.client = client;
   }
 

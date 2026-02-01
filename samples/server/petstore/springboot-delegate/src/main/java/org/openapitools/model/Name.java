@@ -46,7 +46,8 @@ public class Name {
   /**
    * Constructor with all args parameters
    */
-  public Name(Integer name, @Nullable Integer snakeCase, @Nullable String property, @Nullable Integer _123number) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Name(@JsonProperty("name") Integer name, @JsonProperty("snake_case") @Nullable Integer snakeCase, @JsonProperty("property") @Nullable String property, @JsonProperty("123Number") @Nullable Integer _123number) {
       this.name = name;
       this.snakeCase = snakeCase;
       this.property = property;
