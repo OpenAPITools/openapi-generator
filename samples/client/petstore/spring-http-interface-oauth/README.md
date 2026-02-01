@@ -77,16 +77,27 @@ spring:
 
 ### Bean Configuration
 
-Use `RestClientHttpServiceGroupConfigurer` to configure the HTTP Service Proxy Factory:
+Configure your HTTP Interface beans with OAuth2 support using `RestClient` and the `OAuth2ClientHttpRequestInterceptor`:
 
 ```java
 @Configuration
-public class HttpInterfaceConfig extends HttpInterfacesAbstractConfigurator {
+public class HttpInterfaceConfig {
 
-    public HttpInterfaceConfig() {
-        super(RestClient.builder()
+    @Bean
+    public PetApi petApi(RestClient.Builder builder, OAuth2AuthorizedClientManager authorizedClientManager) {
+        OAuth2ClientHttpRequestInterceptor interceptor =
+            new OAuth2ClientHttpRequestInterceptor(authorizedClientManager);
+
+        RestClient restClient = builder
             .baseUrl("https://petstore.example.com/v2")
-            .build());
+            .requestInterceptor(interceptor)
+            .build();
+
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory
+            .builderFor(RestClientAdapter.create(restClient))
+            .build();
+
+        return factory.createClient(PetApi.class);
     }
 }
 ```
