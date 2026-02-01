@@ -378,6 +378,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+
+        cliOptions.add(CliOption.newString(CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER, CodegenConstants.DEFAULT_TO_EMPTY_CONTAINER_DESC));
     }
 
     @Override

@@ -456,6 +456,7 @@ public class CodegenConstants {
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
 
     public static final String DEFAULT_TO_EMPTY_CONTAINER = "defaultToEmptyContainer";
+    public static final String DEFAULT_TO_EMPTY_CONTAINER_DESC = "Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values";
 
     // Vendor extensions
     public static final String X_INTERNAL = "x-internal";
