@@ -75,4 +75,41 @@ open class BirdApi : ApiClient {
     }
 
 
+    /**
+     * 
+     * 
+     * @param metadata 
+     * @param file 
+     * @return kotlin.String
+     */
+    @Suppress("UNCHECKED_CAST")
+    open suspend fun uploadBirdWithMetadata(metadata: Bird, file: io.ktor.client.request.forms.FormPart<io.ktor.client.request.forms.InputProvider>): HttpResponse<kotlin.String> {
+
+        val localVariableAuthNames = listOf<String>()
+
+        val localVariableBody = 
+            formData {
+                metadata?.apply { append("metadata", metadata) }
+                file?.apply { append(file) }
+            }
+
+        val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableHeaders = mutableMapOf<String, String>()
+
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
+            RequestMethod.POST,
+            "/v1/bird/upload",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+        )
+
+        return multipartFormRequest(
+            localVariableConfig,
+            localVariableBody,
+            localVariableAuthNames
+        ).wrap()
+    }
+
+
 }
