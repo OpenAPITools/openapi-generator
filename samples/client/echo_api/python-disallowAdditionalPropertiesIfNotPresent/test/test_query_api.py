@@ -97,6 +97,13 @@ class TestQueryApi(unittest.TestCase):
         """
         pass
 
+    def test_test_query_style_json_serialization_object(self) -> None:
+        """Test case for test_query_style_json_serialization_object
+
+        Test query parameter(s)
+        """
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

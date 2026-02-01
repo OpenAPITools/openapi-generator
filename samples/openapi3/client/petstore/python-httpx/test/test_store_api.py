@@ -17,37 +17,37 @@ import unittest
 from petstore_api.api.store_api import StoreApi
 
 
-class TestStoreApi(unittest.TestCase):
+class TestStoreApi(unittest.IsolatedAsyncioTestCase):
     """StoreApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = StoreApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_delete_order(self) -> None:
+    async def test_delete_order(self) -> None:
         """Test case for delete_order
 
         Delete purchase order by ID
         """
         pass
 
-    def test_get_inventory(self) -> None:
+    async def test_get_inventory(self) -> None:
         """Test case for get_inventory
 
         Returns pet inventories by status
         """
         pass
 
-    def test_get_order_by_id(self) -> None:
+    async def test_get_order_by_id(self) -> None:
         """Test case for get_order_by_id
 
         Find purchase order by ID
         """
         pass
 
-    def test_place_order(self) -> None:
+    async def test_place_order(self) -> None:
         """Test case for place_order
 
         Place an order for a pet

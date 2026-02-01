@@ -37,7 +37,7 @@ class TestWithNestedOneOf(unittest.TestCase):
             return WithNestedOneOf(
                 size = 56,
                 nested_pig = None,
-                nested_oneof_enum_string = None
+                nested_oneof_enum_string = 'a'
             )
         else:
             return WithNestedOneOf(

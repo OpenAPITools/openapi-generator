@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # flake8: noqa
 
 """
@@ -12,7 +10,6 @@
 
     Do not edit the class manually.
 """  # noqa: E501
-
 
 __version__ = "1.0.0"
 
