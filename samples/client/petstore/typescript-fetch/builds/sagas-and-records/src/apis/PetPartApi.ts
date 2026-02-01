@@ -12,18 +12,17 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetMatchingPartsResponse,
-  GetPetPartTypeResponse,
-} from '../models/index';
 import {
+    type GetMatchingPartsResponse,
     GetMatchingPartsResponseFromJSON,
     GetMatchingPartsResponseToJSON,
+} from '../models/GetMatchingPartsResponse';
+import {
+    type GetPetPartTypeResponse,
     GetPetPartTypeResponseFromJSON,
     GetPetPartTypeResponseToJSON,
-} from '../models/index';
+} from '../models/GetPetPartTypeResponse';
 
 export interface GetFakePetPartTypeRequest {
     fakePetPartId: number;

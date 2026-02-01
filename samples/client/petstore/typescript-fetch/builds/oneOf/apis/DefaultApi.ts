@@ -12,21 +12,22 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  TestArrayResponse,
-  TestDiscriminatorResponse,
-  TestResponse,
-} from '../models/index';
 import {
+    type TestArrayResponse,
     TestArrayResponseFromJSON,
     TestArrayResponseToJSON,
+} from '../models/TestArrayResponse';
+import {
+    type TestDiscriminatorResponse,
     TestDiscriminatorResponseFromJSON,
     TestDiscriminatorResponseToJSON,
+} from '../models/TestDiscriminatorResponse';
+import {
+    type TestResponse,
     TestResponseFromJSON,
     TestResponseToJSON,
-} from '../models/index';
+} from '../models/TestResponse';
 
 /**
  * 
