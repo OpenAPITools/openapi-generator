@@ -88,6 +88,25 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     }
 
     /**
+     * Builds headers for a multipart form-data part.
+     * OkHttp requires Content-Type to be passed via the RequestBody parameter, not in headers.
+     * This function filters out Content-Type and builds the appropriate Content-Disposition header.
+     *
+     * @param name The field name
+     * @param headers The headers from the PartConfig (may include Content-Type)
+     * @param filename Optional filename for file uploads
+     * @return Headers object ready for addPart()
+     */
+    protected fun buildPartHeaders(name: String, headers: Map<String, String>, filename: String? = null): Headers {
+        val disposition = if (filename != null) {
+            "form-data; name=\"$name\"; filename=\"$filename\""
+        } else {
+            "form-data; name=\"$name\""
+        }
+        return (headers.filterKeys { it != "Content-Type" } + ("Content-Disposition" to disposition)).toHeaders()
+    }
+
+    /**
      * Adds a File to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
      * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
@@ -99,13 +118,9 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @see requestBody
      */
     protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
-        // Filter out Content-Type from headers as OkHttp requires it to be passed
-        // separately via asRequestBody(mediaType), not in the headers map
-        val partHeaders = headers.filterKeys { it != "Content-Type" }.toMutableMap() +
-            ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
         val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
         addPart(
-            partHeaders.toHeaders(),
+            buildPartHeaders(name, headers, file.name),
             file.asRequestBody(fileMediaType)
         )
     }
@@ -137,16 +152,12 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
      * @see requestBody
      */
-    protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
+    protected inline fun <reified T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
         val partContentType = headers["Content-Type"]
         val partMediaType = partContentType?.toMediaTypeOrNull()
-        // Filter out Content-Type from headers as OkHttp requires it to be passed
-        // separately via toRequestBody(mediaType), not in the headers map
-        val partHeaders = headers.filterKeys { it != "Content-Type" }.toMutableMap() +
-            ("Content-Disposition" to "form-data; name=\"$name\"")
         val partBody = serializePartBody(obj, partContentType)
         addPart(
-            partHeaders.toHeaders(),
+            buildPartHeaders(name, headers),
             partBody.toRequestBody(partMediaType)
         )
     }
