@@ -23,9 +23,16 @@ import org.hibernate.validator.constraints.*;
 {{/performBeanValidation}}
 {{#jackson}}
 {{#withXml}}
+{{#useJackson3}}
+import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+{{/useJackson3}}
+{{^useJackson3}}
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+{{/useJackson3}}
 {{/withXml}}
 {{/jackson}}
 {{#swagger2AnnotationLibrary}}

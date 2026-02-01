@@ -10,7 +10,7 @@
         <java.version>17</java.version>
         {{/useSealed}}
         {{^useSealed}}
-        <java.version>8</java.version>
+        <java.version>17</java.version>
         {{/useSealed}}
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -35,7 +35,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -72,7 +72,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2023.0.0</version>
+                <version>2025.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -120,17 +120,29 @@
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
-          <groupId>com.fasterxml.jackson.dataformat</groupId>
+        {{#useJackson3}}
+            <groupId>tools.jackson.dataformat</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+        {{/useJackson3}}
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        {{/useJackson3}}
         {{#joda}}
         <dependency>
+        {{#useJackson3}}
+            <groupId>tools.jackson.datatype</groupId>
+        {{/useJackson3}}
+        {{^useJackson3}}
             <groupId>com.fasterxml.jackson.datatype</groupId>
+        {{/useJackson3}}
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}

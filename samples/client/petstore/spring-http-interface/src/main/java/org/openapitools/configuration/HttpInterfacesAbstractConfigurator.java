@@ -13,51 +13,51 @@ import org.openapitools.api.StoreApi;
 import org.openapitools.api.UserApi;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.support.WebClientAdapter;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 public abstract class HttpInterfacesAbstractConfigurator {
 
-    private final WebClient webClient;
+    private final RestClient client;
 
-    public HttpInterfacesAbstractConfigurator(final WebClient webClient) {
-        this.webClient = webClient;
+    public HttpInterfacesAbstractConfigurator(final RestClient client) {
+        this.client = client;
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.anotherFake")
     AnotherFakeApi anotherFakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(AnotherFakeApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fake")
     FakeApi fakeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(FakeApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.fakeClassnameTags123")
     FakeClassnameTags123Api fakeClassnameTags123HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(FakeClassnameTags123Api.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.pet")
     PetApi petHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(PetApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.store")
     StoreApi storeHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(StoreApi.class);
     }
 
     @Bean(name = "org.openapitools.configuration.HttpInterfacesAbstractConfigurator.user")
     UserApi userHttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
         return factory.createClient(UserApi.class);
     }
 
