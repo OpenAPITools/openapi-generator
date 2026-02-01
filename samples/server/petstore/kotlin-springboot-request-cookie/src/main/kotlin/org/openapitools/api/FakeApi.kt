@@ -48,7 +48,8 @@ interface FakeApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FAKE_COOKIE_SUGGESTION /* "/fake/cookie-suggestion" */],
+        // "/fake/cookie-suggestion"
+        value = [PATH_FAKE_COOKIE_SUGGESTION],
         produces = ["application/json"]
     )
     fun fakeCookieSuggestion(

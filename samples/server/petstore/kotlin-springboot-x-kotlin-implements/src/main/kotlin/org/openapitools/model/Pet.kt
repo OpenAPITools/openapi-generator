@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Tag
-import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -42,7 +41,7 @@ import io.swagger.annotations.ApiModelProperty
       JsonSubTypes.Type(value = Dog::class, name = "Dog")
 )
 
-interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods {
+interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {
         
         @get:ApiModelProperty(example = "null", required = true, value = "")
         override val name: kotlin.String
@@ -57,7 +56,7 @@ interface Pet : Serializable, com.some.pack.Named, com.some.pack.WithCategory, c
 
         
         @get:ApiModelProperty(example = "null", value = "")
-        val id: kotlin.Long? 
+        override val id: kotlin.Long? 
 
         
         @get:ApiModelProperty(example = "null", value = "")

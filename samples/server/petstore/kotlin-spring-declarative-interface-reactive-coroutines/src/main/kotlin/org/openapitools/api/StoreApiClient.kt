@@ -29,7 +29,8 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_ORDER /* "/store/order/{orderId}" */,
+        // "/store/order/{orderId}"
+        url = PATH_DELETE_ORDER,
         method = "DELETE"
     )
     suspend fun deleteOrder(
@@ -38,7 +39,8 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_INVENTORY /* "/store/inventory" */,
+        // "/store/inventory"
+        url = PATH_GET_INVENTORY,
         method = "GET"
     )
     suspend fun getInventory(
@@ -47,7 +49,8 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */,
+        // "/store/order/{orderId}"
+        url = PATH_GET_ORDER_BY_ID,
         method = "GET"
     )
     suspend fun getOrderById(
@@ -56,7 +59,8 @@ interface StoreApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_PLACE_ORDER /* "/store/order" */,
+        // "/store/order"
+        url = PATH_PLACE_ORDER,
         method = "POST"
     )
     suspend fun placeOrder(

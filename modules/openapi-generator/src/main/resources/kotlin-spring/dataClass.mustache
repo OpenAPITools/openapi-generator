@@ -19,31 +19,13 @@
 {{/-last}}{{/optionalVars}}
 ){{/discriminator}}{{! no newline
 }}{{#parent}} : {{{.}}}{{#isMap}}(){{/isMap}}{{! no newline
-    }}{{#serializableModel}}{{! no newline
-      }}{{^vendorExtensions.x-kotlin-implements}}, Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-      }}{{#vendorExtensions.x-kotlin-implements}}, Serializable, {{! no newline
-      }}{{#-first}} {{{.}}}{{/-first}}{{! no newline
-      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
-      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-  }}{{/serializableModel}}{{! no newline
-  }}{{^serializableModel}}{{! no newline
-      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-  }}{{/serializableModel}}{{! no newline
+      }}{{#vendorExtensions.x-kotlin-implements}}, {{{.}}}{{/vendorExtensions.x-kotlin-implements}}{{! <- serializableModel is also handled via x-kotlin-implements
 }}{{/parent}}{{! no newline
 }}{{^parent}}{{! no newline
-  }}{{#serializableModel}}{{! no newline
-      }}{{^vendorExtensions.x-kotlin-implements}} : Serializable{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-      }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
-      }}{{#-first}} : Serializable, {{{.}}}{{/-first}}{{! no newline
-      }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
-      }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-  }}{{/serializableModel}}{{! no newline
-  }}{{^serializableModel}}{{! no newline
     }}{{#vendorExtensions.x-kotlin-implements}}{{! no newline
     }}{{#-first}} : {{{.}}}{{/-first}}{{! no newline
       }}{{^-first}}, {{{.}}}{{/-first}}{{! no newline
     }}{{/vendorExtensions.x-kotlin-implements}}{{! no newline
-  }}{{/serializableModel}}{{! no newline
 }}{{/parent}} {
 {{#discriminator}}
     {{#requiredVars}}
