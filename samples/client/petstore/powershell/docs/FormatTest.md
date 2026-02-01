@@ -34,7 +34,7 @@ $FormatTest = Initialize-PSPetstoreFormatTest  -Integer null `
  -String null `
  -Byte null `
  -Binary null `
- -Date Sun Feb 02 00:00:00 UTC 2020 `
+ -Date Sat Feb 01 16:00:00 PST 2020 `
  -DateTime 2007-12-03T10:15:30+01:00 `
  -Uuid 72f98069-206d-4f12-9f12-3d1e525a8e84 `
  -Password null `
