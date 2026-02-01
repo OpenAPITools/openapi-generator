@@ -407,6 +407,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+        if (property.isInnerEnum && property.items != null && property.enumName != null) {
+            // Fix maps/arrays of inner enums to use the correct enum name.
+            // The DefaultCodegen.updateDataTypeWithEnumForMap uses toEnumName(innerItem) which
+            // returns a name based on the inner item's name (e.g., "InnerEnum" for "inner").
+            // But the generated TypeScript enum uses property.enumName (e.g., "RuleMsgOperationReportingOptionsEnum").
+            // We replace the wrong inner enum name with the correct property enum name.
+            // The classname prefix will be added later by postProcessModels in AbstractTypeScriptClientCodegen.
+            CodegenProperty innerMostItem = property.items;
+            while (innerMostItem != null && (Boolean.TRUE.equals(innerMostItem.isMap)
+                    || Boolean.TRUE.equals(innerMostItem.isArray))) {
+                innerMostItem = innerMostItem.items;
+            }
+            if (innerMostItem != null && innerMostItem.enumName != null 
+                    && !innerMostItem.enumName.equals(property.enumName)) {
+                // Replace the wrong enum name with the correct one (without classname prefix)
+                property.datatypeWithEnum = property.datatypeWithEnum.replace(
+                        innerMostItem.enumName, property.enumName);
+                property.dataType = property.datatypeWithEnum;
+            }
+        }
+    }
+
+    @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
