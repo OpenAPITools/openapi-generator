@@ -67,7 +67,7 @@ enum class StringEnumRef(@get:JsonValue val value: kotlin.String) {
             throw IllegalArgumentException("Value for StringEnumRef cannot be null")
           }
           val normalizedData = "$data".lowercase()
-          return values().firstOrNull { value ->
+          return entries.firstOrNull { value ->
             data == value || normalizedData == "$value".lowercase()
           }
             ?: unknown_default_open_api
