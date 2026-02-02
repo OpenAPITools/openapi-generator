@@ -5,7 +5,7 @@
     "form-data": "^2.5.0",
     "inversify": "^5.0.1",
     "reflect-metadata": "^0.1.13",
-    "rewire": "^4.0.1",
+    "rewire": "^9.0.1",
     "ts-node": "^8.10.2",
     "ts-petstore-client": "file:../../builds/inversify"
   },
