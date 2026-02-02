@@ -12,7 +12,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { TestResponse } from ''
+import type { TestResponse } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {

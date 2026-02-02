@@ -22,11 +22,11 @@ All URIs are relative to *http://localhost:3000*
 import {
   Configuration,
   DefaultApi,
-} from '';
-import type { TestRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { TestRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new DefaultApi();
 
   try {
@@ -79,11 +79,11 @@ No authorization required
 import {
   Configuration,
   DefaultApi,
-} from '';
-import type { TestArrayRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { TestArrayRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new DefaultApi();
 
   try {
@@ -136,11 +136,11 @@ No authorization required
 import {
   Configuration,
   DefaultApi,
-} from '';
-import type { TestDiscriminatorRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { TestDiscriminatorRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new DefaultApi();
 
   try {

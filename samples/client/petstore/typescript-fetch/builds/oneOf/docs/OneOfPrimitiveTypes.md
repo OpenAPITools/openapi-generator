@@ -11,7 +11,7 @@ Name | Type
 ## Example
 
 ```typescript
-import type { OneOfPrimitiveTypes } from ''
+import type { OneOfPrimitiveTypes } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {
