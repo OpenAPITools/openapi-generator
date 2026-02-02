@@ -66,20 +66,20 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example no-example-v3-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example no-example-v3-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example no-example-v3-server
 ```
 
 ### Running the example client
@@ -92,7 +92,7 @@ To run a client, follow one of the following simple steps:
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example no-example-v3-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the

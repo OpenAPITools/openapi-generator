@@ -66,40 +66,40 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example rust-server-test-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example rust-server-test-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example rust-server-test-server
 ```
 
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client AllOfGet
-cargo run --example client DummyGet
-cargo run --example client FileResponseGet
-cargo run --example client GetStructuredYaml
-cargo run --example client HtmlPost
-cargo run --example client PostYaml
-cargo run --example client RawJsonGet
+cargo run --example rust-server-test-client AllOfGet
+cargo run --example rust-server-test-client DummyGet
+cargo run --example rust-server-test-client FileResponseGet
+cargo run --example rust-server-test-client GetStructuredYaml
+cargo run --example rust-server-test-client HtmlPost
+cargo run --example rust-server-test-client PostYaml
+cargo run --example rust-server-test-client RawJsonGet
 ```
 
 ### HTTPS
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example rust-server-test-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the
