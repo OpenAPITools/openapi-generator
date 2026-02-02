@@ -2,7 +2,6 @@ package org.openapitools.virtualan.model;
 
 import java.net.URI;
 import java.util.Objects;
-import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
