@@ -75,6 +75,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     this.values = values;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

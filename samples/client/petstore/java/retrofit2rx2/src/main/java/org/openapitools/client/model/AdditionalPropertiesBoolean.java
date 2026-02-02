@@ -59,6 +59,37 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     this.name = name;
   }
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * Creates the property if it does not already exist, otherwise replaces it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesBoolean putAdditionalProperty(String key, Boolean value) {
+    this.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, Boolean> getAdditionalProperties() {
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public Boolean getAdditionalProperty(String key) {
+    return this.get(key);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

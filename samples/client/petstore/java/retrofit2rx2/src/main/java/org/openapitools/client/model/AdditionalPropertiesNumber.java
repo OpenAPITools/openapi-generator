@@ -60,6 +60,37 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     this.name = name;
   }
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * Creates the property if it does not already exist, otherwise replaces it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
+    this.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, BigDecimal> getAdditionalProperties() {
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public BigDecimal getAdditionalProperty(String key) {
+    return this.get(key);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
