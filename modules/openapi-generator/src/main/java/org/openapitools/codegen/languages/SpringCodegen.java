@@ -1223,6 +1223,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    /**
+     * Adds Spring Nullable import if any parameter is nullable or optional.
+     */
     private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
         if (isSpringCodegen()) {
             codegenOperation.allParams.stream()
