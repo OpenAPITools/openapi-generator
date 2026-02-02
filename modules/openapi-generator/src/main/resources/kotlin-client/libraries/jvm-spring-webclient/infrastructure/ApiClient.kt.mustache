@@ -78,8 +78,9 @@ import reactor.core.publisher.Mono
         return baseUrl.dropLast(1) + basePath
     } else if(!baseUrl.endsWith("/") && !basePath.startsWith("/")) {
         return "$baseUrl/$basePath"
+    } else {
+        return baseUrl + basePath;
     }
-    return baseUrl + basePath
 }
 
 {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}inline fun <reified T: Any> parseDateToQueryString(value : T): String {
