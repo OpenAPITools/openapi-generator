@@ -1316,8 +1316,6 @@ public class KotlinSpringServerCodegenTest {
         generator.opts(input).generate();
 
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
-        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @HttpExchange
-        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
         // Note: We cannot use property placeholders as HttpServiceProxyFactory does not resolve them by default.
         assertFileContains(
                 path,
