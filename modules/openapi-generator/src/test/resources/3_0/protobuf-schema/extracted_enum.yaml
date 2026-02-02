@@ -1,0 +1,77 @@
+openapi: 3.0.0
+info:
+  title: Enum extraction test
+  version: '2.0'
+paths: {}
+components:
+  schemas:
+    SeparatedEnum:
+      type: string
+      enum:
+        - VALUE1
+        - VALUE2
+    ModelWithEnums:
+      type: object
+      properties:
+        referenceEnumProperty:
+          $ref: "#/components/schemas/SeparatedEnum"
+        inlineEnumProperty:
+          type: string
+          enum:
+            - VALUE2
+            - VALUE3
+            - VALUE4
+        listOfEnums:
+          type: array
+          items:
+            type: string
+            enum:
+              - VALUE10
+              - VALUE11
+    AllOfModelWithEnums:
+      allOf:
+        - $ref: "#/components/schemas/ModelWithEnums"
+        - type: object
+          properties:
+            anotherInlineEnumProperty:
+              type: string
+              enum:
+                - VALUE5
+                - VALUE6
+            listOfReferencedEnums:
+              type: array
+              items:
+                $ref: '#/components/schemas/SeparatedEnum'
+    DiscriminatedModel:
+      type: object
+      properties:
+        commonProperty:
+          type: string
+        modelType:
+          type: string
+      discriminator:
+        propertyName: modelType
+        mapping:
+          typeA: "#/components/schemas/ModelTypeAWithInlineEnum"
+          typeB: "#/components/schemas/ModelTypeBWithInlineEnum"
+    ModelTypeAWithInlineEnum:
+      allOf: 
+        -  $ref: "#/components/schemas/DiscriminatedModel"
+        - type: object
+          properties:
+            specificPropertyA:
+              type: string
+            inlineEnumProperty:
+              type: string
+              enum:
+                - VALUE7
+                - VALUE8
+    ModelTypeBWithInlineEnum:
+      allOf: 
+        -  $ref: "#/components/schemas/DiscriminatedModel"
+        - type: object
+          properties:
+            specificPropertyB:
+              type: string
+            referenceEnumPropertyB:
+              $ref: "#/components/schemas/SeparatedEnum"

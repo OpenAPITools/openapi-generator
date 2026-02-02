@@ -67,6 +67,7 @@ public class NumberOnly {
     this.justNumber = justNumber;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -111,6 +111,7 @@ public class AdditionalPropertiesClass {
     this.mapOfMapProperty = mapOfMapProperty;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -11,12 +11,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
 @JsonTypeName("AdditionalPropertiesBoolean")
+@JsonFormat(shape=JsonFormat.Shape.OBJECT)
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implements Serializable {
   private String name;
@@ -43,6 +49,36 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
     this.name = name;
   }
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * Creates the property if it does not already exist, otherwise replaces it.
+   * @param key the name of the property
+   * @param value the value of the property
+   * @return self reference
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesBoolean putAdditionalProperty(String key, Boolean value) {
+    this.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) properties.
+   * @return the additional (undeclared) properties
+   */
+  @JsonAnyGetter
+  public Map<String, Boolean> getAdditionalProperties() {
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   * @param key the name of the property
+   * @return the additional (undeclared) property with the specified name
+   */
+  public Boolean getAdditionalProperty(String key) {
+    return this.get(key);
+  }
 
   @Override
   public boolean equals(Object o) {

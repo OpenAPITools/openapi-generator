@@ -183,7 +183,7 @@ data class ApiPet (
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-                require(Status.values().any { it.value == jsonObj["status"].asString }) {
+                require(Status.entries.any { it.value == jsonObj["status"].asString }) {
                     String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
                 }
             }

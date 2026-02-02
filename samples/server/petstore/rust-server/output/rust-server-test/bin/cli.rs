@@ -41,17 +41,17 @@ struct Cli {
     server_address: String,
 
     /// Path to the client private key if using client-side TLS authentication
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long, requires_all(&["client_certificate", "server_certificate"]))]
     client_key: Option<String>,
 
     /// Path to the client's public certificate associated with the private key
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long, requires_all(&["client_key", "server_certificate"]))]
     client_certificate: Option<String>,
 
     /// Path to CA certificate used to authenticate the server
-    #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+    #[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
     #[clap(long)]
     server_certificate: Option<String>,
 
@@ -96,7 +96,8 @@ enum Operation {
     },
 }
 
-#[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
+// On Linux/Unix with OpenSSL (client-tls feature), support certificate pinning and mutual TLS
+#[cfg(all(feature = "client-tls", not(any(target_os = "macos", target_os = "windows", target_os = "ios"))))]
 fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
     if args.client_certificate.is_some() {
         debug!("Using mutual TLS");
@@ -122,8 +123,15 @@ fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoCont
     }
 }
 
-#[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
+// On macOS/Windows/iOS or without client-tls feature, use simple client (no cert pinning/mutual TLS)
+#[cfg(any(
+    not(feature = "client-tls"),
+    all(feature = "client-tls", any(target_os = "macos", target_os = "windows", target_os = "ios"))
+))]
 fn create_client(args: &Cli, context: ClientContext) -> Result<Box<dyn ApiNoContext<ClientContext>>> {
+    // Client::try_new() automatically detects the URL scheme (http:// or https://)
+    // and creates the appropriate client.
+    // Note: Certificate pinning and mutual TLS are only available on Linux/Unix with OpenSSL
     let client =
         Client::try_new(&args.server_address).context("Failed to create HTTP(S) client")?;
     Ok(Box::new(client.with_context(context)))

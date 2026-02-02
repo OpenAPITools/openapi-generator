@@ -10,6 +10,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+{{#additionalProperties}}
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+{{/additionalProperties}}
 {{/jackson}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -30,7 +37,12 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{.}}}"){{/description}}{{/useSwaggerAnnotations}}{{#useSwaggerV3Annotations}}
 @Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
 @org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
-{{#jackson}}@JsonTypeName("{{name}}"){{/jackson}}
+{{#jackson}}
+@JsonTypeName("{{name}}")
+{{#additionalProperties}}
+@JsonFormat(shape=JsonFormat.Shape.OBJECT)
+{{/additionalProperties}}
+{{/jackson}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{vendorExtensions.x-class-extra-annotation}}}
@@ -196,6 +208,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
   }
   {{/isMap}}
   {{/vars}}
+{{>additional_properties}}
 
   @Override
   public boolean equals(Object o) {

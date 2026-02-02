@@ -649,6 +649,10 @@ public class KotlinClientCodegenModelTest {
         // base properties are present
         TestUtils.assertFileContains(animalKt, "val id");
         TestUtils.assertFileContains(animalKt, "val optionalProperty");
+        // base array with unique items = false is correctly handled as List
+        TestUtils.assertFileContains(animalKt, "val stringArray: kotlin.collections.List<kotlin.String>");
+        // base array with unique items = true is correctly handled as Set
+        TestUtils.assertFileContains(animalKt, "val stringSet: kotlin.collections.Set<kotlin.String>");
         // base doesn't contain discriminator
         TestUtils.assertFileNotContains(animalKt, "val discriminator");
 
@@ -658,6 +662,10 @@ public class KotlinClientCodegenModelTest {
         // derived properties are overridden
         TestUtils.assertFileContains(birdKt, "override val id");
         TestUtils.assertFileContains(birdKt, "override val optionalProperty");
+        // derived array with unique items = false is correctly handled as List and with override
+        TestUtils.assertFileContains(birdKt, "override val stringArray: kotlin.collections.List<kotlin.String>");
+        // derived array with unique items = true is correctly handled as Set and with override
+        TestUtils.assertFileContains(birdKt, "override val stringSet: kotlin.collections.Set<kotlin.String>");
         // derived doesn't contain disciminator
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }

@@ -6,7 +6,7 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^22.12.0",
     "chai": "^4.3.0",
-    "mocha": "^10.2.0",
+    "mocha": "^10.8.2",
     "ts-node": "^10.9.0",
     "typescript": "^5.6.3"
   },

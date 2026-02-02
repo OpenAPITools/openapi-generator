@@ -96,6 +96,7 @@ public class Bird {
     this.color = color;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
