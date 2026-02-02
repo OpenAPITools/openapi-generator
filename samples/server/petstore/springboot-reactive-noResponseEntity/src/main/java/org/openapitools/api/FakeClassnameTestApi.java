@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -61,10 +60,9 @@ public interface FakeClassnameTestApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Client> testClassname(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client
     ) {
-        return getDelegate().testClassname(client, exchange);
+        return getDelegate().testClassname(client);
     }
 
 }

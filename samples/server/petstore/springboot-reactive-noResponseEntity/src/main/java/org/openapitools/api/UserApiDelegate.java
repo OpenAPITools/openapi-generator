@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -38,8 +37,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    default Mono<Void> createUser(Mono<User> user,
-        ServerWebExchange exchange) {
+    default Mono<Void> createUser(Mono<User> user) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(user).then(Mono.empty());
@@ -54,8 +52,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default Mono<Void> createUsersWithArrayInput(Flux<User> user,
-        ServerWebExchange exchange) {
+    default Mono<Void> createUsersWithArrayInput(Flux<User> user) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.thenMany(user).then(Mono.empty());
@@ -70,8 +67,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default Mono<Void> createUsersWithListInput(Flux<User> user,
-        ServerWebExchange exchange) {
+    default Mono<Void> createUsersWithListInput(Flux<User> user) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.thenMany(user).then(Mono.empty());
@@ -87,8 +83,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    default Mono<Void> deleteUser(String username,
-        ServerWebExchange exchange) {
+    default Mono<Void> deleteUser(String username) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
@@ -105,8 +100,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default Mono<User> getUserByName(String username,
-        ServerWebExchange exchange) {
+    default Mono<User> getUserByName(String username) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
@@ -136,8 +130,7 @@ public interface UserApiDelegate {
      * @see UserApi#loginUser
      */
     default Mono<String> loginUser(String username,
-        String password,
-        ServerWebExchange exchange) {
+        String password) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
@@ -151,7 +144,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
-    default Mono<Void> logoutUser(ServerWebExchange exchange) {
+    default Mono<Void> logoutUser() {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(Mono.empty());
@@ -169,8 +162,7 @@ public interface UserApiDelegate {
      * @see UserApi#updateUser
      */
     default Mono<Void> updateUser(String username,
-        Mono<User> user,
-        ServerWebExchange exchange) {
+        Mono<User> user) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         return result.then(user).then(Mono.empty());
