@@ -1,6 +1,8 @@
 export * from '../models/Cat';
 export * from '../models/Dog';
 export * from '../models/FilePostRequest';
+export * from '../models/OneOfPrimitiveTypes';
+export * from '../models/OneOfPrimitiveTypesValue';
 export * from '../models/PetByAge';
 export * from '../models/PetByType';
 export * from '../models/PetsFilteredPatchRequest';
@@ -9,6 +11,8 @@ export * from '../models/PetsPatchRequest';
 import { Cat } from '../models/Cat';
 import { Dog , DogBreedEnum   } from '../models/Dog';
 import { FilePostRequest } from '../models/FilePostRequest';
+import { OneOfPrimitiveTypes } from '../models/OneOfPrimitiveTypes';
+import { OneOfPrimitiveTypesValueClass } from '../models/OneOfPrimitiveTypesValue';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType, PetByTypePetTypeEnum    } from '../models/PetByType';
 import { PetsFilteredPatchRequest  , PetsFilteredPatchRequestPetTypeEnum    } from '../models/PetsFilteredPatchRequest';
@@ -37,6 +41,8 @@ let typeMap: {[index: string]: any} = {
     "Cat": Cat,
     "Dog": Dog,
     "FilePostRequest": FilePostRequest,
+    "OneOfPrimitiveTypes": OneOfPrimitiveTypes,
+    "OneOfPrimitiveTypesValue": OneOfPrimitiveTypesValueClass,
     "PetByAge": PetByAge,
     "PetByType": PetByType,
     "PetsFilteredPatchRequest": PetsFilteredPatchRequest,
