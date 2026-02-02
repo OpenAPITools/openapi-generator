@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prepublish": "npm install ../../builds/with-npm-version && npm run build --prefix ../../builds/with-npm-version && npm run build && npm run webpack && npm run browserify",
-    "test": "mocha test/*.ts --compilers ts:ts-node/register --require mocks.ts --timeout 10000",
+    "test": "mocha test/*.ts --require ts-node/register --require mocks.ts --timeout 10000",
     "build": "tsc",
     "webpack": "webpack",
     "browserify": "browserify test -p [ tsify ] > ./dist/test.browserify-bundle.js"
