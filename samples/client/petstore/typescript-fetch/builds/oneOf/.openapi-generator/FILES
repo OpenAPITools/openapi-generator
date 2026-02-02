@@ -1,6 +1,8 @@
 apis/DefaultApi.ts
 apis/index.ts
 docs/DefaultApi.md
+docs/OneOfPrimitiveTypes.md
+docs/OneOfPrimitiveTypesValue.md
 docs/OptionOne.md
 docs/OptionTwo.md
 docs/TestA.md
@@ -9,6 +11,8 @@ docs/TestB.md
 docs/TestDiscriminatorResponse.md
 docs/TestResponse.md
 index.ts
+models/OneOfPrimitiveTypes.ts
+models/OneOfPrimitiveTypesValue.ts
 models/OptionOne.ts
 models/OptionTwo.ts
 models/TestA.ts
