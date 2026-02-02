@@ -113,6 +113,7 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+
   @Override
   public BigCat className(@javax.annotation.Nonnull String className) {
     this.setClassName(className);

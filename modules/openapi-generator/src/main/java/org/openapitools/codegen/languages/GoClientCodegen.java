@@ -608,7 +608,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenParameter.isPrimitiveType) { // primitive type
             if (codegenParameter.isString) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "\"" + escapeText(codegenParameter.example) + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
@@ -640,7 +640,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap, 0);
             } else if (codegenParameter.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "\"" + codegenParameter.example + "\"";
+                    return "\"" + escapeText(codegenParameter.example) + "\"";
                 } else {
                     return "\"" + codegenParameter.paramName + "@example.com\"";
                 }
@@ -681,7 +681,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         } else if (codegenProperty.isPrimitiveType) { // primitive type
             if (codegenProperty.isString) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "\"" + escapeText(codegenProperty.example) + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "_example\"";
                 }
@@ -714,7 +714,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap, depth + 1);
             } else if (codegenProperty.isEmail) { // email
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "\"" + codegenProperty.example + "\"";
+                    return "\"" + escapeText(codegenProperty.example) + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "@example.com\"";
                 }

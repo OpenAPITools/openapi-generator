@@ -236,6 +236,7 @@ public class Order {
     this.complete = complete;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

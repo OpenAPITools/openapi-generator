@@ -450,6 +450,7 @@ public class AdditionalPropertiesClass {
     this.anytype3 = anytype3;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

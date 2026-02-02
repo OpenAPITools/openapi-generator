@@ -151,6 +151,7 @@ public class ArrayTest {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
