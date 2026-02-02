@@ -380,8 +380,8 @@ pub trait Api<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -501,7 +501,7 @@ pub trait Api<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         context: &C) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -620,8 +620,8 @@ pub trait ApiNoContext<C: Send + Sync> {
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -741,7 +741,7 @@ pub trait ApiNoContext<C: Send + Sync> {
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>;
 
     /// Create user
@@ -903,8 +903,8 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         double: f64,
         pattern_without_delimiter: String,
         byte: swagger::ByteArray,
-        integer: Option<i32>,
-        int32: Option<i32>,
+        integer: Option<u32>,
+        int32: Option<u32>,
         int64: Option<i64>,
         float: Option<f32>,
         string: Option<String>,
@@ -1092,7 +1092,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     /// Find purchase order by ID
     async fn get_order_by_id(
         &self,
-        order_id: i64,
+        order_id: u64,
         ) -> Result<GetOrderByIdResponse, ApiError>
     {
         let context = self.context().clone();
