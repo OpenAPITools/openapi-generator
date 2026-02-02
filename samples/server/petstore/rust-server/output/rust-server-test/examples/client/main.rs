@@ -101,17 +101,33 @@ fn main() {
     let context: ClientContext =
         swagger::make_context!(ContextBuilder, EmptyContext, auth_data, XSpanIdString::default());
 
-    let mut client : Box<dyn ApiNoContext<ClientContext>> = if is_https {
-        // Using Simple HTTPS
-        let client = Box::new(Client::try_new_https(&base_url)
-            .expect("Failed to create HTTPS client"));
-        Box::new(client.with_context(context))
-    } else {
-        // Using HTTP
-        let client = Box::new(Client::try_new_http(
-            &base_url)
-            .expect("Failed to create HTTP client"));
-        Box::new(client.with_context(context))
+    let mut client : Box<dyn ApiNoContext<ClientContext>> = {
+        #[cfg(feature = "client-tls")]
+        {
+            if is_https {
+                // Using HTTPS with native-tls
+                let client = Box::new(Client::try_new_https(&base_url)
+                    .expect("Failed to create HTTPS client"));
+                Box::new(client.with_context(context))
+            } else {
+                // Using HTTP
+                let client = Box::new(Client::try_new_http(&base_url)
+                    .expect("Failed to create HTTP client"));
+                Box::new(client.with_context(context))
+            }
+        }
+
+        #[cfg(not(feature = "client-tls"))]
+        {
+            if is_https {
+                panic!("HTTPS requested but TLS support not enabled. \
+                        Enable the 'client-tls' feature to use HTTPS.");
+            }
+            // Using HTTP only
+            let client = Box::new(Client::try_new_http(&base_url)
+                .expect("Failed to create HTTP client"));
+            Box::new(client.with_context(context))
+        }
     };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
