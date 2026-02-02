@@ -51,7 +51,7 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 {{#useRequestMappingOnInterface}}
-@HttpExchange(BASE_PATH)
+@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface
 {{/useRequestMappingOnInterface}}
 {{#useBeanValidation}}
 @Validated
