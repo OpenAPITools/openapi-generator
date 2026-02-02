@@ -64,36 +64,6 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
     this.name = name;
   }
 
-  /**
-   * Set the additional (undeclared) property with the specified name and value.
-   * Creates the property if it does not already exist, otherwise replaces it.
-   * @param key the name of the property
-   * @param value the value of the property
-   * @return self reference
-   */
-  @JsonAnySetter
-  public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
-    this.put(key, value);
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) properties.
-   * @return the additional (undeclared) properties
-   */
-  @JsonAnyGetter
-  public Map<String, List> getAdditionalProperties() {
-    return this;
-  }
-
-  /**
-   * Return the additional (undeclared) property with the specified name.
-   * @param key the name of the property
-   * @return the additional (undeclared) property with the specified name
-   */
-  public List getAdditionalProperty(String key) {
-    return this.get(key);
-  }
 
   @Override
   public boolean equals(Object o) {
