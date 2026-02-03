@@ -20,7 +20,9 @@ import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import io.swagger.annotations.*;
-import springfox.documentation.annotations.*;
+
+import springfox.documentation.annotations.ApiIgnore;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

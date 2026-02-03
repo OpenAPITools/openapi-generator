@@ -11,7 +11,9 @@ import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
 import java.util.Set;
 import io.swagger.annotations.*;
-import springfox.documentation.annotations.*;
+
+import springfox.documentation.annotations.ApiIgnore;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
