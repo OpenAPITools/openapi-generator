@@ -1,6 +1,6 @@
 generatorName: spring
 library: spring-http-interface
-outputDir: samples/client/petstore/spring-http-interface-validation
+outputDir: samples/client/petstore/spring-http-interface-bean-validation
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
