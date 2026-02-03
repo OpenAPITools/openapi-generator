@@ -8,6 +8,7 @@ package org.openapitools.api;
 import java.time.OffsetDateTime;
 import org.openapitools.model.UserDto;
 import io.swagger.annotations.*;
+import springfox.documentation.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUser(
         @ApiParam(value = "Created user object", required = true) @Valid @RequestBody UserDto userDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -88,7 +89,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -119,7 +120,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> createUsersWithListInput(
         @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -151,7 +152,7 @@ public interface UserApi {
     )
     default ResponseEntity<Void> deleteUser(
         @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -187,7 +188,7 @@ public interface UserApi {
     )
     default ResponseEntity<UserDto> getUserByName(
         @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -237,7 +238,7 @@ public interface UserApi {
     default ResponseEntity<String> loginUser(
         @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -265,7 +266,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGOUT_USER
     )
     default ResponseEntity<Void> logoutUser(
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -300,7 +301,7 @@ public interface UserApi {
     default ResponseEntity<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody UserDto userDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

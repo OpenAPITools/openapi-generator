@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import org.openapitools.model.ClientDto;
 import io.swagger.annotations.*;
+import springfox.documentation.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +62,7 @@ public interface FakeClassnameTestApi {
     )
     default ResponseEntity<ClientDto> testClassname(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

@@ -20,6 +20,7 @@ import org.openapitools.model.ResponseObjectWithDifferentFieldNamesDto;
 import org.openapitools.model.UserDto;
 import org.openapitools.model.XmlItemDto;
 import io.swagger.annotations.*;
+import springfox.documentation.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> createXmlItem(
         @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody XmlItemDto xmlItemDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -102,7 +103,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -135,7 +136,7 @@ public interface FakeApi {
     )
     default ResponseEntity<OuterCompositeDto> fakeOuterCompositeSerialize(
         @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterCompositeDto outerCompositeDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -177,7 +178,7 @@ public interface FakeApi {
     )
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -210,7 +211,7 @@ public interface FakeApi {
     )
     default ResponseEntity<String> fakeOuterStringSerialize(
         @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -241,7 +242,7 @@ public interface FakeApi {
     )
     default ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -281,7 +282,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testBodyWithFileSchema(
         @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClassDto fileSchemaTestClassDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -313,7 +314,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
         @ApiParam(value = "", required = true) @Valid @RequestBody UserDto userDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -346,7 +347,7 @@ public interface FakeApi {
     )
     default ResponseEntity<ClientDto> testClientModel(
         @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -417,7 +418,7 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestParam(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @ApiParam(value = "None") @Size(min = 10, max = 64) @Valid @RequestParam(value = "password", required = false) String password,
         @ApiParam(value = "None") @Valid @RequestParam(value = "callback", required = false) String paramCallback,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -464,7 +465,7 @@ public interface FakeApi {
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
         @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_form_string", required = false) String enumFormString,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -504,7 +505,7 @@ public interface FakeApi {
         @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
         @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
         @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -535,7 +536,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -568,7 +569,7 @@ public interface FakeApi {
     default ResponseEntity<Void> testJsonFormData(
         @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
         @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -599,7 +600,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testNullable(
         @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullableDto childWithNullableDto,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -635,7 +636,7 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -665,7 +666,7 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     default ResponseEntity<Integer> testWithResultExample(
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -717,7 +718,7 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
-        @ApiIgnore final HttpServletRequest request
+        @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
