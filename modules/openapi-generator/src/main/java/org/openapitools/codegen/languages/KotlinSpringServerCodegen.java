@@ -241,7 +241,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(BEAN_QUALIFIERS, "Whether to add fully-qualifier class names as bean qualifiers in @Component and " +
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
-        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         addSwitch(USE_RESPONSE_ENTITY,
