@@ -34,8 +34,9 @@ import java.util.Optional;
 import {{javaxPackage}}.annotation.Generated;
 
 
-{{>generatedAnnotation}}
 {{#useBeanValidation}}{{^useSpringBuiltInValidation}}@Validated{{/useSpringBuiltInValidation}}{{/useBeanValidation}}
+{{>generatedAnnotation}}
+
 {{#operations}}
 public interface {{classname}} {
 {{#operation}}

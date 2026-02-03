@@ -15,7 +15,8 @@ import org.openapitools.model.ParentWithNullableDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;

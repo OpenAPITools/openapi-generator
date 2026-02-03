@@ -14,7 +14,8 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -27,28 +28,28 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
-  
+  @Valid
   private Map<String, String> mapString = new HashMap<>();
 
-  
+  @Valid
   private Map<String, BigDecimal> mapNumber = new HashMap<>();
 
-  
+  @Valid
   private Map<String, Integer> mapInteger = new HashMap<>();
 
-  
+  @Valid
   private Map<String, Boolean> mapBoolean = new HashMap<>();
 
-  
+  @Valid
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
-  
+  @Valid
   private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
 
-  
+  @Valid
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
 
-  
+  @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
   private @Nullable Object anytype1;
@@ -101,7 +102,7 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
-  
+  @Valid 
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -182,7 +183,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  
+  @Valid 
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -209,7 +210,7 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  
+  @Valid 
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -236,7 +237,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
-  
+  @Valid 
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -263,7 +264,7 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  
+  @Valid 
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;

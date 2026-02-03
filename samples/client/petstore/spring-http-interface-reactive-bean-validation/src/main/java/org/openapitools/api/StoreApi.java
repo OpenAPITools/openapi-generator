@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface StoreApi {
 
@@ -39,7 +43,7 @@ public interface StoreApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deleteOrder(
-         @PathVariable("order_id") String orderId
+        @NotNull  @PathVariable("order_id") String orderId
     );
 
 
@@ -74,7 +78,7 @@ public interface StoreApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Order>> getOrderById(
-         @PathVariable("order_id") Long orderId
+        @NotNull @Min(value = 1L) @Max(value = 5L)  @PathVariable("order_id") Long orderId
     );
 
 
@@ -93,7 +97,7 @@ public interface StoreApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Order>> placeOrder(
-         @RequestBody Mono<Order> order
+         @Valid @RequestBody Mono<Order> order
     );
 
 }

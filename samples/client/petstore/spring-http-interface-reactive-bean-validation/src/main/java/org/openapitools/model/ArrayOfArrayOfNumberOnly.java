@@ -11,7 +11,8 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -24,7 +25,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ArrayOfArrayOfNumberOnly {
 
-  
+  @Valid
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
@@ -44,7 +45,7 @@ public class ArrayOfArrayOfNumberOnly {
    * Get arrayArrayNumber
    * @return arrayArrayNumber
    */
-  
+  @Valid 
   @JsonProperty("ArrayArrayNumber")
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;

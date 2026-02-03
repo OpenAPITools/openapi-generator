@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -22,6 +25,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface UserApi {
 
@@ -39,7 +43,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUser(
-         @RequestBody Mono<User> user
+         @Valid @RequestBody Mono<User> user
     );
 
 
@@ -57,7 +61,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUsersWithArrayInput(
-         @RequestBody Flux<User> user
+         @Valid @RequestBody Flux<User> user
     );
 
 
@@ -75,7 +79,7 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> createUsersWithListInput(
-         @RequestBody Flux<User> user
+         @Valid @RequestBody Flux<User> user
     );
 
 
@@ -93,7 +97,7 @@ public interface UserApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deleteUser(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     );
 
 
@@ -112,7 +116,7 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<User>> getUserByName(
-         @PathVariable("username") String username
+        @NotNull  @PathVariable("username") String username
     );
 
 
@@ -131,8 +135,8 @@ public interface UserApi {
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<String>> loginUser(
-         @RequestParam(value = "username", required = true) String username,
-         @RequestParam(value = "password", required = true) String password
+        @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
+        @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     );
 
 
@@ -168,8 +172,8 @@ public interface UserApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> updateUser(
-         @PathVariable("username") String username,
-         @RequestBody Mono<User> user
+        @NotNull  @PathVariable("username") String username,
+         @Valid @RequestBody Mono<User> user
     );
 
 }

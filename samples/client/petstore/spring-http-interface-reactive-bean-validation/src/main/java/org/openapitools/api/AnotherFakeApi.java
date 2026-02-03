@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -21,6 +24,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface AnotherFakeApi {
 
@@ -38,7 +42,7 @@ public interface AnotherFakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> call123testSpecialTags(
-         @RequestBody Mono<Client> client
+         @Valid @RequestBody Mono<Client> client
     );
 
 }

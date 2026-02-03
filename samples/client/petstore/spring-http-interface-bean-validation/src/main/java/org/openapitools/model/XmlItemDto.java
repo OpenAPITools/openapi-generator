@@ -12,7 +12,8 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -34,7 +35,7 @@ public class XmlItemDto {
 
   private @Nullable Boolean attributeBoolean;
 
-  
+  @Valid
   private List<Integer> wrappedArray = new ArrayList<>();
 
   private @Nullable String nameString;
@@ -45,10 +46,10 @@ public class XmlItemDto {
 
   private @Nullable Boolean nameBoolean;
 
-  
+  @Valid
   private List<Integer> nameArray = new ArrayList<>();
 
-  
+  @Valid
   private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixString;
@@ -59,10 +60,10 @@ public class XmlItemDto {
 
   private @Nullable Boolean prefixBoolean;
 
-  
+  @Valid
   private List<Integer> prefixArray = new ArrayList<>();
 
-  
+  @Valid
   private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private @Nullable String namespaceString;
@@ -73,10 +74,10 @@ public class XmlItemDto {
 
   private @Nullable Boolean namespaceBoolean;
 
-  
+  @Valid
   private List<Integer> namespaceArray = new ArrayList<>();
 
-  
+  @Valid
   private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private @Nullable String prefixNsString;
@@ -87,10 +88,10 @@ public class XmlItemDto {
 
   private @Nullable Boolean prefixNsBoolean;
 
-  
+  @Valid
   private List<Integer> prefixNsArray = new ArrayList<>();
 
-  
+  @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItemDto attributeString(@Nullable String attributeString) {
@@ -121,7 +122,7 @@ public class XmlItemDto {
    * Get attributeNumber
    * @return attributeNumber
    */
-  
+  @Valid 
   @JsonProperty("attribute_number")
   public @Nullable BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -224,7 +225,7 @@ public class XmlItemDto {
    * Get nameNumber
    * @return nameNumber
    */
-  
+  @Valid 
   @JsonProperty("name_number")
   public @Nullable BigDecimal getNameNumber() {
     return nameNumber;
@@ -354,7 +355,7 @@ public class XmlItemDto {
    * Get prefixNumber
    * @return prefixNumber
    */
-  
+  @Valid 
   @JsonProperty("prefix_number")
   public @Nullable BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -484,7 +485,7 @@ public class XmlItemDto {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  
+  @Valid 
   @JsonProperty("namespace_number")
   public @Nullable BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -614,7 +615,7 @@ public class XmlItemDto {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  
+  @Valid 
   @JsonProperty("prefix_ns_number")
   public @Nullable BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;

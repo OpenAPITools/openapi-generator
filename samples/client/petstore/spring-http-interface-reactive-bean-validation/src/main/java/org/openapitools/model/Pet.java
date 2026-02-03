@@ -16,7 +16,8 @@ import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -35,11 +36,11 @@ public class Pet {
 
   private String name;
 
-  
+  @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  
-  private List<Tag> tags = new ArrayList<>();
+  @Valid
+  private List<@Valid Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
@@ -121,7 +122,7 @@ public class Pet {
    * Get category
    * @return category
    */
-  
+  @Valid 
   @JsonProperty("category")
   public @Nullable Category getCategory() {
     return category;
@@ -140,7 +141,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -167,7 +168,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -178,7 +179,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -195,13 +196,13 @@ public class Pet {
    * Get tags
    * @return tags
    */
-  
+  @Valid 
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

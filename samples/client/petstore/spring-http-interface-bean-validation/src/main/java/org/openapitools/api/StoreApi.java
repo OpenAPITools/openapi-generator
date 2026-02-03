@@ -18,6 +18,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface StoreApi {
 
@@ -35,7 +36,7 @@ public interface StoreApi {
         accept = { "application/json" }
     )
     ResponseEntity<Void> deleteOrder(
-         @PathVariable("order_id") String orderId
+        @NotNull  @PathVariable("order_id") String orderId
     );
 
 
@@ -70,7 +71,7 @@ public interface StoreApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<OrderDto> getOrderById(
-         @PathVariable("order_id") Long orderId
+        @NotNull @Min(value = 1L) @Max(value = 5L)  @PathVariable("order_id") Long orderId
     );
 
 
@@ -89,7 +90,7 @@ public interface StoreApi {
         contentType = "application/json"
     )
     ResponseEntity<OrderDto> placeOrder(
-         @RequestBody OrderDto orderDto
+         @Valid @RequestBody OrderDto orderDto
     );
 
 }

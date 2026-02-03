@@ -13,7 +13,8 @@ import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -27,16 +28,16 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ContainerDefaultValueDto {
 
-  
+  @Valid
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
-  
+  @Valid
   private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
-  
+  @Valid
   private List<String> requiredArray = new ArrayList<>();
 
-  
+  @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValueDto() {
@@ -87,7 +88,7 @@ public class ContainerDefaultValueDto {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -114,7 +115,7 @@ public class ContainerDefaultValueDto {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;

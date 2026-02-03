@@ -10,7 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -139,7 +140,7 @@ public class Order {
    * Get shipDate
    * @return shipDate
    */
-  
+  @Valid 
   @JsonProperty("shipDate")
   public @Nullable OffsetDateTime getShipDate() {
     return shipDate;

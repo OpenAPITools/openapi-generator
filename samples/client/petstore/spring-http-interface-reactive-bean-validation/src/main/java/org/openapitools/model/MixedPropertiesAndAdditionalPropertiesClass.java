@@ -13,7 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 
 import java.util.*;
@@ -31,7 +32,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private @Nullable OffsetDateTime dateTime;
 
-  
+  @Valid
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(@Nullable UUID uuid) {
@@ -43,7 +44,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get uuid
    * @return uuid
    */
-  
+  @Valid 
   @JsonProperty("uuid")
   public @Nullable UUID getUuid() {
     return uuid;
@@ -62,7 +63,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get dateTime
    * @return dateTime
    */
-  
+  @Valid 
   @JsonProperty("dateTime")
   public @Nullable OffsetDateTime getDateTime() {
     return dateTime;
@@ -89,7 +90,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * Get map
    * @return map
    */
-  
+  @Valid 
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;

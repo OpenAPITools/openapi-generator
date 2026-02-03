@@ -21,6 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
@@ -32,6 +35,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public interface FakeApi {
 
@@ -49,7 +53,7 @@ public interface FakeApi {
         contentType = "application/xml"
     )
     Mono<ResponseEntity<Void>> createXmlItem(
-         @RequestBody Mono<XmlItem> xmlItem
+         @Valid @RequestBody Mono<XmlItem> xmlItem
     );
 
 
@@ -67,7 +71,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
-         @RequestBody(required = false) Mono<Boolean> body
+         @Valid @RequestBody(required = false) Mono<Boolean> body
     );
 
 
@@ -85,7 +89,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
-         @RequestBody(required = false) Mono<OuterComposite> outerComposite
+         @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite
     );
 
 
@@ -103,7 +107,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
-         @RequestBody(required = false) Mono<BigDecimal> body
+         @Valid @RequestBody(required = false) Mono<BigDecimal> body
     );
 
 
@@ -121,7 +125,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<String>> fakeOuterStringSerialize(
-         @RequestBody(required = false) Mono<String> body
+         @Valid @RequestBody(required = false) Mono<String> body
     );
 
 
@@ -139,7 +143,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testBodyWithFileSchema(
-         @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
+         @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
     );
 
 
@@ -157,8 +161,8 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testBodyWithQueryParams(
-         @RequestParam(value = "query", required = true) String query,
-         @RequestBody Mono<User> user
+        @NotNull  @Valid @RequestParam(value = "query", required = true) String query,
+         @Valid @RequestBody Mono<User> user
     );
 
 
@@ -176,7 +180,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Client>> testClientModel(
-         @RequestBody Mono<Client> client
+         @Valid @RequestBody Mono<Client> client
     );
 
 
@@ -208,20 +212,20 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testEndpointParameters(
-         @RequestPart(value = "number", required = true) BigDecimal number,
-         @RequestPart(value = "double", required = true) Double _double,
-         @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestPart(value = "byte", required = true) byte[] _byte,
-         @RequestPart(value = "integer", required = false) Integer integer,
-         @RequestPart(value = "int32", required = false) Integer int32,
-         @RequestPart(value = "int64", required = false) Long int64,
-         @RequestPart(value = "float", required = false) Float _float,
-         @RequestPart(value = "string", required = false) String string,
+         @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
+         @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
+         @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+         @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
+         @Min(value = 10) @Max(value = 100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
+         @Min(value = 20) @Max(value = 200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
+         @Valid @RequestPart(value = "int64", required = false) Long int64,
+         @DecimalMax(value = "987.6") @Valid @RequestPart(value = "float", required = false) Float _float,
+         @Pattern(regexp = "/[a-z]/i") @Valid @RequestPart(value = "string", required = false) String string,
          @RequestPart(value = "binary", required = false) Part binary,
-         @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-         @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
-         @RequestPart(value = "password", required = false) String password,
-         @RequestPart(value = "callback", required = false) String paramCallback
+         @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+         @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
+         @Size(min = 10, max = 64) @Valid @RequestPart(value = "password", required = false) String password,
+         @Valid @RequestPart(value = "callback", required = false) String paramCallback
     );
 
 
@@ -249,12 +253,12 @@ public interface FakeApi {
     Mono<ResponseEntity<Void>> testEnumParameters(
          @RequestHeader(value = "enum_header_string_array", required = false) @Nullable List<String> enumHeaderStringArray,
          @RequestHeader(value = "enum_header_string", required = false, defaultValue = "-efg") String enumHeaderString,
-         @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
-         @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
-         @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
-         @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-         @RequestPart(value = "enum_form_string", required = false) String enumFormString
+         @Valid @RequestParam(value = "enum_query_string_array", required = false) @Nullable List<String> enumQueryStringArray,
+         @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
+         @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
+         @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
+         @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
     );
 
 
@@ -276,12 +280,12 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testGroupParameters(
-         @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
-         @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
-         @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
-         @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
+        @NotNull  @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,
+        @NotNull  @RequestHeader(value = "required_boolean_group", required = true) Boolean requiredBooleanGroup,
+        @NotNull  @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
+         @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
          @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
-         @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
+         @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
     );
 
 
@@ -299,7 +303,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testInlineAdditionalProperties(
-         @RequestBody Mono<Map<String, String>> requestBody
+         @Valid @RequestBody Mono<Map<String, String>> requestBody
     );
 
 
@@ -318,8 +322,8 @@ public interface FakeApi {
         contentType = "application/x-www-form-urlencoded"
     )
     Mono<ResponseEntity<Void>> testJsonFormData(
-         @RequestPart(value = "param", required = true) String param,
-         @RequestPart(value = "param2", required = true) String param2
+         @Valid @RequestPart(value = "param", required = true) String param,
+         @Valid @RequestPart(value = "param2", required = true) String param2
     );
 
 
@@ -337,7 +341,7 @@ public interface FakeApi {
         contentType = "application/json"
     )
     Mono<ResponseEntity<Void>> testNullable(
-         @RequestBody Mono<ChildWithNullable> childWithNullable
+         @Valid @RequestBody Mono<ChildWithNullable> childWithNullable
     );
 
 
@@ -357,10 +361,10 @@ public interface FakeApi {
         accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> testQueryParameterCollectionFormat(
-         @RequestParam(value = "pipe", required = true) List<String> pipe,
-         @RequestParam(value = "http", required = true) List<String> http,
-         @RequestParam(value = "url", required = true) List<String> url,
-         @RequestParam(value = "context", required = true) List<String> context
+        @NotNull  @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
+        @NotNull  @Valid @RequestParam(value = "http", required = true) List<String> http,
+        @NotNull  @Valid @RequestParam(value = "url", required = true) List<String> url,
+        @NotNull  @Valid @RequestParam(value = "context", required = true) List<String> context
     );
 
 
