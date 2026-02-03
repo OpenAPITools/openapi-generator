@@ -984,7 +984,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenModel.imports.remove("Schema");
         }
 
-        addSpringNullableImport(codegenModel.imports);
+        // Only add Nullable import for non-enum models that may have nullable fields
+        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+            addSpringNullableImport(codegenModel.imports);
+        }
 
         return codegenModel;
     }
