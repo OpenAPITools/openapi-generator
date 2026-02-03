@@ -162,8 +162,8 @@ This gives access to the following tasks:
 
 | Task                      | Description                                                                                 |
 |---------------------------|---------------------------------------------------------------------------------------------|
-| <configName>.generate     | Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents. |
-| <configName>.validateSpec | Validates the configured spec                                                               |
+| &lt;configName&gt;.generate     | Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents. |
+| &lt;configName&gt;.validateSpec | Validates the configured spec                                                               |
 
 and a command
 
