@@ -873,8 +873,8 @@ public class SpringCodegenTest {
                 .hasNoMethod("createUser", "User");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasImports("jakarta.servlet.http.HttpServletRequest")
-                .hasNoImports("javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+                .hasImports("javax.servlet.http.HttpServletRequest")
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
                 .assertMethod("createUser", "User", "HttpServletRequest")
