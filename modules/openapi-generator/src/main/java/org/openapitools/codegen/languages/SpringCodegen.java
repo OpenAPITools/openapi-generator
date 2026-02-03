@@ -93,6 +93,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
@@ -154,6 +155,12 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    private Boolean includeHttpRequestContext = null;
+    @Getter
+    private final boolean defaultIncludeHttpRequestContextForReactive = true;
+    @Getter
+    private final boolean defaultIncludeHttpRequestContextForBlocking = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -278,6 +285,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
                 "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(INCLUDE_HTTP_REQUEST_CONTEXT,
+                "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.",
+                defaultIncludeHttpRequestContextForBlocking));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
                 generatedConstructorWithRequiredArgs));
@@ -428,6 +438,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
             convertPropertyToBooleanAndWriteBack(REACTIVE, this::setReactive);
             convertPropertyToBooleanAndWriteBack(SSE, this::setSse);
+        }
+        if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
+            convertPropertyToBooleanAndWriteBack(INCLUDE_HTTP_REQUEST_CONTEXT, this::setIncludeHttpRequestContext);
+        }
+        //set default value for includeHttpRequestContext based on reactive/blocking
+        if (includeHttpRequestContext == null) {
+            if (this.reactive) {
+                //default to true for reactive
+                this.setIncludeHttpRequestContext(this.isDefaultIncludeHttpRequestContextForReactive());
+                LOGGER.info("Defaulting {} to '{}' for reactive", INCLUDE_HTTP_REQUEST_CONTEXT, this.isDefaultIncludeHttpRequestContextForReactive());
+            } else {
+                //default to false for blocking
+                this.setIncludeHttpRequestContext(this.isDefaultIncludeHttpRequestContextForBlocking());
+                LOGGER.info("Defaulting {} to '{}' for blocking", INCLUDE_HTTP_REQUEST_CONTEXT, this.isDefaultIncludeHttpRequestContextForBlocking());
+            }
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, this.getIncludeHttpRequestContext());
         }
 
         convertPropertyToStringAndWriteBack(RESPONSE_WRAPPER, this::setResponseWrapper);

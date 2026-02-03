@@ -9,11 +9,11 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.Map;
 import org.openapitools.model.Order;
 import io.swagger.annotations.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -58,10 +58,9 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> deleteOrder(
-        @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId
     ) {
-        return getDelegate().deleteOrder(orderId, exchange);
+        return getDelegate().deleteOrder(orderId);
     }
 
 
@@ -93,9 +92,9 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Map<String, Integer>> getInventory(
-        @ApiIgnore final ServerWebExchange exchange
+        
     ) {
-        return getDelegate().getInventory(exchange);
+        return getDelegate().getInventory();
     }
 
 
@@ -128,10 +127,9 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Order> getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId
     ) {
-        return getDelegate().getOrderById(orderId, exchange);
+        return getDelegate().getOrderById(orderId);
     }
 
 
@@ -163,10 +161,9 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Order> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order
     ) {
-        return getDelegate().placeOrder(order, exchange);
+        return getDelegate().placeOrder(order);
     }
 
 }

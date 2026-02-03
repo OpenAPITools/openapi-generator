@@ -735,6 +735,157 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testSpringBoot3ReactiveDefaultsToIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>", "ServerWebExchange")
+                .assertParameter("exchange").hasType("ServerWebExchange")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("hidden", "true"))
+                .doesNotContainWithName("ApiIgnore");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest")
+                .hasImports("org.springframework.web.server.ServerWebExchange");
+    }
+
+    @Test
+    public void testSpringBootReactiveDefaultsToIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>", "ServerWebExchange")
+                .assertParameter("exchange").hasType("ServerWebExchange")
+                .assertParameterAnnotations()
+                .containsWithName("ApiIgnore")
+                .doesNotContainWithName("Parameter");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest")
+                .hasImports("org.springframework.web.server.ServerWebExchange");
+    }
+
+
+    @Test
+    public void testSpringBoot3ReactiveIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+    }
+
+    @Test
+    public void testSpringBootReactiveIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(true);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "false");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "Mono<User>");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+    }
+
+    @Test
+    public void testSpringBoot3BlockingDefaultsToIncludeHttpRequestContextFalse() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User", "HttpServletRequest");
+    }
+
+
+    @Test
+    public void testSpringBoot3BlockingIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(true);
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("jakarta.servlet.http.HttpServletRequest")
+                .hasNoImports("javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User", "HttpServletRequest")
+                .assertParameter("servletRequest").hasType("HttpServletRequest")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("hidden", "true"))
+                .doesNotContainWithName("ApiIgnore");
+    }
+
+
+    @Test
+    public void testSpringBootBlockingIncludeHttpRequestContextTrue() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setReactive(false);
+        codegen.setLibrary("spring-boot");
+        codegen.setUseSpringBoot3(false);
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, "springfox");
+        codegen.additionalProperties().put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/petstore.yaml");
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasNoMethod("createUser", "User");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .hasImports("javax.servlet.http.HttpServletRequest")
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .assertMethod("createUser", "User", "HttpServletRequest")
+                .assertParameter("servletRequest").hasType("HttpServletRequest")
+                .assertParameterAnnotations()
+                .containsWithName("ApiIgnore")
+                .doesNotContainWithName("Parameter");
+    }
+
+
+    @Test
     public void testReactiveMultipartBoot() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-boot");
