@@ -7,6 +7,8 @@ on:
       - samples/client/petstore/java-helidon-client/v3/mp/**
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
+      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
+      - samples/client/petstore/spring-http-interface-bean-validation/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
@@ -24,6 +26,8 @@ on:
       - samples/client/petstore/java-helidon-client/v3/mp/**
       - samples/client/petstore/java-helidon-client/v3/se/**
       - samples/client/petstore/spring-http-interface-reactive/**
+      - samples/client/petstore/spring-http-interface-reactive-bean-validation/**
+      - samples/client/petstore/spring-http-interface-bean-validation/**
       - samples/client/petstore/spring-http-interface/**
       - samples/client/petstore/spring-http-interface-reactive-noResponseEntity/**
       - samples/client/petstore/spring-http-interface-noResponseEntity/**
@@ -47,6 +51,8 @@ jobs:
           - samples/client/petstore/java-helidon-client/v3/mp/
           - samples/client/petstore/java-helidon-client/v3/se
           - samples/client/petstore/spring-http-interface-reactive
+          - samples/client/petstore/spring-http-interface-reactive-bean-validation
+          - samples/client/petstore/spring-http-interface-bean-validation
           - samples/client/petstore/spring-http-interface
           - samples/client/petstore/spring-http-interface-reactive-noResponseEntity
           - samples/client/petstore/spring-http-interface-noResponseEntity

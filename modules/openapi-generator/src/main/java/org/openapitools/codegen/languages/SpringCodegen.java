@@ -384,8 +384,18 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe = true;
-            useBeanValidation = false;
-            performBeanValidation = false;
+            if(additionalProperties.containsKey(USE_BEANVALIDATION)) {
+                useBeanValidation = Boolean.parseBoolean(additionalProperties.get(USE_BEANVALIDATION).toString());
+            } else {
+                //default to false if not specified
+                useBeanValidation = false;
+            }
+            if(additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+                performBeanValidation = Boolean.parseBoolean(additionalProperties.get(PERFORM_BEANVALIDATION).toString());
+            } else {
+                //default to false if not specified
+                performBeanValidation = false;
+            }
 
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);

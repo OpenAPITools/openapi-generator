@@ -1,16 +1,17 @@
 generatorName: spring
 library: spring-http-interface
-outputDir: samples/client/petstore/spring-http-interface-reactive
+outputDir: samples/client/petstore/spring-http-interface-validation
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
-  artifactId: spring-http-interface-reactive
+  artifactId: spring-http-interface
   snapshotVersion: "true"
   hideGenerationTimestamp: "true"
-  reactive: "true"
+  modelNameSuffix: 'Dto'
+  generatedConstructorWithRequiredArgs: "false"
+  # validation should be respected
+  useBeanValidation: "true"
   # documentation provider should be ignored
-  documentationProvider: "springfox"
+  documentationProvider: "springdoc"
   # annotation provider should be ignored
-  annotationLibrary: "swagger1"
-#  useBeanValidation should default to "false" when not specified
-#  performBeanValidation should default to "false" when not specified
+  annotationLibrary: "swagger2"
