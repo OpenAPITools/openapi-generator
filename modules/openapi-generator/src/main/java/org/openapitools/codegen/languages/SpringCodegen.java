@@ -283,7 +283,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `equalsIgnoreCase` when String for enum comparison",
                 useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
-                "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
         cliOptions.add(CliOption.newBoolean(INCLUDE_HTTP_REQUEST_CONTEXT,
                 "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.",
