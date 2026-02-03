@@ -16,12 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-{{#reactive}}
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.Valid;
 import {{javaxPackage}}.validation.constraints.*;
 {{^useSpringBuiltInValidation}}import org.springframework.validation.annotation.Validated;{{/useSpringBuiltInValidation}}
 {{/useBeanValidation}}
+{{#reactive}}
 
 import org.springframework.http.codec.multipart.Part;
 import reactor.core.publisher.Flux;
