@@ -72,7 +72,7 @@ public class JavaCamelServerCodegen extends SpringCodegen implements BeanValidat
         templateDir = "java-camel-server";
         addCliOptions();
         artifactId = "openapi-camel";
-        super.library = "";
+        annotationLibrary = AnnotationLibrary.SWAGGER2;
     }
 
     @Override
