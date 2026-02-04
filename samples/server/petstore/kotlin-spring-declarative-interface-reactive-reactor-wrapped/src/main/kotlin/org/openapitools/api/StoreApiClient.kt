@@ -66,6 +66,7 @@ interface StoreApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
         const val PATH_GET_INVENTORY: String = "/store/inventory"
         const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"

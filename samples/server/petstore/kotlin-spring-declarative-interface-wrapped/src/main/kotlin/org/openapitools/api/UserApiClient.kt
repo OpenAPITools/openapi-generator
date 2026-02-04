@@ -5,6 +5,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import org.openapitools.api.UserApi.Companion.BASE_PATH
 
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
@@ -24,6 +25,7 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
+@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface
 @Validated
 interface UserApi {
 
@@ -102,6 +104,7 @@ interface UserApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_CREATE_USER: String = "/user"
         const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
         const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"

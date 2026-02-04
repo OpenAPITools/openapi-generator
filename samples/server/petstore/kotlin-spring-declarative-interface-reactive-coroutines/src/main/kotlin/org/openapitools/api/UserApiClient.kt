@@ -102,6 +102,7 @@ interface UserApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_CREATE_USER: String = "/user"
         const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
         const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"

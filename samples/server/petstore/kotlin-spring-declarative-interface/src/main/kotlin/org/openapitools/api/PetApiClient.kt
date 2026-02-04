@@ -107,6 +107,7 @@ interface PetApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_ADD_PET: String = "/pet"
         const val PATH_DELETE_PET: String = "/pet/{petId}"
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"

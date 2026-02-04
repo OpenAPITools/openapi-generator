@@ -1097,6 +1097,7 @@ public class KotlinSpringServerCodegenTest {
                 + "    ): Mono<ResponseEntity<Order>>",
                 "    companion object {\n"
                 + "        //for your own safety never directly reuse these path definitions in tests\n"
+                + "        const val BASE_PATH: String = \"/v2\"\n"
                 + "        const val PATH_DELETE_ORDER: String = \"/store/order/{orderId}\"\n"
                 + "        const val PATH_GET_INVENTORY: String = \"/store/inventory\"\n"
                 + "        const val PATH_GET_ORDER_BY_ID: String = \"/store/order/{orderId}\"\n"
@@ -1105,7 +1106,8 @@ public class KotlinSpringServerCodegenTest {
         );
         assertFileNotContains(
                 path,
-                "suspend"
+                "suspend",
+                "@HttpExchange(BASE_PATH)" // this should not be present since "requestMappingMode" is set to "none"
         );
     }
 
@@ -1314,11 +1316,11 @@ public class KotlinSpringServerCodegenTest {
         generator.opts(input).generate();
 
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
-        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @HttpExchange
-        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
+        // Note: We cannot use property placeholders as HttpServiceProxyFactory does not resolve them by default.
         assertFileContains(
                 path,
-                "@HttpExchange(\"\\${api.base-path:/v2}\")",
+                "import org.openapitools.api.StoreApi.Companion.BASE_PATH",
+                "@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface", // this should be present since "requestMappingMode" is set to "api_interface"
                 "    fun getInventory(\n"
                 + "    ): Map<String, kotlin.Int>",
                 "    fun deleteOrder(\n"
