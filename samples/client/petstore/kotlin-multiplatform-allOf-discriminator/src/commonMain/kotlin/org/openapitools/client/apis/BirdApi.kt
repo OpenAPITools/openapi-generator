@@ -24,6 +24,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -89,7 +93,7 @@ open class BirdApi : ApiClient {
 
         val localVariableBody = 
             formData {
-                metadata?.apply { append("metadata", metadata) }
+                metadata?.apply { append("metadata", ApiClient.JSON_DEFAULT.encodeToString(Bird.serializer(), metadata)) }
                 file?.apply { append(file) }
             }
 
