@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | **string** |  | [optional] 
-**Id** | **decimal** |  | [optional] 
+**Id** | **decimal?** |  | [optional] 
 **DeprecatedRef** | [**DeprecatedObject**](DeprecatedObject.md) |  | [optional] 
 **Bars** | **List&lt;string&gt;** |  | [optional] 
 

@@ -5,7 +5,7 @@ Model for testing reserved words
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**VarReturn** | **int** |  | [optional] 
+**VarReturn** | **int?** |  | [optional] 
 **Lock** | **string** |  | 
 **Abstract** | **string** |  | 
 **Unsafe** | **string** |  | [optional] 

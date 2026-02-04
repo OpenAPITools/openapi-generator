@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name = "declawed", EmitDefaultValue = true)]
-        public bool Declawed { get; set; }
+        public bool? Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -107,7 +107,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = base.GetHashCode();
-                hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                if (this.Declawed != null)
+                {
+                    hashCode = (hashCode * 59) + this.Declawed.GetHashCode();
+                }
                 return hashCode;
             }
         }

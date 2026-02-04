@@ -128,7 +128,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id
+        public long? Id
         {
             get{ return _Id;}
             set
@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Model
                 _flagId = true;
             }
         }
-        private long _Id;
+        private long? _Id;
         private bool _flagId;
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name = "petId", EmitDefaultValue = false)]
-        public long PetId
+        public long? PetId
         {
             get{ return _PetId;}
             set
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
                 _flagPetId = true;
             }
         }
-        private long _PetId;
+        private long? _PetId;
         private bool _flagPetId;
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name = "quantity", EmitDefaultValue = false)]
-        public int Quantity
+        public int? Quantity
         {
             get{ return _Quantity;}
             set
@@ -185,7 +185,7 @@ namespace Org.OpenAPITools.Model
                 _flagQuantity = true;
             }
         }
-        private int _Quantity;
+        private int? _Quantity;
         private bool _flagQuantity;
 
         /// <summary>
@@ -310,9 +310,18 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                hashCode = (hashCode * 59) + this.PetId.GetHashCode();
-                hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                if (this.Id != null)
+                {
+                    hashCode = (hashCode * 59) + this.Id.GetHashCode();
+                }
+                if (this.PetId != null)
+                {
+                    hashCode = (hashCode * 59) + this.PetId.GetHashCode();
+                }
+                if (this.Quantity != null)
+                {
+                    hashCode = (hashCode * 59) + this.Quantity.GetHashCode();
+                }
                 if (this.ShipDate != null)
                 {
                     hashCode = (hashCode * 59) + this.ShipDate.GetHashCode();

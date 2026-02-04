@@ -53,38 +53,38 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
-        public string SmallCamel { get; set; }
+        public string? SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
-        public string CapitalCamel { get; set; }
+        public string? CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
-        public string SmallSnake { get; set; }
+        public string? SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
-        public string CapitalSnake { get; set; }
+        public string? CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
-        public string SCAETHFlowPoints { get; set; }
+        public string? SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
         [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
-        public string ATT_NAME { get; set; }
+        public string? ATT_NAME { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

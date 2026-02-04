@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo String { get; set; }
+        public Foo? String { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

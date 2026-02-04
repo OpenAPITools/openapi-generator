@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
-        public bool Sweet
+        public bool? Sweet
         {
             get{ return _Sweet;}
             set
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
                 _flagSweet = true;
             }
         }
-        private bool _Sweet;
+        private bool? _Sweet;
         private bool _flagSweet;
 
         /// <summary>
@@ -153,7 +153,10 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
-                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                if (this.Sweet != null)
+                {
+                    hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                }
                 return hashCode;
             }
         }

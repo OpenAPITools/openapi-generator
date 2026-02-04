@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Content
         /// </summary>
         [DataMember(Name = "content", EmitDefaultValue = false)]
-        public MixedAnyOfContent Content { get; set; }
+        public MixedAnyOfContent? Content { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

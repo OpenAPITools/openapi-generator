@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Dummy
         /// </summary>
         [DataMember(Name = "dummy", EmitDefaultValue = false)]
-        public string Dummy { get; set; }
+        public string? Dummy { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

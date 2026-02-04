@@ -50,14 +50,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Result code</value>
         [DataMember(Name = "code", EmitDefaultValue = false)]
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         /// <summary>
         /// Result unique identifier
         /// </summary>
         /// <value>Result unique identifier</value>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public string Uuid { get; set; }
+        public string? Uuid { get; set; }
 
         /// <summary>
         /// list of named parameters for current message

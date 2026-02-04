@@ -490,7 +490,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         Double maximum = asDouble(property.maximum);
-        if (property.dataType.equals("int") && maximum != null) {
+        if (property.dataType.startsWith("int") && maximum != null) {
             if ((!property.exclusiveMaximum && asInteger(property.maximum) == null) || (property.exclusiveMaximum && asInteger((maximum + 1) + "") == null)) {
                 property.dataType = "long";
                 property.datatypeWithEnum = "long";
@@ -498,7 +498,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         Double minimum = asDouble(property.minimum);
-        if (property.dataType.equals("int") && minimum != null) {
+        if (property.dataType.startsWith("int") && minimum != null) {
             if ((!property.exclusiveMinimum && asInteger(property.minimum) == null) || (property.exclusiveMinimum && asInteger((minimum - 1) + "") == null)) {
                 property.dataType = "long";
                 property.datatypeWithEnum = "long";

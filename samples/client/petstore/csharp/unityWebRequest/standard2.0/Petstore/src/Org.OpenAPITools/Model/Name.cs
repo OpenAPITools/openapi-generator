@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
-        public int SnakeCase { get; private set; }
+        public int? SnakeCase { get; private set; }
 
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int Var123Number { get; private set; }
+        public int? Var123Number { get; private set; }
 
         /// <summary>
         /// Returns false as Var123Number should not be serialized given that it's read-only.
@@ -139,7 +139,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.SnakeCase == input.SnakeCase ||
-                    this.SnakeCase.Equals(input.SnakeCase)
+                    (this.SnakeCase != null &&
+                    this.SnakeCase.Equals(input.SnakeCase))
                 ) && 
                 (
                     this.Property == input.Property ||
@@ -148,7 +149,8 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Var123Number == input.Var123Number ||
-                    this.Var123Number.Equals(input.Var123Number)
+                    (this.Var123Number != null &&
+                    this.Var123Number.Equals(input.Var123Number))
                 );
         }
 
@@ -162,12 +164,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.VarName.GetHashCode();
-                hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
+                if (this.SnakeCase != null)
+                {
+                    hashCode = (hashCode * 59) + this.SnakeCase.GetHashCode();
+                }
                 if (this.Property != null)
                 {
                     hashCode = (hashCode * 59) + this.Property.GetHashCode();
                 }
-                hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
+                if (this.Var123Number != null)
+                {
+                    hashCode = (hashCode * 59) + this.Var123Number.GetHashCode();
+                }
                 return hashCode;
             }
         }
