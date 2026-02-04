@@ -35,7 +35,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_ADD_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_ADD_PET],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -48,7 +49,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_PET /* "/pet/{petId}" */]
+        // "/pet/{petId}"
+        value = [PATH_DELETE_PET]
     )
     fun deletePet(
         @PathVariable("petId") petId: kotlin.Long,
@@ -60,7 +62,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */],
+        // "/pet/findByStatus"
+        value = [PATH_FIND_PETS_BY_STATUS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByStatus(
@@ -72,7 +75,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */],
+        // "/pet/findByTags"
+        value = [PATH_FIND_PETS_BY_TAGS],
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
@@ -84,7 +88,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_PET_BY_ID /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_GET_PET_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     fun getPetById(
@@ -96,7 +101,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_PET /* "/pet" */],
+        // "/pet"
+        value = [PATH_UPDATE_PET],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json", "application/xml"]
     )
@@ -109,7 +115,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */],
+        // "/pet/{petId}"
+        value = [PATH_UPDATE_PET_WITH_FORM],
         consumes = ["application/x-www-form-urlencoded"]
     )
     fun updatePetWithForm(
@@ -123,7 +130,8 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */],
+        // "/pet/{petId}/uploadImage"
+        value = [PATH_UPLOAD_FILE],
         produces = ["application/json"],
         consumes = ["multipart/form-data"]
     )

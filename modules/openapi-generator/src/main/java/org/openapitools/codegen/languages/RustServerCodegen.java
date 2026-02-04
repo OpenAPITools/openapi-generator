@@ -610,6 +610,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             processParam(param, op);
         }
 
+        for (CodegenParameter param : op.pathParams) {
+            processParam(param, op);
+        }
+
         // We keep track of the 'default' model type for this API. If there are
         // *any* XML responses, then we set the default to XML, otherwise we
         // let the default be JSON. It would be odd for an API to want to use
@@ -1459,6 +1463,45 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return null;
     }
 
+    /**
+     * Determine the appropriate Rust integer type based on format and min/max constraints.
+     * Returns the fitted data type, or null if the baseType is not an integer.
+     *
+     * @param dataFormat The data format (e.g., "int32", "int64", "uint32", "uint64")
+     * @param minimum The minimum value constraint
+     * @param maximum The maximum value constraint
+     * @param exclusiveMinimum Whether the minimum is exclusive
+     * @param exclusiveMaximum Whether the maximum is exclusive
+     * @return The fitted Rust integer type.
+     */
+    private String applyIntegerTypeFitting(String dataFormat,
+                                            String minimum, String maximum,
+                                            boolean exclusiveMinimum, boolean exclusiveMaximum) {
+        BigInteger min = Optional.ofNullable(minimum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+        BigInteger max = Optional.ofNullable(maximum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+
+        boolean unsigned = canFitIntoUnsigned(min, exclusiveMinimum);
+
+        if (Strings.isNullOrEmpty(dataFormat)) {
+            return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+        } else {
+            switch (dataFormat) {
+                // custom integer formats (legacy)
+                case "uint32":
+                    return "u32";
+                case "uint64":
+                    return "u64";
+                case "int32":
+                    return unsigned ? "u32" : "i32";
+                case "int64":
+                    return unsigned ? "u64" : "i64";
+                default:
+                    LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", dataFormat);
+                    return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+            }
+        }
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1492,41 +1535,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // Integer type fitting
         if (Objects.equals(property.baseType, "integer")) {
 
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-
-            boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
-
-            if (Strings.isNullOrEmpty(property.dataFormat)) {
-                property.dataType = bestFittingIntegerType(minimum,
-                        property.getExclusiveMinimum(),
-                        maximum,
-                        property.getExclusiveMaximum(),
-                        true);
-            } else {
-                switch (property.dataFormat) {
-                    // custom integer formats (legacy)
-                    case "uint32":
-                        property.dataType = "u32";
-                        break;
-                    case "uint64":
-                        property.dataType = "u64";
-                        break;
-                    case "int32":
-                        property.dataType = unsigned ? "u32" : "i32";
-                        break;
-                    case "int64":
-                        property.dataType = unsigned ? "u64" : "i64";
-                        break;
-                    default:
-                        LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.dataType = bestFittingIntegerType(minimum,
-                                property.getExclusiveMinimum(),
-                                maximum,
-                                property.getExclusiveMaximum(),
-                                true);
-                }
-            }
+            property.dataType = applyIntegerTypeFitting(
+                property.dataFormat,
+                property.getMinimum(),
+                property.getMaximum(),
+                property.getExclusiveMinimum(),
+                property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);
@@ -1579,6 +1593,17 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
+
+        // If a parameter is an integer, fit it into the right type.
+        // Note: For CodegenParameter, baseType may be null, so we check isInteger/isLong/isShort flags instead.
+        if (param.isInteger || param.isLong || param.isShort) {
+            param.dataType = applyIntegerTypeFitting(
+                    param.dataFormat,
+                    param.minimum,
+                    param.maximum,
+                    param.exclusiveMinimum,
+                    param.exclusiveMaximum);
+        }
 
         // If a parameter uses UUIDs, we need to import the UUID package.
         if (uuidType.equals(param.dataType)) {

@@ -28,7 +28,8 @@ import kotlin.collections.Map
 interface StoreApi {
 
     @HttpExchange(
-        url = PATH_DELETE_ORDER /* "/store/order/{orderId}" */,
+        // "/store/order/{orderId}"
+        url = PATH_DELETE_ORDER,
         method = "DELETE"
     )
     fun deleteOrder(
@@ -37,7 +38,8 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_GET_INVENTORY /* "/store/inventory" */,
+        // "/store/inventory"
+        url = PATH_GET_INVENTORY,
         method = "GET"
     )
     fun getInventory(
@@ -45,7 +47,8 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */,
+        // "/store/order/{orderId}"
+        url = PATH_GET_ORDER_BY_ID,
         method = "GET"
     )
     fun getOrderById(
@@ -54,7 +57,8 @@ interface StoreApi {
 
 
     @HttpExchange(
-        url = PATH_PLACE_ORDER /* "/store/order" */,
+        // "/store/order"
+        url = PATH_PLACE_ORDER,
         method = "POST"
     )
     fun placeOrder(
@@ -64,6 +68,7 @@ interface StoreApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_DELETE_ORDER: String = "/store/order/{orderId}"
         const val PATH_GET_INVENTORY: String = "/store/inventory"
         const val PATH_GET_ORDER_BY_ID: String = "/store/order/{orderId}"

@@ -13,3 +13,4 @@ additionalProperties:
   reactive: false
   useResponseEntity: true
   useFlowForArrayReturnType: false
+  requestMappingMode: "api_interface"

@@ -30,7 +30,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_ADD_PET /* "/pet" */,
+        // "/pet"
+        url = PATH_ADD_PET,
         method = "POST"
     )
     suspend fun addPet(
@@ -39,7 +40,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_PET /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_DELETE_PET,
         method = "DELETE"
     )
     suspend fun deletePet(
@@ -49,7 +51,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */,
+        // "/pet/findByStatus"
+        url = PATH_FIND_PETS_BY_STATUS,
         method = "GET"
     )
     suspend fun findPetsByStatus(
@@ -59,7 +62,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */,
+        // "/pet/findByTags"
+        url = PATH_FIND_PETS_BY_TAGS,
         method = "GET"
     )
     suspend fun findPetsByTags(
@@ -69,7 +73,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_PET_BY_ID /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_GET_PET_BY_ID,
         method = "GET"
     )
     suspend fun getPetById(
@@ -78,7 +83,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPDATE_PET /* "/pet" */,
+        // "/pet"
+        url = PATH_UPDATE_PET,
         method = "PUT"
     )
     suspend fun updatePet(
@@ -87,7 +93,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @HttpExchange(
-        url = PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_UPDATE_PET_WITH_FORM,
         method = "POST"
     )
     suspend fun updatePetWithForm(
@@ -98,7 +105,8 @@ interface PetApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */,
+        // "/pet/{petId}/uploadImage"
+        url = PATH_UPLOAD_FILE,
         method = "POST"
     )
     suspend fun uploadFile(
@@ -109,6 +117,7 @@ interface PetApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_ADD_PET: String = "/pet"
         const val PATH_DELETE_PET: String = "/pet/{petId}"
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"

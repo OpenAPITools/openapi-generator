@@ -6,6 +6,7 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import org.openapitools.api.PetApi.Companion.BASE_PATH
 
 import io.swagger.v3.oas.annotations.*
 import io.swagger.v3.oas.annotations.enums.*
@@ -25,11 +26,13 @@ import jakarta.validation.constraints.*
 import kotlin.collections.List
 import kotlin.collections.Map
 
+@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface
 @Validated
 interface PetApi {
 
     @HttpExchange(
-        url = PATH_ADD_PET /* "/pet" */,
+        // "/pet"
+        url = PATH_ADD_PET,
         method = "POST"
     )
     fun addPet(
@@ -38,7 +41,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_DELETE_PET /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_DELETE_PET,
         method = "DELETE"
     )
     fun deletePet(
@@ -48,7 +52,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_STATUS /* "/pet/findByStatus" */,
+        // "/pet/findByStatus"
+        url = PATH_FIND_PETS_BY_STATUS,
         method = "GET"
     )
     fun findPetsByStatus(
@@ -57,7 +62,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_FIND_PETS_BY_TAGS /* "/pet/findByTags" */,
+        // "/pet/findByTags"
+        url = PATH_FIND_PETS_BY_TAGS,
         method = "GET"
     )
     fun findPetsByTags(
@@ -66,7 +72,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_GET_PET_BY_ID /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_GET_PET_BY_ID,
         method = "GET"
     )
     fun getPetById(
@@ -75,7 +82,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_UPDATE_PET /* "/pet" */,
+        // "/pet"
+        url = PATH_UPDATE_PET,
         method = "PUT"
     )
     fun updatePet(
@@ -84,7 +92,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_UPDATE_PET_WITH_FORM /* "/pet/{petId}" */,
+        // "/pet/{petId}"
+        url = PATH_UPDATE_PET_WITH_FORM,
         method = "POST"
     )
     fun updatePetWithForm(
@@ -95,7 +104,8 @@ interface PetApi {
 
 
     @HttpExchange(
-        url = PATH_UPLOAD_FILE /* "/pet/{petId}/uploadImage" */,
+        // "/pet/{petId}/uploadImage"
+        url = PATH_UPLOAD_FILE,
         method = "POST"
     )
     fun uploadFile(
@@ -107,6 +117,7 @@ interface PetApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_ADD_PET: String = "/pet"
         const val PATH_DELETE_PET: String = "/pet/{petId}"
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"

@@ -43,7 +43,8 @@ class MultipartMixedApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_MULTIPART_MIXED /* "/multipart-mixed" */],
+        // "/multipart-mixed"
+        value = [PATH_MULTIPART_MIXED],
         consumes = ["multipart/form-data"]
     )
     fun multipartMixed(

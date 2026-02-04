@@ -48,7 +48,8 @@ interface FooApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_FOO_GET /* "/foo" */],
+        // "/foo"
+        value = [PATH_FOO_GET],
         produces = ["application/json"]
     )
     fun fooGet(): ResponseEntity<FooGetDefaultResponse> {
