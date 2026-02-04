@@ -968,11 +968,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
-
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-            model.imports.add("Nullable");
-        }
     }
 
     @Override
@@ -987,6 +982,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
             // remove swagger imports
             codegenModel.imports.remove("Schema");
+        }
+
+        // Only add Nullable import for non-enum models that may have nullable fields
+        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+            addSpringNullableImport(codegenModel.imports);
         }
 
         return codegenModel;
@@ -1052,11 +1052,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
-              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
-        }
+        addSpringNullableImportForOperation(codegenOperation);
 
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -1218,5 +1214,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
+    }
+
+    private boolean isSpringCodegen() {
+        return getName().contains("spring");
+    }
+
+    private void addSpringNullableImport(Set<String> imports) {
+        if (isSpringCodegen()) {
+            imports.add("Nullable");
+        }
+    }
+
+    /**
+     * Adds Spring Nullable import if any parameter is nullable or optional.
+     */
+    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
+        if (isSpringCodegen()) {
+            codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+        }
     }
 }
