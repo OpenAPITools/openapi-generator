@@ -23,6 +23,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -81,16 +85,16 @@ open class DefaultApi : ApiClient {
 
         val localVariableBody = 
             formData {
-                fi0?.apply { append("fi0", fi0) }
-                fi1?.apply { append("fi1", fi1) }
-                fi2?.apply { append("fi2", fi2) }
-                fi3?.apply { append("fi3", fi3) }
-                fn0?.apply { append("fn0", fn0) }
-                fn1?.apply { append("fn1", fn1) }
-                fn2?.apply { append("fn2", fn2) }
-                fn3?.apply { append("fn3", fn3) }
+                fi0?.apply { append("fi0", fi0.toString()) }
+                fi1?.apply { append("fi1", fi1.toString()) }
+                fi2?.apply { append("fi2", fi2.toString()) }
+                fi3?.apply { append("fi3", fi3.toString()) }
+                fn0?.apply { append("fn0", fn0.toString()) }
+                fn1?.apply { append("fn1", fn1.toString()) }
+                fn2?.apply { append("fn2", fn2.toString()) }
+                fn3?.apply { append("fn3", fn3.toString()) }
                 fn4?.onEach {
-                    append("fn4", it)
+                    append("fn4", it.toString())
                 }
             }
 
