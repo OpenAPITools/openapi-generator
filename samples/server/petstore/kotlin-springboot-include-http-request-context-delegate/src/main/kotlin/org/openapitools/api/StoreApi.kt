@@ -54,7 +54,8 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
+        // "/store/order/{orderId}"
+        value = [PATH_DELETE_ORDER]
     )
     suspend fun deleteOrder(
         @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.String,
@@ -77,7 +78,8 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        // "/store/inventory"
+        value = [PATH_GET_INVENTORY],
         produces = ["application/json"]
     )
     suspend fun getInventory(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Map<String, kotlin.Int>> {
@@ -96,7 +98,8 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        // "/store/order/{orderId}"
+        value = [PATH_GET_ORDER_BY_ID],
         produces = ["application/json"]
     )
     suspend fun getOrderById(
@@ -118,7 +121,8 @@ interface StoreApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        // "/store/order"
+        value = [PATH_PLACE_ORDER],
         produces = ["application/json"],
         consumes = ["application/json"]
     )

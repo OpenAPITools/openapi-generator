@@ -49,7 +49,8 @@ interface FakeClassnameTestApi {
     )
     @RequestMapping(
         method = [RequestMethod.PATCH],
-        value = [PATH_TEST_CLASSNAME /* "/fake_classname_test" */],
+        // "/fake_classname_test"
+        value = [PATH_TEST_CLASSNAME],
         produces = ["application/json"],
         consumes = ["application/json"]
     )
