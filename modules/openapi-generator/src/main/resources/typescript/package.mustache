@@ -44,7 +44,7 @@
       {{#fetch-api}}
         {{#platforms}}
           {{#node}}
-    "undici": "^7.16.0",
+    "undici": "^7.18.2",
           {{/node}}
           {{#browser}}
     "whatwg-fetch": "^3.0.0",
@@ -71,7 +71,7 @@
     "es6-promise": "^4.2.4"
   },
   "devDependencies": {
-    "typescript": "^4.0"
+    "typescript": "^{{typescriptMajorVersion}}.0"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}
   "publishConfig":{

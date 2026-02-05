@@ -8,14 +8,26 @@ license = "Unlicense"
 edition = "2018"
 
 [features]
-default = ["client", "server"]
+default = ["client", "server", "client-tls"]
 client = [
     "serde_urlencoded",
     "serde_ignored", "percent-encoding", 
-    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "url"
+]
+# TLS support - automatically selects backend based on target OS:
+# - macOS/Windows/iOS: native-tls via hyper-tls
+# - Other platforms: OpenSSL via hyper-openssl
+# Dependencies are in target-specific sections below
+client-tls = [
+    "client",
+    "dep:native-tls",
+    "dep:hyper-tls",
+    "dep:openssl",
+    "dep:hyper-openssl",
+    "swagger/tls"
 ]
 server = [
-    "native-tls", "hyper-openssl", "hyper-tls", "openssl",
+    "hyper-util/http1", "hyper-util/http2",
    "serde_ignored", "hyper", "percent-encoding", "url",
    
 ]
@@ -27,20 +39,12 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 mock = ["mockall"]
 validate = [ "serde_valid", "swagger/serdevalid"]
 
-[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
-native-tls = { version = "0.2", optional = true }
-hyper-tls = { version = "0.6", optional = true }
-
-[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
-hyper-openssl = { version = "0.10", optional = true }
-openssl = { version = "0.10", optional = true }
-
 [dependencies]
 # Common
 async-trait = "0.1.88"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = { version = "7.0.0", features = ["serdejson", "server", "client", "tls"] }
+swagger = { version = "7.0.0", features = ["serdejson", "server", "client"] }
 headers = "0.4.0"
 log = "0.4.27"
 
@@ -89,6 +93,17 @@ frunk_core = { version = "0.4.3", optional = true }
 frunk-enum-derive = { version = "0.3.0", optional = true }
 frunk-enum-core = { version = "0.3.0", optional = true }
 
+# TLS dependencies - platform-specific backends
+# On macOS/Windows/iOS, use native-tls via hyper-tls
+[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
+native-tls = { version = "0.2", optional = true }
+hyper-tls = { version = "0.6", optional = true }
+
+# On other platforms (Linux, etc.), use OpenSSL via hyper-openssl
+[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
+openssl = { version = "0.10", optional = true }
+hyper-openssl = { version = "0.10", optional = true }
+
 [dev-dependencies]
 always_send = "0.1.1"
 clap = "4.5"
@@ -101,8 +116,8 @@ pin-project = "1.1.10"
 jsonwebtoken = {version = "10.0.0", features = ["rust_crypto"]}
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dev-dependencies]
-tokio-openssl = "0.6"
 openssl = "0.10"
+tokio-openssl = "0.6"
 
 [[example]]
 name = "client"

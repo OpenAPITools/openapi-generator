@@ -64,6 +64,15 @@ jobs:
             if cargo read-manifest | grep -q '"validate"'; then
               cargo build --features validate --all-targets
             fi
+            # Test TLS features if they exist
+            if cargo read-manifest | grep -q '"client-tls"'; then
+              # Client without TLS (HTTP-only)
+              cargo build --no-default-features --features=client --lib
+              # Client with TLS (using native-tls)
+              cargo build --no-default-features --features=client,client-tls --lib
+              # Server without TLS
+              cargo build --no-default-features --features=server --lib
+            fi
             cargo fmt
             cargo test
             cargo clippy

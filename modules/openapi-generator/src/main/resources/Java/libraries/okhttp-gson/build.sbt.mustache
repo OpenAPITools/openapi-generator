@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "org.apache.commons" % "commons-lang3" % "3.18.0",
       "jakarta.ws.rs" % "jakarta.ws.rs-api" % "2.1.6",
       {{#openApiNullable}}
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.8",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.9",
       {{/openApiNullable}}
       {{#withAWSV4Signature}}
       "software.amazon.awssdk" % "auth" % "2.20.157",

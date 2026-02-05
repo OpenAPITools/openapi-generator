@@ -66,6 +66,7 @@ public class Foo {
     this.bar = bar;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

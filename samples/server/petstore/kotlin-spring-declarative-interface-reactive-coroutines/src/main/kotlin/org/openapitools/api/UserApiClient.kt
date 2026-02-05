@@ -29,7 +29,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USER /* "/user" */,
+        // "/user"
+        url = PATH_CREATE_USER,
         method = "POST"
     )
     suspend fun createUser(
@@ -38,7 +39,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */,
+        // "/user/createWithArray"
+        url = PATH_CREATE_USERS_WITH_ARRAY_INPUT,
         method = "POST"
     )
     suspend fun createUsersWithArrayInput(
@@ -47,7 +49,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */,
+        // "/user/createWithList"
+        url = PATH_CREATE_USERS_WITH_LIST_INPUT,
         method = "POST"
     )
     suspend fun createUsersWithListInput(
@@ -56,7 +59,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_DELETE_USER /* "/user/{username}" */,
+        // "/user/{username}"
+        url = PATH_DELETE_USER,
         method = "DELETE"
     )
     suspend fun deleteUser(
@@ -65,7 +69,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_GET_USER_BY_NAME /* "/user/{username}" */,
+        // "/user/{username}"
+        url = PATH_GET_USER_BY_NAME,
         method = "GET"
     )
     suspend fun getUserByName(
@@ -74,7 +79,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_LOGIN_USER /* "/user/login" */,
+        // "/user/login"
+        url = PATH_LOGIN_USER,
         method = "GET"
     )
     suspend fun loginUser(
@@ -84,7 +90,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.OK)
     @HttpExchange(
-        url = PATH_LOGOUT_USER /* "/user/logout" */,
+        // "/user/logout"
+        url = PATH_LOGOUT_USER,
         method = "GET"
     )
     suspend fun logoutUser(
@@ -92,7 +99,8 @@ interface UserApi {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @HttpExchange(
-        url = PATH_UPDATE_USER /* "/user/{username}" */,
+        // "/user/{username}"
+        url = PATH_UPDATE_USER,
         method = "PUT"
     )
     suspend fun updateUser(
@@ -102,6 +110,7 @@ interface UserApi {
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
+        const val BASE_PATH: String = "/v2"
         const val PATH_CREATE_USER: String = "/user"
         const val PATH_CREATE_USERS_WITH_ARRAY_INPUT: String = "/user/createWithArray"
         const val PATH_CREATE_USERS_WITH_LIST_INPUT: String = "/user/createWithList"

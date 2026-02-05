@@ -132,6 +132,7 @@ public class DataQuery extends Query {
     this.date = date;
   }
 
+
   @Override
   public DataQuery id(@javax.annotation.Nullable Long id) {
     this.setId(id);

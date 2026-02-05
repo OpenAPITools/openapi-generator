@@ -32,13 +32,13 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "undici": "^7.16.0",
+    "undici": "^7.18.2",
     "@types/node": "^20.17.10",
     "form-data": "^4.0.4",
     "inversify": "^6.0.1",
     "es6-promise": "^4.2.4"
   },
   "devDependencies": {
-    "typescript": "^4.0"
+    "typescript": "^5.0"
   }
 }

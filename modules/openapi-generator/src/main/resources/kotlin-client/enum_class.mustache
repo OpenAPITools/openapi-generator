@@ -109,7 +109,7 @@ import kotlinx.serialization.*
 {{^jackson}}
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun decode(data: kotlin.Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }
@@ -127,7 +127,7 @@ import kotlinx.serialization.*
 {{/isNullable}}
           }
           val normalizedData = "$data".lowercase()
-          return values().firstOrNull { value ->
+          return entries.firstOrNull { value ->
             data == value || normalizedData == "$value".lowercase()
           }{{#isNullable}}{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}
             ?: {{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}
@@ -142,7 +142,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             {{#isString}}
             ?: {{classname}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
             {{/isString}}
@@ -162,7 +162,7 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 
     override fun deserialize(decoder: Decoder): {{classname}} {
         val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
-        return {{classname}}.values().firstOrNull { it.value == value }
+        return {{classname}}.entries.firstOrNull { it.value == value }
             ?: throw IllegalArgumentException("Unknown enum value: $value")
     }
 
