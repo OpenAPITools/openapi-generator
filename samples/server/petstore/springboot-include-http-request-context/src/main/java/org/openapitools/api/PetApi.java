@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ApiResponseDto;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.PetDto;

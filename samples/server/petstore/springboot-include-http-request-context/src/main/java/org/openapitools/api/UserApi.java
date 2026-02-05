@@ -5,6 +5,7 @@
  */
 package org.openapitools.api;
 
+import springfox.documentation.annotations.ApiIgnore;
 import java.time.OffsetDateTime;
 import org.openapitools.model.UserDto;
 import io.swagger.annotations.*;
