@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI Deduplication Demo
+  version: 1.0.0
+  description: >
+    This spec demonstrates OpenAPI Generator schema deduplication and type alias generation in Go:
+    inline objects (direct properties), nested inline objects (arrays), and objects with different property requirements.
+
+paths:
+  /demo:
+    get:
+      summary: Demo endpoint
+      operationId: getDemo
+      responses:
+        '200':
+          description: Demo response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoResponse'
+
+components:
+  schemas:
+    PhoneNumber:
+      type: object
+      required:
+        - number
+      properties:
+        countryCode:
+          type: string
+        number:
+          type: string
+
+    FaxNumber:
+      type: object
+      required:
+        - number
+      properties:
+        countryCode:
+          type: string
+        number:
+          type: string
+
+    DemoResponse:
+      type: object
+      properties:
+        inlinePhone1:
+          type: object
+          required:
+            - number
+          properties:
+            countryCode:
+              type: string
+            number:
+              type: string
+        inlinePhone2:
+          type: object
+          required:
+            - number
+          properties:
+            countryCode:
+              type: string
+            number:
+              type: string
+
+        nestedPhones:
+          type: array
+          items:
+            type: object
+            required:
+              - number
+            properties:
+              countryCode:
+                type: string
+              number:
+                type: string
+
+        phoneHistory:
+          type: array
+          items:
+            type: object
+            required:
+              - number
+            properties:
+              countryCode:
+                type: string
+              number:
+                type: string
+
+        optionalNumber:
+          type: object
+          properties:
+            countryCode:
+              type: string
+            number:
+              type: string
+        requiredNumber:
+          type: object
+          required:
+            - number
+          properties:
+            countryCode:
+              type: string
+            number:
+              type: string
+
+        # Test cases for additionalProperties: true (MapSchema)
+        # These should also generate type aliases even though isModel=false
+        transactOptions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              code:
+                type: string
+              description:
+                type: string
+              name:
+                type: string
+
+        otherOptions:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              code:
+                type: string
+              description:
+                type: string
+              name:
+                type: string
+
+        directMapObject:
+          type: object
+          additionalProperties: true
+          properties:
+            code:
+              type: string
+            description:
+              type: string
+            name:
+              type: string
