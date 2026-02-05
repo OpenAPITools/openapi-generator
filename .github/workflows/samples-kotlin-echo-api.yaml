@@ -20,6 +20,7 @@ jobs:
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-model-prefix-type-mappings
           - samples/client/echo_api/kotlin-jvm-okhttp
+          - samples/client/echo_api/kotlin-jvm-okhttp-multipart-json
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5

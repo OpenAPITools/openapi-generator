@@ -11,6 +11,10 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import kotlinx.serialization.json.Json
 import io.ktor.http.ParametersBuilder
+import io.ktor.http.Headers
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.content.PartData
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
@@ -76,11 +80,31 @@ import kotlinx.serialization.encoding.*
                 {{#formParams}}
                 {{#isArray}}
                 {{{paramName}}}?.onEach {
-                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it){{/isFile}}
+                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it.toString()){{/isFile}}
                 }
                 {{/isArray}}
                 {{^isArray}}
-                {{{paramName}}}?.apply { {{#isFile}}append({{{baseName}}}){{/isFile}}{{^isFile}}append("{{{baseName}}}", {{^isEnumOrRef}}{{{paramName}}}{{/isEnumOrRef}}{{#isEnumOrRef}}{{{paramName}}}.value{{/isEnumOrRef}}){{/isFile}} }
+                {{#isFile}}
+                {{{paramName}}}?.apply { append({{{baseName}}}) }
+                {{/isFile}}
+                {{^isFile}}
+                {{#isPrimitiveType}}
+                {{#isString}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/isString}}
+                {{^isString}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{/isString}}
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+                {{#isEnumOrRef}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.value.toString()) }
+                {{/isEnumOrRef}}
+                {{^isEnumOrRef}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", ApiClient.JSON_DEFAULT.encodeToString({{{dataType}}}.serializer(), {{{paramName}}})) }
+                {{/isEnumOrRef}}
+                {{/isPrimitiveType}}
+                {{/isFile}}
                 {{/isArray}}
                 {{/formParams}}
             }

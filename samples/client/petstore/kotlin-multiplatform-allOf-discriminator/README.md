@@ -38,6 +38,7 @@ All URIs are relative to *http://example.org*
 | Class | Method | HTTP request | Description |
 | ------------ | ------------- | ------------- | ------------- |
 | *BirdApi* | [**getBird**](docs/BirdApi.md#getbird) | **GET** /v1/bird/{id} |  |
+| *BirdApi* | [**uploadBirdWithMetadata**](docs/BirdApi.md#uploadbirdwithmetadata) | **POST** /v1/bird/upload |  |
 
 
 <a id="documentation-for-models"></a>
