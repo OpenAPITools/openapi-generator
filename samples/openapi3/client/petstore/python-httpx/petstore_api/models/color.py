@@ -15,7 +15,7 @@
 from __future__ import annotations
 import pprint
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union, Self
+from typing import Any, Dict, List, Union, Self
 
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]

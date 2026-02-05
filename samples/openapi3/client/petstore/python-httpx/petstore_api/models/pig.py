@@ -17,7 +17,7 @@ import pprint
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union, Self
+from typing import Any, Dict, List, Union, Self
 
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]

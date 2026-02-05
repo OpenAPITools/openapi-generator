@@ -4,7 +4,7 @@ import pprint
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union, Self
+from typing import Any, Dict, List, Union, Self
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
 

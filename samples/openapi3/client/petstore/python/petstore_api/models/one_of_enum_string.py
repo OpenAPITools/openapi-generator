@@ -17,7 +17,7 @@ import pprint
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from pydantic import Field, RootModel
-from typing import Any, Dict, Union, Self
+from typing import Any, Dict, List, Union, Self
 
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
