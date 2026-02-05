@@ -24,7 +24,7 @@ from pydantic import Field
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
+    from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
 
 class DiscriminatorAllOfSuper(BaseModel):
     """
@@ -69,7 +69,7 @@ class DiscriminatorAllOfSuper(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        return self.model_dump_json(by_alias=True)
+        return json.dumps(self.model_dump(by_alias=True))
 
     def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""

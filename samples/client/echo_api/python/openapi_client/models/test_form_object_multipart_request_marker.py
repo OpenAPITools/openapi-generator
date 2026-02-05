@@ -48,7 +48,7 @@ class TestFormObjectMultipartRequestMarker(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        return self.model_dump_json(by_alias=True)
+        return json.dumps(self.model_dump(by_alias=True))
 
     def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""
