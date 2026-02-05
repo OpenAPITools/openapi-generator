@@ -43,6 +43,7 @@ class ApiUtils {
             if (bodyParams != null) {
                 request.body = bodyParams
             }
+            request.accept = ['application/json']
             request.contentType = contentType
 
             response.success { resp, json ->
