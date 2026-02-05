@@ -255,4 +255,40 @@ public class SharedTypeScriptTest {
         }
     }
 
+    @Test(description = "Issue #22748 - Inner enums should not be double-prefixed when model has parent")
+    public void givenChildModelWithInheritedInnerEnumThenEnumNameIsNotDoublePrefixed() throws Exception {
+        // This tests that when a child model inherits from a parent that has an inner enum property,
+        // the enum name is not double-prefixed (e.g., Employee.Employee.ProjectRolesEnum instead of
+        // Employee.ProjectRolesEnum).
+        //
+        // We use typescript-angular because it sets supportsMultipleInheritance=true,
+        // which means cm.parent will be set for child models using allOf.
+        // typescript-fetch does NOT support inheritance, so cm.parent is always null there.
+        final String specPath = "src/test/resources/3_0/issue_22748_inherited_inner_enum.yaml";
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath());
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // Find the Employee model file (the child model)
+        Pattern modelDefinition = Pattern.compile("\\b(interface|type|class)\\s+Employee\\b");
+        Path modelFile = findModelDefinitionFile(output.toPath(), modelDefinition);
+        String fileContents = Files.readString(modelFile);
+
+        // Should NOT contain double-prefixed enum name (typescript-angular uses "." separator)
+        Assert.assertFalse(fileContents.contains("Employee.Employee.ProjectRolesEnum"),
+                "typescript-angular: Should not contain double-prefixed 'Employee.Employee.ProjectRolesEnum' in " + modelFile);
+
+        // Should contain correctly prefixed enum name (single prefix with "." separator)
+        Assert.assertTrue(fileContents.contains("Employee.ProjectRolesEnum"),
+                "typescript-angular: Should contain 'Employee.ProjectRolesEnum' in " + modelFile);
+    }
+
 }
