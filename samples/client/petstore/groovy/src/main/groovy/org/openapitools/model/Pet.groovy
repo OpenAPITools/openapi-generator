@@ -23,11 +23,11 @@ class Pet {
 
     enum StatusEnum {
     
-        AVAILABLE("available"),
+        available("available"),
         
-        PENDING("pending"),
+        pending("pending"),
         
-        SOLD("sold")
+        sold("sold")
     
         private final String value
     
