@@ -8,7 +8,6 @@ package org.openapitools.api;
 import java.time.OffsetDateTime;
 import org.openapitools.model.UserDto;
 import io.swagger.annotations.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

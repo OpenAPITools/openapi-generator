@@ -8,9 +8,6 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.OrderDto;
 import io.swagger.annotations.*;
-
-import springfox.documentation.annotations.ApiIgnore;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

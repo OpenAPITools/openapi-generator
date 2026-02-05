@@ -10,9 +10,6 @@ import org.springframework.lang.Nullable;
 import org.openapitools.model.PetDto;
 import java.util.Set;
 import io.swagger.annotations.*;
-
-import springfox.documentation.annotations.ApiIgnore;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
