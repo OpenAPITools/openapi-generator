@@ -1083,7 +1083,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         addSpringNullableImportForOperation(codegenOperation);
 
-        if (includeHttpRequestContext && DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && (includeHttpRequestContext == null || includeHttpRequestContext)) {
             codegenOperation.imports.add("ApiIgnore");
         }
         if (reactive && sse) {
