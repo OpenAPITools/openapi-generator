@@ -15,6 +15,7 @@
 
 from __future__ import annotations
 import pprint
+import json
 import re  # noqa: F401
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
