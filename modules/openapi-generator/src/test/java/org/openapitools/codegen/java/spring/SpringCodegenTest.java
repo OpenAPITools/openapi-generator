@@ -772,7 +772,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
                 .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest")
-                .hasImports("org.springframework.web.server.ServerWebExchange");
+                .hasImports("org.springframework.web.server.ServerWebExchange", "springfox.documentation.annotations.ApiIgnore");
     }
 
 
@@ -812,7 +812,7 @@ public class SpringCodegenTest {
                 .hasNoMethod("createUser", "Mono<User>", "ServerWebExchange");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
+                .hasNoImports("jakarta.servlet.http.HttpServletRequest", "javax.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange", "springfox.documentation.annotations.ApiIgnore");
     }
 
     @Test
@@ -873,7 +873,7 @@ public class SpringCodegenTest {
                 .hasNoMethod("createUser", "User");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .hasImports("javax.servlet.http.HttpServletRequest")
+                .hasImports("javax.servlet.http.HttpServletRequest", "springfox.documentation.annotations.ApiIgnore")
                 .hasNoImports("jakarta.servlet.http.HttpServletRequest", "org.springframework.web.server.ServerWebExchange");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
