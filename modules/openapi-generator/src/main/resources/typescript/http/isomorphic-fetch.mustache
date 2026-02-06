@@ -9,13 +9,42 @@ import "whatwg-fetch";
 {{/browser}}
 {{/platforms}}
 
+function withTimeout(fetchFn: any, timeout?: number) {
+  return (url: string, options: any = {}) => {
+    const controller = new AbortController();
+    const userSignal = options.signal as AbortSignal | undefined;
+
+    if (userSignal) {
+      if (userSignal.aborted) {
+        controller.abort();
+      } else {
+        userSignal.addEventListener("abort", () => controller.abort());
+      }
+    }
+
+    let timeoutId: NodeJS.Timeout | undefined;
+
+    if (timeout && timeout > 0) {
+      timeoutId = setTimeout(() => controller.abort(), timeout);
+    }
+
+    return fetchFn(url, { ...options, signal: controller.signal }).finally(
+      () => {
+        if (timeoutId) clearTimeout(timeoutId);
+      }
+    );
+  };
+}
+
+
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
     public send(request: RequestContext): Observable<ResponseContext> {
         let method = request.getHttpMethod().toString();
         let body = request.getBody();
 
-        const resultPromise = fetch(request.getUrl(), {
+        const effectiveFetch = withTimeout(fetch, request.getTimeout?.());
+        const resultPromise = effectiveFetch(request.getUrl(), {
             method: method,
             body: body as any,
             headers: request.getHeaders(),
