@@ -3791,7 +3791,8 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(
                 modelFile,
                 "} else if (!jsonObj.get(\"ids\").isJsonArray()  && !jsonObj.get(\"ids\").isJsonNull()) {",
-                "if (!jsonObj.get(\"users\").isJsonArray() && !jsonObj.get(\"users\").isJsonNull()) {",
+                "if (jsonObj.get(\"users\") != null && !jsonObj.get(\"users\").isJsonNull()) {",
+                "if (!jsonObj.get(\"users\").isJsonArray()) {",
                 "if (jsonObj.get(\"user\") != null && !jsonObj.get(\"user\").isJsonNull()) {",
                 "if (jsonObj.get(\"role\") != null && !jsonObj.get(\"role\").isJsonNull()) {",
                 "if (jsonObj.get(\"custom\") != null && !jsonObj.get(\"custom\").isJsonNull()) {");
