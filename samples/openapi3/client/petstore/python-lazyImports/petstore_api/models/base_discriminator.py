@@ -32,11 +32,7 @@ class BaseDiscriminator(BaseModel):
     """
     BaseDiscriminator
     """ # noqa: E501
-    type_name: Literal['BaseDiscriminator'] = Field(
-        None,
-        description="type_name of the BaseDiscriminator",
-        alias="_typeName"
-    )
+    type_name: Optional[StrictStr] = Field(default=None, alias="_typeName")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["_typeName"]
 

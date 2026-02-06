@@ -33,11 +33,7 @@ class Creature(BaseModel):
     Creature
     """ # noqa: E501
     info: CreatureInfo
-    type: Literal['Creature'] = Field(
-        ...,
-        description="type of the Creature",
-        alias="type"
-    )
+    type: StrictStr
     __properties: ClassVar[List[str]] = ["info", "type"]
 
     model_config = ConfigDict(

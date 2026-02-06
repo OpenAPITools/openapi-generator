@@ -31,11 +31,7 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """ # noqa: E501
-    element_type: Literal['DiscriminatorAllOfSuper'] = Field(
-        ...,
-        description="element_type of the DiscriminatorAllOfSuper",
-        alias="elementType"
-    )
+    element_type: StrictStr = Field(alias="elementType")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["elementType"]
 
