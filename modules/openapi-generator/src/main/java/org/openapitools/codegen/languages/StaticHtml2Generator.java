@@ -39,7 +39,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
+public class StaticHtml2Generator extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
 
     protected String invokerPackage = "org.openapitools.client"; // default for Java and Android
@@ -140,6 +140,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         }
         return super.getTypeDeclaration(p);
     }
+
+
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
@@ -286,6 +288,44 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     public String escapeUnsafeCharacters(String input) {
         // just return the original string
         return input;
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
+        
+        // For oneOf schemas, provide a more human-readable format for HTML display
+        if (schemaType != null && schemaType.startsWith("oneOf<") && schemaType.endsWith(">")) {
+            // Extract the types inside oneOf<...> and format them as "Type1 or Type2"
+            String innerTypes = schemaType.substring(6, schemaType.length() - 1);
+            String[] types = innerTypes.split(",");
+            List<String> formattedTypes = new ArrayList<>();
+            
+            for (String type : types) {
+                String trimmedType = type.trim();
+                // Convert technical names to more readable ones
+                if ("object".equals(trimmedType)) {
+                    formattedTypes.add("Object");
+                } else if ("string".equals(trimmedType)) {
+                    formattedTypes.add("String");
+                } else if ("integer".equals(trimmedType)) {
+                    formattedTypes.add("Integer");
+                } else if ("number".equals(trimmedType)) {
+                    formattedTypes.add("Number");
+                } else if ("boolean".equals(trimmedType)) {
+                    formattedTypes.add("Boolean");
+                } else if ("array".equals(trimmedType)) {
+                    formattedTypes.add("Array");
+                } else {
+                    // Capitalize first letter for other types
+                    formattedTypes.add(trimmedType.substring(0, 1).toUpperCase() + trimmedType.substring(1));
+                }
+            }
+            
+            return String.join(" or ", formattedTypes);
+        }
+        
+        return schemaType;
     }
 
     @Override
