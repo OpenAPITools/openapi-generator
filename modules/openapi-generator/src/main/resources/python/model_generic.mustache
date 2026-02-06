@@ -62,7 +62,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
   {{/isEnum}}
   {{^isEnum}}
     {{#isDiscriminator}}
-    {{name}}: Literal['{{{vendorExtensions.x-py-discriminator-value}}}'] = Field(
+    {{name}}: Literal['{{classname}}'] = Field(
         {{#required}}...{{/required}}{{^required}}None{{/required}},
         description="{{description}}{{^description}}{{{name}}} of the {{classname}}{{/description}}",
         alias="{{{baseName}}}"

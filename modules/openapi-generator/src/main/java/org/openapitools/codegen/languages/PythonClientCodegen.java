@@ -442,7 +442,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.9+";
+        return "3.11+";
     }
 
     @Override
@@ -452,6 +452,23 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
+        setEnumDiscriminatorDefaultValue(codegenModel);
+        
+        // Additional logic: mark className fields as discriminators for Pydantic v2 compatibility
+        if (codegenModel.vars != null) {
+            for (CodegenProperty property : codegenModel.vars) {
+                if ("className".equals(property.baseName)) {
+                    property.isDiscriminator = true;
+                }
+            }
+        }
+        
+        return codegenModel;
     }
 
     @Override

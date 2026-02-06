@@ -32,7 +32,7 @@ class BaseDiscriminator(BaseModel):
     """
     BaseDiscriminator
     """ # noqa: E501
-    type_name: Literal[''] = Field(
+    type_name: Literal['BaseDiscriminator'] = Field(
         None,
         description="type_name of the BaseDiscriminator",
         alias="_typeName"

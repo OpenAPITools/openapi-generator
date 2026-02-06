@@ -31,7 +31,7 @@ class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
     """ # noqa: E501
-    element_type: Literal[''] = Field(
+    element_type: Literal['DiscriminatorAllOfSuper'] = Field(
         ...,
         description="element_type of the DiscriminatorAllOfSuper",
         alias="elementType"

@@ -32,7 +32,7 @@ class Animal(BaseModel):
     """
     Animal
     """ # noqa: E501
-    class_name: Literal[''] = Field(
+    class_name: Literal['Animal'] = Field(
         ...,
         description="class_name of the Animal",
         alias="className"

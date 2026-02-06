@@ -33,7 +33,7 @@ class Creature(BaseModel):
     Creature
     """ # noqa: E501
     info: CreatureInfo
-    type: Literal[''] = Field(
+    type: Literal['Creature'] = Field(
         ...,
         description="type of the Creature",
         alias="type"
