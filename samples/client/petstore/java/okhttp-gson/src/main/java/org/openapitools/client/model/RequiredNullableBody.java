@@ -45,7 +45,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,58 +56,71 @@ import org.openapitools.client.JSON;
 /**
  * RequiredNullableBody
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.7.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class RequiredNullableBody {
   public static final String SERIALIZED_NAME_INTEGER_PROP = "integer_prop";
   @SerializedName(SERIALIZED_NAME_INTEGER_PROP)
+  @javax.annotation.Nullable
   private Integer integerProp;
 
   public static final String SERIALIZED_NAME_NUMBER_PROP = "number_prop";
   @SerializedName(SERIALIZED_NAME_NUMBER_PROP)
+  @javax.annotation.Nullable
   private BigDecimal numberProp;
 
   public static final String SERIALIZED_NAME_BOOLEAN_PROP = "boolean_prop";
   @SerializedName(SERIALIZED_NAME_BOOLEAN_PROP)
+  @javax.annotation.Nullable
   private Boolean booleanProp;
 
   public static final String SERIALIZED_NAME_STRING_PROP = "string_prop";
   @SerializedName(SERIALIZED_NAME_STRING_PROP)
+  @javax.annotation.Nullable
   private String stringProp;
 
   public static final String SERIALIZED_NAME_DATE_PROP = "date_prop";
   @SerializedName(SERIALIZED_NAME_DATE_PROP)
+  @javax.annotation.Nullable
   private LocalDate dateProp;
 
   public static final String SERIALIZED_NAME_DATETIME_PROP = "datetime_prop";
   @SerializedName(SERIALIZED_NAME_DATETIME_PROP)
+  @javax.annotation.Nullable
   private OffsetDateTime datetimeProp;
 
   public static final String SERIALIZED_NAME_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_NULLABLE_PROP)
+  @javax.annotation.Nullable
   private List<Object> arrayNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_ARRAY_AND_ITEMS_NULLABLE_PROP)
+  @javax.annotation.Nullable
   private List<Object> arrayAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
+  @javax.annotation.Nonnull
   private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
+  @javax.annotation.Nullable
   private Map<String, Object> objectNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP = "object_and_items_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_AND_ITEMS_NULLABLE_PROP)
+  @javax.annotation.Nullable
   private Map<String, Object> objectAndItemsNullableProp;
 
   public static final String SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE = "object_items_nullable";
   @SerializedName(SERIALIZED_NAME_OBJECT_ITEMS_NULLABLE)
+  @javax.annotation.Nonnull
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
   public static final String SERIALIZED_NAME_CUSTOM_REF_ENUM = "custom_ref_enum";
   @SerializedName(SERIALIZED_NAME_CUSTOM_REF_ENUM)
+  @javax.annotation.Nullable
   private NullableEnum customRefEnum;
 
   /**
@@ -163,126 +175,127 @@ public class RequiredNullableBody {
 
   public static final String SERIALIZED_NAME_CUSTOM_ENUM = "custom_enum";
   @SerializedName(SERIALIZED_NAME_CUSTOM_ENUM)
+  @javax.annotation.Nullable
   private CustomEnumEnum customEnum;
 
   public RequiredNullableBody() {
   }
 
-  public RequiredNullableBody integerProp(Integer integerProp) {
+  public RequiredNullableBody integerProp(@javax.annotation.Nullable Integer integerProp) {
     this.integerProp = integerProp;
     return this;
   }
 
-   /**
+  /**
    * Get integerProp
    * @return integerProp
-  **/
+   */
   @javax.annotation.Nullable
   public Integer getIntegerProp() {
     return integerProp;
   }
 
-  public void setIntegerProp(Integer integerProp) {
+  public void setIntegerProp(@javax.annotation.Nullable Integer integerProp) {
     this.integerProp = integerProp;
   }
 
 
-  public RequiredNullableBody numberProp(BigDecimal numberProp) {
+  public RequiredNullableBody numberProp(@javax.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = numberProp;
     return this;
   }
 
-   /**
+  /**
    * Get numberProp
    * @return numberProp
-  **/
+   */
   @javax.annotation.Nullable
   public BigDecimal getNumberProp() {
     return numberProp;
   }
 
-  public void setNumberProp(BigDecimal numberProp) {
+  public void setNumberProp(@javax.annotation.Nullable BigDecimal numberProp) {
     this.numberProp = numberProp;
   }
 
 
-  public RequiredNullableBody booleanProp(Boolean booleanProp) {
+  public RequiredNullableBody booleanProp(@javax.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = booleanProp;
     return this;
   }
 
-   /**
+  /**
    * Get booleanProp
    * @return booleanProp
-  **/
+   */
   @javax.annotation.Nullable
   public Boolean getBooleanProp() {
     return booleanProp;
   }
 
-  public void setBooleanProp(Boolean booleanProp) {
+  public void setBooleanProp(@javax.annotation.Nullable Boolean booleanProp) {
     this.booleanProp = booleanProp;
   }
 
 
-  public RequiredNullableBody stringProp(String stringProp) {
+  public RequiredNullableBody stringProp(@javax.annotation.Nullable String stringProp) {
     this.stringProp = stringProp;
     return this;
   }
 
-   /**
+  /**
    * Get stringProp
    * @return stringProp
-  **/
+   */
   @javax.annotation.Nullable
   public String getStringProp() {
     return stringProp;
   }
 
-  public void setStringProp(String stringProp) {
+  public void setStringProp(@javax.annotation.Nullable String stringProp) {
     this.stringProp = stringProp;
   }
 
 
-  public RequiredNullableBody dateProp(LocalDate dateProp) {
+  public RequiredNullableBody dateProp(@javax.annotation.Nullable LocalDate dateProp) {
     this.dateProp = dateProp;
     return this;
   }
 
-   /**
+  /**
    * Get dateProp
    * @return dateProp
-  **/
+   */
   @javax.annotation.Nullable
   public LocalDate getDateProp() {
     return dateProp;
   }
 
-  public void setDateProp(LocalDate dateProp) {
+  public void setDateProp(@javax.annotation.Nullable LocalDate dateProp) {
     this.dateProp = dateProp;
   }
 
 
-  public RequiredNullableBody datetimeProp(OffsetDateTime datetimeProp) {
+  public RequiredNullableBody datetimeProp(@javax.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
     return this;
   }
 
-   /**
+  /**
    * Get datetimeProp
    * @return datetimeProp
-  **/
+   */
   @javax.annotation.Nullable
   public OffsetDateTime getDatetimeProp() {
     return datetimeProp;
   }
 
-  public void setDatetimeProp(OffsetDateTime datetimeProp) {
+  public void setDatetimeProp(@javax.annotation.Nullable OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
   }
 
 
-  public RequiredNullableBody arrayNullableProp(List<Object> arrayNullableProp) {
+  public RequiredNullableBody arrayNullableProp(@javax.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -295,21 +308,21 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get arrayNullableProp
    * @return arrayNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
 
-  public void setArrayNullableProp(List<Object> arrayNullableProp) {
+  public void setArrayNullableProp(@javax.annotation.Nullable List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
 
-  public RequiredNullableBody arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public RequiredNullableBody arrayAndItemsNullableProp(@javax.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -322,21 +335,21 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public List<Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
 
-  public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public void setArrayAndItemsNullableProp(@javax.annotation.Nullable List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
 
-  public RequiredNullableBody arrayItemsNullable(List<Object> arrayItemsNullable) {
+  public RequiredNullableBody arrayItemsNullable(@javax.annotation.Nonnull List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -349,21 +362,21 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get arrayItemsNullable
    * @return arrayItemsNullable
-  **/
+   */
   @javax.annotation.Nonnull
   public List<Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
 
-  public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
+  public void setArrayItemsNullable(@javax.annotation.Nonnull List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
 
-  public RequiredNullableBody objectNullableProp(Map<String, Object> objectNullableProp) {
+  public RequiredNullableBody objectNullableProp(@javax.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
     return this;
   }
@@ -376,21 +389,21 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get objectNullableProp
    * @return objectNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Object> getObjectNullableProp() {
     return objectNullableProp;
   }
 
-  public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
+  public void setObjectNullableProp(@javax.annotation.Nullable Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
   }
 
 
-  public RequiredNullableBody objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+  public RequiredNullableBody objectAndItemsNullableProp(@javax.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
     return this;
   }
@@ -403,21 +416,21 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get objectAndItemsNullableProp
    * @return objectAndItemsNullableProp
-  **/
+   */
   @javax.annotation.Nullable
   public Map<String, Object> getObjectAndItemsNullableProp() {
     return objectAndItemsNullableProp;
   }
 
-  public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+  public void setObjectAndItemsNullableProp(@javax.annotation.Nullable Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
 
-  public RequiredNullableBody objectItemsNullable(Map<String, Object> objectItemsNullable) {
+  public RequiredNullableBody objectItemsNullable(@javax.annotation.Nonnull Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -430,54 +443,54 @@ public class RequiredNullableBody {
     return this;
   }
 
-   /**
+  /**
    * Get objectItemsNullable
    * @return objectItemsNullable
-  **/
+   */
   @javax.annotation.Nonnull
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }
 
-  public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
+  public void setObjectItemsNullable(@javax.annotation.Nonnull Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }
 
 
-  public RequiredNullableBody customRefEnum(NullableEnum customRefEnum) {
+  public RequiredNullableBody customRefEnum(@javax.annotation.Nullable NullableEnum customRefEnum) {
     this.customRefEnum = customRefEnum;
     return this;
   }
 
-   /**
+  /**
    * Get customRefEnum
    * @return customRefEnum
-  **/
+   */
   @javax.annotation.Nullable
   public NullableEnum getCustomRefEnum() {
     return customRefEnum;
   }
 
-  public void setCustomRefEnum(NullableEnum customRefEnum) {
+  public void setCustomRefEnum(@javax.annotation.Nullable NullableEnum customRefEnum) {
     this.customRefEnum = customRefEnum;
   }
 
 
-  public RequiredNullableBody customEnum(CustomEnumEnum customEnum) {
+  public RequiredNullableBody customEnum(@javax.annotation.Nullable CustomEnumEnum customEnum) {
     this.customEnum = customEnum;
     return this;
   }
 
-   /**
+  /**
    * Get customEnum
    * @return customEnum
-  **/
+   */
   @javax.annotation.Nullable
   public CustomEnumEnum getCustomEnum() {
     return customEnum;
   }
 
-  public void setCustomEnum(CustomEnumEnum customEnum) {
+  public void setCustomEnum(@javax.annotation.Nullable CustomEnumEnum customEnum) {
     this.customEnum = customEnum;
   }
 
@@ -598,87 +611,59 @@ public class RequiredNullableBody {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>();
-    openapiFields.add("integer_prop");
-    openapiFields.add("number_prop");
-    openapiFields.add("boolean_prop");
-    openapiFields.add("string_prop");
-    openapiFields.add("date_prop");
-    openapiFields.add("datetime_prop");
-    openapiFields.add("array_nullable_prop");
-    openapiFields.add("array_and_items_nullable_prop");
-    openapiFields.add("array_items_nullable");
-    openapiFields.add("object_nullable_prop");
-    openapiFields.add("object_and_items_nullable_prop");
-    openapiFields.add("object_items_nullable");
-    openapiFields.add("custom_ref_enum");
-    openapiFields.add("custom_enum");
+    openapiFields = new HashSet<String>(Arrays.asList("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable", "custom_ref_enum", "custom_enum"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("integer_prop");
-    openapiRequiredFields.add("number_prop");
-    openapiRequiredFields.add("boolean_prop");
-    openapiRequiredFields.add("string_prop");
-    openapiRequiredFields.add("date_prop");
-    openapiRequiredFields.add("datetime_prop");
-    openapiRequiredFields.add("array_nullable_prop");
-    openapiRequiredFields.add("array_and_items_nullable_prop");
-    openapiRequiredFields.add("array_items_nullable");
-    openapiRequiredFields.add("object_nullable_prop");
-    openapiRequiredFields.add("object_and_items_nullable_prop");
-    openapiRequiredFields.add("object_items_nullable");
-    openapiRequiredFields.add("custom_ref_enum");
-    openapiRequiredFields.add("custom_enum");
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable", "custom_ref_enum", "custom_enum"));
   }
 
- /**
-  * Validates the JSON Element and throws an exception if issues found
-  *
-  * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to RequiredNullableBody
-  */
+  /**
+   * Validates the JSON Element and throws an exception if issues found
+   *
+   * @param jsonElement JSON Element
+   * @throws IOException if the JSON Element is invalid with respect to RequiredNullableBody
+   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
         if (!RequiredNullableBody.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in RequiredNullableBody is not found in the empty JSON string", RequiredNullableBody.openapiRequiredFields.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in RequiredNullableBody is not found in the empty JSON string", RequiredNullableBody.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : RequiredNullableBody.openapiRequiredFields) {
         if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("string_prop") != null && !jsonObj.get("string_prop").isJsonNull()) && !jsonObj.get("string_prop").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
       }
       // ensure the required json array is present
       if (jsonObj.get("array_nullable_prop") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
       } else if (!jsonObj.get("array_nullable_prop").isJsonArray() && !jsonObj.get("array_nullable_prop").isJsonNull()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
       }
       // ensure the required json array is present
       if (jsonObj.get("array_and_items_nullable_prop") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
       } else if (!jsonObj.get("array_and_items_nullable_prop").isJsonArray() && !jsonObj.get("array_and_items_nullable_prop").isJsonNull()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
       }
       // ensure the required json array is present
       if (jsonObj.get("array_items_nullable") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
       } else if (!jsonObj.get("array_items_nullable").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
       }
       if (jsonObj.get("custom_ref_enum") != null && !jsonObj.get("custom_ref_enum").isJsonNull()) {
       // validate the required field `custom_ref_enum`
       NullableEnum.validateJsonElement(jsonObj.get("custom_ref_enum"));
       }
       if ((jsonObj.get("custom_enum") != null && !jsonObj.get("custom_enum").isJsonNull()) && !jsonObj.get("custom_enum").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `custom_enum` to be a primitive type in the JSON string but got `%s`", jsonObj.get("custom_enum").toString()));
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `custom_enum` to be a primitive type in the JSON string but got `%s`", jsonObj.get("custom_enum").toString()));
       }
       if (jsonObj.get("custom_enum") != null && !jsonObj.get("custom_enum").isJsonNull()) {
       // validate the required field `custom_enum`
@@ -743,7 +728,7 @@ public class RequiredNullableBody {
                    else if (entry.getValue().getAsJsonPrimitive().isBoolean())
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
-                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                     throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
                  } else if (entry.getValue().isJsonArray()) {
                      instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
                  } else { // JSON object
@@ -758,22 +743,22 @@ public class RequiredNullableBody {
     }
   }
 
- /**
-  * Create an instance of RequiredNullableBody given an JSON string
-  *
-  * @param jsonString JSON string
-  * @return An instance of RequiredNullableBody
-  * @throws IOException if the JSON string is invalid with respect to RequiredNullableBody
-  */
+  /**
+   * Create an instance of RequiredNullableBody given an JSON string
+   *
+   * @param jsonString JSON string
+   * @return An instance of RequiredNullableBody
+   * @throws IOException if the JSON string is invalid with respect to RequiredNullableBody
+   */
   public static RequiredNullableBody fromJson(String jsonString) throws IOException {
     return JSON.getGson().fromJson(jsonString, RequiredNullableBody.class);
   }
 
- /**
-  * Convert an instance of RequiredNullableBody to an JSON string
-  *
-  * @return JSON string
-  */
+  /**
+   * Convert an instance of RequiredNullableBody to an JSON string
+   *
+   * @return JSON string
+   */
   public String toJson() {
     return JSON.getGson().toJson(this);
   }
