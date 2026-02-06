@@ -226,9 +226,15 @@ public class SharedTypeScriptTest {
                 "typescript-rxjs"
         );
 
-        Pattern modelDefinition = Pattern.compile("\\b(interface|type|class)\\s+EmployeeWithMultiMapOfEnum\\b");
-        Pattern namespacedEnumRef = Pattern.compile("projectRoles[^\\n]*ProjectRolesEnum");
-        Pattern flatEnumRef = Pattern.compile("projectRoles[^\\n]*EmployeeWithMultiMapOfEnumProjectRolesEnum");
+        // Patterns for EmployeeWithMultiMapOfEnum (map of array of enums)
+        Pattern multiMapModelDefinition = Pattern.compile("\\b(interface|type|class)\\s+EmployeeWithMultiMapOfEnum\\b");
+        Pattern multiMapNamespacedEnumRef = Pattern.compile("projectRoles[^\\n]*ProjectRolesEnum");
+        Pattern multiMapFlatEnumRef = Pattern.compile("projectRoles[^\\n]*EmployeeWithMultiMapOfEnumProjectRolesEnum");
+
+        // Patterns for EmployeeWithMapOfEnum (simple map of enums)
+        Pattern simpleMapModelDefinition = Pattern.compile("\\b(interface|type|class)\\s+EmployeeWithMapOfEnum\\b");
+        Pattern simpleMapNamespacedEnumRef = Pattern.compile("projectRole[^s][^\\n]*ProjectRoleEnum");
+        Pattern simpleMapFlatEnumRef = Pattern.compile("projectRole[^s][^\\n]*EmployeeWithMapOfEnumProjectRoleEnum");
 
         for (String generatorName : generators) {
             File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -242,16 +248,29 @@ public class SharedTypeScriptTest {
             Generator generator = new DefaultGenerator();
             generator.opts(configurator.toClientOptInput()).generate();
 
-            Path modelFile = findModelDefinitionFile(output.toPath(), modelDefinition);
-            String fileContents = Files.readString(modelFile);
+            // Test EmployeeWithMultiMapOfEnum (map of array of enums)
+            Path multiMapModelFile = findModelDefinitionFile(output.toPath(), multiMapModelDefinition);
+            String multiMapFileContents = Files.readString(multiMapModelFile);
 
-            Assert.assertFalse(fileContents.contains("InnerEnum"),
-                    generatorName + ": Should not contain 'InnerEnum' reference in " + modelFile);
+            Assert.assertFalse(multiMapFileContents.contains("InnerEnum"),
+                    generatorName + ": Should not contain 'InnerEnum' reference in " + multiMapModelFile);
 
-            boolean hasEnumRef = namespacedEnumRef.matcher(fileContents).find()
-                    || flatEnumRef.matcher(fileContents).find();
-            Assert.assertTrue(hasEnumRef,
-                    generatorName + ": Expected enum reference not found in " + modelFile);
+            boolean hasMultiMapEnumRef = multiMapNamespacedEnumRef.matcher(multiMapFileContents).find()
+                    || multiMapFlatEnumRef.matcher(multiMapFileContents).find();
+            Assert.assertTrue(hasMultiMapEnumRef,
+                    generatorName + ": Expected enum reference not found in " + multiMapModelFile);
+
+            // Test EmployeeWithMapOfEnum (simple map of enums)
+            Path simpleMapModelFile = findModelDefinitionFile(output.toPath(), simpleMapModelDefinition);
+            String simpleMapFileContents = Files.readString(simpleMapModelFile);
+
+            Assert.assertFalse(simpleMapFileContents.contains("InnerEnum"),
+                    generatorName + ": Should not contain 'InnerEnum' reference in " + simpleMapModelFile);
+
+            boolean hasSimpleMapEnumRef = simpleMapNamespacedEnumRef.matcher(simpleMapFileContents).find()
+                    || simpleMapFlatEnumRef.matcher(simpleMapFileContents).find();
+            Assert.assertTrue(hasSimpleMapEnumRef,
+                    generatorName + ": Expected enum reference for simple map not found in " + simpleMapModelFile);
         }
     }
 

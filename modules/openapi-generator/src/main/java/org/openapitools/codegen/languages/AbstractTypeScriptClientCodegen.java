@@ -1110,11 +1110,26 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // Now use property.enumName for datatypeWithEnum instead of toEnumName(baseItem)
             // This ensures the correct enum name (e.g., "ProjectRolesEnum") is used
             // instead of the generic inner item name (e.g., "InnerEnum")
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(baseItem.baseType + ">", property.enumName + ">");
+            //
+            // TypeScript map types use index signature syntax: { [key: string]: ValueType; }
+            // We must only replace the VALUE type, not the key type (which must remain string/number).
+            // Target the value position by replacing "]: baseType" patterns.
+            String datatypeWithEnum = property.datatypeWithEnum;
+            // Try replacing value type in nested context (e.g., "]: Array<string>>" or "]: string>")
+            String replaced = datatypeWithEnum.replace("]: " + baseItem.baseType + ">", "]: " + property.enumName + ">");
+            if (replaced.equals(datatypeWithEnum)) {
+                // Try replacing value type in simple map context (e.g., "]: string;")
+                replaced = datatypeWithEnum.replace("]: " + baseItem.baseType + ";", "]: " + property.enumName + ";");
+            }
+            if (replaced.equals(datatypeWithEnum)) {
+                // Fallback: replace container types like "Array<string>" or "Set<string>"
+                replaced = datatypeWithEnum.replace("<" + baseItem.baseType + ">", "<" + property.enumName + ">");
+            }
+            property.datatypeWithEnum = replaced;
 
             // set default value for variable with inner enum
             if (property.defaultValue != null) {
-                property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + property.enumName);
+                property.defaultValue = property.defaultValue.replace(baseItem.baseType, property.enumName);
             }
 
             updateCodegenPropertyEnum(property);
