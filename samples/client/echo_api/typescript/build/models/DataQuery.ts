@@ -11,6 +11,7 @@
  */
 
 import { Query } from '../models/Query';
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class DataQuery extends Query {
@@ -31,24 +32,27 @@ export class DataQuery extends Query {
 
     static override readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static override readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static override readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "suffix",
             "baseName": "suffix",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "text",
             "baseName": "text",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "date",
             "baseName": "date",
             "type": "Date",
-            "format": "date-time"
+            "format": "date-time",
+            "required": false
         }    ];
 
     static override getAttributeTypeMap() {
