@@ -14,6 +14,7 @@ on:
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
@@ -31,6 +32,7 @@ on:
       - samples/client/petstore/java/microprofile-rest-client-outer-enum/**
       # servers
       - samples/openapi3/server/petstore/springboot-3/**
+      - samples/server/petstore/springboot-x-implements-skip/**
       - samples/server/petstore/java-camel/**
       - samples/server/petstore/java-helidon-server/v3/mp/**
       - samples/server/petstore/java-helidon-server/v3/se/**
@@ -54,6 +56,7 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-outer-enum
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/server/petstore/springboot-x-implements-skip
           - samples/server/petstore/java-camel/
           - samples/server/petstore/java-helidon-server/v3/mp/
           - samples/server/petstore/java-helidon-server/v3/se

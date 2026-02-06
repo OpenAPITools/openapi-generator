@@ -249,6 +249,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
+        cliOptions.add(CliOption.newString(X_IMPLEMENTS_SKIP, "Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema", "empty list"));
+        cliOptions.add(CliOption.newString(SCHEMA_IMPLEMENTS, "Ability to supply interfaces per schema that should be implemented (serves similar purpose as vendor extension `x-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map"));
+
 
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")
@@ -276,7 +279,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use `equalsIgnoreCase` when String for enum comparison",
                 useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
-                "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
@@ -968,11 +971,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
-
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-            model.imports.add("Nullable");
-        }
     }
 
     @Override
@@ -987,6 +985,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
             // remove swagger imports
             codegenModel.imports.remove("Schema");
+        }
+
+        // Only add Nullable import for non-enum models that may have nullable fields
+        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+            addSpringNullableImport(codegenModel.imports);
         }
 
         return codegenModel;
@@ -1052,11 +1055,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
-              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
-        }
+        addSpringNullableImportForOperation(codegenOperation);
 
         if (reactive) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -1218,5 +1217,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
+    }
+
+    private boolean isSpringCodegen() {
+        return getName().contains("spring");
+    }
+
+    private void addSpringNullableImport(Set<String> imports) {
+        if (isSpringCodegen()) {
+            imports.add("Nullable");
+        }
+    }
+
+    /**
+     * Adds Spring Nullable import if any parameter is nullable or optional.
+     */
+    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
+        if (isSpringCodegen()) {
+            codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+        }
     }
 }

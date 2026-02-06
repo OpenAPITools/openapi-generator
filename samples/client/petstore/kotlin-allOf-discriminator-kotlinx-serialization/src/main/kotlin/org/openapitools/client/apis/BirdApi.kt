@@ -37,6 +37,7 @@ import org.openapitools.client.infrastructure.RequestMethod
 import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
+import org.openapitools.client.infrastructure.Serializer
 
 open class BirdApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {
@@ -112,6 +113,84 @@ open class BirdApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/v1/bird/{id}".replace("{"+"id"+"}", encodeURIComponent(id.toString())),
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = false,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /v1/bird/upload
+     * 
+     * 
+     * @param metadata 
+     * @param file 
+     * @return kotlin.String
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun uploadBirdWithMetadata(metadata: Bird, file: java.io.File) : kotlin.String {
+        val localVarResponse = uploadBirdWithMetadataWithHttpInfo(metadata = metadata, file = file)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /v1/bird/upload
+     * 
+     * 
+     * @param metadata 
+     * @param file 
+     * @return ApiResponse<kotlin.String?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun uploadBirdWithMetadataWithHttpInfo(metadata: Bird, file: java.io.File) : ApiResponse<kotlin.String?> {
+        val localVariableConfig = uploadBirdWithMetadataRequestConfig(metadata = metadata, file = file)
+
+        return request<Map<String, PartConfig<*>>, kotlin.String>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation uploadBirdWithMetadata
+     *
+     * @param metadata 
+     * @param file 
+     * @return RequestConfig
+     */
+    fun uploadBirdWithMetadataRequestConfig(metadata: Bird, file: java.io.File) : RequestConfig<Map<String, PartConfig<*>>> {
+        val localVariableBody = mapOf(
+            "metadata" to PartConfig(body = metadata, headers = mutableMapOf("Content-Type" to "application/json"), serializer = { obj -> Serializer.kotlinxSerializationJson.encodeToString<Bird>(obj as Bird) }),
+            "file" to PartConfig(body = file, headers = mutableMapOf()),)
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
+        localVariableHeaders["Accept"] = "text/plain"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/v1/bird/upload",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
