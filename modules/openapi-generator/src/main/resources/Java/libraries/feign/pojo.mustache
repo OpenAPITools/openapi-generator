@@ -84,6 +84,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
+  {{^lombok.RequiredArgsConstructor}}
   public {{classname}}() {
     {{#parent}}
     {{#parcelableModel}}
@@ -97,6 +98,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/discriminator}}
     {{/gson}}
   }
+  {{/lombok.RequiredArgsConstructor}}
   {{#vendorExtensions.x-has-readonly-properties}}
   {{^withXml}}
 
