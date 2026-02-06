@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: sample spec
+  description: "Sample spec"
+  version: 0.0.1
+tags:
+- name: ResourceClass
+paths:
+  /v1/resource-class/send-using-schema:
+    post:
+      tags:
+      - ResourceClass
+      description: Add @Operation annotation to provide a description
+      operationId: send-using-schema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Letter"
+      responses:
+        "200":
+          description: OK - the request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Letter"
+  /v1/resource-class/send-using-string:
+    post:
+      tags:
+        - ResourceClass
+      description: Add @Operation annotation to provide a description
+      operationId: send-using-string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "204":
+          description: "No Content - the request has been successfully processed,\
+            \ but there is no additional content."
+components:
+  schemas:
+    Letter:
+      type: string
+      enum:
+      - A
+      - B
