@@ -12,23 +12,38 @@ import java.io.Serializable
 {{/isKtor}}
 /**
  * {{{description}}}
+{{#isKtor}}
 {{#vars}}
  * @param {{{name}}} {{{description}}}
 {{/vars}}
+{{/isKtor}}
+{{^isKtor}}
+{{^discriminator}}
+{{#vars}}
+ * @param {{{name}}} {{{description}}}
+{{/vars}}
+{{/discriminator}}
+{{#discriminator}}
+{{#vendorExtensions.x-discriminator-has-parent-properties}}
+{{#vars}}
+ * @param {{{name}}} {{{description}}}
+{{/vars}}
+{{/vendorExtensions.x-discriminator-has-parent-properties}}
+{{/discriminator}}
+{{/isKtor}}
  */
 {{#parcelizeModels}}
 @Parcelize
 {{/parcelizeModels}}
 {{#isKtor}}
 @Serializable
-{{/isKtor}}
 {{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-){{^isKtor}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}{{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}{{/isKtor}}
+)
 {{#vendorExtensions.x-has-data-class-body}}
 {
 {{/vendorExtensions.x-has-data-class-body}}
@@ -52,3 +67,53 @@ import java.io.Serializable
 {{#vendorExtensions.x-has-data-class-body}}
 }
 {{/vendorExtensions.x-has-data-class-body}}
+{{/isKtor}}
+{{^isKtor}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+{{#vendorExtensions.x-discriminator-has-parent-properties}}
+sealed class {{classname}}(
+{{#requiredVars}}
+{{>data_class_sealed_var}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_sealed_var}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+)
+{{/vendorExtensions.x-discriminator-has-parent-properties}}
+{{^vendorExtensions.x-discriminator-has-parent-properties}}
+sealed class {{classname}}
+{{/vendorExtensions.x-discriminator-has-parent-properties}}
+{{/discriminator}}
+{{^discriminator}}
+{{#hasVars}}data {{/hasVars}}class {{classname}}(
+{{#requiredVars}}
+{{>data_class_req_var}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+){{#parent}} : {{{.}}}({{#vendorExtensions.x-parent-ctor-args}}{{{.}}}{{/vendorExtensions.x-parent-ctor-args}}){{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}{{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}{{/parent}}
+{{#vendorExtensions.x-has-data-class-body}}
+{
+{{/vendorExtensions.x-has-data-class-body}}
+{{#hasEnums}}
+    {{#vars}}
+    {{#isEnum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{{nameInPascalCase}}}(val value: {{{dataType}}}){
+    {{#allowableValues}}
+    {{#enumVars}}
+        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/enumVars}}
+    {{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
+}
+{{/vendorExtensions.x-has-data-class-body}}
+{{/discriminator}}
+{{/isKtor}}

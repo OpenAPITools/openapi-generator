@@ -229,7 +229,9 @@ samples/client/petstore/kotlin*/src/main/kotlin/test/
 samples/client/petstore/kotlin*/build/
 samples/server/others/kotlin-server/jaxrs-spec/build/
 samples/client/echo_api/kotlin-jvm-spring-3-restclient/build/
+samples/client/echo_api/kotlin-jvm-spring-3-webclient/build/
 samples/client/echo_api/kotlin-jvm-okhttp/build/
+samples/client/echo_api/kotlin-jvm-okhttp-multipart-json/build/
 
 # haskell
 .stack-work
