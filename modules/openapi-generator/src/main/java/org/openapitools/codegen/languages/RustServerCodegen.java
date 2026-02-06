@@ -386,7 +386,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // rust-server templates expect value to be in quotes
+        // rust-server templates expect value to be in quotes for Display/FromStr
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
@@ -1550,6 +1550,31 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModelsEnum(objs);
+
+        // Fix for integer enums: add unquoted numeric values for serde serialization.
+        // Integer enums should serialize as JSON numbers, not strings.
+        for (ModelMap modelMap : result.getModels()) {
+            CodegenModel model = modelMap.getModel();
+
+            if (Boolean.TRUE.equals(model.isEnum) &&
+                (model.isInteger || model.isLong || model.isNumber) &&
+                model.allowableValues != null) {
+
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> enumVars =
+                    (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+
+                if (enumVars != null) {
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String value = (String) enumVar.get("value");
+                        if (value != null) {
+                            // Strip quotes added by toEnumValue()
+                            enumVar.put("numericValue", value.substring(1, value.length() - 1));
+                        }
+                    }
+                }
+            }
+        }
 
         // Check for model names that conflict with serde_valid macro internals
         // Once we find one, set a class-level flag that persists across all model batches
