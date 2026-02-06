@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue
+library: restclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/additonal-properties-in-multipart-request-issue.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: additonal-properties-in-multipart-request-issue
+  hideGenerationTimestamp: "true"
+  java8: true
