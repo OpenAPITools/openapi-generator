@@ -5,7 +5,6 @@
  */
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
