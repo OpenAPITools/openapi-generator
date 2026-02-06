@@ -41,8 +41,8 @@ class Order(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['placed', 'approved', 'delivered']):
-            raise ValueError("must be one of enum values ('placed', 'approved', 'delivered')")
+        if value not in set(['placed', 'approved', 'delivered', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('placed', 'approved', 'delivered', 'unknown_default_open_api')")
         return value
 
     model_config = ConfigDict(
