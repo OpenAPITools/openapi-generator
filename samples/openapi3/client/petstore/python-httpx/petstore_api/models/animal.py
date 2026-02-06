@@ -32,7 +32,11 @@ class Animal(BaseModel):
     """
     Animal
     """ # noqa: E501
-    class_name: StrictStr = Field(alias="className")
+    class_name: Literal[''] = Field(
+        ...,
+        description="class_name of the Animal",
+        alias="className"
+    )
     color: Optional[StrictStr] = 'red'
     __properties: ClassVar[List[str]] = ["className", "color"]
 
