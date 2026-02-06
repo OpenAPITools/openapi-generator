@@ -1107,25 +1107,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             // First, set the property's enumName using the property itself (not the inner item)
             property.enumName = toEnumName(property);
 
-            // Now use property.enumName for datatypeWithEnum instead of toEnumName(baseItem)
-            // This ensures the correct enum name (e.g., "ProjectRolesEnum") is used
-            // instead of the generic inner item name (e.g., "InnerEnum")
-            //
-            // TypeScript map types use index signature syntax: { [key: string]: ValueType; }
-            // We must only replace the VALUE type, not the key type (which must remain string/number).
-            // Target the value position by replacing "]: baseType" patterns.
+            // Replace only the LAST occurrence of baseType with enumName.
+            // In map types, the value type appears last (after the key type),
+            // so this approach is template-agnostic.
             String datatypeWithEnum = property.datatypeWithEnum;
-            // Try replacing value type in nested context (e.g., "]: Array<string>>" or "]: string>")
-            String replaced = datatypeWithEnum.replace("]: " + baseItem.baseType + ">", "]: " + property.enumName + ">");
-            if (replaced.equals(datatypeWithEnum)) {
-                // Try replacing value type in simple map context (e.g., "]: string;")
-                replaced = datatypeWithEnum.replace("]: " + baseItem.baseType + ";", "]: " + property.enumName + ";");
+            int lastIndex = datatypeWithEnum.lastIndexOf(baseItem.baseType);
+            if (lastIndex >= 0) {
+                property.datatypeWithEnum = datatypeWithEnum.substring(0, lastIndex)
+                        + property.enumName
+                        + datatypeWithEnum.substring(lastIndex + baseItem.baseType.length());
             }
-            if (replaced.equals(datatypeWithEnum)) {
-                // Fallback: replace container types like "Array<string>" or "Set<string>"
-                replaced = datatypeWithEnum.replace("<" + baseItem.baseType + ">", "<" + property.enumName + ">");
-            }
-            property.datatypeWithEnum = replaced;
+            LOGGER.info("Updated datatypeWithEnum for map property '{}': {}", property.name, property.datatypeWithEnum);
 
             // set default value for variable with inner enum
             if (property.defaultValue != null) {

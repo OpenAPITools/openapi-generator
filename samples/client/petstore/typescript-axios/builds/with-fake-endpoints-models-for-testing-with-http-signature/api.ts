@@ -227,7 +227,7 @@ export type Mammal = { className: 'whale' } & Whale | { className: 'zebra' } & Z
 
 export interface MapTest {
     'map_map_of_string'?: { [key: string]: { [key: string]: string; }; };
-    'map_of_enum_string'?: { [key: string]: string; };
+    'map_of_enum_string'?: { [key: string]: MapTestMapOfEnumStringEnum; };
     'direct_map'?: { [key: string]: boolean; };
     'indirect_map'?: { [key: string]: boolean; };
 }
