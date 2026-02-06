@@ -410,7 +410,7 @@ public class PetWithRequiredTags {
       } else if (!jsonObj.get("photoUrls").isJsonArray()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
-      if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
+      if (jsonObj.get("tags") != null) {
         if (!jsonObj.get("tags").isJsonArray()) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
         }

@@ -204,7 +204,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (jsonObj.get("value") != null && !jsonObj.get("value").isJsonNull()) {
+      if (jsonObj.get("value") != null) {
         if (!jsonObj.get("value").isJsonArray()) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
         }
