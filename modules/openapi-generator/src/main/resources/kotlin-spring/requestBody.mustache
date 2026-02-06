@@ -1,0 +1,15 @@
+@SwaggerRequestBody(
+    description = "{{{bodyParam.description}}}",
+    content = [
+        {{#bodyParam.vendorExtensions.content}}
+            Content(
+                mediaType = "{{mediaType}}",
+                examples = [
+                    {{#examples}}
+                    Example(name = "{{{exampleName}}}", value = "{{{exampleValue}}}"){{^-last}},{{/-last}}
+                    {{/examples}}
+                ]
+            ){{^-last}},{{/-last}}
+        {{/bodyParam.vendorExtensions.content}}
+    ]
+)
