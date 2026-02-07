@@ -149,6 +149,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override MarineAreaCode? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             MarineAreaCode? result = rawValue == null
@@ -169,7 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MarineAreaCode? marineAreaCode, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(marineAreaCode.HasValue ? MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode.Value).ToString() : "null");
+            if (marineAreaCode.HasValue)
+                writer.WriteStringValue(MarineAreaCodeValueConverter.ToJsonValue(marineAreaCode.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }
