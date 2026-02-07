@@ -326,7 +326,9 @@ public class CSharpClientCodegenTest {
         );
         assertFileNotContains(intEnumFile.toPath(),
                 "reader.GetString()",
-                "writer.WriteStringValue("
+                "writer.WriteStringValue(",
+                ": long",
+                ": byte"
         );
 
         // Verify long enum uses int64 reader with validation and actual int64 values
@@ -336,6 +338,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
         assertFileContains(longEnumFile.toPath(),
+                "enum LongEnum: long",
                 "reader.GetInt64().ToString()",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
