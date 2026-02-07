@@ -96,7 +96,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static int ToJsonValue(OuterEnumInteger value)
         {
+            
             return (int) value;
+            
         }
     }
 
@@ -115,9 +117,11 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            
             int rawValue = reader.GetInt32();
             OuterEnumInteger result = (OuterEnumInteger)rawValue;
             return result;
+            
         }
 
         /// <summary>
@@ -149,9 +153,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
+            
             int rawValue = reader.GetInt32();
             OuterEnumInteger result = (OuterEnumInteger)rawValue;
             return result;
+            
         }
 
         /// <summary>

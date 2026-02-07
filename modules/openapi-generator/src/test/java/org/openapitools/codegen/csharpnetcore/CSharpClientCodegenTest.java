@@ -309,5 +309,24 @@ public class CSharpClientCodegenTest {
                 "reader.GetString()",
                 "writer.WriteStringValue("
         );
+
+        // Verify double enum reads numeric value and converts to string for matching, writes as number
+        File doubleEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DoubleEnum.cs")
+                .toString()
+        );
+        assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
+        assertFileContains(doubleEnumFile.toPath(),
+                "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "writer.WriteNumberValue(",
+                "public static double ToJsonValue(DoubleEnum value)",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+        assertFileNotContains(doubleEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                "return (double) value"
+        );
     }
 }
