@@ -285,7 +285,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
         assertFileContains(intEnumFile.toPath(),
-                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "reader.GetInt32().ToString()",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
                 "writer.WriteNumberValue(",
@@ -303,7 +303,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
         assertFileContains(longEnumFile.toPath(),
-                "reader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "reader.GetInt64().ToString()",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
                 "writer.WriteNumberValue(",
@@ -323,7 +323,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
         assertFileContains(doubleEnumFile.toPath(),
-                "reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "reader.GetDouble().ToString()",
                 "writer.WriteNumberValue(",
                 "public static double ToJsonValue(DoubleEnum value)",
                 "return 1.1d;",
