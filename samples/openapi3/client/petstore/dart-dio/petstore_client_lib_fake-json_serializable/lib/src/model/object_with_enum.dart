@@ -29,6 +29,7 @@ class ObjectWithEnum {
     name: r'attribute',
     required: false,
     includeIfNull: false,
+
   unknownEnumValue: TestEnum.unknownDefaultOpenApi,
   )
 

@@ -29,6 +29,7 @@ class ModelFile {
     name: r'sourceURI',
     required: false,
     includeIfNull: false,
+
   )
 
 
