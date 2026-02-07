@@ -110,7 +110,7 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            string rawValue = reader.GetDouble().ToString();
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
@@ -146,7 +146,7 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            string rawValue = reader.GetDouble().ToString();
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
