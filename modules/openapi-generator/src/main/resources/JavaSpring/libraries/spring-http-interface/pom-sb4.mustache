@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.13</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -55,7 +55,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-{{#reactive}}webflux{{/reactive}}{{^reactive}}web{{/reactive}}</artifactId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client</artifactId>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>
@@ -74,19 +74,21 @@
           <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
         <dependency>
-          <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        {{/useJackson3}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.9</version>
+            <version>0.2.8</version>
         </dependency>
         {{/openApiNullable}}
         {{#lombok}}
@@ -98,7 +100,7 @@
         {{/lombok}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <artifactId>spring-boot-starter-{{#reactive}}web{{/reactive}}{{^reactive}}rest{{/reactive}}client-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.13</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 {{/parentOverridden}}
@@ -58,7 +58,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
-                <version>2023.0.0</version>
+                <version>2025.1.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -99,21 +99,26 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
+            {{^parentOverridden}}
+            <version>6.1.1</version>
+            {{/parentOverridden}}
         </dependency>
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
-          <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
           <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
         {{/withXml}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
+        {{/useJackson3}}
         {{#joda}}
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
         {{/joda}}
@@ -122,7 +127,7 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         {{^parentOverridden}}
-            <version>0.2.9</version>
+            <version>0.2.8</version>
         {{/parentOverridden}}
         </dependency>
         {{/openApiNullable}}
