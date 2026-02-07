@@ -104,9 +104,11 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override RequiredClassRequiredNotnullableEnumIntegerOnly Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int rawValue = reader.GetInt32();
-            RequiredClassRequiredNotnullableEnumIntegerOnly result = (RequiredClassRequiredNotnullableEnumIntegerOnly)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            RequiredClassRequiredNotnullableEnumIntegerOnly? result = RequiredClassRequiredNotnullableEnumIntegerOnlyValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
@@ -138,9 +140,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            int rawValue = reader.GetInt32();
-            RequiredClassRequiredNotnullableEnumIntegerOnly result = (RequiredClassRequiredNotnullableEnumIntegerOnly)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            RequiredClassRequiredNotnullableEnumIntegerOnly? result = RequiredClassRequiredNotnullableEnumIntegerOnlyValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
