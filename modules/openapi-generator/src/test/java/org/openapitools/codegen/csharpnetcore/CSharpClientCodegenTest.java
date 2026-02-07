@@ -294,7 +294,7 @@ public class CSharpClientCodegenTest {
                 "writer.WriteStringValue("
         );
 
-        // Verify long enum uses int64 reader
+        // Verify long enum uses int64 reader with actual int64 values
         File longEnumFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
                 .toString()
@@ -303,7 +303,9 @@ public class CSharpClientCodegenTest {
         assertFileContains(longEnumFile.toPath(),
                 "reader.GetInt64()",
                 "writer.WriteNumberValue(",
-                "public static long ToJsonValue(LongEnum value)"
+                "public static long ToJsonValue(LongEnum value)",
+                "AboveInt32Max = 2147483648",
+                "Int64Max = 9223372036854775807"
         );
         assertFileNotContains(longEnumFile.toPath(),
                 "reader.GetString()",

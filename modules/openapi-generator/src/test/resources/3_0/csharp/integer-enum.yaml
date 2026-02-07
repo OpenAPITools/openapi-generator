@@ -28,13 +28,13 @@ components:
         - Some
     LongEnum:
       enum:
-        - 0
-        - 1
+        - 2147483648
+        - 9223372036854775807
       type: integer
       format: int64
       x-enum-varnames:
-        - None
-        - Some
+        - AboveInt32Max
+        - Int64Max
     DoubleEnum:
       enum:
         - 1.1
