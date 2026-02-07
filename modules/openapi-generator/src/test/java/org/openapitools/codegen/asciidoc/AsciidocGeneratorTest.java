@@ -73,6 +73,7 @@ public class AsciidocGeneratorTest {
                 markupFileGenerated = true;
                 String markupContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
                 // check on some basic asciidoc markup content
+                Assert.assertEquals("", markupContent);
                 Assert.assertTrue(markupContent.contains("= ping test"),
                         "expected = header in: " + markupContent.substring(0, 50));
                 Assert.assertTrue(markupContent.contains(":toc: "),
