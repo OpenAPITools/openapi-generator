@@ -8,6 +8,8 @@ docs/Cat.md
 docs/DefaultApi.md
 docs/Dog.md
 docs/FilePostRequest.md
+docs/OneOfPrimitiveTypes.md
+docs/OneOfPrimitiveTypesValue.md
 docs/PetByAge.md
 docs/PetByType.md
 docs/PetsFilteredPatchRequest.md

@@ -1,22 +1,22 @@
 
-# OptionOne
+# OneOfPrimitiveTypes
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`discriminatorField` | string
+`value` | [OneOfPrimitiveTypesValue](OneOfPrimitiveTypesValue.md)
 
 ## Example
 
 ```typescript
-import type { OptionOne } from '@openapitools/typescript-fetch-petstore'
+import type { OneOfPrimitiveTypes } from '@openapitools/typescript-fetch-petstore'
 
 // TODO: Update the object below with actual values
 const example = {
-  "discriminatorField": null,
-} satisfies OptionOne
+  "value": null,
+} satisfies OneOfPrimitiveTypes
 
 console.log(example)
 
@@ -25,7 +25,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as OptionOne
+const exampleParsed = JSON.parse(exampleJSON) as OneOfPrimitiveTypes
 console.log(exampleParsed)
 ```
 
