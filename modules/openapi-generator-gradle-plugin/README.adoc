@@ -541,7 +541,7 @@ This task exposes all options available via OpenAPI Generator CLI and the OpenAP
 openApiGenerate {
     generatorName.set("kotlin")
     inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
-    outputDir.set("$buildDir/generated")
+    outputDir.set(layout.buildDirectory.dir("generated").get().asFile.path)
     apiPackage.set("org.openapi.example.api")
     invokerPackage.set("org.openapi.example.invoker")
     modelPackage.set("org.openapi.example.model")
@@ -694,7 +694,7 @@ task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.Generate
     additionalProperties.set([
             packageName: "petstore"
     ])
-    outputDir.set("$buildDir/go")
+    outputDir.set(layout.buildDirectory.dir("go").get().asFile.path)
     configOptions.set([
             dateLibrary: "threetenp"
     ])
@@ -702,7 +702,7 @@ task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.Generate
 task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName.set("kotlin")
     inputSpec.set("$rootDir/petstore-v3.0.yaml")
-    outputDir.set("$buildDir/kotlin")
+    outputDir.set(layout.buildDirectory.dir("kotlin").get().asFile.path)
     apiPackage.set("org.openapitools.example.api")
     invokerPackage.set("org.openapitools.example.invoker")
     modelPackage.set("org.openapitools.example.model")
