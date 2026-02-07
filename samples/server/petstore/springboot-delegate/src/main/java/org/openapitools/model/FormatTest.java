@@ -78,7 +78,8 @@ public class FormatTest {
   /**
    * Constructor with all args parameters
    */
-  public FormatTest(@Nullable Integer integer, @Nullable Integer int32, @Nullable Long int64, BigDecimal number, @Nullable Float _float, @Nullable Double _double, @Nullable String string, byte[] _byte, @Nullable org.springframework.core.io.Resource binary, LocalDate date, @Nullable OffsetDateTime dateTime, @Nullable UUID uuid, String password, @Nullable BigDecimal bigDecimal) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public FormatTest(@JsonProperty("integer") @Nullable Integer integer, @JsonProperty("int32") @Nullable Integer int32, @JsonProperty("int64") @Nullable Long int64, @JsonProperty("number") BigDecimal number, @JsonProperty("float") @Nullable Float _float, @JsonProperty("double") @Nullable Double _double, @JsonProperty("string") @Nullable String string, @JsonProperty("byte") byte[] _byte, @JsonProperty("binary") @Nullable org.springframework.core.io.Resource binary, @JsonProperty("date") LocalDate date, @JsonProperty("dateTime") @Nullable OffsetDateTime dateTime, @JsonProperty("uuid") @Nullable UUID uuid, @JsonProperty("password") String password, @JsonProperty("BigDecimal") @Nullable BigDecimal bigDecimal) {
       this.integer = integer;
       this.int32 = int32;
       this.int64 = int64;

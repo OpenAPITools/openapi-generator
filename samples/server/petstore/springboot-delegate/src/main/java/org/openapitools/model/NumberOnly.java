@@ -33,7 +33,8 @@ public class NumberOnly {
   /**
    * Constructor with all args parameters
    */
-  public NumberOnly(@Nullable BigDecimal justNumber) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public NumberOnly(@JsonProperty("JustNumber") @Nullable BigDecimal justNumber) {
       this.justNumber = justNumber;
   }
 

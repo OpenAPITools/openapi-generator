@@ -109,7 +109,8 @@ public class EnumArrays {
   /**
    * Constructor with all args parameters
    */
-  public EnumArrays(@Nullable JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public EnumArrays(@JsonProperty("just_symbol") @Nullable JustSymbolEnum justSymbol, @JsonProperty("array_enum") List<ArrayEnumEnum> arrayEnum) {
       this.justSymbol = justSymbol;
       this.arrayEnum = arrayEnum;
   }

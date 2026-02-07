@@ -43,7 +43,8 @@ public class ArrayTest {
   /**
    * Constructor with all args parameters
    */
-  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ArrayTest(@JsonProperty("array_of_string") List<String> arrayOfString, @JsonProperty("array_array_of_integer") List<List<Long>> arrayArrayOfInteger, @JsonProperty("array_array_of_model") List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
       this.arrayOfString = arrayOfString;
       this.arrayArrayOfInteger = arrayArrayOfInteger;
       this.arrayArrayOfModel = arrayArrayOfModel;

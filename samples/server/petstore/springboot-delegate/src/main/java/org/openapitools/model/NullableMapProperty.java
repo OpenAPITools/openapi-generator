@@ -38,7 +38,8 @@ public class NullableMapProperty {
   /**
    * Constructor with all args parameters
    */
-  public NullableMapProperty(Map<String, String> languageValues) {
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public NullableMapProperty(@JsonProperty("languageValues") Map<String, String> languageValues) {
       this.languageValues = JsonNullable.of(languageValues);
   }
 
