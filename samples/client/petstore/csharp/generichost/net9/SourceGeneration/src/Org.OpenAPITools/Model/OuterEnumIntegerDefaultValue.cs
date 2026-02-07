@@ -118,16 +118,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumIntegerDefaultValue Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
-
-            OuterEnumIntegerDefaultValue? result = rawValue == null
-                ? null
-                : OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(rawValue);
-
-            if (result != null)
-                return result.Value;
-
-            throw new JsonException();
+            int rawValue = reader.GetInt32();
+            OuterEnumIntegerDefaultValue result = (OuterEnumIntegerDefaultValue)rawValue;
+            return result;
         }
 
         /// <summary>
@@ -138,7 +131,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue).ToString());
+            writer.WriteNumberValue(OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue));
         }
     }
 
@@ -156,16 +149,12 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumIntegerDefaultValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            OuterEnumIntegerDefaultValue? result = rawValue == null
-                ? null
-                : OuterEnumIntegerDefaultValueValueConverter.FromStringOrDefault(rawValue);
-
-            if (result != null)
-                return result.Value;
-
-            throw new JsonException();
+            int rawValue = reader.GetInt32();
+            OuterEnumIntegerDefaultValue result = (OuterEnumIntegerDefaultValue)rawValue;
+            return result;
         }
 
         /// <summary>
@@ -176,7 +165,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumIntegerDefaultValue? outerEnumIntegerDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumIntegerDefaultValue.HasValue ? OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue.Value).ToString() : "null");
+            if (outerEnumIntegerDefaultValue.HasValue)
+                writer.WriteNumberValue(OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(outerEnumIntegerDefaultValue.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 
