@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Integer Enum Test
+  version: v1
+paths:
+  /some/api:
+    get:
+      tags:
+        - Example
+      operationId: ExampleApi
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegerEnum'
+components:
+  schemas:
+    IntegerEnum:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+      x-enum-varnames:
+        - None
+        - Some
+    LongEnum:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int64
+      x-enum-varnames:
+        - None
+        - Some
