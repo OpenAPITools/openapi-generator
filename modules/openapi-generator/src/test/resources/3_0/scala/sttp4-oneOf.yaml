@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: OneOf Test API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: getPet
+      responses:
+        '200':
+          description: A pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Dog:
+      type: object
+      required:
+        - petType
+        - name
+        - breed
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+        breed:
+          type: string
+        barkVolume:
+          type: integer
+          
+    Cat:
+      type: object
+      required:
+        - petType
+        - name
+        - age
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+        indoor:
+          type: boolean
+          
+    # OneOf without discriminator
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+        
+    # OneOf with discriminator
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+      discriminator:
+        propertyName: petType
+        
+    # OneOf with discriminator and mapping
+    Vehicle:
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Truck'
+      discriminator:
+        propertyName: vehicleType
+        mapping:
+          car: '#/components/schemas/Car'
+          truck: '#/components/schemas/Truck'
+          
+    Car:
+      type: object
+      required:
+        - vehicleType
+        - make
+        - model
+      properties:
+        vehicleType:
+          type: string
+          const: car
+        make:
+          type: string
+        model:
+          type: string
+        doors:
+          type: integer
+          
+    Truck:
+      type: object
+      required:
+        - vehicleType
+        - make
+        - model
+      properties:
+        vehicleType:
+          type: string
+          const: truck
+        make:
+          type: string
+        model:
+          type: string
+        bedLength:
+          type: number

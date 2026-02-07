@@ -20,7 +20,7 @@ class {{classname}}(baseUrl: String) {
 {{>javadoc}}
 
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
+  def {{operationId}}({{>methodParameters}}): Request[{{#separateErrorChannel}}Either[ResponseException[String], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}] =
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{baseName}}=${ {{paramName}} }{{^-last}}&{{/-last}}{{/queryParams}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}{{#queryParams.0}}&{{/queryParams.0}}{{^queryParams.0}}?{{/queryParams.0}}{{keyParamName}}=${apiKeyQuery}{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
@@ -35,7 +35,7 @@ class {{classname}}(baseUrl: String) {
       .multipartBody(Seq({{#formParams}}
         {{>paramMultipartCreation}}{{^-last}}, {{/-last}}{{/formParams}}
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
-      .body({{paramName}}){{/bodyParam}}
+      .body(asJson({{paramName}})){{/bodyParam}}
       .response({{#separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))){{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}]{{/returnType}}{{/separateErrorChannel}}{{^separateErrorChannel}}{{^returnType}}asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))).getRight{{/returnType}}{{#returnType}}asJson[{{>operationReturnType}}].getRight{{/returnType}}{{/separateErrorChannel}})
 
 {{/operation}}
