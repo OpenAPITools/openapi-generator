@@ -1782,6 +1782,21 @@ public class OpenAPINormalizer {
             return null;
         }
 
+        // process const
+        if (schema.getConst() != null) {
+            Object value = schema.getConst();
+            schema.setEnum(Arrays.asList(value));
+            schema.setConst(null);
+
+            if (schema.getTypes() == null) {
+                if (value instanceof String) {
+                    schema.addType("string");
+                } else if (value instanceof Integer) {
+                    schema.addType("integer");
+                }
+            }
+        }
+
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null &&
                 schema.getTypes() == null && schema.getType() == null) {
@@ -1801,12 +1816,6 @@ public class OpenAPINormalizer {
         if (schema.getTypes().contains("null")) {
             schema.setNullable(true);
             schema.getTypes().remove("null");
-        }
-
-        // process const
-        if (schema.getConst() != null) {
-            schema.setEnum(Arrays.asList(schema.getConst()));
-            schema.setConst(null);
         }
 
         // only one item (type) left
