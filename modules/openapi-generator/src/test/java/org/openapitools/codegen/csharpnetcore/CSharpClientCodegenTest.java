@@ -260,4 +260,54 @@ public class CSharpClientCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testIntegerEnumJsonConverterUsesNumericOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/integer-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // Verify integer enum uses numeric JSON reader/writer
+        File intEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "IntegerEnum.cs")
+                .toString()
+        );
+        assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
+        assertFileContains(intEnumFile.toPath(),
+                "reader.GetInt32()",
+                "writer.WriteNumberValue(",
+                "public static int ToJsonValue(IntegerEnum value)"
+        );
+        assertFileNotContains(intEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue("
+        );
+
+        // Verify long enum uses int64 reader
+        File longEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
+                .toString()
+        );
+        assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
+        assertFileContains(longEnumFile.toPath(),
+                "reader.GetInt64()",
+                "writer.WriteNumberValue(",
+                "public static long ToJsonValue(LongEnum value)"
+        );
+        assertFileNotContains(longEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue("
+        );
+    }
 }
