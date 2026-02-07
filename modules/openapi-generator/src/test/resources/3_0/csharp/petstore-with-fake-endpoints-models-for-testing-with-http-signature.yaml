@@ -316,6 +316,46 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
+  '/pet/{petId}/uploadImages':
+    post:
+      tags:
+        - pet
+      summary: uploads an images
+      description: ''
+      operationId: uploadFiles
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - files
   /store/inventory:
     get:
       tags:
