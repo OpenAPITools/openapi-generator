@@ -6,8 +6,8 @@
 
 Name | Type
 ------------ | -------------
-`mapProperty` | { [key: string]: string; }
-`mapOfMapProperty` | { [key: string]: { [key: string]: string; }; }
+`mapProperty` | Record&lt;string, string&gt;
+`mapOfMapProperty` | Record&lt;string, Record&lt;string, string&gt;&gt;
 
 ## Example
 

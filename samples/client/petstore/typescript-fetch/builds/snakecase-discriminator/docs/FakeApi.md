@@ -1132,7 +1132,7 @@ async function example() {
   const api = new FakeApi();
 
   const body = {
-    // { [key: string]: string; } | request body
+    // Record<string, string> | request body
     requestBody: ...,
   } satisfies TestInlineAdditionalPropertiesRequest;
 
@@ -1153,7 +1153,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **requestBody** | `{ [key: string]: string; }` | request body | |
+| **requestBody** | `Record<string, string>` | request body | |
 
 ### Return type
 

@@ -55,14 +55,14 @@ export class StoreApi extends BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    getInventory(): Observable<{ [key: string]: number; }>
-    getInventory(opts?: OperationOpts): Observable<AjaxResponse<{ [key: string]: number; }>>
-    getInventory(opts?: OperationOpts): Observable<{ [key: string]: number; } | AjaxResponse<{ [key: string]: number; }>> {
+    getInventory(): Observable<Record<string, number>>
+    getInventory(opts?: OperationOpts): Observable<AjaxResponse<Record<string, number>>>
+    getInventory(opts?: OperationOpts): Observable<Record<string, number> | AjaxResponse<Record<string, number>>> {
         const headers: HttpHeaders = {
             ...(this.configuration.apiKey && { 'api_key': this.configuration.apiKey('api_key') }), // api_key authentication
         };
 
-        return this.request<{ [key: string]: number; }>({
+        return this.request<Record<string, number>>({
             url: '/store/inventory',
             method: 'GET',
             headers,

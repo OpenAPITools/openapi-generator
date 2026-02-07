@@ -7,7 +7,7 @@
 Name | Type
 ------------ | -------------
 `meta` | [ResponseMeta](ResponseMeta.md)
-`data` | { [key: string]: boolean; }
+`data` | Record&lt;string, boolean&gt;
 
 ## Example
 

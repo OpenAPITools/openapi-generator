@@ -13,7 +13,7 @@ export class StoreApiController {
   }
 
   @Get('/store/inventory')
-  getInventory(@Req() request: Request): { [key: string]: number; } | Promise<{ [key: string]: number; }> | Observable<{ [key: string]: number; }> {
+  getInventory(@Req() request: Request): Record<string, number> | Promise<Record<string, number>> | Observable<Record<string, number>> {
     return this.storeApi.getInventory(request);
   }
 

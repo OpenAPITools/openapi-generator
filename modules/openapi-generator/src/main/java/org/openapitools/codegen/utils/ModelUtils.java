@@ -889,7 +889,7 @@ public class ModelUtils {
             if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
                 return true;
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
-                return true;
+                return !ModelUtils.hasEnumPropertyNames(schema);
             } else if (schema.getTypes() != null) {
                 if (schema.getTypes().size() == 1) { // types = [object]
                     return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
@@ -937,7 +937,7 @@ public class ModelUtils {
                         return objSchema.getProperties() == null || objSchema.getProperties().isEmpty();
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        return addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty());
+                        return addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty()) && !ModelUtils.hasEnumPropertyNames(schema);
                     }
                 }
             }
@@ -963,7 +963,7 @@ public class ModelUtils {
         // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
         // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
         // in the inner schemas, and the outer schema does not have properties.
-        return ModelUtils.isGenerateAliasAsModel(schema) || ModelUtils.isComposedSchema(schema) || !(schema.getProperties() == null || schema.getProperties().isEmpty());
+        return ModelUtils.isGenerateAliasAsModel(schema) || ModelUtils.isComposedSchema(schema) || !(schema.getProperties() == null || schema.getProperties().isEmpty()) || ModelUtils.hasEnumPropertyNames(schema);
     }
 
     public static boolean shouldGenerateArrayModel(Schema schema) {
@@ -2156,6 +2156,13 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static boolean hasEnumPropertyNames(Schema schema) {
+        if (schema == null || schema.getPropertyNames() == null) {
+            return false;
+        }
+        return !schema.getPropertyNames().getEnum().isEmpty();
     }
 
     /**

@@ -159,7 +159,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }> {
+    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Record<string, number>;  }> {
         const localVarPath = this.basePath + '/store/inventory';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -204,13 +204,13 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Record<string, number>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "{ [key: string]: number; }");
+                            body = ObjectSerializer.deserialize(body, "Record<string, number>");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
