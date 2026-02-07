@@ -43,17 +43,9 @@ object JsonSupport extends SttpJson4sApi {
 {{#circe}}
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.AutoDerivation
-import sttp.client3.circe.SttpCirceApi
+import sttp.client4.circe.SttpCirceApi
 
 object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers with AdditionalTypeSerializers {
-
-{{#models}}
-{{#model}}
-{{#isEnum}}
-  implicit val {{classname}}Decoder: Decoder[{{classname}}.{{classname}}] = Decoder.decodeEnumeration({{classname}})
-  implicit val {{classname}}Encoder: Encoder[{{classname}}.{{classname}}] = Encoder.encodeEnumeration({{classname}})
-{{/isEnum}}
-{{/model}}
-{{/models}}
+  // Enum encoders/decoders are defined in their respective companion objects
 }
 {{/circe}}
