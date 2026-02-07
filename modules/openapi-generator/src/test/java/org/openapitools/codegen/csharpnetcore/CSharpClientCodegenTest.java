@@ -278,14 +278,16 @@ public class CSharpClientCodegenTest {
         Map<String, File> files = defaultGenerator.generate().stream()
                 .collect(Collectors.toMap(File::getPath, Function.identity()));
 
-        // Verify integer enum uses numeric JSON reader/writer
+        // Verify integer enum uses numeric JSON reader with validation
         File intEnumFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "IntegerEnum.cs")
                 .toString()
         );
         assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
         assertFileContains(intEnumFile.toPath(),
-                "reader.GetInt32()",
+                "reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
                 "writer.WriteNumberValue(",
                 "public static int ToJsonValue(IntegerEnum value)"
         );
@@ -294,14 +296,16 @@ public class CSharpClientCodegenTest {
                 "writer.WriteStringValue("
         );
 
-        // Verify long enum uses int64 reader with actual int64 values
+        // Verify long enum uses int64 reader with validation and actual int64 values
         File longEnumFile = files.get(Paths
                 .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
                 .toString()
         );
         assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
         assertFileContains(longEnumFile.toPath(),
-                "reader.GetInt64()",
+                "reader.GetInt64().ToString(System.Globalization.CultureInfo.InvariantCulture)",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
                 "writer.WriteNumberValue(",
                 "public static long ToJsonValue(LongEnum value)",
                 "AboveInt32Max = 2147483648",
