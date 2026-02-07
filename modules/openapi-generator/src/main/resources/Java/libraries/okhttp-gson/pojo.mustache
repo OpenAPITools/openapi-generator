@@ -385,16 +385,16 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{#isArray}}
       {{#items.isModel}}
       {{#required}}
-      // ensure the json data is an array
-      if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+      if (jsonObj.get("{{{baseName}}}") != null{{#isNullable}} && !jsonObj.get("{{{baseName}}}").isJsonNull(){{/isNullable}}) {
+        if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
+        }
+        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        // validate the required field `{{{baseName}}}` (array)
+        for (int i = 0; i < jsonArray{{name}}.size(); i++) {
+          {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
+        }
       }
-
-      JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
-      // validate the required field `{{{baseName}}}` (array)
-      for (int i = 0; i < jsonArray{{name}}.size(); i++) {
-        {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
-      };
       {{/required}}
       {{^required}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
@@ -424,7 +424,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       // ensure the required json array is present
       if (jsonObj.get("{{{baseName}}}") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
-      } else if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
+      } else if (!jsonObj.get("{{{baseName}}}").isJsonArray(){{#isNullable}} && !jsonObj.get("{{baseName}}").isJsonNull(){{/isNullable}}) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
       }
       {{/required}}
@@ -438,8 +438,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/isString}}
       {{#isModel}}
       {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
       // validate the required field `{{{baseName}}}`
       {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
       {{/required}}
       {{^required}}
       // validate the optional field `{{{baseName}}}`
@@ -450,8 +456,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/isModel}}
       {{#isEnum}}
       {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
       // validate the required field `{{{baseName}}}`
       {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
       {{/required}}
       {{^required}}
       // validate the optional field `{{{baseName}}}`
@@ -462,8 +474,14 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/isEnum}}
       {{#isEnumRef}}
       {{#required}}
+      {{#isNullable}}
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+      {{/isNullable}}
       // validate the required field `{{{baseName}}}`
       {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{#isNullable}}
+      }
+      {{/isNullable}}
       {{/required}}
       {{^required}}
       // validate the optional field `{{{baseName}}}`
