@@ -21,7 +21,7 @@
     {{/-first}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}{{#isLong}}: long{{/isLong}}
+    {{>visibility}} enum {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}} : byte{{/vendorExtensions.x-enum-byte}}{{#isLong}} : long{{/isLong}}
     {
         {{#allowableValues}}
         {{#enumVars}}
