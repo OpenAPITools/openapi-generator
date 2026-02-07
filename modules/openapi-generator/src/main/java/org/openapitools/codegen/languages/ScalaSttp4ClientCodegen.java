@@ -226,6 +226,16 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         return objs;
     }
 
+    private void setParameterDefaults(CodegenParameter param) {
+        // Set default values for optional parameters
+        // Template will handle Option[] wrapping, so all defaults should be None
+        if (!param.required) {
+            param.defaultValue = "None";
+        }
+    }
+
+
+
     /**
      * Invoked by {@link DefaultGenerator} after all models have been post-processed,
      * allowing for a last pass of codegen-specific model cleanup.
@@ -445,6 +455,14 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         }
         objs.setImports(newImports);
 
+        // Fix parameter types and defaults
+        OperationMap opsMap = objs.getOperations();
+        for (CodegenOperation operation : opsMap.getOperation()) {
+            for (CodegenParameter param : operation.allParams) {
+                setParameterDefaults(param);
+            }
+        }
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
@@ -498,11 +516,11 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
-            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            // Use simple Seq.empty for cleaner code
             if (ModelUtils.isSet(p)) {
-                return "Set[" + inner + "].empty ";
+                return "Set.empty";
             }
-            return "Seq[" + inner + "].empty ";
+            return "Seq.empty";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
         } else {
