@@ -36,7 +36,12 @@ use crate::header;
 pub enum {{{classname}}} {
 {{#allowableValues}}
   {{#enumVars}}
+    {{#numericValue}}
+    #[serde(rename = {{{numericValue}}})]
+    {{/numericValue}}
+    {{^numericValue}}
     #[serde(rename = {{{value}}})]
+    {{/numericValue}}
     {{{name}}},
   {{/enumVars}}
 {{/allowableValues}}

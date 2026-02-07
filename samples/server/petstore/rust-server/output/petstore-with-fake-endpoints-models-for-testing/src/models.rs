@@ -3542,9 +3542,9 @@ impl EnumTest {
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
-    #[serde(rename = "1")]
+    #[serde(rename = 1)]
     Variant1,
-    #[serde(rename = "-1")]
+    #[serde(rename = -1)]
     Variant12,
 }
 
@@ -8464,9 +8464,9 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
-    #[serde(rename = "1")]
+    #[serde(rename = 1)]
     Variant1,
-    #[serde(rename = "-2")]
+    #[serde(rename = -2)]
     Variant2,
 }
 
