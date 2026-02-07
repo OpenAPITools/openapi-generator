@@ -85,7 +85,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static double ToJsonValue(TestEnumParametersEnumQueryDoubleParameter value)
         {
-            
             if (value == TestEnumParametersEnumQueryDoubleParameter.NUMBER_1_DOT_1)
                 return 1.1d;
 
@@ -111,7 +110,6 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            
             string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
@@ -148,7 +146,6 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            
             string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
             TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
