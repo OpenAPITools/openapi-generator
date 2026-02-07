@@ -85,7 +85,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static double ToJsonValue(TestEnumParametersEnumQueryDoubleParameter value)
         {
-            return (double) value;
+            if (value == TestEnumParametersEnumQueryDoubleParameter.NUMBER_1_DOT_1)
+                return 1.1d;
+
+            if (value == TestEnumParametersEnumQueryDoubleParameter.NUMBER_MINUS_1_DOT_2)
+                return -1.2d;
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
 
@@ -104,15 +110,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
-
-            TestEnumParametersEnumQueryDoubleParameter? result = rawValue == null
-                ? null
-                : TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDouble().ToString();
+            TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -124,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryDoubleParameter testEnumParametersEnumQueryDoubleParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryDoubleParameter).ToString());
+            writer.WriteNumberValue(TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryDoubleParameter));
         }
     }
 
@@ -142,15 +143,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            TestEnumParametersEnumQueryDoubleParameter? result = rawValue == null
-                ? null
-                : TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDouble().ToString();
+            TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -162,7 +161,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryDoubleParameter? testEnumParametersEnumQueryDoubleParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumQueryDoubleParameter.HasValue ? TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryDoubleParameter.Value).ToString() : "null");
+            if (testEnumParametersEnumQueryDoubleParameter.HasValue)
+                writer.WriteNumberValue(TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryDoubleParameter.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }
