@@ -1,13 +1,11 @@
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.util.Map;
 import org.openapitools.model.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -39,10 +37,10 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    default Mono<Void> deleteOrder(String orderId,
-        ServerWebExchange exchange) {
+    default Mono<Void> deleteOrder(String orderId) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(Mono.empty());
 
     }
@@ -54,9 +52,10 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default Mono<Map<String, Integer>> getInventory(ServerWebExchange exchange) {
+    default Mono<Map<String, Integer>> getInventory() {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(Mono.empty());
 
     }
@@ -71,22 +70,10 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default Mono<Order> getOrderById(Long orderId,
-        ServerWebExchange exchange) {
+    default Mono<Order> getOrderById(Long orderId) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
+
+
         return result.then(Mono.empty());
 
     }
@@ -100,22 +87,10 @@ public interface StoreApiDelegate {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<Order> placeOrder(Mono<Order> order,
-        ServerWebExchange exchange) {
+    default Mono<Order> placeOrder(Mono<Order> order) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
+
+
         return result.then(order).then(Mono.empty());
 
     }

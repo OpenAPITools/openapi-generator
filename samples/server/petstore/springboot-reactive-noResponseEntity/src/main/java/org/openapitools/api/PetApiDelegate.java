@@ -1,6 +1,5 @@
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import org.openapitools.model.ModelApiResponse;
 import org.springframework.lang.Nullable;
 import org.openapitools.model.Pet;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -41,10 +39,10 @@ public interface PetApiDelegate {
      *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    default Mono<Void> addPet(Mono<Pet> pet,
-        ServerWebExchange exchange) {
+    default Mono<Void> addPet(Mono<Pet> pet) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(pet).then(Mono.empty());
 
     }
@@ -60,10 +58,10 @@ public interface PetApiDelegate {
      * @see PetApi#deletePet
      */
     default Mono<Void> deletePet(Long petId,
-        String apiKey,
-        ServerWebExchange exchange) {
+        String apiKey) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(Mono.empty());
 
     }
@@ -77,22 +75,10 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default Flux<Pet> findPetsByStatus(List<String> status,
-        ServerWebExchange exchange) {
+    default Flux<Pet> findPetsByStatus(List<String> status) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
+
+
         return result.thenMany(Flux.empty());
 
     }
@@ -108,22 +94,10 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default Flux<Pet> findPetsByTags(Set<String> tags,
-        ServerWebExchange exchange) {
+    default Flux<Pet> findPetsByTags(Set<String> tags) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
+
+
         return result.thenMany(Flux.empty());
 
     }
@@ -138,22 +112,10 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default Mono<Pet> getPetById(Long petId,
-        ServerWebExchange exchange) {
+    default Mono<Pet> getPetById(Long petId) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                String exampleString = "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/xml"), exampleString);
-                break;
-            }
-        }
+
+
         return result.then(Mono.empty());
 
     }
@@ -169,10 +131,10 @@ public interface PetApiDelegate {
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    default Mono<Void> updatePet(Mono<Pet> pet,
-        ServerWebExchange exchange) {
+    default Mono<Void> updatePet(Mono<Pet> pet) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(pet).then(Mono.empty());
 
     }
@@ -189,10 +151,10 @@ public interface PetApiDelegate {
      */
     default Mono<Void> updatePetWithForm(Long petId,
         String name,
-        String status,
-        ServerWebExchange exchange) {
+        String status) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+
+
         return result.then(Mono.empty());
 
     }
@@ -209,17 +171,10 @@ public interface PetApiDelegate {
      */
     default Mono<ModelApiResponse> uploadFile(Long petId,
         String additionalMetadata,
-        Part file,
-        ServerWebExchange exchange) {
+        Part file) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
-                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf("application/json"), exampleString);
-                break;
-            }
-        }
+
+
         return result.then(Mono.empty());
 
     }

@@ -5,7 +5,6 @@
  */
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.time.OffsetDateTime;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -57,10 +55,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUser(
-        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Created user object", required = true) @Valid @RequestBody Mono<User> user
     ) {
-        return getDelegate().createUser(user, exchange);
+        return getDelegate().createUser(user);
     }
 
 
@@ -88,10 +85,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user
     ) {
-        return getDelegate().createUsersWithArrayInput(user, exchange);
+        return getDelegate().createUsersWithArrayInput(user);
     }
 
 
@@ -119,10 +115,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody Flux<User> user
     ) {
-        return getDelegate().createUsersWithListInput(user, exchange);
+        return getDelegate().createUsersWithListInput(user);
     }
 
 
@@ -151,10 +146,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> deleteUser(
-        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
-        return getDelegate().deleteUser(username, exchange);
+        return getDelegate().deleteUser(username);
     }
 
 
@@ -187,10 +181,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<User> getUserByName(
-        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
-        return getDelegate().getUserByName(username, exchange);
+        return getDelegate().getUserByName(username);
     }
 
 
@@ -223,10 +216,9 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<String> loginUser(
         @NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,
-        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password
     ) {
-        return getDelegate().loginUser(username, password, exchange);
+        return getDelegate().loginUser(username, password);
     }
 
 
@@ -252,9 +244,9 @@ public interface UserApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> logoutUser(
-        @ApiIgnore final ServerWebExchange exchange
+        
     ) {
-        return getDelegate().logoutUser(exchange);
+        return getDelegate().logoutUser();
     }
 
 
@@ -286,10 +278,9 @@ public interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> updateUser(
         @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
-        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody Mono<User> user
     ) {
-        return getDelegate().updateUser(username, user, exchange);
+        return getDelegate().updateUser(username, user);
     }
 
 }
