@@ -35,3 +35,9 @@ components:
       x-enum-varnames:
         - None
         - Some
+    DoubleEnum:
+      enum:
+        - 1.1
+        - -1.2
+      type: number
+      format: double

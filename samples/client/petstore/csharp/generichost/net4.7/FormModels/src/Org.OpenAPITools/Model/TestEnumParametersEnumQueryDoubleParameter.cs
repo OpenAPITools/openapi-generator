@@ -85,7 +85,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public static double ToJsonValue(TestEnumParametersEnumQueryDoubleParameter value)
         {
-            return (double) value;
+            
+            if (value == TestEnumParametersEnumQueryDoubleParameter.NUMBER_1_DOT_1)
+                return 1.1d;
+
+            if (value == TestEnumParametersEnumQueryDoubleParameter.NUMBER_MINUS_1_DOT_2)
+                return -1.2d;
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
 
@@ -104,9 +111,12 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryDoubleParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            double rawValue = reader.GetDouble();
-            TestEnumParametersEnumQueryDoubleParameter result = (TestEnumParametersEnumQueryDoubleParameter)rawValue;
-            return result;
+            
+            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
@@ -138,9 +148,12 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            double rawValue = reader.GetDouble();
-            TestEnumParametersEnumQueryDoubleParameter result = (TestEnumParametersEnumQueryDoubleParameter)rawValue;
-            return result;
+            
+            string rawValue = reader.GetDouble().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TestEnumParametersEnumQueryDoubleParameter? result = TestEnumParametersEnumQueryDoubleParameterValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
