@@ -14,15 +14,15 @@
 
 from __future__ import annotations
 import pprint
-import re  # noqa: F401
 import json
+import re  # noqa: F401
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Literal, Self
+from pydantic import Field
 
 class ArrayTest(BaseModel):
     """
@@ -41,67 +41,27 @@ class ArrayTest(BaseModel):
     )
 
 
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj, strict=True)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return json.dumps(self.model_dump(by_alias=True))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ArrayTest from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list of list)
-        _items = []
-        if self.array_array_of_model:
-            for _item_array_array_of_model in self.array_array_of_model:
-                if _item_array_array_of_model:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item_array_array_of_model if _inner_item is not None]
-                    )
-            _dict['array_array_of_model'] = _items
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ArrayTest from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "array_of_string": obj.get("array_of_string"),
-            "array_of_nullable_float": obj.get("array_of_nullable_float"),
-            "array_array_of_integer": obj.get("array_array_of_integer"),
-            "array_array_of_model": [
-                    [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj["array_array_of_model"]
-                ] if obj.get("array_array_of_model") is not None else None
-        })
-        return _obj
 
 

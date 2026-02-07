@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Echo Server API
 
@@ -12,8 +10,8 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-from typing import Any, Optional
-from typing_extensions import Self
+
+from typing import Any, Optional, Self
 
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
@@ -105,9 +103,9 @@ class ApiKeyError(OpenApiException, KeyError):
 class ApiException(OpenApiException):
 
     def __init__(
-        self, 
-        status=None, 
-        reason=None, 
+        self,
+        status=None,
+        reason=None,
         http_resp=None,
         *,
         body: Optional[str] = None,
@@ -129,14 +127,14 @@ class ApiException(OpenApiException):
                     self.body = http_resp.data.decode('utf-8')
                 except Exception:
                     pass
-            self.headers = http_resp.headers
+            self.headers = http_resp.getheaders()
 
     @classmethod
     def from_response(
-        cls, 
-        *, 
-        http_resp, 
-        body: Optional[str], 
+        cls,
+        *,
+        http_resp,
+        body: Optional[str],
         data: Optional[Any],
     ) -> Self:
         if http_resp.status == 400:
@@ -170,11 +168,8 @@ class ApiException(OpenApiException):
             error_message += "HTTP response headers: {0}\n".format(
                 self.headers)
 
-        if self.body:
-            error_message += "HTTP response body: {0}\n".format(self.body)
-
-        if self.data:
-            error_message += "HTTP response data: {0}\n".format(self.data)
+        if self.data or self.body:
+            error_message += "HTTP response body: {0}\n".format(self.data or self.body)
 
         return error_message
 
