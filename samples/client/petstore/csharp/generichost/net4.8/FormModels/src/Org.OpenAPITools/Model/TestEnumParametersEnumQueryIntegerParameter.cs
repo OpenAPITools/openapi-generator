@@ -104,9 +104,11 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryIntegerParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int rawValue = reader.GetInt32();
-            TestEnumParametersEnumQueryIntegerParameter result = (TestEnumParametersEnumQueryIntegerParameter)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TestEnumParametersEnumQueryIntegerParameter? result = TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
@@ -138,9 +140,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            int rawValue = reader.GetInt32();
-            TestEnumParametersEnumQueryIntegerParameter result = (TestEnumParametersEnumQueryIntegerParameter)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            TestEnumParametersEnumQueryIntegerParameter? result = TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>

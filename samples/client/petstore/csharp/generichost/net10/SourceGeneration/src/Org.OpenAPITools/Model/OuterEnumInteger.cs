@@ -118,9 +118,11 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            int rawValue = reader.GetInt32();
-            OuterEnumInteger result = (OuterEnumInteger)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
@@ -152,9 +154,11 @@ namespace Org.OpenAPITools.Model
             if (reader.TokenType == JsonTokenType.Null)
                 return null;
 
-            int rawValue = reader.GetInt32();
-            OuterEnumInteger result = (OuterEnumInteger)rawValue;
-            return result;
+            string rawValue = reader.GetInt32().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
+            if (result != null)
+                return result.Value;
+            throw new JsonException();
         }
 
         /// <summary>
