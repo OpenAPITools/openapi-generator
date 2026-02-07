@@ -94,7 +94,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesReferencedAnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -110,7 +110,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesRefer
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesReferencedAnyOfObject>> {
     type Error = String;
 
@@ -118,7 +118,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AdditionalPropertiesReferencedAnyOfObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -234,7 +234,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithList>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -250,7 +250,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithL
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesWithList>> {
     type Error = String;
 
@@ -258,7 +258,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AdditionalPropertiesWithList> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -416,7 +416,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -432,7 +432,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithN
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>> {
     type Error = String;
 
@@ -440,7 +440,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AdditionalPropertiesWithNullable> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -611,7 +611,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlArray>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -627,7 +627,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlArray>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlArray>> {
     type Error = String;
 
@@ -635,7 +635,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnotherXmlArray> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -744,7 +744,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -760,7 +760,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlInner>>> for hy
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlInner>> {
     type Error = String;
 
@@ -768,7 +768,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnotherXmlInner> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -917,7 +917,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -933,7 +933,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnotherXmlObject>>> for h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnotherXmlObject>> {
     type Error = String;
 
@@ -941,7 +941,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnotherXmlObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1066,7 +1066,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfGet202Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1082,7 +1082,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfGet202Response>>> fo
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfGet202Response>> {
     type Error = String;
 
@@ -1090,7 +1090,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnyOfGet202Response> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1207,7 +1207,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfHashMapObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1223,7 +1223,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfHashMapObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfHashMapObject>> {
     type Error = String;
 
@@ -1231,7 +1231,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnyOfHashMapObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1348,7 +1348,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1364,7 +1364,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObject>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfObject>> {
     type Error = String;
 
@@ -1372,7 +1372,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnyOfObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1471,7 +1471,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1487,7 +1487,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>>> for h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfObjectAnyOf>> {
     type Error = String;
 
@@ -1495,7 +1495,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnyOfObjectAnyOf> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1648,7 +1648,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfProperty>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1664,7 +1664,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AnyOfProperty>>> for hype
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AnyOfProperty>> {
     type Error = String;
 
@@ -1672,7 +1672,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnyOfProperty> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1832,7 +1832,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DuplicateXmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1848,7 +1848,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<DuplicateXmlObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<DuplicateXmlObject>> {
     type Error = String;
 
@@ -1856,7 +1856,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<DuplicateXmlObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1969,7 +1969,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumWithStarObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -1985,7 +1985,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<EnumWithStarObject>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<EnumWithStarObject>> {
     type Error = String;
 
@@ -1993,7 +1993,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumWithStarObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2101,7 +2101,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Err>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2117,7 +2117,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Err>>> for hyper::header:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Err>> {
     type Error = String;
 
@@ -2125,7 +2125,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Err> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2233,7 +2233,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Error>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2249,7 +2249,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Error>>> for hyper::heade
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Error>> {
     type Error = String;
 
@@ -2257,7 +2257,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Error> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2352,7 +2352,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormTestRequestEnumField>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2368,7 +2368,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<FormTestRequestEnumField>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<FormTestRequestEnumField>> {
     type Error = String;
 
@@ -2376,7 +2376,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<FormTestRequestEnumField> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2493,7 +2493,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2509,7 +2509,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObject>>> 
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model12345AnyOfObject>> {
     type Error = String;
 
@@ -2517,7 +2517,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Model12345AnyOfObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2620,7 +2620,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyOf>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2636,7 +2636,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyO
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Model12345AnyOfObjectAnyOf>> {
     type Error = String;
 
@@ -2644,7 +2644,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Model12345AnyOfObjectAnyOf> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2791,7 +2791,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultigetGet201Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2807,7 +2807,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultigetGet201Response>>>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultigetGet201Response>> {
     type Error = String;
 
@@ -2815,7 +2815,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MultigetGet201Response> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2933,7 +2933,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyId>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -2949,7 +2949,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyId>>> for hyper::header
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MyId>> {
     type Error = String;
 
@@ -2957,7 +2957,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MyId> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3111,7 +3111,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyIdList>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3127,7 +3127,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MyIdList>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MyIdList>> {
     type Error = String;
 
@@ -3135,7 +3135,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MyIdList> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3254,7 +3254,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NoTypeObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3270,7 +3270,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NoTypeObject>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NoTypeObject>> {
     type Error = String;
 
@@ -3278,7 +3278,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<NoTypeObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3386,7 +3386,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3402,7 +3402,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableObject>>> for hyp
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NullableObject>> {
     type Error = String;
 
@@ -3410,7 +3410,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<NullableObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3673,7 +3673,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableTest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3689,7 +3689,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableTest>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NullableTest>> {
     type Error = String;
 
@@ -3697,7 +3697,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<NullableTest> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3855,7 +3855,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -3871,7 +3871,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectHeader>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectHeader>> {
     type Error = String;
 
@@ -3879,7 +3879,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectHeader> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4040,7 +4040,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectParam>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4056,7 +4056,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectParam>>> for hyper:
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectParam>> {
     type Error = String;
 
@@ -4064,7 +4064,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectParam> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4236,7 +4236,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectUntypedProps>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4252,7 +4252,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectUntypedProps>>> for
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectUntypedProps>> {
     type Error = String;
 
@@ -4260,7 +4260,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectUntypedProps> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4406,7 +4406,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4422,7 +4422,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<ObjectWithArrayOfObjects>> {
     type Error = String;
 
@@ -4430,7 +4430,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectWithArrayOfObjects> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4538,7 +4538,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Ok>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4554,7 +4554,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Ok>>> for hyper::header::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Ok>> {
     type Error = String;
 
@@ -4562,7 +4562,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Ok> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4678,7 +4678,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OneOfGet200Response>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4694,7 +4694,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OneOfGet200Response>>> fo
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OneOfGet200Response>> {
     type Error = String;
 
@@ -4702,7 +4702,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OneOfGet200Response> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4820,7 +4820,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OptionalObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4836,7 +4836,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OptionalObjectHeader>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OptionalObjectHeader>> {
     type Error = String;
 
@@ -4844,7 +4844,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OptionalObjectHeader> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4962,7 +4962,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<RequiredObjectHeader>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -4978,7 +4978,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<RequiredObjectHeader>>> f
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<RequiredObjectHeader>> {
     type Error = String;
 
@@ -4986,7 +4986,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<RequiredObjectHeader> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5094,7 +5094,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Result>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5110,7 +5110,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<Result>>> for hyper::head
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<Result>> {
     type Error = String;
 
@@ -5118,7 +5118,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Result> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5217,7 +5217,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringEnum>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5233,7 +5233,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringEnum>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<StringEnum>> {
     type Error = String;
 
@@ -5241,7 +5241,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<StringEnum> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5349,7 +5349,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5365,7 +5365,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<StringObject>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<StringObject>> {
     type Error = String;
 
@@ -5373,7 +5373,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<StringObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5492,7 +5492,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UuidObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5508,7 +5508,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<UuidObject>>> for hyper::
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<UuidObject>> {
     type Error = String;
 
@@ -5516,7 +5516,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<UuidObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5687,7 +5687,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlArray>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5703,7 +5703,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlArray>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlArray>> {
     type Error = String;
 
@@ -5711,7 +5711,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<XmlArray> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5820,7 +5820,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlInner>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -5836,7 +5836,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlInner>>> for hyper::he
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlInner>> {
     type Error = String;
 
@@ -5844,7 +5844,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<XmlInner> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6009,7 +6009,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlObject>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -6025,7 +6025,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<XmlObject>>> for hyper::h
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<XmlObject>> {
     type Error = String;
 
@@ -6033,7 +6033,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<XmlObject> = hdr_values
-                .split(',')
+                .split(", ")
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({

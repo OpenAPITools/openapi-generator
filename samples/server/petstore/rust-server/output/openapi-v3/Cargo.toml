@@ -120,11 +120,13 @@ openssl = "0.10"
 tokio-openssl = "0.6"
 
 [[example]]
-name = "client"
+name = "openapi-v3-client"
+path = "examples/client/main.rs"
 required-features = ["client"]
 
 [[example]]
-name = "server"
+name = "openapi-v3-server"
+path = "examples/server/main.rs"
 required-features = ["server"]
 
 [[bin]]
