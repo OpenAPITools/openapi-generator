@@ -1632,7 +1632,6 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/GetApi.java"),
                 "@RequestParam(value = \"testParameter1\", required = false, defaultValue = \"BAR\")",
                 "@RequestParam(value = \"TestParameter2\", required = false, defaultValue = \"BAR\")");
-
     }
 
     /**
@@ -5117,7 +5116,36 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetDto.java"))
                 .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
                 .fileContains("private List<String> photoUrls = new ArrayList<>();");
+    }
 
+    @Test
+    public void testOptionalListWithMinItems1ShouldBeNull_issue_22784() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/issue_22784.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("FooBarRequestDto.java"))
+                .fileContains("private @Nullable List<@Valid BarDto> barList;");
     }
 
     @Test
