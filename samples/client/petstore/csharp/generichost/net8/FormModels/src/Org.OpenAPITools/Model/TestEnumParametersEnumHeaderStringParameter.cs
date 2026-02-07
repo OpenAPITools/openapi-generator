@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumHeaderStringParameter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             TestEnumParametersEnumHeaderStringParameter? result = rawValue == null
@@ -182,7 +185,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumHeaderStringParameter? testEnumParametersEnumHeaderStringParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumHeaderStringParameter.HasValue ? TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter.Value).ToString() : "null");
+            if (testEnumParametersEnumHeaderStringParameter.HasValue)
+                writer.WriteStringValue(TestEnumParametersEnumHeaderStringParameterValueConverter.ToJsonValue(testEnumParametersEnumHeaderStringParameter.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }
