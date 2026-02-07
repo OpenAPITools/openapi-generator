@@ -305,7 +305,7 @@ public class CSharpClientCodegenTest {
         );
         assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
         assertFileContains(longEnumFile.toPath(),
-                "enum LongEnum: long",
+                "enum LongEnum : long",
                 "reader.GetInt64().ToString()",
                 "FromStringOrDefault(rawValue)",
                 "throw new JsonException()",
