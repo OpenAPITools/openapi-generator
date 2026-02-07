@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  User,
-} from '../models/index';
 import {
+    type User,
     UserFromJSON,
     UserToJSON,
-} from '../models/index';
+} from '../models/User';
 
 export interface UserApiCreateUserRequest {
     body: User;

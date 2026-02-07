@@ -1,12 +1,20 @@
-import {all, fork} from "redux-saga/effects";
+import { all, fork } from "redux-saga/effects";
 
 import {
     behaviorApiAllSagas,
+} from "./BehaviorApiSagas";
+import {
     petApiAllSagas,
+} from "./PetApiSagas";
+import {
     petPartApiAllSagas,
+} from "./PetPartApiSagas";
+import {
     storeApiAllSagas,
+} from "./StoreApiSagas";
+import {
     userApiAllSagas,
-} from "./index";
+} from "./UserApiSagas";
 
 export function *allApiSagas() {
     yield all([

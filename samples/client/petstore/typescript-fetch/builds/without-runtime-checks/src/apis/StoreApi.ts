@@ -12,10 +12,9 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  Order,
+    Order,
 } from '../models/index';
 
 export interface DeleteOrderRequest {
