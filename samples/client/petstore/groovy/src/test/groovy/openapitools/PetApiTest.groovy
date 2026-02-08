@@ -48,7 +48,7 @@ class PetApiTest extends GroovyTestCase  {
         def pet = new Pet()
         pet.setId(this.petId)
         pet.setName("groovy client updatetest")
-        pet.setStatus("pending")
+        pet.setStatus(Pet.StatusEnum.pending)
         this.petApi.updatePet(pet) {
         }
         {
@@ -60,7 +60,7 @@ class PetApiTest extends GroovyTestCase  {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetest", petGetted.getName())
-            assertEquals("pending", petGetted.getStatus())
+            assertEquals(Pet.StatusEnum.pending, petGetted.getStatus())
         }
         {
             statusCode, message ->
@@ -78,7 +78,7 @@ class PetApiTest extends GroovyTestCase  {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetestwithform", petGetted.getName())
-            assertEquals("sold", petGetted.getStatus())
+            assertEquals(Pet.StatusEnum.sold, petGetted.getStatus())
         }
                 {
                     statusCode, message ->
