@@ -18,7 +18,7 @@ class ApiUtils {
             }
             .build()
 
-    void invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType, method, container, type)  {
+    void invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, accept, contentType, method, container, type)  {
         def (url, uriPath) = buildUrlAndUriPath(basePath, versionPath, resourcePath)
         println "url=$url uriPath=$uriPath"
         def http = configure {
@@ -43,7 +43,7 @@ class ApiUtils {
             if (bodyParams != null) {
                 request.body = bodyParams
             }
-            request.accept = ['application/json']
+            request.accept = accept
             request.contentType = contentType
 
             response.success { resp, json ->
@@ -75,6 +75,14 @@ class ApiUtils {
         }   else {
             return clazz.newInstance(object)
         }
+    }
+
+    private def selectHeaderAccept(accepts) {
+        def jsonMime = 'application/json'
+        if (accepts.find { it.toLowerCase().startsWith(jsonMime) }) {
+            return [jsonMime]
+        }
+        return accepts
     }
 
 }
