@@ -13,7 +13,6 @@ part '{{classFilename}}.g.dart';
 }
 {{#discriminator}}{{#hasDiscriminatorWithNonEmptyMapping}}
 {{>serialization/built_value/class_discriminator}}
-
 {{/hasDiscriminatorWithNonEmptyMapping}}{{/discriminator}}
 {{>serialization/built_value/class_serializer}}{{#vendorExtensions.x-is-parent}}
 

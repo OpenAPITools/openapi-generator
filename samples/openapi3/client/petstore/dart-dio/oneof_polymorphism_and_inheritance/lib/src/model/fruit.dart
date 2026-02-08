@@ -46,25 +46,25 @@ abstract class Fruit implements Built<Fruit, FruitBuilder> {
 }
 
 extension FruitDiscriminatorExt on Fruit {
-    String? get discriminatorValue {
+    FruitType get discriminatorValue {
         if (this is Apple) {
-            return r'APPLE';
+            return FruitType.valueOf(r'APPLE');
         }
         if (this is Banana) {
-            return r'BANANA';
+            return FruitType.valueOf(r'BANANA');
         }
-        return null;
+        throw UnsupportedError('Invalid discriminator value for Fruit');
     }
 }
 extension FruitBuilderDiscriminatorExt on FruitBuilder {
-    String? get discriminatorValue {
+    FruitType get discriminatorValue {
         if (this is AppleBuilder) {
-            return r'APPLE';
+            return FruitType.valueOf(r'APPLE');
         }
         if (this is BananaBuilder) {
-            return r'BANANA';
+            return FruitType.valueOf(r'BANANA');
         }
-        return null;
+        throw UnsupportedError('Invalid discriminator value for FruitBuilder');
     }
 }
 
