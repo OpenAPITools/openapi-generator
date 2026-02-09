@@ -581,6 +581,11 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a3.to_dict(), {"xyz": 45.6})
         self.assertEqual(a3.to_json(), "{\"xyz\": 45.6}")
 
+    def test_uuid(self):
+        a = petstore_api.MixedPropertiesAndAdditionalPropertiesClass(uuid='16ce5deb-4464-4712-bff9-1e795a43cc75')
+        self.assertEqual(a.to_dict(), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
+        self.assertEqual(json.loads(a.to_json()), {'uuid': '16ce5deb-4464-4712-bff9-1e795a43cc75'})
+
 class TestUnnamedDictWithAdditionalStringListProperties:
     def test_empty_dict(self):
         a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={})
