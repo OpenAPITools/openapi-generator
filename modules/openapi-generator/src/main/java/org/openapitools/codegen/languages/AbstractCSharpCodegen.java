@@ -848,7 +848,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
             property.isFloat = refModel.isFloat;
             property.isDouble = refModel.isDouble;
             property.isDecimal = refModel.isDecimal;
-            property.isString = refModel.isString;
+            // Note: do NOT propagate isString here. String enum properties
+            // are handled through the isEnum template path, not the isString path.
+            // Setting isString would cause duplicate write statements in anyOf models.
         }
 
         this.patchPropertyIsInherited(model, property);
