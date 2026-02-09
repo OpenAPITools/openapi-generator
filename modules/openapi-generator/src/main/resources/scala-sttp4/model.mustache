@@ -108,6 +108,7 @@ object {{classname}} {
 {{#vendorExtensions.x-oneOfMembers}}
         case "{{classname}}" => "{{vendorExtensions.x-discriminator-value}}"
 {{/vendorExtensions.x-oneOfMembers}}
+        case other => sys.error(s"Invalid {{classname}} discriminant: ${other}")
       }
     )  
   implicit val encoder: Encoder[{{classname}}] = deriveConfiguredEncoder
