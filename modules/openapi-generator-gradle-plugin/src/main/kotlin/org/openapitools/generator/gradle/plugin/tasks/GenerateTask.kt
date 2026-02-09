@@ -646,9 +646,11 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
                 createFileSystemManager().delete(outputDir)
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-                out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
+                if (verbose.getOrElse(true)) {
+                    val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+                    out.withStyle(StyledTextOutput.Style.Success)
+                    out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
+                }
             }
         }
 
@@ -968,12 +970,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
 
             try {
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-
                 DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
 
-                out.println("Successfully generated code to ${outputDir.get()}")
+                if (verbose.getOrElse(true)) {
+                    val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+                    out.withStyle(StyledTextOutput.Style.Success)
+                    out.println("Successfully generated code to ${outputDir.get()}")
+                }
             } catch (e: RuntimeException) {
                 throw GradleException("Code generation failed.", e)
             }
