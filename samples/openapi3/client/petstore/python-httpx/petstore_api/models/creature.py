@@ -21,7 +21,7 @@ from importlib import import_module
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 from typing import TYPE_CHECKING
@@ -34,7 +34,7 @@ class Creature(BaseModel):
     """ # noqa: E501
     info: CreatureInfo
     type: StrictStr
-    __properties: ClassVar[List[str]] = ["info", "type"]
+    __properties: ClassVar[list[str]] = ["info", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,12 +47,12 @@ class Creature(BaseModel):
     __discriminator_property_name: ClassVar[str] = 'type'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+    __discriminator_value_class_map: ClassVar[dict[str, str]] = {
         'Hunting__Dog': 'HuntingDog'
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+    def get_discriminator_value(cls, obj: dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -74,7 +74,7 @@ class Creature(BaseModel):
         """Create an instance of Creature from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -84,7 +84,7 @@ class Creature(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -98,7 +98,7 @@ class Creature(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[HuntingDog]]:
+    def from_dict(cls, obj: dict[str, Any]) -> Optional[Union[HuntingDog]]:
         """Create an instance of Creature from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)

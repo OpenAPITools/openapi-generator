@@ -24,7 +24,7 @@ import tempfile
 import uuid
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict, Union
+from typing import Optional, Union
 from pydantic import SecretStr
 
 from petstore_api.configuration import Configuration
@@ -41,7 +41,7 @@ from petstore_api.exceptions import (
     ServiceException
 )
 
-RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
+RequestSerialized = tuple[str, str, dict[str, str], Optional[str], list[str]]
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -289,7 +289,7 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map: Optional[Dict[str, ApiResponseT]]=None
+        response_types_map: Optional[dict[str, ApiResponseT]]=None
     ) -> ApiResponse[ApiResponseT]:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
@@ -441,16 +441,16 @@ class ApiClient:
             return None
 
         if isinstance(klass, str):
-            if klass.startswith('List['):
-                m = re.match(r'List\[(.*)]', klass)
-                assert m is not None, "Malformed List type definition"
+            if klass.startswith('list['):
+                m = re.match(r'list\[(.*)]', klass)
+                assert m is not None, "Malformed list type definition"
                 sub_kls = m.group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
-            if klass.startswith('Dict['):
-                m = re.match(r'Dict\[([^,]*), (.*)]', klass)
-                assert m is not None, "Malformed Dict type definition"
+            if klass.startswith('dict['):
+                m = re.match(r'dict\[([^,]*), (.*)]', klass)
+                assert m is not None, "Malformed dict type definition"
                 sub_kls = m.group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in data.items()}
@@ -483,7 +483,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: Parameters as list of tuples, collections formatted
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params: list[tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -513,7 +513,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: URL query string (e.g. a=Hello%20World&b=123)
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params: list[tuple[str, str]] = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -547,7 +547,7 @@ class ApiClient:
 
     def files_parameters(
         self,
-        files: Dict[str, Union[str, bytes, List[str], List[bytes], Tuple[str, bytes]]],
+        files: dict[str, Union[str, bytes, list[str], list[bytes], tuple[str, bytes]]],
     ):
         """Builds form parameters.
 
@@ -580,7 +580,7 @@ class ApiClient:
             )
         return params
 
-    def select_header_accept(self, accepts: List[str]) -> Optional[str]:
+    def select_header_accept(self, accepts: list[str]) -> Optional[str]:
         """Returns `Accept` based on an array of accepts provided.
 
         :param accepts: List of headers.

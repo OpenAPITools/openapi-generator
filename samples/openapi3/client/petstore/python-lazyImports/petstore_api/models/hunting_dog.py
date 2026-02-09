@@ -21,7 +21,7 @@ from pydantic import ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature import Creature
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class HuntingDog(Creature):
@@ -29,8 +29,8 @@ class HuntingDog(Creature):
     HuntingDog
     """ # noqa: E501
     is_trained: Optional[StrictBool] = Field(default=None, alias="isTrained")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["info", "type", "isTrained"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["info", "type", "isTrained"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +53,7 @@ class HuntingDog(Creature):
         """Create an instance of HuntingDog from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class HuntingDog(Creature):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -84,7 +84,7 @@ class HuntingDog(Creature):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of HuntingDog from a dict"""
         if obj is None:
             return None

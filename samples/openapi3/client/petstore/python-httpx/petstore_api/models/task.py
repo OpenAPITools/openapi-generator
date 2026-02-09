@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
 from uuid import UUID
 from petstore_api.models.task_activity import TaskActivity
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class Task(BaseModel):
@@ -30,7 +30,7 @@ class Task(BaseModel):
     """ # noqa: E501
     id: UUID
     activity: TaskActivity
-    __properties: ClassVar[List[str]] = ["id", "activity"]
+    __properties: ClassVar[list[str]] = ["id", "activity"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +53,7 @@ class Task(BaseModel):
         """Create an instance of Task from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -63,7 +63,7 @@ class Task(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -77,7 +77,7 @@ class Task(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Task from a dict"""
         if obj is None:
             return None

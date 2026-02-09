@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseModel):
@@ -31,7 +31,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["size", "color", "id", "name"]
+    __properties: ClassVar[list[str]] = ["size", "color", "id", "name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +54,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         """Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -75,7 +75,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a dict"""
         if obj is None:
             return None

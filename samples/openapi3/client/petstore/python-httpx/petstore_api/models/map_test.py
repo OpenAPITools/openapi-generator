@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class MapTest(BaseModel):
@@ -30,7 +30,7 @@ class MapTest(BaseModel):
     map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
-    __properties: ClassVar[List[str]] = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
+    __properties: ClassVar[list[str]] = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @field_validator('map_of_enum_string')
     def map_of_enum_string_validate_enum(cls, value):
@@ -64,7 +64,7 @@ class MapTest(BaseModel):
         """Create an instance of MapTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -74,7 +74,7 @@ class MapTest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -85,7 +85,7 @@ class MapTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MapTest from a dict"""
         if obj is None:
             return None

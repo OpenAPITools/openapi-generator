@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, Stric
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class ArrayTest(BaseModel):
@@ -32,8 +32,8 @@ class ArrayTest(BaseModel):
     array_of_nullable_float: Optional[List[Optional[StrictFloat]]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -56,7 +56,7 @@ class ArrayTest(BaseModel):
         """Create an instance of ArrayTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -67,7 +67,7 @@ class ArrayTest(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -93,7 +93,7 @@ class ArrayTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None

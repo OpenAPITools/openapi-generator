@@ -20,14 +20,14 @@ import json
 from pydantic import ConfigDict
 from typing import Any, ClassVar, Dict, List
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub
     """ # noqa: E501
-    __properties: ClassVar[List[str]] = ["elementType"]
+    __properties: ClassVar[list[str]] = ["elementType"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +50,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
         """Create an instance of DiscriminatorAllOfSub from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -60,7 +60,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -71,7 +71,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DiscriminatorAllOfSub from a dict"""
         if obj is None:
             return None

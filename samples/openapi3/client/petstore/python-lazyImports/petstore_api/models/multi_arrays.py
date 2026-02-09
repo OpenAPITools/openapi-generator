@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.file import File
 from petstore_api.models.tag import Tag
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class MultiArrays(BaseModel):
@@ -30,8 +30,8 @@ class MultiArrays(BaseModel):
     """ # noqa: E501
     tags: Optional[List[Tag]] = None
     files: Optional[List[File]] = Field(default=None, description="Another array of objects in addition to tags (mypy check to not to reuse the same iterator)")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["tags", "files"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["tags", "files"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +54,7 @@ class MultiArrays(BaseModel):
         """Create an instance of MultiArrays from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -65,7 +65,7 @@ class MultiArrays(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -96,7 +96,7 @@ class MultiArrays(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MultiArrays from a dict"""
         if obj is None:
             return None

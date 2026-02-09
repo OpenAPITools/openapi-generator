@@ -19,7 +19,7 @@ import logging
 from logging import FileHandler
 import multiprocessing
 import sys
-from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
+from typing import Any, ClassVar, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
 
 import urllib3
@@ -31,7 +31,7 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
     'minLength', 'pattern', 'maxItems', 'minItems'
 }
 
-ServerVariablesT = Dict[str, str]
+ServerVariablesT = dict[str, str]
 
 GenericAuthSetting = TypedDict(
     "GenericAuthSetting",
@@ -124,13 +124,13 @@ AuthSettings = TypedDict(
 class HostSettingVariable(TypedDict):
     description: str
     default_value: str
-    enum_values: List[str]
+    enum_values: list[str]
 
 
 class HostSetting(TypedDict):
     url: str
     description: str
-    variables: NotRequired[Dict[str, HostSettingVariable]]
+    variables: NotRequired[dict[str, HostSettingVariable]]
 
 
 class Configuration:
@@ -192,15 +192,15 @@ conf = openapi_client.Configuration(
     def __init__(
         self,
         host: Optional[str]=None,
-        api_key: Optional[Dict[str, str]]=None,
-        api_key_prefix: Optional[Dict[str, str]]=None,
+        api_key: Optional[dict[str, str]]=None,
+        api_key_prefix: Optional[dict[str, str]]=None,
         username: Optional[str]=None,
         password: Optional[str]=None,
         access_token: Optional[str]=None,
         server_index: Optional[int]=None,
         server_variables: Optional[ServerVariablesT]=None,
-        server_operation_index: Optional[Dict[int, int]]=None,
-        server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
+        server_operation_index: Optional[dict[int, int]]=None,
+        server_operation_variables: Optional[dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
         retries: Optional[Union[int, Any]] = None,
@@ -337,7 +337,7 @@ conf = openapi_client.Configuration(
         """date format
         """
 
-    def __deepcopy__(self, memo:  Dict[int, Any]) -> Self:
+    def __deepcopy__(self, memo:  dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
@@ -543,7 +543,7 @@ conf = openapi_client.Configuration(
                "SDK Package Version: 1.0.0".\
                format(env=sys.platform, pyversion=sys.version)
 
-    def get_host_settings(self) -> List[HostSetting]:
+    def get_host_settings(self) -> list[HostSetting]:
         """Gets an array of host settings
 
         :return: An array of host settings
@@ -559,7 +559,7 @@ conf = openapi_client.Configuration(
         self,
         index: Optional[int],
         variables: Optional[ServerVariablesT]=None,
-        servers: Optional[List[HostSetting]]=None,
+        servers: Optional[list[HostSetting]]=None,
     ) -> str:
         """Gets host URL based on the index and variables
         :param index: array index of the host settings

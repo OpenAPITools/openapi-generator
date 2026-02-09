@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class HasOnlyReadOnly(BaseModel):
@@ -28,8 +28,8 @@ class HasOnlyReadOnly(BaseModel):
     """ # noqa: E501
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["bar", "foo"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["bar", "foo"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +52,7 @@ class HasOnlyReadOnly(BaseModel):
         """Create an instance of HasOnlyReadOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -65,7 +65,7 @@ class HasOnlyReadOnly(BaseModel):
         * OpenAPI `readOnly` fields are excluded.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "bar",
             "foo",
             "additional_properties",
@@ -84,7 +84,7 @@ class HasOnlyReadOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of HasOnlyReadOnly from a dict"""
         if obj is None:
             return None

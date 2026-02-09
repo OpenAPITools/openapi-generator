@@ -20,7 +20,7 @@ import json
 from pydantic import ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class Dog(Animal):
@@ -28,7 +28,7 @@ class Dog(Animal):
     Dog
     """ # noqa: E501
     breed: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["className", "color", "breed"]
+    __properties: ClassVar[list[str]] = ["className", "color", "breed"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +51,7 @@ class Dog(Animal):
         """Create an instance of Dog from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -61,7 +61,7 @@ class Dog(Animal):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -72,7 +72,7 @@ class Dog(Animal):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Dog from a dict"""
         if obj is None:
             return None

@@ -21,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class WithNestedOneOf(BaseModel):
@@ -31,7 +31,7 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    __properties: ClassVar[List[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
+    __properties: ClassVar[list[str]] = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +54,7 @@ class WithNestedOneOf(BaseModel):
         """Create an instance of WithNestedOneOf from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class WithNestedOneOf(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -78,7 +78,7 @@ class WithNestedOneOf(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of WithNestedOneOf from a dict"""
         if obj is None:
             return None

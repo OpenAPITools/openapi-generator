@@ -22,7 +22,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from uuid import UUID
 from petstore_api.models.animal import Animal
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
@@ -32,8 +32,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     uuid: Optional[UUID] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["uuid", "dateTime", "map"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["uuid", "dateTime", "map"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -56,7 +56,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -67,7 +67,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -91,7 +91,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a dict"""
         if obj is None:
             return None
