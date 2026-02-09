@@ -864,6 +864,92 @@ public class SpringCodegenTest {
                 .implementsInterfaces(fooInterface, fooAnotherInterface);
     }
 
+
+    @Test
+    public void shouldHandleFormatByteCorrectlyForAllApiParametersAndProperties() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/byte-format-edge-cases.yaml");
+        // Query parameters: both plain text and Base64-encoded fields are mapped to String
+        JavaFileAssert.assertThat(files.get("QueryApi.java"))
+                .assertMethod("queryParams")
+                .assertParameter("plain")
+                .hasType("String");   // plain query param → always String
+        JavaFileAssert.assertThat(files.get("QueryApi.java"))
+                .assertMethod("queryParams")
+                .assertParameter("_byte")
+                .hasType("String");   // Base64 query param → String (manual decoding needed)
+
+        // Path parameters: same behavior as query params
+        JavaFileAssert.assertThat(files.get("PathApi.java"))
+                .assertMethod("pathParams")
+                .assertParameter("plain")
+                .hasType("String");   // path param → String
+        JavaFileAssert.assertThat(files.get("PathApi.java"))
+                .assertMethod("pathParams")
+                .assertParameter("_byte")
+                .hasType("String");   // Base64 path param → String
+
+        // Header parameters: always String
+        JavaFileAssert.assertThat(files.get("HeaderApi.java"))
+                .assertMethod("headerParams")
+                .assertParameter("xPlain")
+                .hasType("String");   // header → String
+        JavaFileAssert.assertThat(files.get("HeaderApi.java"))
+                .assertMethod("headerParams")
+                .assertParameter("xByte")
+                .hasType("String");   // Base64 header → String
+
+        // Cookie parameters: always String
+        JavaFileAssert.assertThat(files.get("CookieApi.java"))
+                .assertMethod("cookieParams")
+                .assertParameter("plain")
+                .hasType("String");   // cookie → String
+        JavaFileAssert.assertThat(files.get("CookieApi.java"))
+                .assertMethod("cookieParams")
+                .assertParameter("_byte")
+                .hasType("String");   // Base64 cookie → String
+
+        // Form fields: text fields → String
+        JavaFileAssert.assertThat(files.get("FormApi.java"))
+                .assertMethod("formParams")
+                .assertParameter("plain")
+                .hasType("String");   // form field → String
+        JavaFileAssert.assertThat(files.get("FormApi.java"))
+                .assertMethod("formParams")
+                .assertParameter("_byte")
+                .hasType("String");   // Base64 form field → String
+
+        // Multipart fields: text fields → String, files → MultipartFile
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("plain")
+                .hasType("String");   // multipart text field → String
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("_byte")
+                .hasType("String");   // Base64 multipart text → String
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("file")
+                .hasType("MultipartFile");   // binary file upload → MultipartFile
+
+        // Form request DTO: JSON or form object mapping
+        JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
+                .assertProperty("plain")
+                .withType("String");  // text property → String
+        JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
+                .assertProperty("_byte")
+                .isArray()
+                .withType("byte");  // Base64 property in DTO → auto-decoded to byte[]
+
+        // Binary request body: bound as Resource for streaming
+        JavaFileAssert.assertThat(files.get("BinaryBodyApi.java"))
+                .assertMethod("binaryBody")
+                .assertParameter("body")
+                .hasType("org.springframework.core.io.Resource");  // raw binary body → Resource (streamable)
+    }
+
     @Test
     public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
