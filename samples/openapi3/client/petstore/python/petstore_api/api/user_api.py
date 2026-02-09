@@ -17,7 +17,6 @@ from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import List
 from typing_extensions import Annotated
 from petstore_api.models.user import User
 
@@ -311,7 +310,7 @@ class UserApi:
     @validate_call
     def create_users_with_array_input(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -330,7 +329,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -377,7 +376,7 @@ class UserApi:
     @validate_call
     def create_users_with_array_input_with_http_info(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -396,7 +395,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -443,7 +442,7 @@ class UserApi:
     @validate_call
     def create_users_with_array_input_without_preload_content(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -462,7 +461,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -575,7 +574,7 @@ class UserApi:
     @validate_call
     def create_users_with_list_input(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -594,7 +593,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -641,7 +640,7 @@ class UserApi:
     @validate_call
     def create_users_with_list_input_with_http_info(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -660,7 +659,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -707,7 +706,7 @@ class UserApi:
     @validate_call
     def create_users_with_list_input_without_preload_content(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -726,7 +725,7 @@ class UserApi:
         
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

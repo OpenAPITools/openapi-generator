@@ -18,7 +18,7 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Any, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2

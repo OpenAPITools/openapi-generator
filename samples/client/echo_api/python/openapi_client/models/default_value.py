@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from openapi_client.models.string_enum_ref import StringEnumRef
 from typing import Optional
 from typing_extensions import Self
@@ -28,13 +28,13 @@ class DefaultValue(BaseModel):
     """
     to test the default value of properties
     """ # noqa: E501
-    array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
-    array_string_enum_default: Optional[List[StrictStr]] = None
-    array_string_default: Optional[List[StrictStr]] = None
-    array_integer_default: Optional[List[StrictInt]] = None
-    array_string: Optional[List[StrictStr]] = None
-    array_string_nullable: Optional[List[StrictStr]] = None
-    array_string_extension_nullable: Optional[List[StrictStr]] = None
+    array_string_enum_ref_default: Optional[list[StringEnumRef]] = None
+    array_string_enum_default: Optional[list[StrictStr]] = None
+    array_string_default: Optional[list[StrictStr]] = None
+    array_integer_default: Optional[list[StrictInt]] = None
+    array_string: Optional[list[StrictStr]] = None
+    array_string_nullable: Optional[list[StrictStr]] = None
+    array_string_extension_nullable: Optional[list[StrictStr]] = None
     string_nullable: Optional[StrictStr] = None
     __properties: ClassVar[list[str]] = ["array_string_enum_ref_default", "array_string_enum_default", "array_string_default", "array_integer_default", "array_string", "array_string_nullable", "array_string_extension_nullable", "string_nullable"]
 

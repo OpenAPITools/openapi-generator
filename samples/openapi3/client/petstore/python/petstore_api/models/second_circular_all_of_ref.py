@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class SecondCircularAllOfRef(BaseModel):
     SecondCircularAllOfRef
     """ # noqa: E501
     name: Optional[StrictStr] = Field(default=None, alias="_name")
-    circular_all_of_ref: Optional[List[CircularAllOfRef]] = Field(default=None, alias="circularAllOfRef")
+    circular_all_of_ref: Optional[list[CircularAllOfRef]] = Field(default=None, alias="circularAllOfRef")
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["_name", "circularAllOfRef"]
 

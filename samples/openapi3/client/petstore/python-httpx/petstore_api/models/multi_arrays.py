@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.file import File
 from petstore_api.models.tag import Tag
 from typing import Optional
@@ -28,8 +28,8 @@ class MultiArrays(BaseModel):
     """
     MultiArrays
     """ # noqa: E501
-    tags: Optional[List[Tag]] = None
-    files: Optional[List[File]] = Field(default=None, description="Another array of objects in addition to tags (mypy check to not to reuse the same iterator)")
+    tags: Optional[list[Tag]] = None
+    files: Optional[list[File]] = Field(default=None, description="Another array of objects in addition to tags (mypy check to not to reuse the same iterator)")
     __properties: ClassVar[list[str]] = ["tags", "files"]
 
     model_config = ConfigDict(

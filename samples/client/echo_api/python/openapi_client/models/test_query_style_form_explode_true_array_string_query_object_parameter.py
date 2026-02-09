@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     """
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
     """ # noqa: E501
-    values: Optional[List[StrictStr]] = None
+    values: Optional[list[StrictStr]] = None
     __properties: ClassVar[list[str]] = ["values"]
 
     model_config = ConfigDict(

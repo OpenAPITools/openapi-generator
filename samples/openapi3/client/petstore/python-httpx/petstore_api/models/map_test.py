@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -26,10 +26,10 @@ class MapTest(BaseModel):
     """
     MapTest
     """ # noqa: E501
-    map_map_of_string: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_enum_string: Optional[Dict[str, StrictStr]] = None
-    direct_map: Optional[Dict[str, StrictBool]] = None
-    indirect_map: Optional[Dict[str, StrictBool]] = None
+    map_map_of_string: Optional[dict[str, dict[str, StrictStr]]] = None
+    map_of_enum_string: Optional[dict[str, StrictStr]] = None
+    direct_map: Optional[dict[str, StrictBool]] = None
+    indirect_map: Optional[dict[str, StrictBool]] = None
     __properties: ClassVar[list[str]] = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @field_validator('map_of_enum_string')

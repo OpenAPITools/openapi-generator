@@ -45,7 +45,7 @@ def find_pets_by_status(status):  # noqa: E501
     :param status: Status values that need to be considered for filter
     :type status: list[str]
 
-    :rtype: Union[List[Pet], tuple[List[Pet], int], tuple[List[Pet], int, dict[str, str]]
+    :rtype: Union[list[Pet], tuple[list[Pet], int], tuple[list[Pet], int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -58,7 +58,7 @@ def find_pets_by_tags(tags):  # noqa: E501
     :param tags: Tags to filter by
     :type tags: list[str]
 
-    :rtype: Union[List[Pet], tuple[List[Pet], int], tuple[List[Pet], int, dict[str, str]]
+    :rtype: Union[list[Pet], tuple[list[Pet], int], tuple[list[Pet], int, dict[str, str]]
     """
     return 'do some magic!'
 

@@ -16,26 +16,26 @@ from __future__ import annotations
 import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
+from typing import Any, Optional
 from typing_extensions import Annotated
 from pydantic import StrictStr, Field
 from typing import Union, Optional
 from typing_extensions import Literal, Self
 
-COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
+COLOR_ONE_OF_SCHEMAS = ["list[int]", "str"]
 
 class Color(BaseModel):
     """
     RGB array, RGBA array, or hex string.
     """
-    # data type: List[int]
-    oneof_schema_1_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=3, max_length=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
-    # data type: List[int]
-    oneof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=4, max_length=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
+    # data type: list[int]
+    oneof_schema_1_validator: Optional[Annotated[list[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=3, max_length=3)]] = Field(default=None, description="RGB three element array with values 0-255.")
+    # data type: list[int]
+    oneof_schema_2_validator: Optional[Annotated[list[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=4, max_length=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
     oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
-    actual_instance: Optional[Union[List[int], str]] = None
-    one_of_schemas: set[str] = { "List[int]", "str" }
+    actual_instance: Optional[Union[list[int], str]] = None
+    one_of_schemas: set[str] = { "list[int]", "str" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -61,13 +61,13 @@ class Color(BaseModel):
         instance = Color.model_construct()
         error_messages = []
         match = 0
-        # validate data type: List[int]
+        # validate data type: list[int]
         try:
             instance.oneof_schema_1_validator = v
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # validate data type: List[int]
+        # validate data type: list[int]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
@@ -81,10 +81,10 @@ class Color(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -102,7 +102,7 @@ class Color(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into List[int]
+        # deserialize data into list[int]
         try:
             # validation
             instance.oneof_schema_1_validator = json.loads(json_str)
@@ -111,7 +111,7 @@ class Color(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into List[int]
+        # deserialize data into list[int]
         try:
             # validation
             instance.oneof_schema_2_validator = json.loads(json_str)
@@ -132,10 +132,10 @@ class Color(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -149,7 +149,7 @@ class Color(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[dict[str, Any], List[int], str]]:
+    def to_dict(self) -> Optional[Union[dict[str, Any], list[int], str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

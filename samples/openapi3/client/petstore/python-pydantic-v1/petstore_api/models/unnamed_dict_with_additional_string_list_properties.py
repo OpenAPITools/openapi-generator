@@ -18,14 +18,14 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr, conlist
 
 class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties
     """
-    dict_property: Optional[Dict[str, conlist(StrictStr)]] = Field(default=None, alias="dictProperty")
+    dict_property: Optional[dict[str, conlist(StrictStr)]] = Field(default=None, alias="dictProperty")
     additional_properties: dict[str, Any] = {}
     __properties = ["dictProperty"]
 

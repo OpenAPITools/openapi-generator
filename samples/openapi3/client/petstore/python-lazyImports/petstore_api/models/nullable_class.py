@@ -19,7 +19,7 @@ import json
 
 from datetime import date, datetime
 from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -34,12 +34,12 @@ class NullableClass(BaseModel):
     string_prop: Optional[StrictStr] = None
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
-    array_nullable_prop: Optional[List[Dict[str, Any]]] = None
-    array_and_items_nullable_prop: Optional[List[Optional[Dict[str, Any]]]] = None
-    array_items_nullable: Optional[List[Optional[Dict[str, Any]]]] = None
-    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_and_items_nullable_prop: Optional[Dict[str, Optional[Dict[str, Any]]]] = None
-    object_items_nullable: Optional[Dict[str, Optional[Dict[str, Any]]]] = None
+    array_nullable_prop: Optional[list[dict[str, Any]]] = None
+    array_and_items_nullable_prop: Optional[list[Optional[dict[str, Any]]]] = None
+    array_items_nullable: Optional[list[Optional[dict[str, Any]]]] = None
+    object_nullable_prop: Optional[dict[str, dict[str, Any]]] = None
+    object_and_items_nullable_prop: Optional[dict[str, Optional[dict[str, Any]]]] = None
+    object_items_nullable: Optional[dict[str, Optional[dict[str, Any]]]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 

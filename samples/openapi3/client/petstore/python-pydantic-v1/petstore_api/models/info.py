@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from petstore_api.models.base_discriminator import BaseDiscriminator
 

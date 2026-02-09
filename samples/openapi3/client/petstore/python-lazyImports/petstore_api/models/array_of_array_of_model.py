@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.tag import Tag
 from typing import Optional
 from typing_extensions import Self
@@ -27,7 +27,7 @@ class ArrayOfArrayOfModel(BaseModel):
     """
     ArrayOfArrayOfModel
     """ # noqa: E501
-    another_property: Optional[List[List[Tag]]] = None
+    another_property: Optional[list[list[Tag]]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["another_property"]
 

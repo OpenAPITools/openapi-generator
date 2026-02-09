@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -26,7 +26,7 @@ class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly
     """ # noqa: E501
-    array_number: Optional[List[StrictFloat]] = Field(default=None, alias="ArrayNumber")
+    array_number: Optional[list[StrictFloat]] = Field(default=None, alias="ArrayNumber")
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["ArrayNumber"]
 

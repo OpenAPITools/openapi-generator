@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.file import File
 from typing import Optional
 from typing_extensions import Self
@@ -28,7 +28,7 @@ class FileSchemaTestClass(BaseModel):
     FileSchemaTestClass
     """ # noqa: E501
     file: Optional[File] = None
-    files: Optional[List[File]] = None
+    files: Optional[list[File]] = None
     __properties: ClassVar[list[str]] = ["file", "files"]
 
     model_config = ConfigDict(

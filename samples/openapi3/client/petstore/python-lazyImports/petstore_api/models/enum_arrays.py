@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class EnumArrays(BaseModel):
     EnumArrays
     """ # noqa: E501
     just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[List[StrictStr]] = None
+    array_enum: Optional[list[StrictStr]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["just_symbol", "array_enum"]
 

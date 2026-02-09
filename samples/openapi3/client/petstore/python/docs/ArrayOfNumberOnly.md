@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**array_number** | **List[float]** |  | [optional] 
+**array_number** | **list[float]** |  | [optional] 
 
 ## Example
 

@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
 from typing import Optional
@@ -32,8 +32,8 @@ class Pet(BaseModel):
     id: Optional[StrictInt] = None
     name: StrictStr
     category: Optional[Category] = None
-    photo_urls: List[StrictStr] = Field(alias="photoUrls")
-    tags: Optional[List[Tag]] = None
+    photo_urls: list[StrictStr] = Field(alias="photoUrls")
+    tags: Optional[list[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
     __properties: ClassVar[list[str]] = ["id", "name", "category", "photoUrls", "tags", "status"]
 

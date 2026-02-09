@@ -19,7 +19,7 @@ import json
 
 from importlib import import_module
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Union
+from typing import Any, ClassVar, Union
 from petstore_api.models.creature_info import CreatureInfo
 from typing import Optional
 from typing_extensions import Self

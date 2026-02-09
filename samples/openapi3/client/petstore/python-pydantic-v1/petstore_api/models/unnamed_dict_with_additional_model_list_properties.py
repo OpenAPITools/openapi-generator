@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, conlist
 from petstore_api.models.creature_info import CreatureInfo
 
@@ -26,7 +26,7 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalModelListProperties
     """
-    dict_property: Optional[Dict[str, conlist(CreatureInfo)]] = Field(default=None, alias="dictProperty")
+    dict_property: Optional[dict[str, conlist(CreatureInfo)]] = Field(default=None, alias="dictProperty")
     additional_properties: dict[str, Any] = {}
     __properties = ["dictProperty"]
 

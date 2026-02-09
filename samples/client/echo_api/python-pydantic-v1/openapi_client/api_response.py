@@ -1,7 +1,7 @@
 """API response object."""
 
 from __future__ import annotations
-from typing import Any, dict, Optional
+from typing import Any, Optional
 from pydantic import Field, StrictInt, StrictStr
 
 class ApiResponse:

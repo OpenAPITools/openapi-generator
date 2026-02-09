@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.tag import Tag
 from typing import Optional
 from typing_extensions import Self
@@ -27,7 +27,7 @@ class InputAllOf(BaseModel):
     """
     InputAllOf
     """ # noqa: E501
-    some_data: Optional[Dict[str, Tag]] = None
+    some_data: Optional[dict[str, Tag]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["some_data"]
 

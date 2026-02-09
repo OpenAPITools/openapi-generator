@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -26,7 +26,7 @@ class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """ # noqa: E501
-    a_property: Optional[Dict[str, Any]] = Field(default=None, alias="aProperty")
+    a_property: Optional[dict[str, Any]] = Field(default=None, alias="aProperty")
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["aProperty"]
 

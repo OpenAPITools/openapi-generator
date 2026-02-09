@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
@@ -26,7 +26,7 @@ class Parent(BaseModel):
     """
     Parent
     """
-    optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
+    optional_dict: Optional[dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     additional_properties: dict[str, Any] = {}
     __properties = ["optionalDict"]
 

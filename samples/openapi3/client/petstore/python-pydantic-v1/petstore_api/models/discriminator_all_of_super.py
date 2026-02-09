@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Union
+from typing import Any, Union
 from pydantic import BaseModel, Field, StrictStr
 
 from typing import TYPE_CHECKING

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, List, Optional
+from typing import Optional
 from pydantic import BaseModel, Field, conlist
 from petstore_api.models.tag import Tag
 
@@ -26,7 +26,7 @@ class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
     """
-    shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
+    shop_id_to_org_online_lip_map: Optional[dict[str, conlist(Tag)]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties = ["shopIdToOrgOnlineLipMap"]
 
     class Config:

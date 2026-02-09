@@ -17,7 +17,6 @@ from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictInt, StrictStr
-from typing import Dict
 from typing_extensions import Annotated
 from petstore_api.models.order import Order
 
@@ -310,7 +309,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, int]:
+    ) -> dict[str, int]:
         """Returns pet inventories by status
 
         Returns a map of status codes to quantities
@@ -345,7 +344,7 @@ class StoreApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "Dict[str, int]",
+            '200': "dict[str, int]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -373,7 +372,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, int]]:
+    ) -> ApiResponse[dict[str, int]]:
         """Returns pet inventories by status
 
         Returns a map of status codes to quantities
@@ -408,7 +407,7 @@ class StoreApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "Dict[str, int]",
+            '200': "dict[str, int]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -471,7 +470,7 @@ class StoreApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "Dict[str, int]",
+            '200': "dict[str, int]",
         }
         response_data = await self.api_client.call_api(
             *_param,

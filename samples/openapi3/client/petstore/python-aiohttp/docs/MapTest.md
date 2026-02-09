@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_map_of_string** | **Dict[str, Dict[str, str]]** |  | [optional] 
-**map_of_enum_string** | **Dict[str, str]** |  | [optional] 
-**direct_map** | **Dict[str, bool]** |  | [optional] 
-**indirect_map** | **Dict[str, bool]** |  | [optional] 
+**map_map_of_string** | **dict[str, dict[str, str]]** |  | [optional] 
+**map_of_enum_string** | **dict[str, str]** |  | [optional] 
+**direct_map** | **dict[str, bool]** |  | [optional] 
+**indirect_map** | **dict[str, bool]** |  | [optional] 
 
 ## Example
 

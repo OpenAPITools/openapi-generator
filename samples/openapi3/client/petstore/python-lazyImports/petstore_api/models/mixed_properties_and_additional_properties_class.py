@@ -19,7 +19,7 @@ import json
 
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from uuid import UUID
 from petstore_api.models.animal import Animal
 from typing import Optional
@@ -31,7 +31,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """ # noqa: E501
     uuid: Optional[UUID] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
-    map: Optional[Dict[str, Animal]] = None
+    map: Optional[dict[str, Animal]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["uuid", "dateTime", "map"]
 

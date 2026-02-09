@@ -18,7 +18,7 @@ from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBytes, StrictStr
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
@@ -290,7 +290,7 @@ class BodyApi:
     @validate_call
     def test_body_application_octetstream_binary(
         self,
-        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        body: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -357,7 +357,7 @@ class BodyApi:
     @validate_call
     def test_body_application_octetstream_binary_with_http_info(
         self,
-        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        body: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -424,7 +424,7 @@ class BodyApi:
     @validate_call
     def test_body_application_octetstream_binary_without_preload_content(
         self,
-        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        body: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -571,7 +571,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_array_of_binary(
         self,
-        files: List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]],
+        files: list[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -590,7 +590,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: list[bytearray]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -638,7 +638,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_array_of_binary_with_http_info(
         self,
-        files: List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]],
+        files: list[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -657,7 +657,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: list[bytearray]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -705,7 +705,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_array_of_binary_without_preload_content(
         self,
-        files: List[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]],
+        files: list[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -724,7 +724,7 @@ class BodyApi:
         Test array of binary in multipart mime
 
         :param files: (required)
-        :type files: List[bytearray]
+        :type files: list[bytearray]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -845,7 +845,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_single_binary(
         self,
-        my_file: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        my_file: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -912,7 +912,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_single_binary_with_http_info(
         self,
-        my_file: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        my_file: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -979,7 +979,7 @@ class BodyApi:
     @validate_call
     def test_body_multipart_formdata_single_binary_without_preload_content(
         self,
-        my_file: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
+        my_file: Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1391,7 +1391,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_free_form_object_response_string(
         self,
-        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        body: Annotated[Optional[dict[str, Any]], Field(description="Free form object")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1458,7 +1458,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_free_form_object_response_string_with_http_info(
         self,
-        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        body: Annotated[Optional[dict[str, Any]], Field(description="Free form object")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1525,7 +1525,7 @@ class BodyApi:
     @validate_call
     def test_echo_body_free_form_object_response_string_without_preload_content(
         self,
-        body: Annotated[Optional[Dict[str, Any]], Field(description="Free form object")] = None,
+        body: Annotated[Optional[dict[str, Any]], Field(description="Free form object")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],

@@ -23,7 +23,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
@@ -85,7 +85,7 @@ async def add_pet(
 @router.get(
     "/pet/findByStatus",
     responses={
-        200: {"model": List[Pet], "description": "successful operation"},
+        200: {"model": list[Pet], "description": "successful operation"},
         400: {"description": "Invalid status value"},
     },
     tags=["pet"],
@@ -93,11 +93,11 @@ async def add_pet(
     response_model_by_alias=True,
 )
 async def find_pets_by_status(
-    status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
+    status: Annotated[list[StrictStr], Field(description="Status values that need to be considered for filter")] = Query(None, description="Status values that need to be considered for filter", alias="status"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
-) -> List[Pet]:
+) -> list[Pet]:
     """Multiple status values can be provided with comma separated strings"""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
@@ -107,7 +107,7 @@ async def find_pets_by_status(
 @router.get(
     "/pet/findByTags",
     responses={
-        200: {"model": List[Pet], "description": "successful operation"},
+        200: {"model": list[Pet], "description": "successful operation"},
         400: {"description": "Invalid tag value"},
     },
     tags=["pet"],
@@ -115,11 +115,11 @@ async def find_pets_by_status(
     response_model_by_alias=True,
 )
 async def find_pets_by_tags(
-    tags: Annotated[List[StrictStr], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
+    tags: Annotated[list[StrictStr], Field(description="Tags to filter by")] = Query(None, description="Tags to filter by", alias="tags"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
-) -> List[Pet]:
+) -> list[Pet]:
     """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."""
     if not BasePetApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")
@@ -206,7 +206,7 @@ async def delete_pet(
 async def upload_file(
     petId: Annotated[StrictInt, Field(description="ID of pet to update")] = Path(..., description="ID of pet to update"),
     additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = Form(None, description="Additional data to pass to server"),
-    file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = Form(None, description="file to upload"),
+    file: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = Form(None, description="file to upload"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["write:pets", "read:pets"]
     ),

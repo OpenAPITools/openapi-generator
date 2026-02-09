@@ -18,7 +18,7 @@ from typing_extensions import Annotated
 
 from datetime import date, datetime
 from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 from uuid import UUID
 from petstore_api.models.client import Client
@@ -57,7 +57,7 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -123,7 +123,7 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body_with_http_info(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -189,7 +189,7 @@ class FakeApi:
     @validate_call
     async def fake_any_type_request_body_without_preload_content(
         self,
-        body: Optional[Dict[str, Any]] = None,
+        body: Optional[dict[str, Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2204,7 +2204,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2225,7 +2225,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2275,7 +2275,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_with_http_info(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2296,7 +2296,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2346,7 +2346,7 @@ class FakeApi:
     async def fake_property_enum_integer_serialize_without_preload_content(
         self,
         outer_object_with_enum_property: Annotated[OuterObjectWithEnumProperty, Field(description="Input enum (int) as post body")],
-        param: Optional[List[OuterEnumInteger]] = None,
+        param: Optional[list[OuterEnumInteger]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2367,7 +2367,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4200,7 +4200,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[List[Tag]]:
+    ) -> list[list[Tag]]:
         """test returning list of objects
 
 
@@ -4234,7 +4234,7 @@ class FakeApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4262,7 +4262,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[List[Tag]]]:
+    ) -> ApiResponse[list[list[Tag]]]:
         """test returning list of objects
 
 
@@ -4296,7 +4296,7 @@ class FakeApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4358,7 +4358,7 @@ class FakeApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]",
+            '200': "list[list[Tag]]",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5166,7 +5166,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5185,7 +5185,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5233,7 +5233,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_with_http_info(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5252,7 +5252,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5300,7 +5300,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[dict[str, Any], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5319,7 +5319,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5432,7 +5432,7 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5499,7 +5499,7 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary_with_http_info(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5566,7 +5566,7 @@ class FakeApi:
     @validate_call
     async def test_body_with_binary_without_preload_content(
         self,
-        body: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
+        body: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="image to upload")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7060,7 +7060,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -7184,7 +7184,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -7308,7 +7308,7 @@ class FakeApi:
         int64: Annotated[Optional[StrictInt], Field(description="None")] = None,
         var_float: Annotated[Optional[Annotated[float, Field(le=987.6)]], Field(description="None")] = None,
         string: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="None")] = None,
-        binary: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
+        binary: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="None")] = None,
         byte_with_max_length: Annotated[Optional[Union[Annotated[bytes, Field(strict=True, max_length=64)], Annotated[str, Field(strict=True, max_length=64)]]], Field(description="None")] = None,
         var_date: Annotated[Optional[date], Field(description="None")] = None,
         date_time: Annotated[Optional[datetime], Field(description="None")] = None,
@@ -8116,7 +8116,7 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8135,7 +8135,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8183,7 +8183,7 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties_with_http_info(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8202,7 +8202,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8250,7 +8250,7 @@ class FakeApi:
     @validate_call
     async def test_inline_additional_properties_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8269,7 +8269,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9192,13 +9192,13 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9217,19 +9217,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9283,13 +9283,13 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format_with_http_info(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9308,19 +9308,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9374,13 +9374,13 @@ class FakeApi:
     @validate_call
     async def test_query_parameter_collection_format_without_preload_content(
         self,
-        pipe: List[StrictStr],
-        ioutil: List[StrictStr],
-        http: List[StrictStr],
-        url: List[StrictStr],
-        context: List[StrictStr],
+        pipe: list[StrictStr],
+        ioutil: list[StrictStr],
+        http: list[StrictStr],
+        url: list[StrictStr],
+        context: list[StrictStr],
         allow_empty: StrictStr,
-        language: Optional[Dict[str, StrictStr]] = None,
+        language: Optional[dict[str, StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9399,19 +9399,19 @@ class FakeApi:
         To test the collection format in query parameters
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9554,7 +9554,7 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9573,7 +9573,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9621,7 +9621,7 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference_with_http_info(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9640,7 +9640,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9688,7 +9688,7 @@ class FakeApi:
     @validate_call
     async def test_string_map_reference_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, StrictStr], Field(description="request body")],
+        request_body: Annotated[dict[str, StrictStr], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9707,7 +9707,7 @@ class FakeApi:
         
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9820,7 +9820,7 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
@@ -9895,7 +9895,7 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties_with_http_info(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[
@@ -9970,7 +9970,7 @@ class FakeApi:
     @validate_call
     async def upload_file_with_additional_properties_without_preload_content(
         self,
-        file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         object: Optional[UploadFileWithAdditionalPropertiesRequestObject] = None,
         count: Annotated[Optional[StrictInt], Field(description="Integer count")] = None,
         _request_timeout: Union[

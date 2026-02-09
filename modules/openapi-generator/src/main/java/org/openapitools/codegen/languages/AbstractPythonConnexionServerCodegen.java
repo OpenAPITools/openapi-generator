@@ -100,10 +100,10 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         MAPPER.registerModule(simpleModule);
 
         // TODO may remove these later to default to the setting in abstract python base class instead
-        languageSpecificPrimitives.add("List");
-        languageSpecificPrimitives.add("Dict");
-        typeMapping.put("array", "List");
-        typeMapping.put("map", "Dict");
+        languageSpecificPrimitives.add("list");
+        languageSpecificPrimitives.add("dict");
+        typeMapping.put("array", "list");
+        typeMapping.put("map", "dict");
 
         // set the output folder here
         outputFolder = "generated-code" + File.separatorChar + "connexion";

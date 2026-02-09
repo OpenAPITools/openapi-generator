@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictFloat, StrictInt, StrictStr, conlist
 
 class NullableClass(BaseModel):
@@ -32,12 +32,12 @@ class NullableClass(BaseModel):
     string_prop: Optional[StrictStr] = None
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
-    array_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_and_items_nullable_prop: Optional[conlist(Dict[str, Any])] = None
-    array_items_nullable: Optional[conlist(Dict[str, Any])] = None
-    object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
-    object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
+    array_nullable_prop: Optional[conlist(dict[str, Any])] = None
+    array_and_items_nullable_prop: Optional[conlist(dict[str, Any])] = None
+    array_items_nullable: Optional[conlist(dict[str, Any])] = None
+    object_nullable_prop: Optional[dict[str, dict[str, Any]]] = None
+    object_and_items_nullable_prop: Optional[dict[str, dict[str, Any]]] = None
+    object_items_nullable: Optional[dict[str, dict[str, Any]]] = None
     additional_properties: dict[str, Any] = {}
     __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 

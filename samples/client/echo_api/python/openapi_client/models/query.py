@@ -19,7 +19,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -28,7 +28,7 @@ class Query(BaseModel):
     Query
     """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
-    outcomes: Optional[List[StrictStr]] = None
+    outcomes: Optional[list[StrictStr]] = None
     __properties: ClassVar[list[str]] = ["id", "outcomes"]
 
     @field_validator('outcomes')

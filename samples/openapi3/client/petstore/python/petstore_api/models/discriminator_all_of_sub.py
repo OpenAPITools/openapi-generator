@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import ConfigDict
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
 from typing import Optional
 from typing_extensions import Self

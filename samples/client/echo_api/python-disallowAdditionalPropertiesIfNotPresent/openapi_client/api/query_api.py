@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 
 from datetime import date, datetime
 from pydantic import StrictBool, StrictInt, StrictStr, field_validator
-from typing import Any, List, Optional
+from typing import Any, Optional
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
@@ -1458,7 +1458,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1477,7 +1477,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1525,7 +1525,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer_with_http_info(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1544,7 +1544,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1592,7 +1592,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer_without_preload_content(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1611,7 +1611,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1721,7 +1721,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1740,7 +1740,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1788,7 +1788,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string_with_http_info(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1807,7 +1807,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1855,7 +1855,7 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string_without_preload_content(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1874,7 +1874,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2771,7 +2771,7 @@ class QueryApi:
     def test_query_style_json_serialization_object(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2792,7 +2792,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2842,7 +2842,7 @@ class QueryApi:
     def test_query_style_json_serialization_object_with_http_info(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2863,7 +2863,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2913,7 +2913,7 @@ class QueryApi:
     def test_query_style_json_serialization_object_without_preload_content(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2934,7 +2934,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -26,8 +26,8 @@ class AdditionalPropertiesClass(BaseModel):
     """
     AdditionalPropertiesClass
     """ # noqa: E501
-    map_property: Optional[Dict[str, StrictStr]] = None
-    map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
+    map_property: Optional[dict[str, StrictStr]] = None
+    map_of_map_property: Optional[dict[str, dict[str, StrictStr]]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["map_property", "map_of_map_property"]
 

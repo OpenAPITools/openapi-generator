@@ -24,7 +24,7 @@ def get_inventory():  # noqa: E501
     Returns a map of status codes to quantities # noqa: E501
 
 
-    :rtype: Union[Dict[str, int], tuple[Dict[str, int], int], tuple[Dict[str, int], int, dict[str, str]]
+    :rtype: Union[dict[str, int], tuple[dict[str, int], int], tuple[dict[str, int], int, dict[str, str]]
     """
     return 'do some magic!'
 

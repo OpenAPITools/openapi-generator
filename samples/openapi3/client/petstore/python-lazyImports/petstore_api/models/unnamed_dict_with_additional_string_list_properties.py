@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing import Optional
 from typing_extensions import Self
 
@@ -26,7 +26,7 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties
     """ # noqa: E501
-    dict_property: Optional[Dict[str, List[StrictStr]]] = Field(default=None, alias="dictProperty")
+    dict_property: Optional[dict[str, list[StrictStr]]] = Field(default=None, alias="dictProperty")
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["dictProperty"]
 

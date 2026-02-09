@@ -17,7 +17,7 @@ from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
-from typing import List, Optional, Tuple, Union
+from typing import Optional, Union
 from typing_extensions import Annotated
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.pet import Pet
@@ -587,7 +587,7 @@ class PetApi:
     @validate_call
     def find_pets_by_status(
         self,
-        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        status: Annotated[list[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -600,13 +600,13 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Pet]:
+    ) -> list[Pet]:
         """Finds Pets by status
 
         Multiple status values can be provided with comma separated strings
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
+        :type status: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -638,7 +638,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -655,7 +655,7 @@ class PetApi:
     @validate_call
     def find_pets_by_status_with_http_info(
         self,
-        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        status: Annotated[list[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -668,13 +668,13 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Pet]]:
+    ) -> ApiResponse[list[Pet]]:
         """Finds Pets by status
 
         Multiple status values can be provided with comma separated strings
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
+        :type status: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -706,7 +706,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -723,7 +723,7 @@ class PetApi:
     @validate_call
     def find_pets_by_status_without_preload_content(
         self,
-        status: Annotated[List[StrictStr], Field(description="Status values that need to be considered for filter")],
+        status: Annotated[list[StrictStr], Field(description="Status values that need to be considered for filter")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -742,7 +742,7 @@ class PetApi:
         Multiple status values can be provided with comma separated strings
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
+        :type status: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -774,7 +774,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -856,7 +856,7 @@ class PetApi:
     @validate_call
     def find_pets_by_tags(
         self,
-        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        tags: Annotated[list[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -869,13 +869,13 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Pet]:
+    ) -> list[Pet]:
         """(Deprecated) Finds Pets by tags
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
         :param tags: Tags to filter by (required)
-        :type tags: List[str]
+        :type tags: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -908,7 +908,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -925,7 +925,7 @@ class PetApi:
     @validate_call
     def find_pets_by_tags_with_http_info(
         self,
-        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        tags: Annotated[list[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -938,13 +938,13 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Pet]]:
+    ) -> ApiResponse[list[Pet]]:
         """(Deprecated) Finds Pets by tags
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
         :param tags: Tags to filter by (required)
-        :type tags: List[str]
+        :type tags: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -977,7 +977,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -994,7 +994,7 @@ class PetApi:
     @validate_call
     def find_pets_by_tags_without_preload_content(
         self,
-        tags: Annotated[List[StrictStr], Field(description="Tags to filter by")],
+        tags: Annotated[list[StrictStr], Field(description="Tags to filter by")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1013,7 +1013,7 @@ class PetApi:
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
         :param tags: Tags to filter by (required)
-        :type tags: List[str]
+        :type tags: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1046,7 +1046,7 @@ class PetApi:
         )
 
         _response_types_map: dict[str, Optional[str]] = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
         response_data = self.api_client.call_api(
@@ -1976,7 +1976,7 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2051,7 +2051,7 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2126,7 +2126,7 @@ class PetApi:
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
-        file: Annotated[Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
+        file: Annotated[Optional[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]]], Field(description="file to upload")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2279,7 +2279,7 @@ class PetApi:
     def upload_file_with_required_file(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
-        required_file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        required_file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Union[
             None,
@@ -2354,7 +2354,7 @@ class PetApi:
     def upload_file_with_required_file_with_http_info(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
-        required_file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        required_file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Union[
             None,
@@ -2429,7 +2429,7 @@ class PetApi:
     def upload_file_with_required_file_without_preload_content(
         self,
         pet_id: Annotated[StrictInt, Field(description="ID of pet to update")],
-        required_file: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
+        required_file: Annotated[Union[StrictBytes, StrictStr, tuple[StrictStr, StrictBytes]], Field(description="file to upload")],
         additional_metadata: Annotated[Optional[StrictStr], Field(description="Additional data to pass to server")] = None,
         _request_timeout: Union[
             None,

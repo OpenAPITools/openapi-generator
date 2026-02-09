@@ -96,9 +96,9 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         importMapping.clear();
 
         // override type mapping in abstract python codegen
-        typeMapping.put("array", "List");
-        typeMapping.put("set", "List");
-        typeMapping.put("map", "Dict");
+        typeMapping.put("array", "list");
+        typeMapping.put("set", "list");
+        typeMapping.put("map", "dict");
         typeMapping.put("decimal", "decimal.Decimal");
         typeMapping.put("file", "bytearray");
         typeMapping.put("binary", "bytearray");

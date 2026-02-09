@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, validator
 from petstore_api.models.enum_number_vendor_ext import EnumNumberVendorExt
 from petstore_api.models.enum_string_vendor_ext import EnumStringVendorExt

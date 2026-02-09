@@ -23,7 +23,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, StrictStr, field_validator
-from typing import Any, List
+from typing import Any
 from typing_extensions import Annotated
 from openapi_server.models.user import User
 from openapi_server.security_api import get_token_api_key
@@ -66,7 +66,7 @@ async def create_user(
     response_model_by_alias=True,
 )
 async def create_users_with_array_input(
-    user: Annotated[List[User], Field(description="List of user object")] = Body(None, description="List of user object"),
+    user: Annotated[list[User], Field(description="List of user object")] = Body(None, description="List of user object"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
@@ -87,7 +87,7 @@ async def create_users_with_array_input(
     response_model_by_alias=True,
 )
 async def create_users_with_list_input(
-    user: Annotated[List[User], Field(description="List of user object")] = Body(None, description="List of user object"),
+    user: Annotated[list[User], Field(description="List of user object")] = Body(None, description="List of user object"),
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),

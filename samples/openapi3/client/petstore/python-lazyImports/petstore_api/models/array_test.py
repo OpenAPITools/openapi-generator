@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from typing import Optional
@@ -28,10 +28,10 @@ class ArrayTest(BaseModel):
     """
     ArrayTest
     """ # noqa: E501
-    array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
-    array_of_nullable_float: Optional[List[Optional[StrictFloat]]] = None
-    array_array_of_integer: Optional[List[List[StrictInt]]] = None
-    array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
+    array_of_string: Optional[Annotated[list[StrictStr], Field(min_length=0, max_length=3)]] = None
+    array_of_nullable_float: Optional[list[Optional[StrictFloat]]] = None
+    array_array_of_integer: Optional[list[list[StrictInt]]] = None
+    array_array_of_model: Optional[list[list[ReadOnlyFirst]]] = None
     additional_properties: dict[str, Any] = {}
     __properties: ClassVar[list[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 

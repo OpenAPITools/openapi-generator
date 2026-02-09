@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar
 from uuid import UUID
 from petstore_api.models.task_activity import TaskActivity
 from typing import Optional
