@@ -854,10 +854,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
             }
             if (enumTest.OuterEnumIntegerOption.IsSet)
-                writer.WriteNumber("outerEnumInteger", OuterEnumIntegerToJsonValue(enumTest.OuterEnumIntegerOption.Value!.Value));
+                writer.WriteNumber("outerEnumInteger", OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumIntegerOption.Value!.Value));
 
             if (enumTest.OuterEnumIntegerDefaultValueOption.IsSet)
-                writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value!.Value));
+                writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value!.Value));
         }
     }
 }

@@ -345,13 +345,13 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);
 
             if (enumTest.EnumIntegerOption.IsSet)
-                writer.WriteNumber("enum_integer", EnumTestEnumIntegerToJsonValue(enumTest.EnumIntegerOption.Value.Value));
+                writer.WriteNumber("enum_integer", EnumTestEnumIntegerValueConverter.ToJsonValue(enumTest.EnumIntegerOption.Value.Value));
 
             if (enumTest.EnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("enum_integer_only", EnumTestEnumIntegerOnlyToJsonValue(enumTest.EnumIntegerOnlyOption.Value.Value));
+                writer.WriteNumber("enum_integer_only", EnumTestEnumIntegerOnlyValueConverter.ToJsonValue(enumTest.EnumIntegerOnlyOption.Value.Value));
 
             if (enumTest.EnumNumberOption.IsSet)
-                writer.WriteNumber("enum_number", TestEnumParametersEnumQueryDoubleParameterToJsonValue(enumTest.EnumNumberOption.Value.Value));
+                writer.WriteNumber("enum_number", TestEnumParametersEnumQueryDoubleParameterValueConverter.ToJsonValue(enumTest.EnumNumberOption.Value.Value));
 
             if (enumTest.EnumStringOption.IsSet)
             {
@@ -372,10 +372,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
             }
             if (enumTest.OuterEnumIntegerOption.IsSet)
-                writer.WriteNumber("outerEnumInteger", OuterEnumIntegerToJsonValue(enumTest.OuterEnumIntegerOption.Value.Value));
+                writer.WriteNumber("outerEnumInteger", OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumIntegerOption.Value.Value));
 
             if (enumTest.OuterEnumIntegerDefaultValueOption.IsSet)
-                writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value.Value));
+                writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value.Value));
         }
     }
 }

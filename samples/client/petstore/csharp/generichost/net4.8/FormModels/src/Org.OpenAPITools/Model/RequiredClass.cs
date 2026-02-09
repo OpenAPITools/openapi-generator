@@ -1063,9 +1063,9 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteString("required_notnullable_datetime_prop", requiredClass.RequiredNotnullableDatetimeProp.ToString(RequiredNotnullableDatetimePropFormat));
 
-            writer.WriteNumber("required_notnullable_enum_integer", RequiredClassRequiredNotnullableEnumIntegerToJsonValue(requiredClass.RequiredNotnullableEnumInteger));
+            writer.WriteNumber("required_notnullable_enum_integer", RequiredClassRequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClass.RequiredNotnullableEnumInteger));
 
-            writer.WriteNumber("required_notnullable_enum_integer_only", RequiredClassRequiredNotnullableEnumIntegerOnlyToJsonValue(requiredClass.RequiredNotnullableEnumIntegerOnly));
+            writer.WriteNumber("required_notnullable_enum_integer_only", RequiredClassRequiredNotnullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClass.RequiredNotnullableEnumIntegerOnly));
 
             var requiredNotnullableEnumStringRawValue = RequiredClassRequiredNotnullableEnumStringValueConverter.ToJsonValue(requiredClass.RequiredNotnullableEnumString);
             writer.WriteString("required_notnullable_enum_string", requiredNotnullableEnumStringRawValue);
@@ -1109,10 +1109,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("notrequired_notnullable_datetime_prop", requiredClass.NotrequiredNotnullableDatetimePropOption.Value.Value.ToString(NotrequiredNotnullableDatetimePropFormat));
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClassRequiredNotnullableEnumIntegerToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value.Value));
+                writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClassRequiredNotnullableEnumIntegerValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value.Value));
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClassRequiredNotnullableEnumIntegerOnlyToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value.Value));
+                writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClassRequiredNotnullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value.Value));
 
             if (requiredClass.NotrequiredNotnullableEnumStringOption.IsSet)
             {
@@ -1152,13 +1152,13 @@ namespace Org.OpenAPITools.Model
 
             if (requiredClass.NotrequiredNullableEnumIntegerOption.IsSet)
                 if (requiredClass.NotrequiredNullableEnumIntegerOption.Value != null)
-                    writer.WriteNumber("notrequired_nullable_enum_integer", RequiredClassRequiredNullableEnumIntegerToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOption.Value.Value));
+                    writer.WriteNumber("notrequired_nullable_enum_integer", RequiredClassRequiredNullableEnumIntegerValueConverter.ToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOption.Value.Value));
                 else
                     writer.WriteNull("notrequired_nullable_enum_integer");
 
             if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.IsSet)
                 if (requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value != null)
-                    writer.WriteNumber("notrequired_nullable_enum_integer_only", RequiredClassRequiredNullableEnumIntegerOnlyToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value.Value));
+                    writer.WriteNumber("notrequired_nullable_enum_integer_only", RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClass.NotrequiredNullableEnumIntegerOnlyOption.Value.Value));
                 else
                     writer.WriteNull("notrequired_nullable_enum_integer_only");
 
@@ -1213,12 +1213,12 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("required_nullable_datetime_prop");
 
             if (requiredClass.RequiredNullableEnumInteger != null)
-                writer.WriteNumber("required_nullable_enum_integer", RequiredClassRequiredNullableEnumIntegerToJsonValue(requiredClass.RequiredNullableEnumInteger.Value));
+                writer.WriteNumber("required_nullable_enum_integer", RequiredClassRequiredNullableEnumIntegerValueConverter.ToJsonValue(requiredClass.RequiredNullableEnumInteger.Value));
             else
                 writer.WriteNull("required_nullable_enum_integer");
 
             if (requiredClass.RequiredNullableEnumIntegerOnly != null)
-                writer.WriteNumber("required_nullable_enum_integer_only", RequiredClassRequiredNullableEnumIntegerOnlyToJsonValue(requiredClass.RequiredNullableEnumIntegerOnly.Value));
+                writer.WriteNumber("required_nullable_enum_integer_only", RequiredClassRequiredNullableEnumIntegerOnlyValueConverter.ToJsonValue(requiredClass.RequiredNullableEnumIntegerOnly.Value));
             else
                 writer.WriteNull("required_nullable_enum_integer_only");
 
