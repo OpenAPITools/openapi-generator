@@ -27,7 +27,7 @@ class PonySizes(BaseModel):
     PonySizes
     """
     type: Optional[Type] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["type"]
 
     class Config:

@@ -27,7 +27,7 @@ class NullableProperty(BaseModel):
     """
     id: StrictInt = Field(...)
     name: Optional[constr(strict=True)] = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "name"]
 
     @validator('name')

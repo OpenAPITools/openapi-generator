@@ -27,7 +27,7 @@ class MapOfArrayOfModel(BaseModel):
     MapOfArrayOfModel
     """
     shop_id_to_org_online_lip_map: Optional[Dict[str, conlist(Tag)]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["shopIdToOrgOnlineLipMap"]
 
     class Config:

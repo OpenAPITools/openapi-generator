@@ -29,7 +29,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["uuid", "dateTime", "map"]
 
     class Config:

@@ -28,7 +28,7 @@ class Task(BaseModel):
     """
     id: StrictStr = Field(...)
     activity: TaskActivity = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "activity"]
 
     class Config:

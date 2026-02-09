@@ -27,7 +27,7 @@ class Model200Response(BaseModel):
     """
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(default=None, alias="class")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["name", "class"]
 
     class Config:

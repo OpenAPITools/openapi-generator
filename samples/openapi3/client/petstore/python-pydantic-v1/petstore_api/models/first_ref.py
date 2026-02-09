@@ -27,7 +27,7 @@ class FirstRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["category", "self_ref"]
 
     class Config:

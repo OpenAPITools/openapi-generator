@@ -27,7 +27,7 @@ class FooGetDefaultResponse(BaseModel):
     FooGetDefaultResponse
     """
     string: Optional[Foo] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["string"]
 
     class Config:

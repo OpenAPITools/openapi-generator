@@ -27,7 +27,7 @@ class PropertyMap(BaseModel):
     PropertyMap
     """
     some_data: Optional[Dict[str, Tag]] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["some_data"]
 
     class Config:

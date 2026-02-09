@@ -34,7 +34,7 @@ class ApiResponse(BaseModel):
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["code", "type", "message"]
+    __properties: ClassVar[list[str]] = ["code", "type", "message"]
 
     model_config = {
         "populate_by_name": True,
@@ -57,7 +57,7 @@ class ApiResponse(BaseModel):
         """Create an instance of ApiResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -76,7 +76,7 @@ class ApiResponse(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of ApiResponse from a dict"""
         if obj is None:
             return None

@@ -27,7 +27,7 @@ class ReadOnlyFirst(BaseModel):
     """
     bar: Optional[StrictStr] = None
     baz: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["bar", "baz"]
 
     class Config:

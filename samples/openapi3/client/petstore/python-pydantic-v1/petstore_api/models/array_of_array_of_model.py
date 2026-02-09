@@ -27,7 +27,7 @@ class ArrayOfArrayOfModel(BaseModel):
     ArrayOfArrayOfModel
     """
     another_property: Optional[conlist(conlist(Tag))] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["another_property"]
 
     class Config:

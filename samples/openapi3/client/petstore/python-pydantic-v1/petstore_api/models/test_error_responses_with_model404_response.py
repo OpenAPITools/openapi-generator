@@ -26,7 +26,7 @@ class TestErrorResponsesWithModel404Response(BaseModel):
     TestErrorResponsesWithModel404Response
     """
     reason404: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["reason404"]
 
     class Config:

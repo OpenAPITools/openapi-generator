@@ -26,7 +26,7 @@ class Tiger(BaseModel):
     Tiger
     """
     skill: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["skill"]
 
     class Config:

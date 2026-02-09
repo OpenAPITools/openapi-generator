@@ -27,7 +27,7 @@ class Tag(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "name"]
 
     class Config:

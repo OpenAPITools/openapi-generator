@@ -27,7 +27,7 @@ class HasOnlyReadOnly(BaseModel):
     """
     bar: Optional[StrictStr] = None
     foo: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["bar", "foo"]
 
     class Config:

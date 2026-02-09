@@ -26,7 +26,7 @@ class AllOfSuperModel(BaseModel):
     AllOfSuperModel
     """
     name: Optional[StrictStr] = Field(default=None, alias="_name")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_name"]
 
     class Config:

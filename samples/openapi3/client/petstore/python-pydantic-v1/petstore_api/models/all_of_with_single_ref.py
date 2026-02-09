@@ -28,7 +28,7 @@ class AllOfWithSingleRef(BaseModel):
     """
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 
     class Config:

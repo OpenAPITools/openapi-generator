@@ -32,7 +32,7 @@ class BaseDiscriminator(BaseModel):
     BaseDiscriminator
     """
     type_name: Optional[StrictStr] = Field(default=None, alias="_typeName")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_typeName"]
 
     class Config:

@@ -26,7 +26,7 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
     ArrayOfArrayOfNumberOnly
     """
     array_array_number: Optional[conlist(conlist(StrictFloat))] = Field(default=None, alias="ArrayArrayNumber")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["ArrayArrayNumber"]
 
     class Config:

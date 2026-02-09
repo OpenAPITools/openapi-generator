@@ -33,7 +33,7 @@ class Animal(BaseModel):
     """
     class_name: StrictStr = Field(default=..., alias="className")
     color: Optional[StrictStr] = 'red'
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["className", "color"]
 
     class Config:

@@ -26,7 +26,7 @@ class ListClass(BaseModel):
     ListClass
     """
     var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["123-list"]
 
     class Config:

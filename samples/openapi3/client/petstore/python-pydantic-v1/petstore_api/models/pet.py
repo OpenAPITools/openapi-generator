@@ -33,7 +33,7 @@ class Pet(BaseModel):
     photo_urls: conlist(StrictStr, min_items=0, unique_items=True) = Field(default=..., alias="photoUrls")
     tags: Optional[conlist(Tag)] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @validator('status')

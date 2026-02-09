@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from typing import ClassVar, Dict, List, Tuple  # noqa: F401
+from typing import ClassVar
 
 from pydantic import Field, StrictStr, field_validator
 from typing import Any, List
@@ -9,7 +9,7 @@ from openapi_server.models.user import User
 from openapi_server.security_api import get_token_api_key
 
 class BaseUserApi:
-    subclasses: ClassVar[Tuple] = ()
+    subclasses: ClassVar[tuple] = ()
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)

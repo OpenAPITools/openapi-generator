@@ -27,7 +27,7 @@ class ParentWithOptionalDict(BaseModel):
     ParentWithOptionalDict
     """
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["optionalDict"]
 
     class Config:

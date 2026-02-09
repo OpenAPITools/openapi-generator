@@ -26,7 +26,7 @@ class Foo(BaseModel):
     Foo
     """
     bar: Optional[StrictStr] = 'bar'
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["bar"]
 
     class Config:

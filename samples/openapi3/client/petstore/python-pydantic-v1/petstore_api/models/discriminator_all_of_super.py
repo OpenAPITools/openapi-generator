@@ -31,7 +31,7 @@ class DiscriminatorAllOfSuper(BaseModel):
     DiscriminatorAllOfSuper
     """
     element_type: StrictStr = Field(default=..., alias="elementType")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["elementType"]
 
     class Config:

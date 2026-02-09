@@ -29,7 +29,7 @@ class MapTest(BaseModel):
     map_of_enum_string: Optional[Dict[str, StrictStr]] = None
     direct_map: Optional[Dict[str, StrictBool]] = None
     indirect_map: Optional[Dict[str, StrictBool]] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["map_map_of_string", "map_of_enum_string", "direct_map", "indirect_map"]
 
     @validator('map_of_enum_string')

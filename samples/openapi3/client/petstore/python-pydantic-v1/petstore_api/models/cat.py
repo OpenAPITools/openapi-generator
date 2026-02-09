@@ -27,7 +27,7 @@ class Cat(Animal):
     Cat
     """
     declawed: Optional[StrictBool] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["className", "color", "declawed"]
 
     class Config:

@@ -30,7 +30,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     id: Optional[StrictFloat] = None
     deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
     bars: Optional[conlist(StrictStr)] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["uuid", "id", "deprecatedRef", "bars"]
 
     class Config:

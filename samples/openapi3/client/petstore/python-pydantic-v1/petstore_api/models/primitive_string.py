@@ -27,7 +27,7 @@ class PrimitiveString(BaseDiscriminator):
     PrimitiveString
     """
     value: Optional[StrictStr] = Field(default=None, alias="_value")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["_typeName", "_value"]
 
     class Config:

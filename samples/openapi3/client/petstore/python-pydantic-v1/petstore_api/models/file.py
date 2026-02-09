@@ -26,7 +26,7 @@ class File(BaseModel):
     Must be named `File` for test.  # noqa: E501
     """
     source_uri: Optional[StrictStr] = Field(default=None, alias="sourceURI", description="Test capitalization")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["sourceURI"]
 
     class Config:

@@ -26,7 +26,7 @@ class NumberOnly(BaseModel):
     NumberOnly
     """
     just_number: Optional[StrictFloat] = Field(default=None, alias="JustNumber")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["JustNumber"]
 
     class Config:

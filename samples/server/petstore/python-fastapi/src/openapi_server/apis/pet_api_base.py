@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from typing import ClassVar, Dict, List, Tuple  # noqa: F401
+from typing import ClassVar
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, List, Optional, Tuple, Union
@@ -10,7 +10,7 @@ from openapi_server.models.pet import Pet
 from openapi_server.security_api import get_token_petstore_auth, get_token_api_key
 
 class BasePetApi:
-    subclasses: ClassVar[Tuple] = ()
+    subclasses: ClassVar[tuple] = ()
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)

@@ -20,7 +20,7 @@ import re  # noqa: F401
 
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]
@@ -40,7 +40,7 @@ class AnyOfColor(BaseModel):
         actual_instance: Union[List[int], str]
     else:
         actual_instance: Any
-    any_of_schemas: List[str] = Field(ANYOFCOLOR_ANY_OF_SCHEMAS, const=True)
+    any_of_schemas: list[str] = Field(ANYOFCOLOR_ANY_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True

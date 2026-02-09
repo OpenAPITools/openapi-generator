@@ -33,7 +33,7 @@ class Creature(BaseModel):
     """
     info: CreatureInfo = Field(...)
     type: StrictStr = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["info", "type"]
 
     class Config:

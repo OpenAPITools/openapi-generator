@@ -26,7 +26,7 @@ class InnerDictWithProperty(BaseModel):
     InnerDictWithProperty
     """
     a_property: Optional[Dict[str, Any]] = Field(default=None, alias="aProperty")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["aProperty"]
 
     class Config:

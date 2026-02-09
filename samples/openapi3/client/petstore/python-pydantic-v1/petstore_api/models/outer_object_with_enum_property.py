@@ -29,7 +29,7 @@ class OuterObjectWithEnumProperty(BaseModel):
     """
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["str_value", "value"]
 
     class Config:

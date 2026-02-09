@@ -28,7 +28,7 @@ class ApiResponse(BaseModel):
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
     message: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["code", "type", "message"]
 
     class Config:

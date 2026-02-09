@@ -27,7 +27,7 @@ class AdditionalPropertiesClass(BaseModel):
     """
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["map_property", "map_of_map_property"]
 
     class Config:

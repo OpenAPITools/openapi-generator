@@ -39,7 +39,7 @@ class Pet(BaseModel):
     photo_urls: List[StrictStr] = Field(alias="photoUrls")
     tags: Optional[List[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
-    __properties: ClassVar[List[str]] = ["id", "category", "name", "photoUrls", "tags", "status"]
+    __properties: ClassVar[list[str]] = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -72,7 +72,7 @@ class Pet(BaseModel):
         """Create an instance of Pet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -101,7 +101,7 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None

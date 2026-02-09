@@ -27,7 +27,7 @@ class DummyModel(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["category", "self_ref"]
 
     class Config:

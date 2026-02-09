@@ -26,7 +26,7 @@ class Field(BaseModel):
     Field
     """
     field: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["field"]
 
     class Config:

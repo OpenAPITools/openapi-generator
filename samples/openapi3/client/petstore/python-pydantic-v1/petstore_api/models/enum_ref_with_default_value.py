@@ -27,7 +27,7 @@ class EnumRefWithDefaultValue(BaseModel):
     EnumRefWithDefaultValue
     """
     report_format: Optional[DataOutputFormat] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["report_format"]
 
     class Config:

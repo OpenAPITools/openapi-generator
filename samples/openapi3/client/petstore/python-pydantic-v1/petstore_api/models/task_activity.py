@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field, StrictStr, ValidationError, validator
 from petstore_api.models.bathing import Bathing
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.poop_cleaning import PoopCleaning
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 TASKACTIVITY_ONE_OF_SCHEMAS = ["Bathing", "Feeding", "PoopCleaning"]
@@ -42,7 +42,7 @@ class TaskActivity(BaseModel):
         actual_instance: Union[Bathing, Feeding, PoopCleaning]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(TASKACTIVITY_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: list[str] = Field(TASKACTIVITY_ONE_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True

@@ -38,7 +38,7 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
-    __properties: ClassVar[List[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
+    __properties: ClassVar[list[str]] = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -71,7 +71,7 @@ class Order(BaseModel):
         """Create an instance of Order from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -90,7 +90,7 @@ class Order(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Order from a dict"""
         if obj is None:
             return None

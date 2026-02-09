@@ -34,7 +34,7 @@ class Category(BaseModel):
     """ # noqa: E501
     id: Optional[StrictInt] = None
     name: Optional[Annotated[str, Field(strict=True)]] = None
-    __properties: ClassVar[List[str]] = ["id", "name"]
+    __properties: ClassVar[list[str]] = ["id", "name"]
 
     @field_validator('name')
     def name_validate_regular_expression(cls, value):
@@ -67,7 +67,7 @@ class Category(BaseModel):
         """Create an instance of Category from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -86,7 +86,7 @@ class Category(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Category from a dict"""
         if obj is None:
             return None

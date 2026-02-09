@@ -28,7 +28,7 @@ class FileSchemaTestClass(BaseModel):
     """
     file: Optional[File] = None
     files: Optional[conlist(File)] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["file", "files"]
 
     class Config:

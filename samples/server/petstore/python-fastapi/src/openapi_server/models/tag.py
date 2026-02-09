@@ -33,7 +33,7 @@ class Tag(BaseModel):
     """ # noqa: E501
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "name"]
+    __properties: ClassVar[list[str]] = ["id", "name"]
 
     model_config = {
         "populate_by_name": True,
@@ -56,7 +56,7 @@ class Tag(BaseModel):
         """Create an instance of Tag from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -75,7 +75,7 @@ class Tag(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of Tag from a dict"""
         if obj is None:
             return None

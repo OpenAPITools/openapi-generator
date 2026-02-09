@@ -26,7 +26,7 @@ class ModelReturn(BaseModel):
     Model for testing reserved words  # noqa: E501
     """
     var_return: Optional[StrictInt] = Field(default=None, alias="return")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["return"]
 
     class Config:

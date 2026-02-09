@@ -38,7 +38,7 @@ class NullableClass(BaseModel):
     object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
     object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
     object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["required_integer_prop", "integer_prop", "number_prop", "boolean_prop", "string_prop", "date_prop", "datetime_prop", "array_nullable_prop", "array_and_items_nullable_prop", "array_items_nullable", "object_nullable_prop", "object_and_items_nullable_prop", "object_items_nullable"]
 
     class Config:

@@ -27,7 +27,7 @@ class SecondRef(BaseModel):
     """
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["category", "circular_ref"]
 
     class Config:

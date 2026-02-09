@@ -27,7 +27,7 @@ class SelfReferenceModel(BaseModel):
     """
     size: Optional[StrictInt] = None
     nested: Optional[DummyModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["size", "nested"]
 
     class Config:

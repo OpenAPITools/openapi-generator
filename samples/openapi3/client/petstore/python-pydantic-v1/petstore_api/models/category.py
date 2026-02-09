@@ -27,7 +27,7 @@ class Category(BaseModel):
     """
     id: Optional[StrictInt] = None
     name: StrictStr = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "name"]
 
     class Config:

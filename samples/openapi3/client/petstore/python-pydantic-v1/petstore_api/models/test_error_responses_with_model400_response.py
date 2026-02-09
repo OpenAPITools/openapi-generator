@@ -26,7 +26,7 @@ class TestErrorResponsesWithModel400Response(BaseModel):
     TestErrorResponsesWithModel400Response
     """
     reason400: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["reason400"]
 
     class Config:

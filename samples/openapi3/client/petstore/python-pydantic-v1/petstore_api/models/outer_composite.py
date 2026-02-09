@@ -28,7 +28,7 @@ class OuterComposite(BaseModel):
     my_number: Optional[StrictFloat] = None
     my_string: Optional[StrictStr] = None
     my_boolean: Optional[StrictBool] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["my_number", "my_string", "my_boolean"]
 
     class Config:

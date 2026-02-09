@@ -2,8 +2,6 @@
 
 from datetime import date, datetime
 
-from typing import List, Dict, Type
-
 from openapi_server.models.base_model import Model
 from openapi_server.models.category import Category
 from openapi_server.models.tag import Tag

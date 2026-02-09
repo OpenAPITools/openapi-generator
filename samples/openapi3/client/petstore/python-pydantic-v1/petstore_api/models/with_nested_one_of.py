@@ -30,7 +30,7 @@ class WithNestedOneOf(BaseModel):
     size: Optional[StrictInt] = None
     nested_pig: Optional[Pig] = None
     nested_oneof_enum_string: Optional[OneOfEnumString] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["size", "nested_pig", "nested_oneof_enum_string"]
 
     class Config:
