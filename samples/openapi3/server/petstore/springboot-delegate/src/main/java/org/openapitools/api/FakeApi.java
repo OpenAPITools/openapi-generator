@@ -364,7 +364,7 @@ public interface FakeApi {
         @Parameter(name = "number", description = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
         @Parameter(name = "double", description = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
         @Parameter(name = "pattern_without_delimiter", description = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @Parameter(name = "byte", description = "None", required = true) @Valid @RequestParam(value = "byte", required = true) String _byte /* base64 encoded binary */,
         @Parameter(name = "integer", description = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
         @Parameter(name = "int32", description = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @Parameter(name = "int64", description = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,

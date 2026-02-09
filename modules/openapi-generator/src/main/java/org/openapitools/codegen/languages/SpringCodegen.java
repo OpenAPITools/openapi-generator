@@ -798,6 +798,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+                convertByteArrayParamsToStringType(operation);
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
@@ -811,6 +812,26 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    /**
+     * Converts parameters of type {@code byte[]} (i.e., OpenAPI {@code type: string, format: byte}) to {@code String}.
+     * <p>
+     * In OpenAPI, {@code type: string, format: byte} is a base64-encoded string. However, Spring does not automatically
+     * decode base64-encoded request parameters into {@code byte[]} for query, path, header, cookie, or form parameters.
+     * Therefore, these parameters are mapped to {@code String} to avoid incorrect type handling and to ensure the
+     * application receives the raw base64 string as provided by the client.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be checked and converted if necessary
+     **/
+    private void convertByteArrayParamsToStringType(CodegenOperation operation) {
+        var convertedParams = operation.allParams.stream()
+                .filter(CodegenParameter::getIsByteArray)
+                .filter(param -> param.isQueryParam || param.isPathParam || param.isHeaderParam || param.isCookieParam || param.isFormParam)
+                .peek(param -> param.dataType = "String")
+                .collect(Collectors.toList());
+        LOGGER.info("Converted parameters {} from byte[] to String in operation {}", convertedParams.stream().map(param -> param.paramName), operation.operationId);
     }
 
     private interface DataTypeAssigner {
