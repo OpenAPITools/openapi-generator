@@ -10,14 +10,14 @@ T = typing.TypeVar('T')
 class Model:
     # openapiTypes: The key is attribute name and the
     # value is attribute type.
-    openapi_types: typing.Dict[str, type] = {}
+    openapi_types: typing.dict[str, type] = {}
 
     # attributeMap: The key is attribute name and the
     # value is json key in definition.
-    attribute_map: typing.Dict[str, str] = {}
+    attribute_map: typing.dict[str, str] = {}
 
     @classmethod
-    def from_dict(cls: typing.Type[T], dikt) -> T:
+    def from_dict(cls: type[T], dikt) -> T:
         """Returns the dict as a model"""
         return util.deserialize_model(dikt, cls)
 

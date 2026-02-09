@@ -25,9 +25,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
 {{#isAdditionalPropertiesTrue}}
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
 {{/isAdditionalPropertiesTrue}}
-    __properties: ClassVar[List[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
+    __properties: ClassVar[list[str]] = [{{#allVars}}"{{baseName}}"{{^-last}}, {{/-last}}{{/allVars}}]
 {{#vars}}
     {{#vendorExtensions.x-regex}}
 
@@ -90,15 +90,15 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[List[str]] = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name: ClassVar[list[str]] = '{{discriminator.propertyBaseName}}'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+    __discriminator_value_class_map: ClassVar[dict[str, str]] = {
         {{#mappedModels}}'{{{mappingName}}}': '{{{modelName}}}'{{^-last}},{{/-last}}{{/mappedModels}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict) -> str:
+    def get_discriminator_value(cls, obj: dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -122,7 +122,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -238,7 +238,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#hasChildren}}
         {{#discriminator}}
