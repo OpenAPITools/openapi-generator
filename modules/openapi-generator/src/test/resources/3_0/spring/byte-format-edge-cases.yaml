@@ -4,20 +4,6 @@ info:
   version: 1.0.0
 
 paths:
-  /queryfdsfsd:
-    get:
-      operationId: queryParamsfdsfsfdsfs
-      summary: Query parametersfsdaf
-      parameters:
-        - name: plain
-          in: query
-          schema:
-            type: string
-
-      responses:
-        '204':
-          description: No content
-  
   /query:
     get:
       operationId: queryParams
