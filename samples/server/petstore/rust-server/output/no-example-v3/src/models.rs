@@ -122,7 +122,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OpGetRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -138,7 +138,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<OpGetRequest>>> for hyper
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<OpGetRequest>> {
     type Error = String;
 
