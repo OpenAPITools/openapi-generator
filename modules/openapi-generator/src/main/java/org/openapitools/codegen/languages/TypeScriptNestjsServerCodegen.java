@@ -173,7 +173,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         additionalProperties.put(NEST_VERSION, nestVersion);
 
         if (additionalProperties.containsKey(NPM_NAME)) {
-            if(!additionalProperties.containsKey(NPM_VERSION)) {
+            if (!additionalProperties.containsKey(NPM_VERSION)) {
                 additionalProperties.put(NPM_VERSION, "0.0.0");
             }
 
@@ -274,7 +274,13 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     }
 
     private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
+        return languageSpecificPrimitives.contains(type) || isInlineUnion(type);
+    }
+
+    private boolean isInlineUnion(String type) {
+        return Arrays.stream(type.split("\\|"))
+                .map(String::trim)
+                .allMatch(value -> value.matches("([\"'].*[\"'])"));
     }
 
     private boolean isLanguageGenericType(String type) {
@@ -343,8 +349,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             // Collect imports from parameters
             if (operation.allParams != null) {
                 for (CodegenParameter param : operation.allParams) {
-                    if(param.dataType != null) {
-                        if(isLanguageGenericType(param.dataType)) {
+                    if (param.dataType != null) {
+                        if (isLanguageGenericType(param.dataType)) {
                             // Extract generic type and add to imports if its not a primitive
                             String genericType = extractGenericType(param.dataType);
                             if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
@@ -366,10 +372,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 if (isLanguageGenericType(operation.returnType)) {
                     // Extract generic type and add to imports if it's not a primitive
                     String genericType = extractGenericType(operation.returnType);
-                    if (genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                    if (needToImport(operation.returnType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
                         allImports.add(genericType);
                     }
-                } else {
+                } else if (needToImport(operation.returnType)) {
                     allImports.add(operation.returnType);
                 }
             }
@@ -397,10 +403,10 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             return null;
         }
         String genericType = type.substring(startAngleBracketIndex + 1, endAngleBracketIndex);
-        if(isLanguageGenericType(genericType)) {
+        if (isLanguageGenericType(genericType)) {
             return extractGenericType(type);
         }
-        if(genericType.contains("|")) {
+        if (genericType.contains("|")) {
             return null;
         }
         return genericType;
@@ -429,7 +435,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
             for (String name : cm.imports) {
                 if (name.indexOf(" | ") >= 0) {
                     String[] parts = name.split(" \\| ");
-                    Collections.addAll(newImports, parts);
+                    if (needToImport(parts[0])) {
+                        Collections.addAll(newImports, parts);
+                    }
                 } else {
                     newImports.add(name);
                 }
