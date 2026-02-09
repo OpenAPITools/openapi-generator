@@ -37,7 +37,8 @@ class ApiResponse(BaseModel):
     __properties: ClassVar[List[str]] = ["code", "type", "message"]
 
     model_config = {
-        "populate_by_name": True,
+        "validate_by_name": True,
+        "validate_by_alias": True,
         "validate_assignment": True,
         "protected_namespaces": (),
     }

@@ -52,7 +52,8 @@ class Pet(BaseModel):
         return value
 
     model_config = {
-        "populate_by_name": True,
+        "validate_by_name": True,
+        "validate_by_alias": True,
         "validate_assignment": True,
         "protected_namespaces": (),
     }
