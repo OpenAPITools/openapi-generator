@@ -89,6 +89,7 @@ The following generators are available:
 * [ada-server](generators/ada-server.md)  
 * [aspnet-fastendpoints](generators/aspnet-fastendpoints.md)  
 * [aspnetcore](generators/aspnetcore.md)  
+* [cpp-httplib-server](generators/cpp-httplib-server.md)  
 * [cpp-oatpp-server](generators/cpp-oatpp-server.md)  
 * [cpp-pistache-server](generators/cpp-pistache-server.md)  
 * [cpp-qt-qhttpengine-server](generators/cpp-qt-qhttpengine-server.md)  
