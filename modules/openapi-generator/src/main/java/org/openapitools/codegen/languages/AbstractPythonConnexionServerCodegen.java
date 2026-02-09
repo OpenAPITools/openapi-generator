@@ -99,12 +99,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         simpleModule.addSerializer(Boolean.class, new PythonBooleanSerializer());
         MAPPER.registerModule(simpleModule);
 
-        // TODO may remove these later to default to the setting in abstract python base class instead
-        languageSpecificPrimitives.add("list");
-        languageSpecificPrimitives.add("dict");
-        typeMapping.put("array", "list");
-        typeMapping.put("map", "dict");
-
         // set the output folder here
         outputFolder = "generated-code" + File.separatorChar + "connexion";
 

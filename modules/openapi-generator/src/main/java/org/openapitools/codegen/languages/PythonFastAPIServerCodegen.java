@@ -115,9 +115,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, DEFAULT_PACKAGE_NAME);
         additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, DEFAULT_IMPL_FOLDER);
 
-        typeMapping.put("array", "list");
-        typeMapping.put("map", "dict");
-
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
