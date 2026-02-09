@@ -79,7 +79,7 @@ public:
     int  getHttpResponseCode() const;
 
 Q_SIGNALS:
-    void on_execution_finished(PFXHttpRequestWorker *worker);
+    void on_execution_finished(test_namespace::PFXHttpRequestWorker *worker);
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:

@@ -71,7 +71,7 @@ public:
     int  getHttpResponseCode() const;
 
 Q_SIGNALS:
-    void on_execution_finished({{prefix}}HttpRequestWorker *worker);
+    void on_execution_finished({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}HttpRequestWorker *worker);
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
