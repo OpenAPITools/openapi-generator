@@ -41,7 +41,7 @@ case class {{classname}}(
 object {{classname}} {
 {{#json4s}}
   import org.json4s._
-  
+
 {{^vendorExtensions.x-use-discr}}
   // oneOf without discriminator - json4s custom serializer
   implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
@@ -91,7 +91,7 @@ object {{classname}} {
   import io.circe.{Encoder, Decoder}
   import io.circe.generic.semiauto._
   import io.circe.generic.auto._
-  
+
   implicit val encoder: Encoder[{{classname}}] = deriveEncoder
   implicit val decoder: Decoder[{{classname}}] = deriveDecoder
 {{/vendorExtensions.x-use-discr}}
@@ -101,7 +101,7 @@ object {{classname}} {
   import io.circe.generic.extras._
   import io.circe.generic.extras.semiauto._
   import io.circe.generic.auto._
-  
+
   private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyName}}")
     .copy(
       transformConstructorNames = {
@@ -128,7 +128,7 @@ object {{classname}} {
 
 {{#circe}}
   import io.circe.{Encoder, Decoder}
-  
+
   implicit val encoder: Encoder[{{classname}}] = Encoder.encodeString.contramap[{{classname}}] {
 {{#allowableValues}}
   {{#values}}
@@ -136,7 +136,7 @@ object {{classname}} {
   {{/values}}
 {{/allowableValues}}
   }
-  
+
   implicit val decoder: Decoder[{{classname}}] = Decoder.decodeString.emap {
 {{#allowableValues}}
   {{#values}}
@@ -148,7 +148,7 @@ object {{classname}} {
 {{/circe}}
 {{#json4s}}
   import org.json4s._
-  
+
   implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
     def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
       case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
@@ -188,7 +188,7 @@ case class {{classname}}(
 object {{classname}}Enums {
   {{#vars}}
   {{#isEnum}}
-  
+
   sealed trait {{datatypeWithEnum}}
   object {{datatypeWithEnum}} {
 {{#_enum}}
@@ -197,13 +197,13 @@ object {{classname}}Enums {
 
 {{#circe}}
     import io.circe.{Encoder, Decoder}
-    
+
     implicit val encoder: Encoder[{{datatypeWithEnum}}] = Encoder.encodeString.contramap[{{datatypeWithEnum}}] {
 {{#_enum}}
       case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => "{{.}}"
 {{/_enum}}
     }
-    
+
     implicit val decoder: Decoder[{{datatypeWithEnum}}] = Decoder.decodeString.emap {
 {{#_enum}}
       case "{{.}}" => Right({{#fnEnumEntry}}{{.}}{{/fnEnumEntry}})
@@ -213,7 +213,7 @@ object {{classname}}Enums {
 {{/circe}}
 {{#json4s}}
     import org.json4s._
-    
+
     implicit object {{datatypeWithEnum}}Serializer extends Serializer[{{datatypeWithEnum}}] {
       def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{datatypeWithEnum}}] = {
         case (TypeInfo(clazz, _), json) if classOf[{{datatypeWithEnum}}].isAssignableFrom(clazz) =>
