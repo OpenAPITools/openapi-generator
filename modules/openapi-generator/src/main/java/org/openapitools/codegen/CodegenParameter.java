@@ -61,6 +61,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
     public CodegenProperty additionalProperties;
+    public CodegenProperty propertyNames;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>();
     public CodegenProperty mostInnerItems;
@@ -193,6 +194,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.minimum = this.minimum;
         output.pattern = this.pattern;
         output.additionalProperties = this.additionalProperties;
+        output.propertyNames = this.propertyNames;
         output.isNull = this.isNull;
         output.isVoid = this.isVoid;
         output.nameInPascalCase = this.nameInPascalCase;
@@ -295,7 +297,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
                 isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, isOptional, isFile, isEnum, isEnumRef, _enum, allowableValues,
-                items, mostInnerItems, additionalProperties, vars, requiredVars, vendorExtensions, hasValidation,
+                items, mostInnerItems, additionalProperties, propertyNames, vars, requiredVars, vendorExtensions, hasValidation,
                 getMaxProperties(), getMinProperties(), isNullable, isDeprecated, required, getMaximum(),
                 getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(), getMaxLength(), getMinLength(),
                 getPattern(), getMaxItems(), getMinItems(), getUniqueItems(), contentType, multipleOf, isNull, isVoid,
@@ -398,6 +400,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(items, that.items) &&
                 Objects.equals(additionalProperties, that.additionalProperties) &&
+                Objects.equals(propertyNames, that.propertyNames) &&
                 Objects.equals(vars, that.vars) &&
                 Objects.equals(requiredVars, that.requiredVars) &&
                 Objects.equals(mostInnerItems, that.mostInnerItems) &&
@@ -495,6 +498,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         sb.append(", items=").append(items);
         sb.append(", mostInnerItems=").append(mostInnerItems);
         sb.append(", additionalProperties=").append(additionalProperties);
+        sb.append(", propertyNames=").append(propertyNames);
         sb.append(", vars=").append(vars);
         sb.append(", requiredVars=").append(requiredVars);
         sb.append(", vendorExtensions=").append(vendorExtensions);
@@ -856,6 +860,16 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     @Override
     public void setAdditionalProperties(CodegenProperty additionalProperties) {
         this.additionalProperties = additionalProperties;
+    }
+
+    @Override
+    public CodegenProperty getPropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public void setPropertyNames(CodegenProperty propertyNames) {
+        this.propertyNames = propertyNames;
     }
 
     @Override

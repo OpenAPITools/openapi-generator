@@ -81,7 +81,7 @@ No authorization required
 
 ## getInventory
 
-> { [key: string]: number; } getInventory()
+> Record&lt;string, number&gt; getInventory()
 
 Returns pet inventories by status
 
@@ -122,7 +122,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**{ [key: string]: number; }**
+**Record<string, number>**
 
 ### Authorization
 

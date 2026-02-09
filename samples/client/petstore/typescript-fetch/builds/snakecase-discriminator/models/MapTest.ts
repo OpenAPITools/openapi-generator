@@ -21,28 +21,28 @@ import { mapValues } from '../runtime';
 export interface MapTest {
     /**
      * 
-     * @type {{ [key: string]: { [key: string]: string; }; }}
+     * @type {Record<string, Record<string, string>>}
      * @memberof MapTest
      */
-    mapMapOfString?: { [key: string]: { [key: string]: string; }; };
+    mapMapOfString?: Record<string, Record<string, string>>;
     /**
      * 
-     * @type {{ [key: string]: string; }}
+     * @type {Record<string, string>}
      * @memberof MapTest
      */
-    mapOfEnumString?: { [key: string]: string; };
+    mapOfEnumString?: Record<string, InnerEnum>;
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
+     * @type {Record<string, boolean>}
      * @memberof MapTest
      */
-    directMap?: { [key: string]: boolean; };
+    directMap?: Record<string, boolean>;
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
+     * @type {Record<string, boolean>}
      * @memberof MapTest
      */
-    indirectMap?: { [key: string]: boolean; };
+    indirectMap?: Record<string, boolean>;
 }
 
 

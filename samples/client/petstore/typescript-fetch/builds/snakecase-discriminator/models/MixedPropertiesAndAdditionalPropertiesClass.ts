@@ -41,10 +41,10 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
     dateTime?: Date;
     /**
      * 
-     * @type {{ [key: string]: Animal; }}
+     * @type {Record<string, Animal>}
      * @memberof MixedPropertiesAndAdditionalPropertiesClass
      */
-    map?: { [key: string]: Animal; };
+    map?: Record<string, Animal>;
 }
 
 /**

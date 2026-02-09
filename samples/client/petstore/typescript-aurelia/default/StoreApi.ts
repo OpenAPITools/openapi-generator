@@ -93,7 +93,7 @@ export class StoreApi extends Api {
    * Returns pet inventories by status
    * Returns a map of status codes to quantities
    */
-  async getInventory(): Promise<{ [key: string]: number; }> {
+  async getInventory(): Promise<Record<string, number>> {
     // Verify required parameters are set
 
     // Create URL to call

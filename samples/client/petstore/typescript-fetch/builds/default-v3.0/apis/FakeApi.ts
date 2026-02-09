@@ -79,7 +79,7 @@ export interface FakePropertyEnumIntegerSerializeRequest {
 }
 
 export interface TestAdditionalPropertiesReferenceRequest {
-    requestBody: { [key: string]: any; };
+    requestBody: Record<string, any>;
 }
 
 export interface TestBodyWithBinaryRequest {
@@ -138,7 +138,7 @@ export interface TestGroupParametersRequest {
 }
 
 export interface TestInlineAdditionalPropertiesRequest {
-    requestBody: { [key: string]: string; };
+    requestBody: Record<string, string>;
 }
 
 export interface TestInlineFreeformAdditionalPropertiesOperationRequest {
@@ -165,7 +165,7 @@ export interface TestQueryParameterCollectionFormatRequest {
 }
 
 export interface TestStringMapReferenceRequest {
-    requestBody: { [key: string]: string; };
+    requestBody: Record<string, string>;
 }
 
 /**

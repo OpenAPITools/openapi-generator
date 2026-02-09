@@ -7,7 +7,7 @@
 Name | Type
 ------------ | -------------
 `someId` | number
-`someMap` | { [key: string]: number; }
+`someMap` | Record&lt;string, number&gt;
 
 ## Example
 

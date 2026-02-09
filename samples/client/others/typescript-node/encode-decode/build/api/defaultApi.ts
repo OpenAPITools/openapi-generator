@@ -212,7 +212,7 @@ export class DefaultApi {
     /**
      * 
      */
-    public async testDecodeArrayOfMapsOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<{ [key: string]: ComplexObject | undefined; }>;  }> {
+    public async testDecodeArrayOfMapsOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Array<Record<string, ComplexObject | undefined>>;  }> {
         const localVarPath = this.basePath + '/test/decode/array-of/maps-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -254,13 +254,13 @@ export class DefaultApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: Array<{ [key: string]: ComplexObject | undefined; }>;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Array<Record<string, ComplexObject | undefined>>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "Array<{ [key: string]: ComplexObject | undefined; }>");
+                            body = ObjectSerializer.deserialize(body, "Array<Record<string, ComplexObject | undefined>>");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -456,7 +456,7 @@ export class DefaultApi {
     /**
      * 
      */
-    public async testDecodeMapOfMapsOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; };  }> {
+    public async testDecodeMapOfMapsOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Record<string, Record<string, ComplexObject | undefined> | undefined>;  }> {
         const localVarPath = this.basePath + '/test/decode/map-of/maps-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -498,13 +498,13 @@ export class DefaultApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Record<string, Record<string, ComplexObject | undefined> | undefined>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }");
+                            body = ObjectSerializer.deserialize(body, "Record<string, Record<string, ComplexObject | undefined> | undefined>");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -517,7 +517,7 @@ export class DefaultApi {
     /**
      * 
      */
-    public async testDecodeMapOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: ComplexObject | undefined | null; };  }> {
+    public async testDecodeMapOfObjectsGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Record<string, ComplexObject | undefined | null>;  }> {
         const localVarPath = this.basePath + '/test/decode/map-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -559,13 +559,13 @@ export class DefaultApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: ComplexObject | undefined | null; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Record<string, ComplexObject | undefined | null>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "{ [key: string]: ComplexObject | undefined | null; }");
+                            body = ObjectSerializer.deserialize(body, "Record<string, ComplexObject | undefined | null>");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -578,7 +578,7 @@ export class DefaultApi {
     /**
      * 
      */
-    public async testDecodeMapOfPrimitiveGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: string | undefined; };  }> {
+    public async testDecodeMapOfPrimitiveGet (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Record<string, string | undefined>;  }> {
         const localVarPath = this.basePath + '/test/decode/map-of/primitive';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -620,13 +620,13 @@ export class DefaultApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: string | undefined; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Record<string, string | undefined>;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
                     } else {
                         if (response.statusCode && response.statusCode >= 200 && response.statusCode <= 299) {
-                            body = ObjectSerializer.deserialize(body, "{ [key: string]: string | undefined; }");
+                            body = ObjectSerializer.deserialize(body, "Record<string, string | undefined>");
                             resolve({ response: response, body: body });
                         } else {
                             reject(new HttpError(response, body, response.statusCode));
@@ -1127,7 +1127,7 @@ export class DefaultApi {
      * 
      * @param complexObject 
      */
-    public async testEncodeArrayOfMapsOfObjectsPost (complexObject: Array<{ [key: string]: ComplexObject | undefined; }>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async testEncodeArrayOfMapsOfObjectsPost (complexObject: Array<Record<string, ComplexObject | undefined>>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/test/encode/array-of/maps-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -1149,7 +1149,7 @@ export class DefaultApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(complexObject, "Array<{ [key: string]: ComplexObject | undefined; }>")
+            body: ObjectSerializer.serialize(complexObject, "Array<Record<string, ComplexObject | undefined>>")
         };
 
         let authenticationPromise = Promise.resolve();
@@ -1427,7 +1427,7 @@ export class DefaultApi {
      * 
      * @param requestBody 
      */
-    public async testEncodeMapOfMapsOfObjectsPost (requestBody: { [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async testEncodeMapOfMapsOfObjectsPost (requestBody: Record<string, Record<string, ComplexObject | undefined> | undefined>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/test/encode/map-of/maps-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -1449,7 +1449,7 @@ export class DefaultApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(requestBody, "{ [key: string]: { [key: string]: ComplexObject | undefined; } | undefined; }")
+            body: ObjectSerializer.serialize(requestBody, "Record<string, Record<string, ComplexObject | undefined> | undefined>")
         };
 
         let authenticationPromise = Promise.resolve();
@@ -1487,7 +1487,7 @@ export class DefaultApi {
      * 
      * @param requestBody 
      */
-    public async testEncodeMapOfObjectsPost (requestBody: { [key: string]: ComplexObject | undefined | null; }, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async testEncodeMapOfObjectsPost (requestBody: Record<string, ComplexObject | undefined | null>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/test/encode/map-of/objects';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -1509,7 +1509,7 @@ export class DefaultApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(requestBody, "{ [key: string]: ComplexObject | undefined | null; }")
+            body: ObjectSerializer.serialize(requestBody, "Record<string, ComplexObject | undefined | null>")
         };
 
         let authenticationPromise = Promise.resolve();
@@ -1547,7 +1547,7 @@ export class DefaultApi {
      * 
      * @param requestBody 
      */
-    public async testEncodeMapOfPrimitivePost (requestBody: { [key: string]: string | undefined; }, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
+    public async testEncodeMapOfPrimitivePost (requestBody: Record<string, string | undefined>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/test/encode/map-of/primitive';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -1569,7 +1569,7 @@ export class DefaultApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(requestBody, "{ [key: string]: string | undefined; }")
+            body: ObjectSerializer.serialize(requestBody, "Record<string, string | undefined>")
         };
 
         let authenticationPromise = Promise.resolve();

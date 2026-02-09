@@ -88,7 +88,7 @@ export interface PayloadGetInventory extends BasePayloadApiAction {
 
 
 export const getInventoryRequest = createSagaAction<void>("getInventoryRequest");
-export const getInventorySuccess = createSagaAction<{ [key: string]: number; }>("getInventorySuccess");
+export const getInventorySuccess = createSagaAction<Record<string, number>>("getInventorySuccess");
 export const getInventoryFailure = createSagaAction<{error: any, requestPayload: PayloadGetInventory}>("getInventoryFailure");
 
 export const getInventory = createSagaAction<PayloadGetInventory>("getInventory");
@@ -103,7 +103,7 @@ export function *getInventorySagaImp(_action_: Action<PayloadGetInventory>) {
 
         yield put(getInventoryRequest());
 
-        const response: Required<{ [key: string]: number; }> = yield apiCall(Api.storeApi, Api.storeApi['getInventory'],
+        const response: Required<Record<string, number>> = yield apiCall(Api.storeApi, Api.storeApi['getInventory'],
         );
 
         let successReturnValue: any = undefined;

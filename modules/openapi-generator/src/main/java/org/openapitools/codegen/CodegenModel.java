@@ -144,6 +144,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Getter @Setter
     public List<CodegenProperty> nonNullableVars = new ArrayList<>(); // a list of non-nullable properties
     @Getter @Setter
+    public List<String> nameOnlyVars = new ArrayList<>(); // Names of properties specified by propertyNames
+    @Getter @Setter
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -256,6 +258,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private Number multipleOf;
     private CodegenProperty items;
     private CodegenProperty additionalProperties;
+    private CodegenProperty propertyNames;
     private boolean isModel;
     private boolean hasRequiredVars;
     private boolean hasDiscriminatorWithNonEmptyMapping;
@@ -635,6 +638,20 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     }
 
     @Override
+    public CodegenProperty getPropertyNames() {
+        return propertyNames;
+    }
+
+    @Override
+    public void setPropertyNames(CodegenProperty propertyNames) {
+        this.propertyNames = propertyNames;
+        if (!propertyNames.getIsEnum()) {
+            return;
+        }
+        this.nameOnlyVars.addAll(propertyNames.get_enum());
+    }
+
+    @Override
     public boolean getHasValidation() {
         return hasValidation;
     }
@@ -970,6 +987,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(readOnlyVars, that.readOnlyVars) &&
                 Objects.equals(readWriteVars, that.readWriteVars) &&
                 Objects.equals(parentVars, that.parentVars) &&
+                Objects.equals(nameOnlyVars, that.nameOnlyVars) &&
                 Objects.equals(allowableValues, that.allowableValues) &&
                 Objects.equals(mandatory, that.mandatory) &&
                 Objects.equals(allMandatory, that.allMandatory) &&
@@ -978,6 +996,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
                 Objects.equals(isAdditionalPropertiesTrue, that.isAdditionalPropertiesTrue) &&
+                Objects.equals(propertyNames, that.propertyNames) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
@@ -1002,10 +1021,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
                 isDate, isDateTime, isNull, hasValidation, isShort, isUnboundedInteger, isBoolean,
                 getVars(), getAllVars(), getNonNullableVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
-                getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
+                getParentVars(), getNameOnlyVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArray,
                 hasChildren, isMap, isOptional, isDeprecated, hasReadOnly, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
-                getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
+                getAdditionalPropertiesType(), getPropertyNames(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,

@@ -136,6 +136,10 @@ public interface IJsonSchemaValidationProperties {
 
     void setAdditionalProperties(CodegenProperty additionalProperties);
 
+    CodegenProperty getPropertyNames();
+
+    void setPropertyNames(CodegenProperty propertyNames);
+
     List<CodegenProperty> getVars();
 
     void setVars(List<CodegenProperty> vars);

@@ -35,10 +35,10 @@ export interface GetBehaviorPermissionsResponse {
     meta: ResponseMeta;
     /**
      * 
-     * @type {{ [key: string]: boolean; }}
+     * @type {Record<string, boolean>}
      * @memberof GetBehaviorPermissionsResponse
      */
-    data?: { [key: string]: boolean; };
+    data?: Record<string, boolean>;
 }
 
 /**

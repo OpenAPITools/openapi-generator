@@ -6,10 +6,10 @@
 
 Name | Type
 ------------ | -------------
-`mapMapOfString` | { [key: string]: { [key: string]: string; }; }
-`mapOfEnumString` | { [key: string]: string; }
-`directMap` | { [key: string]: boolean; }
-`indirectMap` | { [key: string]: boolean; }
+`mapMapOfString` | Record&lt;string, Record&lt;string, string&gt;&gt;
+`mapOfEnumString` | Record&lt;string, string&gt;
+`directMap` | Record&lt;string, boolean&gt;
+`indirectMap` | Record&lt;string, boolean&gt;
 
 ## Example
 

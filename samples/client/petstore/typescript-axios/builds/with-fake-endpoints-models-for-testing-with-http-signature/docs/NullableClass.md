@@ -14,9 +14,9 @@ Name | Type | Description | Notes
 **array_nullable_prop** | **Array&lt;object&gt;** |  | [optional] [default to undefined]
 **array_and_items_nullable_prop** | **Array&lt;object | null&gt;** |  | [optional] [default to undefined]
 **array_items_nullable** | **Array&lt;object | null&gt;** |  | [optional] [default to undefined]
-**object_nullable_prop** | **{ [key: string]: object; }** |  | [optional] [default to undefined]
-**object_and_items_nullable_prop** | **{ [key: string]: object | null; }** |  | [optional] [default to undefined]
-**object_items_nullable** | **{ [key: string]: object | null; }** |  | [optional] [default to undefined]
+**object_nullable_prop** | **Record&lt;string, object&gt;** |  | [optional] [default to undefined]
+**object_and_items_nullable_prop** | **Record&lt;string, object | null&gt;** |  | [optional] [default to undefined]
+**object_items_nullable** | **Record&lt;string, object | null&gt;** |  | [optional] [default to undefined]
 
 ## Example
 

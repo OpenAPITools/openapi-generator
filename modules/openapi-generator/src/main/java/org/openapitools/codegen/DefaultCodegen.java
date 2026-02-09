@@ -2923,6 +2923,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+        setPropNames(schema, m);
         addRequiredVarsMap(schema, m);
     }
 
@@ -2944,6 +2945,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // process 'additionalProperties'
         setAddProps(schema, m);
+        setPropNames(schema, m);
         addRequiredVarsMap(schema, m);
     }
 
@@ -3258,6 +3260,18 @@ public class DefaultCodegen implements CodegenConfig {
         Comparator<CodegenProperty> comparator = Comparator.comparing(prop -> !prop.required);
         Collections.sort(model.vars, comparator);
         Collections.sort(model.allVars, comparator);
+    }
+
+    protected void setPropNames(Schema schema, IJsonSchemaValidationProperties property) {
+        if (schema.equals(new Schema())) {
+            return;
+        }
+
+        if (schema.getPropertyNames() == null) {
+            return;
+        }
+        CodegenProperty propNamesProp = fromProperty(getPropertyNamesName(), schema.getPropertyNames(), false, false);
+        property.setPropertyNames(propNamesProp);
     }
 
     protected void setAddProps(Schema schema, IJsonSchemaValidationProperties property) {
@@ -3882,7 +3896,7 @@ public class DefaultCodegen implements CodegenConfig {
             // an object or anyType composed schema that has additionalProperties set
             updatePropertyForMap(property, p);
         }
-        addVarsRequiredVarsAdditionalProps(p, property);
+        addVarsRequiredVarsAdditionalPropsPropertyNames(p, property);
     }
 
     protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
@@ -3905,7 +3919,7 @@ public class DefaultCodegen implements CodegenConfig {
             // even though it should allow in any type and have map constraints for properties
             updatePropertyForMap(property, p);
         }
-        addVarsRequiredVarsAdditionalProps(p, property);
+        addVarsRequiredVarsAdditionalPropsPropertyNames(p, property);
     }
 
     protected void updatePropertyForString(CodegenProperty property, Schema p) {
@@ -5192,9 +5206,9 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = false;
             r.containerType = cp.containerType;
             r.containerTypeMapped = cp.containerTypeMapped;
-            addVarsRequiredVarsAdditionalProps(responseSchema, r);
+            addVarsRequiredVarsAdditionalPropsPropertyNames(responseSchema, r);
         } else if (ModelUtils.isAnyType(responseSchema)) {
-            addVarsRequiredVarsAdditionalProps(responseSchema, r);
+            addVarsRequiredVarsAdditionalPropsPropertyNames(responseSchema, r);
         } else if (!ModelUtils.isBooleanSchema(responseSchema)) {
             // referenced schemas
             LOGGER.debug("Property type is not primitive: {}", cp.dataType);
@@ -5505,14 +5519,14 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isFreeFormObject(parameterSchema, openAPI)) {
                 codegenParameter.isFreeFormObject = true;
             }
-            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
+            addVarsRequiredVarsAdditionalPropsPropertyNames(parameterSchema, codegenParameter);
         } else if (ModelUtils.isNullType(parameterSchema)) {
         } else if (ModelUtils.isAnyType(parameterSchema)) {
             // any schema with no type set, composed schemas often do this
             if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 updateParameterForMap(codegenParameter, parameterSchema, imports);
             }
-            addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
+            addVarsRequiredVarsAdditionalPropsPropertyNames(parameterSchema, codegenParameter);
         } else if (ModelUtils.isArraySchema(parameterSchema)) {
             Schema inner = ModelUtils.getSchemaItems(parameterSchema);
 
@@ -7859,7 +7873,7 @@ public class DefaultCodegen implements CodegenConfig {
             // object type schema or composed schema with properties defined
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
         }
-        addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
+        addVarsRequiredVarsAdditionalPropsPropertyNames(schema, codegenParameter);
     }
 
     protected void updateRequestBodyForArray(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
@@ -8144,7 +8158,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
             }
-            addVarsRequiredVarsAdditionalProps(schema, codegenParameter);
+            addVarsRequiredVarsAdditionalPropsPropertyNames(schema, codegenParameter);
         } else {
             // referenced schemas
             updateRequestBodyForPrimitiveType(codegenParameter, schema, bodyParameterName, imports);
@@ -8262,12 +8276,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    protected void addVarsRequiredVarsAdditionalProps(Schema schema, IJsonSchemaValidationProperties property) {
+    protected void addVarsRequiredVarsAdditionalPropsPropertyNames(Schema schema, IJsonSchemaValidationProperties property) {
         setAddProps(schema, property);
         Set<String> mandatory = schema.getRequired() == null ? Collections.emptySet()
                 : new TreeSet<>(schema.getRequired());
         addVars(property, property.getVars(), schema.getProperties(), mandatory);
         addRequiredVarsMap(schema, property);
+        setPropNames(schema, property);
     }
 
     protected String getItemsName(Schema containingSchema, String containingSchemaName) {
@@ -8280,6 +8295,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getAdditionalPropertiesName() {
         return "additional_properties";
+    }
+
+    protected String getPropertyNamesName() {
+        return "property_names";
     }
 
     private void addJsonSchemaForBodyRequestInCaseItsNotPresent(CodegenParameter codegenParameter, RequestBody body) {
