@@ -13,10 +13,11 @@ package org.openapitools.client.model
 
 
   /**
-   * Pet Tag
-   * A tag for a pet
+   * An uploaded response
+   * Describes the result of uploading an image resource
    */
-case class Tag(
-  id: Option[Long] = None,
-  name: Option[String] = None
+case class ApiResponse(
+  code: Option[Int] = None,
+  `type`: Option[String] = None,
+  message: Option[String] = None
 )

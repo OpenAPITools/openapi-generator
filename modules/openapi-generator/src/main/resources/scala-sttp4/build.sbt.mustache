@@ -16,6 +16,8 @@ libraryDependencies ++= Seq(
 {{/json4s}}
 {{#circe}}
   "com.softwaremill.sttp.client4" %% "circe" % "{{sttpClientVersion}}"
+  "io.circe" %% "circe-generic" % "{{circeVersion}}",
+  "io.circe" %% "circe-generic-extras" % "{{circeExtrasVersion}}",
 {{/circe}}
 )
 

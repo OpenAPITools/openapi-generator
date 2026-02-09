@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "4.0.0-M1");
+            "sttp client", "4.0.15");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -33,6 +33,10 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             "joda-time library", "2.10.13");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "4.0.6");
+    private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
+            "library", "0.14.15");
+    private static final StringProperty CIRCE_EXTRAS_VERSION = new StringProperty("circeExtrasVersion",
+      "The version of circe-generic-extras library", "0.14.4");
 
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
@@ -41,7 +45,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
 
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            JSON4S_VERSION, CIRCE_VERSION, CIRCE_EXTRAS_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttp4ClientCodegen.class);
 
