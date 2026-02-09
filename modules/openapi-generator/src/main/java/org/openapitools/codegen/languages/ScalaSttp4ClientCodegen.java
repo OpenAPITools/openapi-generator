@@ -279,10 +279,27 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                             childModel.getVendorExtensions().put("x-isOneOfMember", true);
                             childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
 
-                            // Remove discriminator field from child if parent has discriminator
-                            // (circe-generic-extras adds it automatically)
+                            // Add discriminator mapping value if present
                             if (cModel.discriminator != null) {
                                 String discriminatorName = cModel.discriminator.getPropertyName();
+                                
+                                // Find the mapping value for this child model
+                                String discriminatorValue = null;
+                                if (cModel.discriminator.getMappedModels() != null) {
+                                    for (CodegenDiscriminator.MappedModel mappedModel : cModel.discriminator.getMappedModels()) {
+                                        if (mappedModel.getModelName().equals(childName)) {
+                                            discriminatorValue = mappedModel.getMappingName();
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                if (discriminatorValue != null) {
+                                    childModel.getVendorExtensions().put("x-discriminator-value", discriminatorValue);
+                                }
+                                
+                                // Remove discriminator field from child
+                                // (circe-generic-extras adds it automatically)
                                 childModel.vars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                                 childModel.allVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
                                 childModel.requiredVars.removeIf(prop -> prop.baseName.equals(discriminatorName));

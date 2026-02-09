@@ -103,7 +103,13 @@ object {{classname}} {
   import io.circe.generic.auto._
   
   private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyName}}")
-  
+    .copy(
+      transformConstructorNames = {
+{{#vendorExtensions.x-oneOfMembers}}
+        case "{{classname}}" => "{{vendorExtensions.x-discriminator-value}}"
+{{/vendorExtensions.x-oneOfMembers}}
+      }
+    )  
   implicit val encoder: Encoder[{{classname}}] = deriveConfiguredEncoder
   implicit val decoder: Decoder[{{classname}}] = deriveConfiguredDecoder
 {{/vendorExtensions.x-use-discr}}
