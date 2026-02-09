@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class TestEnumWithDefault(StrEnum):
 
-class TestEnumWithDefault(str, Enum):
     """
     TestEnumWithDefault
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     EIN = 'EIN'
     ZWEI = 'ZWEI'
     DREI = 'DREI'
@@ -34,5 +32,4 @@ class TestEnumWithDefault(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of TestEnumWithDefault from a JSON string"""
         return cls(json.loads(json_str))
-
 

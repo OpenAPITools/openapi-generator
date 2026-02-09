@@ -13,125 +13,58 @@
 
 
 from __future__ import annotations
-import json
 import pprint
-from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import Any, List, Optional
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
-from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+from pydantic import Field, RootModel
+from typing import Any, Dict, List, Union, Self
+
 
 ONEOFENUMSTRING_ONE_OF_SCHEMAS = ["EnumString1", "EnumString2"]
 
-class OneOfEnumString(BaseModel):
+
+class OneOfEnumString(RootModel[Union[EnumString1, EnumString2]]):
     """
     oneOf enum strings
     """
-    # data type: EnumString1
-    oneof_schema_1_validator: Optional[EnumString1] = None
-    # data type: EnumString2
-    oneof_schema_2_validator: Optional[EnumString2] = None
-    actual_instance: Optional[Union[EnumString1, EnumString2]] = None
-    one_of_schemas: Set[str] = { "EnumString1", "EnumString2" }
-
-    model_config = ConfigDict(
-        validate_assignment=True,
-        protected_namespaces=(),
+    root: Union[EnumString1, EnumString2] = Field(
+      ...
     )
 
+    def __getattr__(self, name):
+        """
+        Delegate attribute access to the root model if the attribute
+        doesn't exist on the main class.
+        """
 
-    def __init__(self, *args, **kwargs) -> None:
-        if args:
-            if len(args) > 1:
-                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
-            if kwargs:
-                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
-            super().__init__(actual_instance=args[0])
-        else:
-            super().__init__(**kwargs)
+        if name in self.__dict__:
+            return super().__getattribute__(name)
 
-    @field_validator('actual_instance')
-    def actual_instance_must_validate_oneof(cls, v):
-        instance = OneOfEnumString.model_construct()
-        error_messages = []
-        match = 0
-        # validate data type: EnumString1
-        if not isinstance(v, EnumString1):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString1`")
-        else:
-            match += 1
-        # validate data type: EnumString2
-        if not isinstance(v, EnumString2):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `EnumString2`")
-        else:
-            match += 1
-        if match > 1:
-            # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
-        elif match == 0:
-            # no match
-            raise ValueError("No match found when setting `actual_instance` in OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
-        else:
-            return v
+        root = self.__dict__.get('root')
+        if root is not None:
+            return getattr(root, name)
+
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
     @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
-        return cls.from_json(json.dumps(obj))
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the python Dict"""
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:
         """Returns the object represented by the json string"""
-        instance = cls.model_construct()
-        error_messages = []
-        match = 0
-
-        # deserialize data into EnumString1
-        try:
-            instance.actual_instance = EnumString1.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        # deserialize data into EnumString2
-        try:
-            instance.actual_instance = EnumString2.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-
-        if match > 1:
-            # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
-        elif match == 0:
-            # no match
-            raise ValueError("No match found when deserializing the JSON string into OneOfEnumString with oneOf schemas: EnumString1, EnumString2. Details: " + ", ".join(error_messages))
-        else:
-            return instance
+        return cls.model_validate_json(json_str)
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is None:
-            return "null"
+        return self.model_dump_json(by_alias=True)
 
-        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
-            return self.actual_instance.to_json()
-        else:
-            return json.dumps(self.actual_instance)
-
-    def to_dict(self) -> Optional[Union[Dict[str, Any], EnumString1, EnumString2]]:
+    def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is None:
-            return None
-
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            # primitive type
-            return self.actual_instance
+        return self.model_dump(by_alias=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.model_dump())
-
+        return pprint.pformat(self.model_dump(by_alias=True, mode="json"))
 

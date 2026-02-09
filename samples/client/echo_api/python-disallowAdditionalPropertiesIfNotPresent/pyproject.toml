@@ -8,7 +8,7 @@ authors = [
 license = { text = "Apache 2.0" }
 readme = "README.md"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 
 dependencies = [
   "urllib3 (>=2.1.0,<3.0.0)",

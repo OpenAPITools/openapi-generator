@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class DataOutputFormat(StrEnum):
 
-class DataOutputFormat(str, Enum):
     """
     DataOutputFormat
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     JSON = 'JSON'
     CSV = 'CSV'
     XML = 'XML'
@@ -34,5 +32,4 @@ class DataOutputFormat(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of DataOutputFormat from a JSON string"""
         return cls(json.loads(json_str))
-
 

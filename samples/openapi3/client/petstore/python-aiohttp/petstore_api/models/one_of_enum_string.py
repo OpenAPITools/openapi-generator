@@ -14,18 +14,16 @@
 
 from __future__ import annotations
 import json
-from enum import Enum
-from typing_extensions import Self
+from enum import Enum, StrEnum, IntEnum
+from typing import Self
 
+class OneOfEnumString(StrEnum):
 
-class OneOfEnumString(str, Enum):
     """
     oneOf enum strings
     """
 
-    """
-    allowed enum values
-    """
+    # Allowed enum values
     A = 'a'
     B = 'b'
     C = 'c'
@@ -35,5 +33,4 @@ class OneOfEnumString(str, Enum):
     def from_json(cls, json_str: str) -> Self:
         """Create an instance of OneOfEnumString from a JSON string"""
         return cls(json.loads(json_str))
-
 
