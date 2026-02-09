@@ -41,3 +41,12 @@ components:
         - -1.2
       type: number
       format: double
+    ModelWithEnumProperties:
+      type: object
+      properties:
+        intEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        longEnum:
+          $ref: '#/components/schemas/LongEnum'
+        doubleEnum:
+          $ref: '#/components/schemas/DoubleEnum'

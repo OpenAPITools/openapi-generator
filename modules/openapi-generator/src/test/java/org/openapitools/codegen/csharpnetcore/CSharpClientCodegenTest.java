@@ -337,5 +337,24 @@ public class CSharpClientCodegenTest {
                 "writer.WriteStringValue(",
                 "return (double) value"
         );
+
+        // Verify model with enum properties uses JsonSerializer.Deserialize for enum props
+        File modelFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelFile, "Could not find file for model: ModelWithEnumProperties");
+        assertFileContains(modelFile.toPath(),
+                "JsonSerializer.Deserialize<IntegerEnum",
+                "JsonSerializer.Deserialize<LongEnum",
+                "JsonSerializer.Deserialize<DoubleEnum"
+        );
+        // Enum property values should NOT be read inline with Get* methods;
+        // only the JSON property name key uses GetString, not the enum values
+        assertFileNotContains(modelFile.toPath(),
+                "utf8JsonReader.GetInt32()",
+                "utf8JsonReader.GetInt64()",
+                "utf8JsonReader.GetDouble()"
+        );
     }
 }
