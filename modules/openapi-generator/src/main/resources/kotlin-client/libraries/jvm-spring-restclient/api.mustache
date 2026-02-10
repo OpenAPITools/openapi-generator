@@ -101,17 +101,17 @@ import {{packageName}}.infrastructure.*
                 {{#queryParams}}
                 {{^required}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${{{paramName}}}.value}"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/required}}
                 {{#required}}
                 {{#isNullable}}
                 if ({{{paramName}}} != null) {
-                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${{{paramName}}}.value}"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
                 }
                 {{/isNullable}}
                 {{^isNullable}}
-                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${{{paramName}}}.value}"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
+                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{/isDate}}{{/isDateTime}}){{/isContainer}})
                 {{/isNullable}}
                 {{/required}}
                 {{/queryParams}}

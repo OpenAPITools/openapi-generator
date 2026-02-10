@@ -67,10 +67,10 @@ open class QueryApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (enumNonrefStringQuery != null) {
-                    put("enum_nonref_string_query", listOf("$enumNonrefStringQuery.value}"))
+                    put("enum_nonref_string_query", listOf("${ enumNonrefStringQuery.value }"))
                 }
                 if (enumRefStringQuery != null) {
-                    put("enum_ref_string_query", listOf("$enumRefStringQuery.value}"))
+                    put("enum_ref_string_query", listOf("${ enumRefStringQuery.value }"))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
