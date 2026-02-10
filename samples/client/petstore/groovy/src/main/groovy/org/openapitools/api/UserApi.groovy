@@ -4,7 +4,7 @@ import org.openapitools.api.ApiUtils
 import org.openapitools.model.User
 
 class UserApi {
-    String basePath = "http://petstore.swagger.io/v2"
+    String basePath = "http://localhost/v2"
     String versionPath = ""
     ApiUtils apiUtils = new ApiUtils();
 
