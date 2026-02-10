@@ -877,7 +877,7 @@ public class SpringCodegenTest {
                 .hasType("String");   // plain query param → always String
         JavaFileAssert.assertThat(files.get("QueryApi.java"))
                 .assertMethod("queryParams")
-                .assertParameter("_byte")
+                .assertParameter("bytes")
                 .hasType("String");   // Base64 query param → String (manual decoding needed)
 
         // Path parameters: same behavior as query params
@@ -887,7 +887,7 @@ public class SpringCodegenTest {
                 .hasType("String");   // path param → String
         JavaFileAssert.assertThat(files.get("PathApi.java"))
                 .assertMethod("pathParams")
-                .assertParameter("_byte")
+                .assertParameter("bytes")
                 .hasType("String");   // Base64 path param → String
 
         // Header parameters: always String
@@ -907,7 +907,7 @@ public class SpringCodegenTest {
                 .hasType("String");   // cookie → String
         JavaFileAssert.assertThat(files.get("CookieApi.java"))
                 .assertMethod("cookieParams")
-                .assertParameter("_byte")
+                .assertParameter("bytes")
                 .hasType("String");   // Base64 cookie → String
 
         // Form fields: text fields → String
@@ -917,29 +917,40 @@ public class SpringCodegenTest {
                 .hasType("String");   // form field → String
         JavaFileAssert.assertThat(files.get("FormApi.java"))
                 .assertMethod("formParams")
-                .assertParameter("_byte")
+                .assertParameter("bytes")
                 .hasType("String");   // Base64 form field → String
 
         // Multipart fields: text fields → String, files → MultipartFile
+        // Verifies that a simple multipart text field is generated as a String parameter
         JavaFileAssert.assertThat(files.get("MultipartApi.java"))
                 .assertMethod("multipartParams")
                 .assertParameter("plain")
                 .hasType("String");   // multipart text field → String
+
+        // Verifies that a Base64-encoded multipart field is treated as text (String)
+        // and is bound using @RequestParam rather than @RequestPart
         JavaFileAssert.assertThat(files.get("MultipartApi.java"))
                 .assertMethod("multipartParams")
-                .assertParameter("_byte")
-                .hasType("String");   // Base64 multipart text → String
+                .assertParameter("bytes")
+                .hasType("String")   // Base64 multipart text → String
+                .assertParameterAnnotations()
+                .containsWithName("RequestParam");
+
+        // Verifies that a binary file upload is exposed as MultipartFile
+        // and correctly bound from a multipart section using @RequestPart
         JavaFileAssert.assertThat(files.get("MultipartApi.java"))
                 .assertMethod("multipartParams")
                 .assertParameter("file")
-                .hasType("MultipartFile");   // binary file upload → MultipartFile
+                .hasType("MultipartFile")   // binary file upload → MultipartFile
+                .assertParameterAnnotations()
+                .containsWithName("RequestPart");
 
         // Form request DTO: JSON or form object mapping
         JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
                 .assertProperty("plain")
                 .withType("String");  // text property → String
         JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
-                .assertProperty("_byte")
+                .assertProperty("bytes")
                 .isArray()
                 .withType("byte");  // Base64 property in DTO → auto-decoded to byte[]
 

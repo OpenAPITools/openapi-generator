@@ -178,8 +178,8 @@ public interface PetApi {
     )
     Mono<ResponseEntity<Void>> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "name", required = false) String name,
-         @RequestPart(value = "status", required = false) String status
+         @RequestParam(value = "name", required = false) String name,
+         @RequestParam(value = "status", required = false) String status
     );
 
 
@@ -200,7 +200,7 @@ public interface PetApi {
     )
     Mono<ResponseEntity<ModelApiResponse>> uploadFile(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
+         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) Part file
     );
 
@@ -223,7 +223,7 @@ public interface PetApi {
     Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-         @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
+         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }

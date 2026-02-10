@@ -13,7 +13,7 @@ paths:
           in: query
           schema:
             type: string
-        - name: bytes
+        - name: byte
           in: query
           schema:
             type: string
@@ -22,7 +22,7 @@ paths:
         '204':
           description: No content
   
-  /path/{plain}/{bytes}:
+  /path/{plain}/{byte}:
     get:
       operationId: pathParams
       summary: Path parameters
@@ -32,7 +32,7 @@ paths:
           required: true
           schema:
             type: string
-        - name: bytes
+        - name: byte
           in: path
           required: true
           schema:
@@ -69,7 +69,7 @@ paths:
           in: cookie
           schema:
             type: string
-        - name: bytes
+        - name: byte
           in: cookie
           schema:
             type: string
@@ -91,7 +91,7 @@ paths:
               properties:
                 plain:
                   type: string
-                bytes:
+                byte:
                   type: string
                   format: byte
       responses:
@@ -111,7 +111,7 @@ paths:
               properties:
                 plain:
                   type: string
-                bytes:
+                byte:
                   type: string
                   format: byte
                 file:
@@ -134,7 +134,7 @@ paths:
               properties:
                 plain:
                   type: string
-                bytes:
+                byte:
                   type: string
                   format: byte
       responses:
