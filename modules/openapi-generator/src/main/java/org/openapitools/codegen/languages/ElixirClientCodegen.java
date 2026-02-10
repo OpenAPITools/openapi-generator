@@ -186,8 +186,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                         "number()",
                         "boolean()",
                         "String.t",
-                        "Date.t",
-                        "DateTime.t",
                         "binary()",
                         "list()",
                         "map()",
