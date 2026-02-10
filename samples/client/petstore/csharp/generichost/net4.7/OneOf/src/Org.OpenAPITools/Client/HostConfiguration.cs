@@ -52,15 +52,42 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Configures the HttpClients.
         /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(Action<IHttpClientBuilder> builder = null)
+        {
+            return AddApiHttpClients((Action<IServiceProvider, HttpClient>)null, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration AddApiHttpClients
-        (
-            Action<HttpClient> client = null, Action<IHttpClientBuilder> builder = null)
+        public HostConfiguration AddApiHttpClients(
+            Action<HttpClient> client,
+            Action<IHttpClientBuilder> builder = null)
+        {
+            var wrapped = client != null ? new Action<IServiceProvider, HttpClient>((_, httpClient) =>
+            {
+                client(httpClient);
+            }) : null;
+            return AddApiHttpClients(wrapped, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(
+            Action<IServiceProvider, HttpClient> client,
+            Action<IHttpClientBuilder> builder = null)
         {
             if (client == null)
-                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+                client = (_, c) => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 

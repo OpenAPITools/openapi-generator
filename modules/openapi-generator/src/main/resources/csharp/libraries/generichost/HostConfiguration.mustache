@@ -86,15 +86,42 @@ namespace {{packageName}}.{{clientPackage}}
         /// <summary>
         /// Configures the HttpClients.
         /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{apiName}}HttpClients(Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        {
+            return Add{{apiName}}HttpClients((Action<IServiceProvider, HttpClient>{{nrt?}})null, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration Add{{apiName}}HttpClients
-        (
-            Action<HttpClient>{{nrt?}} client = null, Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        public HostConfiguration Add{{apiName}}HttpClients(
+            Action<HttpClient>{{nrt?}} client,
+            Action<IHttpClientBuilder>{{nrt?}} builder = null)
+        {
+            var wrapped = client != null ? new Action<IServiceProvider, HttpClient>((_, httpClient) =>
+            {
+                client(httpClient);
+            }) : null;
+            return Add{{apiName}}HttpClients(wrapped, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration Add{{apiName}}HttpClients(
+            Action<IServiceProvider, HttpClient>{{nrt?}} client,
+            Action<IHttpClientBuilder>{{nrt?}} builder = null)
         {
             if (client == null)
-                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+                client = (_, c) => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
