@@ -708,7 +708,7 @@ class ApiClient:
                 content_disposition
             )
             assert m is not None, "Unexpected 'content-disposition' header value"
-            filename = os.path.basename(m.group(1)) # Strip any directory traversal
+            filename = m.group(1)
             path = os.path.join(os.path.dirname(path), filename)
 
         with open(path, "wb") as f:
