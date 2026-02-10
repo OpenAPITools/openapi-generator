@@ -51,6 +51,7 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -194,6 +195,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "configurationFile", property = "openapi.generator.maven.plugin.configurationFile")
     private String configurationFile;
+
+    /**
+     * Skip the execution if the configuration file does not exist.
+     */
+    @Parameter(name = "skipIfConfigurationFileMissing", property = "codegen.skipIfConfigurationFileMissing", defaultValue = "false")
+    private Boolean skipIfConfigurationFileMissing;
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -563,6 +570,25 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (Boolean.TRUE.equals(skipIfConfigurationFileMissing) && isNotEmpty(configurationFile)) {
+            if (!new File(configurationFile).exists()) {
+                getLog().info("Code generation is skipped because configuration file [" + configurationFile + "] is missing");
+                return;
+            }
+        }
+
+        // attempt to read from config file
+        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
+
+        // if a config file wasn't specified, or we were unable to read it
+        if (configurator == null) {
+            configurator = new CodegenConfigurator();
+        } else {
+            // retrieve mandatory fields from the configurationFile if not defined in the pom.xml
+            this.generatorName = fromConfigurator(configurator.getGeneratorName(),  generatorName);
+            this.inputSpec = fromConfigurator(configurator.getInputSpec(), inputSpec);
+        }
+
         if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
             LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
             throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
@@ -636,14 +662,6 @@ public class CodeGenMojo extends AbstractMojo {
                 } catch (IOException e) {
                     LOGGER.warn("Failed to clean up output directory {}", output, e);
                 }
-            }
-
-            // attempt to read from config file
-            CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
-
-            // if a config file wasn't specified, or we were unable to read it
-            if (configurator == null) {
-                configurator = new CodegenConfigurator();
             }
 
             configurator.setVerbose(verbose);
@@ -1030,6 +1048,19 @@ public class CodeGenMojo extends AbstractMojo {
             throw new MojoExecutionException(
                     "Code generation failed. See above for the full exception.");
         }
+    }
+
+    /**
+     * Use the configurator value is not defined in the pom.xml
+     *
+     * @param defaultValue default value taking precedence
+     */
+    private <T> T fromConfigurator(T value, T defaultValue) {
+        if (defaultValue != null) {
+            // keep backward compatibilty, the value in the pom.xml has precedence over the value in the config file.
+            return defaultValue;
+        }
+        return value;
     }
 
     /**

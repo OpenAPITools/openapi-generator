@@ -315,6 +315,31 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue("Src directory should have been regenerated", Files.exists(generatedDir.resolve("src")));
     }
 
+    public void testConfigurationFile() throws Exception {
+        // GIVEN
+        CodeGenMojo mojo = loadMojo(newTempFolder(), "src/test/resources/configuration-file", null);
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        assertEquals("spring", getVariableValueFromObject(mojo, "generatorName"));
+    }
+
+    public void testSkipConfigurationFileIfMissing() throws Exception {
+        // GIVEN
+        final Path tempDir = newTempFolder();
+        final Path generatedDir = tempDir.resolve("target/generated-sources/configuration-file-missing");
+        CodeGenMojo mojo = loadMojo(tempDir, "src/test/resources/configuration-file-missing", null);
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        assertFalse("Src directory should not be present", Files.exists(generatedDir.resolve("src")));
+    }
+
+
     protected CodeGenMojo loadMojo(Path temporaryFolder, String projectRoot, String profile) throws Exception {
         return loadMojo(temporaryFolder, projectRoot, profile, "default");
     }
