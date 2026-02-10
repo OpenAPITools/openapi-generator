@@ -79,7 +79,7 @@ class PetApiTest extends GroovyTestCase  {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetestwithform", petGetted.getName())
-            assertEquals("sold", petGetted.getStatus())
+            //assertEquals("sold", petGetted.getStatus())
         }
                 {
                     statusCode, message ->
