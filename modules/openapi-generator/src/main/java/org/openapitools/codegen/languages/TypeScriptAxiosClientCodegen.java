@@ -54,6 +54,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DEFAULT_AXIOS_VERSION = "^1.6.1";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
 
+    public static final String USE_ERASABLE_SYNTAX = "useErasableSyntax";
+    public static final String USE_ERASABLE_SYNTAX_DESC = "Use erasable syntax for the generated code (compatible with TypeScript's erasableSyntaxOnly compiler option). This is a temporary feature and will be removed in the future.";
+
     @Getter @Setter
     protected String npmRepository = null;
     protected Boolean stringEnums = false;
@@ -97,6 +100,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(AXIOS_VERSION, "Use this property to override the axios version in package.json").defaultValue(DEFAULT_AXIOS_VERSION));
         this.cliOptions.add(new CliOption(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(USE_ERASABLE_SYNTAX, USE_ERASABLE_SYNTAX_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
@@ -189,6 +193,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             this.setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString()));
         }
         additionalProperties.put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, withAWSV4Signature);
+
+        if (additionalProperties.containsKey(USE_ERASABLE_SYNTAX)) {
+            boolean useErasableSyntax = Boolean.parseBoolean(additionalProperties.get(USE_ERASABLE_SYNTAX).toString());
+            additionalProperties.put("useErasableSyntax", useErasableSyntax);
+        }
 
     }
 
