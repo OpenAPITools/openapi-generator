@@ -17,16 +17,16 @@ import unittest
 from petstore_api.api.default_api import DefaultApi
 
 
-class TestDefaultApi(unittest.TestCase):
+class TestDefaultApi(unittest.IsolatedAsyncioTestCase):
     """DefaultApi unit test stubs"""
 
-    def setUp(self) -> None:
+    async def asyncSetUp(self) -> None:
         self.api = DefaultApi()
 
-    def tearDown(self) -> None:
-        pass
+    async def asyncTearDown(self) -> None:
+        await self.api.api_client.close()
 
-    def test_foo_get(self) -> None:
+    async def test_foo_get(self) -> None:
         """Test case for foo_get
 
         """

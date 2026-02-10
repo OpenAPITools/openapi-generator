@@ -133,7 +133,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in setup.py (e.g. petstore-api)."));
+        cliOptions.add(new CliOption(CodegenConstants.PROJECT_NAME, "python project name in pyproject.toml (e.g. petstore-api)."));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "python package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(PACKAGE_URL, "python package URL."));
@@ -284,18 +284,17 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-            supportingFiles.add(new SupportingFile("setup_cfg.mustache", "", "setup.cfg"));
 
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("github-workflow.mustache", ".github/workflows", "python.yml"));
             supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
-            supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
             supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
             supportingFiles.add(new SupportingFile("py.typed.mustache", packagePath(), "py.typed"));
+        } else {
+            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
