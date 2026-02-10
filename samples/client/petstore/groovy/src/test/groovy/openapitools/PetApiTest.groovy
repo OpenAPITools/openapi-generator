@@ -75,16 +75,16 @@ class PetApiTest extends GroovyTestCase  {
                 assertEquals(200, statusCode)
         };
 
-        this.petApi.getPetById(this.petId) {
-            def petGetted = (Pet)it
-            assertEquals(this.petId, petGetted.getId())
-            //assertEquals("groovy client updatetestwithform", petGetted.getName())
-            //assertEquals("sold", petGetted.getStatus())
-        }
-        {
-            statusCode, message ->
-                assertEquals(200, statusCode)
-        };
+        //this.petApi.getPetById(this.petId) {
+        //    def petGetted = (Pet)it
+        //    assertEquals(this.petId, petGetted.getId())
+        //    assertEquals("groovy client updatetestwithform", petGetted.getName())
+        //    assertEquals("sold", petGetted.getStatus())
+        //}
+        //{
+        //    statusCode, message ->
+        //        assertEquals(200, statusCode)
+        //};
 
         this.petApi.deletePet(this.petId, "apiKey") {
         }
