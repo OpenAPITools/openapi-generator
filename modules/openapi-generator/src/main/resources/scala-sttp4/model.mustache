@@ -36,6 +36,16 @@ case class {{classname}}(
   {{! Empty case class for models with no properties }}
   {{/allVars}}
 ) extends {{vendorExtensions.x-oneOfParent}}
+{{#circe}}
+object {{classname}} {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+}
+{{/circe}}
 
 {{/vendorExtensions.x-oneOfMembers}}
 object {{classname}} {
@@ -90,7 +100,6 @@ object {{classname}} {
   // oneOf without discriminator - using semiauto derivation
   import io.circe.{Encoder, Decoder}
   import io.circe.generic.semiauto._
-  import io.circe.generic.auto._
 
   implicit val encoder: Encoder[{{classname}}] = deriveEncoder
   implicit val decoder: Decoder[{{classname}}] = deriveDecoder
@@ -100,7 +109,6 @@ object {{classname}} {
   import io.circe.{Encoder, Decoder}
   import io.circe.generic.extras._
   import io.circe.generic.extras.semiauto._
-  import io.circe.generic.auto._
 
   private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyName}}")
     .copy(
@@ -185,6 +193,16 @@ case class {{classname}}(
   {{/vars}}
 ){{#parent}} extends {{parent}}{{/parent}}
 {{/isEnum}}
+{{#circe}}
+object {{classname}} {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+}
+{{/circe}}
 {{#hasEnums}}
 object {{classname}}Enums {
   {{#vars}}

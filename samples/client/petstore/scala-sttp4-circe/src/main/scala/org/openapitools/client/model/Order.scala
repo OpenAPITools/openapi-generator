@@ -26,6 +26,14 @@ case class Order(
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None
 )
+object Order {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[Order] = deriveEncoder
+  implicit val decoder: Decoder[Order] = deriveDecoder
+}
 object OrderEnums {
 
   sealed trait Status

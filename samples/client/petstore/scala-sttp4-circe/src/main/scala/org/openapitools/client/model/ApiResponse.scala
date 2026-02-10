@@ -21,3 +21,11 @@ case class ApiResponse(
   `type`: Option[String] = None,
   message: Option[String] = None
 )
+object ApiResponse {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[ApiResponse] = deriveEncoder
+  implicit val decoder: Decoder[ApiResponse] = deriveDecoder
+}

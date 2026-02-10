@@ -25,6 +25,14 @@ case class Pet(
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
 )
+object Pet {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[Pet] = deriveEncoder
+  implicit val decoder: Decoder[Pet] = deriveDecoder
+}
 object PetEnums {
 
   sealed trait Status
