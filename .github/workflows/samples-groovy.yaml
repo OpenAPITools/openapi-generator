@@ -41,6 +41,6 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
-      - name: Build
+      - name: Build & Test
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build -x test
+        run: ./gradlew build
