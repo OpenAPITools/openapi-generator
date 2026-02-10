@@ -104,8 +104,8 @@ class PetApiTest extends GroovyTestCase  {
 
     }
 
-    @Test
     @Ignore("due to illegal argument exception in findPetByStatus")
+    @Test
     void testGetPetByStatus() {
         this.petApi.findPetsByStatus(["sold"]) {
             def listPets = (ArrayList)it
