@@ -49,7 +49,7 @@ class PetApiTest extends GroovyTestCase  {
         def pet = new Pet()
         pet.setId(this.petId)
         pet.setName("groovy client updatetest")
-        //pet.setStatus("pending")
+        pet.setStatus(Pet.StatusEnum.pending)
         this.petApi.updatePet(pet) {
         }
         {
@@ -61,7 +61,7 @@ class PetApiTest extends GroovyTestCase  {
             def petGetted = (Pet)it
             assertEquals(this.petId, petGetted.getId())
             assertEquals("groovy client updatetest", petGetted.getName())
-            //assertEquals("pending", petGetted.getStatus())
+            assertEquals(Pet.StatusEnum.pending, petGetted.getStatus())
         }
         {
             statusCode, message ->
@@ -75,16 +75,16 @@ class PetApiTest extends GroovyTestCase  {
                 assertEquals(200, statusCode)
         };
 
-        //this.petApi.getPetById(this.petId) {
-        //    def petGetted = (Pet)it
-        //    assertEquals(this.petId, petGetted.getId())
-        //    assertEquals("groovy client updatetestwithform", petGetted.getName())
-        //    assertEquals("sold", petGetted.getStatus())
-        //}
-        //{
-        //    statusCode, message ->
-        //        assertEquals(200, statusCode)
-        //};
+        this.petApi.getPetById(this.petId) {
+            def petGetted = (Pet)it
+            assertEquals(this.petId, petGetted.getId())
+            assertEquals("groovy client updatetestwithform", petGetted.getName())
+            assertEquals(Pet.StatusEnum.sold, petGetted.getStatus())
+        }
+        {
+            statusCode, message ->
+            assertEquals(200, statusCode)
+        };
 
         this.petApi.deletePet(this.petId, "apiKey") {
         }
@@ -104,17 +104,16 @@ class PetApiTest extends GroovyTestCase  {
 
     }
 
-    //@Ignore("due to illegal argument exception in findPetByStatus")
-    //@Test
-    //void testGetPetByStatus() {
-    //    this.petApi.findPetsByStatus(["sold"]) {
-    //        def listPets = (ArrayList)it
-    //        assertTrue(listPets.size() > 0)
-    //    }
-    //    {
-    //        statusCode, message ->
-    //            assertEquals(200, statusCode)
-    //    };
-    //}
+    @Test
+    void testGetPetByStatus() {
+        this.petApi.findPetsByStatus(["sold"]) {
+            def listPets = (ArrayList)it
+            assertTrue(listPets.size() > 0)
+        }
+        {
+            statusCode, message ->
+                assertEquals(200, statusCode)
+        };
+    }
 
 }
