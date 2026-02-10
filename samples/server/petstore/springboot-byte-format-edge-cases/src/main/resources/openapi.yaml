@@ -1,0 +1,193 @@
+openapi: 3.0.3
+info:
+  title: Byte Format Edge Cases
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /query:
+    get:
+      operationId: queryParams
+      parameters:
+      - explode: true
+        in: query
+        name: plain
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: bytes
+        required: false
+        schema:
+          format: byte
+          type: string
+        style: form
+      responses:
+        "204":
+          description: No content
+      summary: Query parameters
+      x-accepts:
+      - application/json
+  /path/{plain}/{bytes}:
+    get:
+      operationId: pathParams
+      parameters:
+      - explode: false
+        in: path
+        name: plain
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: bytes
+        required: true
+        schema:
+          format: byte
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+      summary: Path parameters
+      x-accepts:
+      - application/json
+  /header:
+    get:
+      operationId: headerParams
+      parameters:
+      - explode: false
+        in: header
+        name: X-Plain
+        required: false
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: header
+        name: X-Byte
+        required: false
+        schema:
+          format: byte
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: No content
+      summary: Header parameters
+      x-accepts:
+      - application/json
+  /cookie:
+    get:
+      operationId: cookieParams
+      parameters:
+      - explode: true
+        in: cookie
+        name: plain
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: cookie
+        name: bytes
+        required: false
+        schema:
+          format: byte
+          type: string
+        style: form
+      responses:
+        "204":
+          description: No content
+      summary: Cookie parameters
+      x-accepts:
+      - application/json
+  /form:
+    post:
+      operationId: formParams
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/formParams_request"
+        required: true
+      responses:
+        "204":
+          description: No content
+      summary: application/x-www-form-urlencoded
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts:
+      - application/json
+  /multipart:
+    post:
+      operationId: multipartParams
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/multipartParams_request"
+        required: true
+      responses:
+        "204":
+          description: No content
+      summary: multipart/form-data
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+  /json-body:
+    post:
+      operationId: jsonBody
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/formParams_request"
+        required: true
+      responses:
+        "204":
+          description: No content
+      summary: JSON request body
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /binary-body:
+    post:
+      operationId: binaryBody
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+        required: true
+      responses:
+        "204":
+          description: No content
+      summary: Raw binary body
+      x-content-type: application/octet-stream
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    multipartParams_request:
+      properties:
+        plain:
+          type: string
+        bytes:
+          format: byte
+          type: string
+        file:
+          format: binary
+          type: string
+      type: object
+    formParams_request:
+      properties:
+        plain:
+          type: string
+        bytes:
+          format: byte
+          type: string
+      type: object
