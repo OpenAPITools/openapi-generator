@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: formParams-defaultValue-test
+paths:
+  /some/dummy/endpoint:
+    post:
+      operationId: someDummyEndpoint
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DummyRequest'
+      responses:
+        200:
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/DummyResponse'
+components:
+  schemas:
+    DummyResponse:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+    DummyRequest:
+      required:
+        - product_id
+      type: object
+      properties:
+        product_id:
+          type: string
+        locale:
+          type: string
+          default: "en_US"
