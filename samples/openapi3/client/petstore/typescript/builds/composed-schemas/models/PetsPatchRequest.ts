@@ -17,13 +17,13 @@ import { HttpFile } from '../http/http';
 /**
  * @type PetsPatchRequest
  * Type
- * @export
+ * @exports
  */
 export type PetsPatchRequest = Cat | Dog | any;
 
 /**
 * @type PetsPatchRequestClass
-* @export
+* @exports
 */
 export class PetsPatchRequestClass {
     static readonly discriminator: string | undefined = "petType";
