@@ -15,11 +15,13 @@ middleware.ts
 models/Cat.ts
 models/Dog.ts
 models/FilePostRequest.ts
+models/ModelTypes.ts
 models/ObjectSerializer.ts
 models/PetByAge.ts
 models/PetByType.ts
 models/PetsFilteredPatchRequest.ts
 models/PetsPatchRequest.ts
+models/TypeMatcher.ts
 models/all.ts
 package.json
 rxjsStub.ts

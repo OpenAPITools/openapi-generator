@@ -1,9 +1,14 @@
 {{>licenseInfo}}
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}{{>model/modelOneOf}}{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{#tsImports}}
 import { {{classname}} } from '{{filename}}{{importFileExtension}}';
 {{/tsImports}}
+import { AttributeTypeMapEntry } from '../models/ModelTypes{{importFileExtension}}';
 import { HttpFile } from '../http/http{{importFileExtension}}';
 
 {{#description}}
@@ -12,10 +17,6 @@ import { HttpFile } from '../http/http{{importFileExtension}}';
 */
 {{/description}}
 {{^isEnum}}
-{{#oneOf}}
-{{#-first}}{{>model/modelOneOf}}{{/-first}}
-{{/oneOf}}
-{{^oneOf}}
 export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -49,13 +50,14 @@ export class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
     {{/hasDiscriminatorWithNonEmptyMapping}}
 
     {{^isArray}}
-    static {{#parent}}override {{/parent}}readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static {{#parent}}override {{/parent}}readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {{#vars}}
         {
             "name": "{{name}}",
             "baseName": "{{baseName}}",
             "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
-            "format": "{{dataFormat}}"
+            "format": "{{dataFormat}}",
+            "required": {{required}}
         }{{^-last}},
         {{/-last}}
         {{/vars}}
@@ -100,7 +102,6 @@ export enum {{classname}}{{enumName}} {
 {{/vars}}
 
 {{/hasEnums}}
-{{/oneOf}}
 {{/isEnum}}
 {{#isEnum}}
 export enum {{classname}} {
@@ -111,5 +112,6 @@ export enum {{classname}} {
     {{/allowableValues}}
 }
 {{/isEnum}}
+{{/oneOf}}
 {{/model}}
 {{/models}}

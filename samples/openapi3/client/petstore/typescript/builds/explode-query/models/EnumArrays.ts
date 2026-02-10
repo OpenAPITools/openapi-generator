@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class EnumArrays {
@@ -20,18 +21,20 @@ export class EnumArrays {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "justSymbol",
             "baseName": "just_symbol",
             "type": "EnumArraysJustSymbolEnum",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "arrayEnum",
             "baseName": "array_enum",
             "type": "Array<EnumArraysArrayEnumEnum>",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

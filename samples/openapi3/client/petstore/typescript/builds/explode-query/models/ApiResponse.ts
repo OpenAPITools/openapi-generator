@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class ApiResponse {
@@ -21,24 +22,27 @@ export class ApiResponse {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "code",
             "baseName": "code",
             "type": "number",
-            "format": "int32"
+            "format": "int32",
+            "required": false
         },
         {
             "name": "type",
             "baseName": "type",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         },
         {
             "name": "message",
             "baseName": "message",
             "type": "string",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {

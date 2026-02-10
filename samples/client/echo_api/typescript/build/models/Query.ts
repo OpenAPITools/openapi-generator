@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AttributeTypeMapEntry } from '../models/ModelTypes';
 import { HttpFile } from '../http/http';
 
 export class Query {
@@ -23,18 +24,20 @@ export class Query {
 
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+    static readonly attributeTypeMap: Array<AttributeTypeMapEntry> = [
         {
             "name": "id",
             "baseName": "id",
             "type": "number",
-            "format": "int64"
+            "format": "int64",
+            "required": false
         },
         {
             "name": "outcomes",
             "baseName": "outcomes",
             "type": "Array<QueryOutcomesEnum>",
-            "format": ""
+            "format": "",
+            "required": false
         }    ];
 
     static getAttributeTypeMap() {
