@@ -831,7 +831,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .filter(param -> param.isQueryParam || param.isPathParam || param.isHeaderParam || param.isCookieParam || param.isFormParam)
                 .peek(param -> param.dataType = "String")
                 .collect(Collectors.toList());
-        LOGGER.info("Converted parameters {} from byte[] to String in operation {}", convertedParams.stream().map(param -> param.paramName), operation.operationId);
+        LOGGER.info("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
     }
 
     private interface DataTypeAssigner {
