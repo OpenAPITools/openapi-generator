@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +37,7 @@ import org.openapitools.client.model.ApiResponse;
 public class ApiResponseDecoder extends JacksonDecoder {
 
     private static final Pattern FILENAME_PATTERN =
-            Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?");
+            Pattern.compile("filename=\"([^\"]+)\"|filename=([^\\s;]+)");
 
     public ApiResponseDecoder(ObjectMapper mapper) {
         super(mapper);
@@ -69,6 +70,9 @@ public class ApiResponseDecoder extends JacksonDecoder {
 
     private Object decodeBinary(Response response, Type type) throws IOException {
         Class<?> raw = Types.getRawType(type);
+        if (response.body() == null) {
+            return null;
+        }
         if (byte[].class.isAssignableFrom(raw)) {
             return response.body().asInputStream().readAllBytes();
         }
@@ -82,8 +86,10 @@ public class ApiResponseDecoder extends JacksonDecoder {
         String filename = extractFilename(response);
         File file;
         if (filename != null) {
+            // Sanitize: strip path components to prevent path traversal
+            String safeName = Paths.get(filename).getFileName().toString();
             java.nio.file.Path tempDir = Files.createTempDirectory("feign-download");
-            file = Files.createFile(tempDir.resolve(filename)).toFile();
+            file = Files.createFile(tempDir.resolve(safeName)).toFile();
             tempDir.toFile().deleteOnExit();
         } else {
             file = Files.createTempFile("download-", "").toFile();
@@ -100,7 +106,10 @@ public class ApiResponseDecoder extends JacksonDecoder {
         if (dispositions == null) return null;
         for (String disposition : dispositions) {
             Matcher m = FILENAME_PATTERN.matcher(disposition);
-            if (m.find()) return m.group(1);
+            if (m.find()) {
+                // Group 1: quoted filename (may contain spaces), Group 2: unquoted token
+                return m.group(1) != null ? m.group(1) : m.group(2);
+            }
         }
         return null;
     }
