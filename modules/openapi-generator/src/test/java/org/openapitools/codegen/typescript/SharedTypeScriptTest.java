@@ -1,5 +1,19 @@
 package org.openapitools.codegen.typescript;
 
+import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
@@ -11,18 +25,6 @@ import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.openapitools.codegen.typescript.TypeScriptGroups.TYPESCRIPT;
 
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
@@ -66,6 +68,24 @@ public class SharedTypeScriptTest {
         Assert.assertEquals(StringUtils.countMatches(apiFileContent, "import { PersonWrapper }"), 1);
         Assert.assertEquals(StringUtils.countMatches(apiFileContent, "import { GetCustomer200Response }"), 1);
     }
+
+        private Path findModelDefinitionFile(Path root, Pattern modelPattern) throws IOException {
+                try (Stream<Path> paths = Files.walk(root)) {
+                        return paths
+                                        .filter(Files::isRegularFile)
+                                        .filter(path -> path.toString().endsWith(".ts"))
+                                        .filter(path -> {
+                                                try {
+                                                        String content = Files.readString(path);
+                                                        return modelPattern.matcher(content).find();
+                                                } catch (IOException e) {
+                                                        return false;
+                                                }
+                                        })
+                                        .findFirst()
+                                        .orElseThrow(() -> new IOException("Unable to locate model definition in " + root));
+                }
+        }
 
     @Test
     public void oldImportsStillPresentTest() throws IOException {
@@ -182,6 +202,112 @@ public class SharedTypeScriptTest {
 
         TestUtils.assertFileContains(axiosApiFile.toPath(), "AxiosPromise<Pick<User, \"email\">>");
         TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
+    }
+
+    @Test(description = "Issue #20877, #22747 - Maps/arrays of inner enums should use correct enum name")
+    public void givenMapWithArrayOfEnumsThenCorrectEnumNameIsUsed() throws Exception {
+        // This tests the fix for the issue where maps with array of enums generated
+        // "InnerEnum" type reference instead of the correct qualified enum name.
+        // The fix is in AbstractTypeScriptClientCodegen and applies to all TypeScript generators.
+        final String specPath = "src/test/resources/3_0/issue_19393_map_of_inner_enum.yaml";
+
+        List<String> generators = Arrays.asList(
+                "typescript",
+                "typescript-angular",
+                "typescript-axios",
+                "typescript-aurelia",
+                "typescript-fetch",
+                "typescript-inversify",
+                "typescript-jquery",
+                "typescript-nestjs",
+                "typescript-nestjs-server",
+                "typescript-node",
+                "typescript-redux-query",
+                "typescript-rxjs"
+        );
+
+        // Patterns for EmployeeWithMultiMapOfEnum (map of array of enums)
+        Pattern multiMapModelDefinition = Pattern.compile("\\b(interface|type|class)\\s+EmployeeWithMultiMapOfEnum\\b");
+        Pattern multiMapNamespacedEnumRef = Pattern.compile("projectRoles[^\\n]*ProjectRolesEnum");
+        Pattern multiMapFlatEnumRef = Pattern.compile("projectRoles[^\\n]*EmployeeWithMultiMapOfEnumProjectRolesEnum");
+
+        // Patterns for EmployeeWithMapOfEnum (simple map of enums)
+        Pattern simpleMapModelDefinition = Pattern.compile("\\b(interface|type|class)\\s+EmployeeWithMapOfEnum\\b");
+        Pattern simpleMapNamespacedEnumRef = Pattern.compile("projectRole[^s][^\\n]*ProjectRoleEnum");
+        Pattern simpleMapFlatEnumRef = Pattern.compile("projectRole[^s][^\\n]*EmployeeWithMapOfEnumProjectRoleEnum");
+
+        for (String generatorName : generators) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(generatorName)
+                    .setInputSpec(specPath)
+                    .setOutputDir(output.getAbsolutePath());
+
+            Generator generator = new DefaultGenerator();
+            generator.opts(configurator.toClientOptInput()).generate();
+
+            // Test EmployeeWithMultiMapOfEnum (map of array of enums)
+            Path multiMapModelFile = findModelDefinitionFile(output.toPath(), multiMapModelDefinition);
+            String multiMapFileContents = Files.readString(multiMapModelFile);
+
+            Assert.assertFalse(multiMapFileContents.contains("InnerEnum"),
+                    generatorName + ": Should not contain 'InnerEnum' reference in " + multiMapModelFile);
+
+            boolean hasMultiMapEnumRef = multiMapNamespacedEnumRef.matcher(multiMapFileContents).find()
+                    || multiMapFlatEnumRef.matcher(multiMapFileContents).find();
+            Assert.assertTrue(hasMultiMapEnumRef,
+                    generatorName + ": Expected enum reference not found in " + multiMapModelFile);
+
+            // Test EmployeeWithMapOfEnum (simple map of enums)
+            Path simpleMapModelFile = findModelDefinitionFile(output.toPath(), simpleMapModelDefinition);
+            String simpleMapFileContents = Files.readString(simpleMapModelFile);
+
+            Assert.assertFalse(simpleMapFileContents.contains("InnerEnum"),
+                    generatorName + ": Should not contain 'InnerEnum' reference in " + simpleMapModelFile);
+
+            boolean hasSimpleMapEnumRef = simpleMapNamespacedEnumRef.matcher(simpleMapFileContents).find()
+                    || simpleMapFlatEnumRef.matcher(simpleMapFileContents).find();
+            Assert.assertTrue(hasSimpleMapEnumRef,
+                    generatorName + ": Expected enum reference for simple map not found in " + simpleMapModelFile);
+        }
+    }
+
+    @Test(description = "Issue #22748 - Inner enums should not be double-prefixed when model has parent")
+    public void givenChildModelWithInheritedInnerEnumThenEnumNameIsNotDoublePrefixed() throws Exception {
+        // This tests that when a child model inherits from a parent that has an inner enum property,
+        // the enum name is not double-prefixed (e.g., Employee.Employee.ProjectRolesEnum instead of
+        // Employee.ProjectRolesEnum).
+        //
+        // We use typescript-angular because it sets supportsMultipleInheritance=true,
+        // which means cm.parent will be set for child models using allOf.
+        // typescript-fetch does NOT support inheritance, so cm.parent is always null there.
+        final String specPath = "src/test/resources/3_0/issue_22748_inherited_inner_enum.yaml";
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setOutputDir(output.getAbsolutePath());
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        // Find the Employee model file (the child model)
+        Pattern modelDefinition = Pattern.compile("\\b(interface|type|class)\\s+Employee\\b");
+        Path modelFile = findModelDefinitionFile(output.toPath(), modelDefinition);
+        String fileContents = Files.readString(modelFile);
+
+        // Should NOT contain double-prefixed enum name (typescript-angular uses "." separator)
+        Assert.assertFalse(fileContents.contains("Employee.Employee.ProjectRolesEnum"),
+                "typescript-angular: Should not contain double-prefixed 'Employee.Employee.ProjectRolesEnum' in " + modelFile);
+
+        // Should contain correctly prefixed enum name (single prefix with "." separator)
+        Assert.assertTrue(fileContents.contains("Employee.ProjectRolesEnum"),
+                "typescript-angular: Should contain 'Employee.ProjectRolesEnum' in " + modelFile);
     }
 
 }
