@@ -27,10 +27,10 @@ export interface MapTest {
     mapMapOfString?: { [key: string]: { [key: string]: string; }; };
     /**
      * 
-     * @type {{ [key: string]: MapTestMapOfEnumStringEnum; }}
+     * @type {{ [key: string]: string; }}
      * @memberof MapTest
      */
-    mapOfEnumString?: { [key: string]: MapTestMapOfEnumStringEnum; };
+    mapOfEnumString?: { [key: string]: string; };
     /**
      * 
      * @type {{ [key: string]: boolean; }}
