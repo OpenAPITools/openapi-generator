@@ -1,5 +1,6 @@
 {{^reactive}}
 {{#examples}}
+{{^vendorExtensions.x-sse}}
     {{#-first}}
             {{#async}}
 return CompletableFuture.supplyAsync(()-> {
@@ -24,12 +25,27 @@ return CompletableFuture.supplyAsync(()-> {
         }, Runnable::run);
             {{/async}}
     {{/-last}}
+{{/vendorExtensions.x-sse}}
+{{#vendorExtensions.x-sse}}
+{{#useResponseEntity}}return new SseEmitter<>();
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
+{{/vendorExtensions.x-sse}}
 {{/examples}}
 {{^examples}}
+{{^vendorExtensions.x-sse}}
 {{#useResponseEntity}}return {{#async}}CompletableFuture.completedFuture({{/async}}new ResponseEntity<>({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{#async}}){{/async}};
 {{/useResponseEntity}}
 {{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
 {{/useResponseEntity}}
+{{/vendorExtensions.x-sse}}
+{{#vendorExtensions.x-sse}}
+{{#useResponseEntity}}return new SseEmitter<>();
+{{/useResponseEntity}}
+{{^useResponseEntity}}throw new IllegalArgumentException("Not implemented");
+{{/useResponseEntity}}
+{{/vendorExtensions.x-sse}}
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
