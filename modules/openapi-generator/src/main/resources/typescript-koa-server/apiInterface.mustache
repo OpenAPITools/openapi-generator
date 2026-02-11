@@ -1,0 +1,51 @@
+{{>licenseInfo}}
+import { HttpHeaders }                                       from '@angular/common/http';
+
+import { Observable }                                        from 'rxjs';
+
+{{#imports}}
+import { {{classname}} } from '../model/models';
+{{/imports}}
+
+
+import { {{configurationClassName}} }                                     from '../configuration';
+
+{{#operations}}
+
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
+{{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
+{{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
+
+{{#description}}
+    /**
+    * {{&description}}
+    */
+{{/description}}
+export interface {{classname}}Interface {
+    defaultHeaders: HttpHeaders;
+    configuration: {{configurationClassName}};
+
+{{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     {{^useSingleRequestParameter}}
+     {{#allParams}}* @param {{paramName}} {{description}}
+     {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}* @param requestParameters
+     {{/allParams.0}}{{/useSingleRequestParameter}}{{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}*/
+    {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}extraHttpRequestParams?: any): Observable<{{{returnType}}}{{^returnType}}{}{{/returnType}}>;
+
+{{/operation}}
+}
+{{/operations}}
