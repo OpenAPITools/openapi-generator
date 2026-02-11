@@ -25,6 +25,7 @@ docs/OneOfStringOrInt.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetWithTypesObjectNullAndRef.md
 docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md
 docs/RefToRefParameterAnyofRefToAnyofParameter.md
 docs/SelfReferenceAdditionalProperties.md
@@ -89,6 +90,7 @@ src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/OneOfStringOrInt.java
 src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetWithTypesObjectNullAndRef.java
 src/main/java/org/openapitools/client/model/RefRefToPathLevelParameterOneofRefToOneofParameter.java
 src/main/java/org/openapitools/client/model/RefToRefParameterAnyofRefToAnyofParameter.java
 src/main/java/org/openapitools/client/model/SelfReferenceAdditionalProperties.java
