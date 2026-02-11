@@ -714,7 +714,7 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
+                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "List<MultipartMixedStatus>")
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
@@ -728,10 +728,15 @@ public class SpringCodegenTest {
                 .assertParameter("marker").hasType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
+                // markerArray (array of objects — IMPORTANT)
+                .toParameter().toMethod()
+                .assertParameter("markerArray").hasType("List<MultipartMixedRequestMarker>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"markerArray\"", "required", "false"))
                 .toParameter().toMethod()
                 .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
     }
 
     @Test
@@ -774,12 +779,12 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-            .assertMethod("multipartMixed", "MultipartMixedStatus", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>", "ServerWebExchange")
+            .assertMethod("multipartMixed", "MultipartMixedStatus", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "List<MultipartMixedStatus>", "ServerWebExchange")
             .assertParameter("status").hasType("MultipartMixedStatus")
             .assertParameterAnnotations()
             .containsWithName("Valid")
             .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
-            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"))
+            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
             .toParameter().toMethod()
             .assertParameter("file").hasType("Part")
             .assertParameterAnnotations()
@@ -789,9 +794,14 @@ public class SpringCodegenTest {
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
             .toParameter().toMethod()
+            // markerArray (array of objects — IMPORTANT)
+            .assertParameter("markerArray").hasType("List<MultipartMixedRequestMarker>")
+            .assertParameterAnnotations()
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"markerArray\"", "required", "false"))
+            .toParameter().toMethod()
             .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
     }
 
     @Test
@@ -4890,7 +4900,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -4913,9 +4923,9 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         generator.opts(input).generate();
-
+        // Only file or object types would use @RequestPart
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
+                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
 
     @Test
