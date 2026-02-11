@@ -22,7 +22,7 @@ import { type ChildWithNullable, ChildWithNullableFromJSONTyped, ChildWithNullab
 export interface ParentWithNullable {
     /**
      * 
-     * @type {string}
+     * @type {ParentWithNullableTypeEnum}
      * @memberof ParentWithNullable
      */
     type?: ParentWithNullableTypeEnum;

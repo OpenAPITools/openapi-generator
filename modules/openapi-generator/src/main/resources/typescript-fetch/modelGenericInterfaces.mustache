@@ -10,13 +10,13 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#vars}}
     /**
      * {{#lambda.indented_star_4}}{{{unescapedDescription}}}{{/lambda.indented_star_4}}
-     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+     * @type {{=<% %>=}}{<%&datatypeWithEnum%>}<%={{ }}=%>
      * @memberof {{classname}}
     {{#deprecated}}
      * @deprecated
     {{/deprecated}}
      */
-    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{{datatypeWithEnum}}}{{#isNullable}} | null{{/isNullable}};
 {{/vars}}
 }{{#hasEnums}}
 
