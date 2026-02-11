@@ -803,6 +803,13 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      */
     protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getType() != null || schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // clears type(s) given that $ref is set
+            schema.setType(null);
+            schema.setTypes(null);
+            LOGGER.warn("Type(s) cleared (set to null) given $ref is set to {}.", schema.get$ref());
+        }
+
         if (schema.getTitle() != null || schema.getDescription() != null
                 || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
                 || schema.getMaximum() != null || schema.getMinimum() != null

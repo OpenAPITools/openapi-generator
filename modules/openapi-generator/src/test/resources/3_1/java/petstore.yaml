@@ -1117,3 +1117,11 @@ components:
       properties:
         dummy:
           type: string 
+    PetWithTypesObjectNullAndRef:
+      type: object
+      properties:
+        first_property:
+          type:
+            - "object"
+            - "null"
+          $ref: '#/components/schemas/Pet'

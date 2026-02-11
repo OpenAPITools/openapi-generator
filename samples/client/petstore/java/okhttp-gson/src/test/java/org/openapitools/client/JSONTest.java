@@ -675,6 +675,15 @@ public class JSONTest {
     }
 
     @Test
+    public void testRequiredNullableBody() throws Exception {
+        final String json1 = "{\"integer_prop\":null,\"number_prop\":null,\"boolean_prop\":null,\"string_prop\":null,\"date_prop\":null,\"datetime_prop\":null,\"array_nullable_prop\":null,\"array_and_items_nullable_prop\":null,\"array_items_nullable\":[],\"object_nullable_prop\":null,\"object_and_items_nullable_prop\":null,\"object_items_nullable\":{},\"custom_ref_enum\":null,\"custom_enum\":null}";
+        final RequiredNullableBody body = new RequiredNullableBody();
+
+        assertEquals("{\"array_items_nullable\":[],\"object_items_nullable\":{}}", json.serialize(body));
+        assertEquals(json.deserialize(json1, RequiredNullableBody.class), body);
+    }
+
+    @Test
     public void testDeserializeInputStream() throws Exception {
         final String str = "\"2016-09-09\"";
         final InputStream inputStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));

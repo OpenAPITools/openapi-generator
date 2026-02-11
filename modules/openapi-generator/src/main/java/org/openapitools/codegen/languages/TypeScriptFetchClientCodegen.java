@@ -383,6 +383,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        // postProcessModelsEnum applies inner enum fixes via the parent class override
         List<ModelMap> models = postProcessModelsEnum(objs).getModels();
 
         // process enum and custom properties in models
@@ -800,7 +801,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (CodegenProperty cpVar : cm.allVars) {
                 ExtendedCodegenProperty var = (ExtendedCodegenProperty) cpVar;
 
-                if (Boolean.TRUE.equals(var.isEnum)) {
+                // Handle both direct enum properties and inner enums (maps/arrays of enums)
+                if (Boolean.TRUE.equals(var.isEnum) || Boolean.TRUE.equals(var.isInnerEnum)) {
                     var.datatypeWithEnum = var.datatypeWithEnum
                             .replace(var.enumName, cm.classname + var.enumName);
                 }
@@ -845,7 +847,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private boolean processCodegenProperty(ExtendedCodegenProperty var, String parentClassName, Object xEntityId) {
         // name enum with model name, e.g. StatusEnum => PetStatusEnum
-        if (Boolean.TRUE.equals(var.isEnum)) {
+        // This applies to both direct enum properties (isEnum) and properties containing
+        // inner enums (isInnerEnum) like maps or arrays of enums.
+        if (Boolean.TRUE.equals(var.isEnum) || Boolean.TRUE.equals(var.isInnerEnum)) {
             // behaviour for enum names is specific for Typescript Fetch, not using namespaces
             var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, parentClassName + var.enumName);
 
@@ -1525,11 +1529,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public Set<CodegenProperty> oneOfPrimitives = new HashSet<>();
         @Getter @Setter
         public CodegenDiscriminator.MappedModel selfReferencingDiscriminatorMapping;
-      
+
         public boolean isEntity; // Is a model containing an "id" property marked as isUniqueId
         public String returnPassthrough;
         public boolean hasReturnPassthroughVoid;
-        
+
         public boolean hasSelfReferencingDiscriminatorMapping(){
             return selfReferencingDiscriminatorMapping != null;
         }

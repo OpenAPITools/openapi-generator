@@ -204,16 +204,16 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      // ensure the json data is an array
-      if (!jsonObj.get("value").isJsonArray()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+      if (jsonObj.get("value") != null) {
+        if (!jsonObj.get("value").isJsonArray()) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
+        }
+        JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
+        // validate the required field `value` (array)
+        for (int i = 0; i < jsonArrayvalue.size(); i++) {
+          AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
+        }
       }
-
-      JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
-      // validate the required field `value` (array)
-      for (int i = 0; i < jsonArrayvalue.size(); i++) {
-        AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
-      };
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
