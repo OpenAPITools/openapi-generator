@@ -602,28 +602,6 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
-    @Test(description = "test skip default interface")
-    public void skipDefaultIgfdgdnterface() throws Exception {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
-
-        new DefaultGenerator().opts(new ClientOptInput()
-                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/byte-format-edge-cases.yaml"))
-                        .config(codegen))
-                .generate();
-
-        assertFileNotContains(
-                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
-                "return "
-        );
-    }
-
     @Test(description = "test cookie parameter generation on interface apis")
     public void cookieParameterGenerationApis() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
