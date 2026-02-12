@@ -356,7 +356,7 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<ModelApiResponse> uploadFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String /* String */ additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) Part file,
         @ApiIgnore final ServerWebExchange exchange
     ) {

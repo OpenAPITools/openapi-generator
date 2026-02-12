@@ -200,7 +200,7 @@ public interface PetApi {
     )
     Mono<ResponseEntity<ModelApiResponse>> uploadFile(
          @PathVariable("petId") Long petId,
-         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @RequestPart(value = "additionalMetadata", required = false) String /* String */ additionalMetadata,
          @RequestPart(value = "file", required = false) Part file
     );
 
@@ -223,7 +223,7 @@ public interface PetApi {
     Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+         @RequestPart(value = "additionalMetadata", required = false) String /* String */ additionalMetadata
     );
 
 }
