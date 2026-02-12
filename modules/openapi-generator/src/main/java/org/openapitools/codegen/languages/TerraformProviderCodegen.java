@@ -444,6 +444,21 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
             for (CodegenProperty prop : model.vars) {
+                // Ensure x-go-datatag is set for all model vars.
+                // The parent AbstractGoCodegen only sets x-go-datatag on
+                // inheritedProperties (oneOf/anyOf entries) when the model has
+                // composed schemas without allOf, leaving model.vars without
+                // json tags. We fix this by generating the tag here when missing.
+                if (!prop.vendorExtensions.containsKey("x-go-datatag")) {
+                    String goDataTag = "json:\"" + prop.baseName;
+                    if (!prop.required) {
+                        goDataTag += ",omitempty";
+                    }
+                    goDataTag += "\"";
+                    goDataTag = " `" + goDataTag + "`";
+                    prop.vendorExtensions.put("x-go-datatag", goDataTag);
+                }
+
                 // Add Terraform-specific vendor extensions
                 if (prop.isReadOnly) {
                     prop.vendorExtensions.put("x-terraform-computed", true);

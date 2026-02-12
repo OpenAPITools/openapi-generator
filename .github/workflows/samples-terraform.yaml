@@ -34,6 +34,10 @@ jobs:
         with:
           go-version: "stable"
       - run: go version
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
       - name: Build provider
         working-directory: ${{ matrix.sample }}
         run: go build -v ./...

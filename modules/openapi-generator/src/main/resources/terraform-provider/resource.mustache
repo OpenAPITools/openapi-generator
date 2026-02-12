@@ -162,7 +162,7 @@ func (r *{{resourceClassName}}Resource) Read(ctx context.Context, req resource.R
 {{/hasRead}}
 {{^hasRead}}
 func (r *{{resourceClassName}}Resource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Read is not supported for {{resourceName}}")
+	// No read endpoint available; keep existing state as-is.
 }
 {{/hasRead}}
 
@@ -202,7 +202,13 @@ func (r *{{resourceClassName}}Resource) Update(ctx context.Context, req resource
 {{/hasUpdate}}
 {{^hasUpdate}}
 func (r *{{resourceClassName}}Resource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Update is not supported for {{resourceName}}")
+	// No update endpoint available; persist the planned values into state.
+	var plan {{resourceClassName}}Model
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 {{/hasUpdate}}
 
@@ -231,7 +237,7 @@ func (r *{{resourceClassName}}Resource) Delete(ctx context.Context, req resource
 {{/hasDelete}}
 {{^hasDelete}}
 func (r *{{resourceClassName}}Resource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Delete is not supported for {{resourceName}}")
+	// No delete endpoint available; remove the resource from state.
 }
 {{/hasDelete}}
 
