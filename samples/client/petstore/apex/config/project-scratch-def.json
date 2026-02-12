@@ -1,0 +1,8 @@
+{
+  "orgName": "muenzpraeger - René Winkelmeyer",
+  "edition": "Developer",
+  "orgPreferences": {
+    "enabled": ["S1DesktopEnabled"],
+    "disabled": ["S1EncryptedStoragePref2"]
+  }
+}
