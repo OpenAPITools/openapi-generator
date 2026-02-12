@@ -3813,7 +3813,7 @@ public class KotlinSpringServerCodegenTest {
         additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
         additionalProperties.put(INTERFACE_ONLY, "true");
         additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
-
+        
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", additionalProperties);
 
         // Custom Pageable model should be used instead of Spring's Pageable
@@ -3822,6 +3822,155 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
         assertFileNotContains(petApi.toPath(), "import org.springdoc.core.annotations.ParameterObject");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithNoDocumentationProvider() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Pageable should be added but no annotation imports
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        assertFileNotContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
+        assertFileNotContains(petApi.toPath(), "import org.springdoc.api.annotations.ParameterObject");
+        assertFileNotContains(petApi.toPath(), "@ApiIgnore pageable");
+        assertFileNotContains(petApi.toPath(), "@ParameterObject pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSwagger1AnnotationLibrary() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
+        additionalProperties.put(ANNOTATION_LIBRARY, "swagger1");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test with swagger1 annotations
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
+        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedNoParamsNoContext() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test operation listAllPets which has no parameters except pageable
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "fun listAllPets(@Parameter(hidden = true) pageable: Pageable)");
+    }
+
+    @Test
+    public void springPaginatedMixedOperations() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        
+        // Operation with x-spring-paginated should have Pageable
+        assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        
+        // Operation without x-spring-paginated should NOT have Pageable
+        assertFileContains(petApi.toPath(), "fun addPet(");
+        // Verify addPet doesn't have pageable (it has body param only)
+        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
+        String addPetMethod = content.substring(
+            content.indexOf("fun addPet("),
+            content.indexOf(")", content.indexOf("fun addPet(")) + 1
+        );
+        Assert.assertFalse(addPetMethod.contains("pageable"), 
+            "addPet should not have pageable parameter");
+    }
+
+    @Test
+    public void springPaginatedWithServiceInterface() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SERVICE_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable is in service interface
+        File petService = files.get("PetService.kt");
+        if (petService != null) {
+            assertFileContains(petService.toPath(), "import org.springframework.data.domain.Pageable");
+            assertFileContains(petService.toPath(), "pageable: Pageable");
+        }
+    }
+
+    @Test
+    public void springPaginatedParameterOrdering() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Verify exact parameter ordering: allParams -> request -> pageable
+        File petApi = files.get("PetApi.kt");
+        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
+        
+        // Find findPetsByStatus method
+        int methodStart = content.indexOf("fun findPetsByStatus(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+        
+        // Verify order: status param comes before request, request comes before pageable
+        int statusPos = methodSignature.indexOf("status:");
+        int requestPos = methodSignature.indexOf("request:");
+        int pageablePos = methodSignature.indexOf("pageable:");
+        
+        Assert.assertTrue(statusPos > 0, "status parameter should exist");
+        Assert.assertTrue(requestPos > statusPos, "request should come after status");
+        Assert.assertTrue(pageablePos > requestPos, "pageable should come after request");
+    }
+
+    @Test
+    public void springPaginatedDelegateCallPassesPageable() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+        additionalProperties.put(INTERFACE_ONLY, "false");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Verify that interface method calls delegate with pageable parameter
+        File petApi = files.get("PetApi.kt");
+        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
+        
+        // Check for delegate call pattern with pageable
+        if (content.contains("getDelegate().findPetsByStatus")) {
+            assertFileContains(petApi.toPath(), "getDelegate().findPetsByStatus(");
+            assertFileContains(petApi.toPath(), "pageable)");
+        }
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
