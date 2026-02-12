@@ -799,6 +799,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
                 convertByteArrayParamsToStringType(operation);
+                markMultipartFormDataParameters(operation);
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
@@ -832,6 +833,44 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .peek(param -> param.dataType = "String")
                 .collect(Collectors.toList());
         LOGGER.info("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
+    }
+
+    /**
+     * Marks form parameters that are in multipart/form-data operations for special handling in reactive mode.
+     * <p>
+     * In reactive Spring WebFlux, multipart/form-data parameters must use @RequestPart instead of @RequestParam,
+     * and non-model parameters (primitives, enums, strings) must be received as String or Flux&lt;String&gt; and
+     * converted manually in the implementation.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be marked if necessary
+     **/
+    private void markMultipartFormDataParameters(CodegenOperation operation) {
+        if (!reactive) {
+            return; // Only applies to reactive mode
+        }
+
+        // Check if this operation consumes multipart/form-data
+        boolean isMultipartFormData = false;
+        if (operation.hasConsumes) {
+            for (Map<String, String> consume : operation.consumes) {
+                if ("multipart/form-data".equals(consume.get("mediaType"))) {
+                    isMultipartFormData = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isMultipartFormData) {
+            return;
+        }
+
+        // Mark all form parameters as multipart form data
+        for (CodegenParameter param : operation.allParams) {
+            if (param.isFormParam) {
+                param.vendorExtensions.put("x-isMultipartFormData", true);
+            }
+        }
     }
 
     private interface DataTypeAssigner {

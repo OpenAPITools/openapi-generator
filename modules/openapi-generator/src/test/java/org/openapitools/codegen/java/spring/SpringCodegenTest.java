@@ -779,12 +779,12 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-            .assertMethod("multipartMixed", "MultipartMixedStatus", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "List<MultipartMixedStatus>", "ServerWebExchange")
-            .assertParameter("status").hasType("MultipartMixedStatus")
+            .assertMethod("multipartMixed", "String", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "Flux<String>", "ServerWebExchange")
+            .assertParameter("status").hasType("String")
             .assertParameterAnnotations()
             .containsWithName("Valid")
             .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
-            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"status\"", "required", "true"))
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"status\"", "required", "true"))
             .toParameter().toMethod()
             .assertParameter("file").hasType("Part")
             .assertParameterAnnotations()
@@ -799,9 +799,9 @@ public class SpringCodegenTest {
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"markerArray\"", "required", "false"))
             .toParameter().toMethod()
-            .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
+            .assertParameter("statusArray").hasType("Flux<String>")
             .assertParameterAnnotations()
-            .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
     }
 
     @Test
@@ -4923,9 +4923,8 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         generator.opts(input).generate();
-        // Only file or object types would use @RequestPart
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String /* String */ additionalMetadata");
     }
 
     @Test
