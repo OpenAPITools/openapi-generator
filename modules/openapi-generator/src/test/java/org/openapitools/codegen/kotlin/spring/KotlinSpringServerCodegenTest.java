@@ -3896,7 +3896,7 @@ public class KotlinSpringServerCodegenTest {
         // Operation without x-spring-paginated should NOT have Pageable
         assertFileContains(petApi.toPath(), "fun addPet(");
         // Verify addPet doesn't have pageable (it has body param only)
-        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
+        String content = Files.readString(petApi.toPath());
         String addPetMethod = content.substring(
             content.indexOf("fun addPet("),
             content.indexOf(")", content.indexOf("fun addPet(")) + 1
@@ -3935,8 +3935,8 @@ public class KotlinSpringServerCodegenTest {
 
         // Verify exact parameter ordering: allParams -> request -> pageable
         File petApi = files.get("PetApi.kt");
-        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
-        
+        String content = Files.readString(petApi.toPath());
+
         // Find findPetsByStatus method
         int methodStart = content.indexOf("fun findPetsByStatus(");
         int methodEnd = content.indexOf("): ResponseEntity", methodStart);
@@ -3964,8 +3964,8 @@ public class KotlinSpringServerCodegenTest {
 
         // Verify that interface method calls delegate with pageable parameter
         File petApi = files.get("PetApi.kt");
-        String content = new String(java.nio.file.Files.readAllBytes(petApi.toPath()));
-        
+        String content = Files.readString(petApi.toPath());
+
         // Check for delegate call pattern with pageable
         if (content.contains("getDelegate().findPetsByStatus")) {
             assertFileContains(petApi.toPath(), "getDelegate().findPetsByStatus(");
