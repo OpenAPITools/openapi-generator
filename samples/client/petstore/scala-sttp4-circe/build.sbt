@@ -2,7 +2,7 @@ version := "1.0.0"
 name := "openapi-client"
 organization := "org.openapitools"
 
-scalaVersion := "2.13.16"
+scalaVersion := "2.13.18"
 crossScalaVersions := Seq(scalaVersion.value, "2.12.20")
 
 libraryDependencies ++= Seq(
