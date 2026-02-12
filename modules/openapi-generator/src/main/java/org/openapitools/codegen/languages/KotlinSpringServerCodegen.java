@@ -886,10 +886,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * - Removes the default Spring Data Web pagination query parameters (page, size, sort)
      * - Adds appropriate imports (Pageable, ApiIgnore for springfox, ParameterObject for springdoc)
      *
+     * Note: x-spring-paginated is ONLY applied for server-side libraries (spring-boot).
+     * Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters
+     * to send over HTTP, so the extension is ignored for them.
+     *
      * Parameter ordering in generated methods:
      * 1. Regular OpenAPI parameters (allParams)
      * 2. Optional HttpServletRequest/ServerWebExchange (if includeHttpRequestContext is enabled)
-     * 3. Pageable parameter (if x-spring-paginated is true)
+     * 3. Pageable parameter (if x-spring-paginated is true and library is spring-boot)
      *
      * This implementation mirrors the behavior in SpringCodegen for consistency.
      *
@@ -901,34 +905,36 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<io.swagger.v3.oas.models.servers.Server> servers) {
-        // add Pageable import only if x-spring-paginated explicitly used
-        // this allows to use a custom Pageable schema without importing Spring Pageable.
-        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-            importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
-        }
-
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
-
-        // add org.springframework.data.domain.Pageable import when needed
-        if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
-            codegenOperation.imports.add("Pageable");
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                codegenOperation.imports.add("ApiIgnore");
-            }
-            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
-                codegenOperation.imports.add("ParameterObject");
+        // Only process x-spring-paginated for server-side libraries (spring-boot)
+        // Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters for HTTP requests
+        if (SPRING_BOOT.equals(library)) {
+            // add Pageable import only if x-spring-paginated explicitly used AND it's a server library
+            // this allows to use a custom Pageable schema without importing Spring Pageable.
+            if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+                importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
             }
 
-            // #8315 Spring Data Web default query params recognized by Pageable
-            List<String> defaultPageableQueryParams = new ArrayList<>(
-                Arrays.asList("page", "size", "sort")
-            );
+            // add org.springframework.data.domain.Pageable import when needed (server libraries only)
+            if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+                codegenOperation.imports.add("Pageable");
+                if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                    codegenOperation.imports.add("ApiIgnore");
+                }
+                if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                    codegenOperation.imports.add("ParameterObject");
+                }
 
-            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
-            codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
-            codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
+                // #8315 Spring Data Web default query params recognized by Pageable
+                List<String> defaultPageableQueryParams = new ArrayList<>(
+                        Arrays.asList("page", "size", "sort")
+                );
+
+                // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+                codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
+                codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
+            }
         }
-
         return codegenOperation;
     }
 
