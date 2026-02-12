@@ -914,7 +914,7 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
