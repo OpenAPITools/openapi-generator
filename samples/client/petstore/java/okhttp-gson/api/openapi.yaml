@@ -1494,6 +1494,21 @@ paths:
       x-internal: true
       x-accepts:
       - application/json
+  /fake/required-nullable-body:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RequiredNullableBody"
+          description: success
+      summary: "fields in the response body, required and nullable are both true"
+      tags:
+      - fake
+      x-accepts:
+      - application/json
 components:
   parameters:
     pet_id:
@@ -2870,6 +2885,62 @@ components:
         anyof_prop:
           $ref: "#/components/schemas/ArrayAnyOf"
       type: object
+    NullableEnum:
+      enum:
+      - custom
+      nullable: true
+      type: string
+    RequiredNullableBody:
+      allOf:
+      - $ref: "#/components/schemas/NullableClass"
+      - properties:
+          custom_ref_enum:
+            $ref: "#/components/schemas/NullableEnum"
+          custom_enum:
+            enum:
+            - custom
+            nullable: true
+            type: string
+        required:
+        - array_and_items_nullable_prop
+        - array_items_nullable
+        - array_nullable_prop
+        - boolean_prop
+        - custom_enum
+        - custom_ref_enum
+        - date_prop
+        - datetime_prop
+        - integer_prop
+        - number_prop
+        - object_and_items_nullable_prop
+        - object_items_nullable
+        - object_nullable_prop
+        - string_prop
+        type: object
+      example:
+        number_prop: 6.027456183070403
+        datetime_prop: 2000-01-23T04:56:07.000+00:00
+        custom_ref_enum: custom
+        boolean_prop: true
+        string_prop: string_prop
+        array_nullable_prop:
+        - "{}"
+        - "{}"
+        custom_enum: custom
+        integer_prop: 0
+        array_and_items_nullable_prop:
+        - "{}"
+        - "{}"
+        object_items_nullable:
+          key: "{}"
+        object_nullable_prop:
+          key: "{}"
+        object_and_items_nullable_prop:
+          key: "{}"
+        date_prop: 2000-01-23
+        array_items_nullable:
+        - "{}"
+        - "{}"
     NestedArrayWithDefaultValues:
       properties:
         nestedArray:

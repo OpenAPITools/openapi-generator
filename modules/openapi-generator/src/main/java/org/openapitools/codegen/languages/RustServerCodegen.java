@@ -977,7 +977,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && s.isKeyInHeader) {
-                    s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
                     headerAuthMethods = true;
                 }
 

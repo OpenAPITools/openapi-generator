@@ -97,7 +97,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Type('OpenAPI\Server\Model\Pet');
         $asserts[] = new Assert\Valid();
         $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
@@ -170,13 +170,13 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
         $asserts = [];
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($apiKey, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -250,7 +250,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -496,7 +496,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -573,7 +573,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -646,7 +646,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -731,7 +731,7 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Type('OpenAPI\Server\Model\Pet');
         $asserts[] = new Assert\Valid();
         $response = $this->validate($pet, $asserts);
         if ($response instanceof Response) {
@@ -808,19 +808,19 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
         $asserts = [];
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($name, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
         $asserts = [];
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -900,13 +900,13 @@ class PetController extends Controller
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
-        $asserts[] = new Assert\Type("int");
+        $asserts[] = new Assert\Type('int');
         $response = $this->validate($petId, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
         $asserts = [];
-        $asserts[] = new Assert\Type("string");
+        $asserts[] = new Assert\Type('string');
         $response = $this->validate($additionalMetadata, $asserts);
         if ($response instanceof Response) {
             return $response;

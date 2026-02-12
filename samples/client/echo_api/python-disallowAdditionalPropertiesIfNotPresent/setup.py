@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Echo Server API
 

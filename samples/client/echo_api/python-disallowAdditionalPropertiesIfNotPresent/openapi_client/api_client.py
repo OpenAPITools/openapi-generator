@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     Echo Server API
 
@@ -11,6 +9,7 @@
 
     Do not edit the class manually.
 """  # noqa: E501
+
 
 
 import datetime

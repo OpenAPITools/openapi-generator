@@ -20,6 +20,14 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/groovy
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -41,6 +49,6 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}
           arguments: wrapper
-      - name: Build
+      - name: Build & Test
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build -x test
+        run: ./gradlew build
