@@ -447,6 +447,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE);
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
+        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
+            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
+        }
+        if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
+            this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
+        }
 
         if (isModelMutable()) {
             typeMapping.put("array", "kotlin.collections.MutableList");
@@ -469,6 +475,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
+
+        // Spring-specific import mappings for x-spring-paginated support
+        importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
+        importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
+        if (useSpringBoot3) {
+            importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
+        }
 
         if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             additionalProperties.put(CodegenConstants.LIBRARY, library);
@@ -641,13 +654,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
-        }
-
-        if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
-            this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
-        }
-        if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
-            this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
         }
         if (isUseSpringBoot3()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -870,6 +876,60 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         } else {
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         }
+    }
+
+    /**
+     * Processes operations to support the x-spring-paginated vendor extension.
+     *
+     * When x-spring-paginated is set to true on an operation, this method:
+     * - Adds org.springframework.data.domain.Pageable parameter to the method signature
+     * - Removes the default Spring Data Web pagination query parameters (page, size, sort)
+     * - Adds appropriate imports (Pageable, ApiIgnore for springfox, ParameterObject for springdoc)
+     *
+     * Parameter ordering in generated methods:
+     * 1. Regular OpenAPI parameters (allParams)
+     * 2. Optional HttpServletRequest/ServerWebExchange (if includeHttpRequestContext is enabled)
+     * 3. Pageable parameter (if x-spring-paginated is true)
+     *
+     * This implementation mirrors the behavior in SpringCodegen for consistency.
+     *
+     * @param path the operation path
+     * @param httpMethod the HTTP method
+     * @param operation the OpenAPI operation
+     * @param servers the list of servers
+     * @return the processed CodegenOperation
+     */
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<io.swagger.v3.oas.models.servers.Server> servers) {
+        // add Pageable import only if x-spring-paginated explicitly used
+        // this allows to use a custom Pageable schema without importing Spring Pageable.
+        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+            importMapping.putIfAbsent("Pageable", "org.springframework.data.domain.Pageable");
+        }
+
+        CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+
+        // add org.springframework.data.domain.Pageable import when needed
+        if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+            codegenOperation.imports.add("Pageable");
+            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ApiIgnore");
+            }
+            if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
+                codegenOperation.imports.add("ParameterObject");
+            }
+
+            // #8315 Spring Data Web default query params recognized by Pageable
+            List<String> defaultPageableQueryParams = new ArrayList<>(
+                Arrays.asList("page", "size", "sort")
+            );
+
+            // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
+            codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
+            codegenOperation.allParams.removeIf(param -> param.isQueryParam && defaultPageableQueryParams.contains(param.baseName));
+        }
+
+        return codegenOperation;
     }
 
     @Override
