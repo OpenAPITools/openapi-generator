@@ -14,3 +14,4 @@ additionalProperties:
   generateConstructorWithAllArgs: true
   generateBuilders: true
   includeHttpRequestContext: "true"
+  delegatePattern: true
