@@ -86,6 +86,12 @@ struct Cli {
     bearer_token: Option<String>,
 {{/hasOAuthMethods}}
 {{/hasHttpBearerMethods}}
+{{#hasApiKeyMethods}}
+
+    /// API key for authentication
+    #[arg(long, env = "{{#lambda.uppercase}}{{externCrateName}}{{/lambda.uppercase}}_API_KEY", hide_env = true)]
+    api_key: Option<String>,
+{{/hasApiKeyMethods}}
 }
 
 #[derive(Parser, Debug)]
@@ -187,6 +193,12 @@ async fn main() -> Result<()> {
         debug!("Using bearer token");
         auth_data = AuthData::bearer(bearer_token);
     }
+{{#hasApiKeyMethods}}
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
 {{/hasHttpBearerMethods}}
 {{^hasHttpBearerMethods}}
   {{#hasOAuthMethods}}
@@ -196,11 +208,27 @@ async fn main() -> Result<()> {
         debug!("Using bearer token");
         auth_data = AuthData::bearer(bearer_token);
     }
+{{#hasApiKeyMethods}}
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
   {{/hasOAuthMethods}}
 {{/hasHttpBearerMethods}}
 {{^hasHttpBearerMethods}}
   {{^hasOAuthMethods}}
+{{#hasApiKeyMethods}}
+    let mut auth_data: Option<AuthData> = None;
+
+    if let Some(ref api_key) = args.api_key {
+        debug!("Using API key");
+        auth_data = Some(AuthData::apikey(api_key));
+    }
+{{/hasApiKeyMethods}}
+{{^hasApiKeyMethods}}
     let auth_data: Option<AuthData> = None;
+{{/hasApiKeyMethods}}
   {{/hasOAuthMethods}}
 {{/hasHttpBearerMethods}}
 

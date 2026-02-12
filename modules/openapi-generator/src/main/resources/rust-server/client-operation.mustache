@@ -99,7 +99,6 @@
         #[allow(clippy::collapsible_match)]
         if let Some(auth_data) = Has::<Option<AuthData>>::get(context).as_ref() {
             use headers::authorization::Credentials;
-            {{! Currently only authentication with Basic and Bearer are supported }}
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
             {{#authMethods}}
@@ -135,6 +134,19 @@
                 },
                 {{/isBasicBearer}}
                 {{/isOAuth}}
+                {{#isApiKey}}
+                {{#isKeyInHeader}}
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("{{#lambda.lowercase}}{{{keyParamName}}}{{/lambda.lowercase}}"),
+                        header);
+                },
+                {{/isKeyInHeader}}
+                {{/isApiKey}}
             {{/authMethods}}
                 _ => {}
             }
