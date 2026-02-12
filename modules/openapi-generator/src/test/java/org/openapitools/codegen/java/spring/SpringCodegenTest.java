@@ -4924,7 +4924,7 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
-                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String /* String */ additionalMetadata");
+                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
 
     @Test
