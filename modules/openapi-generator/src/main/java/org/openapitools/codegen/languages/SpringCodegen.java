@@ -647,6 +647,27 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
+        // Lambda to add type comment only if actual type differs from implemented type
+        // Format: "implementedType|actualType" -> " /* actualType */" or ""
+        additionalProperties.put("lambdaTypeComment", (Mustache.Lambda) (fragment, writer) -> {
+            String input = fragment.execute().trim();
+            String[] parts = input.split("\\|", 2);
+            if (parts.length == 2) {
+                String implementedType = parts[0].trim();
+                String actualType = parts[1].trim();
+
+                // Only add comment if types differ
+                if (!implementedType.equals(actualType)) {
+                    // Also check if implementedType is a collection of actualType (e.g., List<String> vs String)
+                    String expectedCollection = "List<" + actualType + ">";
+                    String expectedFlux = "Flux<" + actualType + ">";
+                    if (!implementedType.equals(expectedCollection) && !implementedType.equals(expectedFlux)) {
+                        writer.write(" /* " + actualType + " */");
+                    }
+                }
+            }
+        });
+
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
         // HEADS-UP: Do not add more template file after this block
