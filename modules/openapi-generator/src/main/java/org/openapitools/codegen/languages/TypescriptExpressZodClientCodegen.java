@@ -67,6 +67,7 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
         supportingFiles.add(new SupportingFile("schemas.mustache", "", "schemas.ts"));
         supportingFiles.add(new SupportingFile("dtos" + File.separator + "types.mustache", "dtos", "types.ts"));
         supportingFiles.add(new SupportingFile("dtos" + File.separator + "mappers.mustache", "dtos", "mappers.ts"));
+        supportingFiles.add(new SupportingFile("dtos" + File.separator + "index.mustache", "dtos", "index.ts"));
         supportingFiles.add(new SupportingFile("http-client.mustache", "", "http-client.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
     }
