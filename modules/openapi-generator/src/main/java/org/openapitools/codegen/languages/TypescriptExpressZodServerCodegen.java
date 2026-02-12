@@ -72,6 +72,8 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         supportingFiles.add(new SupportingFile("express" + File.separator + "errors.mustache", "express", "errors.ts"));
         supportingFiles.add(new SupportingFile("express" + File.separator + "auth-middleware.mustache", "express", "auth-middleware.ts"));
         supportingFiles.add(new SupportingFile("express" + File.separator + "index.mustache", "express", "index.ts"));
+        supportingFiles.add(new SupportingFile("dtos" + File.separator + "index.mustache", "dtos", "index.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
     }
 
     @Override
