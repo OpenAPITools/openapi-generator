@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
+{{#tsImports.0}}
 import { {{#tsImports}}{{classname}}, {{/tsImports}} } from '../{{modelPackage}}';
+{{/tsImports.0}}
 
 {{#useSingleRequestParameter}}
 {{#operations}}

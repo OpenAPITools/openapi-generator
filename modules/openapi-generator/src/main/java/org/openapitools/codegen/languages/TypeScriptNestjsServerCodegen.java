@@ -120,8 +120,8 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.").defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
-        this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS compatible with Angular (see ngVersion option)."));
+        this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript."));
+        this.cliOptions.add(new CliOption(RXJS_VERSION, "The version of RxJS."));
     }
 
     @Override
@@ -156,6 +156,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("api-implementations.mustache", "", "api-implementations.ts"));
         supportingFiles.add(new SupportingFile("api.module.mustache", "", "api.module.ts"));
         supportingFiles.add(new SupportingFile("controllers.mustache", "controllers", "index.ts"));
+        supportingFiles.add(new SupportingFile("cookies-decorator.mustache", "cookies-decorator.ts"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
@@ -300,6 +301,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
+        if("undefined".equals(parameter.defaultValue)) {
+            parameter.defaultValue = null;
+        }
     }
 
     @Override

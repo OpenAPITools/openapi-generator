@@ -10,6 +10,7 @@ controllers/PetApi.controller.ts
 controllers/StoreApi.controller.ts
 controllers/UserApi.controller.ts
 controllers/index.ts
+cookies-decorator.ts
 index.ts
 models/api-response.ts
 models/category.ts
