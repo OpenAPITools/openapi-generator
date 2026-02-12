@@ -300,6 +300,40 @@ public interface CoverageApi {
     }
 
 
+    String PATH_MULTIPART_SIMPLE_VALIDATED = "/coverage/multipart/simple-validated";
+    /**
+     * POST /coverage/multipart/simple-validated
+     *
+     * @param plain  (optional)
+     * @param bytes  (optional)
+     * @param file  (optional)
+     * @return No content (status code 204)
+     */
+    @Operation(
+        operationId = "multipartSimpleValidated",
+        tags = { "coverage" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "No content")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = CoverageApi.PATH_MULTIPART_SIMPLE_VALIDATED,
+        consumes = { "multipart/form-data" }
+    )
+    default Mono<ResponseEntity<Void>> multipartSimpleValidated(
+        @Parameter(name = "plain", description = "") @Valid @RequestPart(value = "plain", required = false) String plain,
+        @Parameter(name = "bytes", description = "") @Valid @RequestPart(value = "bytes", required = false) String bytes /* base64 encoded binary */,
+        @Parameter(name = "file", description = "") @RequestPart(value = "file", required = false) Part file,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    ) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(Mono.empty());
+
+    }
+
+
     String PATH_PATH_PARAMS = "/coverage/path/{plain}/{bytes}";
     /**
      * GET /coverage/path/{plain}/{bytes}

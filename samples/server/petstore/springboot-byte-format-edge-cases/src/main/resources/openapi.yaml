@@ -157,6 +157,25 @@ paths:
       - application/json
       x-tags:
       - tag: coverage
+  /coverage/multipart/simple-validated:
+    post:
+      operationId: multipartSimpleValidated
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/multipartSimple_request"
+        required: true
+      responses:
+        "204":
+          description: No content
+      tags:
+      - coverage
+      x-content-type: multipart/form-data
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: coverage
   /coverage/multipart/files:
     post:
       operationId: multipartFileArray

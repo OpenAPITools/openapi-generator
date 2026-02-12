@@ -277,6 +277,37 @@ public interface CoverageApi {
     }
 
 
+    String PATH_MULTIPART_SIMPLE_VALIDATED = "/coverage/multipart/simple-validated";
+    /**
+     * POST /coverage/multipart/simple-validated
+     *
+     * @param plain  (optional)
+     * @param bytes  (optional)
+     * @param file  (optional)
+     * @return No content (status code 204)
+     */
+    @Operation(
+        operationId = "multipartSimpleValidated",
+        tags = { "coverage" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "No content")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = CoverageApi.PATH_MULTIPART_SIMPLE_VALIDATED,
+        consumes = { "multipart/form-data" }
+    )
+    default ResponseEntity<Void> multipartSimpleValidated(
+        @Parameter(name = "plain", description = "") @Valid @RequestParam(value = "plain", required = false) String plain,
+        @Parameter(name = "bytes", description = "") @Valid @RequestParam(value = "bytes", required = false) String bytes /* base64 encoded binary */,
+        @Parameter(name = "file", description = "") @RequestPart(value = "file", required = false) MultipartFile file
+    ) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     String PATH_PATH_PARAMS = "/coverage/path/{plain}/{bytes}";
     /**
      * GET /coverage/path/{plain}/{bytes}
