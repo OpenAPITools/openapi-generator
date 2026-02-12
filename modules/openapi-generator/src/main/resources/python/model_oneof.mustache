@@ -7,198 +7,56 @@ import pprint
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from pydantic import StrictStr, Field
+from pydantic import StrictStr, Field, RootModel
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
-class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
+class {{classname}}(RootModel[Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]]):
     """
     {{{description}}}{{^description}}{{{classname}}}{{/description}}
     """
-{{#composedSchemas.oneOf}}
-    # data type: {{{dataType}}}
-    {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
-{{/composedSchemas.oneOf}}
-    actual_instance: Optional[Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]] = None
-    one_of_schemas: Set[str] = { {{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}} }
-
-    model_config = ConfigDict(
-        validate_assignment=True,
-        protected_namespaces=(),
+    root: Union[{{#oneOf}}{{.}}{{^-last}}, {{/-last}}{{/oneOf}}{{#isNullable}}, None{{/isNullable}}] = Field(
+      {{#isNullable}}None{{/isNullable}}{{^isNullable}}...{{/isNullable}}{{#discriminator}}, discriminator="{{discriminatorName}}"{{/discriminator}}
     )
 
-{{#discriminator}}
+    def __getattr__(self, name):
+        """
+        Delegate attribute access to the root model if the attribute
+        doesn't exist on the main class.
+        """
 
-    discriminator_value_class_map: Dict[str, str] = {
-{{#children}}
-        '{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},{{/-last}}
-{{/children}}
-    }
-{{/discriminator}}
+        if name in self.__dict__:
+            return super().__getattribute__(name)
 
-    def __init__(self, *args, **kwargs) -> None:
-        if args:
-            if len(args) > 1:
-                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
-            if kwargs:
-                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
-            super().__init__(actual_instance=args[0])
-        else:
-            super().__init__(**kwargs)
+        root = self.__dict__.get('root')
+        if root is not None:
+            return getattr(root, name)
 
-    @field_validator('actual_instance')
-    def actual_instance_must_validate_oneof(cls, v):
-        {{#isNullable}}
-        if v is None:
-            return v
-
-        {{/isNullable}}
-        instance = {{{classname}}}.model_construct()
-        error_messages = []
-        match = 0
-        {{#composedSchemas.oneOf}}
-        # validate data type: {{{dataType}}}
-        {{#isContainer}}
-        try:
-            instance.{{vendorExtensions.x-py-name}} = v
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        {{/isContainer}}
-        {{^isContainer}}
-        {{#isPrimitiveType}}
-        try:
-            instance.{{vendorExtensions.x-py-name}} = v
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        if not isinstance(v, {{{dataType}}}):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `{{{dataType}}}`")
-        else:
-            match += 1
-        {{/isPrimitiveType}}
-        {{/isContainer}}
-        {{/composedSchemas.oneOf}}
-        if match > 1:
-            # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
-        elif match == 0:
-            # no match
-            raise ValueError("No match found when setting `actual_instance` in {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
-        else:
-            return v
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
 
     @classmethod
-    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
-        return cls.from_json(json.dumps(obj))
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj, strict=True)
 
     @classmethod
-    {{#isNullable}}
-    def from_json(cls, json_str: Optional[str]) -> Self:
-    {{/isNullable}}
-    {{^isNullable}}
     def from_json(cls, json_str: str) -> Self:
-    {{/isNullable}}
         """Returns the object represented by the json string"""
-        instance = cls.model_construct()
-        {{#isNullable}}
-        if json_str is None:
-            return instance
-
-        {{/isNullable}}
-        error_messages = []
-        match = 0
-
-        {{#useOneOfDiscriminatorLookup}}
-        {{#discriminator}}
-        {{#mappedModels}}
-        {{#-first}}
-        # use oneOf discriminator to lookup the data type
-        _data_type = json.loads(json_str).get("{{{propertyBaseName}}}")
-        if not _data_type:
-            raise ValueError("Failed to lookup data type from the field `{{{propertyBaseName}}}` in the input.")
-
-        {{/-first}}
-        # check if data type is `{{{modelName}}}`
-        if _data_type == "{{{mappingName}}}":
-            instance.actual_instance = {{{modelName}}}.from_json(json_str)
-            return instance
-
-        {{/mappedModels}}
-        {{/discriminator}}
-        {{/useOneOfDiscriminatorLookup}}
-        {{#composedSchemas.oneOf}}
-        {{#isContainer}}
-        # deserialize data into {{{dataType}}}
-        try:
-            # validation
-            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
-            # assign value to actual_instance
-            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        {{/isContainer}}
-        {{^isContainer}}
-        {{#isPrimitiveType}}
-        # deserialize data into {{{dataType}}}
-        try:
-            # validation
-            instance.{{vendorExtensions.x-py-name}} = json.loads(json_str)
-            # assign value to actual_instance
-            instance.actual_instance = instance.{{vendorExtensions.x-py-name}}
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        # deserialize data into {{{dataType}}}
-        try:
-            instance.actual_instance = {{{dataType}}}.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
-        {{/isPrimitiveType}}
-        {{/isContainer}}
-        {{/composedSchemas.oneOf}}
-
-        if match > 1:
-            # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
-        elif match == 0:
-            # no match
-            raise ValueError("No match found when deserializing the JSON string into {{{classname}}} with oneOf schemas: {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}. Details: " + ", ".join(error_messages))
-        else:
-            return instance
+        return cls.model_validate_json(json_str)
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
-        if self.actual_instance is None:
-            return "null"
+        return self.model_dump_json(by_alias=True, exclude_none=True)
 
-        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
-            return self.actual_instance.to_json()
-        else:
-            return json.dumps(self.actual_instance)
-
-    def to_dict(self) -> Optional[Union[Dict[str, Any], {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]]:
+    def to_dict(self) -> Dict[str, Any]:
         """Returns the dict representation of the actual instance"""
-        if self.actual_instance is None:
-            return None
-
-        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
-            return self.actual_instance.to_dict()
-        else:
-            # primitive type
-            return self.actual_instance
+        return self.model_dump(by_alias=True)
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
-        return pprint.pformat(self.model_dump())
+        return pprint.pformat(self.model_dump(by_alias=True, mode="json"))
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
