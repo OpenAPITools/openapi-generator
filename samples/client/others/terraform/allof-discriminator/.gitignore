@@ -1,0 +1,12 @@
+*.dll
+*.exe
+*.exe~
+*.dylib
+*.so
+*.test
+*.out
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+terraform-provider-allof
