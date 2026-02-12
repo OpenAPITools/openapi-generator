@@ -19,12 +19,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -32,7 +29,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
@@ -40,8 +36,8 @@ import jakarta.annotation.Generated;
 @Tag(name = "user", description = "Operations about user")
 public interface UserApi {
 
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
+    default UserApiDelegate getDelegate() {
+        return new UserApiDelegate() {};
     }
 
     String PATH_CREATE_USER = "/user";
@@ -73,8 +69,7 @@ public interface UserApi {
         @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().createUser(user, servletRequest);
     }
 
 
@@ -107,8 +102,7 @@ public interface UserApi {
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().createUsersWithArrayInput(user, servletRequest);
     }
 
 
@@ -141,8 +135,7 @@ public interface UserApi {
         @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().createUsersWithListInput(user, servletRequest);
     }
 
 
@@ -176,8 +169,7 @@ public interface UserApi {
         @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().deleteUser(username, servletRequest);
     }
 
 
@@ -214,22 +206,7 @@ public interface UserApi {
         @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
-                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().getUserByName(username, servletRequest);
     }
 
 
@@ -266,8 +243,7 @@ public interface UserApi {
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().loginUser(username, password, servletRequest);
     }
 
 
@@ -297,8 +273,7 @@ public interface UserApi {
     default ResponseEntity<Void> logoutUser(
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().logoutUser(servletRequest);
     }
 
 
@@ -335,8 +310,7 @@ public interface UserApi {
         @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
+        return getDelegate().updateUser(username, user, servletRequest);
     }
 
 }
