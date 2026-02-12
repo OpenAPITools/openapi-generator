@@ -1,0 +1,9 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-byte-format-edge-cases-reactive
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/byte-format-edge-cases.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  artifactId: springboot
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"
+  reactive: true

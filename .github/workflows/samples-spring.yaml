@@ -45,6 +45,7 @@ jobs:
           - samples/server/petstore/spring-boot-defaultInterface-unhandledExcp
           - samples/server/petstore/springboot
           - samples/server/petstore/springboot-byte-format-edge-cases
+          - samples/server/petstore/springboot-byte-format-edge-cases-reactive
           - samples/server/petstore/springboot-beanvalidation
           - samples/server/petstore/springboot-builtin-validation
           - samples/server/petstore/springboot-delegate

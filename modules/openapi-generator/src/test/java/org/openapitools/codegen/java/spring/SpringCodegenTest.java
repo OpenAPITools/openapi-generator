@@ -879,7 +879,7 @@ public class SpringCodegenTest {
     public void shouldHandleFormatByteCorrectlyForAllApiParametersAndProperties() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
-        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/byte-format-edge-cases.yaml");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/byte-format-baseline.yaml");
         // Query parameters: both plain text and Base64-encoded fields are mapped to String
         JavaFileAssert.assertThat(files.get("QueryApi.java"))
                 .assertMethod("queryParams")
