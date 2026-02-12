@@ -141,7 +141,7 @@ class PetApi(baseUrl: String) {
       .body(Map(
         "name" -> name,
         "status" -> status
-      ))
+      ).collect { case (k, Some(v)) => k -> v })
       .response(asString.mapWithMetadata(ResponseAs.deserializeRightWithError(_ => Right(()))))
 
   /**
