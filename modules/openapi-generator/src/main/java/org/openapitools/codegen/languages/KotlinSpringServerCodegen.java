@@ -45,6 +45,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -95,6 +96,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
+    public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -158,6 +160,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
+    @Setter private boolean autoXSpringPaginated = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -251,6 +254,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, "A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`", "empty map");
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
+        addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -655,6 +659,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
+        if (additionalProperties.containsKey(AUTO_X_SPRING_PAGINATED) && library.equals(SPRING_BOOT)) {
+            this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
+        }
+        writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
         if (isUseSpringBoot3()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
@@ -886,6 +894,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * - Removes the default Spring Data Web pagination query parameters (page, size, sort)
      * - Adds appropriate imports (Pageable, ApiIgnore for springfox, ParameterObject for springdoc)
      *
+     * Auto-detection (when autoXSpringPaginated is enabled):
+     * - Automatically detects operations with 'page', 'size', and 'sort' query parameters (case-sensitive)
+     * - Applies x-spring-paginated behavior to these operations automatically
+     * - Respects manual x-spring-paginated: false setting (manual override takes precedence)
+     * - Only applies when library is spring-boot
+     *
      * Note: x-spring-paginated is ONLY applied for server-side libraries (spring-boot).
      * Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters
      * to send over HTTP, so the extension is ignored for them.
@@ -905,7 +919,33 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      */
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<io.swagger.v3.oas.models.servers.Server> servers) {
+        // #8315 Spring Data Web default query params recognized by Pageable
+        List<String> defaultPageableQueryParams = Arrays.asList("page", "size", "sort");
+
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+
+        // Auto-detect pagination parameters and add x-spring-paginated if autoXSpringPaginated is enabled
+        // Only for spring-boot library, respect manual x-spring-paginated: false setting
+        if (SPRING_BOOT.equals(library) && autoXSpringPaginated) {
+            // Check if x-spring-paginated is not explicitly set to false
+            if (operation.getExtensions() == null || !Boolean.FALSE.equals(operation.getExtensions().get("x-spring-paginated"))) {
+                // Check if operation has all three pagination query parameters (case-sensitive)
+                boolean hasParamsForPageable = codegenOperation.queryParams.stream()
+                        .map(p -> p.baseName)
+                        .collect(Collectors.toSet())
+                        .containsAll(defaultPageableQueryParams);
+
+                if (hasParamsForPageable) {
+                    // Automatically add x-spring-paginated to the operation
+                    if (operation.getExtensions() == null) {
+                        operation.setExtensions(new HashMap<>());
+                    }
+                    operation.getExtensions().put("x-spring-paginated", Boolean.TRUE);
+                    codegenOperation.vendorExtensions.put("x-spring-paginated", Boolean.TRUE);
+                }
+            }
+        }
+
         // Only process x-spring-paginated for server-side libraries (spring-boot)
         // Client libraries (spring-cloud, spring-declarative-http-interface) need actual query parameters for HTTP requests
         if (SPRING_BOOT.equals(library)) {
@@ -924,11 +964,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                     codegenOperation.imports.add("ParameterObject");
                 }
-
-                // #8315 Spring Data Web default query params recognized by Pageable
-                List<String> defaultPageableQueryParams = new ArrayList<>(
-                        Arrays.asList("page", "size", "sort")
-                );
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
                 codegenOperation.queryParams.removeIf(param -> defaultPageableQueryParams.contains(param.baseName));
