@@ -210,6 +210,40 @@ public interface PetApi {
     );
 
 
+    String PATH_LIST_ALL_PETS = "/pet/all";
+    /**
+     * GET /pet/all : List all pets
+     * Returns all pets with pagination support
+     *
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
+    @Operation(
+        operationId = "listAllPets",
+        summary = "List all pets",
+        description = "Returns all pets with pagination support",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid status value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_LIST_ALL_PETS,
+        produces = { "application/json", "application/xml" }
+    )
+    ResponseEntity<List<Pet>> listAllPets(
+        @ParameterObject final Pageable pageable
+    );
+
+
     String PATH_UPDATE_PET = "/pet";
     /**
      * PUT /pet : Update an existing pet
