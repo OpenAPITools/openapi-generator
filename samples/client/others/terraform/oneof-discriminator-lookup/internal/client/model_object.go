@@ -4,6 +4,6 @@ package client
 
 // Object - Object struct
 type Object struct {
-	Field1 string
-	Type string
+	Field1 string `json:"field1"`
+	Type string `json:"type,omitempty"`
 }

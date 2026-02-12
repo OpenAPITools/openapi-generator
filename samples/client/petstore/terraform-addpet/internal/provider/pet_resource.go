@@ -114,15 +114,21 @@ func (r *PetResource) Create(ctx context.Context, req resource.CreateRequest, re
 }
 
 func (r *PetResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Read is not supported for pet")
+	// No read endpoint available; keep existing state as-is.
 }
 
 func (r *PetResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Update is not supported for pet")
+	// No update endpoint available; persist the planned values into state.
+	var plan PetModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 
 func (r *PetResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Delete is not supported for pet")
+	// No delete endpoint available; remove the resource from state.
 }
 
 func (r *PetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {

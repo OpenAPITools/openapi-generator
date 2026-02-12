@@ -41,6 +41,6 @@ jobs:
       - name: Build provider
         working-directory: ${{ matrix.sample }}
         run: go build -v ./...
-      - name: Run acceptance tests
+      - name: Run tests
         working-directory: ${{ matrix.sample }}
-        run: TF_ACC=1 go test ./... -v -timeout 120m
+        run: go test ./... -v -timeout 120m

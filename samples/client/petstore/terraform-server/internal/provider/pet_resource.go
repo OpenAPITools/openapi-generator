@@ -139,7 +139,13 @@ func (r *PetResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 }
 
 func (r *PetResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Not Supported", "Update is not supported for pet")
+	// No update endpoint available; persist the planned values into state.
+	var plan PetModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 
 func (r *PetResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

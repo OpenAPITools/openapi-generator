@@ -8,5 +8,6 @@
 *.tfstate
 *.tfstate.*
 .terraform/
-terraform.tfvars
+*.tfvars
+*.tfvars.json
 terraform-provider-allof

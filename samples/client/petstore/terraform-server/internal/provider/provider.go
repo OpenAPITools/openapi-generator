@@ -79,9 +79,16 @@ func (p *petstoreProvider) Configure(ctx context.Context, req provider.Configure
 		return
 	}
 
-	endpoint := config.Endpoint.ValueString()
-	if endpoint == "" {
-		endpoint = "http://petstore.swagger.io/v2"
+	if config.Endpoint.IsUnknown() {
+		resp.Diagnostics.AddWarning(
+			"Unknown Endpoint Value",
+			"The provider endpoint value is not yet known. Defaulting to the spec-defined base path.",
+		)
+	}
+
+	endpoint := "http://petstore.swagger.io/v2"
+	if !config.Endpoint.IsNull() && !config.Endpoint.IsUnknown() {
+		endpoint = config.Endpoint.ValueString()
 	}
 
 	c := client.NewClient(endpoint)
