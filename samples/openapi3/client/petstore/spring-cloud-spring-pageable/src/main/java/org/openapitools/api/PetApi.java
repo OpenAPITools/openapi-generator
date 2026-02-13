@@ -239,6 +239,7 @@ public interface PetApi {
         value = PetApi.PATH_LIST_ALL_PETS,
         produces = { "application/json", "application/xml" }
     )
+    @org.springframework.validation.annotation.Validated
     ResponseEntity<List<Pet>> listAllPets(
         @ParameterObject final Pageable pageable
     );

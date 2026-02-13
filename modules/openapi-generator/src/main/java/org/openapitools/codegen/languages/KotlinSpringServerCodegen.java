@@ -966,13 +966,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                     codegenOperation.imports.add("PageableAsQueryParam");
                     // Prepend @PageableAsQueryParam to existing x-operation-extra-annotation if present
+                    // Use getObjectAsStringList to properly handle both list and string formats:
+                    // - YAML list: ['@Ann1', '@Ann2'] -> List of annotations
+                    // - Single string: '@Ann1 @Ann2' -> Single-element list
+                    // - Nothing/null -> Empty list
                     Object existingAnnotation = codegenOperation.vendorExtensions.get("x-operation-extra-annotation");
-                    if (existingAnnotation != null && !existingAnnotation.toString().isEmpty()) {
-                        codegenOperation.vendorExtensions.put("x-operation-extra-annotation",
-                            "@PageableAsQueryParam\n    " + existingAnnotation);
-                    } else {
-                        codegenOperation.vendorExtensions.put("x-operation-extra-annotation", "@PageableAsQueryParam");
-                    }
+                    List<String> annotations = DefaultCodegen.getObjectAsStringList(existingAnnotation);
+
+                    // Prepend @PageableAsQueryParam to the beginning of the list
+                    List<String> updatedAnnotations = new ArrayList<>();
+                    updatedAnnotations.add("@PageableAsQueryParam");
+                    updatedAnnotations.addAll(annotations);
+
+                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", updatedAnnotations);
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used
@@ -1228,6 +1234,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_CONTENT_TYPE);
         extensions.add(VendorExtension.X_DISCRIMINATOR_VALUE);
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
+        extensions.add(VendorExtension.X_OPERATION_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_PATTERN_MESSAGE);
         extensions.add(VendorExtension.X_SIZE_MESSAGE);
         extensions.add(VendorExtension.X_MINIMUM_MESSAGE);

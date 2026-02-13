@@ -117,6 +117,9 @@ paths:
         - write:pets
         - read:pets
       x-spring-paginated: true
+      x-operation-extra-annotation:
+        - "@org.springframework.validation.annotation.Validated"
+        - "@org.springframework.security.access.prepost.PreAuthorize(\"hasRole('ADMIN')\")"
   /pet/findByTags:
     get:
       tags:

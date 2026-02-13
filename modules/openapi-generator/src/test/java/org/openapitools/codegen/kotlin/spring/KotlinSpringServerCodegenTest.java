@@ -3962,6 +3962,54 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void springPaginatedWithSpringDocPrependsToExistingAnnotationArray() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Verify that PageableAsQueryParam is imported
+        assertFileContains(petApi.toPath(), "import org.springdoc.core.converters.models.PageableAsQueryParam");
+
+        // Find the findPetsByStatus method
+        int findPetsByStatusStart = content.indexOf("fun findPetsByStatus(");
+        Assert.assertTrue(findPetsByStatusStart > 0, "findPetsByStatus method should exist");
+
+        // Check the annotations appear before the method in the correct order
+        String methodBlock = content.substring(Math.max(0, findPetsByStatusStart - 1500), findPetsByStatusStart);
+
+        int pageableAsQueryParamPos = methodBlock.lastIndexOf("@PageableAsQueryParam");
+        int validatedPos = methodBlock.lastIndexOf("@org.springframework.validation.annotation.Validated");
+        int preAuthorizePos = methodBlock.lastIndexOf("@org.springframework.security.access.prepost.PreAuthorize");
+        int requestMappingPos = methodBlock.lastIndexOf("@RequestMapping");
+
+        Assert.assertTrue(pageableAsQueryParamPos > 0, "@PageableAsQueryParam should be present before findPetsByStatus method");
+        Assert.assertTrue(validatedPos > 0, "@Validated should be present before findPetsByStatus method");
+        Assert.assertTrue(preAuthorizePos > 0, "@PreAuthorize should be present before findPetsByStatus method");
+
+        // Verify @PageableAsQueryParam comes first (prepended to the array)
+        Assert.assertTrue(pageableAsQueryParamPos < validatedPos,
+            "@PageableAsQueryParam should be prepended (appear before) @Validated annotation");
+
+        // Verify the original array order is preserved after @PageableAsQueryParam
+        Assert.assertTrue(validatedPos < preAuthorizePos,
+            "@Validated should appear before @PreAuthorize (original array order preserved)");
+
+        // Verify all annotations come before @RequestMapping
+        Assert.assertTrue(preAuthorizePos < requestMappingPos,
+            "All annotations should appear before @RequestMapping");
+
+        // Verify the Pageable parameter still has @Parameter(hidden = true)
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+    }
+
+    @Test
     public void springPaginatedMixedOperations() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put(USE_TAGS, "true");
