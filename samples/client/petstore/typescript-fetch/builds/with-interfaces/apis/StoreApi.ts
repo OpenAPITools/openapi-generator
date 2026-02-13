@@ -12,15 +12,12 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Order,
-} from '../models/index';
 import {
+    type Order,
     OrderFromJSON,
     OrderToJSON,
-} from '../models/index';
+} from '../models/Order';
 
 export interface DeleteOrderRequest {
     orderId: string;

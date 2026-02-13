@@ -12,7 +12,6 @@
  * Do not edit the class manually.
  */
 
-
 export const BASE_PATH = "http://api.example.xyz/v1".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {

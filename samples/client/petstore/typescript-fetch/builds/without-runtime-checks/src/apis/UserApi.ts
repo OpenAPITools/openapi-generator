@@ -12,10 +12,9 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
 import type {
-  User,
+    User,
 } from '../models/index';
 
 export interface CreateUserRequest {

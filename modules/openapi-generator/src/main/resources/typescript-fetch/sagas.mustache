@@ -2,25 +2,26 @@
 /* eslint-disable */
 {{>licenseInfo}}
 
+import { Api } from './index{{importFileExtension}}';
+import { List } from 'immutable';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities } from "../runtimeSagasAndRecords{{importFileExtension}}";
+import { Action } from "redux-ts-simple";
 
-import {Api} from './index{{importFileExtension}}';
-import {List} from 'immutable';
-import {all, fork, put, takeLatest} from "redux-saga/effects";
-import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords{{importFileExtension}}";
-import {Action} from "redux-ts-simple";
-
-{{#imports.0}}
+{{#imports}}
 import {
-    {{#imports}}
     {{className}},
+} from '../models/{{className}}{{importFileExtension}}';
+import {
     {{className}}Record,
     {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils,
-    {{/imports}}
-    {{#passthroughImports}}
+} from '../models/{{className}}Record{{importFileExtension}}';
+{{/imports}}
+{{#passthroughImports}}
+import {
     {{.}},
-    {{/passthroughImports}}
-} from '../models/index{{importFileExtension}}';
-{{/imports.0}}
+} from '../models/{{.}}{{importFileExtension}}';
+{{/passthroughImports}}
 {{#hasEnums}}
 {{#operations}}
 {{#operation}}
