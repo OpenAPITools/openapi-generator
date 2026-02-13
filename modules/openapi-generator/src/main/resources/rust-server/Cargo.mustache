@@ -105,6 +105,9 @@ regex = "1.12"
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+{{#apiUsesIntegerEnums}}
+serde_repr = "0.1"
+{{/apiUsesIntegerEnums}}
 serde_valid = { version = "2.0", optional = true }
 
 validator = { version = "0.20", features = ["derive"] }

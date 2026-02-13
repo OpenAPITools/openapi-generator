@@ -76,7 +76,7 @@ export interface Order {
     shipDate?: string;
     /**
      * Order Status
-     * @type {string}
+     * @type {OrderStatusEnum}
      * @memberof Order
      */
     status?: OrderStatusEnum;
@@ -137,7 +137,7 @@ export interface Pet {
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
+     * @type {PetStatusEnum}
      * @memberof Pet
      */
     status?: PetStatusEnum;

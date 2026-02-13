@@ -14,7 +14,7 @@ import { HttpFile } from '../http/http';
 
 export class MapTest {
     'mapMapOfString'?: { [key: string]: { [key: string]: string; }; };
-    'mapOfEnumString'?: { [key: string]: string; };
+    'mapOfEnumString'?: { [key: string]: MapTestMapOfEnumStringEnum; };
     'directMap'?: { [key: string]: boolean; };
     'indirectMap'?: { [key: string]: boolean; };
 
@@ -32,7 +32,7 @@ export class MapTest {
         {
             "name": "mapOfEnumString",
             "baseName": "map_of_enum_string",
-            "type": "{ [key: string]: string; }",
+            "type": "{ [key: string]: MapTestMapOfEnumStringEnum; }",
             "format": ""
         },
         {

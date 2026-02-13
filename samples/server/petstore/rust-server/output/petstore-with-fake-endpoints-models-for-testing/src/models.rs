@@ -155,7 +155,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AdditionalPropertiesClass> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -337,7 +337,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Animal> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -515,7 +515,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<AnimalFarm> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -718,7 +718,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ApiResponse> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -883,7 +883,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ArrayOfArrayOfNumberOnly> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1053,7 +1053,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ArrayOfNumberOnly> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1255,7 +1255,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ArrayTest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1507,7 +1507,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Capitalization> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1705,7 +1705,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Cat> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -1893,7 +1893,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Category> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2065,7 +2065,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ClassModel> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2236,7 +2236,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Client> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2434,7 +2434,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Dog> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2606,7 +2606,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<DollarSpecialLeftSquareBracketModelNameRightSquareBracket> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2795,7 +2795,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumArrays> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -2918,7 +2918,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumArraysArrayArrayEnumInnerInner> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3041,7 +3041,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumArraysArrayEnumInner> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3164,7 +3164,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumArraysJustSymbol> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3291,7 +3291,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumClass> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3505,7 +3505,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumTest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3537,23 +3537,18 @@ impl EnumTest {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum EnumTestEnumInteger {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-1")]
-    Variant12,
+    Variant1 = 1,
+    Variant12 = -1,
 }
 
 impl std::fmt::Display for EnumTestEnumInteger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            EnumTestEnumInteger::Variant1 => write!(f, "1"),
-            EnumTestEnumInteger::Variant12 => write!(f, "-1"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -3561,9 +3556,9 @@ impl std::str::FromStr for EnumTestEnumInteger {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
-            "-1" => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(EnumTestEnumInteger::Variant1),
+            std::result::Result::Ok(-1) => std::result::Result::Ok(EnumTestEnumInteger::Variant12),
             _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
@@ -3628,7 +3623,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumTestEnumInteger> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3755,7 +3750,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<EnumTestEnumString> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -3882,7 +3877,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<FindPetsByStatusStatusParameterInner> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4258,7 +4253,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<FormatTest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4445,7 +4440,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<HasOnlyReadOnly> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4616,7 +4611,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<List> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4803,7 +4798,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MapTest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -4926,7 +4921,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MapTestMapMapOfEnumValueValue> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5114,7 +5109,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MixedPropertiesAndAdditionalPropertiesClass> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5303,7 +5298,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Model200Response> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5519,7 +5514,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Name> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5690,7 +5685,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<NumberOnly> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -5857,7 +5852,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectContainingObjectWithOnlyAdditionalProperties> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6006,7 +6001,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ObjectWithOnlyAdditionalProperties> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6249,7 +6244,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Order> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6377,7 +6372,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OrderStatus> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6528,7 +6523,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OuterBoolean> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6731,7 +6726,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OuterComposite> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -6858,7 +6853,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OuterEnum> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7009,7 +7004,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OuterNumber> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7150,7 +7145,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<OuterString> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7378,7 +7373,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Pet> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7506,7 +7501,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<PetStatus> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7693,7 +7688,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<ReadOnlyFirst> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -7866,7 +7861,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Return> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8054,7 +8049,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<Tag> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8177,7 +8172,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<TestEnumParametersEnumHeaderStringArrayParameterInner> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8304,7 +8299,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<TestEnumParametersEnumHeaderStringParameter> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8427,7 +8422,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<TestEnumParametersEnumQueryDoubleParameter> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8459,23 +8454,18 @@ impl TestEnumParametersEnumQueryDoubleParameter {
 /// Since this enum's variants do not hold data, we can easily define them as `#[repr(C)]`
 /// which helps with FFI.
 #[allow(non_camel_case_types)]
-#[repr(C)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize, Hash)]
+#[repr(i32)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde_repr::Serialize_repr, serde_repr::Deserialize_repr, Hash)]
 #[cfg_attr(feature = "validate", derive(Validate))]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
 pub enum TestEnumParametersEnumQueryIntegerParameter {
-    #[serde(rename = "1")]
-    Variant1,
-    #[serde(rename = "-2")]
-    Variant2,
+    Variant1 = 1,
+    Variant2 = -2,
 }
 
 impl std::fmt::Display for TestEnumParametersEnumQueryIntegerParameter {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self {
-            TestEnumParametersEnumQueryIntegerParameter::Variant1 => write!(f, "1"),
-            TestEnumParametersEnumQueryIntegerParameter::Variant2 => write!(f, "-2"),
-        }
+        write!(f, "{}", *self as i32)
     }
 }
 
@@ -8483,9 +8473,9 @@ impl std::str::FromStr for TestEnumParametersEnumQueryIntegerParameter {
     type Err = String;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        match s {
-            "1" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
-            "-2" => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
+        match s.parse::<i32>() {
+            std::result::Result::Ok(1) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant1),
+            std::result::Result::Ok(-2) => std::result::Result::Ok(TestEnumParametersEnumQueryIntegerParameter::Variant2),
             _ => std::result::Result::Err(format!("Value not valid: {s}")),
         }
     }
@@ -8550,7 +8540,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<TestEnumParametersEnumQueryIntegerParameter> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8678,7 +8668,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<TestEnumParametersRequestEnumFormString> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -8963,7 +8953,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<User> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({

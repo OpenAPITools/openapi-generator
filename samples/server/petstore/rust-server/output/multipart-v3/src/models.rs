@@ -166,7 +166,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MultipartRelatedRequest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -338,7 +338,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MultipartRequestObjectField> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({
@@ -504,7 +504,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
         match hdr_values.to_str() {
             std::result::Result::Ok(hdr_values) => {
                 let hdr_values : std::vec::Vec<MultipleIdenticalMimeTypesPostRequest> = hdr_values
-                .split(", ")
+                .split(',')
                 .filter_map(|hdr_value| match hdr_value.trim() {
                     "" => std::option::Option::None,
                     hdr_value => std::option::Option::Some({

@@ -1,6 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -18,6 +19,7 @@ buildscript {
     }
     dependencies {
         classpath(group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.24.20')
+        classpath('com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:4.0.4')
     }
 }
 
