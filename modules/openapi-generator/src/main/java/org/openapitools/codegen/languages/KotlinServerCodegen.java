@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
+import io.swagger.v3.oas.models.Operation;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -64,6 +65,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private Boolean metricsFeatureEnabled = true;
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
+    private boolean useTags = false;
     private boolean useCoroutines = false;
     private boolean useMutiny = false;
     private boolean returnResponse = false;
@@ -97,6 +99,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             ))
             .put(Constants.JAXRS_SPEC, Arrays.asList(
                     USE_BEANVALIDATION,
+                    USE_TAGS,
                     Constants.USE_COROUTINES,
                     Constants.USE_MUTINY,
                     Constants.RETURN_RESPONSE,
@@ -170,6 +173,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
         addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
         addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
+        addSwitch(USE_TAGS, USE_TAGS_DESC, useTags);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
         addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
@@ -239,6 +243,10 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            useTags = Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString());
         }
 
         if (additionalProperties.containsKey(Constants.OMIT_GRADLE_WRAPPER)) {
@@ -698,6 +706,23 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
+        // For JAXRS_SPEC library, compute commonPath similar to JavaJaxRS generators
+        if (operations != null && Objects.equals(library, Constants.JAXRS_SPEC)) {
+            String commonPath = null;
+            List<CodegenOperation> ops = operations.getOperation();
+            for (CodegenOperation operation : ops) {
+                if (commonPath == null) {
+                    commonPath = operation.path;
+                } else {
+                    commonPath = getCommonPath(commonPath, operation.path);
+                }
+            }
+            for (CodegenOperation co : ops) {
+                co.path = StringUtils.removeStart(co.path, commonPath);
+                co.subresourceOperation = co.path.length() > 1;
+            }
+            objs.put("commonPath", "/".equals(commonPath) ? StringUtils.EMPTY : commonPath);
+        }
         // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
         if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
@@ -758,6 +783,24 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return objs;
     }
 
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (Objects.equals(library, Constants.JAXRS_SPEC) && additionalProperties.containsKey(USE_TAGS) && !useTags) {
+            String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
+            if (!StringUtils.isEmpty(basePath)) {
+                co.subresourceOperation = !co.path.isEmpty();
+            }
+            co.baseName = basePath;
+            if (StringUtils.isEmpty(co.baseName) || StringUtils.containsAny(co.baseName, "{", "}")) {
+                co.baseName = "default";
+            }
+            final List<CodegenOperation> opList = operations.computeIfAbsent(co.baseName, k -> new ArrayList<>());
+            opList.add(co);
+        } else {
+            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+        }
+    }
+
     private boolean isJavalin() {
         return Constants.JAVALIN5.equals(library) || Constants.JAVALIN6.equals(library);
     }
@@ -787,5 +830,18 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     private boolean isKtor2() {
         return Constants.KTOR2.equals(library);
+    }
+
+    private static String getCommonPath(String path1, String path2) {
+        final String[] parts1 = StringUtils.split(path1, "/");
+        final String[] parts2 = StringUtils.split(path2, "/");
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < Math.min(parts1.length, parts2.length); i++) {
+            if (!parts1[i].equals(parts2[i])) {
+                break;
+            }
+            builder.append("/").append(parts1[i]);
+        }
+        return builder.toString();
     }
 }
