@@ -17,6 +17,36 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /upload:
+    post:
+      summary: Upload multiple files
+      operationId: uploadFiles
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - files
+      responses:
+        '200':
+          description: Files uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  fileCount:
+                    type: integer
   /roles/report:
     get:
       responses:
