@@ -154,4 +154,24 @@ public class ScalaHttp4sClientCodegenTest {
         assertEquals(codegen.encodePath("before/{UserName}/after"), "before/${userName}/after");
     }
 
+    @Test(description = "generate oneOf models with discriminator")
+    public void oneOfWithDiscriminatorTest() throws IOException {
+        ScalaHttp4sClientCodegen codegen = new ScalaHttp4sClientCodegen();
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(codegen.getName())
+                .setInputSpec("src/test/resources/3_0/oneOfDiscriminator.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = getDefaultGenerator();
+
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        // Verify that oneOf models were generated
+        assertTrue(files.size() > 0);
+    }
+
 }
