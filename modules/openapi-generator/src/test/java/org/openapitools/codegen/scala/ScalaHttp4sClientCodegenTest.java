@@ -170,8 +170,75 @@ public class ScalaHttp4sClientCodegenTest {
 
         List<File> files = generator.opts(clientOptInput).generate();
 
-        // Verify that oneOf models were generated
-        assertTrue(files.size() > 0);
+        // Verify expected oneOf model files are generated
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/org/openapitools/client/models/FruitReqDisc.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/org/openapitools/client/models/FruitInlineDisc.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/org/openapitools/client/models/FruitOneOfEnumMappingDisc.scala");
+
+        // Verify edge case files (regular traits)
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/org/openapitools/client/models/FruitOneOfDisc.scala");
+        TestUtils.ensureContainsFile(files, output, "src/main/scala/org/openapitools/client/models/FruitType.scala");
+
+        // Read and verify sealed trait with inlined members (common case)
+        File fruitReqDiscFile = new File(output, "src/main/scala/org/openapitools/client/models/FruitReqDisc.scala");
+        String fruitReqDiscContent = Files.readString(fruitReqDiscFile.toPath());
+
+        // Assert sealed trait keyword
+        assertTrue(fruitReqDiscContent.contains("sealed trait FruitReqDisc"),
+                "FruitReqDisc should be a sealed trait");
+
+        // Assert inlined case classes in same file
+        assertTrue(fruitReqDiscContent.contains("case class AppleReqDisc"),
+                "AppleReqDisc should be inlined in FruitReqDisc file");
+        assertTrue(fruitReqDiscContent.contains("case class BananaReqDisc"),
+                "BananaReqDisc should be inlined in FruitReqDisc file");
+
+        // Assert extends relationship
+        assertTrue(fruitReqDiscContent.contains("extends FruitReqDisc"),
+                "Inlined classes should extend parent trait");
+
+        // Assert discriminator handling in encoder
+        assertTrue(fruitReqDiscContent.contains("case obj: AppleReqDisc => obj.asJson.mapObject"),
+                "Encoder should handle discriminator");
+        assertTrue(fruitReqDiscContent.contains("\"fruitType\""),
+                "Discriminator property name should be present");
+
+        // Assert discriminator handling in decoder
+        assertTrue(fruitReqDiscContent.contains("cursor.downField(\"fruitType\")"),
+                "Decoder should read discriminator property");
+        assertTrue(fruitReqDiscContent.contains("case \"AppleReqDisc\" => cursor.as[AppleReqDisc]"),
+                "Decoder should handle discriminator values");
+        assertTrue(fruitReqDiscContent.contains("DecodingFailure"),
+                "Decoder should handle unknown discriminator values");
+
+        // Assert Scala 3 syntax
+        assertTrue(fruitReqDiscContent.contains("import cats.syntax.functor.*"),
+                "Should use Scala 3 wildcard import syntax");
+        assertTrue(fruitReqDiscContent.contains("given encoder"),
+                "Should use Scala 3 given syntax");
+
+        // Read and verify regular trait (edge case)
+        File fruitOneOfDiscFile = new File(output, "src/main/scala/org/openapitools/client/models/FruitOneOfDisc.scala");
+        String fruitOneOfDiscContent = Files.readString(fruitOneOfDiscFile.toPath());
+
+        // Assert regular trait (not sealed) for edge case
+        assertTrue(fruitOneOfDiscContent.contains("trait FruitOneOfDisc"),
+                "FruitOneOfDisc should be a trait");
+        assertFalse(fruitOneOfDiscContent.contains("sealed trait FruitOneOfDisc"),
+                "FruitOneOfDisc should NOT be sealed (edge case)");
+
+        // Verify that inlined members don't have separate files
+        TestUtils.ensureDoesNotContainFile(files, output, "src/main/scala/org/openapitools/client/models/AppleReqDisc.scala");
+        TestUtils.ensureDoesNotContainFile(files, output, "src/main/scala/org/openapitools/client/models/BananaReqDisc.scala");
+
+        // Verify discriminator mapping case
+        File fruitMappingFile = new File(output, "src/main/scala/org/openapitools/client/models/FruitOneOfEnumMappingDisc.scala");
+        String fruitMappingContent = Files.readString(fruitMappingFile.toPath());
+
+        assertTrue(fruitMappingContent.contains("case \"APPLE\" =>"),
+                "Discriminator mapping should use mapped values");
+        assertTrue(fruitMappingContent.contains("case \"BANANA\" =>"),
+                "Discriminator mapping should use mapped values");
     }
 
 }
