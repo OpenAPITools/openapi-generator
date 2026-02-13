@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Base URL
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://api.example.com/v1
+paths:
+  /hello/{name}:
+    get:
+      operationId: sayHello
+      summary: Greet a person by name
+      tags:
+        - hello
+      parameters:
+          - name: name
+            in: path
+            required: true
+            schema:
+                type: string
+            description: Name of the person to greet
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Hello John!

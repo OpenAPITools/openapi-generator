@@ -31,7 +31,7 @@ import org.openapitools.client.infrastructure.*
 
 open class UserApi(client: WebClient) : ApiClient(client) {
 
-    constructor(baseUrl: String) : this(WebClient.builder()
+    constructor(baseUrl: String = ApiClient.BASE_URL) : this(WebClient.builder()
         .baseUrl(baseUrl)
         .codecs {
             it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
@@ -39,6 +39,12 @@ open class UserApi(client: WebClient) : ApiClient(client) {
         }
         .build()
     )
+
+    companion object {
+        fun createWithBasePath(baseUrl: String, basePath: String = ApiClient.BASE_PATH_WITHOUT_HOST): UserApi {
+            return UserApi(createUrlWithBasePath(baseUrl, basePath))
+        }
+    }
 
 
     @Throws(WebClientResponseException::class)
