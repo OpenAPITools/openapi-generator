@@ -965,7 +965,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 }
                 if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
                     codegenOperation.imports.add("PageableAsQueryParam");
-                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", "@PageableAsQueryParam");
+                    // Prepend @PageableAsQueryParam to existing x-operation-extra-annotation if present
+                    Object existingAnnotation = codegenOperation.vendorExtensions.get("x-operation-extra-annotation");
+                    if (existingAnnotation != null && !existingAnnotation.toString().isEmpty()) {
+                        codegenOperation.vendorExtensions.put("x-operation-extra-annotation",
+                            "@PageableAsQueryParam\n    " + existingAnnotation);
+                    } else {
+                        codegenOperation.vendorExtensions.put("x-operation-extra-annotation", "@PageableAsQueryParam");
+                    }
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used

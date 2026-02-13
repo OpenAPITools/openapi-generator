@@ -243,6 +243,7 @@ paths:
         - write:pets
         - read:pets
       x-spring-paginated: true
+      x-operation-extra-annotation: "@org.springframework.validation.annotation.Validated" # test that the annotation is preserved when x-spring-paginated:true is used and is prepended with the @PageableAsQueryParam for springdoc
   /pet/{petId}:
     get:
       tags:
