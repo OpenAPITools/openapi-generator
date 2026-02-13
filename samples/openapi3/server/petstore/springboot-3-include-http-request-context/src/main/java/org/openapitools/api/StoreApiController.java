@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.context.request.NativeWebRequest;
 
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
@@ -32,16 +31,15 @@ import jakarta.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
-    private final NativeWebRequest request;
+    private final StoreApiDelegate delegate;
 
-    @Autowired
-    public StoreApiController(NativeWebRequest request) {
-        this.request = request;
+    public StoreApiController(@Autowired(required = false) StoreApiDelegate delegate) {
+        this.delegate = Optional.ofNullable(delegate).orElse(new StoreApiDelegate() {});
     }
 
     @Override
-    public Optional<NativeWebRequest> getRequest() {
-        return Optional.ofNullable(request);
+    public StoreApiDelegate getDelegate() {
+        return delegate;
     }
 
 }

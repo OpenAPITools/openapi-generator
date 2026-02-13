@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.context.request.NativeWebRequest;
 
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
@@ -33,16 +32,15 @@ import jakarta.annotation.Generated;
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class PetApiController implements PetApi {
 
-    private final NativeWebRequest request;
+    private final PetApiDelegate delegate;
 
-    @Autowired
-    public PetApiController(NativeWebRequest request) {
-        this.request = request;
+    public PetApiController(@Autowired(required = false) PetApiDelegate delegate) {
+        this.delegate = Optional.ofNullable(delegate).orElse(new PetApiDelegate() {});
     }
 
     @Override
-    public Optional<NativeWebRequest> getRequest() {
-        return Optional.ofNullable(request);
+    public PetApiDelegate getDelegate() {
+        return delegate;
     }
 
 }
