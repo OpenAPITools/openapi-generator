@@ -797,13 +797,6 @@ paths:
       description: Tests x-spring-paginated with no query params except pagination
       operationId: listPetsByIdPaginated
       parameters:
-        - name: petId
-          in: path
-          description: Pet ID
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: X-Request-ID
           in: header
           description: Request ID for tracing
@@ -842,13 +835,6 @@ paths:
       description: Comprehensive test with all parameter types
       operationId: listPetsMixedParams
       parameters:
-        - name: categoryId
-          in: path
-          description: Category ID
-          required: true
-          schema:
-            type: integer
-            format: int64
         - name: Authorization
           in: header
           description: Authorization header

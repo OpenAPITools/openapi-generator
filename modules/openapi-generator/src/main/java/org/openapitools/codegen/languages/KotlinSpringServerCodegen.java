@@ -816,7 +816,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
 
-            apiTemplateFiles.put("apiInterface.mustache", "Client.kt");
+            apiTemplateFiles.put("apiInterface.mustache", ".kt");
             apiTestTemplateFiles.clear();
         }
 

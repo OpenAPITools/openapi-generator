@@ -190,7 +190,6 @@ interface PetApi {
         produces = ["application/json"]
     )
     fun listPetsByIdPaginated(
-        @ApiParam(value = "Pet ID", required = true) @PathVariable("petId") petId: kotlin.Long,
         @ApiParam(value = "Request ID for tracing") @RequestHeader(value = "X-Request-ID", required = false) xRequestID: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
@@ -238,7 +237,6 @@ interface PetApi {
         produces = ["application/json"]
     )
     fun listPetsMixedParams(
-        @ApiParam(value = "Category ID", required = true) @PathVariable("categoryId") categoryId: kotlin.Long,
         @ApiParam(value = "Authorization header") @RequestHeader(value = "Authorization", required = false) authorization: kotlin.String?,
         @ApiParam(value = "Tenant ID") @RequestHeader(value = "X-Tenant-ID", required = false) xTenantID: kotlin.String?,
         @ApiParam(value = "Status filter") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,

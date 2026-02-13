@@ -66,8 +66,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#listPetsByIdPaginated
      */
-    fun listPetsByIdPaginated(petId: kotlin.Long,
-        xRequestID: kotlin.String?,
+    fun listPetsByIdPaginated(xRequestID: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange,
         pageable: Pageable): ResponseEntity<Flow<Pet>>
 
@@ -84,8 +83,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#listPetsMixedParams
      */
-    fun listPetsMixedParams(categoryId: kotlin.Long,
-        authorization: kotlin.String?,
+    fun listPetsMixedParams(authorization: kotlin.String?,
         xTenantID: kotlin.String?,
         status: kotlin.String?,
         includeInactive: kotlin.Boolean?,

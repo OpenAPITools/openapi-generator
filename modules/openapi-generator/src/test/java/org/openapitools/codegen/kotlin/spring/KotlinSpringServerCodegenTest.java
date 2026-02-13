@@ -1215,7 +1215,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "import reactor.core.publisher.Flux\n"
@@ -1287,7 +1287,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    suspend fun getInventory(\n"
@@ -1329,7 +1329,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "import reactor.core.publisher.Flux\n"
@@ -1377,7 +1377,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    suspend fun getInventory(\n"
@@ -1418,7 +1418,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    fun getInventory(\n"
@@ -1463,7 +1463,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         // Note: We cannot use property placeholders as HttpServiceProxyFactory does not resolve them by default.
         assertFileContains(
                 path,
