@@ -60,15 +60,17 @@ export const {{handlerName}} =
       const result = service.{{operationId}}({{#hasParams}}params{{/hasParams}});
 
       if (Symbol.asyncIterator in Object(result)) {
-        res.writeHead(200, {
-          "Content-Type": "text/event-stream",
-          "Cache-Control": "no-cache",
-          Connection: "keep-alive",
-        });
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+        res.setHeader("X-Accel-Buffering", "no");
+        res.flushHeaders();
+        res.socket?.setNoDelay(true);
         try {
           for await (const chunk of result as AsyncIterable<types.{{{sseType}}}>) {
             const dto = mappers.{{{sseDtoMapper}}}(chunk);
             res.write(`id: ${dto.id}\nevent: ${dto.event}\ndata: ${JSON.stringify(dto.data)}\n\n`);
+            if (typeof (res as any).flush === "function") (res as any).flush();
           }
         } catch (streamErr) {
           res.write(`event: error\ndata: ${JSON.stringify({ message: streamErr instanceof Error ? streamErr.message : "Stream error" })}\n\n`);
@@ -115,7 +117,7 @@ export const {{handlerName}} =
     } catch (err) {
       if (err instanceof ZodError) {
         const statusCode = res.headersSent ? 500 : 400;
-        return next(errors.validationErrors(statusCode, err.errors));
+        return next(errors.validationErrors(statusCode, err.issues));
       } else {
         next(errors.unhandledException(err));
       }

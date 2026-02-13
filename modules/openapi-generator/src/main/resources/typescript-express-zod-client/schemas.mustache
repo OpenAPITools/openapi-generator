@@ -39,7 +39,7 @@ export const {{classname}}Schema = z.object({
   {{name}}: {{{vendorExtensions.x-zod-full}}},
 {{/vendorExtensions.x-is-own-property}}
 {{/vars}}
-}){{#vendorExtensions.x-intersection-parents}}.merge({{modelName}}Schema){{/vendorExtensions.x-intersection-parents}};
+}){{#vendorExtensions.x-intersection-parents}}.extend({{modelName}}Schema.shape){{/vendorExtensions.x-intersection-parents}};
 
 {{/vendorExtensions.x-is-intersection}}
 {{^vendorExtensions.x-is-intersection}}
