@@ -47,7 +47,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         return json;
     }
     {{/-first}}
-    if (instanceOf{{{.}}}(json)) {
+    if (instanceOf{{{.}}}({{{.}}}FromJSONTyped(json, true))) {
         return {{{.}}}FromJSONTyped(json, true);
     }
     {{/oneOfModels}}
@@ -56,7 +56,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'object')) {
     {{/-first}}
-            if (json.every(item => instanceOf{{{.}}}(item))) {
+            if (json.every(item => instanceOf{{{.}}}({{{.}}}FromJSONTyped(item, true)))) {
                 return json.map(value => {{{.}}}FromJSONTyped(value, true));
             }
     {{#-last}}
