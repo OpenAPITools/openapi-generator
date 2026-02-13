@@ -36,8 +36,8 @@ class EnumArrays(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['>=', '$']):
-            raise ValueError("must be one of enum values ('>=', '$')")
+        if value not in set(['>=', '$', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('>=', '$', 'unknown_default_open_api')")
         return value
 
     @field_validator('array_enum')
@@ -47,8 +47,8 @@ class EnumArrays(BaseModel):
             return value
 
         for i in value:
-            if i not in set(['fish', 'crab']):
-                raise ValueError("each list item must be one of ('fish', 'crab')")
+            if i not in set(['fish', 'crab', 'unknown_default_open_api']):
+                raise ValueError("each list item must be one of ('fish', 'crab', 'unknown_default_open_api')")
         return value
 
     model_config = ConfigDict(

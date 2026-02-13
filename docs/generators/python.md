@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |dateFormat|date format for query parameters| |%Y-%m-%d|
 |datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.| |false|
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lazyImports|Enable lazy imports.| |false|

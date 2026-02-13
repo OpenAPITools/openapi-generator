@@ -26,6 +26,8 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
@@ -38,6 +40,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -47,6 +51,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class PythonClientCodegenTest {
 
@@ -684,5 +689,121 @@ public class PythonClientCodegenTest {
 
         // Verify it does NOT use the legacy string format
         TestUtils.assertFileNotContains(pyprojectPath, "license = \"BSD-3-Clause\"");
+    }
+
+    @Test(description = "test enumUnknownDefaultCase option")
+    public void testEnumUnknownDefaultCaseOption() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        // Test default value is false
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.FALSE);
+
+        // Test setting via additionalProperties
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+    }
+
+    @Test(description = "test enum model generation with enumUnknownDefaultCase")
+    public void testEnumModelWithUnknownDefaultCase() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum_unknown_default_case.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        // Enable enumUnknownDefaultCase
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        // Verify that enumUnknownDefaultCase is set
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+
+        // Process all models to trigger enum processing
+        Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+        Map<String, ModelsMap> allModels = new HashMap<>();
+        for (String modelName : schemas.keySet()) {
+            Schema schema = schemas.get(modelName);
+            CodegenModel cm = codegen.fromModel(modelName, schema);
+            ModelsMap modelsMap = new ModelsMap();
+            modelsMap.setModels(Collections.singletonList(new ModelMap(Collections.singletonMap("model", cm))));
+            allModels.put(modelName, modelsMap);
+        }
+
+        // Post-process to add enumVars
+        allModels = codegen.postProcessAllModels(allModels);
+
+        // Get the ColorEnum model
+        CodegenModel colorEnum = null;
+        for (Map.Entry<String, ModelsMap> entry : allModels.entrySet()) {
+            if ("ColorEnum".equals(entry.getKey())) {
+                colorEnum = entry.getValue().getModels().get(0).getModel();
+                break;
+            }
+        }
+
+        Assert.assertNotNull(colorEnum);
+        Assert.assertNotNull(colorEnum.allowableValues);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) colorEnum.allowableValues.get("enumVars");
+        Assert.assertNotNull(enumVars);
+
+        // Check that we have the expected enum values including UNKNOWN_DEFAULT_OPEN_API
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'RED'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'GREEN'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'BLUE'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'YELLOW'".equals(var.get("value"))));
+        Assert.assertTrue(enumVars.stream().anyMatch(var -> "'unknown_default_open_api'".equals(var.get("value"))));
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
+    public void testEnumGenerationWithUnknownDefaultCase() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/enum_unknown_default_case.yaml")
+                .setOutputDir(outputPath)
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.py");
+
+        // Check that UNKNOWN_DEFAULT_OPEN_API is added (with single quotes as Python generates)
+        TestUtils.assertFileContains(enumFile, "UNKNOWN_DEFAULT_OPEN_API = 'unknown_default_open_api'");
+
+        // Check that _missing_ method is added
+        TestUtils.assertFileContains(enumFile, "@classmethod");
+        TestUtils.assertFileContains(enumFile, "def _missing_(cls, value):");
+        TestUtils.assertFileContains(enumFile, "return cls.UNKNOWN_DEFAULT_OPEN_API");
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
+    public void testEnumGenerationWithoutUnknownDefaultCase() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/enum_unknown_default_case.yaml")
+                .setOutputDir(outputPath)
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "false");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path enumFile = Paths.get(outputPath, "openapi_client", "models", "color_enum.py");
+
+        // Check that UNKNOWN_DEFAULT_OPEN_API is NOT added
+        TestUtils.assertFileNotContains(enumFile, "UNKNOWN_DEFAULT_OPEN_API");
+
+        // Check that _missing_ method is NOT added
+        TestUtils.assertFileNotContains(enumFile, "def _missing_(cls, value):");
     }
 }

@@ -53,15 +53,15 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['UPPER', 'lower', '']):
-            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        if value not in set(['UPPER', 'lower', '', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '', 'unknown_default_open_api')")
         return value
 
     @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['UPPER', 'lower', '']):
-            raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
+        if value not in set(['UPPER', 'lower', '', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('UPPER', 'lower', '', 'unknown_default_open_api')")
         return value
 
     @field_validator('enum_integer_default')
@@ -70,8 +70,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set([1, 5, 14]):
-            raise ValueError("must be one of enum values (1, 5, 14)")
+        if value not in set([1, 5, 14, 11184809]):
+            raise ValueError("must be one of enum values (1, 5, 14, 11184809)")
         return value
 
     @field_validator('enum_integer')
@@ -80,8 +80,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set([1, -1]):
-            raise ValueError("must be one of enum values (1, -1)")
+        if value not in set([1, -1, 11184809]):
+            raise ValueError("must be one of enum values (1, -1, 11184809)")
         return value
 
     @field_validator('enum_number')
@@ -90,8 +90,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set([1.1, -1.2]):
-            raise ValueError("must be one of enum values (1.1, -1.2)")
+        if value not in set([1.1, -1.2, 11184809]):
+            raise ValueError("must be one of enum values (1.1, -1.2, 11184809)")
         return value
 
     @field_validator('enum_string_single_member')
@@ -100,8 +100,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set(['abc']):
-            raise ValueError("must be one of enum values ('abc')")
+        if value not in set(['abc', 'unknown_default_open_api']):
+            raise ValueError("must be one of enum values ('abc', 'unknown_default_open_api')")
         return value
 
     @field_validator('enum_integer_single_member')
@@ -110,8 +110,8 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in set([100]):
-            raise ValueError("must be one of enum values (100)")
+        if value not in set([100, 11184809]):
+            raise ValueError("must be one of enum values (100, 11184809)")
         return value
 
     model_config = ConfigDict(
