@@ -47,6 +47,14 @@ export type DogBreedEnum = typeof DogBreedEnum[keyof typeof DogBreedEnum];
 export interface FilePostRequest {
     'file'?: any;
 }
+export interface OneOfPrimitiveTypes {
+    'value'?: OneOfPrimitiveTypesValue;
+}
+/**
+ * @type OneOfPrimitiveTypesValue
+ */
+export type OneOfPrimitiveTypesValue = Array<PetByAge> | PetByAge | boolean | number;
+
 export interface PetByAge {
     'age': number;
     'nickname'?: string;

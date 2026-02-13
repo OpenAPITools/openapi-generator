@@ -94,3 +94,15 @@ components:
           type: string
       required:
         - discriminatorField
+    OneOfPrimitiveTypes:
+      type: object
+      properties:
+        value:
+          oneOf:
+            - type: boolean
+            - type: integer
+              format: int64
+            - $ref: "#/components/schemas/TestA"
+            - type: array
+              items:
+                $ref: "#/components/schemas/TestA"

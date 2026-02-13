@@ -6,6 +6,8 @@ import {mergeMap, map} from  '../rxjsStub';
 import { Cat } from '../models/Cat';
 import { Dog } from '../models/Dog';
 import { FilePostRequest } from '../models/FilePostRequest';
+import { OneOfPrimitiveTypes } from '../models/OneOfPrimitiveTypes';
+import { OneOfPrimitiveTypesValue } from '../models/OneOfPrimitiveTypesValue';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
 import { PetsFilteredPatchRequest } from '../models/PetsFilteredPatchRequest';

@@ -105,3 +105,16 @@ components:
           type: boolean
       required:
         - pet_type
+
+    OneOfPrimitiveTypes:
+      type: object
+      properties:
+        value:
+          oneOf:
+            - type: boolean
+            - type: integer
+              format: int64
+            - $ref: "#/components/schemas/PetByAge"
+            - type: array
+              items:
+                $ref: "#/components/schemas/PetByAge"
