@@ -66,7 +66,7 @@ export interface Pet {
     tags?: Array<Tag>;
     /**
      * pet status in the store
-     * @type {string}
+     * @type {PetStatusEnum}
      * @memberof Pet
      * @deprecated
      */

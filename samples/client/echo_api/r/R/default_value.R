@@ -119,7 +119,7 @@ DefaultValue <- R6::R6Class(
       DefaultValueObject <- list()
       if (!is.null(self$`array_string_enum_ref_default`)) {
         DefaultValueObject[["array_string_enum_ref_default"]] <-
-          lapply(self$`array_string_enum_ref_default`, function(x) x$toSimpleType())
+          self$extractSimpleType(self$`array_string_enum_ref_default`)
       }
       if (!is.null(self$`array_string_enum_default`)) {
         DefaultValueObject[["array_string_enum_default"]] <-
@@ -150,6 +150,29 @@ DefaultValue <- R6::R6Class(
           self$`string_nullable`
       }
       return(DefaultValueObject)
+    },
+
+    extractSimpleType = function(x) {
+      if (R6::is.R6(x)) {
+        return(x$toSimpleType())
+      } else if (!self$hasNestedR6(x)) {
+        return(x)
+      }
+      lapply(x, self$extractSimpleType)
+    },
+
+    hasNestedR6 = function(x) {
+      if (R6::is.R6(x)) {
+        return(TRUE)
+      }
+      if (is.list(x)) {
+        for (item in x) {
+          if (self$hasNestedR6(item)) {
+            return(TRUE)
+          }
+        }
+      }
+      FALSE
     },
 
     #' @description

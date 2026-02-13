@@ -386,7 +386,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // rust-server templates expect value to be in quotes
+        // rust-server templates expect value to be in quotes for Display/FromStr
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
@@ -607,6 +607,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         for (CodegenParameter param : op.allParams) {
+            processParam(param, op);
+        }
+
+        for (CodegenParameter param : op.pathParams) {
             processParam(param, op);
         }
 
@@ -973,7 +977,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && s.isKeyInHeader) {
-                    s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
                     headerAuthMethods = true;
                 }
 
@@ -1459,6 +1462,45 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         return null;
     }
 
+    /**
+     * Determine the appropriate Rust integer type based on format and min/max constraints.
+     * Returns the fitted data type, or null if the baseType is not an integer.
+     *
+     * @param dataFormat The data format (e.g., "int32", "int64", "uint32", "uint64")
+     * @param minimum The minimum value constraint
+     * @param maximum The maximum value constraint
+     * @param exclusiveMinimum Whether the minimum is exclusive
+     * @param exclusiveMaximum Whether the maximum is exclusive
+     * @return The fitted Rust integer type.
+     */
+    private String applyIntegerTypeFitting(String dataFormat,
+                                            String minimum, String maximum,
+                                            boolean exclusiveMinimum, boolean exclusiveMaximum) {
+        BigInteger min = Optional.ofNullable(minimum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+        BigInteger max = Optional.ofNullable(maximum).filter(s -> !s.isEmpty()).map(BigInteger::new).orElse(null);
+
+        boolean unsigned = canFitIntoUnsigned(min, exclusiveMinimum);
+
+        if (Strings.isNullOrEmpty(dataFormat)) {
+            return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+        } else {
+            switch (dataFormat) {
+                // custom integer formats (legacy)
+                case "uint32":
+                    return "u32";
+                case "uint64":
+                    return "u64";
+                case "int32":
+                    return unsigned ? "u32" : "i32";
+                case "int64":
+                    return unsigned ? "u64" : "i64";
+                default:
+                    LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", dataFormat);
+                    return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
+            }
+        }
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1492,41 +1534,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         // Integer type fitting
         if (Objects.equals(property.baseType, "integer")) {
 
-            BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
-
-            boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
-
-            if (Strings.isNullOrEmpty(property.dataFormat)) {
-                property.dataType = bestFittingIntegerType(minimum,
-                        property.getExclusiveMinimum(),
-                        maximum,
-                        property.getExclusiveMaximum(),
-                        true);
-            } else {
-                switch (property.dataFormat) {
-                    // custom integer formats (legacy)
-                    case "uint32":
-                        property.dataType = "u32";
-                        break;
-                    case "uint64":
-                        property.dataType = "u64";
-                        break;
-                    case "int32":
-                        property.dataType = unsigned ? "u32" : "i32";
-                        break;
-                    case "int64":
-                        property.dataType = unsigned ? "u64" : "i64";
-                        break;
-                    default:
-                        LOGGER.warn("The integer format '{}' is not recognized and will be ignored.", property.dataFormat);
-                        property.dataType = bestFittingIntegerType(minimum,
-                                property.getExclusiveMinimum(),
-                                maximum,
-                                property.getExclusiveMaximum(),
-                                true);
-                }
-            }
+            property.dataType = applyIntegerTypeFitting(
+                property.dataFormat,
+                property.getMinimum(),
+                property.getMaximum(),
+                property.getExclusiveMinimum(),
+                property.getExclusiveMaximum());
         }
 
         property.name = underscore(property.name);
@@ -1550,6 +1563,58 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModelsEnum(objs);
+
+        // Detect integer enums and mark them for serde_repr usage
+        for (ModelMap modelMap : result.getModels()) {
+            CodegenModel model = modelMap.getModel();
+
+            if (Boolean.TRUE.equals(model.isEnum) &&
+                (model.isInteger || model.isLong || model.isNumber) &&
+                model.allowableValues != null) {
+
+                // Determine the correct Rust type for the enum's repr
+                String rustType;
+                if (model.isNumber && !model.isInteger && !model.isLong) {
+                    // Floating point enum - use dataType or default to f64
+                    rustType = "f32".equals(model.dataType) ? "f32" : "f64";
+                } else {
+                    // Integer enum - apply the same type fitting logic as properties
+                    rustType = applyIntegerTypeFitting(
+                        model.getFormat(),
+                        model.getMinimum(),
+                        model.getMaximum(),
+                        model.getExclusiveMinimum(),
+                        model.getExclusiveMaximum());
+                    // If applyIntegerTypeFitting returns null, default to i32
+                    if (rustType == null) {
+                        rustType = "i32";
+                    }
+                }
+
+                // Mark this as an integer enum and store the Rust type
+                model.vendorExtensions.put("x-is-integer-enum", true);
+                model.vendorExtensions.put("x-rust-type", rustType);
+
+                // Set global flag to include serde_repr dependency
+                additionalProperties.put("apiUsesIntegerEnums", true);
+
+                // Add numeric discriminant values for enum variants
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> enumVars =
+                    (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+
+                if (enumVars != null) {
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String value = (String) enumVar.get("value");
+                        if (value != null) {
+                            // Strip quotes to get raw numeric value
+                            String numericValue = value.substring(1, value.length() - 1);
+                            enumVar.put("numericDiscriminant", numericValue);
+                        }
+                    }
+                }
+            }
+        }
 
         // Check for model names that conflict with serde_valid macro internals
         // Once we find one, set a class-level flag that persists across all model batches
@@ -1579,6 +1644,17 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
+
+        // If a parameter is an integer, fit it into the right type.
+        // Note: For CodegenParameter, baseType may be null, so we check isInteger/isLong/isShort flags instead.
+        if (param.isInteger || param.isLong || param.isShort) {
+            param.dataType = applyIntegerTypeFitting(
+                    param.dataFormat,
+                    param.minimum,
+                    param.maximum,
+                    param.exclusiveMinimum,
+                    param.exclusiveMaximum);
+        }
 
         // If a parameter uses UUIDs, we need to import the UUID package.
         if (uuidType.equals(param.dataType)) {

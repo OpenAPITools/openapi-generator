@@ -13,3 +13,14 @@ additionalProperties:
   serializableModel: true
   beanValidations: true
   includeHttpRequestContext: true
+  schemaImplements:
+    Pet: com.some.pack.WithId
+    Category: [ com.some.pack.CategoryInterface ]
+    Dog: [ com.some.pack.Canine ]
+  schemaImplementsFields:
+    Pet: id
+    Category: [ name, id ]
+    Dog: [ bark, breed ]
+  xKotlinImplementsSkip: [ com.some.pack.WithPhotoUrls ]
+  xKotlinImplementsFieldsSkip:
+    Pet: [ photoUrls ]

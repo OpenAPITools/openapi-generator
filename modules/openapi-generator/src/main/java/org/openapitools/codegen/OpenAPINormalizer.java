@@ -151,6 +151,9 @@ public class OpenAPINormalizer {
     boolean updateNumberToNullable;
     boolean updateBooleanToNullable;
 
+    // when set to true, sort model properties by name to ensure deterministic output
+    final String SORT_MODEL_PROPERTIES = "SORT_MODEL_PROPERTIES";
+
     // ============= end of rules =============
 
     /**
@@ -209,6 +212,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
         ruleNames.add(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT);
+        ruleNames.add(SORT_MODEL_PROPERTIES);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -768,7 +772,7 @@ public class OpenAPINormalizer {
             }
 
             if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-                normalizeProperties(schema.getProperties(), visitedSchemas);
+                normalizeProperties(schema, visitedSchemas);
             }
 
             if (schema.getAdditionalProperties() != null) {
@@ -777,7 +781,7 @@ public class OpenAPINormalizer {
 
             return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
@@ -799,6 +803,13 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      */
     protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getType() != null || schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // clears type(s) given that $ref is set
+            schema.setType(null);
+            schema.setTypes(null);
+            LOGGER.warn("Type(s) cleared (set to null) given $ref is set to {}.", schema.get$ref());
+        }
+
         if (schema.getTitle() != null || schema.getDescription() != null
                 || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
                 || schema.getMaximum() != null || schema.getMinimum() != null
@@ -880,10 +891,19 @@ public class OpenAPINormalizer {
         processSetPrimitiveTypesToNullable(schema);
     }
 
-    protected void normalizeProperties(Map<String, Schema> properties, Set<Schema> visitedSchemas) {
+    protected void normalizeProperties(Schema schema, Set<Schema> visitedSchemas) {
+        Map<String, Schema> properties = schema.getProperties();
         if (properties == null) {
             return;
         }
+
+        // Sort properties by name if rule is enabled
+        if (getRule(SORT_MODEL_PROPERTIES)) {
+            Map<String, Schema> sortedProperties = new TreeMap<>(properties);
+            schema.setProperties(sortedProperties);
+            properties = sortedProperties;
+        }
+
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
 
@@ -1089,7 +1109,7 @@ public class OpenAPINormalizer {
     protected Schema normalizeComplexComposedSchema(Schema schema, Set<Schema> visitedSchemas) {
         // loop through properties, if any
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            normalizeProperties(schema.getProperties(), visitedSchemas);
+            normalizeProperties(schema, visitedSchemas);
         }
 
         processRemoveAnyOfOneOfAndKeepPropertiesOnly(schema);

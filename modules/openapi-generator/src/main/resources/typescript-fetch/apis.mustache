@@ -43,6 +43,19 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 export interface {{classname}}Interface {
 {{#operation}}
     /**
+     * Creates request options for {{nickname}} without sending the request
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+     * @throws {RequiredError}
+     * @memberof {{classname}}Interface
+     */
+    {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts>;
+
+    /**
      * {{&notes}}
      {{#summary}}
      * @summary {{&summary}}
@@ -95,17 +108,12 @@ export class {{classname}} extends runtime.BaseAPI {
 
     {{#operation}}
     /**
-     {{#notes}}
-     * {{&notes}}
-     {{/notes}}
-     {{#summary}}
-     * {{&summary}}
-     {{/summary}}
+     * Creates request options for {{nickname}} without sending the request
      {{#isDeprecated}}
      * @deprecated
      {{/isDeprecated}}
      */
-    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts> {
         {{#allParams}}
         {{#required}}
         if (requestParameters['{{paramName}}'] == null) {
@@ -304,7 +312,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isDateTimeType}}
         {{/pathParams}}
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: '{{httpMethod}}',
             headers: headerParameters,
@@ -337,7 +345,23 @@ export class {{classname}} extends runtime.BaseAPI {
             {{#hasFormParams}}
             body: formParams,
             {{/hasFormParams}}
-        }, initOverrides);
+        };
+    }
+
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+     */
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        const requestOptions = await this.{{nickname}}RequestOpts({{#allParams.0}}requestParameters{{/allParams.0}});
+        const response = await this.request(requestOptions, initOverrides);
 
         {{#returnType}}
         {{#isResponseFile}}

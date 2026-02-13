@@ -41,6 +41,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |dateFormat|Specify the format pattern of date as a string| |null|
 |dateLibrary|Option. Date library to use|<dl><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
 |datetimeFormat|Specify the format pattern of date-time as a string| |null|
+|defaultToEmptyContainer|Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values| |null|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|

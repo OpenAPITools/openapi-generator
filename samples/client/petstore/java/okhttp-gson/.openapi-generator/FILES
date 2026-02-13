@@ -79,6 +79,7 @@ docs/NewPet.md
 docs/NewPetCategoryInlineAllof.md
 docs/NewPetCategoryInlineAllofAllOfCategoryTag.md
 docs/NullableClass.md
+docs/NullableEnum.md
 docs/NullableShape.md
 docs/NumberOnly.md
 docs/ObjectWithDeprecatedFields.md
@@ -100,6 +101,7 @@ docs/PropertyNameCollision.md
 docs/Quadrilateral.md
 docs/QuadrilateralInterface.md
 docs/ReadOnlyFirst.md
+docs/RequiredNullableBody.md
 docs/Scalar.md
 docs/ScalarAnyOf.md
 docs/ScaleneTriangle.md
@@ -228,6 +230,7 @@ src/main/java/org/openapitools/client/model/NewPet.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllof.java
 src/main/java/org/openapitools/client/model/NewPetCategoryInlineAllofAllOfCategoryTag.java
 src/main/java/org/openapitools/client/model/NullableClass.java
+src/main/java/org/openapitools/client/model/NullableEnum.java
 src/main/java/org/openapitools/client/model/NullableShape.java
 src/main/java/org/openapitools/client/model/NumberOnly.java
 src/main/java/org/openapitools/client/model/ObjectWithDeprecatedFields.java
@@ -248,6 +251,7 @@ src/main/java/org/openapitools/client/model/PropertyNameCollision.java
 src/main/java/org/openapitools/client/model/Quadrilateral.java
 src/main/java/org/openapitools/client/model/QuadrilateralInterface.java
 src/main/java/org/openapitools/client/model/ReadOnlyFirst.java
+src/main/java/org/openapitools/client/model/RequiredNullableBody.java
 src/main/java/org/openapitools/client/model/Scalar.java
 src/main/java/org/openapitools/client/model/ScalarAnyOf.java
 src/main/java/org/openapitools/client/model/ScaleneTriangle.java

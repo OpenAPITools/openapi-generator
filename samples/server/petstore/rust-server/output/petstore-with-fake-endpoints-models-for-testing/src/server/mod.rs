@@ -2606,7 +2606,7 @@ impl<T, C, ReqBody> hyper::service::Service<(Request<ReqBody>, C)> for Service<T
                     );
 
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
-                    Ok(param_order_id) => match param_order_id.parse::<i64>() {
+                    Ok(param_order_id) => match param_order_id.parse::<u64>() {
                         Ok(param_order_id) => param_order_id,
                         Err(e) => return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)

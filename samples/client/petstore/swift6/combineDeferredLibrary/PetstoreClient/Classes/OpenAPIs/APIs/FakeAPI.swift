@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class FakeAPI {
 
@@ -18,7 +16,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Bool, Error>
      */
-    #if canImport(Combine)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Bool, Error> {
         let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -40,7 +37,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - POST /fake/outer/boolean
@@ -73,7 +69,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<OuterComposite, Error>
      */
-    #if canImport(Combine)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<OuterComposite, Error> {
         let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -95,7 +90,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - POST /fake/outer/composite
@@ -128,7 +122,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Double, Error>
      */
-    #if canImport(Combine)
     open class func fakeOuterNumberSerialize(body: Double? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Double, Error> {
         let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -150,7 +143,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - POST /fake/outer/number
@@ -183,7 +175,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<String, Error>
      */
-    #if canImport(Combine)
     open class func fakeOuterStringSerialize(body: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<String, Error> {
         let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -205,7 +196,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - POST /fake/outer/string
@@ -238,7 +228,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -260,7 +249,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - PUT /fake/body-with-file-schema
@@ -294,7 +282,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testBodyWithQueryParams(query: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -316,7 +303,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      - PUT /fake/body-with-query-params
@@ -353,7 +339,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open class func testClientModel(body: Client, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClientModelWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -375,7 +360,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test \"client\" model
@@ -423,7 +407,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -445,7 +428,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -588,7 +570,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -610,7 +591,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test enum parameters
@@ -671,7 +651,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -693,7 +672,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Fake endpoint to test group parameters (optional)
@@ -740,7 +718,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testInlineAdditionalProperties(param: [String: String], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -762,7 +739,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      test inline additionalProperties
@@ -797,7 +773,6 @@ open class FakeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func testJsonFormData(param: String, param2: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -819,7 +794,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      test json serialization of form data

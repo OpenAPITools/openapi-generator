@@ -162,6 +162,7 @@ export class SelfDecodingBody implements ResponseBody {
         const data: Blob = await this.dataSource;
         return data.text();
     }
+
 }
 
 export class ResponseContext {

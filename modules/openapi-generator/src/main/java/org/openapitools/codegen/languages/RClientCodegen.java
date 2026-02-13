@@ -601,6 +601,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public ModelsMap postProcessModels(ModelsMap objs) {
         for (ModelMap mo : objs.getModels()) {
             CodegenModel cm = mo.getModel();
+            boolean needsExtractSimpleType = false;
             for (CodegenProperty var : cm.vars) {
                 // check to see if base name is an empty string
                 if ("".equals(var.baseName)) {
@@ -608,9 +609,16 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                     var.baseName = "empty_string";
                 }
 
+                if (!var.isPrimitiveType) {
+                    needsExtractSimpleType = true;
+                }
+
                 // create extension x-r-doc-type to store the data type in r doc format
                 var.vendorExtensions.put("x-r-doc-type", constructRdocType(var));
             }
+
+            // create extension x-r-has-non-primitive-field to indicate whether generated models need special handling for complex types
+            cm.vendorExtensions.put("x-r-has-non-primitive-field", needsExtractSimpleType);
 
             // apply the same fix, enhancement for allVars
             for (CodegenProperty var : cm.allVars) {

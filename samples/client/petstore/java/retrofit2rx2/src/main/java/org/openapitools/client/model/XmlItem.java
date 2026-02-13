@@ -860,6 +860,7 @@ public class XmlItem {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

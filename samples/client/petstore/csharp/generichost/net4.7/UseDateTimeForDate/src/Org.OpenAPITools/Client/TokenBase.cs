@@ -22,7 +22,16 @@ namespace Org.OpenAPITools.Client
         private readonly System.Timers.Timer _timer = new System.Timers.Timer();
 
         internal TimeSpan? Timeout { get; set; }
+
+        /// <summary>
+        /// Delegate for token availability notification events.
+        /// </summary>
+        /// <param name="sender">The token that became available.</param>
         public delegate void TokenBecameAvailableEventHandler(object sender);
+
+        /// <summary>
+        /// Event raised when a rate-limited token becomes available for use.
+        /// </summary>
         public event TokenBecameAvailableEventHandler TokenBecameAvailable;
 
         /// <summary>

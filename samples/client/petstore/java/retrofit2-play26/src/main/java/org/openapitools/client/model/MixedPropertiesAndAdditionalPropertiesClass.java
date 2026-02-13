@@ -144,6 +144,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
     this.map = map;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

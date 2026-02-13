@@ -760,9 +760,7 @@ public class ApiClient extends JavaTimeFormatter {
                 break;
             } catch (HttpServerErrorException | HttpClientErrorException ex) {
                 if (ex instanceof HttpServerErrorException
-                        || ((HttpClientErrorException) ex)
-                        .getStatusCode()
-                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                        || ex.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS)) {
                     attempts++;
                     if (attempts < maxAttemptsForRetry) {
                         try {

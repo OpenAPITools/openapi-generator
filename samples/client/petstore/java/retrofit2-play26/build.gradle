@@ -102,7 +102,7 @@ ext {
     jackson_version = "2.19.2"
     jackson_databind_version = "2.19.2"
     javax_ws_rs_api_version = "2.1.1"
-    jackson_databind_nullable_version = "0.2.8"
+    jackson_databind_nullable_version = "0.2.9"
     play_version = "2.6.7"
     jakarta_annotation_version = "1.3.5"
     swagger_annotations_version = "1.5.22"

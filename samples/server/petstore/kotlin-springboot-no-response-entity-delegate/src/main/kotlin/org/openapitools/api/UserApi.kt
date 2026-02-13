@@ -36,7 +36,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USER /* "/user" */]
+        // "/user"
+        value = [PATH_CREATE_USER]
     )
     fun createUser(
         @Valid @RequestBody body: User
@@ -47,7 +48,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */]
+        // "/user/createWithArray"
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT]
     )
     fun createUsersWithArrayInput(
         @Valid @RequestBody body: kotlin.collections.List<User>
@@ -58,7 +60,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */]
+        // "/user/createWithList"
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT]
     )
     fun createUsersWithListInput(
         @Valid @RequestBody body: kotlin.collections.List<User>
@@ -69,7 +72,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_USER /* "/user/{username}" */]
+        // "/user/{username}"
+        value = [PATH_DELETE_USER]
     )
     fun deleteUser(
         @PathVariable("username") username: kotlin.String
@@ -80,7 +84,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
+        // "/user/{username}"
+        value = [PATH_GET_USER_BY_NAME],
         produces = ["application/xml", "application/json"]
     )
     fun getUserByName(
@@ -92,7 +97,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGIN_USER /* "/user/login" */],
+        // "/user/login"
+        value = [PATH_LOGIN_USER],
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
@@ -105,7 +111,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGOUT_USER /* "/user/logout" */]
+        // "/user/logout"
+        value = [PATH_LOGOUT_USER]
     )
     fun logoutUser(): Unit {
         return getDelegate().logoutUser()
@@ -114,7 +121,8 @@ interface UserApi {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_USER /* "/user/{username}" */]
+        // "/user/{username}"
+        value = [PATH_UPDATE_USER]
     )
     fun updateUser(
         @PathVariable("username") username: kotlin.String,

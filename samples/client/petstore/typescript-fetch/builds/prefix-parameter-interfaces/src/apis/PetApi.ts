@@ -68,9 +68,9 @@ export interface PetApiUploadFileRequest {
 export class PetApi extends runtime.BaseAPI {
 
     /**
-     * Add a new pet to the store
+     * Creates request options for addPet without sending the request
      */
-    async addPetRaw(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async addPetRequestOpts(requestParameters: PetApiAddPetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -92,13 +92,21 @@ export class PetApi extends runtime.BaseAPI {
 
         let urlPath = `/pet`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters['body']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Add a new pet to the store
+     */
+    async addPetRaw(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.addPetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -111,9 +119,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a pet
+     * Creates request options for deletePet without sending the request
      */
-    async deletePetRaw(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePetRequestOpts(requestParameters: PetApiDeletePetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
@@ -138,12 +146,20 @@ export class PetApi extends runtime.BaseAPI {
         let urlPath = `/pet/{petId}`;
         urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes a pet
+     */
+    async deletePetRaw(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deletePetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -156,10 +172,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Multiple status values can be provided with comma separated strings
-     * Finds Pets by status
+     * Creates request options for findPetsByStatus without sending the request
      */
-    async findPetsByStatusRaw(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByStatusRequestOpts(requestParameters: PetApiFindPetsByStatusRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['status'] == null) {
             throw new runtime.RequiredError(
                 'status',
@@ -183,12 +198,21 @@ export class PetApi extends runtime.BaseAPI {
 
         let urlPath = `/pet/findByStatus`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     */
+    async findPetsByStatusRaw(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+        const requestOptions = await this.findPetsByStatusRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
@@ -203,11 +227,10 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * Finds Pets by tags
+     * Creates request options for findPetsByTags without sending the request
      * @deprecated
      */
-    async findPetsByTagsRaw(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+    async findPetsByTagsRequestOpts(requestParameters: PetApiFindPetsByTagsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['tags'] == null) {
             throw new runtime.RequiredError(
                 'tags',
@@ -231,12 +254,22 @@ export class PetApi extends runtime.BaseAPI {
 
         let urlPath = `/pet/findByTags`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     * @deprecated
+     */
+    async findPetsByTagsRaw(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
+        const requestOptions = await this.findPetsByTagsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
     }
@@ -252,10 +285,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a single pet
-     * Find pet by ID
+     * Creates request options for getPetById without sending the request
      */
-    async getPetByIdRaw(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
+    async getPetByIdRequestOpts(requestParameters: PetApiGetPetByIdRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
@@ -275,12 +307,21 @@ export class PetApi extends runtime.BaseAPI {
         let urlPath = `/pet/{petId}`;
         urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     */
+    async getPetByIdRaw(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
+        const requestOptions = await this.getPetByIdRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
     }
@@ -295,9 +336,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update an existing pet
+     * Creates request options for updatePet without sending the request
      */
-    async updatePetRaw(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updatePetRequestOpts(requestParameters: PetApiUpdatePetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -319,13 +360,21 @@ export class PetApi extends runtime.BaseAPI {
 
         let urlPath = `/pet`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: PetToJSON(requestParameters['body']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update an existing pet
+     */
+    async updatePetRaw(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.updatePetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -338,9 +387,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates a pet in the store with form data
+     * Creates request options for updatePetWithForm without sending the request
      */
-    async updatePetWithFormRaw(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updatePetWithFormRequestOpts(requestParameters: PetApiUpdatePetWithFormRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
@@ -383,13 +432,21 @@ export class PetApi extends runtime.BaseAPI {
         let urlPath = `/pet/{petId}`;
         urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     */
+    async updatePetWithFormRaw(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.updatePetWithFormRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -402,9 +459,9 @@ export class PetApi extends runtime.BaseAPI {
     }
 
     /**
-     * uploads an image
+     * Creates request options for uploadFile without sending the request
      */
-    async uploadFileRaw(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
+    async uploadFileRequestOpts(requestParameters: PetApiUploadFileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
@@ -449,13 +506,21 @@ export class PetApi extends runtime.BaseAPI {
         let urlPath = `/pet/{petId}/uploadImage`;
         urlPath = urlPath.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * uploads an image
+     */
+    async uploadFileRaw(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
+        const requestOptions = await this.uploadFileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
     }

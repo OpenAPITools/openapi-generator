@@ -68,6 +68,7 @@ public class ModelReturn {
     this._return = _return;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

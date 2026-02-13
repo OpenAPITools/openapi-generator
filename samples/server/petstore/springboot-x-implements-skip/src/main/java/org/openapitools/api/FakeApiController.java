@@ -1,0 +1,63 @@
+package org.openapitools.api;
+
+import org.openapitools.model.ApiResponseDto;
+import java.math.BigDecimal;
+import org.openapitools.model.ChildWithNullableDto;
+import org.openapitools.model.ClientDto;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.model.EnumClassDto;
+import org.openapitools.model.FakeBigDecimalMap200ResponseDto;
+import org.openapitools.model.FileSchemaTestClassDto;
+import org.openapitools.model.HealthCheckResultDto;
+import java.time.LocalDate;
+import java.util.Map;
+import org.springframework.lang.Nullable;
+import java.time.OffsetDateTime;
+import org.openapitools.model.OuterCompositeDto;
+import org.openapitools.model.OuterObjectWithEnumPropertyDto;
+import org.openapitools.model.PetDto;
+import org.openapitools.model.TestInlineFreeformAdditionalPropertiesRequestDto;
+import org.openapitools.model.UserDto;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.NativeWebRequest;
+
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import javax.annotation.Generated;
+
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Controller
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
+public class FakeApiController implements FakeApi {
+
+    private final NativeWebRequest request;
+
+    @Autowired
+    public FakeApiController(NativeWebRequest request) {
+        this.request = request;
+    }
+
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return Optional.ofNullable(request);
+    }
+
+}

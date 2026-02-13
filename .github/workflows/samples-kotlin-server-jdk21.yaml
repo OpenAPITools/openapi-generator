@@ -3,10 +3,12 @@ name: Samples Kotlin server (jdk21)
 on:
   push:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
   pull_request:
     paths:
+      - 'samples/server/others/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
 
@@ -21,6 +23,10 @@ jobs:
       fail-fast: false
       matrix:
         sample:
+          - samples/server/others/kotlin-server/polymorphism-allof-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator-disabled-jackson-fix
+          - samples/server/others/kotlin-server/polymorphism-and-discriminator
+          - samples/server/others/kotlin-server/polymorphism
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2

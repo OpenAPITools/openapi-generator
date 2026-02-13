@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class FakeAPI {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -82,7 +80,6 @@ open class FakeAPI {
      - parameter body: (body) Input boolean as post body (optional)
      - returns: AnyPublisher<Bool, Error>
      */
-    #if canImport(Combine)
     open func fakeOuterBooleanSerialize(body: Bool? = nil) -> AnyPublisher<Bool, Error> {
         let requestBuilder = fakeOuterBooleanSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -104,7 +101,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -220,7 +216,6 @@ open class FakeAPI {
      - parameter body: (body) Input composite as post body (optional)
      - returns: AnyPublisher<OuterComposite, Error>
      */
-    #if canImport(Combine)
     open func fakeOuterCompositeSerialize(body: OuterComposite? = nil) -> AnyPublisher<OuterComposite, Error> {
         let requestBuilder = fakeOuterCompositeSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -242,7 +237,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -358,7 +352,6 @@ open class FakeAPI {
      - parameter body: (body) Input number as post body (optional)
      - returns: AnyPublisher<Double, Error>
      */
-    #if canImport(Combine)
     open func fakeOuterNumberSerialize(body: Double? = nil) -> AnyPublisher<Double, Error> {
         let requestBuilder = fakeOuterNumberSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -380,7 +373,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -496,7 +488,6 @@ open class FakeAPI {
      - parameter body: (body) Input string as post body (optional)
      - returns: AnyPublisher<String, Error>
      */
-    #if canImport(Combine)
     open func fakeOuterStringSerialize(body: String? = nil) -> AnyPublisher<String, Error> {
         let requestBuilder = fakeOuterStringSerializeWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -518,7 +509,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -634,7 +624,6 @@ open class FakeAPI {
      - parameter body: (body)  
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testBodyWithFileSchema(body: FileSchemaTestClass) -> AnyPublisher<Void, Error> {
         let requestBuilder = testBodyWithFileSchemaWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -656,7 +645,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -776,7 +764,6 @@ open class FakeAPI {
      - parameter body: (body)  
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testBodyWithQueryParams(query: String, body: User) -> AnyPublisher<Void, Error> {
         let requestBuilder = testBodyWithQueryParamsWithRequestBuilder(query: query, body: body)
         let requestTask = requestBuilder.requestTask
@@ -798,7 +785,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
 
@@ -923,7 +909,6 @@ open class FakeAPI {
      - parameter body: (body) client model 
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open func testClientModel(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClientModelWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -945,7 +930,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test \"client\" model
@@ -1120,7 +1104,6 @@ open class FakeAPI {
      - parameter callback: (form) None (optional)
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: Data? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil) -> AnyPublisher<Void, Error> {
         let requestBuilder = testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback)
         let requestTask = requestBuilder.requestTask
@@ -1142,7 +1125,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
@@ -1420,7 +1402,6 @@ open class FakeAPI {
      - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .efg)
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testEnumParameters(enumHeaderStringArray: [EnumHeaderStringArray_testEnumParameters]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [EnumQueryStringArray_testEnumParameters]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [EnumFormStringArray_testEnumParameters]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> AnyPublisher<Void, Error> {
         let requestBuilder = testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString)
         let requestTask = requestBuilder.requestTask
@@ -1442,7 +1423,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test enum parameters
@@ -1620,7 +1600,6 @@ open class FakeAPI {
      - parameter int64Group: (query) Integer in group parameters (optional)
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> AnyPublisher<Void, Error> {
         let requestBuilder = testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group)
         let requestTask = requestBuilder.requestTask
@@ -1642,7 +1621,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Fake endpoint to test group parameters (optional)
@@ -1787,7 +1765,6 @@ open class FakeAPI {
      - parameter param: (body) request body 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testInlineAdditionalProperties(param: [String: String]) -> AnyPublisher<Void, Error> {
         let requestBuilder = testInlineAdditionalPropertiesWithRequestBuilder(param: param)
         let requestTask = requestBuilder.requestTask
@@ -1809,7 +1786,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      test inline additionalProperties
@@ -1935,7 +1911,6 @@ open class FakeAPI {
      - parameter param2: (form) field2 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func testJsonFormData(param: String, param2: String) -> AnyPublisher<Void, Error> {
         let requestBuilder = testJsonFormDataWithRequestBuilder(param: param, param2: param2)
         let requestTask = requestBuilder.requestTask
@@ -1957,7 +1932,6 @@ open class FakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      test json serialization of form data

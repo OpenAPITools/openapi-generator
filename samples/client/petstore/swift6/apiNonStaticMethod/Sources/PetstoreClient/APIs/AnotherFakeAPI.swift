@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class AnotherFakeAPI {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -86,7 +84,6 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open func call123testSpecialTags(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = call123testSpecialTagsWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -108,7 +105,6 @@ open class AnotherFakeAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test special tags

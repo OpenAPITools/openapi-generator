@@ -158,3 +158,8 @@
   image: "img/companies/serpapi.png"
   infoLink: "https://serpapi.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "SocialWick"
+  image: "img/companies/socialwick.png"
+  infoLink: "https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

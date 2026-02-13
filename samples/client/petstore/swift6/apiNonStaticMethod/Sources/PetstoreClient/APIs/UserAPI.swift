@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class UserAPI {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -86,7 +84,6 @@ open class UserAPI {
      - parameter body: (body) Created user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func createUser(body: User) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUserWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -108,7 +105,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Create user
@@ -231,7 +227,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func createUsersWithArrayInput(body: [User]) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -253,7 +248,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -375,7 +369,6 @@ open class UserAPI {
      - parameter body: (body) List of user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func createUsersWithListInput(body: [User]) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -397,7 +390,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -519,7 +511,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be deleted 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func deleteUser(username: String) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteUserWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
@@ -541,7 +532,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Delete user
@@ -667,7 +657,6 @@ open class UserAPI {
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
      - returns: AnyPublisher<User, Error>
      */
-    #if canImport(Combine)
     open func getUserByName(username: String) -> AnyPublisher<User, Error> {
         let requestBuilder = getUserByNameWithRequestBuilder(username: username)
         let requestTask = requestBuilder.requestTask
@@ -689,7 +678,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Get user by user name
@@ -818,7 +806,6 @@ open class UserAPI {
      - parameter password: (query) The password for login in clear text 
      - returns: AnyPublisher<String, Error>
      */
-    #if canImport(Combine)
     open func loginUser(username: String, password: String) -> AnyPublisher<String, Error> {
         let requestBuilder = loginUserWithRequestBuilder(username: username, password: password)
         let requestTask = requestBuilder.requestTask
@@ -840,7 +827,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs user into the system
@@ -966,7 +952,6 @@ open class UserAPI {
      
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func logoutUser() -> AnyPublisher<Void, Error> {
         let requestBuilder = logoutUserWithRequestBuilder()
         let requestTask = requestBuilder.requestTask
@@ -988,7 +973,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs out current logged in user session
@@ -1111,7 +1095,6 @@ open class UserAPI {
      - parameter body: (body) Updated user object 
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open func updateUser(username: String, body: User) -> AnyPublisher<Void, Error> {
         let requestBuilder = updateUserWithRequestBuilder(username: username, body: body)
         let requestTask = requestBuilder.requestTask
@@ -1133,7 +1116,6 @@ open class UserAPI {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Updated user

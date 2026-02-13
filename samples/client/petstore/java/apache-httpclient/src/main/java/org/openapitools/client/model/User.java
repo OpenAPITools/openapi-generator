@@ -276,6 +276,7 @@ public class User {
     this.userStatus = userStatus;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -63,6 +63,7 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
     this.name = name;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

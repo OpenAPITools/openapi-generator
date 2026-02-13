@@ -1369,6 +1369,19 @@ paths:
                 $ref: '#/components/schemas/Variable'
         '400':
           description: Invalid Value
+  /fake/required-nullable-body:
+    get:
+      tags:
+        - fake
+      summary: fields in the response body, required and nullable are both true
+      description: ''
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequiredNullableBody'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2768,6 +2781,38 @@ components:
           $ref: '#/components/schemas/ArrayOneOf'
         anyof_prop:
           $ref: '#/components/schemas/ArrayAnyOf'
+    NullableEnum:
+      type: string
+      nullable: true
+      enum:
+        - custom
+    RequiredNullableBody:
+      allOf:
+        - $ref: '#/components/schemas/NullableClass'
+        - type: object
+          required:
+            - custom_ref_enum
+            - custom_enum
+            - integer_prop
+            - number_prop
+            - boolean_prop
+            - string_prop
+            - date_prop
+            - datetime_prop
+            - array_nullable_prop
+            - array_and_items_nullable_prop
+            - array_items_nullable
+            - object_nullable_prop
+            - object_and_items_nullable_prop
+            - object_items_nullable
+          properties:
+            custom_ref_enum:
+              $ref: "#/components/schemas/NullableEnum"
+            custom_enum:
+              type: string
+              nullable: true
+              enum:
+                - custom
     NestedArrayWithDefaultValues:
       type: object
       properties:

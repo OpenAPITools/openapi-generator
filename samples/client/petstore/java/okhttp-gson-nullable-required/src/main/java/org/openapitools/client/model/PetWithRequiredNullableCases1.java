@@ -424,7 +424,7 @@ public class PetWithRequiredNullableCases1 {
       // ensure the required json array is present
       if (jsonObj.get("photoUrls") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
-      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
+      } else if (!jsonObj.get("photoUrls").isJsonArray() && !jsonObj.get("photoUrls").isJsonNull()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {

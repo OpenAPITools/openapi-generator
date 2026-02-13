@@ -60,6 +60,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
     this.name = name;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -54,7 +54,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USER /* "/user" */],
+        // "/user"
+        value = [PATH_CREATE_USER],
         consumes = ["application/json"]
     )
     suspend fun createUser(
@@ -75,7 +76,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT /* "/user/createWithArray" */],
+        // "/user/createWithArray"
+        value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT],
         consumes = ["application/json"]
     )
     suspend fun createUsersWithArrayInput(
@@ -96,7 +98,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_CREATE_USERS_WITH_LIST_INPUT /* "/user/createWithList" */],
+        // "/user/createWithList"
+        value = [PATH_CREATE_USERS_WITH_LIST_INPUT],
         consumes = ["application/json"]
     )
     suspend fun createUsersWithListInput(
@@ -117,7 +120,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_USER /* "/user/{username}" */]
+        // "/user/{username}"
+        value = [PATH_DELETE_USER]
     )
     suspend fun deleteUser(
         @ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,
@@ -138,7 +142,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_USER_BY_NAME /* "/user/{username}" */],
+        // "/user/{username}"
+        value = [PATH_GET_USER_BY_NAME],
         produces = ["application/json"]
     )
     suspend fun getUserByName(
@@ -160,7 +165,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGIN_USER /* "/user/login" */],
+        // "/user/login"
+        value = [PATH_LOGIN_USER],
         produces = ["application/json"]
     )
     suspend fun loginUser(
@@ -182,7 +188,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_LOGOUT_USER /* "/user/logout" */]
+        // "/user/logout"
+        value = [PATH_LOGOUT_USER]
     )
     suspend fun logoutUser(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Unit> {
         return getDelegate().logoutUser(exchange)
@@ -199,7 +206,8 @@ interface UserApi {
     )
     @RequestMapping(
         method = [RequestMethod.PUT],
-        value = [PATH_UPDATE_USER /* "/user/{username}" */],
+        // "/user/{username}"
+        value = [PATH_UPDATE_USER],
         consumes = ["application/json"]
     )
     suspend fun updateUser(

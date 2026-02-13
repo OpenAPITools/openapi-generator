@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
  - [OneOfStringOrInt](docs/OneOfStringOrInt.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PetWithTypesObjectNullAndRef](docs/PetWithTypesObjectNullAndRef.md)
  - [RefRefToPathLevelParameterOneofRefToOneofParameter](docs/RefRefToPathLevelParameterOneofRefToOneofParameter.md)
  - [RefToRefParameterAnyofRefToAnyofParameter](docs/RefToRefParameterAnyofRefToAnyofParameter.md)
  - [SelfReferenceAdditionalProperties](docs/SelfReferenceAdditionalProperties.md)

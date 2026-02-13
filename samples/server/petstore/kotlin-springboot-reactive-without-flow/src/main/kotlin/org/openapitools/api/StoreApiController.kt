@@ -44,7 +44,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.DELETE],
-        value = [PATH_DELETE_ORDER /* "/store/order/{orderId}" */]
+        // "/store/order/{orderId}"
+        value = [PATH_DELETE_ORDER]
     )
     suspend fun deleteOrder(
         @Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String
@@ -62,7 +63,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_INVENTORY /* "/store/inventory" */],
+        // "/store/inventory"
+        value = [PATH_GET_INVENTORY],
         produces = ["application/json"]
     )
     suspend fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
@@ -80,7 +82,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.GET],
-        value = [PATH_GET_ORDER_BY_ID /* "/store/order/{orderId}" */],
+        // "/store/order/{orderId}"
+        value = [PATH_GET_ORDER_BY_ID],
         produces = ["application/xml", "application/json"]
     )
     suspend fun getOrderById(
@@ -99,7 +102,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_PLACE_ORDER /* "/store/order" */],
+        // "/store/order"
+        value = [PATH_PLACE_ORDER],
         produces = ["application/xml", "application/json"],
         consumes = ["application/json"]
     )

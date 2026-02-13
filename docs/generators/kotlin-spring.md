@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
+|autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
@@ -43,6 +44,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |reactive|use coroutines for reactive behavior| |false|
 |requestMappingMode|Where to generate the class level @RequestMapping annotation.|<dl><dt>**api_interface**</dt><dd>Generate the @RequestMapping annotation on the generated Api Interface.</dd><dt>**controller**</dt><dd>Generate the @RequestMapping annotation on the generated Api Controller Implementation.</dd><dt>**none**</dt><dd>Do not add a class level @RequestMapping annotation.</dd></dl>|controller|
+|schemaImplements|A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)| |empty map|
+|schemaImplementsFields|A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)| |empty map|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
 |serverPort|configuration the port in which the sever is to run on| |8080|
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
@@ -56,9 +59,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useFlowForArrayReturnType|Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.| |true|
 |useResponseEntity|Whether (when false) to return actual type (e.g. List&lt;Fruit&gt;) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity&lt;List&lt;Fruit&gt;&gt;). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition| |true|
-|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
+|xKotlinImplementsFieldsSkip|A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`| |empty map|
+|xKotlinImplementsSkip|A list of fully qualified interfaces that should NOT be implemented despite their presence in vendor extension `x-kotlin-implements`. Example: yaml `xKotlinImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface in any schema| |empty list|
 
 ## SUPPORTED VENDOR EXTENSIONS
 
@@ -69,12 +74,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-kotlin-implements|Ability to specify interfaces that model must implement|MODEL|empty array
 |x-kotlin-implements-fields|Specify attributes that are implemented by the interface(s) added via `x-kotlin-implements`|MODEL|empty array
+|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object.|OPERATION|false
 
 
 ## IMPORT MAPPING

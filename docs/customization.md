@@ -723,3 +723,10 @@ Into this securityScheme:
       scheme: bearer
       type: http
 ```
+
+- `SORT_MODEL_PROPERTIES`: When set to true, model properties will be sorted alphabetically by name. This ensures deterministic code generation output regardless of property ordering in the source spec.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SORT_MODEL_PROPERTIES=true
+```

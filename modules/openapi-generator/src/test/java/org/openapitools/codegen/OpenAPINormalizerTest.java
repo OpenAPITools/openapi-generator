@@ -1306,6 +1306,59 @@ public class OpenAPINormalizerTest {
         assertNotNull(inlinePropertyAfter.getProperties().get("nestedNumber"));
     }
 
+    @Test
+    public void testSortModelProperties() {
+        // Create a schema with properties in non-alphabetical order
+        Schema schema = new ObjectSchema()
+                .addProperty("zebra", new StringSchema())
+                .addProperty("apple", new StringSchema())
+                .addProperty("mango", new IntegerSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("TestModel", schema);
+
+        // Verify original order (LinkedHashMap preserves insertion order)
+        List<String> originalOrder = new ArrayList<>(schema.getProperties().keySet());
+        assertEquals(originalOrder.get(0), "zebra");
+        assertEquals(originalOrder.get(1), "apple");
+        assertEquals(originalOrder.get(2), "mango");
+
+        // Apply normalizer with SORT_MODEL_PROPERTIES=true
+        Map<String, String> options = new HashMap<>();
+        options.put("SORT_MODEL_PROPERTIES", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // Verify properties are now sorted alphabetically
+        Schema normalizedSchema = openAPI.getComponents().getSchemas().get("TestModel");
+        List<String> sortedOrder = new ArrayList<>(normalizedSchema.getProperties().keySet());
+        assertEquals(sortedOrder.get(0), "apple");
+        assertEquals(sortedOrder.get(1), "mango");
+        assertEquals(sortedOrder.get(2), "zebra");
+    }
+
+    @Test
+    public void testSortModelPropertiesDisabledByDefault() {
+        // Create a schema with properties in non-alphabetical order
+        Schema schema = new ObjectSchema()
+                .addProperty("zebra", new StringSchema())
+                .addProperty("apple", new StringSchema())
+                .addProperty("mango", new IntegerSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("TestModel", schema);
+
+        // Apply normalizer without SORT_MODEL_PROPERTIES (default is false)
+        Map<String, String> options = new HashMap<>();
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        // Verify properties retain original order
+        Schema normalizedSchema = openAPI.getComponents().getSchemas().get("TestModel");
+        List<String> order = new ArrayList<>(normalizedSchema.getProperties().keySet());
+        assertEquals(order.get(0), "zebra");
+        assertEquals(order.get(1), "apple");
+        assertEquals(order.get(2), "mango");
+    }
+
     public static class RemoveRequiredNormalizer extends OpenAPINormalizer {
 
         public RemoveRequiredNormalizer(OpenAPI openAPI, Map<String, String> inputRules) {

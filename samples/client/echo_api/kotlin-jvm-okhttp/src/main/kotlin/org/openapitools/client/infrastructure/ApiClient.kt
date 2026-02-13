@@ -87,6 +87,25 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     }
 
     /**
+     * Builds headers for a multipart form-data part.
+     * OkHttp requires Content-Type to be passed via the RequestBody parameter, not in headers.
+     * This function filters out Content-Type and builds the appropriate Content-Disposition header.
+     *
+     * @param name The field name
+     * @param headers The headers from the PartConfig (may include Content-Type)
+     * @param filename Optional filename for file uploads
+     * @return Headers object ready for addPart()
+     */
+    protected fun buildPartHeaders(name: String, headers: Map<String, String>, filename: String? = null): Headers {
+        val disposition = if (filename != null) {
+            "form-data; name=\"$name\"; filename=\"$filename\""
+        } else {
+            "form-data; name=\"$name\""
+        }
+        return (headers.filterKeys { it != "Content-Type" } + ("Content-Disposition" to disposition)).toHeaders()
+    }
+
+    /**
      * Adds a File to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
      * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
@@ -98,13 +117,33 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @see requestBody
      */
     protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, file: File) {
-        val partHeaders = headers.toMutableMap() +
-            ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${file.name}\"")
         val fileMediaType = guessContentTypeFromFile(file).toMediaTypeOrNull()
         addPart(
-            partHeaders.toHeaders(),
+            buildPartHeaders(name, headers, file.name),
             file.asRequestBody(fileMediaType)
         )
+    }
+
+    /**
+     * Serializes a multipart body part based on its content type.
+     * Uses JSON serialization for application/json content types, otherwise converts to string.
+     *
+     * @param obj The object to serialize
+     * @param contentType The Content-Type header value, if any
+     * @param serializer Optional custom serializer (used for kotlinx.serialization to preserve type info)
+     * @return The serialized string representation
+     */
+    protected fun serializePartBody(obj: Any?, contentType: String?, serializer: ((Any?) -> String)?): String {
+        // Use custom serializer if provided (for kotlinx.serialization with captured type info)
+        if (serializer != null) {
+            return serializer(obj)
+        }
+        
+        return if (contentType?.contains("json") == true) {
+            Serializer.moshi.adapter(Any::class.java).toJson(obj)
+        } else {
+            parameterToString(obj)
+        }
     }
 
     /**
@@ -115,15 +154,17 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
      * @param name The field name to add in the request
      * @param headers The headers that are in the PartConfig
      * @param obj The field name to add in the request
+     * @param serializer Optional custom serializer for this part
      * @return The method returns Unit but the new Part is added to the Builder that the extension function is applying on
      * @see requestBody
      */
-    protected fun <T> MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: T?) {
-        val partHeaders = headers.toMutableMap() +
-            ("Content-Disposition" to "form-data; name=\"$name\"")
+    protected fun MultipartBody.Builder.addPartToMultiPart(name: String, headers: Map<String, String>, obj: Any?, serializer: ((Any?) -> String)? = null) {
+        val partContentType = headers["Content-Type"]
+        val partMediaType = partContentType?.toMediaTypeOrNull()
+        val partBody = serializePartBody(obj, partContentType, serializer)
         addPart(
-            partHeaders.toHeaders(),
-            parameterToString(obj).toRequestBody(null)
+            buildPartHeaders(name, headers),
+            partBody.toRequestBody(partMediaType)
         )
     }
 
@@ -145,11 +186,11 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                                         if (it is File) {
                                             addPartToMultiPart(name, part.headers, it)
                                         } else {
-                                            addPartToMultiPart(name, part.headers, it)
+                                            addPartToMultiPart(name, part.headers, it, part.serializer)
                                         }
                                     }
                                }
-                               else -> addPartToMultiPart(name, part.headers, part.body)
+                               else -> addPartToMultiPart(name, part.headers, part.body, part.serializer)
                             }
                         }
                     }.build()

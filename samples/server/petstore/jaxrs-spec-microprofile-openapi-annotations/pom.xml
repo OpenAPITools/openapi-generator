@@ -22,7 +22,7 @@
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <javax.ws.rs-version>2.1.1</javax.ws.rs-version>
     <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
-    <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
   </properties>
   <dependencyManagement>
     <dependencies>

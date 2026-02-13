@@ -8,7 +8,6 @@ import org.openapitools.model.Category
 import org.openapitools.model.Color
 import org.openapitools.model.Pet
 import org.openapitools.model.Tag
-import java.io.Serializable
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -56,7 +55,7 @@ data class Cat(
     @field:Valid
     @ApiModelProperty(example = "null", value = "")
     @get:JsonProperty("color") override val color: Color? = null
-) : Pet, Serializable {
+) : Pet, java.io.Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1

@@ -31,7 +31,7 @@ message Order {
     STATUS_DELIVERED = 2;
   }
 
-  Status status = 355610639;
+  string status = 355610639;
 
   bool complete = 62574280;
 

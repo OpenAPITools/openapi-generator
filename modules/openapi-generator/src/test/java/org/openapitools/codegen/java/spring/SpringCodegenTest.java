@@ -823,6 +823,48 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testXImplements() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces("com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip");
+    }
+
+    @Test
+    public void testXImplementsSkip() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String interfaceToSkip = "com.custompackage.InterfaceToSkip";
+        codegen.additionalProperties().put(X_IMPLEMENTS_SKIP, List.of(interfaceToSkip));
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces("com.custompackage.InterfaceToKeep")
+                .doesNotImplementInterfaces(interfaceToSkip);
+    }
+
+    @Test
+    public void testSchemaImplements() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String fooInterface = "com.custompackage.FooInterface";
+        String fooAnotherInterface = "com.custompackage.FooAnotherInterface";
+        String anotherInterface = "com.custompackage.AnimalAnotherInterface";
+        codegen.additionalProperties().put(SCHEMA_IMPLEMENTS, Map.of(
+                "Foo", List.of(fooInterface, fooAnotherInterface), /* add multiple interfaces (as list) */
+                "Animal", anotherInterface)); /* add just one interface */
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml");
+        JavaFileAssert.assertThat(files.get("Animal.java"))
+                .implementsInterfaces(anotherInterface, "com.custompackage.InterfaceToKeep", "com.custompackage.InterfaceToSkip")
+                .doesNotImplementInterfaces("com.custompackage.SubstitutedInterface");
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .implementsInterfaces(fooInterface, fooAnotherInterface);
+    }
+
+    @Test
     public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -6221,6 +6263,39 @@ public class SpringCodegenTest {
                         "regexp", "\"[0-9a-fA-F]\"",
                         "message", "\"Only numbers and letters a-f\""
                                                                          ));
+    }
+
+    @Test
+    public void shouldAddNullableImportForArrayTypeModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-with-spring-pageable.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // AnimalFarm is an array-type model with no properties (issue #22788)
+        JavaFileAssert.assertThat(files.get("AnimalFarm.java"))
+                .hasImports("org.springframework.lang.Nullable");
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .hasImports("org.springframework.lang.Nullable");
     }
 
 }

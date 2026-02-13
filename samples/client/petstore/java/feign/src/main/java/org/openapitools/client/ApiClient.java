@@ -30,6 +30,7 @@ import feign.RequestInterceptor;
 import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
+import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
@@ -54,11 +55,13 @@ public class ApiClient {
   protected String basePath = "http://petstore.swagger.io:80/v2";
   protected Map<String, RequestInterceptor> apiAuthorizations;
   protected Feign.Builder feignBuilder;
+  private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     objectMapper = createObjectMapper();
     feignBuilder = Feign.builder()
+                .client(OK_HTTP_CLIENT)
                 .encoder(new FormEncoder(new JacksonEncoder(objectMapper)))
                 .decoder(new ApiResponseDecoder(objectMapper))
                 .errorDecoder(new ApiErrorDecoder())

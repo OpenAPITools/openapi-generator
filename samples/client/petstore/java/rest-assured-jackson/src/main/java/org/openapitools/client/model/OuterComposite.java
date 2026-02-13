@@ -131,6 +131,7 @@ public class OuterComposite {
     this.myBoolean = myBoolean;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -8,9 +8,7 @@
 import Foundation
 @preconcurrency import PromiseKit
 @preconcurrency import RxSwift
-#if canImport(Combine)
 import Combine
-#endif
 
 open class FakeClassnameTags123API {
     public let apiConfiguration: PetstoreClientAPIConfiguration
@@ -86,7 +84,6 @@ open class FakeClassnameTags123API {
      - parameter body: (body) client model 
      - returns: AnyPublisher<Client, Error>
      */
-    #if canImport(Combine)
     open func testClassname(body: Client) -> AnyPublisher<Client, Error> {
         let requestBuilder = testClassnameWithRequestBuilder(body: body)
         let requestTask = requestBuilder.requestTask
@@ -108,7 +105,6 @@ open class FakeClassnameTags123API {
         }
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      To test class name in snake case

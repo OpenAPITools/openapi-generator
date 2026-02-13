@@ -142,7 +142,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -158,7 +158,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequest>>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipartRelatedRequest>> {
     type Error = String;
 
@@ -314,7 +314,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRequestObjectField>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -330,7 +330,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRequestObjectFie
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipartRequestObjectField>> {
     type Error = String;
 
@@ -480,7 +480,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipleIdenticalMimeTypesPostRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -496,7 +496,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipleIdenticalMimeType
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipleIdenticalMimeTypesPostRequest>> {
     type Error = String;
 

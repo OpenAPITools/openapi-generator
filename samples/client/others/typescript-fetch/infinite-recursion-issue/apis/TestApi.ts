@@ -28,8 +28,9 @@ import {
 export class TestApi extends runtime.BaseAPI {
 
     /**
+     * Creates request options for test without sending the request
      */
-    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TestBaseDto>>> {
+    async testRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -37,12 +38,19 @@ export class TestApi extends runtime.BaseAPI {
 
         let urlPath = `/api/v1/test`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     */
+    async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TestBaseDto>>> {
+        const requestOptions = await this.testRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TestBaseDtoFromJSON));
     }

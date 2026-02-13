@@ -25,6 +25,7 @@ import feign.RequestInterceptor;
 import feign.form.FormEncoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import feign.okhttp.OkHttpClient;
 import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
@@ -40,10 +41,12 @@ public class ApiClient {
   protected String basePath = "http://localhost:3000";
   protected Map<String, RequestInterceptor> apiAuthorizations;
   protected Feign.Builder feignBuilder;
+  private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, RequestInterceptor>();
     feignBuilder = Feign.builder()
+        .client(OK_HTTP_CLIENT)
         .encoder(new FormEncoder(new GsonEncoder()))
         .decoder(new GsonDecoder())
         .logger(new Slf4jLogger());

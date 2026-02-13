@@ -42,7 +42,8 @@ class TestApiController() {
     )
     @RequestMapping(
         method = [RequestMethod.POST],
-        value = [PATH_TEST_POST /* "/test" */],
+        // "/test"
+        value = [PATH_TEST_POST],
         consumes = ["application/json"]
     )
     fun testPost(

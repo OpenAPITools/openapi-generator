@@ -6,9 +6,7 @@
 //
 
 import Foundation
-#if canImport(Combine)
 import Combine
-#endif
 
 open class UserAPI {
 
@@ -19,7 +17,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func createUser(body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUserWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -39,7 +36,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Create user
@@ -74,7 +70,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func createUsersWithArrayInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithArrayInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -94,7 +89,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -128,7 +122,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func createUsersWithListInput(body: [User], apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = createUsersWithListInputWithRequestBuilder(body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -148,7 +141,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Creates list of users with given input array
@@ -182,7 +174,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func deleteUser(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = deleteUserWithRequestBuilder(username: username, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -202,7 +193,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Delete user
@@ -240,7 +230,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<User, Error>
      */
-    #if canImport(Combine)
     open class func getUserByName(username: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<User, Error> {
         let requestBuilder = getUserByNameWithRequestBuilder(username: username, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -260,7 +249,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Get user by user name
@@ -298,7 +286,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<String, Error>
      */
-    #if canImport(Combine)
     open class func loginUser(username: String, password: String, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<String, Error> {
         let requestBuilder = loginUserWithRequestBuilder(username: username, password: password, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -318,7 +305,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs user into the system
@@ -357,7 +343,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func logoutUser(apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = logoutUserWithRequestBuilder(apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -377,7 +362,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Logs out current logged in user session
@@ -411,7 +395,6 @@ open class UserAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: AnyPublisher<Void, Error>
      */
-    #if canImport(Combine)
     open class func updateUser(username: String, body: User, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) -> AnyPublisher<Void, Error> {
         let requestBuilder = updateUserWithRequestBuilder(username: username, body: body, apiConfiguration: apiConfiguration)
         let requestTask = requestBuilder.requestTask
@@ -431,7 +414,6 @@ open class UserAPI {
         })
         .eraseToAnyPublisher()
     }
-    #endif
 
     /**
      Updated user
