@@ -84,6 +84,8 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         for (CodegenOperation op : ops) {
             // Convert {param} to :param for Express routing
             op.path = op.path.replaceAll("\\{([^}]+)\\}", ":$1");
+            // Escape reserved path-to-regexp v8 characters for Express v5 compatibility
+            op.path = escapeExpressReservedChars(op.path);
 
             // Add vendor extensions for template use
             op.vendorExtensions.put("x-express-path", op.path);
@@ -559,6 +561,38 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
             }
         }
         return null;
+    }
+
+    /**
+     * Escape characters that are reserved in path-to-regexp v8 (used by Express v5).
+     * Reserved chars: ( ) [ ] ? + !
+     * These are escaped with backslash in the generated TypeScript source.
+     * Double-backslash is used so that Mustache renders \\( in TS, which JS evaluates to \( at runtime.
+     * Parameter segments (:paramName) are left untouched.
+     * This is backward-compatible with Express v4 (path-to-regexp 0.1.x also treats \( as literal).
+     */
+    private String escapeExpressReservedChars(String path) {
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+        while (i < path.length()) {
+            char c = path.charAt(i);
+            if (c == ':') {
+                // Skip over :paramName segment
+                result.append(c);
+                i++;
+                while (i < path.length() && (Character.isLetterOrDigit(path.charAt(i)) || path.charAt(i) == '_')) {
+                    result.append(path.charAt(i));
+                    i++;
+                }
+            } else if ("()[]?+!".indexOf(c) >= 0) {
+                result.append("\\\\").append(c);
+                i++;
+            } else {
+                result.append(c);
+                i++;
+            }
+        }
+        return result.toString();
     }
 
     /**
