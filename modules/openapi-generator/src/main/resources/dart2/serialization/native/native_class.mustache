@@ -163,7 +163,7 @@ class {{{classname}}} {
             : {{items.complexType}}.mapListFromJson(json[r'{{{baseName}}}']),
                 {{/items.complexType}}
                 {{^items.complexType}}
-            : mapCastOfType<String, List>(json, r'{{{baseName}}}'),
+            : (json[r'{{{baseName}}}'] as Map<String, dynamic>).map((k, v) => MapEntry(k, v == null ? {{#items.isNullable}}null{{/items.isNullable}}{{^items.isNullable}}const <{{items.items.dataType}}>[]{{/items.isNullable}} : (v as List).cast<{{items.items.dataType}}>())),
                 {{/items.complexType}}
               {{/items.isArray}}
               {{^items.isArray}}
