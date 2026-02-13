@@ -126,6 +126,8 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
+    @org.springframework.validation.annotation.Validated
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ParameterObject final Pageable pageable
@@ -207,6 +209,41 @@ public interface PetApi {
     )
     ResponseEntity<Pet> getPetById(
         @NotNull @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
+    );
+
+
+    String PATH_LIST_ALL_PETS = "/pet/all";
+    /**
+     * GET /pet/all : List all pets
+     * Returns all pets with pagination support
+     *
+     * @return successful operation (status code 200)
+     *         or Invalid status value (status code 400)
+     */
+    @Operation(
+        operationId = "listAllPets",
+        summary = "List all pets",
+        description = "Returns all pets with pagination support",
+        tags = { "pet" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pet.class))),
+                @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Pet.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid status value")
+        },
+        security = {
+            @SecurityRequirement(name = "petstore_auth", scopes={ "write:pets", "read:pets" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_LIST_ALL_PETS,
+        produces = { "application/json", "application/xml" }
+    )
+    @org.springframework.validation.annotation.Validated
+    ResponseEntity<List<Pet>> listAllPets(
+        @ParameterObject final Pageable pageable
     );
 
 

@@ -97,6 +97,10 @@
             <artifactId>kotlinx-coroutines-reactor</artifactId>
             <version>${kotlinx-coroutines.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
 
         <!--SpringDoc dependencies -->
         <dependency>

@@ -6,6 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
+import org.springframework.data.domain.Pageable
 import org.openapitools.model.Pet
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -153,6 +154,221 @@ interface PetApi {
 
 
     @ApiOperation(
+        value = "List all pets with pagination (only pagination params)",
+        nickname = "listAllPetsPaginated",
+        notes = "Tests x-spring-paginated with ONLY page/size/sort params that will be removed",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/all"
+        value = [PATH_LIST_ALL_PETS_PAGINATED],
+        produces = ["application/json"]
+    )
+    fun listAllPetsPaginated(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets with path and header params only",
+        nickname = "listPetsByIdPaginated",
+        notes = "Tests x-spring-paginated with no query params except pagination",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/pathOnly"
+        value = [PATH_LIST_PETS_BY_ID_PAGINATED],
+        produces = ["application/json"]
+    )
+    fun listPetsByIdPaginated(
+        @ApiParam(value = "Request ID for tracing") @RequestHeader(value = "X-Request-ID", required = false) xRequestID: kotlin.String?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets by owner with pagination",
+        nickname = "listPetsByOwnerPaginated",
+        notes = "Tests x-spring-paginated with path param + query params",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/{ownerId}"
+        value = [PATH_LIST_PETS_BY_OWNER_PAGINATED],
+        produces = ["application/json"]
+    )
+    fun listPetsByOwnerPaginated(
+        @ApiParam(value = "Owner ID - will be kept", required = true) @PathVariable("ownerId") ownerId: kotlin.Long,
+        @ApiParam(value = "Include adopted pets - will be kept", defaultValue = "false") @Valid @RequestParam(value = "includeAdopted", required = false, defaultValue = "false") includeAdopted: kotlin.Boolean,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "Mixed params - path, header, query, and pagination",
+        nickname = "listPetsMixedParams",
+        notes = "Comprehensive test with all parameter types",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/mixed"
+        value = [PATH_LIST_PETS_MIXED_PARAMS],
+        produces = ["application/json"]
+    )
+    fun listPetsMixedParams(
+        @ApiParam(value = "Authorization header") @RequestHeader(value = "Authorization", required = false) authorization: kotlin.String?,
+        @ApiParam(value = "Tenant ID") @RequestHeader(value = "X-Tenant-ID", required = false) xTenantID: kotlin.String?,
+        @ApiParam(value = "Status filter") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
+        @ApiParam(value = "Include inactive pets") @Valid @RequestParam(value = "includeInactive", required = false) includeInactive: kotlin.Boolean?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets with many query params",
+        nickname = "listPetsMultipleParams",
+        notes = "Tests x-spring-paginated removes only page/size/sort",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/multiParam"
+        value = [PATH_LIST_PETS_MULTIPLE_PARAMS],
+        produces = ["application/json"]
+    )
+    fun listPetsMultipleParams(
+        @ApiParam(value = "Filter by name - will be kept") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @ApiParam(value = "Minimum age - will be kept") @Valid @RequestParam(value = "minAge", required = false) minAge: kotlin.Int?,
+        @ApiParam(value = "Maximum age - will be kept") @Valid @RequestParam(value = "maxAge", required = false) maxAge: kotlin.Int?,
+        @ApiParam(value = "Filter by tags - will be kept") @Valid @RequestParam(value = "tags", required = false) tags: kotlin.collections.List<kotlin.String>?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets WITHOUT x-spring-paginated",
+        nickname = "listPetsNoPagination",
+        notes = "Tests that operations without x-spring-paginated keep all params",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/noPagination"
+        value = [PATH_LIST_PETS_NO_PAGINATION],
+        produces = ["application/json"]
+    )
+    fun listPetsNoPagination(
+        @ApiParam(value = "Filter by status") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
+        @ApiParam(value = "Page number - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "page", required = false) page: kotlin.Int?,
+        @ApiParam(value = "Page size - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "size", required = false) size: kotlin.Int?,
+        @ApiParam(value = "Sort order - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets with only some pagination params",
+        nickname = "listPetsPartialPagination",
+        notes = "Tests x-spring-paginated with only page and size (no sort)",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/partialParams"
+        value = [PATH_LIST_PETS_PARTIAL_PAGINATION],
+        produces = ["application/json"]
+    )
+    fun listPetsPartialPagination(
+        @ApiParam(value = "Filter by status - will be kept") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets with filtering and pagination",
+        nickname = "listPetsWithFilterPaginated",
+        notes = "Tests x-spring-paginated with regular params + pagination params",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/withParams"
+        value = [PATH_LIST_PETS_WITH_FILTER_PAGINATED],
+        produces = ["application/json"]
+    )
+    fun listPetsWithFilterPaginated(
+        @ApiParam(value = "Filter by status - will be kept", allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
+        @ApiParam(value = "Filter by name - will be kept") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
+        value = "List pets with header param named 'size'",
+        nickname = "listPetsWithHeaderSize",
+        notes = "Tests that header param 'size' is preserved while query param 'size' is removed",
+        response = Pet::class,
+        responseContainer = "List"
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/paginated/headerSize"
+        value = [PATH_LIST_PETS_WITH_HEADER_SIZE],
+        produces = ["application/json"]
+    )
+    fun listPetsWithHeaderSize(
+        @ApiParam(value = "Size header - must NOT be removed (different from query param)") @RequestHeader(value = "size", required = false) size: kotlin.String?,
+        @ApiParam(value = "Filter by category - will be kept") @Valid @RequestParam(value = "category", required = false) category: kotlin.String?,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
+        @ApiParam(hidden = true) pageable: Pageable
+    ): ResponseEntity<List<Pet>>
+
+
+    @ApiOperation(
         value = "Update an existing pet",
         nickname = "updatePet",
         notes = "",
@@ -227,6 +443,15 @@ interface PetApi {
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
         const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
         const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_LIST_ALL_PETS_PAGINATED: String = "/pet/paginated/all"
+        const val PATH_LIST_PETS_BY_ID_PAGINATED: String = "/pet/paginated/pathOnly"
+        const val PATH_LIST_PETS_BY_OWNER_PAGINATED: String = "/pet/paginated/{ownerId}"
+        const val PATH_LIST_PETS_MIXED_PARAMS: String = "/pet/paginated/mixed"
+        const val PATH_LIST_PETS_MULTIPLE_PARAMS: String = "/pet/paginated/multiParam"
+        const val PATH_LIST_PETS_NO_PAGINATION: String = "/pet/paginated/noPagination"
+        const val PATH_LIST_PETS_PARTIAL_PAGINATION: String = "/pet/paginated/partialParams"
+        const val PATH_LIST_PETS_WITH_FILTER_PAGINATED: String = "/pet/paginated/withParams"
+        const val PATH_LIST_PETS_WITH_HEADER_SIZE: String = "/pet/paginated/headerSize"
         const val PATH_UPDATE_PET: String = "/pet"
         const val PATH_UPDATE_PET_WITH_FORM: String = "/pet/{petId}"
         const val PATH_UPLOAD_FILE: String = "/pet/{petId}/uploadImage"
