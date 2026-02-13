@@ -43,7 +43,9 @@ public interface FakeApi {
     @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createXmlItem(@Valid @NotNull XmlItem xmlItem);
+    void createXmlItem(
+
+  @Valid @NotNull XmlItem xmlItem);
 
 
     /**
@@ -58,7 +60,9 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    Boolean fakeOuterBooleanSerialize(@Valid Boolean body);
+    Boolean fakeOuterBooleanSerialize(
+
+  @Valid Boolean body);
 
 
     /**
@@ -73,7 +77,9 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
+    OuterComposite fakeOuterCompositeSerialize(
+
+  @Valid OuterComposite body);
 
 
     /**
@@ -88,7 +94,9 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    BigDecimal fakeOuterNumberSerialize(@Valid BigDecimal body);
+    BigDecimal fakeOuterNumberSerialize(
+
+  @Valid BigDecimal body);
 
 
     /**
@@ -103,7 +111,9 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
-    String fakeOuterStringSerialize(@Valid String body);
+    String fakeOuterStringSerialize(
+
+  @Valid String body);
 
 
     /**
@@ -118,7 +128,9 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body);
+    void testBodyWithFileSchema(
+
+  @Valid @NotNull FileSchemaTestClass body);
 
 
     /**
@@ -134,7 +146,11 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithQueryParams(@QueryParam("query") @NotNull   String query,@Valid @NotNull User body);
+    void testBodyWithQueryParams(@QueryParam("query")   @NotNull   String query
+
+,
+
+  @Valid @NotNull User body);
 
 
     /**
@@ -149,7 +165,9 @@ public interface FakeApi {
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClientModel(@Valid @NotNull Client body);
+    Client testClientModel(
+
+  @Valid @NotNull Client body);
 
 
     /**
@@ -181,7 +199,35 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    void testEndpointParameters(@FormParam(value = "number")  BigDecimal number,@FormParam(value = "double")  Double _double,@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,@FormParam(value = "byte")  byte[] _byte,@FormParam(value = "integer")  Integer integer,@FormParam(value = "int32")  Integer int32,@FormParam(value = "int64")  Long int64,@FormParam(value = "float")  Float _float,@FormParam(value = "string")  String string, @FormParam(value = "binary") InputStream binaryInputStream,@FormParam(value = "date")  LocalDate date,@FormParam(value = "dateTime")  Date dateTime,@FormParam(value = "password")  String password,@FormParam(value = "callback")  String paramCallback);
+    void testEndpointParameters(
+
+@FormParam(value = "number")  BigDecimal number,
+
+@FormParam(value = "double")  Double _double,
+
+@FormParam(value = "pattern_without_delimiter")  String patternWithoutDelimiter,
+
+@FormParam(value = "byte")  byte[] _byte,
+
+@FormParam(value = "integer")  Integer integer,
+
+@FormParam(value = "int32")  Integer int32,
+
+@FormParam(value = "int64")  Long int64,
+
+@FormParam(value = "float")  Float _float,
+
+@FormParam(value = "string")  String string,
+
+ @FormParam(value = "binary") InputStream binaryInputStream,
+
+@FormParam(value = "date")  LocalDate date,
+
+@FormParam(value = "dateTime")  Date dateTime,
+
+@FormParam(value = "password")  String password,
+
+@FormParam(value = "callback")  String paramCallback);
 
 
     /**
@@ -206,7 +252,21 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
-    void testEnumParameters(@HeaderParam("enum_header_string_array")   @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")  @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")  @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
+    void testEnumParameters(
+
+@HeaderParam("enum_header_string_array")     @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@QueryParam("enum_query_string_array")    @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray
+
+,@QueryParam("enum_query_string")   @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString
+
+,@QueryParam("enum_query_integer")    @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger
+
+,@QueryParam("enum_query_double")    @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble
+
+,
+
+@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,
+
+@FormParam(value = "enum_form_string")  String enumFormString);
 
 
     /**
@@ -224,7 +284,19 @@ public interface FakeApi {
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Something wrong", response = Void.class) })
-    void testGroupParameters(@QueryParam("required_string_group") @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")  @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")  @ApiParam("Integer in group parameters")  Long int64Group);
+    void testGroupParameters(@QueryParam("required_string_group")   @NotNull  @ApiParam("Required String in group parameters")  Integer requiredStringGroup
+
+,
+
+@HeaderParam("required_boolean_group")   @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group")   @NotNull  @ApiParam("Required Integer in group parameters")  Long requiredInt64Group
+
+,@QueryParam("string_group")    @ApiParam("String in group parameters")  Integer stringGroup
+
+,
+
+@HeaderParam("boolean_group")     @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")    @ApiParam("Integer in group parameters")  Long int64Group
+
+);
 
 
     /**
@@ -239,7 +311,9 @@ public interface FakeApi {
     @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
+    void testInlineAdditionalProperties(
+
+  @Valid @NotNull Map<String, String> param);
 
 
     /**
@@ -255,7 +329,11 @@ public interface FakeApi {
     @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
+    void testJsonFormData(
+
+@FormParam(value = "param")  String param,
+
+@FormParam(value = "param2")  String param2);
 
 
     /**
@@ -273,7 +351,17 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "To test the collection format in query parameters", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull   List<String> pipe,@QueryParam("ioutil") @NotNull   List<String> ioutil,@QueryParam("http") @NotNull   List<String> http,@QueryParam("url") @NotNull   List<String> url,@QueryParam("context") @NotNull   List<String> context);
+    void testQueryParameterCollectionFormat(@QueryParam("pipe")   @NotNull   List<String> pipe
+
+,@QueryParam("ioutil")   @NotNull   List<String> ioutil
+
+,@QueryParam("http")   @NotNull   List<String> http
+
+,@QueryParam("url")   @NotNull   List<String> url
+
+,@QueryParam("context")   @NotNull   List<String> context
+
+);
 
 
     /**
@@ -295,6 +383,12 @@ public interface FakeApi {
          }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,@FormParam(value = "additionalMetadata")  String additionalMetadata);
+    ModelApiResponse uploadFileWithRequiredFile(
+@PathParam("petId")   @ApiParam("ID of pet to update") Long petId
+,
+
+ @FormParam(value = "requiredFile") InputStream requiredFileInputStream,
+
+@FormParam(value = "additionalMetadata")  String additionalMetadata);
 
 }

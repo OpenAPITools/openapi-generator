@@ -75,7 +75,9 @@ public class AnotherFakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response call123testSpecialTags(@Valid @NotNull Client client) {
+    public Response call123testSpecialTags(
+
+  @Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 }

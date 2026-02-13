@@ -35,7 +35,9 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    Response deleteOrder(@PathParam("order_id") @ApiParam("ID of the order that needs to be deleted") String orderId);
+    Response deleteOrder(
+@PathParam("order_id")   @ApiParam("ID of the order that needs to be deleted") String orderId
+);
 
 
     /**
@@ -71,7 +73,9 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId);
+    Response getOrderById(
+@PathParam("order_id")   @Min(1L) @Max(5L) @ApiParam("ID of pet that needs to be fetched") Long orderId
+);
 
 
     /**
@@ -88,6 +92,8 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Response placeOrder(@Valid @NotNull Order body);
+    Response placeOrder(
+
+  @Valid @NotNull Order body);
 
 }

@@ -31,7 +31,9 @@ public class FakeClassnameTestApi {
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    public Response testClassname(@Valid @NotNull Client client) {
+    public Response testClassname(
+
+  @Valid @NotNull Client client) {
         return Response.ok().entity("magic!").build();
     }
 }
