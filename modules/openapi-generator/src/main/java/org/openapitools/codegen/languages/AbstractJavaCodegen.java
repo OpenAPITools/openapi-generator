@@ -1344,8 +1344,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 // if default to empty container option is set, respect the default values provided in the spec
                 return toArrayDefaultValue(cp, schema);
             } else if (schema.getDefault() == null) {
-                // nullable or containerDefaultToNull set to true
-                if (cp.isNullable || containerDefaultToNull) {
+                // nullable or containerDefaultToNull set to true or an optional array with minItems > 0
+                if (cp.isNullable || containerDefaultToNull || (cp.minItems != null && cp.minItems > 0 && !cp.getHasRequired())) {
                     return null;
                 }
                 return getDefaultCollectionType(schema);
