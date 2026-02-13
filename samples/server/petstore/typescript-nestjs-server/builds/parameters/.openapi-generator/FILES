@@ -6,7 +6,9 @@ api/DefaultApi.ts
 api/index.ts
 controllers/DefaultApi.controller.ts
 controllers/index.ts
-cookies-decorator.ts
+decorators/cookies-decorator.ts
+decorators/headers-decorator.ts
+decorators/index.ts
 index.ts
 models/index.ts
 tsconfig.json

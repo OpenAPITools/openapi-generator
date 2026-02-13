@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Post, Put, Param, Query, Headers, Req } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Post, Put, Param, ParseIntPipe, ParseFloatPipe, Query, Req } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { Cookies } from '../cookies-decorator';
+import { Cookies, Headers } from '../decorators';
 import { PetApi } from '../api';
 import { ApiResponse, Pet,  } from '../models';
 

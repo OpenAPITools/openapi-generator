@@ -60,6 +60,9 @@ describe('AppModule (e2e)', () => {
 
       return request(app.getHttpServer())
         .get('/test/parameters/path_a/path_b')
+        .expect((res)=> {
+          console.log('Body:', JSON.stringify(res.body, null, 2));
+        })
         .expect(200)
         .then(() => {
           expect(defaultService.lastRequestParams).toEqual({
@@ -81,6 +84,7 @@ describe('AppModule (e2e)', () => {
           });
         });
     });
+
 
     it('should receive request parameters', () => {
       let defaultService: DefaultService = app.get(DefaultApi);
@@ -109,13 +113,13 @@ describe('AppModule (e2e)', () => {
             pathNullable: 'path_b',
             queryDefault: 'custom_query',
             queryDefaultEnum: 'C',
-            queryDefaultInt: '5',
+            queryDefaultInt: 5,
             headerDefault: 'custom_header',
             headerDefaultEnum: 'C',
-            headerDefaultInt: '6',
+            headerDefaultInt: 6,
             cookieDefault: 'custom_cookie',
             cookieDefaultEnum: 'C',
-            cookieDefaultInt: '7',
+            cookieDefaultInt: 7,
             queryNullable: 'not_null_query',
             headerNullable: 'null',
             cookieNullable: 'a_cookie',
