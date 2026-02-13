@@ -227,8 +227,8 @@ open class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
-                put("username", listOf(username.toString()))
-                put("password", listOf(password.toString()))
+                put("username", listOf("$username"))
+                put("password", listOf("$password"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
