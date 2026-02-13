@@ -58,9 +58,10 @@ describe('AppModule (e2e)', () => {
     it('should set default parameters', () => {
       let defaultService: DefaultService = app.get(DefaultApi);
 
-      request(app.getHttpServer())
+      return request(app.getHttpServer())
         .get('/test/parameters/path_a/path_b')
-        .expect(200, () => {
+        .expect(200)
+        .then(() => {
           expect(defaultService.lastRequestParams).toEqual({
             pathDefault: 'path_a',
             pathNullable: 'path_b',
@@ -84,7 +85,7 @@ describe('AppModule (e2e)', () => {
     it('should receive request parameters', () => {
       let defaultService: DefaultService = app.get(DefaultApi);
 
-      request(app.getHttpServer())
+      return request(app.getHttpServer())
         .get('/test/parameters/path_a/path_b')
         .query({
           query_default: 'custom_query',
@@ -101,7 +102,8 @@ describe('AppModule (e2e)', () => {
           'Cookie',
           'cookie_default=custom_cookie; cookie_default_enum=C; cookie_default_int=7; cookie_nullable=a_cookie',
         )
-        .expect(200, () => {
+        .expect(200)
+        .then(() => {
           expect(defaultService.lastRequestParams).toEqual({
             pathDefault: 'path_a',
             pathNullable: 'path_b',

@@ -278,6 +278,14 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         return languageSpecificPrimitives.contains(type) || isInlineUnion(type);
     }
 
+    /**
+     * <p>
+     * Determines if the given type is an inline union of strings, described as an enum without being an explicit component in OpenAPI spec.
+     * </p>
+     * Example input that matches: {@code "'A' | 'B'" }
+     *
+     * @param type The Typescript type to evaluate.
+     */
     private boolean isInlineUnion(String type) {
         return Arrays.stream(type.split("\\|"))
                 .map(String::trim)
@@ -301,7 +309,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
         parameter.dataType = applyLocalTypeMapping(parameter.dataType);
-        if("undefined".equals(parameter.defaultValue)) {
+        if ("undefined".equals(parameter.defaultValue)) {
             parameter.defaultValue = null;
         }
     }
