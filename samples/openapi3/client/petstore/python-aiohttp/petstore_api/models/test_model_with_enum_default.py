@@ -22,7 +22,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.test_enum import TestEnum
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
 from typing import Optional, Set
-from typing_extensions import Self
+from typing_extensions import Self, Literal
+from pydantic import Field
 
 class TestModelWithEnumDefault(BaseModel):
     """
@@ -32,7 +33,10 @@ class TestModelWithEnumDefault(BaseModel):
     test_string: Optional[StrictStr] = None
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
-    test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
+    test_inline_defined_enum_with_default: Optional[Literal['A', 'B', 'C']] = Field(
+        None,
+        description="test_inline_defined_enum_with_default of the TestModelWithEnumDefault"
+    )
     __properties: ClassVar[List[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
     @field_validator('test_inline_defined_enum_with_default')
@@ -52,56 +56,27 @@ class TestModelWithEnumDefault(BaseModel):
     )
 
 
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj, strict=True)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return json.dumps(self.model_dump(by_alias=True, exclude_none=True))
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of TestModelWithEnumDefault from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of TestModelWithEnumDefault from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "test_enum": obj.get("test_enum"),
-            "test_string": obj.get("test_string"),
-            "test_enum_with_default": obj.get("test_enum_with_default") if obj.get("test_enum_with_default") is not None else TestEnumWithDefault.ZWEI,
-            "test_string_with_default": obj.get("test_string_with_default") if obj.get("test_string_with_default") is not None else 'ahoy matey',
-            "test_inline_defined_enum_with_default": obj.get("test_inline_defined_enum_with_default") if obj.get("test_inline_defined_enum_with_default") is not None else 'B'
-        })
-        return _obj
 
 
