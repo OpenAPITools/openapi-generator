@@ -736,6 +736,21 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             property.vendorExtensions.put("x-golang-is-container", true);
         }
     }
+    
+    private void swapDataTypeAndAlias(CodegenProperty property, Map<String, String> typeAliasesMap) {
+        if (property.dataTypeAlias != null) {
+            String dedupedType = property.dataType;
+            String aliasName = property.dataTypeAlias;
+            // Swap: field uses the alias, alias definition points to deduplicated type
+            property.dataType = aliasName;
+            property.dataTypeAlias = dedupedType;
+            
+            // Collect type alias (after swap, dataType is alias name, dataTypeAlias is target)
+            if (!property.isContainer && !typeAliasesMap.containsKey(property.dataType)) {
+                typeAliasesMap.put(property.dataType, property.dataTypeAlias);
+            }
+        }
+    }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
@@ -775,7 +790,25 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 codegenProperties.addAll(inheritedProperties);
             }
 
+            // Collect reused model properties for type alias generation
+            Map<String, String> typeAliasesMap = new LinkedHashMap<>();
+            
             for (CodegenProperty cp : codegenProperties) {
+                // Swap dataType and dataTypeAlias so fields use the alias name
+                swapDataTypeAndAlias(cp, typeAliasesMap);
+                
+                // Also swap for array items and update the array's dataType
+                if (cp.items != null && cp.items.dataTypeAlias != null) {
+                    String oldItemsDataType = cp.items.dataType;
+                    swapDataTypeAndAlias(cp.items, typeAliasesMap);
+                    String newItemsDataType = cp.items.dataType;
+                    
+                    // Update the array's dataType to use the new items dataType
+                    if (cp.dataType != null && cp.dataType.contains(oldItemsDataType)) {
+                        cp.dataType = cp.dataType.replace(oldItemsDataType, newItemsDataType);
+                    }
+                }
+                
                 if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.complexType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
@@ -854,6 +887,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             if (generateUnmarshalJSON) {
                 model.vendorExtensions.putIfAbsent("x-go-generate-unmarshal-json", true);
+            }
+            
+            // Convert type aliases map to list for template usage
+            if (!typeAliasesMap.isEmpty()) {
+                List<Map<String, String>> typeAliases = new ArrayList<>();
+                for (Map.Entry<String, String> entry : typeAliasesMap.entrySet()) {
+                    if (!entry.getKey().equals(entry.getValue())) {
+                        Map<String, String> aliasMap = new HashMap<>();
+                        aliasMap.put("aliasName", entry.getKey());
+                        aliasMap.put("originalType", entry.getValue());
+                        typeAliases.add(aliasMap);
+                    }
+                }
+                if (!typeAliases.isEmpty()) {
+                    model.vendorExtensions.put("x-go-type-aliases", typeAliases);
+                    model.vendorExtensions.put("x-go-has-type-aliases", true);
+                }
             }
         }
 
