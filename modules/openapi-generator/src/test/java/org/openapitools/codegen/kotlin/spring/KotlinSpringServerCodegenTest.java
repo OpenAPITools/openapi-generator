@@ -3678,7 +3678,6 @@ public class KotlinSpringServerCodegenTest {
 
         File petApi = files.get("PetApi.kt");
         assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import org.springdoc.api.annotations.ParameterObject");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
         assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
     }
@@ -3696,7 +3695,6 @@ public class KotlinSpringServerCodegenTest {
 
         File petApi = files.get("PetApi.kt");
         assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
-        assertFileContains(petApi.toPath(), "import org.springdoc.core.annotations.ParameterObject");
         assertFileContains(petApi.toPath(), "pageable: Pageable");
     }
 
@@ -3860,6 +3858,49 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
         assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
         assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSpringDocUsesPageableAsQueryParam() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Verify @PageableAsQueryParam annotation is present at method level
+        assertFileContains(petApi.toPath(), "import org.springdoc.core.converters.models.PageableAsQueryParam");
+        assertFileContains(petApi.toPath(), "@PageableAsQueryParam");
+
+        // Verify Pageable parameter has @Parameter(hidden = true)
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+
+        // Verify the annotation appears before @RequestMapping for findPetsByStatus
+        int findPetsByStatusStart = content.indexOf("fun findPetsByStatus(");
+        Assert.assertTrue(findPetsByStatusStart > 0, "findPetsByStatus method should exist");
+
+        String methodBlock = content.substring(Math.max(0, findPetsByStatusStart - 1000), findPetsByStatusStart);
+        int pageableAsQueryParamPos = methodBlock.lastIndexOf("@PageableAsQueryParam");
+        int requestMappingPos = methodBlock.lastIndexOf("@RequestMapping");
+
+        Assert.assertTrue(pageableAsQueryParamPos > 0, "@PageableAsQueryParam should be present before method");
+        Assert.assertTrue(requestMappingPos > pageableAsQueryParamPos,
+            "@PageableAsQueryParam should appear before @RequestMapping");
+
+        // Verify page, size, sort parameters are NOT in the method signature
+        String methodSignature = content.substring(findPetsByStatusStart,
+            content.indexOf("): ResponseEntity", findPetsByStatusStart));
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page parameter should be removed from method signature");
+        Assert.assertFalse(methodSignature.contains("size:") && methodSignature.contains("@RequestParam"),
+            "size query parameter should be removed from method signature");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort parameter should be removed from method signature");
     }
 
     @Test

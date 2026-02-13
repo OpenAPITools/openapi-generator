@@ -483,6 +483,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
+        importMapping.put("PageableAsQueryParam", "org.springdoc.core.converters.models.PageableAsQueryParam");
         if (useSpringBoot3) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
@@ -924,16 +925,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
 
+        // Check if operation has all three pagination query parameters (case-sensitive)
+        boolean hasParamsForPageable = codegenOperation.queryParams.stream()
+                .map(p -> p.baseName)
+                .collect(Collectors.toSet())
+                .containsAll(defaultPageableQueryParams);
         // Auto-detect pagination parameters and add x-spring-paginated if autoXSpringPaginated is enabled
         // Only for spring-boot library, respect manual x-spring-paginated: false setting
         if (SPRING_BOOT.equals(library) && autoXSpringPaginated) {
             // Check if x-spring-paginated is not explicitly set to false
             if (operation.getExtensions() == null || !Boolean.FALSE.equals(operation.getExtensions().get("x-spring-paginated"))) {
-                // Check if operation has all three pagination query parameters (case-sensitive)
-                boolean hasParamsForPageable = codegenOperation.queryParams.stream()
-                        .map(p -> p.baseName)
-                        .collect(Collectors.toSet())
-                        .containsAll(defaultPageableQueryParams);
+
 
                 if (hasParamsForPageable) {
                     // Automatically add x-spring-paginated to the operation
@@ -962,7 +964,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     codegenOperation.imports.add("ApiIgnore");
                 }
                 if (DocumentationProvider.SPRINGDOC.equals(getDocumentationProvider())) {
-                    codegenOperation.imports.add("ParameterObject");
+                    codegenOperation.imports.add("PageableAsQueryParam");
+                    codegenOperation.vendorExtensions.put("x-operation-extra-annotation", "@PageableAsQueryParam");
                 }
 
                 // #8315 Remove matching Spring Data Web default query params if 'x-spring-paginated' with Pageable is used

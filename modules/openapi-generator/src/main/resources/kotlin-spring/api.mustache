@@ -84,6 +84,9 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
         authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}}, {{/-last}}{{/scopes}}]{{/isOAuth}}){{^-last}}, {{/-last}}{{/authMethods}}]{{/hasAuthMethods}})
     @ApiResponses(
         value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}},{{/-last}}{{/responses}}]){{/swagger1AnnotationLibrary}}
+    {{#vendorExtensions.x-operation-extra-annotation}}
+    {{{.}}}
+    {{/vendorExtensions.x-operation-extra-annotation}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
