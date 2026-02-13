@@ -99,6 +99,9 @@ interface {{classname}} {
     @ApiResponses(
         value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{.}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{.}}}"{{/containerType}}){{^-last}}, {{/-last}}{{/responses}}]
     ){{/swagger1AnnotationLibrary}}
+    {{#vendorExtensions.x-operation-extra-annotation}}
+    {{{.}}}
+    {{/vendorExtensions.x-operation-extra-annotation}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
@@ -110,13 +113,15 @@ interface {{classname}} {
     )
     {{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}
         {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
-        {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#hasParams}}
+        {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
+        {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},
+        {{/includeHttpRequestContext}}{{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}{{#hasParams}}
     {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}}{{^skipDefaultApiInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}})
+        return getDelegate().{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}}, {{/hasParams}}{{#reactive}}exchange{{/reactive}}{{^reactive}}request{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}}, {{/includeHttpRequestContext}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}})
         {{/isDelegate}}
     }{{/skipDefaultApiInterface}}
 

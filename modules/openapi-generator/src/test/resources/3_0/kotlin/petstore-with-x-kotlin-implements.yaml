@@ -486,6 +486,400 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  # Comprehensive x-spring-paginated test endpoints
+  /pet/paginated/all:
+    get:
+      tags:
+        - pet
+      summary: List all pets with pagination (only pagination params)
+      description: Tests x-spring-paginated with ONLY page/size/sort params that will be removed
+      operationId: listAllPetsPaginated
+      parameters:
+        - name: page
+          in: query
+          description: Page number - will be removed when x-spring-paginated is true
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          description: Page size - will be removed when x-spring-paginated is true
+          schema:
+            type: integer
+            format: int32
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order - will be removed when x-spring-paginated is true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/withParams:
+    get:
+      tags:
+        - pet
+      summary: List pets with filtering and pagination
+      description: Tests x-spring-paginated with regular params + pagination params
+      operationId: listPetsWithFilterPaginated
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status - will be kept
+          schema:
+            type: string
+            enum:
+              - available
+              - pending
+              - sold
+        - name: name
+          in: query
+          description: Filter by name - will be kept
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+            format: int32
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/headerSize:
+    get:
+      tags:
+        - pet
+      summary: List pets with header param named 'size'
+      description: Tests that header param 'size' is preserved while query param 'size' is removed
+      operationId: listPetsWithHeaderSize
+      parameters:
+        - name: size
+          in: header
+          description: Size header - must NOT be removed (different from query param)
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: Filter by category - will be kept
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size query param - will be removed
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/noPagination:
+    get:
+      tags:
+        - pet
+      summary: List pets WITHOUT x-spring-paginated
+      description: Tests that operations without x-spring-paginated keep all params
+      operationId: listPetsNoPagination
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number - will be KEPT (no x-spring-paginated)
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be KEPT (no x-spring-paginated)
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be KEPT (no x-spring-paginated)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      # NO x-spring-paginated - all params should remain
+  /pet/paginated/{ownerId}:
+    get:
+      tags:
+        - pet
+      summary: List pets by owner with pagination
+      description: Tests x-spring-paginated with path param + query params
+      operationId: listPetsByOwnerPaginated
+      parameters:
+        - name: ownerId
+          in: path
+          description: Owner ID - will be kept
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: includeAdopted
+          in: query
+          description: Include adopted pets - will be kept
+          schema:
+            type: boolean
+            default: false
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/multiParam:
+    get:
+      tags:
+        - pet
+      summary: List pets with many query params
+      description: Tests x-spring-paginated removes only page/size/sort
+      operationId: listPetsMultipleParams
+      parameters:
+        - name: name
+          in: query
+          description: Filter by name - will be kept
+          schema:
+            type: string
+        - name: minAge
+          in: query
+          description: Minimum age - will be kept
+          schema:
+            type: integer
+        - name: maxAge
+          in: query
+          description: Maximum age - will be kept
+          schema:
+            type: integer
+        - name: tags
+          in: query
+          description: Filter by tags - will be kept
+          schema:
+            type: array
+            items:
+              type: string
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/partialParams:
+    get:
+      tags:
+        - pet
+      summary: List pets with only some pagination params
+      description: Tests x-spring-paginated with only page and size (no sort)
+      operationId: listPetsPartialPagination
+      parameters:
+        - name: status
+          in: query
+          description: Filter by status - will be kept
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+        # Intentionally NO 'sort' parameter
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/pathOnly:
+    get:
+      tags:
+        - pet
+      summary: List pets with path and header params only
+      description: Tests x-spring-paginated with no query params except pagination
+      operationId: listPetsByIdPaginated
+      parameters:
+        - name: X-Request-ID
+          in: header
+          description: Request ID for tracing
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
+  /pet/paginated/mixed:
+    get:
+      tags:
+        - pet
+      summary: Mixed params - path, header, query, and pagination
+      description: Comprehensive test with all parameter types
+      operationId: listPetsMixedParams
+      parameters:
+        - name: Authorization
+          in: header
+          description: Authorization header
+          schema:
+            type: string
+        - name: X-Tenant-ID
+          in: header
+          description: Tenant ID
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Status filter
+          schema:
+            type: string
+        - name: includeInactive
+          in: query
+          description: Include inactive pets
+          schema:
+            type: boolean
+        - name: page
+          in: query
+          description: Page number - will be removed
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size - will be removed
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order - will be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+      x-spring-paginated: true
 
 components:
   securitySchemes:
