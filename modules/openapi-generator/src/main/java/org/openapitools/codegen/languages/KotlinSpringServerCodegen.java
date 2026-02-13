@@ -956,7 +956,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
 
             // add org.springframework.data.domain.Pageable import when needed (server libraries only)
-            if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
+            if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-spring-paginated"))) {
                 codegenOperation.imports.add("Pageable");
                 if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                     codegenOperation.imports.add("ApiIgnore");

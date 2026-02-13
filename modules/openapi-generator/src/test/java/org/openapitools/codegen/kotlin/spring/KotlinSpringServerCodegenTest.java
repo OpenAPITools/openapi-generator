@@ -4023,4 +4023,313 @@ public class KotlinSpringServerCodegenTest {
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
     }
+
+    // ========== AUTO X-SPRING-PAGINATED TESTS ==========
+
+    @Test
+    public void autoXSpringPaginatedDetectsAllThreeParams() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with all three params (page, size, sort) should have Pageable auto-detected
+        assertFileContains(petApi.toPath(), "fun findPetsWithAutoDetect(");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+
+        // Extract findPetsWithAutoDetect method
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        // Should have pageable parameter
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+            "findPetsWithAutoDetect should have pageable parameter when autoXSpringPaginated is enabled");
+
+        // Should NOT have page, size, sort query params (they should be removed)
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page query param should be removed when pageable is added");
+        Assert.assertFalse(methodSignature.contains("size:"),
+            "size query param should be removed when pageable is added");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort query param should be removed when pageable is added");
+
+        // Should still have the status parameter
+        Assert.assertTrue(methodSignature.contains("status:"),
+            "status parameter should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingPage() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'page' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingPage(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingPage should NOT have pageable when 'page' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSize() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'size' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSize(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingSize should NOT have pageable when 'size' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSort() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'sort' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingSort should NOT have pageable when 'sort' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedManualFalseTakesPrecedence() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with x-spring-paginated: false should NOT have Pageable (manual override)
+        int methodStart = content.indexOf("fun findPetsManualFalse(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsManualFalse should NOT have pageable when x-spring-paginated is explicitly set to false");
+
+        // Should still have all three params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain when x-spring-paginated: false");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain when x-spring-paginated: false");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain when x-spring-paginated: false");
+    }
+
+    @Test
+    public void autoXSpringPaginatedCaseSensitiveMatching() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with Page, Size, Sort (capitalized) should NOT match
+        int methodStart = content.indexOf("fun findPetsCaseSensitive(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsCaseSensitive should NOT have pageable with capitalized param names (case-sensitive)");
+
+        // Should still have all three params with capital letters
+        Assert.assertTrue(methodSignature.contains("page:") || methodSignature.contains("Page:"),
+            "Page param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedOnlyForSpringBoot() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        // Test with spring-cloud library (should NOT auto-detect)
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/spring/petstore-auto-paginated.yaml",
+            additionalProperties,
+            new HashMap<>(),
+            configurator -> configurator.setLibrary("spring-cloud")
+        );
+
+        File petApi = files.get("PetApiClient.kt");
+        if (petApi != null) {
+            String content = Files.readString(petApi.toPath());
+
+            // For spring-cloud, should NOT have Pageable even with auto-detect enabled
+            Assert.assertFalse(content.contains("pageable: Pageable"),
+                "spring-cloud library should NOT auto-detect pageable (needs actual query params for HTTP)");
+
+            // Should have all three query params
+            int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+            if (methodStart >= 0) {
+                int methodEnd = content.indexOf("): ", methodStart);
+                String methodSignature = content.substring(methodStart, methodEnd);
+
+                Assert.assertTrue(methodSignature.contains("page") || methodSignature.contains("@Query"),
+                    "spring-cloud should keep query parameters");
+            }
+        }
+    }
+
+    @Test
+    public void autoXSpringPaginatedDisabledByDefault() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        // NOT setting AUTO_X_SPRING_PAGINATED (should default to false)
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Without AUTO_X_SPRING_PAGINATED, should NOT auto-detect
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "Should NOT have pageable when autoXSpringPaginated is not enabled (default: false)");
+
+        // Should have all three query params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain when auto-detect is disabled");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain when auto-detect is disabled");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain when auto-detect is disabled");
+    }
+
+    @Test
+    public void autoXSpringPaginatedWorksWithManualTrue() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with manual x-spring-paginated: true should still work
+        int methodStart = content.indexOf("fun findPetsManualTrue(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+            "findPetsManualTrue should have pageable (manual x-spring-paginated: true)");
+
+        // Query params should be removed
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"),
+            "size param should be removed");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoParamsDoesNotDetect() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with no params should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsNoParams(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsNoParams should NOT have pageable when there are no pagination params");
+    }
 }
+
+
