@@ -785,7 +785,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (Objects.equals(library, Constants.JAXRS_SPEC) && additionalProperties.containsKey(USE_TAGS) && !useTags) {
+        if (Objects.equals(library, Constants.JAXRS_SPEC) && !useTags) {
             String basePath = StringUtils.substringBefore(StringUtils.removeStart(resourcePath, "/"), "/");
             if (!StringUtils.isEmpty(basePath)) {
                 co.subresourceOperation = !co.path.isEmpty();
