@@ -21,7 +21,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.creature_info import CreatureInfo
 from typing import Optional, Set
-from typing_extensions import Self
+from typing_extensions import Self, Literal
+from pydantic import Field
 
 class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
@@ -37,68 +38,27 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     )
 
 
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj, strict=True)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True, exclude_none=True)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UnnamedDictWithAdditionalModelListProperties from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of each value in dict_property (dict of array)
-        _field_dict_of_array = {}
-        if self.dict_property:
-            for _key_dict_property in self.dict_property:
-                if self.dict_property[_key_dict_property] is not None:
-                    _field_dict_of_array[_key_dict_property] = [
-                        _item.to_dict() for _item in self.dict_property[_key_dict_property]
-                    ]
-            _dict['dictProperty'] = _field_dict_of_array
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UnnamedDictWithAdditionalModelListProperties from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "dictProperty": dict(
-                (_k,
-                        [CreatureInfo.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("dictProperty", {}).items()
-            )
-        })
-        return _obj
 
 

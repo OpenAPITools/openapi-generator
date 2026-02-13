@@ -20,14 +20,21 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
-from typing_extensions import Self
+from typing_extensions import Self, Literal
+from pydantic import Field
 
 class EnumArrays(BaseModel):
     """
     EnumArrays
     """ # noqa: E501
-    just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[List[StrictStr]] = None
+    just_symbol: Optional[Literal['>=', '$']] = Field(
+        None,
+        description="just_symbol of the EnumArrays"
+    )
+    array_enum: Optional[List[Literal['fish', 'crab']]] = Field(
+        None,
+        description="array_enum of the EnumArrays"
+    )
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
 
@@ -59,65 +66,27 @@ class EnumArrays(BaseModel):
     )
 
 
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        """Returns the object represented by the Dict"""
+        return cls.model_validate(obj, strict=True)
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        return cls.model_validate_json(json_str)
+
+    def to_json(self) -> str:
+        """Returns the JSON representation of the actual instance"""
+        return self.model_dump_json(by_alias=True, exclude_none=True)
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Returns the dict representation of the actual instance"""
+        return self.model_dump(by_alias=True)
+
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
         return pprint.pformat(self.model_dump(by_alias=True))
 
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EnumArrays from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        * Fields in `self.additional_properties` are added to the output dict.
-        """
-        excluded_fields: Set[str] = set([
-            "additional_properties",
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # puts key-value pairs in additional_properties in the top level
-        if self.additional_properties is not None:
-            for _key, _value in self.additional_properties.items():
-                _dict[_key] = _value
-
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EnumArrays from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate({
-            "just_symbol": obj.get("just_symbol"),
-            "array_enum": obj.get("array_enum")
-        })
-        # store additional fields in additional_properties
-        for _key in obj.keys():
-            if _key not in cls.__properties:
-                _obj.additional_properties[_key] = obj.get(_key)
-
-        return _obj
 
 
