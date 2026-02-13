@@ -38,7 +38,8 @@ plugins {
 dependencies {
 {{#reactive}}    val kotlinxCoroutinesVersion = "1.6.1"
 {{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect"){{^reactive}}
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.data:spring-data-commons"){{^reactive}}
     implementation("org.springframework.boot:spring-boot-starter-web"){{/reactive}}{{#reactive}}
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")

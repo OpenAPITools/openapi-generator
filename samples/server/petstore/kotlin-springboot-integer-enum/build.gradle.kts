@@ -29,6 +29,7 @@ plugins {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.springframework.data:spring-data-commons")
         implementation("org.springframework.boot:spring-boot-starter-web")
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")

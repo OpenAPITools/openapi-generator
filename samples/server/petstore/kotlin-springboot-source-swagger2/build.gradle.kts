@@ -32,6 +32,7 @@ plugins {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.webjars:swagger-ui:4.10.3")
     implementation("org.webjars:webjars-locator-core")
