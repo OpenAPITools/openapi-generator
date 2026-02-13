@@ -126,6 +126,8 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
+    @org.springframework.validation.annotation.Validated
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "status", required = true) List<String> status,
         @ParameterObject final Pageable pageable
