@@ -31,8 +31,7 @@ plugins {
 dependencies {
 {{#reactive}}    val kotlinxCoroutinesVersion = "1.6.1"
 {{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.springframework.data:spring-data-commons"){{^reactive}}
+    implementation("org.jetbrains.kotlin:kotlin-reflect"){{^reactive}}
         implementation("org.springframework.boot:spring-boot-starter-web"){{/reactive}}{{#reactive}}
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
@@ -50,6 +49,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.data:spring-data-commons")
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
     implementation("jakarta.annotation:jakarta.annotation-api:2.1.0")

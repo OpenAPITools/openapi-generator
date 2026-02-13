@@ -32,7 +32,6 @@ plugins {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.data:spring-data-commons")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.webjars:swagger-ui:4.10.3")
     implementation("org.webjars:webjars-locator-core")
@@ -43,6 +42,7 @@ dependencies {
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.data:spring-data-commons")
     implementation("javax.validation:validation-api")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
