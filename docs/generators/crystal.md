@@ -94,7 +94,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>if</li>
 <li>in</li>
 <li>include</li>
-<li>instance</li>
+<li>instance_sizeof</li>
 <li>is_a?</li>
 <li>lib</li>
 <li>macro</li>
@@ -102,9 +102,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>next</li>
 <li>nil</li>
 <li>nil?</li>
+<li>object_id</li>
 <li>of</li>
 <li>out</li>
 <li>pointerof</li>
+<li>previous_def</li>
 <li>private</li>
 <li>protected</li>
 <li>require</li>
