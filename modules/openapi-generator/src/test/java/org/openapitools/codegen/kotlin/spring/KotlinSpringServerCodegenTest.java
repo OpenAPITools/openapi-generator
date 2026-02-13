@@ -3971,7 +3971,6 @@ public class KotlinSpringServerCodegenTest {
 
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
 
-
         File petApi = files.get("PetApi.kt");
         String content = Files.readString(petApi.toPath());
 
