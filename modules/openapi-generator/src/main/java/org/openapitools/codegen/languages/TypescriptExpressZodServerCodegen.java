@@ -179,9 +179,19 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
     private String buildZodType(CodegenParameter param) {
         StringBuilder zod = new StringBuilder();
 
-        if (param.isEnum) {
-            // Reference the enum schema
-            zod.append(camelize(param.dataType) + "Schema");
+        if (param.isEnum && param.allowableValues != null) {
+            List<?> values = (List<?>) param.allowableValues.get("values");
+            if (values != null && !values.isEmpty()) {
+                StringBuilder sb = new StringBuilder("z.enum([");
+                for (int i = 0; i < values.size(); i++) {
+                    if (i > 0) sb.append(", ");
+                    sb.append("'").append(values.get(i)).append("'");
+                }
+                sb.append("])");
+                zod.append(sb);
+            } else {
+                zod.append(camelize(param.dataType) + "Schema");
+            }
         } else if (!param.isPrimitiveType && param.dataType != null && !param.isArray
                 && !param.isBodyParam && !param.isModel) {
             // Reference to a non-primitive type (e.g., enum via $ref)
@@ -486,6 +496,37 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
                         if (values != null && values.size() == 1) {
                             prop.vendorExtensions.put("x-is-literal", true);
                             prop.vendorExtensions.put("x-literal-value", values.get(0).toString());
+                        }
+                    }
+                }
+            }
+        }
+
+        // Second pass: Make discriminator properties required in Zod schemas.
+        // Discriminator properties must not be .optional() so that the inferred
+        // type from z.discriminatedUnion matches the generated TypeScript types.
+        for (ModelsMap entry : result.values()) {
+            for (ModelMap mo : entry.getModels()) {
+                CodegenModel cm = mo.getModel();
+                if (cm.vendorExtensions.containsKey("x-is-discriminated-union") && cm.discriminator != null) {
+                    String discPropName = cm.discriminator.getPropertyBaseName();
+                    if (cm.oneOf != null) {
+                        for (String memberName : cm.oneOf) {
+                            ModelsMap memberModelsMap = result.get(memberName);
+                            if (memberModelsMap != null) {
+                                for (ModelMap mm : memberModelsMap.getModels()) {
+                                    for (CodegenProperty prop : mm.getModel().vars) {
+                                        if (prop.baseName.equals(discPropName) || prop.name.equals(discPropName)) {
+                                            String zodFull = (String) prop.vendorExtensions.get("x-zod-full");
+                                            if (zodFull != null && zodFull.endsWith(".optional()")) {
+                                                prop.vendorExtensions.put("x-zod-full",
+                                                    zodFull.substring(0, zodFull.length() - ".optional()".length()));
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

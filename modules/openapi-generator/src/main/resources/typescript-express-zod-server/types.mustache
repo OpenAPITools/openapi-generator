@@ -30,7 +30,7 @@ export type {{operationIdPascal}}Params = {
 {{/pathParams}}
 {{#queryParams}}
   /** {{baseName}} */
-  {{name}}{{^required}}?{{/required}}: {{dataType}};
+  {{name}}{{^required}}?{{/required}}: {{{dataType}}};
 {{/queryParams}}
 {{#hasBodyParam}}
   /** {{bodyParam.name}} */
