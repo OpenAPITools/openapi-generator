@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyNumber
         /// </summary>
-        [DataMember(Name = "my_number", EmitDefaultValue = false)]
+        [DataMember(Name = "my_number", EmitDefaultValue = true)]
         public decimal MyNumber { get; set; }
 
         /// <summary>

@@ -60,13 +60,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [DataMember(Name = "id", EmitDefaultValue = true)]
         public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>

@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
-        [DataMember(Name = "snake_case", EmitDefaultValue = false)]
+        [DataMember(Name = "snake_case", EmitDefaultValue = true)]
         public int SnakeCase { get; private set; }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Var123Number
         /// </summary>
-        [DataMember(Name = "123Number", EmitDefaultValue = false)]
+        [DataMember(Name = "123Number", EmitDefaultValue = true)]
         public int Var123Number { get; private set; }
 
         /// <summary>

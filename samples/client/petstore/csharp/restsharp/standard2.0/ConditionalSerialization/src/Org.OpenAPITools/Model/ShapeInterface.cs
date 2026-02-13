@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
         public string ShapeType
         {
             get{ return _ShapeType;}

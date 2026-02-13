@@ -68,49 +68,49 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
-        public int? IntegerProp { get; set; }
+        public int?? IntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
         [DataMember(Name = "number_prop", EmitDefaultValue = true)]
-        public decimal? NumberProp { get; set; }
+        public decimal?? NumberProp { get; set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
         [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
-        public bool? BooleanProp { get; set; }
+        public bool?? BooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
         [DataMember(Name = "string_prop", EmitDefaultValue = true)]
-        public string StringProp { get; set; }
+        public string? StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [DataMember(Name = "date_prop", EmitDefaultValue = true)]
-        public DateOnly? DateProp { get; set; }
+        public DateOnly?? DateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
         [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
-        public DateTime? DatetimeProp { get; set; }
+        public DateTime?? DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [DataMember(Name = "array_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayNullableProp { get; set; }
+        public List<Object>? ArrayNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "array_and_items_nullable_prop", EmitDefaultValue = true)]
-        public List<Object> ArrayAndItemsNullableProp { get; set; }
+        public List<Object>? ArrayAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
@@ -122,13 +122,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [DataMember(Name = "object_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectNullableProp { get; set; }
+        public Dictionary<string, Object>? ObjectNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [DataMember(Name = "object_and_items_nullable_prop", EmitDefaultValue = true)]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
+        public Dictionary<string, Object>? ObjectAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
