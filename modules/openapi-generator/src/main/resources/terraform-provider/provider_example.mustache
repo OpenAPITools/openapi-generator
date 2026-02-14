@@ -1,0 +1,13 @@
+terraform {
+  required_providers {
+    {{providerName}} = {
+      source = "{{providerAddress}}"
+    }
+  }
+}
+
+provider "{{providerName}}" {
+  endpoint = "{{{basePath}}}"
+  # api_key  = "your-api-key"
+  # token    = "your-bearer-token"
+}

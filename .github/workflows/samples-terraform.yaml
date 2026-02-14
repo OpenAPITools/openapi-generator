@@ -1,0 +1,46 @@
+name: Samples Terraform
+
+on:
+  push:
+    paths:
+      - 'samples/client/petstore/terraform/**'
+      - 'samples/client/petstore/terraform-addpet/**'
+      - 'samples/client/petstore/terraform-server/**'
+      - 'samples/client/others/terraform/**'
+  pull_request:
+    paths:
+      - 'samples/client/petstore/terraform/**'
+      - 'samples/client/petstore/terraform-addpet/**'
+      - 'samples/client/petstore/terraform-server/**'
+      - 'samples/client/others/terraform/**'
+
+jobs:
+  build:
+    name: Build Terraform Provider
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - samples/client/petstore/terraform/
+          - samples/client/petstore/terraform-addpet/
+          - samples/client/petstore/terraform-server/
+          - samples/client/others/terraform/allof-discriminator/
+          - samples/client/others/terraform/oneof-anyof-required/
+          - samples/client/others/terraform/oneof-discriminator-lookup/
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "stable"
+      - run: go version
+      - name: Install Dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          go mod tidy
+      - name: Build provider
+        working-directory: ${{ matrix.sample }}
+        run: go build -v ./...
+      - name: Run tests
+        working-directory: ${{ matrix.sample }}
+        run: go test ./... -v -timeout 120m

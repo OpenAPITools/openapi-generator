@@ -1,0 +1,14 @@
+.gitignore
+GNUmakefile
+README.md
+examples/provider/provider.tf
+go.mod
+internal/client/client.go
+internal/client/model_category.go
+internal/client/model_pet.go
+internal/client/model_tag.go
+internal/provider/pet_data_source.go
+internal/provider/pet_model.go
+internal/provider/pet_resource.go
+internal/provider/provider.go
+main.go
