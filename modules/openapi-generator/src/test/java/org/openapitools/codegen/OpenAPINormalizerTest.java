@@ -27,6 +27,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -618,6 +619,28 @@ public class OpenAPINormalizerTest {
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getType());
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getTypes());
     }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxNumeric() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/x")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
 
     @Test
     public void testRemoveXInternal() {

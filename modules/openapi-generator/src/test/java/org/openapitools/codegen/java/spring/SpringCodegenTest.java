@@ -935,6 +935,60 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldGenerateExclusiveMinMaxForOAS31() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/exclusive-min-max.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        System.out.println("Generated files:");
+        files.keySet().stream().sorted().forEach(System.out::println);
+
+
+        File apiFile = files.get("XApi.java"); // oder XApi.java je nach Tag/operation grouping
+        assertThat(apiFile).isNotNull();
+
+        String content = Files.readString(apiFile.toPath());
+
+        var param = openAPI.getPaths()
+                .get("/x").getGet().getParameters().get(0);
+
+        var schema = (io.swagger.v3.oas.models.media.Schema<?>) param.getSchema();
+
+        System.out.println("minimum=" + schema.getMinimum());
+        System.out.println("maximum=" + schema.getMaximum());
+        System.out.println("exclusiveMinimum=" + schema.getExclusiveMinimum());
+        System.out.println("exclusiveMaximum=" + schema.getExclusiveMaximum());
+        System.out.println("exclusiveMinimum class=" + (schema.getExclusiveMinimum() == null ? null : schema.getExclusiveMinimum().getClass()));
+
+        System.out.println("schema extensions=" + schema.getExtensions());
+
+        assertThat(content).contains("@DecimalMin");
+        assertThat(content).contains("\"0\"");
+        assertThat(content).contains("@DecimalMax");
+        assertThat(content).contains("\"10\"");
+        assertThat(content).contains("inclusive = false");
+        assertThat(content).doesNotContain("inclusive = true");
+    }
+
+
+    @Test
     public void shouldUseTagsForClassname() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -1789,6 +1790,8 @@ public class OpenAPINormalizer {
             return null;
         }
 
+        normalizeExclusiveMinMax31(schema);
+
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null &&
                 schema.getTypes() == null && schema.getType() == null) {
@@ -1882,6 +1885,25 @@ public class OpenAPINormalizer {
 
         return schema;
     }
+
+    private void normalizeExclusiveMinMax31(Schema<?> schema) {
+        if (schema == null || schema.get$ref() != null) return;
+
+        // OAS 3.1 numeric exclusiveMinimum
+        BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
+        if (schema.getMinimum() == null && exclusiveMinValue != null) {
+            schema.setMinimum(exclusiveMinValue);
+            schema.setExclusiveMinimum(Boolean.TRUE);
+        }
+
+        // OAS 3.1 numeric exclusiveMaximum
+        BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
+        if (schema.getMaximum() == null && exclusiveMaxValue != null) {
+            schema.setMaximum(exclusiveMaxValue);
+            schema.setExclusiveMaximum(Boolean.TRUE);
+        }
+    }
+
 
     // ===================== end of rules =====================
 
