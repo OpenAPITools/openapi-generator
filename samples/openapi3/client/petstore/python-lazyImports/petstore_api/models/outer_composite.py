@@ -33,7 +33,8 @@ class OuterComposite(BaseModel):
     __properties: ClassVar[List[str]] = ["my_number", "my_string", "my_boolean"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
