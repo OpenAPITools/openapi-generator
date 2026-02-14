@@ -176,9 +176,7 @@ namespace Org.OpenAPITools.Model
                             name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "pet_type":
-                            string? petTypeRawValue = utf8JsonReader.GetString();
-                            if (petTypeRawValue != null)
-                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
+                            petType = new Option<ChildCat.PetTypeEnum?>(JsonSerializer.Deserialize<ChildCat.PetTypeEnum>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

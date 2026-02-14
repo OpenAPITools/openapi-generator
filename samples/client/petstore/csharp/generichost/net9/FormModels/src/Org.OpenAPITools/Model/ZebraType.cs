@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override ZebraType? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             ZebraType? result = rawValue == null
@@ -182,7 +185,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, ZebraType? zebraType, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(zebraType.HasValue ? ZebraTypeValueConverter.ToJsonValue(zebraType.Value).ToString() : "null");
+            if (zebraType.HasValue)
+                writer.WriteStringValue(ZebraTypeValueConverter.ToJsonValue(zebraType.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -260,4 +260,101 @@ public class CSharpClientCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testIntegerEnumJsonConverterUsesNumericOperations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/integer-enum.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // Verify integer enum uses numeric JSON reader with validation
+        File intEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "IntegerEnum.cs")
+                .toString()
+        );
+        assertNotNull(intEnumFile, "Could not find file for model: IntegerEnum");
+        assertFileContains(intEnumFile.toPath(),
+                "reader.GetInt32().ToString()",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static int ToJsonValue(IntegerEnum value)"
+        );
+        assertFileNotContains(intEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                ": long",
+                ": byte"
+        );
+
+        // Verify long enum uses int64 reader with validation and actual int64 values
+        File longEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "LongEnum.cs")
+                .toString()
+        );
+        assertNotNull(longEnumFile, "Could not find file for model: LongEnum");
+        assertFileContains(longEnumFile.toPath(),
+                "enum LongEnum : long",
+                "reader.GetInt64().ToString()",
+                "FromStringOrDefault(rawValue)",
+                "throw new JsonException()",
+                "writer.WriteNumberValue(",
+                "public static long ToJsonValue(LongEnum value)",
+                "AboveInt32Max = 2147483648",
+                "Int64Max = 9223372036854775807"
+        );
+        assertFileNotContains(longEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue("
+        );
+
+        // Verify double enum reads numeric value and converts to string for matching, writes as number
+        File doubleEnumFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "DoubleEnum.cs")
+                .toString()
+        );
+        assertNotNull(doubleEnumFile, "Could not find file for model: DoubleEnum");
+        assertFileContains(doubleEnumFile.toPath(),
+                "reader.GetDouble().ToString()",
+                "writer.WriteNumberValue(",
+                "public static double ToJsonValue(DoubleEnum value)",
+                "return 1.1d;",
+                "return -1.2d;"
+        );
+        assertFileNotContains(doubleEnumFile.toPath(),
+                "reader.GetString()",
+                "writer.WriteStringValue(",
+                "return (double) value"
+        );
+
+        // Verify model with enum properties uses JsonSerializer.Deserialize for enum props
+        File modelFile = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "ModelWithEnumProperties.cs")
+                .toString()
+        );
+        assertNotNull(modelFile, "Could not find file for model: ModelWithEnumProperties");
+        assertFileContains(modelFile.toPath(),
+                "JsonSerializer.Deserialize<IntegerEnum",
+                "JsonSerializer.Deserialize<LongEnum",
+                "JsonSerializer.Deserialize<DoubleEnum"
+        );
+        // Enum property values should NOT be read inline with Get* methods;
+        // only the JSON property name key uses GetString, not the enum values
+        assertFileNotContains(modelFile.toPath(),
+                "utf8JsonReader.GetInt32()",
+                "utf8JsonReader.GetInt64()",
+                "utf8JsonReader.GetDouble()"
+        );
+    }
 }

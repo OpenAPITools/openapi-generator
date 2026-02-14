@@ -1,0 +1,52 @@
+openapi: 3.0.1
+info:
+  title: Integer Enum Test
+  version: v1
+paths:
+  /some/api:
+    get:
+      tags:
+        - Example
+      operationId: ExampleApi
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegerEnum'
+components:
+  schemas:
+    IntegerEnum:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+      x-enum-varnames:
+        - None
+        - Some
+    LongEnum:
+      enum:
+        - 2147483648
+        - 9223372036854775807
+      type: integer
+      format: int64
+      x-enum-varnames:
+        - AboveInt32Max
+        - Int64Max
+    DoubleEnum:
+      enum:
+        - 1.1
+        - -1.2
+      type: number
+      format: double
+    ModelWithEnumProperties:
+      type: object
+      properties:
+        intEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        longEnum:
+          $ref: '#/components/schemas/LongEnum'
+        doubleEnum:
+          $ref: '#/components/schemas/DoubleEnum'

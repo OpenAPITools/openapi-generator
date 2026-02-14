@@ -112,9 +112,7 @@ namespace Org.OpenAPITools.Model
                             confidentiality = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "objectType":
-                            string objectTypeRawValue = utf8JsonReader.GetString();
-                            if (objectTypeRawValue != null)
-                                objectType = new Option<Descendant2.ObjectTypeEnum?>(Descendant2.ObjectTypeEnumFromStringOrDefault(objectTypeRawValue));
+                            objectType = new Option<Descendant2.ObjectTypeEnum?>(JsonSerializer.Deserialize<Descendant2.ObjectTypeEnum>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
