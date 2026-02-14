@@ -107,7 +107,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this.dateFormat = createDefaultDateFormat();
         this.objectMapper = createDefaultObjectMapper(this.dateFormat);
         this.webClient = buildWebClient(this.objectMapper);
-        this.init();
+        this.authentications = init();
     }
 
     public ApiClient(WebClient webClient) {
@@ -126,7 +126,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this.webClient = webClient;
         this.dateFormat = format;
         this.objectMapper = createDefaultObjectMapper(format);
-        this.init();
+        this.authentications = init();
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -150,15 +150,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return mapper;
     }
 
-    protected void init() {
+    private static Map<String, Authentication> init() {
         // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        Map<String, Authentication> authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
         authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
+        return Collections.unmodifiableMap(authentications);
     }
 
     /**
