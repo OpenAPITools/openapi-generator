@@ -173,7 +173,7 @@ class HeaderSelector
         if (preg_match('/(.*);\s*q=(1(?:\.0+)?|0\.\d+)$/', $header, $outputArray) === 1) {
             $headerData = [
                 'header' => $outputArray[1],
-                'weight' => (int)($outputArray[2] * 1000),
+                'weight' => (int)$outputArray[2] * 1000,
             ];
         } else {
             $headerData = [
