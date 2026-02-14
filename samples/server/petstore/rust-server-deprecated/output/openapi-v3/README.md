@@ -66,64 +66,64 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example openapi-v3-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example openapi-v3-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example openapi-v3-server
 ```
 
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client AnyOfGet
-cargo run --example client CallbackWithHeaderPost
-cargo run --example client ComplexQueryParamGet
-cargo run --example client ExamplesTest
-cargo run --example client FormTest
-cargo run --example client GetWithBooleanParameter
-cargo run --example client JsonComplexQueryParamGet
-cargo run --example client MandatoryRequestHeaderGet
-cargo run --example client MergePatchJsonGet
-cargo run --example client MultigetGet
-cargo run --example client MultipleAuthSchemeGet
-cargo run --example client OneOfGet
-cargo run --example client OverrideServerGet
-cargo run --example client ParamgetGet
-cargo run --example client ReadonlyAuthSchemeGet
-cargo run --example client RegisterCallbackPost
-cargo run --example client RequiredOctetStreamPut
-cargo run --example client ResponsesWithHeadersGet
-cargo run --example client Rfc7807Get
-cargo run --example client TwoFirstLetterHeaders
-cargo run --example client UntypedPropertyGet
-cargo run --example client UuidGet
-cargo run --example client XmlExtraPost
-cargo run --example client XmlOtherPost
-cargo run --example client XmlOtherPut
-cargo run --example client XmlPost
-cargo run --example client XmlPut
-cargo run --example client EnumInPathPathParamGet
-cargo run --example client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
-cargo run --example client CreateRepo
-cargo run --example client GetRepoInfo
+cargo run --example openapi-v3-client AnyOfGet
+cargo run --example openapi-v3-client CallbackWithHeaderPost
+cargo run --example openapi-v3-client ComplexQueryParamGet
+cargo run --example openapi-v3-client ExamplesTest
+cargo run --example openapi-v3-client FormTest
+cargo run --example openapi-v3-client GetWithBooleanParameter
+cargo run --example openapi-v3-client JsonComplexQueryParamGet
+cargo run --example openapi-v3-client MandatoryRequestHeaderGet
+cargo run --example openapi-v3-client MergePatchJsonGet
+cargo run --example openapi-v3-client MultigetGet
+cargo run --example openapi-v3-client MultipleAuthSchemeGet
+cargo run --example openapi-v3-client OneOfGet
+cargo run --example openapi-v3-client OverrideServerGet
+cargo run --example openapi-v3-client ParamgetGet
+cargo run --example openapi-v3-client ReadonlyAuthSchemeGet
+cargo run --example openapi-v3-client RegisterCallbackPost
+cargo run --example openapi-v3-client RequiredOctetStreamPut
+cargo run --example openapi-v3-client ResponsesWithHeadersGet
+cargo run --example openapi-v3-client Rfc7807Get
+cargo run --example openapi-v3-client TwoFirstLetterHeaders
+cargo run --example openapi-v3-client UntypedPropertyGet
+cargo run --example openapi-v3-client UuidGet
+cargo run --example openapi-v3-client XmlExtraPost
+cargo run --example openapi-v3-client XmlOtherPost
+cargo run --example openapi-v3-client XmlOtherPut
+cargo run --example openapi-v3-client XmlPost
+cargo run --example openapi-v3-client XmlPut
+cargo run --example openapi-v3-client EnumInPathPathParamGet
+cargo run --example openapi-v3-client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
+cargo run --example openapi-v3-client CreateRepo
+cargo run --example openapi-v3-client GetRepoInfo
 ```
 
 ### HTTPS
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example openapi-v3-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the
