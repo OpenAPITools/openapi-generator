@@ -35,13 +35,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.KotlinSpringServerCodegen.*;
 import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
@@ -803,7 +800,7 @@ public class KotlinSpringServerCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         assertFileContains(
                 Paths.get(files.get("AddApi.kt").getAbsolutePath()),
@@ -4153,7 +4150,7 @@ public class KotlinSpringServerCodegenTest {
         generatorPropertyDefaults.forEach(generator::setGeneratorPropertyDefault);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
     }
 
     // ========== AUTO X-SPRING-PAGINATED TESTS ==========
