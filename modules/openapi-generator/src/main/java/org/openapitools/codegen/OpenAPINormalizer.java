@@ -1891,16 +1891,42 @@ public class OpenAPINormalizer {
 
         // OAS 3.1 numeric exclusiveMinimum
         BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
-        if (schema.getMinimum() == null && exclusiveMinValue != null) {
-            schema.setMinimum(exclusiveMinValue);
-            schema.setExclusiveMinimum(Boolean.TRUE);
+        if (exclusiveMinValue != null) {
+            BigDecimal minimum = schema.getMinimum();
+
+            if (minimum == null) {
+                schema.setMinimum(exclusiveMinValue);
+                schema.setExclusiveMinimum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMinValue.compareTo(minimum);
+
+                if (cmp > 0) {
+                    schema.setMinimum(exclusiveMinValue);
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                }
+            }
         }
 
         // OAS 3.1 numeric exclusiveMaximum
         BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
-        if (schema.getMaximum() == null && exclusiveMaxValue != null) {
-            schema.setMaximum(exclusiveMaxValue);
-            schema.setExclusiveMaximum(Boolean.TRUE);
+        if (exclusiveMaxValue != null) {
+            BigDecimal maximum = schema.getMaximum();
+
+            if (maximum == null) {
+                schema.setMaximum(exclusiveMaxValue);
+                schema.setExclusiveMaximum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMaxValue.compareTo(maximum);
+
+                if (cmp < 0) {
+                    schema.setMaximum(exclusiveMaxValue);
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                }
+            }
         }
     }
 

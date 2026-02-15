@@ -961,7 +961,7 @@ public class SpringCodegenTest {
         files.keySet().stream().sorted().forEach(System.out::println);
 
 
-        File apiFile = files.get("XApi.java"); // oder XApi.java je nach Tag/operation grouping
+        File apiFile = files.get("XApi.java");
         assertThat(apiFile).isNotNull();
 
         String content = Files.readString(apiFile.toPath());
