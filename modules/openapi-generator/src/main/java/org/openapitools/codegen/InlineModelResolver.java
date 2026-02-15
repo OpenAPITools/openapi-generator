@@ -496,7 +496,23 @@ public class InlineModelResolver {
             if (schema == null) {
                 continue;
             }
-            String schemaName = resolveModelName(schema.getTitle(), name); // name example: testPost_request
+            // Check if schema has a $ref pointing to a component schema
+            // If so, prefer the referenced schema name over operation-based naming
+            String schemaName;
+            if (schema.get$ref() != null) {
+                String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                if (refName != null && openAPI.getComponents() != null &&
+                    openAPI.getComponents().getSchemas() != null &&
+                    openAPI.getComponents().getSchemas().containsKey(refName)) {
+                    // Use the referenced schema name instead of operation-based name
+                    schemaName = resolveModelName(schema.getTitle(), refName);
+                } else {
+                    // Fallback to original behavior if ref doesn't point to a component schema
+                    schemaName = resolveModelName(schema.getTitle(), name);
+                }
+            } else {
+                schemaName = resolveModelName(schema.getTitle(), name); // name example: testPost_request
+            }
             // Recursively gather/make inline models within this schema if any
             gatherInlineModels(schema, schemaName);
             if (isModelNeeded(schema)) {
