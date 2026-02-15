@@ -400,8 +400,18 @@ public class SpringCodegen extends AbstractJavaCodegen
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe = true;
-            useBeanValidation = false;
-            performBeanValidation = false;
+            if(additionalProperties.containsKey(USE_BEANVALIDATION)) {
+                useBeanValidation = convertPropertyToBoolean(USE_BEANVALIDATION);
+            } else {
+                //default to false if not specified
+                useBeanValidation = false;
+            }
+            if(additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+                performBeanValidation = convertPropertyToBoolean(PERFORM_BEANVALIDATION);
+            } else {
+                //default to false if not specified
+                performBeanValidation = false;
+            }
 
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
             additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
@@ -413,8 +423,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
             applyJakartaPackage();
 
-            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary, useBeanValidation, performBeanValidation. "
-                    + "useJakartaEe defaulted to 'true'");
+            LOGGER.warn("For Spring HTTP Interface following options are disabled: documentProvider, annotationLibrary. useJakartaEe defaulted to 'true'");
         }
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -597,7 +606,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
                 supportingFiles.add(new SupportingFile("httpInterfacesConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
-                writePropertyBack(USE_BEANVALIDATION, false);
             }
         }
 
