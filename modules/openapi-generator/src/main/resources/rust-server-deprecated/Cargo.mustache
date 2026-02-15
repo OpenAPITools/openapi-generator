@@ -167,11 +167,13 @@ tokio-openssl = "0.6"
 openssl = "0.10"
 
 [[example]]
-name = "client"
+name = "{{{packageName}}}-client"
+path = "examples/client/main.rs"
 required-features = ["client"]
 
 [[example]]
-name = "server"
+name = "{{{packageName}}}-server"
+path = "examples/server/main.rs"
 required-features = ["server"]
 
 [[bin]]
