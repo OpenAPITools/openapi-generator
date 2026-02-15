@@ -48,9 +48,10 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="status">status (required).</param>
         /// <param name="marker">marker.</param>
+        /// <param name="markerArray">array of objects.</param>
         /// <param name="file">a file (required).</param>
         /// <param name="statusArray">statusArray.</param>
-        public MultipartMixedRequest(MultipartMixedStatus status = default, MultipartMixedRequestMarker marker = default, System.IO.Stream file = default, List<MultipartMixedStatus> statusArray = default)
+        public MultipartMixedRequest(MultipartMixedStatus status = default, MultipartMixedRequestMarker marker = default, List<MultipartMixedRequestMarker> markerArray = default, System.IO.Stream file = default, List<MultipartMixedStatus> statusArray = default)
         {
             this.Status = status;
             // to ensure "file" is required (not null)
@@ -60,6 +61,7 @@ namespace Org.OpenAPITools.Model
             }
             this.File = file;
             this.Marker = marker;
+            this.MarkerArray = markerArray;
             this.StatusArray = statusArray;
         }
 
@@ -68,6 +70,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "marker", EmitDefaultValue = false)]
         public MultipartMixedRequestMarker Marker { get; set; }
+
+        /// <summary>
+        /// array of objects
+        /// </summary>
+        /// <value>array of objects</value>
+        [DataMember(Name = "markerArray", EmitDefaultValue = false)]
+        public List<MultipartMixedRequestMarker> MarkerArray { get; set; }
 
         /// <summary>
         /// a file
@@ -92,6 +101,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class MultipartMixedRequest {\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Marker: ").Append(Marker).Append("\n");
+            sb.Append("  MarkerArray: ").Append(MarkerArray).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
             sb.Append("  StatusArray: ").Append(StatusArray).Append("\n");
             sb.Append("}\n");
@@ -140,6 +150,10 @@ namespace Org.OpenAPITools.Model
                 if (this.Marker != null)
                 {
                     hashCode = (hashCode * 59) + this.Marker.GetHashCode();
+                }
+                if (this.MarkerArray != null)
+                {
+                    hashCode = (hashCode * 59) + this.MarkerArray.GetHashCode();
                 }
                 if (this.File != null)
                 {

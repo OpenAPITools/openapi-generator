@@ -313,8 +313,8 @@ public interface PetApi {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     default Mono<Void> updatePetWithForm(
         @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
-        @ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false) String name,
-        @ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false) String status,
+        @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
+        @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status,
         @ApiIgnore final ServerWebExchange exchange
     ) {
         return getDelegate().updatePetWithForm(petId, name, status, exchange);

@@ -682,6 +682,27 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
+        // Lambda to add type comment only if actual type differs from implemented type
+        // Format: "implementedType|actualType" -> " /* actualType */" or ""
+        additionalProperties.put("lambdaTypeComment", (Mustache.Lambda) (fragment, writer) -> {
+            String input = fragment.execute().trim();
+            String[] parts = input.split("\\|", 2);
+            if (parts.length == 2) {
+                String implementedType = parts[0].trim();
+                String actualType = parts[1].trim();
+
+                // Only add comment if types differ
+                if (!implementedType.equals(actualType)) {
+                    // Also check if implementedType is a collection of actualType (e.g., List<String> vs String)
+                    String expectedCollection = "List<" + actualType + ">";
+                    String expectedFlux = "Flux<" + actualType + ">";
+                    if (!implementedType.equals(expectedCollection) && !implementedType.equals(expectedFlux)) {
+                        writer.write(" /* " + actualType + " */");
+                    }
+                }
+            }
+        });
+
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
         // HEADS-UP: Do not add more template file after this block
@@ -841,6 +862,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);
+                convertByteArrayParamsToStringType(operation);
+                markMultipartFormDataParameters(operation);
             }
             // The tag for the controller is the first tag of the first operation
             final CodegenOperation firstOperation = ops.get(0);
@@ -854,6 +877,64 @@ public class SpringCodegen extends AbstractJavaCodegen
         removeImport(objs, "java.util.List");
 
         return objs;
+    }
+
+    /**
+     * Converts parameters of type {@code byte[]} (i.e., OpenAPI {@code type: string, format: byte}) to {@code String}.
+     * <p>
+     * In OpenAPI, {@code type: string, format: byte} is a base64-encoded string. However, Spring does not automatically
+     * decode base64-encoded request parameters into {@code byte[]} for query, path, header, cookie, or form parameters.
+     * Therefore, these parameters are mapped to {@code String} to avoid incorrect type handling and to ensure the
+     * application receives the raw base64 string as provided by the client.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be checked and converted if necessary
+     **/
+    private void convertByteArrayParamsToStringType(CodegenOperation operation) {
+        var convertedParams = operation.allParams.stream()
+                .filter(CodegenParameter::getIsByteArray)
+                .filter(param -> param.isQueryParam || param.isPathParam || param.isHeaderParam || param.isCookieParam || param.isFormParam)
+                .peek(param -> param.dataType = "String")
+                .collect(Collectors.toList());
+        LOGGER.info("Converted parameters [{}] from byte[] to String in operation [{}]", convertedParams.stream().map(param -> param.paramName).collect(Collectors.toList()), operation.operationId);
+    }
+
+    /**
+     * Marks form parameters that are in multipart/form-data operations for special handling in reactive mode.
+     * <p>
+     * In reactive Spring WebFlux, multipart/form-data parameters must use @RequestPart instead of @RequestParam,
+     * and non-model parameters (primitives, enums, strings) must be received as String or Flux&lt;String&gt; and
+     * converted manually in the implementation.
+     * </p>
+     *
+     * @param operation the codegen operation whose parameters will be marked if necessary
+     **/
+    private void markMultipartFormDataParameters(CodegenOperation operation) {
+        if (!reactive) {
+            return; // Only applies to reactive mode
+        }
+
+        // Check if this operation consumes multipart/form-data
+        boolean isMultipartFormData = false;
+        if (operation.hasConsumes) {
+            for (Map<String, String> consume : operation.consumes) {
+                if ("multipart/form-data".equals(consume.get("mediaType"))) {
+                    isMultipartFormData = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isMultipartFormData) {
+            return;
+        }
+
+        // Mark all form parameters as multipart form data
+        for (CodegenParameter param : operation.allParams) {
+            if (param.isFormParam) {
+                param.vendorExtensions.put("x-isMultipartFormData", true);
+            }
+        }
     }
 
     private interface DataTypeAssigner {

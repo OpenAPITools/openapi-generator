@@ -715,7 +715,7 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>")
+                .assertMethod("multipartMixed", "MultipartMixedStatus", "MultipartFile", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "List<MultipartMixedStatus>")
                 .assertParameter("status").hasType("MultipartMixedStatus")
                 .assertParameterAnnotations()
                 .containsWithName("Valid")
@@ -729,10 +729,15 @@ public class SpringCodegenTest {
                 .assertParameter("marker").hasType("MultipartMixedRequestMarker")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
+                // markerArray (array of objects — IMPORTANT)
+                .toParameter().toMethod()
+                .assertParameter("markerArray").hasType("List<MultipartMixedRequestMarker>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"markerArray\"", "required", "false"))
                 .toParameter().toMethod()
                 .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
                 .assertParameterAnnotations()
-                .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
     }
 
     @Test
@@ -775,8 +780,8 @@ public class SpringCodegenTest {
 
         // Check that api validates mixed multipart request
         JavaFileAssert.assertThat(files.get("MultipartMixedApi.java"))
-            .assertMethod("multipartMixed", "MultipartMixedStatus", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedStatus>", "ServerWebExchange")
-            .assertParameter("status").hasType("MultipartMixedStatus")
+            .assertMethod("multipartMixed", "String", "Part", "MultipartMixedRequestMarker", "List<MultipartMixedRequestMarker>", "Flux<String>", "ServerWebExchange")
+            .assertParameter("status").hasType("String")
             .assertParameterAnnotations()
             .containsWithName("Valid")
             .containsWithNameAndAttributes("ApiParam", ImmutableMap.of("value", "\"\""))
@@ -790,7 +795,12 @@ public class SpringCodegenTest {
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"marker\"", "required", "false"))
             .toParameter().toMethod()
-            .assertParameter("statusArray").hasType("List<MultipartMixedStatus>")
+            // markerArray (array of objects — IMPORTANT)
+            .assertParameter("markerArray").hasType("List<MultipartMixedRequestMarker>")
+            .assertParameterAnnotations()
+            .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"markerArray\"", "required", "false"))
+            .toParameter().toMethod()
+            .assertParameter("statusArray").hasType("Flux<String>")
             .assertParameterAnnotations()
             .containsWithNameAndAttributes("RequestPart", ImmutableMap.of("value", "\"statusArray\"", "required", "false"));
     }
@@ -863,6 +873,103 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .implementsInterfaces(fooInterface, fooAnotherInterface);
+    }
+
+
+    @Test
+    public void shouldHandleFormatByteCorrectlyForAllApiParametersAndProperties() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/byte-format-baseline.yaml");
+        // Query parameters: both plain text and Base64-encoded fields are mapped to String
+        JavaFileAssert.assertThat(files.get("QueryApi.java"))
+                .assertMethod("queryParams")
+                .assertParameter("plain")
+                .hasType("String");   // plain query param → always String
+        JavaFileAssert.assertThat(files.get("QueryApi.java"))
+                .assertMethod("queryParams")
+                .assertParameter("bytes")
+                .hasType("String");   // Base64 query param → String (manual decoding needed)
+
+        // Path parameters: same behavior as query params
+        JavaFileAssert.assertThat(files.get("PathApi.java"))
+                .assertMethod("pathParams")
+                .assertParameter("plain")
+                .hasType("String");   // path param → String
+        JavaFileAssert.assertThat(files.get("PathApi.java"))
+                .assertMethod("pathParams")
+                .assertParameter("bytes")
+                .hasType("String");   // Base64 path param → String
+
+        // Header parameters: always String
+        JavaFileAssert.assertThat(files.get("HeaderApi.java"))
+                .assertMethod("headerParams")
+                .assertParameter("xPlain")
+                .hasType("String");   // header → String
+        JavaFileAssert.assertThat(files.get("HeaderApi.java"))
+                .assertMethod("headerParams")
+                .assertParameter("xByte")
+                .hasType("String");   // Base64 header → String
+
+        // Cookie parameters: always String
+        JavaFileAssert.assertThat(files.get("CookieApi.java"))
+                .assertMethod("cookieParams")
+                .assertParameter("plain")
+                .hasType("String");   // cookie → String
+        JavaFileAssert.assertThat(files.get("CookieApi.java"))
+                .assertMethod("cookieParams")
+                .assertParameter("bytes")
+                .hasType("String");   // Base64 cookie → String
+
+        // Form fields: text fields → String
+        JavaFileAssert.assertThat(files.get("FormApi.java"))
+                .assertMethod("formParams")
+                .assertParameter("plain")
+                .hasType("String");   // form field → String
+        JavaFileAssert.assertThat(files.get("FormApi.java"))
+                .assertMethod("formParams")
+                .assertParameter("bytes")
+                .hasType("String");   // Base64 form field → String
+
+        // Multipart fields: text fields → String, files → MultipartFile
+        // Verifies that a simple multipart text field is generated as a String parameter
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("plain")
+                .hasType("String");   // multipart text field → String
+
+        // Verifies that a Base64-encoded multipart field is treated as text (String)
+        // and is bound using @RequestParam rather than @RequestPart
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("bytes")
+                .hasType("String")   // Base64 multipart text → String
+                .assertParameterAnnotations()
+                .containsWithName("RequestParam");
+
+        // Verifies that a binary file upload is exposed as MultipartFile
+        // and correctly bound from a multipart section using @RequestPart
+        JavaFileAssert.assertThat(files.get("MultipartApi.java"))
+                .assertMethod("multipartParams")
+                .assertParameter("file")
+                .hasType("MultipartFile")   // binary file upload → MultipartFile
+                .assertParameterAnnotations()
+                .containsWithName("RequestPart");
+
+        // Form request DTO: JSON or form object mapping
+        JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
+                .assertProperty("plain")
+                .withType("String");  // text property → String
+        JavaFileAssert.assertThat(files.get("FormParamsRequest.java"))
+                .assertProperty("bytes")
+                .isArray()
+                .withType("byte");  // Base64 property in DTO → auto-decoded to byte[]
+
+        // Binary request body: bound as Resource for streaming
+        JavaFileAssert.assertThat(files.get("BinaryBodyApi.java"))
+                .assertMethod("binaryBody")
+                .assertParameter("body")
+                .hasType("org.springframework.core.io.Resource");  // raw binary body → Resource (streamable)
     }
 
     @Test
@@ -4794,7 +4901,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -4817,7 +4924,6 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         generator.opts(input).generate();
-
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
