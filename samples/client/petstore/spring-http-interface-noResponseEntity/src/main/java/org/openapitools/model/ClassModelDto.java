@@ -39,6 +39,7 @@ public class ClassModelDto {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(@Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }

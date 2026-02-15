@@ -61,6 +61,7 @@ public class NameDto {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Integer name) {
     this.name = name;
   }
@@ -81,6 +82,7 @@ public class NameDto {
     return snakeCase;
   }
 
+  @JsonProperty("snake_case")
   public void setSnakeCase(@Nullable Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
@@ -101,6 +103,7 @@ public class NameDto {
     return property;
   }
 
+  @JsonProperty("property")
   public void setProperty(@Nullable String property) {
     this.property = property;
   }
@@ -121,6 +124,7 @@ public class NameDto {
     return _123Number;
   }
 
+  @JsonProperty("123Number")
   public void set123Number(@Nullable Integer _123Number) {
     this._123Number = _123Number;
   }

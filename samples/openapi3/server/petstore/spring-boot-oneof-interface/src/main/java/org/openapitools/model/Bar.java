@@ -64,6 +64,7 @@ public class Bar extends Entity implements BarRefOrValue {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(String id) {
     this.id = id;
   }
@@ -84,6 +85,7 @@ public class Bar extends Entity implements BarRefOrValue {
     return barPropA;
   }
 
+  @JsonProperty("barPropA")
   public void setBarPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
   }
@@ -104,6 +106,7 @@ public class Bar extends Entity implements BarRefOrValue {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
@@ -124,6 +127,7 @@ public class Bar extends Entity implements BarRefOrValue {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
   }

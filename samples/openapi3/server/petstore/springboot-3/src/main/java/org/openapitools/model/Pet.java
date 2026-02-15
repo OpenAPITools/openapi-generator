@@ -130,6 +130,8 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -152,6 +154,8 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
+  @JacksonXmlProperty(localName = "Category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
   }
@@ -174,6 +178,8 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public void setName(String name) {
     this.name = name;
   }
@@ -206,6 +212,9 @@ public class Pet {
     return photoUrls;
   }
 
+  @JsonProperty("photoUrls")
+  @JacksonXmlProperty(localName = "photoUrl")
+  @JacksonXmlElementWrapper(localName = "photoUrl", useWrapping = true)
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -238,6 +247,9 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
+  @JacksonXmlProperty(localName = "Tag")
+  @JacksonXmlElementWrapper(localName = "tag", useWrapping = true)
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -254,10 +266,10 @@ public class Pet {
    */
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Deprecated
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
-  @Deprecated
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -266,6 +278,8 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }

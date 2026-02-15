@@ -226,25 +226,10 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#swagger1AnnotationLibrary}}
   @ApiModelProperty({{#example}}example = "{{{.}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
   {{/swagger1AnnotationLibrary}}
-  {{#jackson}}
-  @JsonProperty("{{baseName}}")
-  {{#withXml}}
-  @JacksonXmlProperty(localName = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#isXmlAttribute}}, isAttribute = true{{/isXmlAttribute}}{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
-    {{#isContainer}}
-  @JacksonXmlElementWrapper({{#isXmlWrapped}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}", {{#xmlNamespace}}namespace = "{{.}}", {{/xmlNamespace}}{{/isXmlWrapped}}useWrapping = {{isXmlWrapped}})
-    {{/isContainer}}
-  {{/withXml}}
-  {{/jackson}}
-  {{#withXml}}
-  @Xml{{#isXmlAttribute}}Attribute{{/isXmlAttribute}}{{^isXmlAttribute}}Element{{/isXmlAttribute}}(name = "{{items.xmlName}}{{^items.xmlName}}{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}{{/items.xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
-    {{#isXmlWrapped}}
-  @XmlElementWrapper(name = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}"{{#xmlNamespace}}, namespace = "{{.}}"{{/xmlNamespace}})
-    {{/isXmlWrapped}}
-  {{/withXml}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
+{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
     return {{name}};
   }
   {{/lombok.Getter}}
@@ -261,7 +246,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public void {{setter}}({{>nullableAnnotation}}{{>nullableDataType}} {{name}}) {
+{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{>jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{>nullableAnnotation}}{{>nullableDataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/lombok.Setter}}

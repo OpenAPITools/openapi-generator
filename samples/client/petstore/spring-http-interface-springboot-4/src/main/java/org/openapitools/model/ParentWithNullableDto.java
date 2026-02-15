@@ -85,6 +85,7 @@ public class ParentWithNullableDto {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable TypeEnum type) {
     this.type = type;
   }
@@ -104,6 +105,7 @@ public class ParentWithNullableDto {
     return nullableProperty;
   }
 
+  @JsonProperty("nullableProperty")
   public void setNullableProperty(@Nullable String nullableProperty) {
     this.nullableProperty = nullableProperty;
   }

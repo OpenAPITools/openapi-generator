@@ -54,6 +54,7 @@ public class SpecialModelName {
     return $specialPropertyName;
   }
 
+  @JsonProperty("$special[property.name]")
   public void set$SpecialPropertyName(@Nullable Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }

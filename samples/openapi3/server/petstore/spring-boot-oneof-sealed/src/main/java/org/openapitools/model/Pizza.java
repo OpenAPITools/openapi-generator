@@ -65,6 +65,7 @@ public sealed class Pizza extends Entity permits PizzaSpeziale {
     return pizzaSize;
   }
 
+  @JsonProperty("pizzaSize")
   public void setPizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }

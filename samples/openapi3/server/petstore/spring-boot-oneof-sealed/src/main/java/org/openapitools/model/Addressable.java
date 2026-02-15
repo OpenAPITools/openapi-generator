@@ -43,6 +43,7 @@ public final class Addressable {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -63,6 +64,7 @@ public final class Addressable {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }

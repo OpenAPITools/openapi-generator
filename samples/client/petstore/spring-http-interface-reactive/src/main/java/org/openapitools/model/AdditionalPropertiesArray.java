@@ -42,6 +42,7 @@ public class AdditionalPropertiesArray {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }

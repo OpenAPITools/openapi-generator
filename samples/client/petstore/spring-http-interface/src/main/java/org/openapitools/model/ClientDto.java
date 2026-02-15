@@ -39,6 +39,7 @@ public class ClientDto {
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(@Nullable String client) {
     this.client = client;
   }

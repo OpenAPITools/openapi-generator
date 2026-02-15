@@ -73,6 +73,7 @@ public class User {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -93,6 +94,7 @@ public class User {
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(@Nullable String username) {
     this.username = username;
   }
@@ -113,6 +115,7 @@ public class User {
     return firstName;
   }
 
+  @JsonProperty("firstName")
   public void setFirstName(@Nullable String firstName) {
     this.firstName = firstName;
   }
@@ -133,6 +136,7 @@ public class User {
     return lastName;
   }
 
+  @JsonProperty("lastName")
   public void setLastName(@Nullable String lastName) {
     this.lastName = lastName;
   }
@@ -153,6 +157,7 @@ public class User {
     return email;
   }
 
+  @JsonProperty("email")
   public void setEmail(@Nullable String email) {
     this.email = email;
   }
@@ -173,6 +178,7 @@ public class User {
     return password;
   }
 
+  @JsonProperty("password")
   public void setPassword(@Nullable String password) {
     this.password = password;
   }
@@ -193,6 +199,7 @@ public class User {
     return phone;
   }
 
+  @JsonProperty("phone")
   public void setPhone(@Nullable String phone) {
     this.phone = phone;
   }
@@ -213,6 +220,7 @@ public class User {
     return userStatus;
   }
 
+  @JsonProperty("userStatus")
   public void setUserStatus(@Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }

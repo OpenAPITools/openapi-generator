@@ -57,6 +57,7 @@ public class Dog extends Animal {
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(Optional<String> breed) {
     this.breed = breed;
   }

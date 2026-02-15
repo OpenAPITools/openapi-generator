@@ -84,6 +84,7 @@ public class AdditionalPropertiesClass {
     return mapString;
   }
 
+  @JsonProperty("map_string")
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
@@ -112,6 +113,7 @@ public class AdditionalPropertiesClass {
     return mapNumber;
   }
 
+  @JsonProperty("map_number")
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
@@ -140,6 +142,7 @@ public class AdditionalPropertiesClass {
     return mapInteger;
   }
 
+  @JsonProperty("map_integer")
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
@@ -168,6 +171,7 @@ public class AdditionalPropertiesClass {
     return mapBoolean;
   }
 
+  @JsonProperty("map_boolean")
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
@@ -196,6 +200,7 @@ public class AdditionalPropertiesClass {
     return mapArrayInteger;
   }
 
+  @JsonProperty("map_array_integer")
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
@@ -224,6 +229,7 @@ public class AdditionalPropertiesClass {
     return mapArrayAnytype;
   }
 
+  @JsonProperty("map_array_anytype")
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
@@ -252,6 +258,7 @@ public class AdditionalPropertiesClass {
     return mapMapString;
   }
 
+  @JsonProperty("map_map_string")
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
@@ -280,6 +287,7 @@ public class AdditionalPropertiesClass {
     return mapMapAnytype;
   }
 
+  @JsonProperty("map_map_anytype")
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
@@ -300,6 +308,7 @@ public class AdditionalPropertiesClass {
     return anytype1;
   }
 
+  @JsonProperty("anytype_1")
   public void setAnytype1(@Nullable Object anytype1) {
     this.anytype1 = anytype1;
   }
@@ -340,6 +349,7 @@ public class AdditionalPropertiesClass {
     return anytype3;
   }
 
+  @JsonProperty("anytype_3")
   public void setAnytype3(@Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
