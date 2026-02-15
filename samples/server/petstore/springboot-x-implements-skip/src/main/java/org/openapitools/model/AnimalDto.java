@@ -68,6 +68,7 @@ public class AnimalDto implements com.custompackage.InterfaceToKeep, com.customp
     return className;
   }
 
+  @JsonProperty("className")
   public void setClassName(String className) {
     this.className = className;
   }
@@ -88,6 +89,7 @@ public class AnimalDto implements com.custompackage.InterfaceToKeep, com.customp
     return color;
   }
 
+  @JsonProperty("color")
   public void setColor(String color) {
     this.color = color;
   }

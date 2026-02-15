@@ -41,6 +41,7 @@ public class Client {
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(Optional<String> client) {
     this.client = client;
   }

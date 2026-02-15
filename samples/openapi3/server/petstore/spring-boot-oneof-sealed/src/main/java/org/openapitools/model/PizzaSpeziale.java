@@ -57,6 +57,7 @@ public final class PizzaSpeziale extends Pizza {
     return toppings;
   }
 
+  @JsonProperty("toppings")
   public void setToppings(@Nullable String toppings) {
     this.toppings = toppings;
   }

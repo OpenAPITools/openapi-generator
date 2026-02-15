@@ -49,6 +49,7 @@ public class ChildWithNullable extends ParentWithNullable {
     return otherProperty;
   }
 
+  @JsonProperty("otherProperty")
   public void setOtherProperty(Optional<String> otherProperty) {
     this.otherProperty = otherProperty;
   }

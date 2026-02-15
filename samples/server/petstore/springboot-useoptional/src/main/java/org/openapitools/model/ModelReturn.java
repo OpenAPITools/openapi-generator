@@ -44,6 +44,7 @@ public class ModelReturn {
     return _return;
   }
 
+  @JsonProperty("return")
   public void setReturn(Optional<Integer> _return) {
     this._return = _return;
   }

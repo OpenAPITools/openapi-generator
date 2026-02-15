@@ -43,6 +43,7 @@ public class ListDto {
     return _123List;
   }
 
+  @JsonProperty("123-list")
   public void set123List(@Nullable String _123List) {
     this._123List = _123List;
   }

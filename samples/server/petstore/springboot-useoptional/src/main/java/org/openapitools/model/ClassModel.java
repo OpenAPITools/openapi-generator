@@ -42,6 +42,7 @@ public class ClassModel {
     return propertyClass;
   }
 
+  @JsonProperty("_class")
   public void setPropertyClass(Optional<String> propertyClass) {
     this.propertyClass = propertyClass;
   }

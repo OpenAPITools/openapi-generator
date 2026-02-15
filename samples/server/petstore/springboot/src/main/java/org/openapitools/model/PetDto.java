@@ -114,6 +114,7 @@ public class PetDto {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -134,6 +135,7 @@ public class PetDto {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable CategoryDto category) {
     this.category = category;
   }
@@ -154,6 +156,7 @@ public class PetDto {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(String name) {
     this.name = name;
   }
@@ -183,6 +186,7 @@ public class PetDto {
   }
 
   @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -211,6 +215,7 @@ public class PetDto {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
@@ -227,8 +232,8 @@ public class PetDto {
    */
   
   @ApiModelProperty(value = "pet status in the store")
-  @JsonProperty("status")
   @Deprecated
+  @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
   }
@@ -237,6 +242,7 @@ public class PetDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }

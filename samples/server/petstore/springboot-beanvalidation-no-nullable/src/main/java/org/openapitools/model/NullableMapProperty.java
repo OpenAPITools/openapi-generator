@@ -51,6 +51,7 @@ public class NullableMapProperty {
     return languageValues;
   }
 
+  @JsonProperty("languageValues")
   public void setLanguageValues(@Nullable Map<String, String> languageValues) {
     this.languageValues = languageValues;
   }

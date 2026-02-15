@@ -45,6 +45,7 @@ public class AdditionalPropertiesString {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(Optional<String> name) {
     this.name = name;
   }

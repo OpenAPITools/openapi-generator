@@ -51,6 +51,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     return otherProperty;
   }
 
+  @JsonProperty("otherProperty")
   public void setOtherProperty(@Nullable String otherProperty) {
     this.otherProperty = otherProperty;
   }

@@ -43,6 +43,7 @@ public class ModelList {
     return _123list;
   }
 
+  @JsonProperty("123-list")
   public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }

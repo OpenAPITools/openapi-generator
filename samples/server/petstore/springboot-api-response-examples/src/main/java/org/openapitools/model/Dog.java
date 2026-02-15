@@ -42,6 +42,7 @@ public class Dog {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }
@@ -63,6 +64,7 @@ public class Dog {
     return age;
   }
 
+  @JsonProperty("age")
   public void setAge(@Nullable Integer age) {
     this.age = age;
   }

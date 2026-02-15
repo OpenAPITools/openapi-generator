@@ -43,6 +43,7 @@ public class ReadOnlyFirst {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
@@ -63,6 +64,7 @@ public class ReadOnlyFirst {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(Optional<String> baz) {
     this.baz = baz;
   }

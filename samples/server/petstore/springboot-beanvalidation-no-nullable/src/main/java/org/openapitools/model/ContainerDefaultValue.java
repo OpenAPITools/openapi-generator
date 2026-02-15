@@ -73,6 +73,7 @@ public class ContainerDefaultValue {
     return nullableArray;
   }
 
+  @JsonProperty("nullable_array")
   public void setNullableArray(@Nullable List<String> nullableArray) {
     this.nullableArray = nullableArray;
   }
@@ -101,6 +102,7 @@ public class ContainerDefaultValue {
     return nullableRequiredArray;
   }
 
+  @JsonProperty("nullable_required_array")
   public void setNullableRequiredArray(List<String> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
@@ -129,6 +131,7 @@ public class ContainerDefaultValue {
     return requiredArray;
   }
 
+  @JsonProperty("required_array")
   public void setRequiredArray(List<String> requiredArray) {
     this.requiredArray = requiredArray;
   }
@@ -157,6 +160,7 @@ public class ContainerDefaultValue {
     return nullableArrayWithDefault;
   }
 
+  @JsonProperty("nullable_array_with_default")
   public void setNullableArrayWithDefault(@Nullable List<String> nullableArrayWithDefault) {
     this.nullableArrayWithDefault = nullableArrayWithDefault;
   }

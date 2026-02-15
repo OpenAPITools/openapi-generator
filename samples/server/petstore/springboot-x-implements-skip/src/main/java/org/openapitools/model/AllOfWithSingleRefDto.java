@@ -47,6 +47,7 @@ public class AllOfWithSingleRefDto {
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(@Nullable String username) {
     this.username = username;
   }
@@ -67,6 +68,7 @@ public class AllOfWithSingleRefDto {
     return singleRefType;
   }
 
+  @JsonProperty("SingleRefType")
   public void setSingleRefType(@Nullable SingleRefTypeDto singleRefType) {
     this.singleRefType = singleRefType;
   }
