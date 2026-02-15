@@ -47,15 +47,19 @@ export interface ClientOptions {
 
 function defaultMapZodError(err: ZodError): types.ModelError[] {
   return err.issues.map((issue) => ({
-    title: issue.message,
-    code: issue.code,
+    {{errorMessageField}}: issue.message,
+{{#errorHasCode}}
+    code: String(issue.code),
+{{/errorHasCode}}
+{{#errorHasSource}}
     source: { pointer: issue.path.join("/") },
+{{/errorHasSource}}
   }));
 }
 
 function defaultMapUnhandledException(err: unknown): types.ModelError[] {
   const message = err instanceof Error ? err.message : String(err);
-  return [{ title: message }];
+  return [{ {{errorMessageField}}: message }];
 }
 
 {{#hasAnySSE}}
@@ -168,9 +172,9 @@ export class Http{{name}} implements types.{{name}} {
 {{/responseType}}
     } catch (err) {
       if (err instanceof ZodError) {
-        return { errors: this.mapZodError(err) } as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
+        return { errors: this.mapZodError(err) } as unknown as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
       }
-      return { errors: this.mapUnhandledException(err) } as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
+      return { errors: this.mapUnhandledException(err) } as unknown as {{#responseType}}types.{{responseType}}{{/responseType}}{{^responseType}}any{{/responseType}};
     }
   }
 
