@@ -418,12 +418,12 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 
 ##### Troubleshooting
 
-If an error like this occurs, just execute the **./mvnw clean install -U** command:
+If an error like this occurs, just execute the **mvn clean install -U** command:
 
 > org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test (default-test) on project openapi-generator: A type incompatibility occurred while executing org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test: java.lang.ExceptionInInitializerError cannot be cast to java.io.IOException
 
 ```sh
-./run-in-docker.sh ./mvnw clean install -U
+./run-in-docker.sh mvn clean install -U
 ```
 
 > Failed to execute goal org.fortasoft:gradle-maven-plugin:1.0.8:invoke (default) on project openapi-generator-gradle-plugin-mvn-wrapper: org.gradle.tooling.BuildException: Could not execute build using Gradle distribution 'https://services.gradle.org/distributions/gradle-4.7-bin.zip'
@@ -438,7 +438,7 @@ cd openapi-generator
 vagrant up
 vagrant ssh
 cd /vagrant
-./run-in-docker.sh ./mvnw package
+./run-in-docker.sh mvn package
 ```
 
 ### [1.7 - NPM](#table-of-contents)
