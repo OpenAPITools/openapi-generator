@@ -1,6 +1,6 @@
 # OpenAPI generated API stub
 
-[Spring Framework 6 HTTP Interface](https://docs.spring.io/spring-framework/docs/6.0.0/reference/html/integration.html#rest-http-interface)
+[Spring Framework 6.1 HTTP Interface](https://docs.spring.io/spring-framework/docs/6.1.0/reference/html/integration.html#rest-http-interface)
 
 
 ## Overview
@@ -9,13 +9,13 @@ By using the [OpenAPI-Spec](https://openapis.org), you can easily generate an AP
 This is an example of building API stub interfaces in Java using the Spring framework.
 
 The stubs generated can be used in your existing Spring application for HTTP integration with other REST services
-To use auto-generated interfaces you have to create your own configuration which extends default abstract configurator & provide `WebClient` instance via constructor
+To use auto-generated interfaces you have to create your own configuration which extends default abstract configurator & provide `{{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}}` instance via constructor
 ```java
 @Configuration
 public class MyConfiguration extends {{configPackage}}.HttpInterfacesAbstractConfigurator {
 
-    public MyConfiguration(WebClient myWebClient) { // separately created WebClient instance
-        super(myWebClient);
+    public MyConfiguration({{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client) {
+        super(client);
     }
 }
 ```
