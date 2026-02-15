@@ -44,7 +44,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -84,7 +83,7 @@ public class GenApiService implements GenApiDelegate {
         System.out.println("got filename " + g.getFilename());
 
         File file = new File(g.getFilename());
-        Path path = Paths.get(file.getAbsolutePath());
+        Path path = Path.of(file.getAbsolutePath());
         ByteArrayResource resource;
         try {
             resource = new ByteArrayResource(Files.readAllBytes(path));

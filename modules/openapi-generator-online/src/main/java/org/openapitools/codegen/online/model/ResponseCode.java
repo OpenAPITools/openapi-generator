@@ -17,7 +17,7 @@
 
 package org.openapitools.codegen.online.model;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,14 +29,14 @@ public class ResponseCode {
     private String code;
     private String link;
 
-    @ApiModelProperty(value = "File download code",
+    @Schema(description = "File download code",
             example = "d40029be-eda6-4d62-b1ef-d05e2e91a72a")
     public String getCode() {
         return code;
     }
 
-    @ApiModelProperty(
-            value = "URL for fetching the generated client",
+    @Schema(
+            description = "URL for fetching the generated client",
             example = "http://localhost:8080/api/gen/download/d40029be-eda6-4d62-b1ef-d05e2e91a72a")
     public String getLink() {
         return link;
