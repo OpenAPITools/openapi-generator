@@ -24,6 +24,7 @@ import lombok.Getter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -34,6 +35,8 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 
 public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaHttp4sClientCodegen.class);
@@ -352,6 +355,162 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
             }
         }
         return super.postProcessOperationsWithModels(objs, allModels);
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> modelsMap = super.postProcessAllModels(objs);
+
+        // First pass: Count how many oneOf parents reference each child model
+        Map<String, Integer> oneOfMemberCount = new HashMap<>();
+        Map<String, CodegenModel> allModels = new HashMap<>();
+
+        for (ModelsMap mm : modelsMap.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+                allModels.put(cModel.classname, cModel);
+
+                if (!cModel.oneOf.isEmpty()) {
+                    for (String childName : cModel.oneOf) {
+                        oneOfMemberCount.put(childName, oneOfMemberCount.getOrDefault(childName, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        // Second pass: Mark and configure models
+        for (ModelsMap mm : modelsMap.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+
+                // Mark models with oneOf as sealed traits (or regular traits for edge cases)
+                if (!cModel.oneOf.isEmpty()) {
+                    // Collect oneOf members for inlining
+                    List<CodegenModel> oneOfMembers = new ArrayList<>();
+                    Set<String> additionalImports = new HashSet<>();
+                    for (String childName : cModel.oneOf) {
+                        CodegenModel childModel = allModels.get(childName);
+                        if (childModel != null && oneOfMemberCount.getOrDefault(childName, 0) == 1) {
+                            // Mark for inlining (only used by this one parent)
+                            childModel.getVendorExtensions().put("x-isOneOfMember", true);
+                            childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
+                            // Store parent's discriminator info for use in template
+                            if (cModel.discriminator != null) {
+                                childModel.getVendorExtensions().put("x-parentDiscriminatorName", cModel.discriminator.getPropertyName());
+                            }
+                            oneOfMembers.add(childModel);
+
+                            // Collect imports from inlined members
+                            if (childModel.imports != null) {
+                                additionalImports.addAll(childModel.imports);
+                            }
+                        }
+                    }
+
+                    // Decide between sealed trait (with inlined members) vs regular trait (edge cases)
+                    // Use sealed trait ONLY if ALL oneOf members can be inlined
+                    // If some are inlined and some aren't (mixed case), use regular trait
+                    boolean allMembersInlined = oneOfMembers.size() == cModel.oneOf.size();
+
+                    if (!oneOfMembers.isEmpty() && allMembersInlined) {
+                        // Normal case: can inline ALL members, use sealed trait
+                        cModel.getVendorExtensions().put("x-isSealedTrait", true);
+                        cModel.getVendorExtensions().put("x-oneOfMembers", oneOfMembers);
+
+                        // Add child imports to parent (excluding already present imports)
+                        if (!additionalImports.isEmpty()) {
+                            Set<String> parentImports = cModel.imports != null ? new HashSet<>(cModel.imports) : new HashSet<>();
+                            additionalImports.removeAll(parentImports);
+                            if (!additionalImports.isEmpty()) {
+                                if (cModel.imports == null) {
+                                    cModel.imports = new HashSet<>();
+                                }
+                                cModel.imports.addAll(additionalImports);
+                            }
+                        }
+                    } else {
+                        // Edge case: nested oneOf, shared members, or mixed case - use regular trait
+                        // Implementations will be in separate files
+                        cModel.getVendorExtensions().put("x-isRegularTrait", true);
+
+                        // For mixed cases, unmark members for inlining - they need to be separate files
+                        for (CodegenModel member : oneOfMembers) {
+                            member.getVendorExtensions().remove("x-isOneOfMember");
+                            member.getVendorExtensions().remove("x-oneOfParent");
+                            member.getVendorExtensions().remove("x-parentDiscriminatorName");
+                        }
+
+                        if (oneOfMembers.isEmpty()) {
+                            LOGGER.warn("Model '{}' has oneOf with no inlineable members (likely nested oneOf). " +
+                                        "Generating as regular trait instead of sealed trait.", cModel.classname);
+                        } else {
+                            LOGGER.warn("Model '{}' has mixed oneOf (some inlineable, some not). " +
+                                        "Generating as regular trait instead of sealed trait.", cModel.classname);
+                        }
+                    }
+                } else if (cModel.isEnum) {
+                    cModel.getVendorExtensions().put("x-isEnum", true);
+                } else {
+                    cModel.getVendorExtensions().put("x-another", true);
+                }
+
+                // Handle discriminator
+                if (cModel.discriminator != null) {
+                    cModel.getVendorExtensions().put("x-use-discr", true);
+
+                    if (cModel.discriminator.getMapping() != null) {
+                        cModel.getVendorExtensions().put("x-use-discr-mapping", true);
+                    }
+                }
+
+                // Handle X_IMPLEMENTS extension (for extends/with separation)
+                try {
+                    List<String> exts = (List<String>) cModel.getVendorExtensions().get(X_IMPLEMENTS);
+                    if (exts != null) {
+                        cModel.getVendorExtensions().put("x-extends", exts.subList(0, 1));
+                        cModel.getVendorExtensions().put("x-extendsWith", exts.subList(1, exts.size()));
+                    }
+                } catch (IndexOutOfBoundsException ignored) {
+                }
+            }
+        }
+
+        // Third pass: Clear X_IMPLEMENTS for models extending multiple SEALED traits
+        // (Regular traits can be extended from separate files, but sealed traits cannot)
+        for (ModelsMap mm : modelsMap.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+
+                // Check if this model extends multiple sealed traits
+                List<String> exts = (List<String>) cModel.getVendorExtensions().get(X_IMPLEMENTS);
+                if (exts != null && exts.size() > 1) {
+                    // Count how many of the parents are sealed traits
+                    int sealedParentCount = 0;
+                    for (String parentName : exts) {
+                        CodegenModel parentModel = allModels.get(parentName);
+                        if (parentModel != null && parentModel.getVendorExtensions().containsKey("x-isSealedTrait")) {
+                            sealedParentCount++;
+                        }
+                    }
+
+                    // If extending multiple sealed traits, clear all extends (impossible in Scala)
+                    if (sealedParentCount > 1) {
+                        cModel.getVendorExtensions().remove(X_IMPLEMENTS);
+                        LOGGER.warn("Model '{}' cannot extend multiple sealed traits. Generating as standalone class.",
+                                    cModel.classname);
+                    }
+                }
+            }
+        }
+
+        // Fourth pass: Remove inlined members from output (no separate file generation)
+        modelsMap.entrySet().removeIf(entry -> {
+            ModelsMap mm = entry.getValue();
+            return mm.getModels().stream()
+                .anyMatch(model -> model.getModel().getVendorExtensions().containsKey("x-isOneOfMember"));
+        });
+
+        return modelsMap;
     }
 
     @Override

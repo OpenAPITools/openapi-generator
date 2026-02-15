@@ -3,7 +3,8 @@ package {{modelPackage}}
 
 import io.circe.*
 import io.circe.syntax.*
-import io.circe.{Decoder, Encoder}
+import io.circe.{Decoder, DecodingFailure, Encoder}
+import cats.syntax.functor.*
 
 {{#imports}}
 import {{import}}
@@ -16,6 +17,173 @@ import {{import}}
   * @param {{name}} {{{description}}}
 {{/vars}}
   */
+{{#vendorExtensions.x-isRegularTrait}}
+trait {{classname}}
+object {{classname}} {
+  import io.circe.{ Decoder, Encoder }
+  import io.circe.syntax.*
+  import cats.syntax.functor.*
+
+{{^vendorExtensions.x-use-discr}}
+// no discriminator
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case obj: {{.}} => obj.asJson
+{{/oneOf}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]](
+{{#oneOf}}
+      Decoder[{{.}}].widen,
+{{/oneOf}}
+  ).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr-mapping}}
+// with discriminator, no mapping
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case obj: {{.}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{.}}".asJson) +: _)
+{{/oneOf}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+      {{#oneOf}}
+      case "{{.}}" => cursor.as[{{.}}]
+      {{/oneOf}}
+      case discriminatorValue =>
+        Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))
+    }
+  }
+{{/vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr-mapping}}
+// with discriminator mapping
+{{#discriminator}}
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{propertyName}}").as[String].flatMap {
+    {{#mappedModels}}
+      case "{{mappingName}}" => cursor.as[{{model.classname}}]
+    {{/mappedModels}}
+      case discriminatorValue =>
+        Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/vendorExtensions.x-use-discr}}
+}
+
+{{/vendorExtensions.x-isRegularTrait}}
+{{#vendorExtensions.x-isSealedTrait}}
+sealed trait {{classname}}
+object {{classname}} {
+  import io.circe.{ Decoder, Encoder }
+  import io.circe.syntax.*
+  import cats.syntax.functor.*
+
+{{^vendorExtensions.x-use-discr}}
+// no discriminator
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#vendorExtensions.x-oneOfMembers}}
+    case obj: {{classname}} => obj.asJson
+{{/vendorExtensions.x-oneOfMembers}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]](
+{{#vendorExtensions.x-oneOfMembers}}
+      Decoder[{{classname}}].widen,
+{{/vendorExtensions.x-oneOfMembers}}
+  ).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr-mapping}}
+// with discriminator, no mapping
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#vendorExtensions.x-oneOfMembers}}
+    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-parentDiscriminatorName}}" -> "{{classname}}".asJson) +: _)
+{{/vendorExtensions.x-oneOfMembers}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+      {{#vendorExtensions.x-oneOfMembers}}
+      case "{{classname}}" => cursor.as[{{classname}}]
+      {{/vendorExtensions.x-oneOfMembers}}
+      case discriminatorValue =>
+        Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))
+    }
+  }
+{{/vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr-mapping}}
+// with discriminator mapping
+{{#discriminator}}
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case obj: {{model.classname}} => obj.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{propertyName}}").as[String].flatMap {
+    {{#mappedModels}}
+      case "{{mappingName}}" => cursor.as[{{model.classname}}]
+    {{/mappedModels}}
+      case discriminatorValue =>
+        Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/vendorExtensions.x-use-discr}}
+}
+
+{{#vendorExtensions.x-oneOfMembers}}
+/** {{{description}}}
+{{#vars}}
+  * @param {{name}} {{{description}}}
+{{/vars}}
+  */
+case class {{classname}}(
+{{#vars}}
+    {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+) extends {{vendorExtensions.x-oneOfParent}}
+
+object {{classname}} {
+  given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
+    Json.fromFields{
+      Seq(
+        {{#vars}}
+        {{#required}}Some("{{baseName}}" -> t.{{name}}.asJson){{/required}}{{^required}}t.{{name}}.map(v => "{{baseName}}" -> v.asJson){{/required}}{{^-last}},{{/-last}}
+        {{/vars}}
+      ).flatten
+    }
+  }
+  given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { c =>
+    for {
+      {{#vars}}
+      {{name}} <- {{#isEnumOrRef}}{{^required}}mapEmptyStringToNull(c.downField("{{baseName}}")){{/required}}{{#required}}c.downField("{{baseName}}"){{/required}}{{/isEnumOrRef}}{{^isEnumOrRef}}c.downField("{{baseName}}"){{/isEnumOrRef}}.as[{{^required}}Option[{{{dataType}}}]{{/required}}{{#required}}{{{dataType}}}{{/required}}]
+      {{/vars}}
+    } yield {{classname}}(
+      {{#vars}}
+      {{name}} = {{name}}{{^-last}},{{/-last}}
+      {{/vars}}
+    )
+  }
+}
+
+{{/vendorExtensions.x-oneOfMembers}}
+{{/vendorExtensions.x-isSealedTrait}}
+{{#vendorExtensions.x-isEnum}}
 {{#isEnum}}
 enum {{classname}}(val value: String) {
   {{#allowableValues}}
@@ -36,12 +204,14 @@ object {{classname}} {
 
 }
 {{/isEnum}}
+{{/vendorExtensions.x-isEnum}}
+{{#vendorExtensions.x-another}}
 {{^isEnum}}
 case class {{classname}}(
 {{#vars}}
     {{name}}: {{^required}}Option[{{{dataType}}}] = None{{/required}}{{#required}}{{{dataType}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
-)
+){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
   
 object {{classname}} {
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance { t =>
@@ -66,6 +236,7 @@ object {{classname}} {
   }
 }
 {{/isEnum}}
+{{/vendorExtensions.x-another}}
 {{/model}}
 {{/models}}
 
