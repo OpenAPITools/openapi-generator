@@ -220,6 +220,10 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
 
+        if (useOptional) {
+            supportingFiles.add(new SupportingFile("optional.mustache", srcFolder, "optional.dart"));
+        }
+
         configureSerializationLibrary(srcFolder);
         configureEqualityCheckMethod(srcFolder);
         configureDateLibrary(srcFolder);

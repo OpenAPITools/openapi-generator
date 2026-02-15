@@ -4,12 +4,12 @@ class {{{enumName}}} {
   const {{{enumName}}}._(this.value);
 
   /// The underlying value of this enum member.
-  final {{{dataType}}} value;
+  final {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} value;
 
   @override
   String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
 
-  {{{dataType}}} toJson() => value;
+  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} toJson() => value;
 
   {{#allowableValues}}
     {{#enumVars}}
@@ -49,7 +49,7 @@ class {{{enumName}}}TypeTransformer {
 
   const {{{enumName}}}TypeTransformer._();
 
-  {{{dataType}}} encode({{{enumName}}} data) => data.value;
+  {{#vendorExtensions.x-unwrapped-datatype}}{{{vendorExtensions.x-unwrapped-datatype}}}{{/vendorExtensions.x-unwrapped-datatype}}{{^vendorExtensions.x-unwrapped-datatype}}{{{dataType}}}{{/vendorExtensions.x-unwrapped-datatype}} encode({{{enumName}}} data) => data.value;
 
   /// Decodes a [dynamic value][data] to a {{{enumName}}}.
   ///

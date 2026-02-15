@@ -40,6 +40,7 @@ class Pet {
     name: r'id',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -52,6 +53,7 @@ class Pet {
     name: r'category',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -64,6 +66,7 @@ class Pet {
     name: r'name',
     required: true,
     includeIfNull: false,
+
   )
 
 
@@ -76,6 +79,7 @@ class Pet {
     name: r'photoUrls',
     required: true,
     includeIfNull: false,
+
   )
 
 
@@ -88,6 +92,7 @@ class Pet {
     name: r'tags',
     required: false,
     includeIfNull: false,
+
   )
 
 
@@ -101,6 +106,7 @@ class Pet {
     name: r'status',
     required: false,
     includeIfNull: false,
+
   unknownEnumValue: PetStatusEnum.unknownDefaultOpenApi,
   )
 

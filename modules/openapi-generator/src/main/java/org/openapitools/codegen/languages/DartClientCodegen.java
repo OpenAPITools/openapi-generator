@@ -74,6 +74,11 @@ public class DartClientCodegen extends AbstractDartCodegen {
         supportingFiles.add(new SupportingFile("auth/http_bearer_auth.mustache", authFolder, "http_bearer_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
         supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+
+        if (useOptional) {
+            supportingFiles.add(new SupportingFile("optional.mustache", libPath, "optional.dart"));
+        }
+
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
