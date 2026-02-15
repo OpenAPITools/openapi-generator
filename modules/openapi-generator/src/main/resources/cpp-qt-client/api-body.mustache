@@ -702,13 +702,13 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     _credentialFlow.unlink();
     _passwordFlow.unlink();
     _authFlow.link();
-    QStringList scope;
+    QStringList scope2;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scope2.append("{{scope}}");
     {{/scopes}}
-    auto token = _authFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto token2 = _authFlow.getToken(scope2.join(" "));
+    if(token2.isValid())
+        input.headers.insert("Authorization", "Bearer " + token2.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -725,20 +725,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isCode}}
+    _latestScope = scope2;{{/isCode}}
     {{#isImplicit}}
     _OauthMethod = 1;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
+    QStringList scope1;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scope1.append("{{scope}}");
     {{/scopes}}
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    if(token1.isValid())
+        input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -755,20 +755,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isImplicit}}
+    _latestScope = scope1;{{/isImplicit}}
     {{#isApplication}}
     _OauthMethod = 3;
     _authFlow.unlink();
     _implicitFlow.unlink();
     _passwordFlow.unlink();
     _credentialFlow.link();
-    QStringList scope;
+    QStringList scope3;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scope3.append("{{scope}}");
     {{/scopes}}
-    auto token = _credentialFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto token3 = _credentialFlow.getToken(scope3.join(" "));
+    if(token3.isValid())
+        input.headers.insert("Authorization", "Bearer " + token3.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -785,20 +785,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isApplication}}
+    _latestScope = scope3;{{/isApplication}}
     {{#isPassword}}
     _OauthMethod = 4;
     _passwordFlow.link();
     _authFlow.unlink();
     _implicitFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
+    QStringList scope4;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scope4.append("{{scope}}");
     {{/scopes}}
-    auto token = _passwordFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto token4 = _passwordFlow.getToken(scope4.join(" "));
+    if(token4.isValid())
+        input.headers.insert("Authorization", "Bearer " + token4.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -815,7 +815,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scope4;
     {{/isPassword}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
