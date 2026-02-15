@@ -53,7 +53,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -489,7 +488,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("SubType.java"))
                 .assertConstructor("TypeEnum", "SchemaVersion", "UUID", "Boolean", "Boolean", "SomeEnum")
@@ -888,7 +887,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestApi.java"))
                 .isInterface()
@@ -925,7 +924,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetController.java"))
                 .isInterface();
@@ -959,7 +958,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetTagApi.java"))
                 .isInterface();
@@ -992,7 +991,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .isInterface();
@@ -1024,7 +1023,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ResponseTest.java"))
                 .isNormalClass()
@@ -1084,7 +1083,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
@@ -1369,7 +1368,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"));
         if (useBeanValidation)
@@ -1481,7 +1480,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
                 .assertMethod("readAgreements", "ServerWebExchange");
@@ -1513,7 +1512,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
                 .assertMethod("paginated", "ServerWebExchange", "Pageable")
@@ -1546,7 +1545,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
                 .assertMethod("paginated", "Pageable")
@@ -2108,7 +2107,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
@@ -2546,7 +2545,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
                 .assertMethod("methodWithValidation")
@@ -2719,7 +2718,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
                 .assertMethod("equals")
@@ -2751,7 +2750,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
                 .assertMethod("equals")
@@ -2780,7 +2779,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("AddApi.java"))
                 .assertMethod("addPost")
@@ -2811,7 +2810,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.setGenerateMetadata(false);
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("AddApi.java"))
                 .assertMethod("addPost")
@@ -2851,7 +2850,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PatchRequestInner.java"))
                 .isInterface()
@@ -2898,7 +2897,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         Map<String, File> files = generator.opts(clientOptInput).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("EnumConverterConfiguration.java"))
                 .assertMethod("ponyTypeConverter");
@@ -2977,7 +2976,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         return generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
     }
 
     @Test
@@ -3035,7 +3034,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata and ↓ only generate models
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
                 .assertProperty("normalPropertyName")
@@ -3103,7 +3102,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3148,7 +3147,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3195,7 +3194,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3234,7 +3233,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3273,7 +3272,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3311,7 +3310,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3347,7 +3346,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ObjTest.java"));
         javaFileAssert
@@ -3391,7 +3390,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3445,7 +3444,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
         javaFileAssert
@@ -3478,7 +3477,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
         javaFileAssert
@@ -3512,7 +3511,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3557,7 +3556,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ObjTest.java"));
         javaFileAssert.assertProperty("field3")
@@ -3592,7 +3591,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3627,7 +3626,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -3664,7 +3663,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -4754,7 +4753,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false);
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         MapAssert.assertThatMap(files).isNotEmpty();
         File api = files.get("PathApi.java");
@@ -5112,7 +5111,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
                 .fileContains("private List<@Valid TagDto> tags = new ArrayList<>();")
@@ -5146,7 +5145,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
                 .fileContains("private @Nullable List<@Valid TagDto> tags")
@@ -5561,7 +5560,7 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.toString());
 
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
-                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+                .generate().stream().collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Type.java")).fileContains("Type implements java.io.Serializable {");
     }
@@ -5706,7 +5705,7 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("PetDto.java"))
                 .fileContains("private @Nullable List<@Valid TagDto> tags;")
@@ -5733,7 +5732,7 @@ public class SpringCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains("private Map<String, String> requiredNonNullableMap = new HashMap<>();");
@@ -5802,7 +5801,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApiDelegate.java"));
         javaFileAssert
@@ -6174,7 +6173,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+            .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
@@ -6208,7 +6207,7 @@ public class SpringCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
 
         Map<String, File> files = generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
+            .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         File apiFile = files.get("Schema.java");
         assertNotNull(apiFile);
@@ -6244,7 +6243,7 @@ public class SpringCodegenTest {
         generator.setGenerateMetadata(false); // skip metadata generation
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
         javaFileAssert
@@ -6289,7 +6288,7 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
 
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         // AnimalFarm is an array-type model with no properties (issue #22788)
         JavaFileAssert.assertThat(files.get("AnimalFarm.java"))

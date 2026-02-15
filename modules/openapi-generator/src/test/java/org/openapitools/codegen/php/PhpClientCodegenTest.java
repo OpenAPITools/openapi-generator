@@ -30,8 +30,9 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 
 public class PhpClientCodegenTest {
 
@@ -123,7 +124,7 @@ public class PhpClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         List<String> modelContent = Files
                 .readAllLines(files.get("Pet.php").toPath())
@@ -151,7 +152,7 @@ public class PhpClientCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         List<String> modelContent = Files
                 .readAllLines(files.get("Pet.php").toPath())

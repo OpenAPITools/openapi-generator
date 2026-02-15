@@ -16,9 +16,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
 
 public class JavaMicroprofileServerCodegenTest {
@@ -47,7 +46,7 @@ public class JavaMicroprofileServerCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("return UNKNOWN_DEFAULT_OPEN_API");
@@ -70,7 +69,7 @@ public class JavaMicroprofileServerCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + text + \"'\");");
@@ -94,7 +93,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
@@ -120,7 +119,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
@@ -146,7 +145,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
@@ -174,7 +173,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
@@ -200,7 +199,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
@@ -227,7 +226,7 @@ public class JavaMicroprofileServerCodegenTest {
         List<File> files = new DefaultGenerator().opts(input).generate();
 
         Map<String, File> filesMap = files.stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         validateJavaSourceFiles(files);
 
