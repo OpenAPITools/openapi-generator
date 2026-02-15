@@ -1109,6 +1109,7 @@ Here is a list of template creators:
    * Swift 5: @4brunu
    * Swift 6: @4brunu
    * Swift Combine: @dydus0x14
+   * Terraform: @jasondamour
    * TypeScript (Angular1): @mhardorf
    * TypeScript (Angular2): @roni-frantchi
    * TypeScript (Angular6): @akehir
@@ -1131,6 +1132,7 @@ Here is a list of template creators:
    * C# Azure functions: @Abrhm7786
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
+   * C++ Httplib: @rajvesh
    * C++ Oat++: @Kraust
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
