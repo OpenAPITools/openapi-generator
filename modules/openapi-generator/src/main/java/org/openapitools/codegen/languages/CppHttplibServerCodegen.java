@@ -85,8 +85,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         // Check if any security is defined in the spec
         boolean hasAnySecurity = (openAPI.getComponents() != null
-            && openAPI.getComponents().getSecuritySchemes() != null
-            && !openAPI.getComponents().getSecuritySchemes().isEmpty());
+                && openAPI.getComponents().getSecuritySchemes() != null
+                && !openAPI.getComponents().getSecuritySchemes().isEmpty());
         additionalProperties.put("hasAuthMethods", hasAnySecurity);
 
         // Process all paths to enhance inline schemas with meaningful titles
@@ -317,8 +317,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         }
         if (cstdintTypes.contains(typeName)) {
             return "#include <cstdint>";
-        }
-        else if (cstdintTypes.contains(mappedType)) {
+        } else if (cstdintTypes.contains(mappedType)) {
             return "#include <cstdint>";
         }
         return null;
@@ -398,7 +397,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 op.vendorExtensions.put("requestModel", requestModel);
 
                 // Set bodyParam dataType with namespace prefix
-                if(!namespaceFiltered.isEmpty()) {
+                if (!namespaceFiltered.isEmpty()) {
                     op.vendorExtensions.put("requestModelNamespace", namespaceFiltered);
                     op.bodyParam.dataType = namespaceFiltered + "::" + requestModel;
                 } else {
@@ -431,11 +430,11 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 }
             }
             op.vendorExtensions.put("hasPrimitiveParams", hasPrimitiveParams);
-            op.vendorExtensions.put("operationIdPascalCase", toHandlerFunctionName(op.httpMethod, op.path.toString(),false));
+            op.vendorExtensions.put("operationIdPascalCase", toHandlerFunctionName(op.httpMethod, op.path.toString(), false));
             op.vendorExtensions.put("httpMethod", op.httpMethod != null ? toPascalCase(op.httpMethod) : "");
-            op.vendorExtensions.put("handlerFunctionName", toHandlerFunctionName(op.httpMethod, op.path.toString(),true));
-            op.vendorExtensions.put("requestType", toHandlerFunctionRequest(op.path.toString(),op.httpMethod));
-            op.vendorExtensions.put("responseType", toHandlerFunctionResponse(op.path.toString(),op.httpMethod));
+            op.vendorExtensions.put("handlerFunctionName", toHandlerFunctionName(op.httpMethod, op.path.toString(), true));
+            op.vendorExtensions.put("requestType", toHandlerFunctionRequest(op.path.toString(), op.httpMethod));
+            op.vendorExtensions.put("responseType", toHandlerFunctionResponse(op.path.toString(), op.httpMethod));
             if (op.path != null) {
                 op.vendorExtensions.put("path", op.path);
             }
@@ -484,10 +483,10 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                         innerType = param.dataType.substring(startIdx, endIdx).trim();
                         // Check if this looks like a model class (PascalCase)
                         if (!languageSpecificPrimitives.contains(innerType) &&
-                            !innerType.startsWith("std::") &&
-                            !innerType.contains("::") &&
-                            innerType.length() > 0 &&
-                            Character.isUpperCase(innerType.charAt(0))) {
+                                !innerType.startsWith("std::") &&
+                                !innerType.contains("::") &&
+                                innerType.length() > 0 &&
+                                Character.isUpperCase(innerType.charAt(0))) {
                             modelsUsed.add(innerType);
                             // Add namespace prefix
                             String prefixedType = namespaceFiltered + "::" + innerType;
@@ -620,16 +619,16 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                             successConstName = HTTP_RESPONSE_PREFIX + StringUtils.underscore(className).toUpperCase(Locale.ROOT);
                         } else {
                             successType = typeMapping.get(resp.baseType);
-                            successConstName = HTTP_RESPONSE_PREFIX + "PRIMITIVE_"+StringUtils.underscore(resp.baseType).toUpperCase(Locale.ROOT);
+                            successConstName = HTTP_RESPONSE_PREFIX + "PRIMITIVE_" + StringUtils.underscore(resp.baseType).toUpperCase(Locale.ROOT);
                             isSuccessResponsePrimitive = true;
                         }
                         // Only add if not already in set (deduplication across all responses)
                         successTypesSet.add(successType);
                         if (allResponseTypesSet.add(successType)) {
-                            if(successConstName != null && !successConstName.isEmpty() && successType!= null && !successType.isEmpty()) {
+                            if (successConstName != null && !successConstName.isEmpty() && successType != null && !successType.isEmpty()) {
                                 final String finalSuccessConstName = successConstName;
                                 boolean successConstExists = opStatusCodeConsts.stream()
-                                    .anyMatch(listitem -> finalSuccessConstName.equals(listitem.get("constName")));
+                                        .anyMatch(listitem -> finalSuccessConstName.equals(listitem.get("constName")));
                                 if (!successConstExists) {
                                     Map<String, String> item = new HashMap<>();
                                     item.put("constName", successConstName);
@@ -660,14 +659,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                                 errorConstName = HTTP_RESPONSE_PREFIX + "PRIMITIVE_" + StringUtils.underscore(resp.baseType).toUpperCase(Locale.ROOT);
                             }
 
-                            if(errorConstName != null && !errorConstName.isEmpty()) {
+                            if (errorConstName != null && !errorConstName.isEmpty()) {
                                 errorTypes.add(errorType);
                                 op.vendorExtensions.put("errorTypes", errorTypes);
                                 // Only add to errorCodeToTypes if not already used in any response
                                 if (allResponseTypesSet.add(errorType)) {
                                     final String finalErrorConstName = errorConstName;
                                     boolean errorConstExists = opStatusCodeConsts.stream()
-                                        .anyMatch(listitem -> finalErrorConstName.equals(listitem.get("constName")));
+                                            .anyMatch(listitem -> finalErrorConstName.equals(listitem.get("constName")));
                                     if (!errorConstName.isEmpty() && !errorConstExists) {
                                         Map<String, String> item = new HashMap<>();
                                         item.put("constName", errorConstName);
@@ -842,14 +841,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         Object objApiStubs = additionalProperties.get(ADD_API_IMPL_STUBS);
         boolean addApiImplStubs = false;
-        if(objApiStubs instanceof Boolean) {
+        if (objApiStubs instanceof Boolean) {
             addApiImplStubs = (Boolean) objApiStubs;
         }
-        if(objApiStubs instanceof String) {
+        if (objApiStubs instanceof String) {
             addApiImplStubs = Boolean.parseBoolean((String) objApiStubs);
         }
-        LOGGER.debug("Generating Api stubs in the source file:{}.",addApiImplStubs);
-        if(addApiImplStubs == true) {
+        LOGGER.debug("Generating Api stubs in the source file:{}.", addApiImplStubs);
+        if (addApiImplStubs == true) {
             objs.put("addApiImplStubs", true);
         }
 
@@ -886,7 +885,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             // 500 INTERNAL_SERVER_ERROR: needed if any operation has request body (for JSON parsing errors)
             // or if any operation has response schema (for response handler fallback)
             if (op.vendorExtensions.get("requestModel") != null ||
-                Boolean.TRUE.equals(op.vendorExtensions.get("hasAnyResponseSchema"))) {
+                    Boolean.TRUE.equals(op.vendorExtensions.get("hasAnyResponseSchema"))) {
                 needsInternalError = true;
             }
         }
@@ -935,16 +934,16 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             objs.put("statusCodeConsts", opStatusCodeConsts);
         }
         // Add modelsUsed to objs for header includes
-        if(modelsUsed != null && !modelsUsed.isEmpty()) {
+        if (modelsUsed != null && !modelsUsed.isEmpty()) {
             ArrayList<String> sortedModels = new ArrayList<>(modelsUsed);
             Collections.sort(sortedModels);
             objs.put("modelsUsed", new ArrayList<>(sortedModels));
             objs.put("includeVariantHeader", INCLUDE_VARIANT);
         }
-        if(includeOptionalHeader) {
+        if (includeOptionalHeader) {
             objs.put("includeOptionalHeader", INCLUDE_OPTIONAL);
         }
-    return objs;
+        return objs;
     }
 
     /**
@@ -1070,8 +1069,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
                                 String headerName = toPascalCase(imp);
                                 projectHeaders.add("#include \"" + headerName + ".h\"");
-                            }
-                            else {
+                            } else {
                                 String standardInclude = getStandardIncludeForType(imp);
                                 if (standardInclude != null) {
                                     systemHeaders.add(standardInclude);
@@ -1245,8 +1243,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         if (var.isArray && var.dataType.startsWith("std::vector<")) {
             // Use datatypeWithEnum for enums to preserve enum type names before they're stripped
             String itemType = var.items != null ?
-                (var.items.datatypeWithEnum != null ? var.items.datatypeWithEnum : var.items.dataType) :
-                "std::string";
+                    (var.items.datatypeWithEnum != null ? var.items.datatypeWithEnum : var.items.dataType) :
+                    "std::string";
 
             // For inline enums in arrays, qualify with the model class name if not already qualified
             if (var.items != null && var.items.isEnum && !itemType.contains("::")) {
@@ -1265,7 +1263,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             var.dataType = "std::map<std::string, " + itemType + ">";
         }
 
-        if(var.items !=null && "string".equals(var.items.dataType)) {
+        if (var.items != null && "string".equals(var.items.dataType)) {
             var.items.dataType = "std::string";
             var.items.isPrimitiveType = true;
         }
@@ -1280,18 +1278,17 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 // Use datatypeWithEnum which has the correct type (including enum types)
                 var.defaultValue = var.datatypeWithEnum + "()";
             }
-        }
-        else {
+        } else {
             //Handle enums
-            if(var.isEnum) {
+            if (var.isEnum) {
                 setEnumVendorExtensions(var, model);
 
                 // Check for explicit default values in schema
                 // Base generator may auto-generate defaults which should be ignored for enums
                 boolean hasExplicitDefault = var.defaultValue != null
-                    && !var.defaultValue.equals("\"\"")
-                    && !var.defaultValue.equals("null")
-                    && !var.defaultValue.equals("0");  // Base generator default for integer types
+                        && !var.defaultValue.equals("\"\"")
+                        && !var.defaultValue.equals("null")
+                        && !var.defaultValue.equals("0");  // Base generator default for integer types
 
                 // Handle enum default values based on required status and schema default
                 if (!hasExplicitDefault) {
@@ -1363,14 +1360,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 var.vendorExtensions.put("isString", true);
                 var.vendorExtensions.put("isPrimitive", true);
             }
-            if(var.isModel) {
+            if (var.isModel) {
                 var.vendorExtensions.put("isModel", true);
-                if(var.defaultValue != null && var.defaultValue.startsWith("std::make_shared<")) {
-                    var.defaultValue = var.datatypeWithEnum + "()" ;
+                if (var.defaultValue != null && var.defaultValue.startsWith("std::make_shared<")) {
+                    var.defaultValue = var.datatypeWithEnum + "()";
                 }
             }
         }
-            //Handle getters and setters
+        //Handle getters and setters
         if (var.getter != null) {
             var.vendorExtensions.put("getter", var.getter);
             var.vendorExtensions.put("getterType", var.datatypeWithEnum);
@@ -1706,8 +1703,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                     if (enumName != null && !enumName.contains("::")) {
                         // Replace std::EnumName with ClassName::EnumName
                         property.datatypeWithEnum = property.datatypeWithEnum.replace(
-                            "std::" + enumName,
-                            model.classname + "::" + enumName
+                                "std::" + enumName,
+                                model.classname + "::" + enumName
                         );
                         property.dataType = property.datatypeWithEnum;
                     }
@@ -1968,7 +1965,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 } else {
                     // Check if part is already in PascalCase or camelCase (mixed case)
                     boolean hasMixedCase = !part.equals(part.toLowerCase(Locale.ROOT)) &&
-                                          !part.equals(part.toUpperCase(Locale.ROOT));
+                            !part.equals(part.toUpperCase(Locale.ROOT));
 
                     if (hasMixedCase && Character.isUpperCase(part.charAt(0))) {
                         // Already PascalCase, keep as-is
@@ -2044,8 +2041,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     public String toHandlerFunctionName(String httpMethod, String path, Boolean prefix) {
         String method = toPascalCase(httpMethod);
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]","");
-        if(prefix) {
+        className = className.replaceAll("[^A-Za-z0-9]", "");
+        if (prefix) {
             return "handle" + method + "For" + toPascalCase(className);
         } else {
             return toPascalCase(className) + method;
@@ -2060,7 +2057,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
      */
     public String toHandlerFunctionRequest(String path, String method) {
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]","");
+        className = className.replaceAll("[^A-Za-z0-9]", "");
         return toPascalCase(className + toPascalCase(method) + "Request");
     }
 
@@ -2073,7 +2070,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
      */
     public String toHandlerFunctionResponse(String path, String method) {
         String className = stripPathFromClassName(path).get("className");
-        className = className.replaceAll("[^A-Za-z0-9]","");
+        className = className.replaceAll("[^A-Za-z0-9]", "");
         return toPascalCase(className + toPascalCase(method) + "Response");
     }
 
@@ -2100,7 +2097,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         additionalProperties.put("packageName", modelPackage);
         additionalProperties.put("projectName", projectName);
         String cmakeProjectName = (String) additionalProperties.get("cmakeProjectName");
-        if(cmakeProjectName == null || cmakeProjectName.isEmpty()) {
+        if (cmakeProjectName == null || cmakeProjectName.isEmpty()) {
             cmakeProjectName = (String) projectName;
         }
         additionalProperties.put("cmakeProjectName", StringUtils.underscore(cmakeProjectName));
@@ -2268,7 +2265,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 vendorExtensions.put("isArrayOfPrimitive", true);
                 vendorExtensions.put("vectorFromStringHelper", varName + "VectorFromString");
                 vendorExtensions.put("vectorToStringHelper", varName + "VectorToString");
-            } else if(items.isContainer) {
+            } else if (items.isContainer) {
                 vendorExtensions.put("isArrayOfContainer", true);
                 vendorExtensions.put("vectorFromStringHelper", varName + "VectorFromString");
                 vendorExtensions.put("vectorToStringHelper", varName + "VectorToString");
@@ -2281,6 +2278,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             vendorExtensions.put("isArrayOfPrimitive", true);
         }
     }
+
     private void setPrimitiveTypes(Object varObj) {
         if (varObj == null) return;
 
@@ -2348,12 +2346,12 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
      * This method processes enum values in a CodegenProperty and prefixes any purely numeric
      * enum values with an underscore. This is necessary because in C++, enum identifiers cannot
      * start with a digit, so numeric enum values must be transformed to valid C++ identifiers.
-     *
+     * <p>
      * For example:
      * - "200" becomes "_200"
      * - "404" becomes "_404"
      * - "OK" remains "OK"
-     *
+     * <p>
      * The method retrieves enum values from either the property's {@code _enum} field or from
      * the {@code allowableValues} map, then updates all three locations with the converted values
      * to maintain consistency across the property's internal state.
@@ -2432,7 +2430,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         }
 
         LOGGER.debug("Processing enum for variable {}: isEnum={}, _enum={}, allowableValues={}",
-            var.name, var.isEnum, var._enum, var.allowableValues);
+                var.name, var.isEnum, var._enum, var.allowableValues);
 
         // Check if enum has UNKNOWN/UNSPECIFIED value, if not add it at the beginning
         boolean hasUnknownValue = false;
@@ -2440,7 +2438,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             for (String enumVal : enumValues) {
                 String upperVal = enumVal.toUpperCase(Locale.ROOT);
                 if (upperVal.equals("UNKNOWN") || upperVal.equals("UNSPECIFIED") ||
-                    upperVal.equals("NONE") || upperVal.equals("UNDEFINED")) {
+                        upperVal.equals("NONE") || upperVal.equals("UNDEFINED")) {
                     hasUnknownValue = true;
                     break;
                 }
@@ -2477,15 +2475,15 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         List<Map<String, String>> enumCases = new ArrayList<>();
         // Iterate through original enum values to maintain mapping between C++ identifiers and original JSON values
         if (enumValues != null) {
-        for (int i = 0; i < enumValues.size(); i++) {
-            String originalVal = enumValues.get(i);  // Original value (e.g., "200")
-            String convertedVal = convertedValues.get(i);  // Converted C++ identifier (e.g., "_200")
-            Map<String, String> caseMap = new HashMap<>();
-            caseMap.put("name", convertedVal);  // C++ enum identifier
-            caseMap.put("value", originalVal);  // Original JSON value
-            caseMap.put("enumName", shortEnumName);  // Use short name
-            enumCases.add(caseMap);
-        }
+            for (int i = 0; i < enumValues.size(); i++) {
+                String originalVal = enumValues.get(i);  // Original value (e.g., "200")
+                String convertedVal = convertedValues.get(i);  // Converted C++ identifier (e.g., "_200")
+                Map<String, String> caseMap = new HashMap<>();
+                caseMap.put("name", convertedVal);  // C++ enum identifier
+                caseMap.put("value", originalVal);  // Original JSON value
+                caseMap.put("enumName", shortEnumName);  // Use short name
+                enumCases.add(caseMap);
+            }
         }
         var.vendorExtensions.put("enumCases", enumCases);
 
@@ -2567,7 +2565,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         // Conditionally add AuthenticationManager file if security is defined
         if (additionalProperties.containsKey("hasAuthMethods")
-            && Boolean.TRUE.equals(additionalProperties.get("hasAuthMethods"))) {
+                && Boolean.TRUE.equals(additionalProperties.get("hasAuthMethods"))) {
             supportingFiles.add(new SupportingFile("AuthenticationManager.mustache", "api", "AuthenticationManager.h"));
         }
         return super.postProcessSupportingFileData(objs);
