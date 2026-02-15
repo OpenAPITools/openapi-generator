@@ -208,6 +208,7 @@ public class EnumTest {
     return enumString;
   }
 
+  @JsonProperty("enum_string")
   public void setEnumString(Optional<EnumStringEnum> enumString) {
     this.enumString = enumString;
   }
@@ -228,6 +229,7 @@ public class EnumTest {
     return enumStringRequired;
   }
 
+  @JsonProperty("enum_string_required")
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
@@ -248,6 +250,7 @@ public class EnumTest {
     return enumInteger;
   }
 
+  @JsonProperty("enum_integer")
   public void setEnumInteger(Optional<EnumIntegerEnum> enumInteger) {
     this.enumInteger = enumInteger;
   }
@@ -268,6 +271,7 @@ public class EnumTest {
     return enumNumber;
   }
 
+  @JsonProperty("enum_number")
   public void setEnumNumber(Optional<EnumNumberEnum> enumNumber) {
     this.enumNumber = enumNumber;
   }
@@ -288,6 +292,7 @@ public class EnumTest {
     return outerEnum;
   }
 
+  @JsonProperty("outerEnum")
   public void setOuterEnum(Optional<OuterEnum> outerEnum) {
     this.outerEnum = outerEnum;
   }

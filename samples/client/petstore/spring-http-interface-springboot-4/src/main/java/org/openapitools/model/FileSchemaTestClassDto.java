@@ -45,6 +45,7 @@ public class FileSchemaTestClassDto {
     return file;
   }
 
+  @JsonProperty("file")
   public void setFile(@Nullable FileDto file) {
     this.file = file;
   }
@@ -72,6 +73,7 @@ public class FileSchemaTestClassDto {
     return files;
   }
 
+  @JsonProperty("files")
   public void setFiles(List<FileDto> files) {
     this.files = files;
   }

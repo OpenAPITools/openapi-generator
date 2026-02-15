@@ -55,6 +55,7 @@ public class ModelReturn {
     return _return;
   }
 
+  @JsonProperty("return")
   public void setReturn(@Nullable Integer _return) {
     this._return = _return;
   }

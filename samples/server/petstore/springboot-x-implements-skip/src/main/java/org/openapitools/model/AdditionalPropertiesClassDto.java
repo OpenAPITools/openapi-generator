@@ -57,6 +57,7 @@ public class AdditionalPropertiesClassDto {
     return mapProperty;
   }
 
+  @JsonProperty("map_property")
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
@@ -85,6 +86,7 @@ public class AdditionalPropertiesClassDto {
     return mapOfMapProperty;
   }
 
+  @JsonProperty("map_of_map_property")
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }

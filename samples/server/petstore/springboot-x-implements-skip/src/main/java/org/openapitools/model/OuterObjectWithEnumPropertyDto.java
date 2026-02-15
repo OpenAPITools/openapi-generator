@@ -56,6 +56,7 @@ public class OuterObjectWithEnumPropertyDto {
     return value;
   }
 
+  @JsonProperty("value")
   public void setValue(OuterEnumIntegerDto value) {
     this.value = value;
   }

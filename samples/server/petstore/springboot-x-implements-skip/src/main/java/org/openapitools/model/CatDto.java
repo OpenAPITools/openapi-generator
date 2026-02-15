@@ -58,6 +58,7 @@ public class CatDto extends AnimalDto {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }

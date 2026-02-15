@@ -68,6 +68,7 @@ public class Pet {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
@@ -88,6 +89,7 @@ public class Pet {
     return age;
   }
 
+  @JsonProperty("age")
   public void setAge(Integer age) {
     this.age = age;
   }
@@ -108,6 +110,7 @@ public class Pet {
     return happy;
   }
 
+  @JsonProperty("happy")
   public void setHappy(Boolean happy) {
     this.happy = happy;
   }
@@ -128,6 +131,7 @@ public class Pet {
     return price;
   }
 
+  @JsonProperty("price")
   public void setPrice(BigDecimal price) {
     this.price = price;
   }
@@ -148,6 +152,7 @@ public class Pet {
     return lastFeed;
   }
 
+  @JsonProperty("lastFeed")
   public void setLastFeed(OffsetDateTime lastFeed) {
     this.lastFeed = lastFeed;
   }
@@ -168,6 +173,7 @@ public class Pet {
     return dateOfBirth;
   }
 
+  @JsonProperty("dateOfBirth")
   public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
