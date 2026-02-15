@@ -99,6 +99,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toEnumValue("1.0", "kotlin.Float"), "1.0f");
         assertEquals(codegen.toEnumValue("data", "Something"), "\"data\"");
         assertEquals(codegen.toEnumValue("data/*", "Something"), "\"data/*\"");
+        assertEquals(codegen.toEnumValue("1", "java.math.BigDecimal"), "1.toBigDecimal()");
     }
 
     @Test
@@ -381,6 +382,20 @@ public class AbstractKotlinCodegenTest {
         final CodegenModel mapSchemaModel = codegen
                 .fromModel("MapSchema", mapSchema);
         Assert.assertTrue(mapSchemaModel.isMap);
+    }
+    
+    @Test
+    public void enumIssueWithBigDecimal() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue-enum-bigdecimal-value.yml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithEnumBigDecimalValue");
+        CodegenModel cm1 = codegen.fromModel("ModelWithEnumBigDecimalValue", test1);
+        
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+        
+        //Assert that the generated type is BigDecimal 
+        CodegenProperty cp0 = cm1.vars.get(0);
+        Assert.assertEquals(cp0.getDataType(), "java.math.BigDecimal");
     }
 
     @Test

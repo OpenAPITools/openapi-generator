@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: 'Issue enum wrong type'
+  version: latest
+paths:
+  '/':
+    get:
+      operationId: operation
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithEnumBigDecimalValue'
+components:
+  schemas:
+    ModelWithEnumBigDecimalValue:
+      properties:
+        mode:
+          type: number
+          enum:
+            - -1
+            - 0
+            - 1.1
+            - 0.4
