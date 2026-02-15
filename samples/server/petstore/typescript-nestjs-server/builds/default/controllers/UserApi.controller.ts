@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Post, Put, Param, Query, Req } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Post, Put, Param, ParseIntPipe, ParseFloatPipe, Query, Req } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { Cookies, Headers } from '../decorators';
 import { UserApi } from '../api';
 import { User,  } from '../models';
 

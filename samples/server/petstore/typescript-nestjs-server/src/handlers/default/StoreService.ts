@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@nestjs/common';
-import { StoreApi } from '../../builds/default/api';
-import { Order } from '../../builds/default/models';
+import { StoreApi } from '../../../builds/default/api';
+import { Order } from '../../../builds/default/models';
 
 @Injectable()
 export class StoreService implements StoreApi {
