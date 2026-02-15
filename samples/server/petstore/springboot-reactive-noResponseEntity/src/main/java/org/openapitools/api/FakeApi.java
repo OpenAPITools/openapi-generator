@@ -5,7 +5,6 @@
  */
 package org.openapitools.api;
 
-import springfox.documentation.annotations.ApiIgnore;
 import java.math.BigDecimal;
 import org.openapitools.model.ChildWithNullable;
 import org.openapitools.model.Client;
@@ -25,7 +24,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import org.springframework.http.codec.multipart.Part;
@@ -69,10 +67,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createXmlItem(
-        @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem
     ) {
-        return getDelegate().createXmlItem(xmlItem, exchange);
+        return getDelegate().createXmlItem(xmlItem);
     }
 
 
@@ -102,10 +99,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Boolean> fakeOuterBooleanSerialize(
-        @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body
     ) {
-        return getDelegate().fakeOuterBooleanSerialize(body, exchange);
+        return getDelegate().fakeOuterBooleanSerialize(body);
     }
 
 
@@ -135,10 +131,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<OuterComposite> fakeOuterCompositeSerialize(
-        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite
     ) {
-        return getDelegate().fakeOuterCompositeSerialize(outerComposite, exchange);
+        return getDelegate().fakeOuterCompositeSerialize(outerComposite);
     }
 
 
@@ -168,10 +163,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<BigDecimal> fakeOuterNumberSerialize(
-        @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body
     ) {
-        return getDelegate().fakeOuterNumberSerialize(body, exchange);
+        return getDelegate().fakeOuterNumberSerialize(body);
     }
 
 
@@ -201,10 +195,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<String> fakeOuterStringSerialize(
-        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body
     ) {
-        return getDelegate().fakeOuterStringSerialize(body, exchange);
+        return getDelegate().fakeOuterStringSerialize(body);
     }
 
 
@@ -232,10 +225,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
-        return getDelegate().responseObjectDifferentNames(petId, exchange);
+        return getDelegate().responseObjectDifferentNames(petId);
     }
 
 
@@ -263,10 +255,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
     ) {
-        return getDelegate().testBodyWithFileSchema(fileSchemaTestClass, exchange);
+        return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
 
 
@@ -295,10 +286,9 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> user,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> user
     ) {
-        return getDelegate().testBodyWithQueryParams(query, user, exchange);
+        return getDelegate().testBodyWithQueryParams(query, user);
     }
 
 
@@ -328,10 +318,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Client> testClientModel(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client
     ) {
-        return getDelegate().testClientModel(client, exchange);
+        return getDelegate().testClientModel(client);
     }
 
 
@@ -390,10 +379,9 @@ public interface FakeApi {
         @ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime dateTime,
         @ApiParam(value = "None") @Size(min = 10, max = 64) @Valid @RequestPart(value = "password", required = false) String password,
-        @ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false) String paramCallback,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false) String paramCallback
     ) {
-        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
+        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
 
@@ -437,10 +425,9 @@ public interface FakeApi {
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
         @ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
         @ApiParam(value = "Form parameter enum test (string array)", allowableValues = ">, $", defaultValue = "$") @Valid @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
-        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Form parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestPart(value = "enum_form_string", required = false) String enumFormString
     ) {
-        return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
+        return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
     }
 
 
@@ -477,10 +464,9 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,
         @ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) @Nullable Integer stringGroup,
         @ApiParam(value = "Boolean in group parameters") @RequestHeader(value = "boolean_group", required = false) @Nullable Boolean booleanGroup,
-        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) @Nullable Long int64Group
     ) {
-        return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, exchange);
+        return getDelegate().testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
 
@@ -508,10 +494,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> requestBody,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> requestBody
     ) {
-        return getDelegate().testInlineAdditionalProperties(requestBody, exchange);
+        return getDelegate().testInlineAdditionalProperties(requestBody);
     }
 
 
@@ -541,10 +526,9 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testJsonFormData(
         @ApiParam(value = "field1", required = true) @Valid @RequestPart(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2
     ) {
-        return getDelegate().testJsonFormData(param, param2, exchange);
+        return getDelegate().testJsonFormData(param, param2);
     }
 
 
@@ -572,10 +556,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testNullable(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable
     ) {
-        return getDelegate().testNullable(childWithNullable, exchange);
+        return getDelegate().testNullable(childWithNullable);
     }
 
 
@@ -608,10 +591,9 @@ public interface FakeApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "pipe", required = true) List<String> pipe,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "http", required = true) List<String> http,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "url", required = true) List<String> url,
-        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context,
-        @ApiIgnore final ServerWebExchange exchange
+        @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "context", required = true) List<String> context
     ) {
-        return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context, exchange);
+        return getDelegate().testQueryParameterCollectionFormat(pipe, http, url, context);
     }
 
 
@@ -639,9 +621,9 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Integer> testWithResultExample(
-        @ApiIgnore final ServerWebExchange exchange
+        
     ) {
-        return getDelegate().testWithResultExample(exchange);
+        return getDelegate().testWithResultExample();
     }
 
 
@@ -681,10 +663,9 @@ public interface FakeApi {
     default Mono<ModelApiResponse> uploadFileWithRequiredFile(
         @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
-        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,
-        @ApiIgnore final ServerWebExchange exchange
+        @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     ) {
-        return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, exchange);
+        return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     }
 
 }
