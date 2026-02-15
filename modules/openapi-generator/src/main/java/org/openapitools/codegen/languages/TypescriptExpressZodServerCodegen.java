@@ -284,7 +284,7 @@ public class TypescriptExpressZodServerCodegen extends AbstractTypeScriptClientC
         if (op.bodyParam != null) {
             op.vendorExtensions.put("x-body-generic", "dtos." + op.bodyParam.dataType + "Dto");
         } else {
-            op.vendorExtensions.put("x-body-generic", "never");
+            op.vendorExtensions.put("x-body-generic", "unknown");
         }
 
         // Response type

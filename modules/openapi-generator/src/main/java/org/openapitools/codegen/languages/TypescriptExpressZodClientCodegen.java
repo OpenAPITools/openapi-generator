@@ -678,6 +678,51 @@ public class TypescriptExpressZodClientCodegen extends AbstractTypeScriptClientC
             bundle.put("models", topologicallySortModels(models));
         }
 
+        // Inspect ModelError schema and expose error-shape template variables
+        if (models != null) {
+            for (Object modelEntry : models) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> entry = (Map<String, Object>) modelEntry;
+                CodegenModel cm = (CodegenModel) entry.get("model");
+                if (cm != null && "ModelError".equals(cm.classname)) {
+                    // Determine the message field name: prefer "message", then "title",
+                    // then first required string property, fallback to "message"
+                    String messageField = null;
+                    String firstRequiredString = null;
+                    boolean hasCode = false;
+                    boolean hasSource = false;
+
+                    for (CodegenProperty prop : cm.vars) {
+                        if ("code".equals(prop.name)) {
+                            hasCode = true;
+                        }
+                        if ("source".equals(prop.name)) {
+                            hasSource = true;
+                        }
+                        if (prop.required && prop.isString) {
+                            if ("message".equals(prop.name)) {
+                                messageField = "message";
+                            } else if ("title".equals(prop.name) && messageField == null) {
+                                messageField = "title";
+                            }
+                            if (firstRequiredString == null) {
+                                firstRequiredString = prop.name;
+                            }
+                        }
+                    }
+
+                    if (messageField == null) {
+                        messageField = firstRequiredString != null ? firstRequiredString : "message";
+                    }
+
+                    bundle.put("errorMessageField", messageField);
+                    bundle.put("errorHasCode", hasCode);
+                    bundle.put("errorHasSource", hasSource);
+                    break;
+                }
+            }
+        }
+
         return bundle;
     }
 

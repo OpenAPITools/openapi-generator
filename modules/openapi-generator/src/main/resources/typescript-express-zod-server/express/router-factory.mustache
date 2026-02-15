@@ -32,7 +32,7 @@ export function getRouter({
       keyof expressTypes.Middleware,
       "_onlySwaggerUI" | "_exceptSwaggerUI"
     >,
-  >(methodName: TName, defaultHandler: RequestHandler): RequestHandler[] {
+  >(methodName: TName, defaultHandler: RequestHandler<any>): RequestHandler<any>[] {
     return [
       ...getMiddleware(middleware, methodName),
       ...getHandlers(handlerOverrides?.[methodName], defaultHandler),
@@ -106,27 +106,26 @@ export function getRouter({
  * @param name - The name of the service method to get middleware for
  * @returns An array of {@link RequestHandler|express.RequestHandler} functions
  */
-function getMiddleware<
-  TName extends string,
-  TMiddleware extends Partial<
-    Record<TName, RequestHandler | RequestHandler[] | undefined>
-  >,
->(
-  middleware: TMiddleware | TMiddleware[] | undefined,
-  name: TName,
-): RequestHandler[] {
+function getMiddleware(
+  middleware: expressTypes.Middleware | expressTypes.Middleware[] | undefined,
+  name: keyof expressTypes.Middleware,
+): RequestHandler<any>[] {
   if (!middleware) return [];
   const middlewareArray = Array.isArray(middleware) ? middleware : [middleware];
 
   return middlewareArray.flatMap((m) => {
-    const _exceptSwaggerUI =
-      m["_exceptSwaggerUI"] && name !== "_onlySwaggerUI"
-        ? m["_exceptSwaggerUI"]
+    const exceptSwaggerUI =
+      m._exceptSwaggerUI && name !== "_onlySwaggerUI"
+        ? m._exceptSwaggerUI
         : [];
 
-    const base = m[name] ? m[name] : [];
+    const handler = m[name];
+    const base = handler ? handler : [];
     const baseArray = Array.isArray(base) ? base : [base];
-    return [...baseArray, ..._exceptSwaggerUI];
+    const exceptArray = Array.isArray(exceptSwaggerUI)
+      ? exceptSwaggerUI
+      : [exceptSwaggerUI];
+    return [...baseArray, ...exceptArray];
   });
 }
 
@@ -138,10 +137,10 @@ function getMiddleware<
  * @param defaultHandler - The default handler to use if no overrides are provided
  * @returns An array of {@link RequestHandler|express.RequestHandler} functions
  */
-function getHandlers<TRequestHandler extends RequestHandler>(
-  overrides: TRequestHandler | TRequestHandler[] | undefined,
-  defaultHandler: TRequestHandler,
-): TRequestHandler[] {
+function getHandlers(
+  overrides: RequestHandler<any> | RequestHandler<any>[] | undefined,
+  defaultHandler: RequestHandler<any>,
+): RequestHandler<any>[] {
   if (!overrides) return [defaultHandler];
   return Array.isArray(overrides) ? overrides : [overrides];
 }

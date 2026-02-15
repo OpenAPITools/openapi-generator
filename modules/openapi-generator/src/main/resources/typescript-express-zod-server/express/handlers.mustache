@@ -125,30 +125,30 @@ export const {{handlerName}} =
   };
 
 {{/allOperations}}
-function isError(result: {
-  errors: { status?: number | string }[];
-  data?: any;
-}): boolean {
-  return (
-    !!result.errors.length &&
-    (Array.isArray(result.data)
-      ? result.data.length === 0
-      : result.data === undefined)
-  );
+type ErrorResult = {
+  errors: types.ModelError[];
+  data?: unknown;
+};
+
+function isError(result: unknown): result is ErrorResult {
+  if (typeof result !== "object" || result === null || !("errors" in result)) {
+    return false;
+  }
+  const candidate = result as Record<string, unknown>;
+  if (!Array.isArray(candidate.errors) || candidate.errors.length === 0) {
+    return false;
+  }
+  return !("data" in result) ||
+    candidate.data === undefined ||
+    (Array.isArray(candidate.data) && candidate.data.length === 0);
 }
 
-function getHttpStatus(
-  success: number,
-  result: { errors: { status?: number | string }[]; data?: unknown },
-): number {
-  if (isError(result)) {
-    return result.errors.reduce((max, item) => {
-      if (typeof item.status === "undefined") return success;
-      const value =
-        typeof item.status === "string" ? Number(item.status) : item.status;
-      return !Number.isNaN(value) && value > max ? value : max;
-    }, success);
-  } else {
-    return success;
-  }
+function getHttpStatus(success: number, result: unknown): number {
+  if (!isError(result)) return success;
+  return result.errors.reduce((max, item) => {
+    const status = (item as Record<string, unknown>)["status"];
+    if (status === undefined) return success;
+    const value = typeof status === "string" ? Number(status) : typeof status === "number" ? status : NaN;
+    return !Number.isNaN(value) && value > max ? value : max;
+  }, success);
 }
