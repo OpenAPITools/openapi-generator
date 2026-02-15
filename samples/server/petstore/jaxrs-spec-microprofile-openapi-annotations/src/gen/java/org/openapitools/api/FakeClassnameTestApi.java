@@ -72,7 +72,9 @@ public class FakeClassnameTestApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response testClassname(@Valid @NotNull Client body) {
+    public Response testClassname(
+
+  @Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 }
