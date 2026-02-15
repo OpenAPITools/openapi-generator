@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info: { title: t, version: 1.0.0 }
+paths:
+  /x:
+    get:
+      operationId: getX
+      parameters:
+        - name: price
+          in: query
+          required: true
+          schema:
+            type: number
+            exclusiveMinimum: 0
+            exclusiveMaximum: 10
+      responses:
+        "200":
+          description: ok
+  /foo:
+    get:
+      operationId: getFoo
+      parameters:
+        - name: foo
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 0
+            exclusiveMinimum: 1
+            maximum: 11
+            exclusiveMaximum: 10
+      responses:
+        "200":
+          description: ok
+  /bar:
+    get:
+      operationId: getBar
+      parameters:
+        - name: bar
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 0
+            exclusiveMinimum: 0
+            maximum: 10
+            exclusiveMaximum: 10
+      responses:
+        "200":
+          description: ok
+  /baz:
+    get:
+      operationId: getBaz
+      parameters:
+        - name: baz
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 5
+            exclusiveMinimum: 0
+            maximum: 10
+            exclusiveMaximum: 11
+      responses:
+        "200":
+          description: ok
+  /old:
+    get:
+      operationId: getOld
+      parameters:
+        - name: old
+          in: query
+          required: true
+          schema:
+            type: number
+            minimum: 0
+            exclusiveMinimum: true
+            maximum: 10
+            exclusiveMaximum: true
+      responses:
+        "200":
+          description: ok
