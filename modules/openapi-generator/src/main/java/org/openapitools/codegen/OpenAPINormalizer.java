@@ -1037,32 +1037,25 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeOneOf(Schema schema, Set<Schema> visitedSchemas) {
+        List<Schema> oneOfSchemas = schema.getOneOf();
+
+        if (oneOfSchemas == null) {
+            return schema;
+        }
+
+        oneOfSchemas = oneOfSchemas.stream()
+                .map(subSchema -> normalizeSchema(subSchema, visitedSchemas))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        schema.setOneOf(oneOfSchemas);
+
         // Remove duplicate oneOf entries
         ModelUtils.deduplicateOneOfSchema(schema);
 
         schema = processSimplifyOneOfEnum(schema);
-
-        // simplify first as the schema may no longer be a oneOf after processing the rule below
         schema = processSimplifyOneOf(schema);
 
-        // if it's still a oneOf, loop through the sub-schemas
-        if (schema.getOneOf() != null) {
-            for (int i = 0; i < schema.getOneOf().size(); i++) {
-                // normalize oneOf sub schemas one by one
-                Object item = schema.getOneOf().get(i);
-
-                if (item == null) {
-                    continue;
-                }
-                if (!(item instanceof Schema)) {
-                    throw new RuntimeException("Error! oneOf schema is not of the type Schema: " + item);
-                }
-
-                // update sub-schema with the updated schema
-                schema.getOneOf().set(i, normalizeSchema((Schema) item, visitedSchemas));
-            }
-        } else {
-            // normalize it as it's no longer an oneOf
+        if (schema.getOneOf() == null) {
             schema = normalizeSchema(schema, visitedSchemas);
         }
 
@@ -1551,7 +1544,6 @@ public class OpenAPINormalizer {
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
 
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                // TODO convert oneOf const to enum
                 schema.setOneOf(null);
             }
         }

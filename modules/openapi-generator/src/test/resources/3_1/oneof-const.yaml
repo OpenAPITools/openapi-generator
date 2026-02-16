@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: "OneOf const to enum normalization"
+  version: 1.0.0
+components:
+  schemas:
+    OneOfConst:
+      oneOf:
+        - const: foo
+        - const: bar
+          description: This is bar
+        - const: baz
+    Enum:
+      type: string
+      enum:
+        - foo
+        - bar
+        - baz
+      x-enum-descriptions:
+        - ""
+        - This is bar
+        - ""

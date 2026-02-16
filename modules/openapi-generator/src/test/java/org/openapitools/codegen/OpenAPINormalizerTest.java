@@ -1198,6 +1198,26 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerOneOfConst31Spec() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/oneof-const.yaml");
+
+        assertNotEquals(
+                openAPI.getComponents().getSchemas().get("OneOfConst"),
+                openAPI.getComponents().getSchemas().get("Enum")
+        );
+
+        new OpenAPINormalizer(
+                openAPI,
+                Map.of("NORMALIZE_31SPEC", "true", "SIMPLIFY_ONEOF_ANYOF_ENUM", "true")
+        ).normalize();
+
+        assertEquals(
+                openAPI.getComponents().getSchemas().get("OneOfConst"),
+                openAPI.getComponents().getSchemas().get("Enum")
+        );
+    }
+
+    @Test
     public void testOpenAPINormalizerProcessingAllOfSchema31Spec() {
         // to test array schema processing in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/unsupported_schema_test.yaml");
