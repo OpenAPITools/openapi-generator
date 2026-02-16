@@ -43,16 +43,16 @@ object {{classname}} {
 {{^vendorExtensions.x-use-discr-mapping}}
 // with discriminator, no mapping
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
-{{#oneOf}}
-    case obj: {{.}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{.}}".asJson) +: _)
-{{/oneOf}}
+{{#vendorExtensions.x-discriminator-entries}}
+    case obj: {{classname}} => obj.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{schemaName}}".asJson) +: _)
+{{/vendorExtensions.x-discriminator-entries}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
     cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
-      {{#oneOf}}
-      case "{{.}}" => cursor.as[{{.}}]
-      {{/oneOf}}
+      {{#vendorExtensions.x-discriminator-entries}}
+      case "{{schemaName}}" => cursor.as[{{classname}}]
+      {{/vendorExtensions.x-discriminator-entries}}
       case discriminatorValue =>
         Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))
     }
@@ -109,14 +109,14 @@ object {{classname}} {
 // with discriminator, no mapping
   given encoder{{classname}}: Encoder[{{classname}}] = Encoder.instance {
 {{#vendorExtensions.x-oneOfMembers}}
-    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-parentDiscriminatorName}}" -> "{{classname}}".asJson) +: _)
+    case obj: {{classname}} => obj.asJson.mapObject(("{{vendorExtensions.x-parentDiscriminatorName}}" -> "{{name}}".asJson) +: _)
 {{/vendorExtensions.x-oneOfMembers}}
   }
 
   given decoder{{classname}}: Decoder[{{classname}}] = Decoder.instance { cursor =>
     cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
       {{#vendorExtensions.x-oneOfMembers}}
-      case "{{classname}}" => cursor.as[{{classname}}]
+      case "{{name}}" => cursor.as[{{classname}}]
       {{/vendorExtensions.x-oneOfMembers}}
       case discriminatorValue =>
         Left(DecodingFailure(s"Unknown discriminator value: $discriminatorValue", cursor.history))

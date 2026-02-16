@@ -88,6 +88,9 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.not
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf
+                )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie,
                         ParameterFeature.FormMultipart
@@ -390,8 +393,10 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                     Set<String> additionalImports = new HashSet<>();
                     for (String childName : cModel.oneOf) {
                         CodegenModel childModel = allModels.get(childName);
-                        if (childModel != null && oneOfMemberCount.getOrDefault(childName, 0) == 1) {
-                            // Mark for inlining (only used by this one parent)
+                        if (childModel != null
+                                && (childModel.oneOf == null || childModel.oneOf.isEmpty())
+                                && oneOfMemberCount.getOrDefault(childName, 0) == 1) {
+                            // Mark for inlining (only used by this one parent, and not itself a oneOf container)
                             childModel.getVendorExtensions().put("x-isOneOfMember", true);
                             childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
                             // Store parent's discriminator info for use in template
@@ -406,6 +411,20 @@ public class ScalaHttp4sClientCodegen extends AbstractScalaCodegen implements Co
                             }
                         }
                     }
+
+                    // Create list of discriminator entries with class names and schema names
+                    // When discriminator has no explicit mapping, use schema name (not class name)
+                    List<Map<String, String>> discriminatorEntries = new ArrayList<>();
+                    for (String childName : cModel.oneOf) {
+                        CodegenModel childModel = allModels.get(childName);
+                        if (childModel != null) {
+                            Map<String, String> entry = new HashMap<>();
+                            entry.put("classname", childModel.classname);
+                            entry.put("schemaName", childModel.name);
+                            discriminatorEntries.add(entry);
+                        }
+                    }
+                    cModel.getVendorExtensions().put("x-discriminator-entries", discriminatorEntries);
 
                     // Decide between sealed trait (with inlined members) vs regular trait (edge cases)
                     // Use sealed trait ONLY if ALL oneOf members can be inlined
