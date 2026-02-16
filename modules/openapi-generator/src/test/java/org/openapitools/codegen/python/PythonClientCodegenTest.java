@@ -660,6 +660,16 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileNotContains(pyprojectPath, "license = { text = \"Apache-2.0\" }");
     }
 
+    @Test(description = "UUID property with pattern should import field_validator")
+    public void testUuidWithPatternImportsFieldValidator() throws IOException {
+        final DefaultCodegen codegen = new PythonClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/bugs/issue_uuid_with_pattern.yaml");
+        final Path p = Paths.get(outputPath + "openapi_client/models/uuid_with_pattern.py");
+
+        assertFileExists(p);
+        assertFileContains(p, "from pydantic import BaseModel, ConfigDict, field_validator");
+    }
+
     @Test(description = "Verify non-poetry1 mode uses object notation for license")
     public void testNonPoetry1LicenseFormat() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
