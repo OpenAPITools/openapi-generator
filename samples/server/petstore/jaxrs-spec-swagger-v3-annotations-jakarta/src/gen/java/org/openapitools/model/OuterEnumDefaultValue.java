@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Gets or Sets OuterEnumDefaultValue
  */
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public enum OuterEnumDefaultValue {
   
   PLACED("placed"),

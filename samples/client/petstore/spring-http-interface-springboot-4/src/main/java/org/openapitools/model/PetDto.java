@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PetDto {
 
   private @Nullable Long id;
