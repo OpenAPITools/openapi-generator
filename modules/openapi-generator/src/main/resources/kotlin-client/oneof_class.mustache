@@ -39,22 +39,22 @@ import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
 {{^enumUnknownDefaultCase}}
 {{#generateOneOfAnyOfWrappers}}
-{{#discriminator}}
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-{{/discriminator}}
 {{/generateOneOfAnyOfWrappers}}
 {{/enumUnknownDefaultCase}}
 {{#generateOneOfAnyOfWrappers}}
-{{#discriminator}}
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonEncoder
-import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
+{{#discriminator}}
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 {{/discriminator}}
@@ -100,6 +100,9 @@ import java.io.IOException
 {{#discriminator}}
 @Serializable(with = {{classname}}Serializer::class)
 {{/discriminator}}
+{{^discriminator}}
+{{#serializableModel}}@KSerializable(with = {{classname}}.{{classname}}Serializer::class){{/serializableModel}}{{^serializableModel}}@Serializable(with = {{classname}}.{{classname}}Serializer::class){{/serializableModel}}
+{{/discriminator}}
 {{/generateOneOfAnyOfWrappers}}
 {{/kotlinx_serialization}}
 {{#isDeprecated}}
@@ -107,6 +110,7 @@ import java.io.IOException
 {{/isDeprecated}}
 {{>additionalModelTypeAnnotations}}
 {{#kotlinx_serialization}}
+{{#discriminator}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
 {{#discriminator.mappedModels}}
     @JvmInline
@@ -150,6 +154,78 @@ import java.io.IOException
         }
     }
 }
+{{/discriminator}}
+{{^discriminator}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {
+
+    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object {{classname}}Serializer : KSerializer<{{classname}}> {
+        override val descriptor: SerialDescriptor = buildClassSerialDescriptor("{{classname}}") {
+            element("type", JsonPrimitive.serializer().descriptor)
+            element("actualInstance", JsonElement.serializer().descriptor)
+        }
+
+        override fun serialize(encoder: Encoder, value: {{classname}}) {
+            val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("{{classname}} can only be serialized with Json")
+
+            when (val instance = value.actualInstance) {
+                {{#composedSchemas}}
+                {{#oneOf}}
+                {{#isPrimitiveType}}
+                {{#isString}}
+                is kotlin.String -> jsonEncoder.encodeString(instance)
+                {{/isString}}
+                {{#isBoolean}}
+                is kotlin.Boolean -> jsonEncoder.encodeBoolean(instance)
+                {{/isBoolean}}
+                {{#isInteger}}
+                {{^isLong}}
+                is kotlin.Int -> jsonEncoder.encodeInt(instance)
+                {{/isLong}}
+                {{/isInteger}}
+                {{#isLong}}
+                is kotlin.Long -> jsonEncoder.encodeLong(instance)
+                {{/isLong}}
+                {{#isNumber}}
+                {{#isDouble}}
+                is kotlin.Double -> jsonEncoder.encodeDouble(instance)
+                {{/isDouble}}
+                {{#isFloat}}
+                is kotlin.Float -> jsonEncoder.encodeFloat(instance)
+                {{/isFloat}}
+                {{/isNumber}}
+                {{/isPrimitiveType}}
+                {{^isPrimitiveType}}
+                is {{{dataType}}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), instance)
+                {{/isPrimitiveType}}
+                {{/oneOf}}
+                {{/composedSchemas}}
+                null -> jsonEncoder.encodeJsonElement(JsonNull)
+                else -> throw SerializationException("Unknown type in actualInstance: ${instance::class}")
+            }
+        }
+
+        override fun deserialize(decoder: Decoder): {{classname}} {
+            val jsonDecoder = decoder as? JsonDecoder ?: throw SerializationException("{{classname}} can only be deserialized with Json")
+            val jsonElement = jsonDecoder.decodeJsonElement()
+
+            val errorMessages = mutableListOf<String>()
+
+            {{#composedSchemas}}
+            {{#oneOf}}
+            try {
+                val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
+                return {{classname}}(actualInstance = instance)
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+            {{/oneOf}}
+            {{/composedSchemas}}
+
+            throw SerializationException("Cannot deserialize {{classname}}. Tried: ${errorMessages.joinToString(", ")}")
+        }
+    }
+}
+{{/discriminator}}
 {{/kotlinx_serialization}}
 {{^kotlinx_serialization}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}data class {{classname}}(var actualInstance: Any? = null) {

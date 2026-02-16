@@ -614,6 +614,40 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(birdKt, "@SerialName(value = \"BIRD\")");
     }
 
+    @Test(description = "generate oneOf wrapper with primitive types using kotlinx_serialization")
+    public void oneOfPrimitiveKotlinxSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-retrofit2")
+                .setAdditionalProperties(new HashMap<>() {{
+                    put(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization");
+                    put("generateOneOfAnyOfWrappers", true);
+                }})
+                .setInputSpec("src/test/resources/3_0/issue_19942.json")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        final Path oneOfModelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/ObjectWithComplexOneOfId.kt");
+        // generates data class with actualInstance (not empty sealed interface)
+        TestUtils.assertFileContains(oneOfModelKt, "data class ObjectWithComplexOneOfId");
+        TestUtils.assertFileContains(oneOfModelKt, "var actualInstance: Any?");
+        // has a custom KSerializer
+        TestUtils.assertFileContains(oneOfModelKt, "object ObjectWithComplexOneOfIdSerializer : KSerializer<ObjectWithComplexOneOfId>");
+        // serializer handles primitive types
+        TestUtils.assertFileContains(oneOfModelKt, "is kotlin.String -> jsonEncoder.encodeString(instance)");
+        // serializer handles deserialization via try-each
+        TestUtils.assertFileContains(oneOfModelKt, "decodeFromJsonElement<kotlin.String>(jsonElement)");
+        // parent model references the oneOf wrapper type
+        final Path parentModelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/client/models/ObjectWithComplexOneOf.kt");
+        TestUtils.assertFileContains(parentModelKt, "val id: ObjectWithComplexOneOfId?");
+    }
+
     @Test(description = "generate polymorphic jackson model")
     public void polymorphicJacksonSerialization() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
