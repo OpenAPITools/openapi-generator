@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**some_data** | [**Dict[str, Tag]**](Tag.md) |  | [optional] 
+**some_data** | [**dict[str, Tag]**](Tag.md) |  | [optional] 
 
 ## Example
 

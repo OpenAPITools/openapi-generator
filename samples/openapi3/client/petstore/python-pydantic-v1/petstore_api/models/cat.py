@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import StrictBool
 from petstore_api.models.animal import Animal
 
@@ -27,7 +27,7 @@ class Cat(Animal):
     Cat
     """
     declawed: Optional[StrictBool] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["className", "color", "declawed"]
 
     class Config:

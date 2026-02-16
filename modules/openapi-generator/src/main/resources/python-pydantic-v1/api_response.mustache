@@ -1,7 +1,7 @@
 """API response object."""
 
 from __future__ import annotations
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import Field, StrictInt, StrictStr
 
 class ApiResponse:
@@ -10,7 +10,7 @@ class ApiResponse:
     """
 
     status_code: Optional[StrictInt] = Field(None, description="HTTP status code")
-    headers: Optional[Dict[StrictStr, StrictStr]] = Field(None, description="HTTP headers")
+    headers: Optional[dict[StrictStr, StrictStr]] = Field(None, description="HTTP headers")
     data: Optional[Any] = Field(None, description="Deserialized data given the data type")
     raw_data: Optional[Any] = Field(None, description="Raw data (HTTP response body)")
 

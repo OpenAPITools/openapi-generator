@@ -1,4 +1,3 @@
-from typing import List, Dict
 from aiohttp import web
 
 from openapi_server.models.order import Order

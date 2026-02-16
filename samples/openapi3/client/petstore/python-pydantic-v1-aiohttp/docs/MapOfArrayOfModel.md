@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**shop_id_to_org_online_lip_map** | **Dict[str, List[Tag]]** |  | [optional] 
+**shop_id_to_org_online_lip_map** | **dict[str, list[Tag]]** |  | [optional] 
 
 ## Example
 

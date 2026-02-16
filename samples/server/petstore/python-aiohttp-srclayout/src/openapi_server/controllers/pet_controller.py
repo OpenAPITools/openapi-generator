@@ -1,4 +1,3 @@
-from typing import List, Dict
 from aiohttp import web
 
 from openapi_server.models.api_response import ApiResponse
@@ -39,7 +38,7 @@ async def find_pets_by_status(request: web.Request, status) -> web.Response:
     Multiple status values can be provided with comma separated strings
 
     :param status: Status values that need to be considered for filter
-    :type status: List[str]
+    :type status: list[str]
 
     """
     return web.Response(status=200)
@@ -51,7 +50,7 @@ async def find_pets_by_tags(request: web.Request, tags) -> web.Response:
     Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
     :param tags: Tags to filter by
-    :type tags: List[str]
+    :type tags: list[str]
 
     """
     return web.Response(status=200)

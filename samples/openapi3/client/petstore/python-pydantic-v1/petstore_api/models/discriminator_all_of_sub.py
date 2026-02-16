@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any
 
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
 
@@ -26,7 +26,7 @@ class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub
     """
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["elementType"]
 
     class Config:

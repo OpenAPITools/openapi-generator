@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**map_property** | **Dict[str, str]** |  | [optional] 
-**map_of_map_property** | **Dict[str, Dict[str, str]]** |  | [optional] 
+**map_property** | **dict[str, str]** |  | [optional] 
+**map_of_map_property** | **dict[str, dict[str, str]]** |  | [optional] 
 
 ## Example
 

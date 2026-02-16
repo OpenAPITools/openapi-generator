@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr
 
 class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
@@ -26,7 +26,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     TestInlineFreeformAdditionalPropertiesRequest
     """
     some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["someProperty"]
 
     class Config:

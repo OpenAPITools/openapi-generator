@@ -6,13 +6,13 @@ to test the default value of properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**array_string_enum_ref_default** | [**List[StringEnumRef]**](StringEnumRef.md) |  | [optional] [default to ["success","failure"]]
-**array_string_enum_default** | **List[str]** |  | [optional] [default to ["success","failure"]]
-**array_string_default** | **List[str]** |  | [optional] [default to ["failure","skipped"]]
-**array_integer_default** | **List[int]** |  | [optional] [default to [1,3]]
-**array_string** | **List[str]** |  | [optional] 
-**array_string_nullable** | **List[str]** |  | [optional] 
-**array_string_extension_nullable** | **List[str]** |  | [optional] 
+**array_string_enum_ref_default** | [**list[StringEnumRef]**](StringEnumRef.md) |  | [optional] [default to ["success","failure"]]
+**array_string_enum_default** | **list[str]** |  | [optional] [default to ["success","failure"]]
+**array_string_default** | **list[str]** |  | [optional] [default to ["failure","skipped"]]
+**array_integer_default** | **list[int]** |  | [optional] [default to [1,3]]
+**array_string** | **list[str]** |  | [optional] 
+**array_string_nullable** | **list[str]** |  | [optional] 
+**array_string_extension_nullable** | **list[str]** |  | [optional] 
 **string_nullable** | **str** |  | [optional] 
 
 ## Example

@@ -2,8 +2,6 @@
 
 from datetime import date, datetime
 
-from typing import List, Dict, Type
-
 from openapi_server.models.base_model import Model
 from openapi_server.models.category import Category
 from openapi_server.models.tag import Tag
@@ -16,7 +14,7 @@ class Pet(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, category: Category=None, name: str=None, photo_urls: List[str]=None, tags: List[Tag]=None, status: str=None):
+    def __init__(self, id: int=None, category: Category=None, name: str=None, photo_urls: list[str]=None, tags: list[Tag]=None, status: str=None):
         """Pet - a model defined in OpenAPI
 
         :param id: The id of this Pet.
@@ -30,8 +28,8 @@ class Pet(Model):
             'id': int,
             'category': Category,
             'name': str,
-            'photo_urls': List[str],
-            'tags': List[Tag],
+            'photo_urls': list[str],
+            'tags': list[Tag],
             'status': str
         }
 
@@ -131,7 +129,7 @@ class Pet(Model):
 
 
         :return: The photo_urls of this Pet.
-        :rtype: List[str]
+        :rtype: list[str]
         """
         return self._photo_urls
 
@@ -141,7 +139,7 @@ class Pet(Model):
 
 
         :param photo_urls: The photo_urls of this Pet.
-        :type photo_urls: List[str]
+        :type photo_urls: list[str]
         """
         if photo_urls is None:
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")
@@ -154,7 +152,7 @@ class Pet(Model):
 
 
         :return: The tags of this Pet.
-        :rtype: List[Tag]
+        :rtype: list[Tag]
         """
         return self._tags
 
@@ -164,7 +162,7 @@ class Pet(Model):
 
 
         :param tags: The tags of this Pet.
-        :type tags: List[Tag]
+        :type tags: list[Tag]
         """
 
         self._tags = tags

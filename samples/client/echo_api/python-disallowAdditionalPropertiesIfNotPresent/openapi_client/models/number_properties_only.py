@@ -19,9 +19,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Optional, Union
 from typing_extensions import Annotated
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class NumberPropertiesOnly(BaseModel):
@@ -31,7 +31,7 @@ class NumberPropertiesOnly(BaseModel):
     number: Optional[Union[StrictFloat, StrictInt]] = None
     var_float: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="float")
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
-    __properties: ClassVar[List[str]] = ["number", "float", "double"]
+    __properties: ClassVar[list[str]] = ["number", "float", "double"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +54,7 @@ class NumberPropertiesOnly(BaseModel):
         """Create an instance of NumberPropertiesOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -64,7 +64,7 @@ class NumberPropertiesOnly(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -75,7 +75,7 @@ class NumberPropertiesOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of NumberPropertiesOnly from a dict"""
         if obj is None:
             return None

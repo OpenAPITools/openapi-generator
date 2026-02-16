@@ -1,15 +1,15 @@
 # coding: utf-8
 
-from typing import ClassVar, Dict, List, Tuple  # noqa: F401
+from typing import ClassVar
 
 from pydantic import Field, StrictStr, field_validator
-from typing import Any, List
+from typing import Any
 from typing_extensions import Annotated
 from openapi_server.models.user import User
 from openapi_server.security_api import get_token_api_key
 
 class BaseUserApi:
-    subclasses: ClassVar[Tuple] = ()
+    subclasses: ClassVar[tuple] = ()
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -24,7 +24,7 @@ class BaseUserApi:
 
     async def create_users_with_array_input(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
     ) -> None:
         """"""
         ...
@@ -32,7 +32,7 @@ class BaseUserApi:
 
     async def create_users_with_list_input(
         self,
-        user: Annotated[List[User], Field(description="List of user object")],
+        user: Annotated[list[User], Field(description="List of user object")],
     ) -> None:
         """"""
         ...

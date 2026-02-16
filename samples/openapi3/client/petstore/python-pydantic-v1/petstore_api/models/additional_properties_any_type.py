@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictStr
 
 class AdditionalPropertiesAnyType(BaseModel):
@@ -26,7 +26,7 @@ class AdditionalPropertiesAnyType(BaseModel):
     AdditionalPropertiesAnyType
     """
     name: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["name"]
 
     class Config:

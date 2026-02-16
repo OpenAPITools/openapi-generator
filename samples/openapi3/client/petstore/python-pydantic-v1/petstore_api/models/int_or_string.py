@@ -18,9 +18,9 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Any, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, validator
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
 INTORSTRING_ONE_OF_SCHEMAS = ["int", "str"]
@@ -37,7 +37,7 @@ class IntOrString(BaseModel):
         actual_instance: Union[int, str]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: list[str] = Field(INTORSTRING_ONE_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True

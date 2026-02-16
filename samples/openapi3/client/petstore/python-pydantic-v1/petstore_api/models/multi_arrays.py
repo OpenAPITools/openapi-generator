@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, conlist
 from petstore_api.models.file import File
 from petstore_api.models.tag import Tag
@@ -29,7 +29,7 @@ class MultiArrays(BaseModel):
     """
     tags: Optional[conlist(Tag)] = None
     files: Optional[conlist(File)] = Field(default=None, description="Another array of objects in addition to tags (mypy check to not to reuse the same iterator)")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["tags", "files"]
 
     class Config:

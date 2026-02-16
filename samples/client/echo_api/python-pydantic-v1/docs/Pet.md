@@ -7,8 +7,8 @@ Name | Type | Description | Notes
 **id** | **int** |  | [optional] 
 **name** | **str** |  | 
 **category** | [**Category**](Category.md) |  | [optional] 
-**photo_urls** | **List[str]** |  | 
-**tags** | [**List[Tag]**](Tag.md) |  | [optional] 
+**photo_urls** | **list[str]** |  | 
+**tags** | [**list[Tag]**](Tag.md) |  | [optional] 
 **status** | **str** | pet status in the store | [optional] 
 
 ## Example

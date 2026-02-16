@@ -18,11 +18,11 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from typing_extensions import Annotated
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class Pet(BaseModel):
@@ -32,11 +32,11 @@ class Pet(BaseModel):
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
     name: StrictStr
-    photo_urls: Annotated[List[StrictStr], Field(min_length=0)] = Field(alias="photoUrls")
-    tags: Optional[List[Tag]] = None
+    photo_urls: Annotated[list[StrictStr], Field(min_length=0)] = Field(alias="photoUrls")
+    tags: Optional[list[Tag]] = None
     status: Optional[StrictStr] = Field(default=None, description="pet status in the store")
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["id", "category", "name", "photoUrls", "tags", "status"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["id", "category", "name", "photoUrls", "tags", "status"]
 
     @field_validator('status')
     def status_validate_enum(cls, value):
@@ -69,7 +69,7 @@ class Pet(BaseModel):
         """Create an instance of Pet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -80,7 +80,7 @@ class Pet(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -107,7 +107,7 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None

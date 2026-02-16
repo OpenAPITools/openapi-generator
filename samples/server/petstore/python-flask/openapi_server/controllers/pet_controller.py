@@ -1,6 +1,4 @@
 import connexion
-from typing import Dict
-from typing import Tuple
 from typing import Union
 
 from openapi_server.models.api_response import ApiResponse  # noqa: E501
@@ -16,7 +14,7 @@ def add_pet(body):  # noqa: E501
     :param pet: Pet object that needs to be added to the store
     :type pet: dict | bytes
 
-    :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
+    :rtype: Union[Pet, tuple[Pet, int], tuple[Pet, int, dict[str, str]]
     """
     pet = body
     if connexion.request.is_json:
@@ -34,7 +32,7 @@ def delete_pet(pet_id, api_key=None):  # noqa: E501
     :param api_key: 
     :type api_key: str
 
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
+    :rtype: Union[None, tuple[None, int], tuple[None, int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -45,9 +43,9 @@ def find_pets_by_status(status):  # noqa: E501
     Multiple status values can be provided with comma separated strings # noqa: E501
 
     :param status: Status values that need to be considered for filter
-    :type status: List[str]
+    :type status: list[str]
 
-    :rtype: Union[List[Pet], Tuple[List[Pet], int], Tuple[List[Pet], int, Dict[str, str]]
+    :rtype: Union[list[Pet], tuple[list[Pet], int], tuple[list[Pet], int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -58,9 +56,9 @@ def find_pets_by_tags(tags):  # noqa: E501
     Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. # noqa: E501
 
     :param tags: Tags to filter by
-    :type tags: List[str]
+    :type tags: list[str]
 
-    :rtype: Union[List[Pet], Tuple[List[Pet], int], Tuple[List[Pet], int, Dict[str, str]]
+    :rtype: Union[list[Pet], tuple[list[Pet], int], tuple[list[Pet], int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -73,7 +71,7 @@ def get_pet_by_id(pet_id):  # noqa: E501
     :param pet_id: ID of pet to return
     :type pet_id: int
 
-    :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
+    :rtype: Union[Pet, tuple[Pet, int], tuple[Pet, int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -86,7 +84,7 @@ def update_pet(body):  # noqa: E501
     :param pet: Pet object that needs to be added to the store
     :type pet: dict | bytes
 
-    :rtype: Union[Pet, Tuple[Pet, int], Tuple[Pet, int, Dict[str, str]]
+    :rtype: Union[Pet, tuple[Pet, int], tuple[Pet, int, dict[str, str]]
     """
     pet = body
     if connexion.request.is_json:
@@ -106,7 +104,7 @@ def update_pet_with_form(pet_id, name=None, status=None):  # noqa: E501
     :param status: Updated status of the pet
     :type status: str
 
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
+    :rtype: Union[None, tuple[None, int], tuple[None, int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -123,6 +121,6 @@ def upload_file(pet_id, additional_metadata=None, file=None):  # noqa: E501
     :param file: file to upload
     :type file: str
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[ApiResponse, tuple[ApiResponse, int], tuple[ApiResponse, int, dict[str, str]]
     """
     return 'do some magic!'

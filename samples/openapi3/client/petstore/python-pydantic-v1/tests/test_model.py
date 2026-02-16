@@ -345,7 +345,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             #error_message = (
-            #    "1 validation error for List\n"
+            #    "1 validation error for list\n"
             #    "123-list\n"
             #    "  str type expected (type=type_error.str)\n")
             self.assertTrue("str type expected" in str(e))

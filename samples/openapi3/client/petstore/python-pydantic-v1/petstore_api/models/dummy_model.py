@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictStr
 
 class DummyModel(BaseModel):
@@ -27,7 +27,7 @@ class DummyModel(BaseModel):
     """
     category: Optional[StrictStr] = None
     self_ref: Optional[SelfReferenceModel] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["category", "self_ref"]
 
     class Config:

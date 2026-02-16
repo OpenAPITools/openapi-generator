@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any
 from pydantic import BaseModel, Field, StrictStr
 
 class CreatureInfo(BaseModel):
@@ -26,7 +26,7 @@ class CreatureInfo(BaseModel):
     CreatureInfo
     """
     name: StrictStr = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["name"]
 
     class Config:

@@ -29,7 +29,7 @@ class DeserializationTests(unittest.TestCase):
         self.deserialize = self.api_client.deserialize
 
     def test_enum_test(self):
-       """ deserialize Dict[str, EnumTest] """
+       """ deserialize dict[str, EnumTest] """
        data = {
            'enum_test': {
                "enum_string": "UPPER",
@@ -41,7 +41,7 @@ class DeserializationTests(unittest.TestCase):
        }
        response = MockResponse(data=json.dumps(data))
 
-       deserialized = self.deserialize(response, 'Dict[str, EnumTest]')
+       deserialized = self.deserialize(response, 'dict[str, EnumTest]')
        self.assertTrue(isinstance(deserialized, dict))
        self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
        self.assertEqual(deserialized['enum_test'],
@@ -52,7 +52,7 @@ class DeserializationTests(unittest.TestCase):
                                               outer_enum=petstore_api.OuterEnum.PLACED))
 
     def test_deserialize_dict_str_pet(self):
-        """ deserialize Dict[str, Pet] """
+        """ deserialize dict[str, Pet] """
         data = {
             'pet': {
                 "id": 0,
@@ -75,13 +75,13 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'Dict[str, Pet]')
+        deserialized = self.deserialize(response, 'dict[str, Pet]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
     @pytest.mark.skip(reason="skipping for now as deserialization will be refactored")
     def test_deserialize_dict_str_dog(self):
-        """ deserialize Dict[str, Animal], use discriminator"""
+        """ deserialize dict[str, Animal], use discriminator"""
         data = {
             'dog': {
                 "id": 0,
@@ -92,19 +92,19 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'Dict[str, Animal]')
+        deserialized = self.deserialize(response, 'dict[str, Animal]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
     @pytest.mark.skip(reason="skipping for now as deserialization will be refactored")
     def test_deserialize_dict_str_int(self):
-        """ deserialize Dict[str, int] """
+        """ deserialize dict[str, int] """
         data = {
             'integer': 1
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, 'Dict[str, int]')
+        deserialized = self.deserialize(response, 'dict[str, int]')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['integer'], int))
 
@@ -204,7 +204,7 @@ class DeserializationTests(unittest.TestCase):
             }]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "List[Pet]")
+        deserialized = self.deserialize(response, "list[Pet]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], petstore_api.Pet))
         self.assertEqual(deserialized[0].id, 0)
@@ -213,7 +213,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized[1].name, "doggie1")
 
     def test_deserialize_nested_dict(self):
-        """ deserialize Dict[str, Dict[str, int]] """
+        """ deserialize dict[str, dict[str, int]] """
         data = {
             "foo": {
                 "bar": 1
@@ -221,7 +221,7 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "Dict[str, Dict[str, int]]")
+        deserialized = self.deserialize(response, "dict[str, dict[str, int]]")
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized["foo"], dict))
         self.assertTrue(isinstance(deserialized["foo"]["bar"], int))
@@ -231,7 +231,7 @@ class DeserializationTests(unittest.TestCase):
         data = [["foo"]]
         response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(response, "List[List[str]]")
+        deserialized = self.deserialize(response, "list[list[str]]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], list))
         self.assertTrue(isinstance(deserialized[0][0], str))

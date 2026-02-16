@@ -1,6 +1,5 @@
 # coding: utf-8
 
-from typing import Dict, List  # noqa: F401
 import importlib
 import pkgutil
 
@@ -24,7 +23,7 @@ from fastapi import (  # noqa: F401
 
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, StrictInt, StrictStr
-from typing import Any, Dict
+from typing import Any
 from typing_extensions import Annotated
 from openapi_server.models.order import Order
 from openapi_server.security_api import get_token_api_key
@@ -39,7 +38,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 @router.get(
     "/store/inventory",
     responses={
-        200: {"model": Dict[str, int], "description": "successful operation"},
+        200: {"model": dict[str, int], "description": "successful operation"},
     },
     tags=["store"],
     summary="Returns pet inventories by status",
@@ -49,7 +48,7 @@ async def get_inventory(
     token_api_key: TokenModel = Security(
         get_token_api_key
     ),
-) -> Dict[str, int]:
+) -> dict[str, int]:
     """Returns a map of status codes to quantities"""
     if not BaseStoreApi.subclasses:
         raise HTTPException(status_code=500, detail="Not implemented")

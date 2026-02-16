@@ -12,7 +12,7 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from pydantic import Field
@@ -44,14 +44,14 @@ class FakeClassnameTags123Api:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Client:
         """To test class name in snake case
@@ -90,7 +90,7 @@ class FakeClassnameTags123Api:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = self.api_client.call_api(
@@ -111,14 +111,14 @@ class FakeClassnameTags123Api:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Client]:
         """To test class name in snake case
@@ -157,7 +157,7 @@ class FakeClassnameTags123Api:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = self.api_client.call_api(
@@ -178,14 +178,14 @@ class FakeClassnameTags123Api:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """To test class name in snake case
@@ -224,7 +224,7 @@ class FakeClassnameTags123Api:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "Client",
         }
         response_data = self.api_client.call_api(
@@ -245,15 +245,15 @@ class FakeClassnameTags123Api:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -289,7 +289,7 @@ class FakeClassnameTags123Api:
                 _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
             'api_key_query'
         ]
 

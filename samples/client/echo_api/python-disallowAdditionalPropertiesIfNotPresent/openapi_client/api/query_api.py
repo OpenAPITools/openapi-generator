@@ -13,12 +13,12 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 from typing_extensions import Annotated
 
 from datetime import date, datetime
 from pydantic import StrictBool, StrictInt, StrictStr, field_validator
-from typing import Any, List, Optional
+from typing import Any, Optional
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
@@ -49,14 +49,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -98,7 +98,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -120,14 +120,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -169,7 +169,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -191,14 +191,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -240,7 +240,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -262,15 +262,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -299,7 +299,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -329,14 +329,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -381,7 +381,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -404,14 +404,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -456,7 +456,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -479,14 +479,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -531,7 +531,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -554,15 +554,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -613,7 +613,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -643,14 +643,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -695,7 +695,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -718,14 +718,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -770,7 +770,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -793,14 +793,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -845,7 +845,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -868,15 +868,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -909,7 +909,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -937,14 +937,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -983,7 +983,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1004,14 +1004,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -1050,7 +1050,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1071,14 +1071,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -1117,7 +1117,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1138,15 +1138,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1171,7 +1171,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1199,14 +1199,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -1245,7 +1245,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1266,14 +1266,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -1312,7 +1312,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1333,14 +1333,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -1379,7 +1379,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1400,15 +1400,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1433,7 +1433,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1457,18 +1457,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -1476,7 +1476,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1507,7 +1507,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1524,18 +1524,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer_with_http_info(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -1543,7 +1543,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1574,7 +1574,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1591,18 +1591,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_integer_without_preload_content(
         self,
-        query_object: Optional[List[StrictInt]] = None,
+        query_object: Optional[list[StrictInt]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -1610,7 +1610,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1641,7 +1641,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1662,16 +1662,16 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             'query_object': 'csv',
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1696,7 +1696,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1720,18 +1720,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -1739,7 +1739,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1770,7 +1770,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1787,18 +1787,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string_with_http_info(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -1806,7 +1806,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1837,7 +1837,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1854,18 +1854,18 @@ class QueryApi:
     @validate_call
     def test_query_style_form_explode_false_array_string_without_preload_content(
         self,
-        query_object: Optional[List[StrictStr]] = None,
+        query_object: Optional[list[StrictStr]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -1873,7 +1873,7 @@ class QueryApi:
         Test query parameter(s)
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1904,7 +1904,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -1925,16 +1925,16 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             'query_object': 'csv',
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -1959,7 +1959,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -1987,14 +1987,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -2033,7 +2033,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2054,14 +2054,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -2100,7 +2100,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2121,14 +2121,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -2167,7 +2167,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2188,15 +2188,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2221,7 +2221,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2249,14 +2249,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -2295,7 +2295,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2316,14 +2316,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -2362,7 +2362,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2383,14 +2383,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -2429,7 +2429,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2450,15 +2450,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2483,7 +2483,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2511,14 +2511,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -2557,7 +2557,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2578,14 +2578,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -2624,7 +2624,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2645,14 +2645,14 @@ class QueryApi:
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -2691,7 +2691,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2712,15 +2712,15 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -2745,7 +2745,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
@@ -2770,18 +2770,18 @@ class QueryApi:
     def test_query_style_json_serialization_object(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> str:
         """Test query parameter(s)
@@ -2791,7 +2791,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2823,7 +2823,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2841,18 +2841,18 @@ class QueryApi:
     def test_query_style_json_serialization_object_with_http_info(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[str]:
         """Test query parameter(s)
@@ -2862,7 +2862,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2894,7 +2894,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2912,18 +2912,18 @@ class QueryApi:
     def test_query_style_json_serialization_object_without_preload_content(
         self,
         json_serialized_object_ref_string_query: Optional[Pet] = None,
-        json_serialized_object_array_ref_string_query: Optional[List[Pet]] = None,
+        json_serialized_object_array_ref_string_query: Optional[list[Pet]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
+            tuple[
                 Annotated[StrictFloat, Field(gt=0)],
                 Annotated[StrictFloat, Field(gt=0)]
             ]
         ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _request_auth: Optional[dict[StrictStr, Any]] = None,
         _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _headers: Optional[dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
         """Test query parameter(s)
@@ -2933,7 +2933,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2965,7 +2965,7 @@ class QueryApi:
             _host_index=_host_index
         )
 
-        _response_types_map: Dict[str, Optional[str]] = {
+        _response_types_map: dict[str, Optional[str]] = {
             '200': "str",
         }
         response_data = self.api_client.call_api(
@@ -2987,16 +2987,16 @@ class QueryApi:
 
         _host = None
 
-        _collection_formats: Dict[str, str] = {
+        _collection_formats: dict[str, str] = {
             'json_serialized_object_array_ref_string_query': 'csv',
         }
 
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, Optional[str]] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, Union[str, bytes, list[str], list[bytes], list[tuple[str, bytes]]]
         ] = {}
         _body_params: Optional[bytes] = None
 
@@ -3025,7 +3025,7 @@ class QueryApi:
 
 
         # authentication setting
-        _auth_settings: List[str] = [
+        _auth_settings: list[str] = [
         ]
 
         return self.api_client.param_serialize(
