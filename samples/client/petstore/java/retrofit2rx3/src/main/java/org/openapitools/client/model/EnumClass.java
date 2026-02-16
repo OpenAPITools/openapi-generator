@@ -22,6 +22,9 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets EnumClass
@@ -35,7 +38,15 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
+  private static final Map<String, EnumClass> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (EnumClass e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   EnumClass(String value) {
     this.value = value;
@@ -51,12 +62,7 @@ public enum EnumClass {
   }
 
   public static EnumClass fromValue(String value) {
-    for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   public static class Adapter extends TypeAdapter<EnumClass> {

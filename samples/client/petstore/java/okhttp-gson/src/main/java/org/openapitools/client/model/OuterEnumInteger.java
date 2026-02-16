@@ -17,6 +17,9 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -36,7 +39,15 @@ public enum OuterEnumInteger {
   
   NUMBER_2(2);
 
+  private static final Map<Integer, OuterEnumInteger> BY_VALUE = new HashMap<>();
+
   private Integer value;
+
+  static {
+    for (OuterEnumInteger e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   OuterEnumInteger(Integer value) {
     this.value = value;
@@ -50,14 +61,9 @@ public enum OuterEnumInteger {
   public String toString() {
     return String.valueOf(value);
   }
-
+//
   public static OuterEnumInteger fromValue(Integer value) {
-    for (OuterEnumInteger b : OuterEnumInteger.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   public static class Adapter extends TypeAdapter<OuterEnumInteger> {

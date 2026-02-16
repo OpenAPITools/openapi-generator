@@ -23,6 +23,9 @@ import java.util.StringJoiner;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets SingleRefType
@@ -33,7 +36,15 @@ public enum SingleRefType {
   
   USER("user");
 
+  private static final Map<String, SingleRefType> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (SingleRefType e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   SingleRefType(String value) {
     this.value = value;
@@ -51,12 +62,7 @@ public enum SingleRefType {
 
   @JsonCreator
   public static SingleRefType fromValue(String value) {
-    for (SingleRefType b : SingleRefType.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   /**

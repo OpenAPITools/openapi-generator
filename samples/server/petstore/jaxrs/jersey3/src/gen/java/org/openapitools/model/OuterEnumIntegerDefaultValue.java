@@ -21,6 +21,9 @@ import jakarta.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets OuterEnumIntegerDefaultValue
@@ -33,7 +36,15 @@ public enum OuterEnumIntegerDefaultValue {
   
   NUMBER_2(2);
 
+  private static final Map<Integer, OuterEnumIntegerDefaultValue> BY_VALUE = new HashMap<>();
+
   private Integer value;
+
+  static {
+    for (OuterEnumIntegerDefaultValue e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   OuterEnumIntegerDefaultValue(Integer value) {
     this.value = value;
@@ -51,12 +62,7 @@ public enum OuterEnumIntegerDefaultValue {
 
   @JsonCreator
   public static OuterEnumIntegerDefaultValue fromValue(Integer value) {
-    for (OuterEnumIntegerDefaultValue b : OuterEnumIntegerDefaultValue.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 }
 

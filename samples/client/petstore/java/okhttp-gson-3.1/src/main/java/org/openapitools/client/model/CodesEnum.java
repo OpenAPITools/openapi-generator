@@ -17,6 +17,9 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -35,7 +38,15 @@ public enum CodesEnum {
   
   CODE_3("Code 3");
 
+  private static final Map<String, CodesEnum> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (CodesEnum e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   CodesEnum(String value) {
     this.value = value;
@@ -49,14 +60,9 @@ public enum CodesEnum {
   public String toString() {
     return String.valueOf(value);
   }
-
+//
   public static CodesEnum fromValue(String value) {
-    for (CodesEnum b : CodesEnum.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   public static class Adapter extends TypeAdapter<CodesEnum> {

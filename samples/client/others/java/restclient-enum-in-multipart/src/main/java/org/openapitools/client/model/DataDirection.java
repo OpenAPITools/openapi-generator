@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * The direction a message travels
@@ -30,7 +33,15 @@ public enum DataDirection {
   
   OUTGOING("OUTGOING");
 
+  private static final Map<String, DataDirection> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (DataDirection e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   DataDirection(String value) {
     this.value = value;
@@ -48,12 +59,7 @@ public enum DataDirection {
 
   @JsonCreator
   public static DataDirection fromValue(String value) {
-    for (DataDirection b : DataDirection.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 }
 

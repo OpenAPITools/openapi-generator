@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets OuterEnum
@@ -32,7 +35,15 @@ public enum OuterEnum {
   
   DELIVERED("delivered");
 
+  private static final Map<String, OuterEnum> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (OuterEnum e: values()) {
+      BY_VALUE.put(e.value, e);
+    }
+  }
 
   OuterEnum(String value) {
     this.value = value;
@@ -50,12 +61,7 @@ public enum OuterEnum {
 
   @JsonCreator
   public static OuterEnum fromValue(String value) {
-    for (OuterEnum b : OuterEnum.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    return null;
+    return Optional.ofNullable(BY_VALUE.get(value)).orElse(null);
   }
 }
 
