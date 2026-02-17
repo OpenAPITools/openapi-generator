@@ -1313,6 +1313,39 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateSerializableModelWithExternallyAddedXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(MODEL_VENDOR_EXTENSION_ADD, Map.of("Dog", Map.of("class", Map.of("x-kotlin-implements", List.of("com.some.pack.Fetchable"), "x-kotlin-implements-fields", List.of("likesFetch")))));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-without-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.pack.Fetchable, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
     public void generateHttpInterfaceReactiveWithReactorResponseEntity() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

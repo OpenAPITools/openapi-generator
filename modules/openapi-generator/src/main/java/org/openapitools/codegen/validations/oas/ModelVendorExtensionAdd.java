@@ -1,5 +1,6 @@
 package org.openapitools.codegen.validations.oas;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ public class ModelVendorExtensionAdd {
 
     @Getter
     @Setter
+    @JsonProperty("class")
     private Map<String, List<String>> clazz = new HashMap<>();
 
     @Getter
