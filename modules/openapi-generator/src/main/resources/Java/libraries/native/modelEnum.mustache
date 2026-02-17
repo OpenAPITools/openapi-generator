@@ -12,7 +12,8 @@ import com.google.gson.stream.JsonWriter;
 {{#isUri}}
 import java.net.URI;
 {{/isUri}}
-{{#useEnumCaseInsensitive}}import java.util.TreeMap{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}import java.util.HashMap{{/useEnumCaseInsensitive}};
+{{#useEnumCaseInsensitive}}import java.util.Locale;
+{{/useEnumCaseInsensitive}}import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ import java.util.Optional;
   {{{name}}}({{{value}}}){{^-last}},
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
 
-  private static final Map<{{{dataType}}}, {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> BY_VALUE = {{#useEnumCaseInsensitive}}new TreeMap<>(String.CASE_INSENSITIVE_ORDER){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}new HashMap<>(){{/useEnumCaseInsensitive}};
+  private static final Map<{{{dataType}}}, {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> BY_VALUE = new HashMap<>();
 
   private {{{dataType}}} value;
 
@@ -72,7 +73,7 @@ import java.util.Optional;
   @JsonCreator
 {{/jackson}}
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    return Optional.ofNullable(BY_VALUE.get(value)).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
+    return Optional.ofNullable({{#useEnumCaseInsensitive}}value == null ? null : BY_VALUE.get(value.toLowerCase(Locale.ROOT)){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(value){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
   }
 {{#supportUrlQuery}}
 
