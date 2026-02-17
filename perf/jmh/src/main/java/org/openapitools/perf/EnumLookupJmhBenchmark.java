@@ -94,7 +94,7 @@ public class EnumLookupJmhBenchmark {
             this.value = value;
         }
 
-        public static Fruit fromValueHashMap(String value) {
+        public static Fruit fromValueHashMapWithoutOptional(String value) {
             Fruit result = BY_VALUE_HASHMAP.get(value);
             if (result == null) {
                 throw new IllegalArgumentException("Unexpected value '" + value + "'");
@@ -161,9 +161,9 @@ public class EnumLookupJmhBenchmark {
     }
     
     @Benchmark
-    public void hashMapLookup(LookupState state, Blackhole blackhole) {
+    public void hashMapLookupWithoutOptional(LookupState state, Blackhole blackhole) {
         String value = state.nextExact();
-        Fruit result = Fruit.fromValueHashMap(value);
+        Fruit result = Fruit.fromValueHashMapWithoutOptional(value);
         blackhole.consume(result);
     }
     
