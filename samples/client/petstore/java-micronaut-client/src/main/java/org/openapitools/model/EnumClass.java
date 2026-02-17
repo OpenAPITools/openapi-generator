@@ -59,7 +59,7 @@ public enum EnumClass {
     public String toString() {
         return String.valueOf(value);
     }
-//
+
     @JsonCreator
     public static EnumClass fromValue(String value) {
         return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));

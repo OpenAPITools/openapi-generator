@@ -62,7 +62,7 @@ public enum OuterEnum {
   public String toString() {
     return String.valueOf(value);
   }
-//
+
   public static OuterEnum fromValue(String value) {
     return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
