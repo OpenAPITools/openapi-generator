@@ -47,8 +47,99 @@ import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
 import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.testng.Assert.assertTrue;
 
 public class KotlinSpringServerCodegenTest {
+
+    @Test
+    public void gradleWrapperIsGenerated() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(
+                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+        String outputPath = output.getAbsolutePath();
+        Path gradleWrapperProperties = Paths.get(outputPath + "/gradle/wrapper/gradle-wrapper.properties");
+        Path gradleWrapperJar = Paths.get(outputPath + "/gradle/wrapper/gradle-wrapper.jar");
+        Path gradleWrapper = Paths.get(outputPath + "/gradlew");
+        Path gradleWrapperBat = Paths.get(outputPath + "/gradlew.bat");
+        TestUtils.assertFileExists(gradleWrapperProperties);
+        TestUtils.assertFileExists(gradleWrapper);
+        TestUtils.assertFileExists(gradleWrapperBat);
+        //Different because file is not a text file
+        assertTrue(Files.exists(gradleWrapperJar));
+
+        //Spring Cloud
+        File outputCloud = Files.createTempDirectory("testCloud").toFile().getCanonicalFile();
+        outputCloud.deleteOnExit();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(outputCloud.getAbsolutePath());
+        new DefaultGenerator().opts(
+                new ClientOptInput().openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        String outputPathCloud = outputCloud.getAbsolutePath();
+        Path gradleWrapperPropertiesCloud = Paths.get(outputPathCloud + "/gradle/wrapper/gradle-wrapper.properties");
+        Path gradleWrapperJarCloud = Paths.get(outputPathCloud + "/gradle/wrapper/gradle-wrapper.jar");
+        Path gradleWrapperCloud = Paths.get(outputPathCloud + "/gradlew");
+        Path gradleWrapperBatCloud = Paths.get(outputPathCloud + "/gradlew.bat");
+        TestUtils.assertFileExists(gradleWrapperPropertiesCloud);
+        TestUtils.assertFileExists(gradleWrapperCloud);
+        TestUtils.assertFileExists(gradleWrapperBatCloud);
+        //Different because file is not a text file
+        assertTrue(Files.exists(gradleWrapperJarCloud));
+    }
+
+    @Test(description = "generate polymorphic jackson model")
+    public void polymorphicJacksonSerialization() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen() ;
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/polymorphism.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path animalKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Animal.kt");
+        // base has extra jackson imports
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonIgnoreProperties");
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonSubTypes");
+        TestUtils.assertFileContains(animalKt, "import com.fasterxml.jackson.annotation.JsonTypeInfo");
+        // and these are being used
+        TestUtils.assertFileContains(animalKt, "@JsonIgnoreProperties");
+        TestUtils.assertFileContains(animalKt, "@JsonSubTypes");
+        TestUtils.assertFileContains(animalKt, "@JsonTypeInfo");
+        // base is interface
+        TestUtils.assertFileContains(animalKt, "interface Animal");
+        // base properties are present
+        TestUtils.assertFileContains(animalKt, "val id");
+        TestUtils.assertFileContains(animalKt, "val optionalProperty");
+        TestUtils.assertFileContains(animalKt, "val stringArray: kotlin.collections.List<kotlin.String>");
+        TestUtils.assertFileContains(animalKt, "val stringSet: kotlin.collections.Set<kotlin.String>");
+        // base doesn't contain discriminator
+        TestUtils.assertFileNotContains(animalKt, "val discriminator");
+
+        final Path birdKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/Bird.kt");
+        // derived has serial name set to mapping key
+        TestUtils.assertFileContains(birdKt, "data class Bird");
+        // derived properties are overridden
+        TestUtils.assertFileContains(birdKt, "override val id");
+        TestUtils.assertFileContains(birdKt, "override val optionalProperty");
+        TestUtils.assertFileContains(birdKt, "override val stringArray: kotlin.collections.List<kotlin.String>");
+        TestUtils.assertFileContains(birdKt, "override val stringSet: kotlin.collections.Set<kotlin.String>");
+        // derived doesn't contain disciminator
+        TestUtils.assertFileNotContains(birdKt, "val discriminator");
+    }
 
     @Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
@@ -1049,8 +1140,9 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
-        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
-        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+//        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
+//        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+        codegen.additionalProperties().put(MODEL_VENDOR_EXTENSION_REMOVE, Map.of("Dog", Map.of("class", List.of("x-kotlin-implements", "x-kotlin-implements-fields"))));
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
@@ -1183,6 +1275,39 @@ public class KotlinSpringServerCodegenTest {
                 path,
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
                 ") : Pet, com.some.different.pack.MyOwnFetchable, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateSerializableModelWithRemovedXimplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(MODEL_VENDOR_EXTENSION_REMOVE, Map.of("Dog", Map.of("class", List.of("x-kotlin-implements", "x-kotlin-implements-fields"))));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) val likesFetch: kotlin.Boolean,",
+                ") : Pet, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
