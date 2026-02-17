@@ -2378,7 +2378,7 @@ public class JavaClientCodegenTest {
 
         assertThat(files.get("EnumTest.java"))
                 .content()
-                .contains("new TreeMap<>(String.CASE_INSENSITIVE_ORDER)");
+                .contains("toLowerCase(Locale.ROOT)");
     }
 
     @Test
