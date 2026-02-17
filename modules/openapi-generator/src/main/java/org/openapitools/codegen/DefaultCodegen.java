@@ -1187,10 +1187,14 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
-        LinkedHashMap<String, Operation> operationsByOperationId = openAPI.getPaths().entrySet().stream()
+        Map<String, Operation> operationsByOperationId = openAPI.getPaths() != null
+                ? openAPI.getPaths().entrySet().stream()
                 .flatMap(path -> path.getValue().readOperations().stream())
-                .collect(Collectors.toMap(Operation::getOperationId, Function.identity(), (existing, replacement) -> existing, LinkedHashMap::new));
-        Map<String, Schema> modelsByName = openAPI.getComponents().getSchemas();
+                .collect(Collectors.toMap(Operation::getOperationId, Function.identity(), (existing, replacement) -> existing, LinkedHashMap::new))
+                : Map.of();
+        Map<String, Schema> modelsByName = (openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null)
+                ? openAPI.getComponents().getSchemas()
+                : Map.of();
 
         // Remove model vendor extensions
         modelVendorExtensionRemove.forEach((name, ext) -> {
