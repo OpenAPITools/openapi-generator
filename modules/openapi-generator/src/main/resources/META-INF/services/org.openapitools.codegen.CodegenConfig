@@ -149,6 +149,7 @@ org.openapitools.codegen.languages.StaticHtml2Generator
 org.openapitools.codegen.languages.Swift5ClientCodegen
 org.openapitools.codegen.languages.Swift6ClientCodegen
 org.openapitools.codegen.languages.SwiftCombineClientCodegen
+org.openapitools.codegen.languages.TerraformProviderCodegen
 org.openapitools.codegen.languages.TypeScriptClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen

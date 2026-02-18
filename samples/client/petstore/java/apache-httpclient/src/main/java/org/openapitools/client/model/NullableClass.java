@@ -61,7 +61,7 @@ import java.util.StringJoiner;
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NullableClass extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   @javax.annotation.Nullable

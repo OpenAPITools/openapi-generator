@@ -27,6 +27,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.testng.Assert.*;
@@ -618,6 +619,131 @@ public class OpenAPINormalizerTest {
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getType());
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getTypes());
     }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxNumericOnly() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/x")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // exclusiveMinimum: 0
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        // exclusiveMaximum: 10
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxStricterThanMinMax() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/foo")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        assertEquals(new BigDecimal("1"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("1"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxEqualToMinMax() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/bar")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // minimum: 0 + exclusiveMinimum: 0 → must remain exclusive
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMinimum());
+
+        // maximum: 10 + exclusiveMaximum: 10 → must remain exclusive
+        assertEquals(new BigDecimal("10"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertEquals(Boolean.TRUE, schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxInclusiveStricterThanExclusiveValue() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/baz")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // minimum: 5 is stricter than exclusiveMinimum: 0 (x >= 5 dominates x > 0)
+        assertEquals(new BigDecimal("0"), schema.getExclusiveMinimumValue());
+        assertEquals(new BigDecimal("5"), schema.getMinimum());
+        assertNull(schema.getExclusiveMinimum());
+
+        // maximum: 10 is stricter than exclusiveMaximum: 11 (x <= 10 dominates x < 11)
+        assertEquals(new BigDecimal("11"), schema.getExclusiveMaximumValue());
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertNull(schema.getExclusiveMaximum());
+    }
+
+    @Test
+    public void testNormalize31ExclusiveMinMaxBooleanExclusiveAlreadySet() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
+
+        OpenAPINormalizer n = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        n.normalize();
+
+        Schema<?> schema = openAPI.getPaths()
+                .get("/old")
+                .getGet()
+                .getParameters()
+                .get(0)
+                .getSchema();
+
+        // 3.0-style boolean exclusive flags should remain intact
+        assertEquals(new BigDecimal("0"), schema.getMinimum());
+        assertNull(schema.getExclusiveMinimum());
+
+        assertEquals(new BigDecimal("10"), schema.getMaximum());
+        assertNull(schema.getExclusiveMaximum());
+
+        // Ensure numeric 3.1 value fields are not unexpectedly set by normalization
+        assertNull(schema.getExclusiveMinimumValue());
+        assertNull(schema.getExclusiveMaximumValue());
+    }
+
 
     @Test
     public void testRemoveXInternal() {

@@ -93,6 +93,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
@@ -101,6 +102,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String SPRING_API_VERSION = "springApiVersion";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
 
     @Getter
     public enum RequestMappingMode {
@@ -154,6 +159,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    protected boolean useSpringBoot4 = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -163,6 +170,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringBuiltInValidation = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+    @Getter @Setter
+    protected boolean useJackson3 = false;
 
     public SpringCodegen() {
         super();
@@ -281,6 +290,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
                 "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4,
+                "Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                useSpringBoot4));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
                 generatedConstructorWithRequiredArgs));
@@ -463,8 +476,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3, this::setUseSpringBoot3);
-        if (isUseSpringBoot3()) {
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
+        if(isUseSpringBoot3() && isUseSpringBoot4()){
+            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+        }
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -474,7 +492,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             useJakartaEe = true;
             applyJakartaPackage();
         }
+        if(isUseJackson3() && !isUseSpringBoot4()){
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+        if(isUseJackson3() && isOpenApiNullable()){
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+        if(this.useJackson3){
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
+
+
+        // override parent one
+        importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("Nullable", "org.springframework.lang.Nullable");
@@ -482,7 +515,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
 
@@ -491,7 +524,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("delegate-method", true);
         }
 
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot4()) {
+            supportingFiles.add(new SupportingFile("pom-sb4.mustache", "", "pom.xml"));
+        } else if (isUseSpringBoot3()) {
             supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
         } else {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -655,6 +690,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
+    }
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
     }
 
     private boolean supportLibraryUseTags() {

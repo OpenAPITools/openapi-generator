@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |apiSuffix|suffix for api classes| |Api|
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
+|autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
@@ -73,12 +74,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD, OPERATION_PARAMETER|null
+|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD, OPERATION_PARAMETER|null
 |x-size-message|Add this property whenever you need to customize the invalidation error message for the size or length of a variable|FIELD, OPERATION_PARAMETER|null
 |x-minimum-message|Add this property whenever you need to customize the invalidation error message for the minimum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-maximum-message|Add this property whenever you need to customize the invalidation error message for the maximum value of a variable|FIELD, OPERATION_PARAMETER|null
 |x-kotlin-implements|Ability to specify interfaces that model must implement|MODEL|empty array
 |x-kotlin-implements-fields|Specify attributes that are implemented by the interface(s) added via `x-kotlin-implements`|MODEL|empty array
+|x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object.|OPERATION|false
 
 
 ## IMPORT MAPPING

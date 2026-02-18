@@ -4,7 +4,10 @@ on:
   push:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+      - samples/openapi3/client/petstore/spring-cloud-4-with-optional
+      - samples/client/petstore/spring-http-interface-springboot-4
       - samples/openapi3/server/petstore/springboot-3
+      - samples/openapi3/server/petstore/springboot-4
       - samples/server/petstore/springboot-api-response-examples
       - samples/server/petstore/springboot-lombok-data
       - samples/server/petstore/springboot-lombok-tostring
@@ -15,7 +18,10 @@ on:
   pull_request:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+      - samples/openapi3/client/petstore/spring-cloud-4-with-optional
+      - samples/client/petstore/spring-http-interface-springboot-4
       - samples/openapi3/server/petstore/springboot-3
+      - samples/openapi3/server/petstore/springboot-4
       - samples/server/petstore/springboot-api-response-examples
       - samples/server/petstore/springboot-lombok-data
       - samples/server/petstore/springboot-lombok-tostring
@@ -33,8 +39,11 @@ jobs:
         sample:
           # clients
           - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+          - samples/openapi3/client/petstore/spring-cloud-4-with-optional
+          - samples/client/petstore/spring-http-interface-springboot-4
           # servers
           - samples/openapi3/server/petstore/springboot-3
+          - samples/openapi3/server/petstore/springboot-4
           - samples/server/petstore/springboot-api-response-examples
           - samples/server/petstore/springboot-lombok-data
           - samples/server/petstore/springboot-lombok-tostring

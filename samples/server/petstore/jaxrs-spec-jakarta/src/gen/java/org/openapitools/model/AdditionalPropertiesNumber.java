@@ -26,7 +26,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @JsonTypeName("AdditionalPropertiesNumber")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
   private String name;
 
