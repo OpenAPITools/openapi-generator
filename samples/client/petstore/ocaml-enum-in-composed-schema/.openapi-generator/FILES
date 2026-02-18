@@ -1,5 +1,4 @@
 .ocamlformat
-.openapi-generator-ignore
 README.md
 dune
 dune-project

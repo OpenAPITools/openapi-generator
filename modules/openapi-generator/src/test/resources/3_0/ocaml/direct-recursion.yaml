@@ -14,40 +14,12 @@ info:
     cannot use it for OCaml testing.
   version: 1.0.0
   title: OCaml Direct Recursion Test
-paths:
-  /tree:
-    get:
-      operationId: getTree
-      description: Get a tree structure
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tree'
-  /node:
-    post:
-      operationId: createNode
-      description: Create a node
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Node'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Node'
+paths: {}
 components:
   schemas:
-    Tree:
+    ArrayRecursion:
       type: object
-      description: A tree with optional children (direct self-reference)
+      description: Test recursive type within an array (optional)
       properties:
         value:
           type: integer
@@ -55,17 +27,73 @@ components:
         children:
           type: array
           items:
-            $ref: '#/components/schemas/Tree'
+            $ref: '#/components/schemas/ArrayRecursion'
       required:
         - value
 
-    Node:
+    DirectRecursion:
       type: object
-      description: A node with an optional self-reference
+      description: Test direct self-reference (not in container, optional)
       properties:
         id:
           type: string
         next:
-          $ref: '#/components/schemas/Node'
+          $ref: '#/components/schemas/DirectRecursion'
       required:
         - id
+
+    MapRecursion:
+      type: object
+      description: Test recursive type within a map (optional)
+      properties:
+        name:
+          type: string
+        childMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MapRecursion'
+      required:
+        - name
+
+    RequiredRecursion:
+      type: object
+      description: Test required self-reference field
+      properties:
+        value:
+          type: string
+        parent:
+          $ref: '#/components/schemas/RequiredRecursion'
+      required:
+        - value
+        - parent
+
+    RequiredArrayRecursion:
+      type: object
+      description: Test required array of self-references
+      properties:
+        id:
+          type: integer
+        siblings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequiredArrayRecursion'
+      required:
+        - id
+        - siblings
+
+    MultipleRecursiveFields:
+      type: object
+      description: Test multiple recursive fields in the same model
+      properties:
+        name:
+          type: string
+        left:
+          $ref: '#/components/schemas/MultipleRecursiveFields'
+        right:
+          $ref: '#/components/schemas/MultipleRecursiveFields'
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/MultipleRecursiveFields'
+      required:
+        - name

@@ -267,18 +267,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 for (List<CodegenProperty> propList : allPropertyLists) {
                     for (CodegenProperty prop : propList) {
                         if (selfRefPropNames.contains(prop.name)) {
-                            // Replace "ModelName.t" with just "t" in all relevant fields
-                            prop.dataType = "t";
-                            prop.datatypeWithEnum = "t";
-                            if (prop.baseType != null) {
-                                prop.baseType = "t";
-                            }
-                            if (prop.complexType != null) {
-                                prop.complexType = "t";
-                            }
-
-                            // If it's a container type (e.g., array), update items as well
                             if (prop.isContainer && prop.items != null) {
+                                // For containers, update items and reconstruct the container type
                                 prop.items.dataType = "t";
                                 prop.items.datatypeWithEnum = "t";
                                 if (prop.items.baseType != null) {
@@ -287,6 +277,27 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                                 if (prop.items.complexType != null) {
                                     prop.items.complexType = "t";
                                 }
+
+                                // Reconstruct the container type based on the updated items
+                                if (prop.isArray) {
+                                    prop.dataType = "t list";
+                                    prop.datatypeWithEnum = "t list";
+                                } else if (prop.isMap) {
+                                    prop.dataType = "(string * t) list";
+                                    prop.datatypeWithEnum = "(string * t) list";
+                                }
+                            } else {
+                                // For non-containers, just replace the type directly
+                                prop.dataType = "t";
+                                prop.datatypeWithEnum = "t";
+                            }
+
+                            // Update baseType and complexType for all cases
+                            if (prop.baseType != null) {
+                                prop.baseType = "t";
+                            }
+                            if (prop.complexType != null) {
+                                prop.complexType = "t";
                             }
                         }
                     }
