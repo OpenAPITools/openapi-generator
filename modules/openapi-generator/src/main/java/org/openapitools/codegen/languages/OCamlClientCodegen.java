@@ -51,8 +51,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     static final String X_MODEL_MODULE = "x-model-module";
 
-    @Setter protected String packageName = "openapi";
-    @Setter protected String packageVersion = "1.0.0";
+    @Setter
+    protected String packageName = "openapi";
+    @Setter
+    protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected String apiFolder = "src/apis";
@@ -74,7 +76,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates an OCaml client library (beta).";
+        return "Generates an OCaml client library.";
     }
 
     public OCamlClientCodegen() {
@@ -231,6 +233,71 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         return superobjs;
 
+    }
+
+    /**
+     * Add support for direct recursive types (e.g., A -> A).
+     * This does *not* support mutually recursive types (e.g., A -> B -> A), as this is a much more complex beast in OCaml (since mutually recursive types must live in the same file).
+     */
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        objs = super.postProcessModels(objs);
+
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+
+            // Check if any property is a self-reference
+            boolean hasSelfRef = cm.allVars.stream()
+                    .anyMatch(prop -> prop.isSelfReference);
+
+            if (hasSelfRef) {
+                // Add vendor extension for template
+                cm.getVendorExtensions().put("x-ocaml-has-self-reference", true);
+
+                // Collect names of self-referencing properties
+                Set<String> selfRefPropNames = cm.allVars.stream()
+                        .filter(p -> p.isSelfReference)
+                        .map(p -> p.name)
+                        .collect(Collectors.toSet());
+
+                // The property lists (vars, allVars, etc.) contain DIFFERENT objects
+                // Match by name since isSelfReference might only be set in allVars
+                List<List<CodegenProperty>> allPropertyLists = Arrays.asList(
+                        cm.allVars, cm.vars, cm.requiredVars, cm.optionalVars,
+                        cm.readOnlyVars, cm.readWriteVars, cm.parentVars
+                );
+
+                for (List<CodegenProperty> propList : allPropertyLists) {
+                    for (CodegenProperty prop : propList) {
+                        if (selfRefPropNames.contains(prop.name)) {
+                            // Replace "ModelName.t" with just "t" in all relevant fields
+                            prop.dataType = "t";
+                            prop.datatypeWithEnum = "t";
+                            if (prop.baseType != null) {
+                                prop.baseType = "t";
+                            }
+                            if (prop.complexType != null) {
+                                prop.complexType = "t";
+                            }
+
+                            // If it's a container type (e.g., array), update items as well
+                            if (prop.isContainer && prop.items != null) {
+                                prop.items.dataType = "t";
+                                prop.items.datatypeWithEnum = "t";
+                                if (prop.items.baseType != null) {
+                                    prop.items.baseType = "t";
+                                }
+                                if (prop.items.complexType != null) {
+                                    prop.items.complexType = "t";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
     }
 
     private void enrichPropertiesWithEnumDefaultValues(List<CodegenProperty> properties) {

@@ -1,4 +1,4 @@
-type t = {
+type {{#vendorExtensions.x-ocaml-has-self-reference}}rec {{/vendorExtensions.x-ocaml-has-self-reference}}t = {
 {{#vars}}
     {{#isEnum}}
       {{{name}}}: {{^isMap}}Enums.{{/isMap}}{{{datatypeWithEnum}}}
