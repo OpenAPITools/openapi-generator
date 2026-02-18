@@ -1,13 +1,13 @@
 .ocamlformat
+.openapi-generator-ignore
 README.md
 dune
 dune-project
 recursion_test.opam
 src/apis/default_api.ml
 src/apis/default_api.mli
-src/models/bar.ml
-src/models/baz.ml
-src/models/foo.ml
+src/models/node.ml
+src/models/tree.ml
 src/support/enums.ml
 src/support/jsonSupport.ml
 src/support/request.ml

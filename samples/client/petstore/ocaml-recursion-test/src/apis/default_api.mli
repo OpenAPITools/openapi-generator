@@ -5,4 +5,5 @@
  *
  *)
 
-val foo_post : unit -> Foo.t Lwt.t
+val create_node : node_t:Node.t -> Node.t Lwt.t
+val get_tree : unit -> Tree.t Lwt.t

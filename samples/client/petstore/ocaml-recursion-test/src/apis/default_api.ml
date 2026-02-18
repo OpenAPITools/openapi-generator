@@ -5,10 +5,32 @@
  *
  *)
 
-let foo_post () =
+let create_node ~node_t =
     let open Lwt.Infix in
-    let uri = Request.build_uri "/foo" in
+    let uri = Request.build_uri "/node" in
     let headers = Request.default_headers in
-    Cohttp_lwt_unix.Client.call `POST uri ~headers >>= fun (resp, body) ->
-    Request.read_json_body_as (JsonSupport.unwrap Foo.of_yojson) resp body
+    let body = Request.
+        
+        write_as_json_body     
+    
+    
+    
+    
+    
+    
+                Node.to_yojson
+    
+    
+    
+ node_t
+    in
+    Cohttp_lwt_unix.Client.call `POST uri ~headers ~body >>= fun (resp, body) ->
+    Request.read_json_body_as (JsonSupport.unwrap Node.of_yojson) resp body
+
+let get_tree () =
+    let open Lwt.Infix in
+    let uri = Request.build_uri "/tree" in
+    let headers = Request.default_headers in
+    Cohttp_lwt_unix.Client.call `GET uri ~headers >>= fun (resp, body) ->
+    Request.read_json_body_as (JsonSupport.unwrap Tree.of_yojson) resp body
 

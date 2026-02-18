@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  description: |
+    Test for direct recursive types in OCaml generator.
+
+    This spec only tests direct recursion (A -> A) and NOT mutual recursion (A -> B -> A).
+
+    The OCaml generator does not support mutual recursion because OCaml requires mutually
+    recursive types to be declared together in the same file using "type a = ... and b = ..."
+    syntax. The generator's architecture uses one model per file, making this infeasible.
+
+    Note: The generic test file modules/openapi-generator/src/test/resources/3_0/recursion.yaml
+    contains both Foo (direct recursion) and Bar/Baz (mutual recursion), which is why we
+    cannot use it for OCaml testing.
+  version: 1.0.0
+  title: OCaml Direct Recursion Test
+paths:
+  /tree:
+    get:
+      operationId: getTree
+      description: Get a tree structure
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tree'
+  /node:
+    post:
+      operationId: createNode
+      description: Create a node
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+components:
+  schemas:
+    Tree:
+      type: object
+      description: A tree with optional children (direct self-reference)
+      properties:
+        value:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tree'
+      required:
+        - value
+
+    Node:
+      type: object
+      description: A node with an optional self-reference
+      properties:
+        id:
+          type: string
+        next:
+          $ref: '#/components/schemas/Node'
+      required:
+        - id
