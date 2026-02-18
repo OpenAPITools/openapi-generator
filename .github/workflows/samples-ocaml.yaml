@@ -7,12 +7,14 @@ on:
       - 'samples/client/petstore/ocaml-fake-petstore/**'
       - 'samples/client/petstore/ocaml-oneOf-primitive/**'
       - 'samples/client/petstore/ocaml-additional-properties/**'
+      - 'samples/client/petstore/ocaml-enum-in-composed-schema/**'
   pull_request:
     paths:
       - 'samples/client/petstore/ocaml/**'
       - 'samples/client/petstore/ocaml-fake-petstore/**'
       - 'samples/client/petstore/ocaml-oneOf-primitive/**'
       - 'samples/client/petstore/ocaml-additional-properties/**'
+      - 'samples/client/petstore/ocaml-enum-in-composed-schema/**'
 
 jobs:
   build:
@@ -26,12 +28,13 @@ jobs:
           - 'samples/client/petstore/ocaml-fake-petstore/'
           - 'samples/client/petstore/ocaml-oneOf-primitive/'
           - 'samples/client/petstore/ocaml-additional-properties/'
+          - 'samples/client/petstore/ocaml-enum-in-composed-schema/'
     steps:
       - uses: actions/checkout@v5
       - name: Set-up OCaml
         uses: ocaml/setup-ocaml@v3
         with:
-          ocaml-compiler: 5
+          ocaml-compiler: 5.3
       - name: Install
         run: opam install . --deps-only --with-test
         working-directory: ${{ matrix.sample }}

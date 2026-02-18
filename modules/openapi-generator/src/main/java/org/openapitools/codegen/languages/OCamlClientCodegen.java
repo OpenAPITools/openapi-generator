@@ -58,9 +58,9 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     protected String apiFolder = "src/apis";
     protected String modelFolder = "src/models";
 
-    private Map<String, List<String>> enumNames = new HashMap<>();
-    private Map<String, Schema> enumHash = new HashMap<>();
-    private Map<String, String> enumUniqNames;
+    private Map<Set<String>, List<String>> enumNames = new HashMap<>();
+    private Map<Set<String>, Schema> enumHash = new HashMap<>();
+    private Map<Set<String>, String> enumUniqNames;
 
     @Override
     public CodegenType getTag() {
@@ -276,8 +276,10 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @SuppressWarnings("unchecked")
-    private String hashEnum(Schema schema) {
-        return ((List<Object>) schema.getEnum()).stream().map(String::valueOf).collect(Collectors.joining(","));
+    private Set<String> hashEnum(Schema schema) {
+        return ((List<Object>) schema.getEnum()).stream()
+                .map(String::valueOf)
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 
     private boolean isEnumSchema(Schema schema) {
@@ -290,7 +292,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         } else if (ModelUtils.isMapSchema(schema) && schema.getAdditionalProperties() instanceof Schema) {
             collectEnumSchemas(parentName, sName, (Schema) schema.getAdditionalProperties());
         } else if (isEnumSchema(schema)) {
-            String h = hashEnum(schema);
+            Set<String> h = hashEnum(schema);
             if (!enumHash.containsKey(h)) {
                 enumHash.put(h, schema);
                 enumNames.computeIfAbsent(h, k -> new ArrayList<>()).add(sName.toLowerCase(Locale.ROOT));
@@ -299,6 +301,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 }
             }
         }
+        // Note: Composed schemas (anyOf, allOf, oneOf) are handled in the Map-based method
+        // via collectEnumSchemasFromComposed() which properly processes their structure
     }
 
     private void collectEnumSchemas(String sName, Schema schema) {
@@ -327,6 +331,47 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     collectEnumSchemas(pName, ModelUtils.getSchemaItems(schema));
                 }
             }
+
+            // Handle composed schemas (anyOf, allOf, oneOf) - recursively process their structure
+            collectEnumSchemasFromComposed(pName, schema);
+        }
+    }
+
+    private void collectEnumSchemasFromComposed(String parentName, Schema schema) {
+        if (schema.getAnyOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getAnyOf());
+        }
+
+        if (schema.getAllOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getAllOf());
+        }
+
+        if (schema.getOneOf() != null) {
+            collectEnumSchemasFromList(parentName, schema.getOneOf());
+        }
+    }
+
+    private void collectEnumSchemasFromList(String parentName, List<Schema> schemas) {
+        int index = 0;
+        for (Schema composedSchema : schemas) {
+            // Check if the composed schema itself is an enum
+            if (isEnumSchema(composedSchema)) {
+                String enumName = composedSchema.getName() != null ? composedSchema.getName() : "any_of_" + index;
+                collectEnumSchemas(parentName, enumName, composedSchema);
+            }
+
+            if (composedSchema.getProperties() != null) {
+                collectEnumSchemas(parentName, composedSchema.getProperties());
+            }
+            if (composedSchema.getAdditionalProperties() != null && composedSchema.getAdditionalProperties() instanceof Schema) {
+                collectEnumSchemas(parentName, composedSchema.getName(), (Schema) composedSchema.getAdditionalProperties());
+            }
+            if (ModelUtils.isArraySchema(composedSchema) && ModelUtils.getSchemaItems(composedSchema) != null) {
+                collectEnumSchemas(parentName, composedSchema.getName(), ModelUtils.getSchemaItems(composedSchema));
+            }
+            // Recursively handle nested composed schemas
+            collectEnumSchemasFromComposed(parentName, composedSchema);
+            index++;
         }
     }
 
@@ -378,8 +423,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void computeEnumUniqNames() {
-        Map<String, String> definitiveNames = new HashMap<>();
-        for (String h : enumNames.keySet()) {
+        Map<String, Set<String>> definitiveNames = new HashMap<>();
+        for (Set<String> h : enumNames.keySet()) {
             boolean hasDefName = false;
             List<String> nameCandidates = enumNames.get(h);
             for (String name : nameCandidates) {
@@ -600,13 +645,13 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             String prefix = inner.getEnum() != null ? "Enums." : "";
             return "(string * " + prefix + getTypeDeclaration(inner) + ") list";
         } else if (p.getEnum() != null) {
-            String h = hashEnum(p);
+            Set<String> h = hashEnum(p);
             return enumUniqNames.get(h);
         }
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
         if (referencedSchema != null && referencedSchema.getEnum() != null) {
-            String h = hashEnum(referencedSchema);
+            Set<String> h = hashEnum(referencedSchema);
             return "Enums." + enumUniqNames.get(h);
         }
 
@@ -739,8 +784,8 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
 
-        for (Map.Entry<String, String> e : enumUniqNames.entrySet()) {
-            allModels.add(buildEnumModelWrapper(e.getValue(), e.getKey()));
+        for (Map.Entry<Set<String>, String> e : enumUniqNames.entrySet()) {
+            allModels.add(buildEnumModelWrapper(e.getValue(), String.join(",", e.getKey())));
         }
 
         enumUniqNames.clear();
@@ -770,7 +815,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String hash = String.join(",", property.get_enum());
+        Set<String> hash = new TreeSet<>(property.get_enum());
 
         if (enumUniqNames.containsKey(hash)) {
             return enumUniqNames.get(hash);
