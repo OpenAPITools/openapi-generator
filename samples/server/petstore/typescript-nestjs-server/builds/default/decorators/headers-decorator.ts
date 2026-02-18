@@ -10,7 +10,7 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 * findAll(@Headers('name') name: string) {}
 * ```
 */
-export const Headers = createParamDecorator((data: string, ctx: ExecutionContext) => {
-const request = ctx.switchToHttp().getRequest();
-return data ? request.headers?.[data.toLowerCase()] : request.headers;
+export const Headers = createParamDecorator((headerName: string, ctx: ExecutionContext) => {
+  const request = ctx.switchToHttp().getRequest();
+  return headerName ? request.headers?.[headerName.toLowerCase()] : request.headers;
 });

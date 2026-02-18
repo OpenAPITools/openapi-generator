@@ -15,10 +15,10 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 * findAll(@Cookies('name') name: string) {}
 * ```
 */
-export const Cookies = createParamDecorator((data: string, ctx: ExecutionContext) => {
+export const Cookies = createParamDecorator((cookieName: string, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
-  if (!data) {
+  if (!cookieName) {
     return { ...request.cookies, ...request.signedCookies };
   }
-  return request.cookies?.[data] ?? request.signedCookies?.[data];
+  return request.cookies?.[cookieName] ?? request.signedCookies?.[cookieName];
 });
