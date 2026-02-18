@@ -251,9 +251,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     .anyMatch(prop -> prop.isSelfReference);
 
             if (hasSelfRef) {
-                // Add vendor extension for template
-                cm.getVendorExtensions().put("x-ocaml-has-self-reference", true);
-
                 // Collect names of self-referencing properties
                 Set<String> selfRefPropNames = cm.allVars.stream()
                         .filter(p -> p.isSelfReference)

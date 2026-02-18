@@ -8,7 +8,7 @@
 
 
     
-        type rec t = {
+        type t = {
                               foo: t
                   
                    option [@default None]
