@@ -4462,6 +4462,102 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
             "findPetsNoParams should NOT have pageable when there are no pagination params");
     }
+
+    @Test
+    public void testSealedResponseInterfaces() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces are declared in the model package
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt"),
+                "sealed interface CreateUserResponse",
+                "sealed interface GetUserResponse");
+
+        // Verify API file imports the sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "import org.openapitools.model.CreateUserResponse",
+                "import org.openapitools.model.GetUserResponse");
+
+        // Verify API methods use sealed interfaces as return types
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "fun createUser(",
+                "): ResponseEntity<CreateUserResponse>",
+                "fun getUser(",
+                "): ResponseEntity<GetUserResponse>");
+
+        // Verify User model implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                "data class User(",
+                ": CreateUserResponse, GetUserResponse");
+
+        // Verify ConflictResponse implements CreateUserResponse
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                "data class ConflictResponse(",
+                ": CreateUserResponse");
+
+        // Verify ErrorResponse implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                "data class ErrorResponse(",
+                ": CreateUserResponse, GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "false");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces file is NOT generated when feature is disabled
+        File sealedInterfacesFile = new File(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        Assert.assertFalse(sealedInterfacesFile.exists(), "SealedResponseInterfaces.kt should not exist when feature is disabled");
+
+        // Verify models do NOT implement sealed interfaces when disabled
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                ": CreateUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+    }
 }
 
 

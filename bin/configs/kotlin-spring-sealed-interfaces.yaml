@@ -1,0 +1,11 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-spring-sealed-interfaces
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  useSealedResponseInterfaces: true
+  interfaceOnly: true
+  dateLibrary: java8
+  useSpringBoot3: true
+  reactive: false
+  documentationProvider: none
