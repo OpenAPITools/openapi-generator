@@ -8,12 +8,12 @@
 
         type t =
             | AnyOf0 of string
-            | AnyOf1 of any_of_1
+            | AnyOf1 of Enums.any_of_1
         [@@deriving show, eq];;
         
         let to_yojson = function
             | AnyOf0 v -> [%to_yojson: string] v
-            | AnyOf1 v -> [%to_yojson: any_of_1] v
+            | AnyOf1 v -> [%to_yojson: Enums.any_of_1] v
         
         (* Manual implementations because the derived one encodes into a tuple list where the first element is the constructor name. *)
         
@@ -22,7 +22,7 @@
             [%of_yojson: string] json
               |> Stdlib.Result.to_option
               |> Stdlib.Option.map (fun v -> AnyOf0 v);
-            [%of_yojson: any_of_1] json
+            [%of_yojson: Enums.any_of_1] json
               |> Stdlib.Result.to_option
               |> Stdlib.Option.map (fun v -> AnyOf1 v);
                         ]

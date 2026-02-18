@@ -295,9 +295,35 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                     }
                 }
             }
+
+            // Fix enum references in composed schemas (anyOf, oneOf, allOf)
+            if (cm.getComposedSchemas() != null) {
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getAnyOf());
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getOneOf());
+                fixEnumReferencesInComposedSchemas(cm.getComposedSchemas().getAllOf());
+            }
         }
 
         return objs;
+    }
+
+    private void fixEnumReferencesInComposedSchemas(List<CodegenProperty> schemas) {
+        if (schemas == null) {
+            return;
+        }
+
+        for (CodegenProperty schema : schemas) {
+            // If this schema is an enum, add Enums. prefix to datatypeWithEnum
+            if (schema.isEnum) {
+                if (!schema.datatypeWithEnum.startsWith("Enums.")) {
+                    schema.datatypeWithEnum = "Enums." + schema.datatypeWithEnum;
+                }
+                // Also update dataType for the variant constructor
+                if (!schema.dataType.startsWith("Enums.")) {
+                    schema.dataType = "Enums." + schema.dataType;
+                }
+            }
+        }
     }
 
     private void enrichPropertiesWithEnumDefaultValues(List<CodegenProperty> properties) {
