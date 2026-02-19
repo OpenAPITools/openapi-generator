@@ -105,9 +105,11 @@ import java.io.IOException
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}sealed interface {{classname}} {
 {{#composedSchemas}}
 {{#anyOf}}
+{{^vendorExtensions.x-duplicated-data-type}}
     @JvmInline
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}value class {{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(val value: {{{dataType}}}) : {{classname}}
 
+{{/vendorExtensions.x-duplicated-data-type}}
 {{/anyOf}}
 {{/composedSchemas}}
 }
@@ -121,6 +123,7 @@ import java.io.IOException
         when (value) {
             {{#composedSchemas}}
             {{#anyOf}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             {{#isArray}}
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(jsonEncoder.json.encodeToJsonElement(value.value))
             {{/isArray}}
@@ -153,6 +156,7 @@ import java.io.IOException
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
             {{/isPrimitiveType}}
             {{/isArray}}
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/anyOf}}
             {{/composedSchemas}}
         }
@@ -166,6 +170,7 @@ import java.io.IOException
 
         {{#composedSchemas}}
         {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         {{#isArray}}
         if (jsonElement is JsonArray) {
             try {
@@ -210,6 +215,7 @@ import java.io.IOException
         }
         {{/isPrimitiveType}}
         {{/isArray}}
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
         {{/composedSchemas}}
 
