@@ -19,25 +19,11 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Pet
-import org.openapitools.client.models.Category
-import org.openapitools.client.models.Tag
 
 class PetTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Pet
         //val modelInstance = Pet()
-
-        // to test the property `name`
-        should("test name") {
-            // uncomment below to test the property
-            //modelInstance.name shouldBe ("TODO")
-        }
-
-        // to test the property `photoUrls`
-        should("test photoUrls") {
-            // uncomment below to test the property
-            //modelInstance.photoUrls shouldBe ("TODO")
-        }
 
         // to test the property `id`
         should("test id") {
@@ -45,22 +31,10 @@ class PetTest : ShouldSpec() {
             //modelInstance.id shouldBe ("TODO")
         }
 
-        // to test the property `category`
-        should("test category") {
+        // to test the property `name`
+        should("test name") {
             // uncomment below to test the property
-            //modelInstance.category shouldBe ("TODO")
-        }
-
-        // to test the property `tags`
-        should("test tags") {
-            // uncomment below to test the property
-            //modelInstance.tags shouldBe ("TODO")
-        }
-
-        // to test the property `status` - pet status in the store
-        should("test status") {
-            // uncomment below to test the property
-            //modelInstance.status shouldBe ("TODO")
+            //modelInstance.name shouldBe ("TODO")
         }
 
     }

@@ -19,15 +19,19 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.UserOrPetOrArrayString
-import org.openapitools.client.models.Category
 import org.openapitools.client.models.Pet
-import org.openapitools.client.models.Tag
 import org.openapitools.client.models.User
 
 class UserOrPetOrArrayStringTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of UserOrPetOrArrayString
         //val modelInstance = UserOrPetOrArrayString()
+
+        // to test the property `id`
+        should("test id") {
+            // uncomment below to test the property
+            //modelInstance.id shouldBe ("TODO")
+        }
 
         // to test the property `username`
         should("test username") {
@@ -39,72 +43,6 @@ class UserOrPetOrArrayStringTest : ShouldSpec() {
         should("test name") {
             // uncomment below to test the property
             //modelInstance.name shouldBe ("TODO")
-        }
-
-        // to test the property `photoUrls`
-        should("test photoUrls") {
-            // uncomment below to test the property
-            //modelInstance.photoUrls shouldBe ("TODO")
-        }
-
-        // to test the property `id`
-        should("test id") {
-            // uncomment below to test the property
-            //modelInstance.id shouldBe ("TODO")
-        }
-
-        // to test the property `firstName`
-        should("test firstName") {
-            // uncomment below to test the property
-            //modelInstance.firstName shouldBe ("TODO")
-        }
-
-        // to test the property `lastName`
-        should("test lastName") {
-            // uncomment below to test the property
-            //modelInstance.lastName shouldBe ("TODO")
-        }
-
-        // to test the property `email`
-        should("test email") {
-            // uncomment below to test the property
-            //modelInstance.email shouldBe ("TODO")
-        }
-
-        // to test the property `password`
-        should("test password") {
-            // uncomment below to test the property
-            //modelInstance.password shouldBe ("TODO")
-        }
-
-        // to test the property `phone`
-        should("test phone") {
-            // uncomment below to test the property
-            //modelInstance.phone shouldBe ("TODO")
-        }
-
-        // to test the property `userStatus` - User Status
-        should("test userStatus") {
-            // uncomment below to test the property
-            //modelInstance.userStatus shouldBe ("TODO")
-        }
-
-        // to test the property `category`
-        should("test category") {
-            // uncomment below to test the property
-            //modelInstance.category shouldBe ("TODO")
-        }
-
-        // to test the property `tags`
-        should("test tags") {
-            // uncomment below to test the property
-            //modelInstance.tags shouldBe ("TODO")
-        }
-
-        // to test the property `status` - pet status in the store
-        should("test status") {
-            // uncomment below to test the property
-            //modelInstance.status shouldBe ("TODO")
         }
 
     }

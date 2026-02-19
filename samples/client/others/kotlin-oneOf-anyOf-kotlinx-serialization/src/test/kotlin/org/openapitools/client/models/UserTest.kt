@@ -25,52 +25,16 @@ class UserTest : ShouldSpec() {
         // uncomment below to create an instance of User
         //val modelInstance = User()
 
-        // to test the property `username`
-        should("test username") {
-            // uncomment below to test the property
-            //modelInstance.username shouldBe ("TODO")
-        }
-
         // to test the property `id`
         should("test id") {
             // uncomment below to test the property
             //modelInstance.id shouldBe ("TODO")
         }
 
-        // to test the property `firstName`
-        should("test firstName") {
+        // to test the property `username`
+        should("test username") {
             // uncomment below to test the property
-            //modelInstance.firstName shouldBe ("TODO")
-        }
-
-        // to test the property `lastName`
-        should("test lastName") {
-            // uncomment below to test the property
-            //modelInstance.lastName shouldBe ("TODO")
-        }
-
-        // to test the property `email`
-        should("test email") {
-            // uncomment below to test the property
-            //modelInstance.email shouldBe ("TODO")
-        }
-
-        // to test the property `password`
-        should("test password") {
-            // uncomment below to test the property
-            //modelInstance.password shouldBe ("TODO")
-        }
-
-        // to test the property `phone`
-        should("test phone") {
-            // uncomment below to test the property
-            //modelInstance.phone shouldBe ("TODO")
-        }
-
-        // to test the property `userStatus` - User Status
-        should("test userStatus") {
-            // uncomment below to test the property
-            //modelInstance.userStatus shouldBe ("TODO")
+            //modelInstance.username shouldBe ("TODO")
         }
 
     }

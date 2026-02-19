@@ -58,7 +58,6 @@ test {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
-    implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
     implementation "com.squareup.okhttp3:logging-interceptor:5.1.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-kotlinx-serialization:$retrofitVersion"

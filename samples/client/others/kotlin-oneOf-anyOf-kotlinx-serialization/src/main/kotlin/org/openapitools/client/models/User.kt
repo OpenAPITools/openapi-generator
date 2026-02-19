@@ -26,45 +26,20 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 /**
- * A User who is purchasing from the pet store
+ * 
  *
- * @param username 
  * @param id 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
- * @param userStatus User Status
+ * @param username 
  */
 @Serializable
 
 data class User (
 
-    @SerialName(value = "username")
-    val username: kotlin.String,
-
     @SerialName(value = "id")
-    val id: kotlin.Long? = null,
+    val id: kotlin.Long,
 
-    @SerialName(value = "firstName")
-    val firstName: kotlin.String? = null,
-
-    @SerialName(value = "lastName")
-    val lastName: kotlin.String? = null,
-
-    @SerialName(value = "email")
-    val email: kotlin.String? = null,
-
-    @SerialName(value = "password")
-    val password: kotlin.String? = null,
-
-    @SerialName(value = "phone")
-    val phone: kotlin.String? = null,
-
-    /* User Status */
-    @SerialName(value = "userStatus")
-    val userStatus: kotlin.Int? = null
+    @SerialName(value = "username")
+    val username: kotlin.String
 
 ) {
 

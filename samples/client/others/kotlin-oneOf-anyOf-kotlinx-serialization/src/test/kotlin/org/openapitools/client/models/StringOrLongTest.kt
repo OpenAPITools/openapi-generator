@@ -18,18 +18,12 @@ package org.openapitools.client.models
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import org.openapitools.client.models.Annotation
+import org.openapitools.client.models.StringOrLong
 
-class AnnotationTest : ShouldSpec() {
+class StringOrLongTest : ShouldSpec() {
     init {
-        // uncomment below to create an instance of Annotation
-        //val modelInstance = Annotation()
-
-        // to test the property `id`
-        should("test id") {
-            // uncomment below to test the property
-            //modelInstance.id shouldBe ("TODO")
-        }
+        // uncomment below to create an instance of StringOrLong
+        //val modelInstance = StringOrLong()
 
     }
 }

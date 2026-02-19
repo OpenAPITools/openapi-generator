@@ -15,9 +15,7 @@
 
 package org.openapitools.client.models
 
-import org.openapitools.client.models.Category
 import org.openapitools.client.models.Pet
-import org.openapitools.client.models.Tag
 import org.openapitools.client.models.User
 
 import kotlinx.serialization.Serializable
