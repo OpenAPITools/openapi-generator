@@ -45,7 +45,10 @@ public enum OuterEnumInteger {
 
   static {
     for (OuterEnumInteger e: values()) {
-      BY_VALUE.put(e.value, e);
+      Integer key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
     }
   }
 
@@ -63,7 +66,7 @@ public enum OuterEnumInteger {
   }
 
   public static OuterEnumInteger fromValue(Integer value) {
-    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   public static class Adapter extends TypeAdapter<OuterEnumInteger> {

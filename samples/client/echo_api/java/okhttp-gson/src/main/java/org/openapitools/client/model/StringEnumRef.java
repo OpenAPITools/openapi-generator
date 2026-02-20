@@ -44,7 +44,10 @@ public enum StringEnumRef {
 
   static {
     for (StringEnumRef e: values()) {
-      BY_VALUE.put(e.value, e);
+      String key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
     }
   }
 
@@ -62,7 +65,7 @@ public enum StringEnumRef {
   }
 
   public static StringEnumRef fromValue(String value) {
-    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 
   public static class Adapter extends TypeAdapter<StringEnumRef> {

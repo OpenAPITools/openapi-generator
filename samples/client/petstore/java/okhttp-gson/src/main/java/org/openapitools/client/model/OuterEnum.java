@@ -48,7 +48,10 @@ public enum OuterEnum {
 
   static {
     for (OuterEnum e: values()) {
-      BY_VALUE.put(e.value, e);
+      String key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
     }
   }
 
@@ -66,7 +69,7 @@ public enum OuterEnum {
   }
 
   public static OuterEnum fromValue(String value) {
-    return Optional.ofNullable(BY_VALUE.get(value)).orElse(null);
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElse(null);
   }
 
   public static class Adapter extends TypeAdapter<OuterEnum> {

@@ -45,7 +45,10 @@ public enum OuterEnumIntegerDefaultValue {
 
   static {
     for (OuterEnumIntegerDefaultValue e: values()) {
-      BY_VALUE.put(e.value, e);
+      Integer key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
     }
   }
 
@@ -65,7 +68,7 @@ public enum OuterEnumIntegerDefaultValue {
 
   @JsonCreator
   public static OuterEnumIntegerDefaultValue fromValue(Integer value) {
-    return Optional.ofNullable(BY_VALUE.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 }
 
