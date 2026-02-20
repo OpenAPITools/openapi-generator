@@ -1,4 +1,4 @@
-# 
+# OCaml API client for recursion_test
 Test for direct recursive types in OCaml generator.
 
 This spec only tests direct recursion (A -> A) and NOT mutual recursion (A -> B -> A).
