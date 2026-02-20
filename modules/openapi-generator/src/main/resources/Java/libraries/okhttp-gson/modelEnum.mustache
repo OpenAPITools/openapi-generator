@@ -5,7 +5,6 @@ import java.net.URI;
 {{#useEnumCaseInsensitive}}import java.util.Locale;
 {{/useEnumCaseInsensitive}}import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -59,7 +58,11 @@ import com.google.gson.stream.JsonWriter;
   }
 
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    return Optional.ofNullable(value).map(v -> {{#useEnumCaseInsensitive}}{{#isString}}BY_VALUE.get(v.toLowerCase(Locale.ROOT)){{/isString}}{{^isString}}BY_VALUE.get(v){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(v){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = BY_VALUE.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
+    if (result != null) {
+      return result;
+    }
+    {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
 
   public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {
