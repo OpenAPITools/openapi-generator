@@ -13,7 +13,6 @@ package org.openapitools.perf;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -66,13 +65,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny1 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny1 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny1 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny1 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny1 fromValueLinear(String value) {
@@ -124,13 +129,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny2 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny2 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny2 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny2 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny2 fromValueLinear(String value) {
@@ -183,13 +194,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny3 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny3 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny3 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny3 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny3 fromValueLinear(String value) {
@@ -243,13 +260,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny4 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny4 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny4 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny4 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny4 fromValueLinear(String value) {
@@ -304,13 +327,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny5 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny5 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny5 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny5 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny5 fromValueLinear(String value) {
@@ -366,13 +395,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny6 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny6 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny6 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny6 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny6 fromValueLinear(String value) {
@@ -429,13 +464,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny7 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny7 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny7 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny7 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny7 fromValueLinear(String value) {
@@ -493,13 +534,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny8 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny8 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny8 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny8 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny8 fromValueLinear(String value) {
@@ -558,13 +605,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny9 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny9 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny9 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny9 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny9 fromValueLinear(String value) {
@@ -624,13 +677,19 @@ public class SmallEnumLookupJmhBenchmark {
         }
 
         public static Tiny10 fromValue(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CS.get(v))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny10 result = BY_VALUE_CS.get(value);
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny10 fromValueCaseInsensitive(String value) {
-            return Optional.ofNullable(value).map(v -> BY_VALUE_CI.get(v.toLowerCase(Locale.ROOT)))
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            Tiny10 result = BY_VALUE_CI.get(value.toLowerCase(Locale.ROOT));
+            if (result != null) {
+                return result;
+            }
+            throw new IllegalArgumentException("Unexpected value '" + value + "'");
         }
 
         public static Tiny10 fromValueLinear(String value) {
@@ -696,6 +755,7 @@ public class SmallEnumLookupJmhBenchmark {
                 Function<String, Object> linear,
                 Function<String, Object> linearCaseInsensitive) {
             this.values = values;
+            // Methods
             this.hashMap = hashMap;
             this.hashMapCaseInsensitive = hashMapCaseInsensitive;
             this.linear = linear;
