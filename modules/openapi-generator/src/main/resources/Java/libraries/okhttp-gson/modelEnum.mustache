@@ -58,7 +58,7 @@ import com.google.gson.stream.JsonWriter;
   }
 
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = BY_VALUE.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}BY_VALUE.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
     if (result != null) {
       return result;
     }
