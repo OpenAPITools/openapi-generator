@@ -38,7 +38,10 @@ import com.google.gson.stream.JsonWriter;
 
   static {
     for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} e: values()) {
-      BY_VALUE.put(e.value, e);
+      {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}BY_VALUE.get(value){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
     }
   }
 
@@ -56,7 +59,7 @@ import com.google.gson.stream.JsonWriter;
   }
 
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    return Optional.ofNullable({{#useEnumCaseInsensitive}}value == null ? null : BY_VALUE.get(value.toLowerCase(Locale.ROOT)){{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(value){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
+    return Optional.ofNullable({{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : BY_VALUE.get(value.toLowerCase(Locale.ROOT)){{/isString}}{{^isString}}BY_VALUE.get(value){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(value){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
   }
 
   public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {
