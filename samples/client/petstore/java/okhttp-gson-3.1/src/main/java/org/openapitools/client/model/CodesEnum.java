@@ -37,15 +37,15 @@ public enum CodesEnum {
   
   CODE_3("Code 3");
 
-  private static final Map<String, CodesEnum> BY_VALUE = new HashMap<>();
+  private static final Map<String, CodesEnum> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (CodesEnum e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -64,7 +64,7 @@ public enum CodesEnum {
   }
 
   public static CodesEnum fromValue(String value) {
-    CodesEnum result = BY_VALUE.get(value);
+    CodesEnum result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

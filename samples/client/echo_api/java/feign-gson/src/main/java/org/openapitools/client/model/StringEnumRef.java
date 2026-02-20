@@ -37,15 +37,15 @@ public enum StringEnumRef {
   
   UNCLASSIFIED("unclassified");
 
-  private static final Map<String, StringEnumRef> BY_VALUE = new HashMap<>();
+  private static final Map<String, StringEnumRef> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (StringEnumRef e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -64,7 +64,7 @@ public enum StringEnumRef {
   }
 
   public static StringEnumRef fromValue(String value) {
-    StringEnumRef result = BY_VALUE.get(value);
+    StringEnumRef result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

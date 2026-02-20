@@ -32,15 +32,15 @@ public enum FruitType {
   
   BANANA("BANANA");
 
-  private static final Map<String, FruitType> BY_VALUE = new HashMap<>();
+  private static final Map<String, FruitType> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (FruitType e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -61,7 +61,7 @@ public enum FruitType {
 
   @JsonCreator
   public static FruitType fromValue(String value) {
-    FruitType result = BY_VALUE.get(value);
+    FruitType result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

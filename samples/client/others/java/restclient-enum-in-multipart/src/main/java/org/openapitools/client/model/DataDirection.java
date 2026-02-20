@@ -32,15 +32,15 @@ public enum DataDirection {
   
   OUTGOING("OUTGOING");
 
-  private static final Map<String, DataDirection> BY_VALUE = new HashMap<>();
+  private static final Map<String, DataDirection> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (DataDirection e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -61,7 +61,7 @@ public enum DataDirection {
 
   @JsonCreator
   public static DataDirection fromValue(String value) {
-    DataDirection result = BY_VALUE.get(value);
+    DataDirection result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

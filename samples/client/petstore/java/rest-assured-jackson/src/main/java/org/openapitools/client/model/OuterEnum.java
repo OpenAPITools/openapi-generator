@@ -37,15 +37,15 @@ public enum OuterEnum {
   
   DELIVERED("delivered");
 
-  private static final Map<String, OuterEnum> BY_VALUE = new HashMap<>();
+  private static final Map<String, OuterEnum> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (OuterEnum e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -66,7 +66,7 @@ public enum OuterEnum {
 
   @JsonCreator
   public static OuterEnum fromValue(String value) {
-    OuterEnum result = BY_VALUE.get(value);
+    OuterEnum result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

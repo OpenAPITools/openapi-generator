@@ -36,15 +36,15 @@ public enum DataChannel {
   
   PLANE("PLANE");
 
-  private static final Map<String, DataChannel> BY_VALUE = new HashMap<>();
+  private static final Map<String, DataChannel> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (DataChannel e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -65,7 +65,7 @@ public enum DataChannel {
 
   @JsonCreator
   public static DataChannel fromValue(String value) {
-    DataChannel result = BY_VALUE.get(value);
+    DataChannel result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

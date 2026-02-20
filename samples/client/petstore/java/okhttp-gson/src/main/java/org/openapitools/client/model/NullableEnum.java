@@ -33,15 +33,15 @@ public enum NullableEnum {
   
   CUSTOM("custom");
 
-  private static final Map<String, NullableEnum> BY_VALUE = new HashMap<>();
+  private static final Map<String, NullableEnum> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (NullableEnum e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -60,7 +60,7 @@ public enum NullableEnum {
   }
 
   public static NullableEnum fromValue(String value) {
-    NullableEnum result = BY_VALUE.get(value);
+    NullableEnum result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

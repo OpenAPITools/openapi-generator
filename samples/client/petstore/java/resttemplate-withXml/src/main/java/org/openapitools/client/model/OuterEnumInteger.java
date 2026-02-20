@@ -41,15 +41,15 @@ public enum OuterEnumInteger {
   @XmlEnumValue("2")
   NUMBER_2(2);
 
-  private static final Map<Integer, OuterEnumInteger> BY_VALUE = new HashMap<>();
+  private static final Map<Integer, OuterEnumInteger> cacheByValue = new HashMap<>();
 
   private Integer value;
 
   static {
     for (OuterEnumInteger e: values()) {
       Integer key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -70,7 +70,7 @@ public enum OuterEnumInteger {
 
   @JsonCreator
   public static OuterEnumInteger fromValue(Integer value) {
-    OuterEnumInteger result = BY_VALUE.get(value);
+    OuterEnumInteger result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

@@ -34,15 +34,15 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
-  private static final Map<String, EnumClass> BY_VALUE = new HashMap<>();
+  private static final Map<String, EnumClass> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (EnumClass e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -63,7 +63,7 @@ public enum EnumClass {
 
   @JsonCreator
   public static EnumClass fromValue(String value) {
-    EnumClass result = BY_VALUE.get(value);
+    EnumClass result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }

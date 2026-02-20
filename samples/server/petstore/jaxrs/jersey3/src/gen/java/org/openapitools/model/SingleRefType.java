@@ -33,15 +33,15 @@ public enum SingleRefType {
   
   USER("user");
 
-  private static final Map<String, SingleRefType> BY_VALUE = new HashMap<>();
+  private static final Map<String, SingleRefType> cacheByValue = new HashMap<>();
 
   private String value;
 
   static {
     for (SingleRefType e: values()) {
       String key = e.value;
-      if (!BY_VALUE.containsKey(key)) {
-        BY_VALUE.put(key, e);
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
       }
     }
   }
@@ -62,7 +62,7 @@ public enum SingleRefType {
 
   @JsonCreator
   public static SingleRefType fromValue(String value) {
-    SingleRefType result = BY_VALUE.get(value);
+    SingleRefType result = cacheByValue.get(value);
     if (result != null) {
       return result;
     }
