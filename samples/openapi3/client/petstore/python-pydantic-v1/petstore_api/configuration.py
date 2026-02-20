@@ -157,12 +157,6 @@ conf = petstore_api.Configuration(
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
                  verify_ssl=True, ssl_ca_cert=None,
-                 retries=None, cert_file=None, key_file=None,
-                 assert_hostname=None, tls_server_name=None,
-                 connection_pool_maxsize=None, proxy=None, proxy_headers=None,
-                 safe_chars_for_path_param='', client_side_validation=True,
-                 socket_options=None,
-                 datetime_format="%Y-%m-%dT%H:%M:%S.%f%z", date_format="%Y-%m-%d",
                  ) -> None:
         """Constructor
         """
@@ -237,21 +231,21 @@ conf = petstore_api.Configuration(
         self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
         """
-        self.cert_file = cert_file
+        self.cert_file = None
         """client certificate file
         """
-        self.key_file = key_file
+        self.key_file = None
         """client key file
         """
-        self.assert_hostname = assert_hostname
+        self.assert_hostname = None
         """Set this to True/False to enable/disable SSL hostname verification.
         """
-        self.tls_server_name = tls_server_name
+        self.tls_server_name = None
         """SSL/TLS Server Name Indication (SNI)
            Set this to the SNI value expected by the server.
         """
 
-        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else multiprocessing.cpu_count() * 5
+        self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
            per pool. urllib3 uses 1 connection as default value, but this is
            not the best value when you are making a lot of possibly parallel
@@ -259,30 +253,30 @@ conf = petstore_api.Configuration(
            cpu_count * 5 is used as default value to increase performance.
         """
 
-        self.proxy = proxy
+        self.proxy = None
         """Proxy URL
         """
-        self.proxy_headers = proxy_headers
+        self.proxy_headers = None
         """Proxy headers
         """
-        self.safe_chars_for_path_param = safe_chars_for_path_param
+        self.safe_chars_for_path_param = ''
         """Safe chars for path_param
         """
-        self.retries = retries
+        self.retries = None
         """Adding retries to override urllib3 default value 3
         """
         # Enable client side validation
-        self.client_side_validation = client_side_validation
+        self.client_side_validation = True
 
-        self.socket_options = socket_options
+        self.socket_options = None
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = datetime_format
+        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
         """datetime format
         """
 
-        self.date_format = date_format
+        self.date_format = "%Y-%m-%d"
         """date format
         """
 
