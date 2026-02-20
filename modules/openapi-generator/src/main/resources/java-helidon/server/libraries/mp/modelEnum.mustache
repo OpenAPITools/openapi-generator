@@ -39,7 +39,7 @@ import java.util.Optional;
 
     static {
       for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} e: values()) {
-        {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}BY_VALUE.get(value){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
+        {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}e.value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
         if (!BY_VALUE.containsKey(key)) {
           BY_VALUE.put(key, e);
         }
@@ -62,7 +62,7 @@ import java.util.Optional;
 
     {{#jackson}}@JsonCreator{{/jackson}}
     public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-      return Optional.ofNullable({{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : BY_VALUE.get(value.toLowerCase(Locale.ROOT)){{/isString}}{{^isString}}BY_VALUE.get(value){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(value){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
+      return Optional.ofNullable(value).map(v -> {{#useEnumCaseInsensitive}}{{#isString}}BY_VALUE.get(v.toLowerCase(Locale.ROOT)){{/isString}}{{^isString}}BY_VALUE.get(v){{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}BY_VALUE.get(v){{/useEnumCaseInsensitive}}).{{#isNullable}}orElse(null){{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}orElse({{{name}}}){{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'")){{/enumUnknownDefaultCase}}{{/isNullable}};
     }
 {{#jsonb}}
     public static final class Deserializer implements JsonbDeserializer<{{datatypeWithEnum}}> {
