@@ -1839,6 +1839,9 @@ public class OpenAPINormalizer {
                 as.setXml(schema.getXml());
                 as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
+                as.setDeprecated(schema.getDeprecated());
+                as.setReadOnly(schema.getReadOnly());
+                as.setWriteOnly(schema.getWriteOnly());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
                     if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
