@@ -2,8 +2,9 @@
  * This is a performance benchmark that MUST be deleted before merging, as it is not intended to be part of the codebase.
  * It is only meant to be used for local testing and experimentation while the PR is on the fly.
  * The benchmark compares the performance of different approaches to look up enum values by their string representation, including:
- * - A HashMap-based lookup (case-sensitive)
- * - A TreeMap-based lookup (case-insensitive)
+ * - A HashMap-based lookup (case-sensitive, exact key)
+ * - A HashMap-based lookup (case-insensitive, lowercased key)
+ * - A TreeMap-based lookup (case-insensitive comparator)
  * - A linear search (case-sensitive)
  * - A linear search (case-insensitive)
  * The benchmark generates random inputs based on a predefined set of fruit names and measures the average time
@@ -78,14 +79,19 @@ public class EnumLookupJmhBenchmark {
         TOMATO("tomato"),  // yes, it's a fruit!
         YUZU("yuzu");
         
-        private static final Map<String, Fruit> BY_VALUE_HASHMAP = new HashMap<>();
+        private static final Map<String, Fruit> BY_VALUE_HASHMAP_CS = new HashMap<>();
+        private static final Map<String, Fruit> BY_VALUE_HASHMAP_CI = new HashMap<>();
         private static final Map<String, Fruit> BY_VALUE_TREEMAP = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
         private final String value;
 
         static {
             for (Fruit fruit : values()) {
-                BY_VALUE_HASHMAP.put(fruit.value, fruit);
+                BY_VALUE_HASHMAP_CS.put(fruit.value, fruit);
+                String key = fruit == null ? null : fruit.value.toLowerCase(Locale.ROOT);
+                if (!BY_VALUE_HASHMAP_CI.containsKey(key)) {
+                    BY_VALUE_HASHMAP_CI.put(key, fruit);
+                }
                 BY_VALUE_TREEMAP.put(fruit.value, fruit);
             }
         }
@@ -95,7 +101,7 @@ public class EnumLookupJmhBenchmark {
         }
 
         public static Fruit fromValueHashMapWithoutOptional(String value) {
-            Fruit result = BY_VALUE_HASHMAP.get(value);
+            Fruit result = BY_VALUE_HASHMAP_CS.get(value);
             if (result == null) {
                 throw new IllegalArgumentException("Unexpected value '" + value + "'");
             }
@@ -103,11 +109,11 @@ public class EnumLookupJmhBenchmark {
         }
 
         public static Fruit fromValueHashMapCaseInsensitiveWithOptional(String value) {
-            return Optional.ofNullable(value == null ? null : BY_VALUE_HASHMAP.get(value.toLowerCase(Locale.ROOT))).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            return Optional.ofNullable(value == null ? null : BY_VALUE_HASHMAP_CI.get(value.toLowerCase(Locale.ROOT))).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
         }
 
         public static Fruit fromValueHashMapWithOptional(String value) {
-            return Optional.ofNullable(BY_VALUE_HASHMAP.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+            return Optional.ofNullable(BY_VALUE_HASHMAP_CS.get(value)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
         }
 
         public static Fruit fromValueTreeMapWithOptional(String value) {
