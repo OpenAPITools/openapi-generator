@@ -32,15 +32,15 @@ import java.util.Map;
       {{/enumVars}}
     {{/allowableValues}}
 
-    private static final Map<{{{dataType}}}, {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> BY_VALUE = new HashMap<>();
+    private static final Map<{{{dataType}}}, {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> cacheByValue = new HashMap<>();
 
     private {{{dataType}}} value;
 
     static {
       for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} e: values()) {
         {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}e.value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
-        if (!BY_VALUE.containsKey(key)) {
-          BY_VALUE.put(key, e);
+        if (!cacheByValue.containsKey(key)) {
+          cacheByValue.put(key, e);
         }
       }
     }
@@ -61,7 +61,7 @@ import java.util.Map;
 
     {{#jackson}}@JsonCreator{{/jackson}}
     public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}BY_VALUE.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}cacheByValue.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
     if (result != null) {
       return result;
     }
