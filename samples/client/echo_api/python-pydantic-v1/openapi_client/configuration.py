@@ -51,8 +51,23 @@ class Configuration:
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum
       values before.
+    :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
+      when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
+    :param retries: Retry configuration (e.g. urllib3.util.retry.Retry).
+    :param cert_file: The path to a client certificate file, for mTLS.
+    :param key_file: The path to a client key file, for mTLS.
+    :param assert_hostname: Set this to True/False to enable/disable SSL hostname verification.
+    :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
+    :param connection_pool_maxsize: Connection pool max size. Defaults to 100 for asyncio, cpu_count * 5 for sync.
+    :param proxy: Proxy URL.
+    :param proxy_headers: Proxy headers.
+    :param safe_chars_for_path_param: Safe characters for path parameter encoding.
+    :param client_side_validation: Enable client-side validation. Default True.
+    :param socket_options: Options to pass down to the underlying urllib3 socket.
+    :param datetime_format: Datetime format string for serialization.
+    :param date_format: Date format string for serialization.
 
     :Example:
 
@@ -81,7 +96,13 @@ conf = openapi_client.Configuration(
                  access_token=None,
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
-                 ssl_ca_cert=None,
+                 verify_ssl=True, ssl_ca_cert=None,
+                 retries=None, cert_file=None, key_file=None,
+                 assert_hostname=None, tls_server_name=None,
+                 connection_pool_maxsize=None, proxy=None, proxy_headers=None,
+                 safe_chars_for_path_param='', client_side_validation=True,
+                 socket_options=None,
+                 datetime_format="%Y-%m-%dT%H:%M:%S.%f%z", date_format="%Y-%m-%d",
                  ) -> None:
         """Constructor
         """
@@ -143,7 +164,7 @@ conf = openapi_client.Configuration(
         """Debug switch
         """
 
-        self.verify_ssl = True
+        self.verify_ssl = verify_ssl
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
@@ -151,21 +172,21 @@ conf = openapi_client.Configuration(
         self.ssl_ca_cert = ssl_ca_cert
         """Set this to customize the certificate file to verify the peer.
         """
-        self.cert_file = None
+        self.cert_file = cert_file
         """client certificate file
         """
-        self.key_file = None
+        self.key_file = key_file
         """client key file
         """
-        self.assert_hostname = None
+        self.assert_hostname = assert_hostname
         """Set this to True/False to enable/disable SSL hostname verification.
         """
-        self.tls_server_name = None
+        self.tls_server_name = tls_server_name
         """SSL/TLS Server Name Indication (SNI)
            Set this to the SNI value expected by the server.
         """
 
-        self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
+        self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else multiprocessing.cpu_count() * 5
         """urllib3 connection pool's maximum number of connections saved
            per pool. urllib3 uses 1 connection as default value, but this is
            not the best value when you are making a lot of possibly parallel
@@ -173,30 +194,30 @@ conf = openapi_client.Configuration(
            cpu_count * 5 is used as default value to increase performance.
         """
 
-        self.proxy = None
+        self.proxy = proxy
         """Proxy URL
         """
-        self.proxy_headers = None
+        self.proxy_headers = proxy_headers
         """Proxy headers
         """
-        self.safe_chars_for_path_param = ''
+        self.safe_chars_for_path_param = safe_chars_for_path_param
         """Safe chars for path_param
         """
-        self.retries = None
+        self.retries = retries
         """Adding retries to override urllib3 default value 3
         """
         # Enable client side validation
-        self.client_side_validation = True
+        self.client_side_validation = client_side_validation
 
-        self.socket_options = None
+        self.socket_options = socket_options
         """Options to pass down to the underlying urllib3 socket
         """
 
-        self.datetime_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+        self.datetime_format = datetime_format
         """datetime format
         """
 
-        self.date_format = "%Y-%m-%d"
+        self.date_format = date_format
         """date format
         """
 
