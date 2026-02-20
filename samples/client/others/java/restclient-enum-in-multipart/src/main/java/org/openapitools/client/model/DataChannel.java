@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * The transport-channel
@@ -66,7 +65,11 @@ public enum DataChannel {
 
   @JsonCreator
   public static DataChannel fromValue(String value) {
-    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    DataChannel result = BY_VALUE.get(value);
+    if (result != null) {
+      return result;
+    }
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
 

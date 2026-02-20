@@ -24,7 +24,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Gets or Sets StringEnumRef
@@ -65,7 +64,11 @@ public enum StringEnumRef {
   }
 
   public static StringEnumRef fromValue(String value) {
-    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    StringEnumRef result = BY_VALUE.get(value);
+    if (result != null) {
+      return result;
+    }
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<StringEnumRef> {

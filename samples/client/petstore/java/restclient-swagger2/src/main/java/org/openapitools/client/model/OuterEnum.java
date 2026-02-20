@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Gets or Sets OuterEnum
@@ -64,7 +63,11 @@ public enum OuterEnum {
 
   @JsonCreator
   public static OuterEnum fromValue(String value) {
-    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElse(null);
+    OuterEnum result = BY_VALUE.get(value);
+    if (result != null) {
+      return result;
+    }
+    return null;
   }
 }
 

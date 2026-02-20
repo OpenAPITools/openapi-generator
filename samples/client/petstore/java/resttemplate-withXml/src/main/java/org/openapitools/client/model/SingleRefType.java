@@ -26,7 +26,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Gets or Sets SingleRefType
@@ -68,7 +67,11 @@ public enum SingleRefType {
 
   @JsonCreator
   public static SingleRefType fromValue(String value) {
-    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
+    SingleRefType result = BY_VALUE.get(value);
+    if (result != null) {
+      return result;
+    }
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
 

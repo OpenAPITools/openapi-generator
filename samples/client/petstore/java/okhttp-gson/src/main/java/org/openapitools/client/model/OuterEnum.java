@@ -19,7 +19,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -69,7 +68,11 @@ public enum OuterEnum {
   }
 
   public static OuterEnum fromValue(String value) {
-    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElse(null);
+    OuterEnum result = BY_VALUE.get(value);
+    if (result != null) {
+      return result;
+    }
+    return null;
   }
 
   public static class Adapter extends TypeAdapter<OuterEnum> {
