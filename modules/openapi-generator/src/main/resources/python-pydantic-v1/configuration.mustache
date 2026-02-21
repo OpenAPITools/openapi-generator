@@ -47,23 +47,8 @@ class Configuration:
       string values to replace variables in templated server configuration.
       The validation of enums is performed for variables with defined enum
       values before.
-    :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
-      when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: Retry configuration (e.g. urllib3.util.retry.Retry).
-    :param cert_file: The path to a client certificate file, for mTLS.
-    :param key_file: The path to a client key file, for mTLS.
-    :param assert_hostname: Set this to True/False to enable/disable SSL hostname verification.
-    :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
-    :param connection_pool_maxsize: Connection pool max size. Defaults to 100 for asyncio, cpu_count * 5 for sync.
-    :param proxy: Proxy URL.
-    :param proxy_headers: Proxy headers.
-    :param safe_chars_for_path_param: Safe characters for path parameter encoding.
-    :param client_side_validation: Enable client-side validation. Default True.
-    :param socket_options: Options to pass down to the underlying urllib3 socket.
-    :param datetime_format: Datetime format string for serialization.
-    :param date_format: Date format string for serialization.
 
 {{#hasAuthMethods}}
     :Example:
@@ -161,7 +146,7 @@ conf = {{{packageName}}}.Configuration(
 {{/hasHttpSignatureMethods}}
                  server_index=None, server_variables=None,
                  server_operation_index=None, server_operation_variables=None,
-                 ssl_ca_cert=None, verify_ssl=True,
+                 ssl_ca_cert=None,
                  ) -> None:
         """Constructor
         """
@@ -230,7 +215,7 @@ conf = {{{packageName}}}.Configuration(
         """Debug switch
         """
 
-        self.verify_ssl = verify_ssl
+        self.verify_ssl = True
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
