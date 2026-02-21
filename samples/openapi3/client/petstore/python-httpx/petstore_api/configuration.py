@@ -174,7 +174,7 @@ class Configuration:
     :param key_file: the path to a client key file, for mTLS.
     :param assert_hostname: Set this to True/False to enable/disable SSL hostname verification.
     :param tls_server_name: SSL/TLS Server Name Indication (SNI). Set this to the SNI value expected by the server.
-    :param connection_pool_maxsize: Connection pool max size. Defaults to 100 for async, cpu_count * 5 for sync.
+    :param connection_pool_maxsize: Connection pool max size. None in the constructor is coerced to 100 for async and cpu_count * 5 for sync.
     :param proxy: Proxy URL.
     :param proxy_headers: Proxy headers.
     :param safe_chars_for_path_param: Safe characters for path parameter encoding.
@@ -276,12 +276,12 @@ conf = petstore_api.Configuration(
         server_operation_index: Optional[Dict[int, int]]=None,
         server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
-        verify_ssl: bool=True,
         ssl_ca_cert: Optional[str]=None,
         retries: Optional[Union[int, Any]] = None,
         ca_cert_data: Optional[Union[str, bytes]] = None,
         cert_file: Optional[str]=None,
         key_file: Optional[str]=None,
+        verify_ssl: bool=True,
         assert_hostname: Optional[bool]=None,
         tls_server_name: Optional[str]=None,
         connection_pool_maxsize: Optional[int]=None,
@@ -393,7 +393,7 @@ conf = petstore_api.Configuration(
 
         self.connection_pool_maxsize = connection_pool_maxsize if connection_pool_maxsize is not None else 100
         """This value is passed to the aiohttp to limit simultaneous connections.
-           Default values is 100, None means no-limit.
+           None in the constructor is coerced to default 100.
         """
 
         self.proxy = proxy
