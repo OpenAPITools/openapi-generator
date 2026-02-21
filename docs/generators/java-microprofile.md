@@ -97,6 +97,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
+|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set and incompatible with `openApiNullable`).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped. Only jersey2, jersey3, native, okhttp-gson support this option.| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |false|
@@ -107,7 +108,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library. IMPORTANT: This option has been deprecated.| |false|
 |useSealedOneOfInterfaces|Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient and RestClient.| |false|
 |useSingleRequestParameter|Setting this property to &quot;true&quot; will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to &quot;static&quot; does the same as &quot;true&quot;, but also makes the generated arguments class static with single parameter instantiation.| |false|
-|useSpring7|Generate code and provide dependencies for use with Spring 7.x. (Use jackson 3).| |false|
+|useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x.| |false|
 |useUnaryInterceptor|If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption| |false|
 |webclientBlockingOperations|Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync| |false|
 |withAWSV4Signature|whether to include AWS v4 signature support (only available for okhttp-gson library)| |false|

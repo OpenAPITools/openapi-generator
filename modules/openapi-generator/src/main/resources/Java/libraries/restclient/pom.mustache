@@ -275,13 +275,13 @@
         </dependency>
         {{/withXml}}
 
-        {{^useSpring7}}
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        {{/useSpring7}}
+        {{/useJackson3}}
 
         {{#joda}}
         <dependency>
@@ -337,23 +337,27 @@
         <swagger-annotations-version>2.2.43</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
 
-        {{^useSpring7}}
+        {{^useSpringBoot4}}
         <spring-web-version>6.2.16</spring-web-version>
         <jackson-version>2.21.0</jackson-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         {{#performBeanValidation}}
         <hibernate-validator-version>8.0.3.Final</hibernate-validator-version>
         {{/performBeanValidation}}
-        {{/useSpring7}}
-
-        {{#useSpring7}}
+        {{/useSpringBoot4}}
+        {{#useSpringBoot4}}
         <spring-web-version>7.0.5</spring-web-version>
+        {{#useJackson3}}
         <jackson-version>3.0.4</jackson-version>
+        {{/useJackson3}}
+        {{^useJackson3}}
+        <jackson-version>2.21.0</jackson-version>
+        {{/useJackson3}}
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
         {{#performBeanValidation}}
         <hibernate-validator-version>9.1.0.Final</hibernate-validator-version>
         {{/performBeanValidation}}
-        {{/useSpring7}}
+        {{/useSpringBoot4}}
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
         {{#openApiNullable}}

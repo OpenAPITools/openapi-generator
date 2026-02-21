@@ -118,7 +118,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
-    public static final String USE_SPRING_7 = "useSpring7";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
+    public static final String USE_JACKSON_3 = "useJackson3";
     private static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
     private static final String JACKSON3_PACKAGE = "tools.jackson";
     private static final String JACKSON_PACKAGE = "jacksonPackage";
@@ -163,7 +164,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      * Serialization library.
      */
     @Getter protected String serializationLibrary = null;
-    @Getter @Setter protected boolean useSpring7 = false;
+    @Getter @Setter protected boolean useSpringBoot4 = false;
+    @Getter @Setter protected boolean useJackson3 = false;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
@@ -304,10 +306,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
-        cliOptions.add(CliOption.newBoolean(USE_SPRING_7,
-                "Generate code and provide dependencies for use with Spring 7.x. (Use jackson 3).",
-                useSpring7));
-        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x.", useSpringBoot4));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
@@ -376,12 +376,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
-        convertPropertyToBooleanAndWriteBack(USE_SPRING_7, this::setUseSpring7);
-        if(this.useSpring7){
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
+        if(isUseJackson3() && !isUseSpringBoot4()){
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+        if(isUseJackson3() && isOpenApiNullable()){
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+
+        if(this.useJackson3){
             this.applyJackson3Package();
         } else {
             this.applyJackson2Package();
         }
+
+        // override parent one
+        importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
@@ -698,10 +709,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
-            if (useSpring7) {
-                // currently not supported for spring7 (neither for Jackson nor JSON-B)
-                openApiNullable = false;
-            }
         } else if (libVertx) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
@@ -807,7 +814,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                if (!useSpring7) {
+                if (!useJackson3) {
                     supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
                     supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
                 }
@@ -1048,9 +1055,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        if (useSpring7) {
-            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-        }
         if (!model.isEnum) {
             //Needed imports for Jackson based libraries
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
