@@ -305,7 +305,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
         cliOptions.add(CliOption.newBoolean(USE_SPRING_7,
-                "Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                "Generate code and provide dependencies for use with Spring 7.x. (Use jackson 3).",
                 useSpring7));
         // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
