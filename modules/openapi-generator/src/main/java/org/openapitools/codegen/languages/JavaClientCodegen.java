@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -117,6 +118,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
+    public static final String USE_SPRING_7 = "useSpring7";
+    private static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    private static final String JACKSON3_PACKAGE = "tools.jackson";
+    private static final String JACKSON_PACKAGE = "jacksonPackage";
+
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
     protected String gradleWrapperPackage = "gradle.wrapper";
@@ -134,7 +140,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean microProfileRegisterExceptionMapper = true;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
-
     @Setter protected boolean asyncNative = false;
     @Setter protected boolean parcelableModel = false;
     @Setter protected boolean performBeanValidation = false;
@@ -158,6 +163,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      * Serialization library.
      */
     @Getter protected String serializationLibrary = null;
+    @Getter @Setter protected boolean useSpring7 = false;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
@@ -298,7 +304,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
-
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_7,
+                "Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                useSpring7));
         // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
@@ -367,8 +375,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // default jackson unless overridden by setSerializationLibrary
         this.jackson = !additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY) ||
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
-
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_7, this::setUseSpring7);
+        if(this.useSpring7){
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
 
         // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
@@ -476,7 +489,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+        if (useSpring7) {
+            supportingFiles.add(new SupportingFile("pom-s7.mustache", "", "pom.xml").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("ApiClient-s7.mustache", invokerFolder, "ApiClient.java"));
+        } else {
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
+        }
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle").doNotOverwrite());
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt").doNotOverwrite());
@@ -484,7 +503,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
         supportingFiles.add(new SupportingFile("manifest.mustache", projectFolder, "AndroidManifest.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         supportingFiles.add(new SupportingFile("ServerConfiguration.mustache", invokerFolder, "ServerConfiguration.java"));
         supportingFiles.add(new SupportingFile("ServerVariable.mustache", invokerFolder, "ServerVariable.java"));
         supportingFiles.add(new SupportingFile("maven.yml.mustache", ".github/workflows", "maven.yml"));
@@ -685,6 +703,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // The flag below should be set for all Java libraries, but the templates need to be ported
             // one by one for each library.
             supportsAdditionalPropertiesWithComposedSchema = true;
+            if (useSpring7) {
+                // currently not supported for spring7 (neither for Jackson nor JSON-B)
+                openApiNullable = false;
+            }
         } else if (libVertx) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
@@ -790,8 +812,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_GSON);
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache", invokerFolder, "RFC3339DateFormat.java"));
-                supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
-                supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
+                if (!useSpring7) {
+                    supportingFiles.add(new SupportingFile("RFC3339InstantDeserializer.mustache", invokerFolder, "RFC3339InstantDeserializer.java"));
+                    supportingFiles.add(new SupportingFile("RFC3339JavaTimeModule.mustache", invokerFolder, "RFC3339JavaTimeModule.java"));
+                }
                 break;
             case SERIALIZATION_LIBRARY_GSON:
                 additionalProperties.put(SERIALIZATION_LIBRARY_GSON, "true");
@@ -809,7 +833,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JSONB);
                 break;
         }
-        
+
         if (isLibrary(FEIGN)) {
             additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
@@ -1028,6 +1052,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if (useSpring7) {
+            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
+        }
         if (!model.isEnum) {
             //Needed imports for Jackson based libraries
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
@@ -1241,6 +1269,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
 
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
+    }
+
     public void setSerializationLibrary(String serializationLibrary) {
         if (SERIALIZATION_LIBRARY_JACKSON.equalsIgnoreCase(serializationLibrary)) {
             this.serializationLibrary = SERIALIZATION_LIBRARY_JACKSON;
@@ -1281,7 +1317,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        if(additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
+        if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON)) {
             for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo", "JsonIgnoreProperties")) {
                 Map<String, String> oneImport = new HashMap<>();
                 oneImport.put("import", importMapping.get(i));

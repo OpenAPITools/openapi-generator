@@ -85,6 +85,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |serializationLibrary|Serialization library, default depends on value of the option library|<dl><dt>**jsonb**</dt><dd>Use JSON-B as serialization library</dd><dt>**jackson**</dt><dd>Use Jackson as serialization library</dd><dt>**gson**</dt><dd>Use Gson as serialization library</dd></dl>|null|
+|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `serializationLibrary` is set to `jackson`).| |false|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd></dl>|null|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
