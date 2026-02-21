@@ -216,7 +216,7 @@ public interface FakeApi {
          @RequestParam(value = "number", required = true) BigDecimal number,
          @RequestParam(value = "double", required = true) Double _double,
          @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-         @RequestParam(value = "byte", required = true) byte[] _byte,
+         @RequestParam(value = "byte", required = true) String _byte /* base64 encoded binary */,
          @RequestParam(value = "integer", required = false) Integer integer,
          @RequestParam(value = "int32", required = false) Integer int32,
          @RequestParam(value = "int64", required = false) Long int64,
@@ -259,7 +259,7 @@ public interface FakeApi {
          @RequestParam(value = "enum_query_string", required = false, defaultValue = "-efg") String enumQueryString,
          @RequestParam(value = "enum_query_integer", required = false) @Nullable Integer enumQueryInteger,
          @RequestParam(value = "enum_query_double", required = false) @Nullable Double enumQueryDouble,
-         @RequestPart(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
+         @RequestParam(value = "enum_form_string_array", required = false) List<String> enumFormStringArray,
          @RequestParam(value = "enum_form_string", required = false) String enumFormString
     );
 

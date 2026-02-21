@@ -66,6 +66,11 @@ paths:
                   properties:
                     name:
                       type: string
+                markerArray:
+                  description: "array of objects"
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MultipartMixedRequestMarker'
                 file:
                   description: "a file"
                   type: string
@@ -87,3 +92,22 @@ components:
         - IN_PROGRESS
         - REJECTED
       example: REJECTED
+    MultipartMixedRequestMarker:
+      type: object
+      description: Marker metadata sent as JSON part in multipart request
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Marker name
+          example: example-marker
+        priority:
+          type: integer
+          format: int32
+          description: Optional priority
+          example: 10
+        active:
+          type: boolean
+          description: Whether the marker is active
+          example: true

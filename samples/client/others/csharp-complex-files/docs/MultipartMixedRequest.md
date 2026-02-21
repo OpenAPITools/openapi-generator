@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Status** | **MultipartMixedStatus** |  | 
 **Marker** | [**MultipartMixedRequestMarker**](MultipartMixedRequestMarker.md) |  | [optional] 
+**MarkerArray** | [**List&lt;MultipartMixedRequestMarker&gt;**](MultipartMixedRequestMarker.md) | array of objects | [optional] 
 **File** | **System.IO.Stream** | a file | 
 **StatusArray** | [**List&lt;MultipartMixedStatus&gt;**](MultipartMixedStatus.md) |  | [optional] 
 

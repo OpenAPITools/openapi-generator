@@ -178,8 +178,8 @@ public interface PetApi {
     )
     Mono<ResponseEntity<Void>> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @RequestPart(value = "name", required = false) String name,
-         @RequestPart(value = "status", required = false) String status
+         @RequestParam(value = "name", required = false) String name,
+         @RequestParam(value = "status", required = false) String status
     );
 
 
