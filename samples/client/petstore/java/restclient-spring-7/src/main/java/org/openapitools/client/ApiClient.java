@@ -135,6 +135,7 @@ public class ApiClient extends JavaTimeFormatter {
     protected final RestClient restClient;
     protected final DateFormat dateFormat;
     protected final JsonMapper jsonMapper;
+
     protected Map<String, Authentication> authentications;
 
 

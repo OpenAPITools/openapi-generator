@@ -490,12 +490,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         //Common files
         if (useSpring7) {
-            supportingFiles.add(new SupportingFile("pom-s7.mustache", "", "pom.xml").doNotOverwrite());
             supportingFiles.add(new SupportingFile("ApiClient-s7.mustache", invokerFolder, "ApiClient.java"));
         } else {
-            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
             supportingFiles.add(new SupportingFile("ApiClient.mustache", invokerFolder, "ApiClient.java"));
         }
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml").doNotOverwrite());
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md").doNotOverwrite());
         supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle").doNotOverwrite());
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt").doNotOverwrite());

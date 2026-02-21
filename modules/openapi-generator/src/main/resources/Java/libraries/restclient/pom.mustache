@@ -234,22 +234,22 @@
 
         <!-- JSON processing: jackson -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>{{jacksonPackage}}.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>{{jacksonPackage}}.core</groupId>
+            <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <groupId>{{jacksonPackage}}.jakarta.rs</groupId>
             <artifactId>jackson-jakarta-rs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -264,7 +264,7 @@
 
         <!-- XML processing: Jackson -->
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <groupId>{{jacksonPackage}}.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -274,14 +274,16 @@
             <version>1.2</version>
         </dependency>
         {{/withXml}}
+        {{^useSpring7}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useSpring7}}
         {{#joda}}
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -331,20 +333,33 @@
         {{#swagger2AnnotationLibrary}}
         <swagger-annotations-version>2.2.43</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
-        <spring-web-version>6.1.21</spring-web-version>
+
+        {{^useSpring7}}
+        <spring-web-version>6.2.16</spring-web-version>
         <jackson-version>2.21.0</jackson-version>
-        <jackson-databind-version>2.21.0</jackson-databind-version>
-        {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
-        {{/openApiNullable}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
-        {{#joda}}
-        <jodatime-version>2.9.9</jodatime-version>
-        {{/joda}}
-        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{#performBeanValidation}}
         <hibernate-validator-version>8.0.3.Final</hibernate-validator-version>
         {{/performBeanValidation}}
+        {{/useSpring7}}
+
+        {{#useSpring7}}
+        <spring-web-version>7.0.5</spring-web-version>
+        <jackson-version>3.0.4</jackson-version>
+        <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
+        {{#performBeanValidation}}
+        <hibernate-validator-version>9.1.0.Final</hibernate-validator-version>
+        {{/performBeanValidation}}
+        {{/useSpring7}}
+
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        {{#openApiNullable}}
+        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
+        {{/openApiNullable}}
+        {{#joda}}
+        <jodatime-version>2.14.0</jodatime-version>
+        {{/joda}}
+        <beanvalidation-version>3.1.1</beanvalidation-version>
         <junit-version>5.14.3</junit-version>
     </properties>
 </project>

@@ -249,10 +249,13 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+
         <spring-web-version>7.0.5</spring-web-version>
         <jackson-version>3.0.4</jackson-version>
-        <jackson-annotations-version>2.21</jackson-annotations-version>
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
+
+        <jackson-annotations-version>2.21</jackson-annotations-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>
         <junit-version>5.14.3</junit-version>
     </properties>
