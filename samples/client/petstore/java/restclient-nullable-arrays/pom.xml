@@ -267,7 +267,6 @@
         <jackson-version>2.21.0</jackson-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
 
-
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>

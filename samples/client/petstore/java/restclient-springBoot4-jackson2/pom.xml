@@ -263,7 +263,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-
         <spring-web-version>7.0.5</spring-web-version>
         <jackson-version>2.21.0</jackson-version>
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
