@@ -13,13 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
-{{#parentOverridden}}
+    {{#parentOverridden}}
     <parent>
         <groupId>{{{parentGroupId}}}</groupId>
         <artifactId>{{{parentArtifactId}}}</artifactId>
         <version>{{{parentVersion}}}</version>
     </parent>
-{{/parentOverridden}}
+    {{/parentOverridden}}
 
     <licenses>
         <license>
@@ -274,6 +274,7 @@
             <version>1.2</version>
         </dependency>
         {{/withXml}}
+
         {{^useSpring7}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -281,6 +282,7 @@
             <version>${jackson-version}</version>
         </dependency>
         {{/useSpring7}}
+
         {{#joda}}
         <dependency>
             <groupId>{{jacksonPackage}}.datatype</groupId>
@@ -293,23 +295,24 @@
             <version>${jodatime-version}</version>
         </dependency>
         {{/joda}}
-      {{#useBeanValidation}}
+
+        {{#useBeanValidation}}
         <!-- Bean Validation API support -->
         <dependency>
-          <groupId>jakarta.validation</groupId>
-          <artifactId>jakarta.validation-api</artifactId>
-          <version>${beanvalidation-version}</version>
-          <scope>provided</scope>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
+            <scope>provided</scope>
         </dependency>
-      {{/useBeanValidation}}
-      {{#performBeanValidation}}
+        {{/useBeanValidation}}
+        {{#performBeanValidation}}
         <!-- Bean Validation Impl. used to perform BeanValidation -->
         <dependency>
-          <groupId>org.hibernate.validator</groupId>
-          <artifactId>hibernate-validator</artifactId>
-          <version>${hibernate-validator-version}</version>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
         </dependency>
-      {{/performBeanValidation}}
+        {{/performBeanValidation}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>

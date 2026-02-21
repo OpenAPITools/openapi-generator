@@ -13,9 +13,14 @@
 
 package org.openapitools.client;
 
+
+
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
+
 import java.util.function.Consumer;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -23,8 +28,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverters;
-import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -134,8 +137,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     protected final RestClient restClient;
     protected final DateFormat dateFormat;
-    protected final JsonMapper jsonMapper;
-
+    protected final JsonMapper mapper;
     protected Map<String, Authentication> authentications;
 
 
@@ -152,14 +154,14 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     public ApiClient(RestClient restClient, JsonMapper mapper, DateFormat format) {
-        this.jsonMapper = mapper;
-        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.jsonMapper));
+        this.mapper = mapper;
+        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.mapper));
         this.dateFormat = format;
         this.init();
     }
 
     protected ApiClient(RestClient restClient, DateFormat format) {
-        this(restClient, createDefaultJsonMapper(format), format);
+        this(restClient, createDefaultMapper(format), format);
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -168,7 +170,7 @@ public class ApiClient extends JavaTimeFormatter {
         return dateFormat;
     }
 
-    public static JsonMapper createDefaultJsonMapper(@Nullable DateFormat dateFormat) {
+    public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
         return JsonMapper.builder()
             .defaultDateFormat(dateFormat)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -193,6 +195,7 @@ public class ApiClient extends JavaTimeFormatter {
     * @return RestClient
     */
     public static RestClient.Builder buildRestClientBuilder(JsonMapper mapper) {
+
         Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
             builder.withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
         };
@@ -205,7 +208,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return RestClient
      */
     public static RestClient.Builder buildRestClientBuilder() {
-        return buildRestClientBuilder(createDefaultJsonMapper(null));
+        return buildRestClientBuilder(createDefaultMapper(null));
     }
 
     /**
@@ -222,7 +225,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return RestClient
      */
     public static RestClient buildRestClient() {
-        return buildRestClientBuilder(createDefaultJsonMapper(null)).build();
+        return buildRestClientBuilder(createDefaultMapper(null)).build();
     }
 
     /**
@@ -463,10 +466,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Get the JsonMapper used to make HTTP requests.
-     * @return JsonMapper jsonMapper
+     * @return JsonMapper mapper
      */
     public JsonMapper getJsonMapper() {
-        return jsonMapper;
+        return mapper;
     }
 
     /**
@@ -516,8 +519,7 @@ public class ApiClient extends JavaTimeFormatter {
             valueCollection = (Collection<?>) value;
         } else {
             try {
-                return parameterToMultiValueMap(collectionFormat, name, jsonMapper.writeValueAsString(value));
-
+                return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
             } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }
@@ -526,7 +528,7 @@ public class ApiClient extends JavaTimeFormatter {
         List<String> values = new ArrayList<>();
         for(Object o : valueCollection) {
             try {
-                values.add(jsonMapper.writeValueAsString(o));
+                values.add(mapper.writeValueAsString(o));
             } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }

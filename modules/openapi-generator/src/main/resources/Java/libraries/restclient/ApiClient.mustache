@@ -3,13 +3,32 @@
 package {{invokerPackage}};
 
 {{#withXml}}
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import {{jacksonPackage}}.dataformat.xml.XmlMapper;
+import {{jacksonPackage}}.dataformat.xml.ser.ToXmlGenerator;
 {{/withXml}}
+
+{{^useSpring7}}
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+{{#withXml}}
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
+{{/withXml}}
+{{/useSpring7}}
+
+{{#useSpring7}}
+import {{jacksonPackage}}.databind.DeserializationFeature;
+import {{jacksonPackage}}.core.JacksonException;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
+{{#withXml}}
+import org.springframework.http.converter.xml.JacksonXmlHttpMessageConverter;
+{{/withXml}}
+{{/useSpring7}}
+
 import java.util.function.Consumer;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
@@ -23,10 +42,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-{{#withXml}}
-  import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
-{{/withXml}}
 {{#generateClientAsBean}}
 import org.springframework.stereotype.Component;
 {{/generateClientAsBean}}
@@ -122,8 +137,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     protected final RestClient restClient;
     protected final DateFormat dateFormat;
-    protected final ObjectMapper objectMapper;
-
+    {{^useSpring7}}
+    protected final ObjectMapper mapper;
+    {{/useSpring7}}
+    {{#useSpring7}}
+    protected final JsonMapper mapper;
+    {{/useSpring7}}
     protected Map<String, Authentication> authentications;
 
 
@@ -138,19 +157,24 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         this(restClient, createDefaultDateFormat());
     }
 
-    public ApiClient(ObjectMapper mapper, DateFormat format) {
+    public ApiClient({{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} mapper, DateFormat format) {
         this(null, mapper, format);
     }
 
-    public ApiClient(RestClient restClient, ObjectMapper mapper, DateFormat format) {
-        this.objectMapper = mapper.copy();
-        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.objectMapper));
+    public ApiClient(RestClient restClient, {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} mapper, DateFormat format) {
+        {{#useSpring7}}
+        this.mapper = mapper;
+        {{/useSpring7}}
+        {{^useSpring7}}
+        this.mapper = mapper.copy();
+        {{/useSpring7}}
+        this.restClient = Optional.ofNullable(restClient).orElseGet(() -> buildRestClient(this.mapper));
         this.dateFormat = format;
         this.init();
     }
 
     protected ApiClient(RestClient restClient, DateFormat format) {
-        this(restClient, createDefaultObjectMapper(format), format);
+        this(restClient, createDefaultMapper(format), format);
     }
 
     public static DateFormat createDefaultDateFormat() {
@@ -159,7 +183,21 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         return dateFormat;
     }
 
-    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+    {{#useSpring7}}
+    public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        return JsonMapper.builder()
+            .defaultDateFormat(dateFormat)
+            {{#failOnUnknownProperties}}
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            {{^failOnUnknownProperties}}
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            {{/failOnUnknownProperties}}
+            .build();
+    }
+    {{/useSpring7}}
+    {{^useSpring7}}
+    public static ObjectMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
         if (null == dateFormat) {
             dateFormat = createDefaultDateFormat();
         }
@@ -173,6 +211,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         {{/openApiNullable}}
         return mapper;
     }
+    {{/useSpring7}}
 
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
@@ -187,18 +226,29 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     /**
     * Build the RestClientBuilder used to make RestClient.
-    * @param mapper ObjectMapper used for serialize/deserialize
+    * @param mapper {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} used for serialize/deserialize
     * @return RestClient
     */
-    public static RestClient.Builder buildRestClientBuilder(ObjectMapper mapper) {
+    public static RestClient.Builder buildRestClientBuilder({{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} mapper) {
         {{#withXml}}
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
         {{#openApiNullable}}
-          xmlMapper.registerModule(new JsonNullableModule());
+        xmlMapper.registerModule(new JsonNullableModule());
         {{/openApiNullable}}
-
         {{/withXml}}
+
+        {{#useSpring7}}
+        Consumer<HttpMessageConverters.ClientBuilder> messageConverters = builder -> {
+            builder.withJsonConverter(new JacksonJsonHttpMessageConverter(mapper));
+            {{#withXml}}
+            builder.withXmlConverter(new JacksonXmlHttpMessageConverter(xmlMapper));
+            {{/withXml}}
+        };
+
+        return RestClient.builder().configureMessageConverters(messageConverters);
+        {{/useSpring7}}
+        {{^useSpring7}}
         Consumer<List<HttpMessageConverter<?>>> messageConverters = converters -> {
             converters.add(0, new MappingJackson2HttpMessageConverter(mapper));
             {{#withXml}}
@@ -207,6 +257,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         };
 
         return RestClient.builder().messageConverters(messageConverters);
+        {{/useSpring7}}
     }
 
     /**
@@ -214,15 +265,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return RestClient
      */
     public static RestClient.Builder buildRestClientBuilder() {
-        return buildRestClientBuilder(createDefaultObjectMapper(null));
+        return buildRestClientBuilder(createDefaultMapper(null));
     }
 
     /**
      * Build the RestClient used to make HTTP requests.
-     * @param mapper ObjectMapper used for serialize/deserialize
+     * @param mapper {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} used for serialize/deserialize
      * @return RestClient
      */
-    public static RestClient buildRestClient(ObjectMapper mapper) {
+    public static RestClient buildRestClient({{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} mapper) {
         return buildRestClientBuilder(mapper).build();
     }
 
@@ -231,7 +282,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      * @return RestClient
      */
     public static RestClient buildRestClient() {
-        return buildRestClientBuilder(createDefaultObjectMapper(null)).build();
+        return buildRestClientBuilder(createDefaultMapper(null)).build();
     }
 
     /**
@@ -473,11 +524,11 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Get the ObjectMapper used to make HTTP requests.
-     * @return ObjectMapper objectMapper
+     * Get the {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} used to make HTTP requests.
+     * @return {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} mapper
      */
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
+    public {{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}} get{{#useSpring7}}JsonMapper{{/useSpring7}}{{^useSpring7}}ObjectMapper{{/useSpring7}}() {
+        return mapper;
     }
 
     /**
@@ -527,8 +578,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             valueCollection = (Collection<?>) value;
         } else {
             try {
-                return parameterToMultiValueMap(collectionFormat, name, objectMapper.writeValueAsString(value));
-            } catch (JsonProcessingException e) {
+                return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
+            } catch ({{#useSpring7}}JacksonException{{/useSpring7}}{{^useSpring7}}JsonProcessingException{{/useSpring7}} e) {
                 throw new RuntimeException(e);
             }
         }
@@ -536,8 +587,8 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         List<String> values = new ArrayList<>();
         for(Object o : valueCollection) {
             try {
-                values.add(objectMapper.writeValueAsString(o));
-            } catch (JsonProcessingException e) {
+                values.add(mapper.writeValueAsString(o));
+            } catch ({{#useSpring7}}JacksonException{{/useSpring7}}{{^useSpring7}}JsonProcessingException{{/useSpring7}} e) {
                 throw new RuntimeException(e);
             }
         }
