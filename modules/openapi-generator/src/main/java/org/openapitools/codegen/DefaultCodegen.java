@@ -2794,7 +2794,6 @@ public class DefaultCodegen implements CodegenConfig {
                 addImport(composed, refSchema, m, modelName);
 
                 if (allDefinitions != null && refSchema != null) {
-                    // Inline properties from oneOf wrapper schemas (cannot be used as parent classes)
                     if (ModelUtils.isOneOfWrapperSchema(refSchema)) {
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
                         addProperties(newProperties, required, refSchema, new HashSet<>());
@@ -3162,10 +3161,23 @@ public class DefaultCodegen implements CodegenConfig {
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
 
-        // Mark inherited readonly properties for template to use setter instead of direct field access
         if (m.parent != null && m.readOnlyVars != null) {
+            Schema parentSchema = null;
+            if (allDefinitions != null && m.parentSchema != null) {
+                parentSchema = allDefinitions.get(m.parentSchema);
+            }
+            
+            Set<String> parentReadOnlyNames = new HashSet<>();
+            if (parentSchema != null && parentSchema.getProperties() != null) {
+                for (Map.Entry<String, Schema> entry : ((Map<String, Schema>) parentSchema.getProperties()).entrySet()) {
+                    if (Boolean.TRUE.equals(entry.getValue().getReadOnly())) {
+                        parentReadOnlyNames.add(entry.getKey());
+                    }
+                }
+            }
+            
             for (CodegenProperty roVar : m.readOnlyVars) {
-                if (!Boolean.TRUE.equals(roVar.isOverridden)) {
+                if (Boolean.TRUE.equals(roVar.isOverridden) || parentReadOnlyNames.contains(roVar.baseName)) {
                     roVar.vendorExtensions.put("x-is-inherited-readonly", Boolean.TRUE);
                 }
             }
