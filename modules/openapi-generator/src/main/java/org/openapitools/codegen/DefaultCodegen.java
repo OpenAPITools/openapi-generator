@@ -3167,12 +3167,15 @@ public class DefaultCodegen implements CodegenConfig {
                 parentSchema = allDefinitions.get(m.parentSchema);
             }
             
+            Map<String, Schema> parentProperties = new LinkedHashMap<>();
+            if (parentSchema != null) {
+                addProperties(parentProperties, new ArrayList<>(), parentSchema, new HashSet<>());
+            }
+            
             Set<String> parentReadOnlyNames = new HashSet<>();
-            if (parentSchema != null && parentSchema.getProperties() != null) {
-                for (Map.Entry<String, Schema> entry : ((Map<String, Schema>) parentSchema.getProperties()).entrySet()) {
-                    if (Boolean.TRUE.equals(entry.getValue().getReadOnly())) {
-                        parentReadOnlyNames.add(entry.getKey());
-                    }
+            for (Map.Entry<String, Schema> entry : parentProperties.entrySet()) {
+                if (Boolean.TRUE.equals(entry.getValue().getReadOnly())) {
+                    parentReadOnlyNames.add(entry.getKey());
                 }
             }
             
