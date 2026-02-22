@@ -43,7 +43,6 @@ public class AdditionalPropertiesClass {
   @jakarta.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty;
 
-  @JsonIgnore
   public AdditionalPropertiesClass() {
   }
 

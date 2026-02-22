@@ -38,7 +38,6 @@ public class FooGetDefaultResponse {
   @jakarta.annotation.Nullable
   private Foo string;
 
-  @JsonIgnore
   public FooGetDefaultResponse() {
   }
 

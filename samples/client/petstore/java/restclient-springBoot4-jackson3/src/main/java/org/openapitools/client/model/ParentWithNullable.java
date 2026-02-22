@@ -86,7 +86,6 @@ public class ParentWithNullable {
   @jakarta.annotation.Nullable
   protected String nullableProperty;
 
-  @JsonIgnore
   public ParentWithNullable() {
   }
 

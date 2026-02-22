@@ -36,7 +36,6 @@ public class HealthCheckResult {
   @jakarta.annotation.Nullable
   private String nullableMessage;
 
-  @JsonIgnore
   public HealthCheckResult() {
   }
 

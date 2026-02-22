@@ -46,7 +46,6 @@ public class Cat extends Animal {
   @jakarta.annotation.Nullable
   private Boolean declawed;
 
-  @JsonIgnore
   public Cat() {
 
   }

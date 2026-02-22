@@ -36,7 +36,6 @@ public class Client {
   @jakarta.annotation.Nullable
   private String client;
 
-  @JsonIgnore
   public Client() {
   }
 

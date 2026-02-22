@@ -220,7 +220,6 @@ public class EnumTest {
   @jakarta.annotation.Nullable
   private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
 
-  @JsonIgnore
   public EnumTest() {
   }
 

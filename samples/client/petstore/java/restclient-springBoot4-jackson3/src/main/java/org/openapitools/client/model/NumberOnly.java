@@ -37,7 +37,6 @@ public class NumberOnly {
   @jakarta.annotation.Nullable
   private BigDecimal justNumber;
 
-  @JsonIgnore
   public NumberOnly() {
   }
 
