@@ -115,9 +115,19 @@
 
         <!-- JSON processing: jackson -->
         <dependency>
+            <groupId>{{jacksonPackage}}.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>{{jacksonPackage}}.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
+            <version>${jackson-version}</version>
         </dependency>
         {{#openApiNullable}}
         <dependency>
@@ -127,14 +137,16 @@
         </dependency>
         {{/openApiNullable}}
 
+        {{^useJackson3}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useJackson3}}
         {{#joda}}
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <groupId>{{jacksonPackage}}.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -162,18 +174,27 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         {{#swagger1AnnotationLibrary}}
-        <swagger-annotations-version>1.6.6</swagger-annotations-version>
+        <swagger-annotations-version>1.6.16</swagger-annotations-version>
         {{/swagger1AnnotationLibrary}}
         {{#swagger2AnnotationLibrary}}
-        <swagger-annotations-version>2.2.15</swagger-annotations-version>
+        <swagger-annotations-version>2.2.43</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
-        <jackson-version>2.19.2</jackson-version>
-        <jackson-databind-version>2.19.2</jackson-databind-version>
+        {{#useJackson3}}
+        <jackson-version>3.1.0</jackson-version>
+        {{/useJackson3}}
+        {{^useJackson3}}
+        <jackson-version>2.21.1</jackson-version>
+        {{/useJackson3}}
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         {{/openApiNullable}}
         {{#useJakartaEe}}
-        <spring-boot-version>3.2.12</spring-boot-version>
+        {{^useSpringBoot4}}
+        <spring-boot-version>3.5.11</spring-boot-version>
+        {{/useSpringBoot4}}
+        {{#useSpringBoot4}}
+        <spring-boot-version>4.0.3</spring-boot-version>
+        {{/useSpringBoot4}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <reactor-version>3.5.12</reactor-version>
         <reactor-netty-version>1.2.8</reactor-netty-version>
@@ -184,9 +205,10 @@
         <reactor-version>3.4.34</reactor-version>
         <reactor-netty-version>1.2.8</reactor-netty-version>
         {{/useJakartaEe}}
-        <junit-version>5.10.2</junit-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
+        <junit-version>5.14.3</junit-version>
         {{#joda}}
-        <jodatime-version>2.9.9</jodatime-version>
+        <jodatime-version>2.14.0</jodatime-version>
         {{/joda}}
     </properties>
 </project>
