@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * InlineObject
@@ -37,6 +38,7 @@ public class InlineObject {
   @jakarta.annotation.Nonnull
   private UUID messageId;
 
+  @JsonIgnore
   public InlineObject() {
   }
 

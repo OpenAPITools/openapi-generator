@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * OuterObjectWithEnumProperty
@@ -36,6 +37,7 @@ public class OuterObjectWithEnumProperty {
   @jakarta.annotation.Nonnull
   private OuterEnumInteger value;
 
+  @JsonIgnore
   public OuterObjectWithEnumProperty() {
   }
 

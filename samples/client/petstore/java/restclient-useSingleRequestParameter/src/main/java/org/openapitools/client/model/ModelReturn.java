@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing reserved words
@@ -36,6 +37,7 @@ public class ModelReturn {
   @jakarta.annotation.Nullable
   private Integer _return;
 
+  @JsonIgnore
   public ModelReturn() {
   }
 

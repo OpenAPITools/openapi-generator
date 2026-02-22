@@ -26,6 +26,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
@@ -39,6 +40,7 @@ public class HealthCheckResult {
   @jakarta.annotation.Nullable
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
+  @JsonIgnore
   public HealthCheckResult() {
   }
 

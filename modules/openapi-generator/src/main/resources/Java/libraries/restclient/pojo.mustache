@@ -94,6 +94,9 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
+  {{#jackson}}
+  @JsonIgnore
+  {{/jackson}}
   public {{classname}}() {
     {{#parent}}
     {{#parcelableModel}}
@@ -130,6 +133,9 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   /**
    * Constructor with all args parameters
    */
+  {{#jackson}}
+  @JsonIgnore
+  {{/jackson}}
   public {{classname}}({{#vendorExtensions.x-java-all-args-constructor-vars}}{{#jsonb}}@JsonbProperty(value = "{{baseName}}"{{^required}}, nullable = true{{/required}}){{/jsonb}}{{#jackson}}@JsonProperty(JSON_PROPERTY_{{nameInSnakeCase}}){{/jackson}} {{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-java-all-args-constructor-vars}}) {
 {{#parent}}
     super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});

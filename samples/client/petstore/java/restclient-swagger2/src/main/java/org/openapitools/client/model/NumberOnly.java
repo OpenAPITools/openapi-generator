@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * NumberOnly
@@ -37,6 +38,7 @@ public class NumberOnly {
   @jakarta.annotation.Nullable
   private BigDecimal justNumber;
 
+  @JsonIgnore
   public NumberOnly() {
   }
 

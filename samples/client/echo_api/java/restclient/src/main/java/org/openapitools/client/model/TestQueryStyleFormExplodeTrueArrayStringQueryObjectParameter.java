@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
@@ -39,6 +40,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   @jakarta.annotation.Nullable
   private List<String> values = new ArrayList<>();
 
+  @JsonIgnore
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
 

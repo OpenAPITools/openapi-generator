@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * EnumArrays
@@ -114,6 +115,7 @@ public class EnumArrays {
   @jakarta.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum;
 
+  @JsonIgnore
   public EnumArrays() {
   }
 

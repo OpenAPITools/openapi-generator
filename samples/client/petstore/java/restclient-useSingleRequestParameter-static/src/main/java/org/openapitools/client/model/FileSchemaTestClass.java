@@ -26,6 +26,7 @@ import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FileSchemaTestClass
@@ -44,6 +45,7 @@ public class FileSchemaTestClass {
   @jakarta.annotation.Nullable
   private List<ModelFile> files = new ArrayList<>();
 
+  @JsonIgnore
   public FileSchemaTestClass() {
   }
 

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Order
@@ -98,6 +99,7 @@ public class Order {
   @jakarta.annotation.Nullable
   private Boolean complete = false;
 
+  @JsonIgnore
   public Order() {
   }
 

@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FakeBigDecimalMap200Response
@@ -44,6 +45,7 @@ public class FakeBigDecimalMap200Response {
   @jakarta.annotation.Nullable
   private Map<String, BigDecimal> someMap;
 
+  @JsonIgnore
   public FakeBigDecimalMap200Response() {
   }
 

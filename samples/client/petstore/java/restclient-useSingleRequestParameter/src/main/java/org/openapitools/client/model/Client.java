@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Client
@@ -35,6 +36,7 @@ public class Client {
   @jakarta.annotation.Nullable
   private String client;
 
+  @JsonIgnore
   public Client() {
   }
 

@@ -28,6 +28,7 @@ import org.openapitools.client.model.ParentWithNullable;
 import org.openapitools.jackson.nullable.JsonNullable;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ChildWithNullable
@@ -47,6 +48,7 @@ public class ChildWithNullable extends ParentWithNullable {
   @jakarta.annotation.Nullable
   private String otherProperty;
 
+  @JsonIgnore
   public ChildWithNullable() {
 
   }

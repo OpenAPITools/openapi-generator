@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Bird
@@ -40,6 +41,7 @@ public class Bird {
   @jakarta.annotation.Nullable
   private String color;
 
+  @JsonIgnore
   public Bird() {
   }
 

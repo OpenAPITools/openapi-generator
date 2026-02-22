@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * HasOnlyReadOnly
@@ -41,6 +42,7 @@ public class HasOnlyReadOnly {
   @jakarta.annotation.Nullable
   private String foo;
 
+  @JsonIgnore
   public HasOnlyReadOnly() {
   }
   /**

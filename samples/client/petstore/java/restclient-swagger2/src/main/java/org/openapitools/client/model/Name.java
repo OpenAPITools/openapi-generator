@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing model name same as property name
@@ -52,6 +53,7 @@ public class Name {
   @jakarta.annotation.Nullable
   private Integer _123number;
 
+  @JsonIgnore
   public Name() {
   }
   /**

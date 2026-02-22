@@ -24,6 +24,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.client.model.SingleRefType;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * AllOfWithSingleRef
@@ -42,6 +43,7 @@ public class AllOfWithSingleRef {
   @jakarta.annotation.Nullable
   private SingleRefType singleRefType;
 
+  @JsonIgnore
   public AllOfWithSingleRef() {
   }
 

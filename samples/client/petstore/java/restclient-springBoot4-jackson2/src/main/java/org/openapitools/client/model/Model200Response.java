@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Model for testing model name starting with number
@@ -41,6 +42,7 @@ public class Model200Response {
   @jakarta.annotation.Nullable
   private String propertyClass;
 
+  @JsonIgnore
   public Model200Response() {
   }
 

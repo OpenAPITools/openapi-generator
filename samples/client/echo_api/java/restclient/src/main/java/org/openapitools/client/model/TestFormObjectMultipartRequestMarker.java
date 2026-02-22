@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * TestFormObjectMultipartRequestMarker
@@ -36,6 +37,7 @@ public class TestFormObjectMultipartRequestMarker {
   @jakarta.annotation.Nullable
   private String name;
 
+  @JsonIgnore
   public TestFormObjectMultipartRequestMarker() {
   }
 

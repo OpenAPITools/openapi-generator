@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FooGetDefaultResponse
@@ -37,6 +38,7 @@ public class FooGetDefaultResponse {
   @jakarta.annotation.Nullable
   private Foo string;
 
+  @JsonIgnore
   public FooGetDefaultResponse() {
   }
 

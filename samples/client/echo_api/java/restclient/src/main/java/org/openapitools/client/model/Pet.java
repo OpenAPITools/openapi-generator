@@ -27,6 +27,7 @@ import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Pet
@@ -102,6 +103,7 @@ public class Pet {
   @jakarta.annotation.Nullable
   private StatusEnum status;
 
+  @JsonIgnore
   public Pet() {
   }
 

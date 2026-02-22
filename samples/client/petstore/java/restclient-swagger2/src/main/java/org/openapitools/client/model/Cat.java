@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Cat
@@ -46,6 +47,7 @@ public class Cat extends Animal {
   @jakarta.annotation.Nullable
   private Boolean declawed;
 
+  @JsonIgnore
   public Cat() {
 
   }

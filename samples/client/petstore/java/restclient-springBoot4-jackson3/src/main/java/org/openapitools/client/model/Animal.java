@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Animal
@@ -53,6 +54,7 @@ public class Animal {
   @jakarta.annotation.Nullable
   protected String color = "red";
 
+  @JsonIgnore
   public Animal() {
   }
 

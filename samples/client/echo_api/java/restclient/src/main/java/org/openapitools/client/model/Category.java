@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Category
@@ -40,6 +41,7 @@ public class Category {
   @jakarta.annotation.Nullable
   private String name;
 
+  @JsonIgnore
   public Category() {
   }
 

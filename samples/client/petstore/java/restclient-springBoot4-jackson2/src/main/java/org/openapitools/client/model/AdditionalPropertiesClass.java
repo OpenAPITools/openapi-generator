@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * AdditionalPropertiesClass
@@ -42,6 +43,7 @@ public class AdditionalPropertiesClass {
   @jakarta.annotation.Nullable
   private Map<String, Map<String, String>> mapOfMapProperty;
 
+  @JsonIgnore
   public AdditionalPropertiesClass() {
   }
 

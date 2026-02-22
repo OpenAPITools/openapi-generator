@@ -30,6 +30,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * to test the default value of properties
@@ -115,6 +116,7 @@ public class DefaultValue {
   @jakarta.annotation.Nullable
   private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
 
+  @JsonIgnore
   public DefaultValue() {
   }
 

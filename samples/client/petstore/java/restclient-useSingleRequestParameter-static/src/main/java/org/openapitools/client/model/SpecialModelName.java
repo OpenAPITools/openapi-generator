@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * SpecialModelName
@@ -36,6 +37,7 @@ public class SpecialModelName {
   @jakarta.annotation.Nullable
   private Long $specialPropertyName;
 
+  @JsonIgnore
   public SpecialModelName() {
   }
 

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Must be named &#x60;File&#x60; for test.
@@ -38,6 +39,7 @@ public class ModelFile {
   @jakarta.annotation.Nullable
   private String sourceURI;
 
+  @JsonIgnore
   public ModelFile() {
   }
 

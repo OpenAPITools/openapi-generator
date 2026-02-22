@@ -27,6 +27,7 @@ import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -50,6 +51,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @jakarta.annotation.Nullable
   private Map<String, Animal> map = new HashMap<>();
 
+  @JsonIgnore
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 

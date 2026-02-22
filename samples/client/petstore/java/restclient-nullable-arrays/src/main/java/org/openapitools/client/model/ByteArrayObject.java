@@ -27,6 +27,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ByteArrayObject
@@ -60,6 +61,7 @@ public class ByteArrayObject {
   @jakarta.annotation.Nullable
   private BigDecimal intField;
 
+  @JsonIgnore
   public ByteArrayObject() {
   }
 

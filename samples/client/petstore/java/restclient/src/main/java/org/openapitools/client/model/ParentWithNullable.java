@@ -29,6 +29,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ParentWithNullable
@@ -89,6 +90,7 @@ public class ParentWithNullable {
   @jakarta.annotation.Nullable
   protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
+  @JsonIgnore
   public ParentWithNullable() {
   }
 

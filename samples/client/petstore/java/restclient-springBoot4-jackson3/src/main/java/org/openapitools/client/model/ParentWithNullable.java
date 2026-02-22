@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ParentWithNullable
@@ -85,6 +86,7 @@ public class ParentWithNullable {
   @jakarta.annotation.Nullable
   protected String nullableProperty;
 
+  @JsonIgnore
   public ParentWithNullable() {
   }
 

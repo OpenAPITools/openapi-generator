@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * MapTest
@@ -88,6 +89,7 @@ public class MapTest {
   @jakarta.annotation.Nullable
   private Map<String, Boolean> indirectMap;
 
+  @JsonIgnore
   public MapTest() {
   }
 

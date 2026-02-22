@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * ArrayOfArrayOfNumberOnly
@@ -39,6 +40,7 @@ public class ArrayOfArrayOfNumberOnly {
   @jakarta.annotation.Nullable
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  @JsonIgnore
   public ArrayOfArrayOfNumberOnly() {
   }
 
