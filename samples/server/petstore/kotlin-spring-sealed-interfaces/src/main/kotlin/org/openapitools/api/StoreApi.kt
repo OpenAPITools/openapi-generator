@@ -6,9 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import org.openapitools.model.DeleteOrderResponse
 import org.openapitools.model.GetOrderByIdResponse
-import org.openapitools.model.GetInventoryResponse
 import org.openapitools.model.PlaceOrderResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -44,7 +42,7 @@ interface StoreApi {
     )
     fun deleteOrder(
         @PathVariable("orderId") orderId: kotlin.String
-    ): ResponseEntity<DeleteOrderResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -55,7 +53,7 @@ interface StoreApi {
         value = [PATH_GET_INVENTORY],
         produces = ["application/json"]
     )
-    fun getInventory(): ResponseEntity<GetInventoryResponse> {
+    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

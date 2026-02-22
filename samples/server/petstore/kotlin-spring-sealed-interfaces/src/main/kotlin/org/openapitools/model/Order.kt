@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.PlaceOrderResponse
-import org.openapitools.model.PlaceOrderResponse
-import org.openapitools.model.GetOrderByIdResponse
 import org.openapitools.model.GetOrderByIdResponse
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
@@ -40,7 +38,7 @@ data class Order(
     @get:JsonProperty("status") val status: Order.Status? = null,
 
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-) : PlaceOrderResponse, PlaceOrderResponse, GetOrderByIdResponse, GetOrderByIdResponse {
+) : PlaceOrderResponse, GetOrderByIdResponse {
 
     /**
     * Order Status

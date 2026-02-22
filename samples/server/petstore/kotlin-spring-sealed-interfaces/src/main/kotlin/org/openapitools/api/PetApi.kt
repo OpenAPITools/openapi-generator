@@ -7,14 +7,10 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import org.openapitools.model.DeletePetResponse
-import org.openapitools.model.UpdatePetWithFormResponse
 import org.openapitools.model.UpdatePetResponse
 import org.openapitools.model.AddPetResponse
-import org.openapitools.model.FindPetsByTagsResponse
 import org.openapitools.model.GetPetByIdResponse
 import org.openapitools.model.UploadFileResponse
-import org.openapitools.model.FindPetsByStatusResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -64,7 +60,7 @@ interface PetApi {
     fun deletePet(
         @PathVariable("petId") petId: kotlin.Long,
         @RequestHeader(value = "api_key", required = false) apiKey: kotlin.String?
-    ): ResponseEntity<DeletePetResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -77,7 +73,7 @@ interface PetApi {
     )
     fun findPetsByStatus(
         @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<FindPetsByStatusResponse> {
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -90,7 +86,7 @@ interface PetApi {
     )
     fun findPetsByTags(
         @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<FindPetsByTagsResponse> {
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -132,7 +128,7 @@ interface PetApi {
         @PathVariable("petId") petId: kotlin.Long,
         @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?
-    ): ResponseEntity<UpdatePetWithFormResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

@@ -7,13 +7,6 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.openapitools.model.GetUserByNameResponse
-import org.openapitools.model.LoginUserResponse
-import org.openapitools.model.LogoutUserResponse
-import org.openapitools.model.CreateUsersWithArrayInputResponse
-import org.openapitools.model.CreateUsersWithListInputResponse
-import org.openapitools.model.CreateUserResponse
-import org.openapitools.model.UpdateUserResponse
-import org.openapitools.model.DeleteUserResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -49,7 +42,7 @@ interface UserApi {
     )
     fun createUser(
         @Valid @RequestBody user: User
-    ): ResponseEntity<CreateUserResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -62,7 +55,7 @@ interface UserApi {
     )
     fun createUsersWithArrayInput(
         @Valid @RequestBody user: kotlin.collections.List<User>
-    ): ResponseEntity<CreateUsersWithArrayInputResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -75,7 +68,7 @@ interface UserApi {
     )
     fun createUsersWithListInput(
         @Valid @RequestBody user: kotlin.collections.List<User>
-    ): ResponseEntity<CreateUsersWithListInputResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -87,7 +80,7 @@ interface UserApi {
     )
     fun deleteUser(
         @PathVariable("username") username: kotlin.String
-    ): ResponseEntity<DeleteUserResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -114,7 +107,7 @@ interface UserApi {
     fun loginUser(
         @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
         @NotNull @Valid @RequestParam(value = "password", required = true) password: kotlin.String
-    ): ResponseEntity<LoginUserResponse> {
+    ): ResponseEntity<kotlin.String> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -124,7 +117,7 @@ interface UserApi {
         // "/user/logout"
         value = [PATH_LOGOUT_USER]
     )
-    fun logoutUser(): ResponseEntity<LogoutUserResponse> {
+    fun logoutUser(): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -138,7 +131,7 @@ interface UserApi {
     fun updateUser(
         @PathVariable("username") username: kotlin.String,
         @Valid @RequestBody user: User
-    ): ResponseEntity<UpdateUserResponse> {
+    ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

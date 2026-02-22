@@ -1049,7 +1049,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 pathItem.readOperations().forEach(operation -> {
                     if (operation.getOperationId() != null && operation.getResponses() != null) {
                         String sealedInterfaceName = camelize(operation.getOperationId()) + "Response";
-                        sealedInterfaceToOperationId.put(sealedInterfaceName, operation.getOperationId());
 
                         operation.getResponses().forEach((statusCode, response) -> {
                             if (response.getContent() != null) {
@@ -1057,12 +1056,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                                     if (content.getSchema() != null && content.getSchema().get$ref() != null) {
                                         String ref = content.getSchema().get$ref();
                                         String modelName = ModelUtils.getSimpleRef(ref);
-                                        modelToSealedInterfaces.computeIfAbsent(modelName, k -> new ArrayList<>())
-                                            .add(sealedInterfaceName);
+                                        List<String> interfaces = modelToSealedInterfaces.computeIfAbsent(modelName, k -> new ArrayList<>());
+                                        // Only add if not already present to avoid duplicates
+                                        if (!interfaces.contains(sealedInterfaceName)) {
+                                            interfaces.add(sealedInterfaceName);
+                                        }
                                     }
                                 });
                             }
                         });
+
+                        // Only register sealed interface if at least one model implements it
+                        // This prevents generating empty sealed interfaces for operations with no response content
+                        if (modelToSealedInterfaces.values().stream().anyMatch(list -> list.contains(sealedInterfaceName))) {
+                            sealedInterfaceToOperationId.put(sealedInterfaceName, operation.getOperationId());
+                        }
                     }
                 });
             });
@@ -1243,21 +1251,26 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (useSealedResponseInterfaces && responses != null && !responses.isEmpty()) {
                     // Generate sealed interface name from operation ID
                     String sealedInterfaceName = camelize(operation.operationId) + "Response";
-                    operation.vendorExtensions.put("x-sealed-response-interface", sealedInterfaceName);
 
-                    // Collect all unique response base types (models)
-                    List<String> responseTypes = responses.stream()
-                            .map(r -> r.baseType)
-                            .filter(baseType -> baseType != null && !baseType.isEmpty())
-                            .distinct()
-                            .collect(Collectors.toList());
+                    // Only add vendor extension if the sealed interface was actually generated
+                    // (i.e., the operation has at least one response with content)
+                    if (sealedInterfaceToOperationId.containsKey(sealedInterfaceName)) {
+                        operation.vendorExtensions.put("x-sealed-response-interface", sealedInterfaceName);
 
-                    operation.vendorExtensions.put("x-sealed-response-types", responseTypes);
+                        // Collect all unique response base types (models)
+                        List<String> responseTypes = responses.stream()
+                                .map(r -> r.baseType)
+                                .filter(baseType -> baseType != null && !baseType.isEmpty())
+                                .distinct()
+                                .collect(Collectors.toList());
 
-                    // Track which models should implement this sealed interface
-                    for (String responseType : responseTypes) {
-                        modelToSealedInterfaces.computeIfAbsent(responseType, k -> new ArrayList<>())
-                                .add(sealedInterfaceName);
+                        operation.vendorExtensions.put("x-sealed-response-types", responseTypes);
+
+                        // Track which models should implement this sealed interface
+                        for (String responseType : responseTypes) {
+                            modelToSealedInterfaces.computeIfAbsent(responseType, k -> new ArrayList<>())
+                                    .add(sealedInterfaceName);
+                        }
                     }
                 }
 

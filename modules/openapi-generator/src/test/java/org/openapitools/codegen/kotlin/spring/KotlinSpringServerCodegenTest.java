@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -4557,6 +4558,110 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
                 ": CreateUserResponse",
                 ": GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesNoDuplicates() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-duplicates.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify Order model does NOT have duplicate sealed interface implementations
+        Path orderFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Order.kt");
+        String orderContent = Files.readString(orderFile);
+
+        // Count occurrences of "PlaceOrderResponse" in the class declaration line
+        // Should appear exactly once, not multiple times
+        String classDeclaration = orderContent.lines()
+                .filter(line -> line.contains("data class Order") || line.contains(") : "))
+                .collect(Collectors.joining("\n"));
+
+        // Count how many times PlaceOrderResponse appears
+        long placeOrderCount = classDeclaration.chars()
+                .filter(c -> c == ',')
+                .count() + 1; // Number of interfaces = number of commas + 1
+
+        // Should have PlaceOrderResponse and GetOrderByIdResponse, not duplicates
+        Assert.assertTrue(classDeclaration.contains("PlaceOrderResponse"),
+                "Order should implement PlaceOrderResponse");
+        Assert.assertTrue(classDeclaration.contains("GetOrderByIdResponse"),
+                "Order should implement GetOrderByIdResponse");
+
+        // Check for duplicate imports
+        long importCount = orderContent.lines()
+                .filter(line -> line.contains("import org.openapitools.model.PlaceOrderResponse"))
+                .count();
+        Assert.assertEquals(importCount, 1L, "PlaceOrderResponse should be imported exactly once, not " + importCount);
+
+        // Verify no duplicate interface implementations
+        // The pattern should be ") : InterfaceA, InterfaceB {" not ") : InterfaceA, InterfaceA, InterfaceB, InterfaceB {"
+        Assert.assertFalse(classDeclaration.matches(".*PlaceOrderResponse.*,\\s*PlaceOrderResponse.*"),
+                "PlaceOrderResponse should not appear twice in implements list");
+        Assert.assertFalse(classDeclaration.matches(".*GetOrderByIdResponse.*,\\s*GetOrderByIdResponse.*"),
+                "GetOrderByIdResponse should not appear twice in implements list");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesVoidResponse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-void-response.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Read generated SealedResponseInterfaces.kt
+        Path sealedInterfacesPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        String sealedInterfacesContent = new String(Files.readAllBytes(sealedInterfacesPath), StandardCharsets.UTF_8);
+
+        // CreateUserResponse should NOT be generated (void response operation)
+        Assert.assertFalse(sealedInterfacesContent.contains("sealed interface CreateUserResponse"),
+                "CreateUserResponse should not be generated for operations with no response content");
+
+        // CreatePetResponse should be generated (has response content)
+        Assert.assertTrue(sealedInterfacesContent.contains("sealed interface CreatePetResponse"),
+                "CreatePetResponse should be generated for operations with response content");
+
+        // Read generated Pet.kt
+        Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        String petContent = new String(Files.readAllBytes(petPath), StandardCharsets.UTF_8);
+
+        // Pet should implement CreatePetResponse
+        Assert.assertTrue(petContent.contains("import org.openapitools.model.CreatePetResponse"),
+                "Pet should import CreatePetResponse");
+        Assert.assertTrue(petContent.contains(") : CreatePetResponse {") || petContent.contains(") : CreatePetResponse"),
+                "Pet should implement CreatePetResponse");
     }
 }
 
