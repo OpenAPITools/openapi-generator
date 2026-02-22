@@ -90,7 +90,6 @@ public class ParentWithNullable {
   @jakarta.annotation.Nullable
   protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
-  @JsonIgnore
   public ParentWithNullable() {
   }
 

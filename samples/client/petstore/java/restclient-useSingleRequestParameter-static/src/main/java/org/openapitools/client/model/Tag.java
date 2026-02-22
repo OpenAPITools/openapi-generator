@@ -41,7 +41,6 @@ public class Tag {
   @jakarta.annotation.Nullable
   private String name;
 
-  @JsonIgnore
   public Tag() {
   }
 

@@ -52,7 +52,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   @jakarta.annotation.Nullable
   private String name;
 
-  @JsonIgnore
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
 

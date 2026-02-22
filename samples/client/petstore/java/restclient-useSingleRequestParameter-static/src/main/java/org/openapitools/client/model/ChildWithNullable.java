@@ -47,7 +47,6 @@ public class ChildWithNullable extends ParentWithNullable {
   @jakarta.annotation.Nullable
   private String otherProperty;
 
-  @JsonIgnore
   public ChildWithNullable() {
 
   }

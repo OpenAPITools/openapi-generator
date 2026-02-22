@@ -39,7 +39,6 @@ public class ModelFile {
   @jakarta.annotation.Nullable
   private String sourceURI;
 
-  @JsonIgnore
   public ModelFile() {
   }
 

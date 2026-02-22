@@ -42,7 +42,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   @jakarta.annotation.Nullable
   private String someProperty;
 
-  @JsonIgnore
   public TestInlineFreeformAdditionalPropertiesRequest() {
   }
 

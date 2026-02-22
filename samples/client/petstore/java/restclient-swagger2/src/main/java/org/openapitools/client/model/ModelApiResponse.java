@@ -48,7 +48,6 @@ public class ModelApiResponse {
   @jakarta.annotation.Nullable
   private String message;
 
-  @JsonIgnore
   public ModelApiResponse() {
   }
 

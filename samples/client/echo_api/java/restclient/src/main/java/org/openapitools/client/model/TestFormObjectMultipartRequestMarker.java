@@ -37,7 +37,6 @@ public class TestFormObjectMultipartRequestMarker {
   @jakarta.annotation.Nullable
   private String name;
 
-  @JsonIgnore
   public TestFormObjectMultipartRequestMarker() {
   }
 

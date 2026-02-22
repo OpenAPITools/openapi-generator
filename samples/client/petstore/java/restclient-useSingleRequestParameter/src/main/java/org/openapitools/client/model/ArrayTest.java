@@ -50,7 +50,6 @@ public class ArrayTest {
   @jakarta.annotation.Nullable
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
-  @JsonIgnore
   public ArrayTest() {
   }
 

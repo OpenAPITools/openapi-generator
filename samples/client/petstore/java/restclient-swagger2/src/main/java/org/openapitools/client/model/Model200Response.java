@@ -44,7 +44,6 @@ public class Model200Response {
   @jakarta.annotation.Nullable
   private String propertyClass;
 
-  @JsonIgnore
   public Model200Response() {
   }
 

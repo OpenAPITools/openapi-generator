@@ -54,7 +54,6 @@ public class Animal {
   @jakarta.annotation.Nullable
   protected String color = "red";
 
-  @JsonIgnore
   public Animal() {
   }
 

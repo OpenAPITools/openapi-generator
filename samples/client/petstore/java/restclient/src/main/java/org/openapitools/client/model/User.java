@@ -71,7 +71,6 @@ public class User {
   @jakarta.annotation.Nullable
   private Integer userStatus;
 
-  @JsonIgnore
   public User() {
   }
 

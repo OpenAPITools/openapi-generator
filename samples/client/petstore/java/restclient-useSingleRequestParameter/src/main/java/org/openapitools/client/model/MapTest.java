@@ -88,7 +88,6 @@ public class MapTest {
   @jakarta.annotation.Nullable
   private Map<String, Boolean> indirectMap = new HashMap<>();
 
-  @JsonIgnore
   public MapTest() {
   }
 

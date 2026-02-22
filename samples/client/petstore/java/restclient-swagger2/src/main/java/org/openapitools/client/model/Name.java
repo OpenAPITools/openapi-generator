@@ -53,7 +53,6 @@ public class Name {
   @jakarta.annotation.Nullable
   private Integer _123number;
 
-  @JsonIgnore
   public Name() {
   }
   /**

@@ -94,9 +94,9 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
   {{/vars}}
-  {{#jackson}}
+  {{#useJackson3}}
   @JsonIgnore
-  {{/jackson}}
+  {{/useJackson3}}
   public {{classname}}() {
     {{#parent}}
     {{#parcelableModel}}

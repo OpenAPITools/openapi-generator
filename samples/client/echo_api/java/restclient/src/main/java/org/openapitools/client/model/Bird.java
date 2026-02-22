@@ -41,7 +41,6 @@ public class Bird {
   @jakarta.annotation.Nullable
   private String color;
 
-  @JsonIgnore
   public Bird() {
   }
 

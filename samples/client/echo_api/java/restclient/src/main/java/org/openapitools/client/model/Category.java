@@ -41,7 +41,6 @@ public class Category {
   @jakarta.annotation.Nullable
   private String name;
 
-  @JsonIgnore
   public Category() {
   }
 

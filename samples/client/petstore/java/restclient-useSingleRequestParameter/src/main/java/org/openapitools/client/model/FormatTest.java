@@ -117,7 +117,6 @@ public class FormatTest {
   @jakarta.annotation.Nullable
   private String patternWithDigitsAndDelimiter;
 
-  @JsonIgnore
   public FormatTest() {
   }
 

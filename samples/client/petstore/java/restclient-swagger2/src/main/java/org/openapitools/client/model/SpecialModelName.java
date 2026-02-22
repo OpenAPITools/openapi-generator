@@ -38,7 +38,6 @@ public class SpecialModelName {
   @jakarta.annotation.Nullable
   private Long $specialPropertyName;
 
-  @JsonIgnore
   public SpecialModelName() {
   }
 

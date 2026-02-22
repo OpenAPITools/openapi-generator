@@ -41,7 +41,6 @@ public class ArrayOfArrayOfNumberOnly {
   @jakarta.annotation.Nullable
   private List<List<BigDecimal>> arrayArrayNumber;
 
-  @JsonIgnore
   public ArrayOfArrayOfNumberOnly() {
   }
 

@@ -38,7 +38,6 @@ public class ModelList {
   @jakarta.annotation.Nullable
   private String _123list;
 
-  @JsonIgnore
   public ModelList() {
   }
 

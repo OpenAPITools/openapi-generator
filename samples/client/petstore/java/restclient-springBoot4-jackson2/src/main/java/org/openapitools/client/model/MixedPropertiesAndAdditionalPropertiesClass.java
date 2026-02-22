@@ -51,7 +51,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @jakarta.annotation.Nullable
   private Map<String, Animal> map;
 
-  @JsonIgnore
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
 

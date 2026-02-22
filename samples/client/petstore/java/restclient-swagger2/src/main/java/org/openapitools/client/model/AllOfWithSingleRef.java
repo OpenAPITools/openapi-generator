@@ -43,7 +43,6 @@ public class AllOfWithSingleRef {
   @jakarta.annotation.Nullable
   private SingleRefType singleRefType;
 
-  @JsonIgnore
   public AllOfWithSingleRef() {
   }
 

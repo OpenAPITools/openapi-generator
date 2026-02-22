@@ -39,7 +39,6 @@ public class DeprecatedObject {
   @jakarta.annotation.Nullable
   private String name;
 
-  @JsonIgnore
   public DeprecatedObject() {
   }
 

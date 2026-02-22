@@ -42,7 +42,6 @@ public class HealthCheckResult {
   @jakarta.annotation.Nullable
   private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
 
-  @JsonIgnore
   public HealthCheckResult() {
   }
 

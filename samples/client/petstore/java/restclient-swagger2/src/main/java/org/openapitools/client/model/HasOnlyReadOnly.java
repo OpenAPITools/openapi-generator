@@ -43,7 +43,6 @@ public class HasOnlyReadOnly {
   @jakarta.annotation.Nullable
   private String foo;
 
-  @JsonIgnore
   public HasOnlyReadOnly() {
   }
   /**

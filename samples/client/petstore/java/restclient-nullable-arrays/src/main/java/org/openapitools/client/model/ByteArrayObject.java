@@ -61,7 +61,6 @@ public class ByteArrayObject {
   @jakarta.annotation.Nullable
   private BigDecimal intField;
 
-  @JsonIgnore
   public ByteArrayObject() {
   }
 

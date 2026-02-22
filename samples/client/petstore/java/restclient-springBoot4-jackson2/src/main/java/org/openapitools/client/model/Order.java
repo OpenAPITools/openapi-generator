@@ -99,7 +99,6 @@ public class Order {
   @jakarta.annotation.Nullable
   private Boolean complete = false;
 
-  @JsonIgnore
   public Order() {
   }
 

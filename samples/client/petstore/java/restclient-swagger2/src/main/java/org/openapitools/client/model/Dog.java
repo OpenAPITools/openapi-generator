@@ -47,7 +47,6 @@ public class Dog extends Animal {
   @jakarta.annotation.Nullable
   private String breed;
 
-  @JsonIgnore
   public Dog() {
 
   }

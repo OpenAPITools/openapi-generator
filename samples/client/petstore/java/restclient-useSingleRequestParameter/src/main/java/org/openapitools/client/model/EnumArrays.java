@@ -114,7 +114,6 @@ public class EnumArrays {
   @jakarta.annotation.Nullable
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  @JsonIgnore
   public EnumArrays() {
   }
 

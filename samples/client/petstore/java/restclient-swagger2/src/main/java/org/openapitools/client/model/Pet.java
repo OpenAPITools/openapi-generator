@@ -107,7 +107,6 @@ public class Pet {
   @jakarta.annotation.Nullable
   private StatusEnum status;
 
-  @JsonIgnore
   public Pet() {
   }
 

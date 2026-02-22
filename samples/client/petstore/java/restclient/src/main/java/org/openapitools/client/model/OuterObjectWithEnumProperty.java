@@ -37,7 +37,6 @@ public class OuterObjectWithEnumProperty {
   @jakarta.annotation.Nonnull
   private OuterEnumInteger value;
 
-  @JsonIgnore
   public OuterObjectWithEnumProperty() {
   }
 

@@ -107,7 +107,6 @@ public class NullableClass {
   @jakarta.annotation.Nullable
   private Map<String, Object> objectItemsNullable = new HashMap<>();
 
-  @JsonIgnore
   public NullableClass() {
   }
 

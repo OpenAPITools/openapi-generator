@@ -81,7 +81,6 @@ public class Query {
   @jakarta.annotation.Nullable
   protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
-  @JsonIgnore
   public Query() {
   }
 

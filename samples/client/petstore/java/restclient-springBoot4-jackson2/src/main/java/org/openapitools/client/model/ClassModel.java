@@ -36,7 +36,6 @@ public class ClassModel {
   @jakarta.annotation.Nullable
   private String propertyClass;
 
-  @JsonIgnore
   public ClassModel() {
   }
 

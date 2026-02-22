@@ -36,7 +36,6 @@ public class Foo {
   @jakarta.annotation.Nullable
   private String bar = "bar";
 
-  @JsonIgnore
   public Foo() {
   }
 

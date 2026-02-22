@@ -42,7 +42,6 @@ public class ReadOnlyFirst {
   @jakarta.annotation.Nullable
   private String baz;
 
-  @JsonIgnore
   public ReadOnlyFirst() {
   }
   /**

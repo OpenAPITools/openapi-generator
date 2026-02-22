@@ -57,7 +57,6 @@ public class ObjectWithDeprecatedFields {
   @jakarta.annotation.Nullable
   private List<String> bars;
 
-  @JsonIgnore
   public ObjectWithDeprecatedFields() {
   }
 

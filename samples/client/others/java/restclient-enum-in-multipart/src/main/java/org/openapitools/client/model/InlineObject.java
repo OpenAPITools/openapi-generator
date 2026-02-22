@@ -38,7 +38,6 @@ public class InlineObject {
   @jakarta.annotation.Nonnull
   private UUID messageId;
 
-  @JsonIgnore
   public InlineObject() {
   }
 

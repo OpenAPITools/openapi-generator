@@ -46,7 +46,6 @@ public class FakeBigDecimalMap200Response {
   @jakarta.annotation.Nullable
   private Map<String, BigDecimal> someMap;
 
-  @JsonIgnore
   public FakeBigDecimalMap200Response() {
   }
 

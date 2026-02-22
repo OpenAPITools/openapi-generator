@@ -47,7 +47,6 @@ public class NumberPropertiesOnly {
   @jakarta.annotation.Nullable
   private Double _double;
 
-  @JsonIgnore
   public NumberPropertiesOnly() {
   }
 

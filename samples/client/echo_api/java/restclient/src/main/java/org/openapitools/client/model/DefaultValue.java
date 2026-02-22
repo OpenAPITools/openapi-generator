@@ -116,7 +116,6 @@ public class DefaultValue {
   @jakarta.annotation.Nullable
   private JsonNullable<String> stringNullable = JsonNullable.<String>undefined();
 
-  @JsonIgnore
   public DefaultValue() {
   }
 

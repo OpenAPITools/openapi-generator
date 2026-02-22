@@ -51,7 +51,6 @@ public class DataQuery extends Query {
   @jakarta.annotation.Nullable
   private Instant date;
 
-  @JsonIgnore
   public DataQuery() {
 
   }

@@ -40,7 +40,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   @jakarta.annotation.Nullable
   private List<String> values = new ArrayList<>();
 
-  @JsonIgnore
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
 

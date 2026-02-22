@@ -42,7 +42,6 @@ public class Category {
   @jakarta.annotation.Nonnull
   private String name = "default-name";
 
-  @JsonIgnore
   public Category() {
   }
 

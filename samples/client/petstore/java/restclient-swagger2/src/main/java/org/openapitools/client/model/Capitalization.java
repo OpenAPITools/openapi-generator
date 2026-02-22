@@ -62,7 +62,6 @@ public class Capitalization {
   @jakarta.annotation.Nullable
   private String ATT_NAME;
 
-  @JsonIgnore
   public Capitalization() {
   }
 

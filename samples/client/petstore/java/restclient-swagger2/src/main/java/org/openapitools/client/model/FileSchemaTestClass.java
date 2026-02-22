@@ -46,7 +46,6 @@ public class FileSchemaTestClass {
   @jakarta.annotation.Nullable
   private List<ModelFile> files;
 
-  @JsonIgnore
   public FileSchemaTestClass() {
   }
 

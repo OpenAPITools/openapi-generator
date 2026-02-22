@@ -47,7 +47,6 @@ public class OuterComposite {
   @jakarta.annotation.Nullable
   private Boolean myBoolean;
 
-  @JsonIgnore
   public OuterComposite() {
   }
 
