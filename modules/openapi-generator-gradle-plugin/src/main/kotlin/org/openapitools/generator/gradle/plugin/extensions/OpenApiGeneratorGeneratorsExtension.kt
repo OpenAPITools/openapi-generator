@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.provider.ListProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.openapitools.codegen.meta.Stability
 
@@ -29,13 +30,27 @@ open class OpenApiGeneratorGeneratorsExtension(project: Project) {
     /**
      * A list of stability indexes to include (value: all,beta,stable,experimental,deprecated). Excludes deprecated by default.
      */
-    val include = project.objects.listProperty<String>()
+    val include: ListProperty<String> = project.objects.listProperty()
 
     init {
         applyDefaults()
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun applyDefaults() =
-        include.set(Stability.values().map { it.value() }.filterNot { it == Stability.DEPRECATED.value() })
+    fun applyDefaults() {
+        // Use .convention() instead of .set() so users can cleanly override this default
+        include.convention(
+            Stability.values()
+                .map { it.value() }
+                .filterNot { it == Stability.DEPRECATED.value() }
+        )
+    }
+
+    // ========================================================================
+    // Backwards-compatibility bridge setter for Groovy/Kotlin DSL
+    // Allows users to continue assigning lists directly via `=`
+    // ========================================================================
+    fun setInclude(items: Iterable<String>) {
+        include.set(items)
+    }
 }

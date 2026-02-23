@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,8 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.property
 
 /**
@@ -24,19 +26,29 @@ import org.gradle.kotlin.dsl.property
  *
  * @author Jim Schubert
  */
-open class OpenApiGeneratorValidateExtension(project: Project) {
+open class OpenApiGeneratorValidateExtension(private val project: Project) {
     /**
      * The input specification to validate. Supports all formats supported by the Parser.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Whether to offer recommendations related to the validated specification document.
      */
-    val recommend = project.objects.property<Boolean>().convention(true)
+    val recommend: Property<Boolean> = project.objects.property<Boolean>().convention(true)
 
     /**
      * Whether to treat warnings as errors and fail the task.
      */
-    val treatWarningsAsErrors = project.objects.property<Boolean>().convention(false)
+    val treatWarningsAsErrors: Property<Boolean> = project.objects.property<Boolean>().convention(false)
+
+    // ========================================================================
+    // Backwards-compatibility bridge setters for Groovy/Kotlin DSL
+    // These allow users to continue assigning paths as standard strings.
+    // ========================================================================
+
+    /** Backwards-compatibility bridge for inputSpec */
+    fun setInputSpec(path: String) {
+        inputSpec.set(project.layout.projectDirectory.file(path))
+    }
 }

@@ -28,7 +28,8 @@ import org.gradle.kotlin.dsl.property
  *
  * @author Jim Schubert
  */
-open class OpenApiGeneratorGenerateExtension(project: Project) {
+open class OpenApiGeneratorGenerateExtension(private val project: Project) {
+
     /**
      * The verbosity of generation
      */
@@ -390,4 +391,40 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         cleanupOutput.convention(false)
         dryRun.convention(false)
     }
+
+    // ========================================================================
+    // Backwards-compatibility bridge setters for Groovy/Kotlin DSL
+    // These allow users to continue assigning paths as standard strings.
+    // ========================================================================
+
+    /** Backwards-compatibility bridge for outputDir */
+    fun setOutputDir(path: String) {
+        outputDir.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for inputSpec */
+    fun setInputSpec(path: String) {
+        inputSpec.set(project.layout.projectDirectory.file(path))
+    }
+
+    /** Backwards-compatibility bridge for inputSpecRootDirectory */
+    fun setInputSpecRootDirectory(path: String) {
+        inputSpecRootDirectory.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for templateDir */
+    fun setTemplateDir(path: String) {
+        templateDir.set(project.layout.projectDirectory.dir(path))
+    }
+
+    /** Backwards-compatibility bridge for configFile */
+    fun setConfigFile(path: String) {
+        configFile.set(project.layout.projectDirectory.file(path))
+    }
+
+    /** Backwards-compatibility bridge for ignoreFileOverride */
+    fun setIgnoreFileOverride(path: String) {
+        ignoreFileOverride.set(project.layout.projectDirectory.file(path))
+    }
+
 }
