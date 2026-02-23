@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Pet
     /// </summary>
-    public partial class Pet : IValidatableObject
+    public partial class Pet : IEquatable<Pet>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
@@ -140,6 +140,55 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Pet).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if Pet instances are equal
+        /// </summary>
+        /// <param name="input">Instance of Pet to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(Pet input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                hashCode = (hashCode * 59) + Name.GetHashCode();
+                hashCode = (hashCode * 59) + PhotoUrls.GetHashCode();
+                if (Category != null)
+                    hashCode = (hashCode * 59) + Category.GetHashCode();
+
+                if (Id != null)
+                    hashCode = (hashCode * 59) + Id.GetHashCode();
+
+                if (Status != null)
+                    hashCode = (hashCode * 59) + Status.GetHashCode();
+
+                if (Tags != null)
+                    hashCode = (hashCode * 59) + Tags.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
