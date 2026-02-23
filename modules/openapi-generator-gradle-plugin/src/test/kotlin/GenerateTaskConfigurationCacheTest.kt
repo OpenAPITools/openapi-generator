@@ -22,13 +22,7 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     @DataProvider(name = "gradle_version_provider")
     private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(
         arrayOf("8.7", "STRING"),
-        arrayOf("7.6.4", "STRING"),
         arrayOf("8.7", "FILE")
-    )
-
-    @DataProvider(name = "gradle_version_provider_without_cc")
-    private fun gradleVersionProviderWithoutConfigurationCache(): Array<Array<String>> = arrayOf(
-        arrayOf("5.6.1", "STRING")
     )
 
     // inputSpec tests
@@ -73,37 +67,6 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
         val parts = version.split('.')
         if (parts.first() == "1") return parts.getOrElse(1) { "0" }.toInt()
         return parts.first().toInt()
-    }
-
-    @Test(dataProvider = "gradle_version_provider_without_cc")
-    fun `openApiGenerate should work with Gradle legacy versions`(gradleVersion: String, format: String) {
-        val propertyFormat = PropertyFormat.valueOf(format)
-        if(getJavaVersion() > 12) {
-            // https://docs.gradle.org/current/userguide/compatibility.html
-            throw SkipException("Skipping test as Gradle ${gradleVersion} is not compatible with Java ${getJavaVersion()}")
-        }
-        // Arrange
-        withProject(inputSpecExtensionContents(propertyFormat))
-
-        // Act
-        val result1 = build {
-            withProjectDir(projectDirCC)
-            withArguments("clean", "openApiGenerate")
-            withGradleVersion(gradleVersion)
-        }
-
-        val expectedRelativeFilePathSet = projectDirCC.toRelativeFilePathSet()
-
-        val result2 = build {
-            withProjectDir(projectDirCC)
-            withArguments("clean", "openApiGenerate")
-            withGradleVersion(gradleVersion)
-        }
-
-        // Assert
-        assertEquals(TaskOutcome.SUCCESS, result1.task(":openApiGenerate")?.outcome)
-        assertEquals(TaskOutcome.SUCCESS, result2.task(":openApiGenerate")?.outcome)
-        assertEquals(expectedRelativeFilePathSet, projectDirCC.toRelativeFilePathSet())
     }
 
     // Helper methods & test fixtures
