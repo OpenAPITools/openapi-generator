@@ -115,6 +115,7 @@ interface OpenApiWorkParameters : WorkParameters {
     val generateModelTests: Property<Boolean>
     val generateModelDocumentation: Property<Boolean>
     val generateApiTests: Property<Boolean>
+    val generateApis: Property<Boolean>
     val generateApiDocumentation: Property<Boolean>
 }
 
@@ -158,7 +159,7 @@ abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
             params.generateApiDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_DOCS, it.toString()) }
             params.generateModelDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, it.toString()) }
             params.generateModelTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, it.toString()) }
-            params.generateApiTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_TESTS, it.toString()) }
+            params.generateApis.orNull?.let { GlobalSettings.setProperty(CodegenConstants.APIS, it.toString()) }
 
             // Apply Configurator Settings
             params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
@@ -527,6 +528,10 @@ abstract class GenerateTask : DefaultTask() {
 
     @get:Optional
     @get:Input
+    abstract val generateApis: Property<Boolean>
+
+    @get:Optional
+    @get:Input
     abstract val generateApiDocumentation: Property<Boolean>
 
     @get:Optional
@@ -665,6 +670,7 @@ abstract class GenerateTask : DefaultTask() {
                 parameters.generateModelTests.set(generateModelTests)
                 parameters.generateModelDocumentation.set(generateModelDocumentation)
                 parameters.generateApiTests.set(generateApiTests)
+                parameters.generateApis.set(generateApis)
                 parameters.generateApiDocumentation.set(generateApiDocumentation)
             }
         })

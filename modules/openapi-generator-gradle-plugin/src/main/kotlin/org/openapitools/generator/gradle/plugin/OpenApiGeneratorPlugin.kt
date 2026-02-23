@@ -137,6 +137,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateModelTests.set(generate.generateModelTests)
                     generateModelDocumentation.set(generate.generateModelDocumentation)
                     generateApiTests.set(generate.generateApiTests)
+                    generateApis.set(generate.generateApis)
                     generateApiDocumentation.set(generate.generateApiDocumentation)
                     configOptions.set(generate.configOptions)
                     logToStderr.set(generate.logToStderr)

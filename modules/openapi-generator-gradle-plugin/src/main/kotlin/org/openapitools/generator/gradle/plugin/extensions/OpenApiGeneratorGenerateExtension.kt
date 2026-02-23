@@ -352,6 +352,16 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
+     * Defines whether api-related files should be generated.
+     *
+     * This option enables/disables generation of ALL api-related files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
+     */
+    val generateApis = project.objects.property<Boolean>()
+
+    /**
      * Defines whether api-related _documentation_ files should be generated.
      *
      * This option enables/disables generation of ALL api-related _documentation_ files.
@@ -421,6 +431,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         generateModelTests.convention(true)
         generateModelDocumentation.convention(true)
         generateApiTests.convention(true)
+        generateApis.convention(true)
         generateApiDocumentation.convention(true)
         configOptions.convention(mapOf())
         validateSpec.convention(true)

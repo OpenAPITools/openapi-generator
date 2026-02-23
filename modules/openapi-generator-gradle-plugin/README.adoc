@@ -389,6 +389,11 @@ apply plugin: 'org.openapi.generator'
 |true
 |Defines whether or not api-related _test_ files should be generated.
 
+|generateApis
+|Boolean
+|true
+|Defines whether or not api-related files should be generated.
+
 |generateApiDocumentation
 |Boolean
 |true
