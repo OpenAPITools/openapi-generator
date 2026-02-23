@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * https://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,6 @@ import org.gradle.kotlin.dsl.property
  * @author Jim Schubert
  */
 open class OpenApiGeneratorGenerateExtension(private val project: Project) {
-
     /**
      * The verbosity of generation
      */
@@ -294,36 +293,71 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
+     *
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val apiFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all).
+     *
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val modelFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
+     *
+     * Supporting files are those related to `projects/frameworks` which may be modified
+     * by consumers.
+     *
+     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
+     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
+     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines whether model-related _test_ files should be generated.
+     *
+     * This option enables/disables generation of ALL model-related _test_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
      */
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
      * Defines whether model-related _documentation_ files should be generated.
+     *
+     * This option enables/disables generation of ALL model-related _documentation_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
      */
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
      * Defines whether api-related _test_ files should be generated.
+     *
+     * This option enables/disables generation of ALL api-related _test_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
      */
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
      * Defines whether api-related _documentation_ files should be generated.
+     *
+     * This option enables/disables generation of ALL api-related _documentation_ files.
+     *
+     * For more control over generation of individual files, configure an ignore file and
+     * refer to it via [ignoreFileOverride].
      */
     val generateApiDocumentation = project.objects.property<Boolean>()
 
@@ -334,6 +368,9 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
+     * This only enables the post-processor. To define the post-processing command, define an environment variable such as
+     * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
+     * generator does not support this functionality.
      */
     val enablePostProcessFile = project.objects.property<Boolean>()
 
@@ -343,7 +380,9 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
     val skipValidateSpec = project.objects.property<Boolean>()
 
     /**
-     * To generate alias (array, list, map) as model.
+     * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
+     * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
+     * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
      */
     val generateAliasAsModel = project.objects.property<Boolean>()
 
@@ -359,6 +398,7 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
+     *
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
