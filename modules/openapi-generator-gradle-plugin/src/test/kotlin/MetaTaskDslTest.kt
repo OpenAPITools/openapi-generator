@@ -2,6 +2,7 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
 import kotlin.test.assertEquals
@@ -10,10 +11,20 @@ import kotlin.test.assertTrue
 class MetaTaskDslTest : TestBase() {
     override var temp: File = createTempDir(javaClass.simpleName)
 
-    @Test
-    fun `openApiMeta should generate desired project contents`() {
+    @DataProvider(name = "property_format_provider")
+    private fun propertyFormatProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("STRING"),
+        arrayOf("FILE")
+    )
+
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiMeta should generate desired project contents`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
-        val buildDirReplacement = "\$buildDir/meta"
+        val outputFolderSetting = when (propertyFormat) {
+            PropertyFormat.STRING -> """outputFolder = "${'$'}buildDir/meta""""
+            PropertyFormat.FILE -> """outputFolder.set(file("${'$'}buildDir/meta"))"""
+        }
         withProject("""
             | plugins {
             |   id 'org.openapi.generator'
@@ -22,7 +33,7 @@ class MetaTaskDslTest : TestBase() {
             | openApiMeta {
             |     generatorName = "Sample"
             |     packageName = "org.openapitools.example"
-            |     outputFolder = "$buildDirReplacement".toString()
+            |     $outputFolderSetting
             | }
         """.trimMargin())
 

@@ -20,23 +20,30 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     }
 
     @DataProvider(name = "gradle_version_provider")
-    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("8.7"), arrayOf("7.6.4"))
+    private fun gradleVersionProviderWithConfigurationCache(): Array<Array<String>> = arrayOf(
+        arrayOf("8.7", "STRING"),
+        arrayOf("7.6.4", "STRING"),
+        arrayOf("8.7", "FILE")
+    )
 
     @DataProvider(name = "gradle_version_provider_without_cc")
-    private fun gradleVersionProviderWithoutConfigurationCache(): Array<Array<String>> = arrayOf(arrayOf("5.6.1"))
+    private fun gradleVersionProviderWithoutConfigurationCache(): Array<Array<String>> = arrayOf(
+        arrayOf("5.6.1", "STRING")
+    )
 
     // inputSpec tests
 
-    private val inputSpecExtensionContents = """
+    private fun inputSpecExtensionContents(format: PropertyFormat) = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml")
+        inputSpec = ${"spec.yaml".toPropertyReference(format)}
         cleanupOutput.set(true)
         """.trimIndent()
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiGenerate should reuse configuration cache`(gradleVersion: String) {
+    fun `openApiGenerate should reuse configuration cache`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
-        withProject(inputSpecExtensionContents)
+        withProject(inputSpecExtensionContents(propertyFormat))
 
         // Act
         val result1 = build {
@@ -69,13 +76,14 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider_without_cc")
-    fun `openApiGenerate should work with Gradle legacy versions`(gradleVersion: String) {
+    fun `openApiGenerate should work with Gradle legacy versions`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         if(getJavaVersion() > 12) {
             // https://docs.gradle.org/current/userguide/compatibility.html
             throw SkipException("Skipping test as Gradle ${gradleVersion} is not compatible with Java ${getJavaVersion()}")
         }
         // Arrange
-        withProject(inputSpecExtensionContents)
+        withProject(inputSpecExtensionContents(propertyFormat))
 
         // Act
         val result1 = build {
