@@ -22,6 +22,13 @@ class ValidateTaskDslTest : TestBase() {
         arrayOf("8.7", "FILE")
     )
 
+    @DataProvider(name = "gradle_version_only_provider")
+    fun gradleVersionOnlyProvider(): Array<Array<String?>> = arrayOf(
+        arrayOf(null), // uses the version of Gradle used to build the plugin itself
+        arrayOf("8.7"),
+        arrayOf("7.6.4")
+    )
+
     private fun getGradleRunner(gradleVersion: String?): GradleRunner {
         val gradleRunner = GradleRunner.create()
         return if (gradleVersion.isNullOrBlank()) {
@@ -33,15 +40,22 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     private fun inputSpecProperty(path: String, format: PropertyFormat, useSetMethod: Boolean = false): String {
-        val reference = path.toPropertyReference(format)
         return if (useSetMethod) {
-            "inputSpec.set($reference)"
+            // For .set() method on RegularFileProperty in task definitions
+            // Both formats use file() since RegularFileProperty expects a File/RegularFile
+            """inputSpec.set(file("$path"))"""
         } else {
-            "inputSpec = $reference"
+            // For direct assignment in extension (openApiValidate block)
+            // STRING: uses setInputSpec(String) bridge method
+            // FILE: direct file() assignment (also works via Gradle's property conversion)
+            when (format) {
+                PropertyFormat.STRING -> """inputSpec = "$path""""
+                PropertyFormat.FILE -> """inputSpec = file("$path")"""
+            }
         }
     }
 
-    @Test(dataProvider = "gradle_version_provider")
+    @Test(dataProvider = "gradle_version_only_provider")
     fun `openApiValidate should fail on non-file spec`(gradleVersion: String?) {
         // Arrange
         withProject(
@@ -202,9 +216,8 @@ class ValidateTaskDslTest : TestBase() {
         )
     }
 
-    @Test(dataProvider = "gradle_version_provider")
-    fun `validateGoodSpec as defined task should succeed on valid spec`(gradleVersion: String?, format: String) {
-        val propertyFormat = PropertyFormat.valueOf(format)
+    @Test(dataProvider = "gradle_version_only_provider")
+    fun `validateGoodSpec as defined task should succeed on valid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -217,7 +230,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    ${inputSpecProperty("spec.yaml", propertyFormat, useSetMethod = true)}
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
@@ -240,9 +253,8 @@ class ValidateTaskDslTest : TestBase() {
         )
     }
 
-    @Test(dataProvider = "gradle_version_provider")
-    fun `validateBadSpec as defined task should fail on invalid spec`(gradleVersion: String?, format: String) {
-        val propertyFormat = PropertyFormat.valueOf(format)
+    @Test(dataProvider = "gradle_version_only_provider")
+    fun `validateBadSpec as defined task should fail on invalid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
@@ -254,7 +266,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    ${inputSpecProperty("spec.yaml", propertyFormat, useSetMethod = true)}
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
