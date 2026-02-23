@@ -23,7 +23,7 @@ from datetime import date, datetime
 
 from pydantic import Field, StrictBool, StrictBytes, StrictFloat, StrictInt, StrictStr, conbytes, confloat, conint, conlist, constr, validator
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.client import Client
@@ -61,7 +61,7 @@ class FakeApi:
         self.api_client = api_client
 
     @validate_arguments
-    def fake_any_type_request_body(self, body : Optional[Dict[str, Any]] = None, **kwargs) -> None:  # noqa: E501
+    def fake_any_type_request_body(self, body : Optional[dict[str, Any]] = None, **kwargs) -> None:  # noqa: E501
         """test any type request body  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -90,7 +90,7 @@ class FakeApi:
         return self.fake_any_type_request_body_with_http_info(body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def fake_any_type_request_body_with_http_info(self, body : Optional[Dict[str, Any]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def fake_any_type_request_body_with_http_info(self, body : Optional[dict[str, Any]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """test any type request body  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1218,7 +1218,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -1250,7 +1250,7 @@ class FakeApi:
         :param outer_object_with_enum_property: Input enum (int) as post body (required)
         :type outer_object_with_enum_property: OuterObjectWithEnumProperty
         :param param:
-        :type param: List[OuterEnumInteger]
+        :type param: list[OuterEnumInteger]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -2271,7 +2271,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def fake_return_list_of_objects(self, **kwargs) -> List[List[Tag]]:  # noqa: E501
+    def fake_return_list_of_objects(self, **kwargs) -> list[list[Tag]]:  # noqa: E501
         """test returning list of objects  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -2289,7 +2289,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[List[Tag]]
+        :rtype: list[list[Tag]]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -2329,7 +2329,7 @@ class FakeApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[List[Tag]], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(list[list[Tag]], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -2380,7 +2380,7 @@ class FakeApi:
         _auth_settings = []  # noqa: E501
 
         _response_types_map = {
-            '200': "List[List[Tag]]",
+            '200': "list[list[Tag]]",
         }
 
         return self.api_client.call_api(
@@ -2793,7 +2793,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_additional_properties_reference(self, request_body : Annotated[Dict[str, Any], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+    def test_additional_properties_reference(self, request_body : Annotated[dict[str, Any], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
         """test referenced additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2804,7 +2804,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -2823,7 +2823,7 @@ class FakeApi:
         return self.test_additional_properties_reference_with_http_info(request_body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_additional_properties_reference_with_http_info(self, request_body : Annotated[Dict[str, Any], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_additional_properties_reference_with_http_info(self, request_body : Annotated[dict[str, Any], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
         """test referenced additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -2834,7 +2834,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, object]
+        :type request_body: dict[str, object]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -4343,7 +4343,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_inline_additional_properties(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+    def test_inline_additional_properties(self, request_body : Annotated[dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -4354,7 +4354,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -4373,7 +4373,7 @@ class FakeApi:
         return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_inline_additional_properties_with_http_info(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_inline_additional_properties_with_http_info(self, request_body : Annotated[dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
           # noqa: E501
@@ -4384,7 +4384,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -4913,7 +4913,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_query_parameter_collection_format(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
+    def test_query_parameter_collection_format(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[dict[str, StrictStr]] = None, **kwargs) -> None:  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -4924,19 +4924,19 @@ class FakeApi:
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -4955,7 +4955,7 @@ class FakeApi:
         return self.test_query_parameter_collection_format_with_http_info(pipe, ioutil, http, url, context, allow_empty, language, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_query_parameter_collection_format_with_http_info(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[Dict[str, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
+    def test_query_parameter_collection_format_with_http_info(self, pipe : conlist(StrictStr), ioutil : conlist(StrictStr), http : conlist(StrictStr), url : conlist(StrictStr), context : conlist(StrictStr), allow_empty : StrictStr, language : Optional[dict[str, StrictStr]] = None, **kwargs) -> ApiResponse:  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
 
         To test the collection format in query parameters  # noqa: E501
@@ -4966,19 +4966,19 @@ class FakeApi:
         >>> result = thread.get()
 
         :param pipe: (required)
-        :type pipe: List[str]
+        :type pipe: list[str]
         :param ioutil: (required)
-        :type ioutil: List[str]
+        :type ioutil: list[str]
         :param http: (required)
-        :type http: List[str]
+        :type http: list[str]
         :param url: (required)
-        :type url: List[str]
+        :type url: list[str]
         :param context: (required)
-        :type context: List[str]
+        :type context: list[str]
         :param allow_empty: (required)
         :type allow_empty: str
         :param language:
-        :type language: Dict[str, str]
+        :type language: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -5100,7 +5100,7 @@ class FakeApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    def test_string_map_reference(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
+    def test_string_map_reference(self, request_body : Annotated[dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> None:  # noqa: E501
         """test referenced string map  # noqa: E501
 
           # noqa: E501
@@ -5111,7 +5111,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -5130,7 +5130,7 @@ class FakeApi:
         return self.test_string_map_reference_with_http_info(request_body, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def test_string_map_reference_with_http_info(self, request_body : Annotated[Dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
+    def test_string_map_reference_with_http_info(self, request_body : Annotated[dict[str, StrictStr], Field(..., description="request body")], **kwargs) -> ApiResponse:  # noqa: E501
         """test referenced string map  # noqa: E501
 
           # noqa: E501
@@ -5141,7 +5141,7 @@ class FakeApi:
         >>> result = thread.get()
 
         :param request_body: request body (required)
-        :type request_body: Dict[str, str]
+        :type request_body: dict[str, str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will

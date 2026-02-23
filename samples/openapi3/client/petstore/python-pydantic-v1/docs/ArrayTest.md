@@ -4,10 +4,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**array_of_string** | **List[str]** |  | [optional] 
-**array_of_nullable_float** | **List[float]** |  | [optional] 
-**array_array_of_integer** | **List[List[int]]** |  | [optional] 
-**array_array_of_model** | **List[List[ReadOnlyFirst]]** |  | [optional] 
+**array_of_string** | **list[str]** |  | [optional] 
+**array_of_nullable_float** | **list[float]** |  | [optional] 
+**array_array_of_integer** | **list[list[int]]** |  | [optional] 
+**array_array_of_model** | **list[list[ReadOnlyFirst]]** |  | [optional] 
 
 ## Example
 

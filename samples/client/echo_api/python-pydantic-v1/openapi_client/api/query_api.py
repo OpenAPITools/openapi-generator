@@ -807,7 +807,7 @@ class QueryApi:
         >>> result = thread.get()
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -837,7 +837,7 @@ class QueryApi:
         >>> result = thread.get()
 
         :param query_object:
-        :type query_object: List[int]
+        :type query_object: list[int]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -948,7 +948,7 @@ class QueryApi:
         >>> result = thread.get()
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -978,7 +978,7 @@ class QueryApi:
         >>> result = thread.get()
 
         :param query_object:
-        :type query_object: List[str]
+        :type query_object: list[str]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will
@@ -1511,7 +1511,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _request_timeout: timeout setting for this request.
@@ -1543,7 +1543,7 @@ class QueryApi:
         :param json_serialized_object_ref_string_query:
         :type json_serialized_object_ref_string_query: Pet
         :param json_serialized_object_array_ref_string_query:
-        :type json_serialized_object_array_ref_string_query: List[Pet]
+        :type json_serialized_object_array_ref_string_query: list[Pet]
         :param async_req: Whether to execute the request asynchronously.
         :type async_req: bool, optional
         :param _preload_content: if False, the ApiResponse.data will

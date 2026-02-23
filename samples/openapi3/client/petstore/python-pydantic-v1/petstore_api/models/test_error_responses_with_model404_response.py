@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictStr
 
 class TestErrorResponsesWithModel404Response(BaseModel):
@@ -26,7 +26,7 @@ class TestErrorResponsesWithModel404Response(BaseModel):
     TestErrorResponsesWithModel404Response
     """
     reason404: Optional[StrictStr] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["reason404"]
 
     class Config:

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictBool
 
 class ObjectToTestAdditionalProperties(BaseModel):
@@ -26,7 +26,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
     Minimal object  # noqa: E501
     """
     var_property: Optional[StrictBool] = Field(default=False, alias="property", description="Property")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["property"]
 
     class Config:

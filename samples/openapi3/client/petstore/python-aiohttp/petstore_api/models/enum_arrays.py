@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
+from typing import Any, ClassVar, Optional
+from typing import Optional
 from typing_extensions import Self
 
 class EnumArrays(BaseModel):
@@ -27,8 +27,8 @@ class EnumArrays(BaseModel):
     EnumArrays
     """ # noqa: E501
     just_symbol: Optional[StrictStr] = None
-    array_enum: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["just_symbol", "array_enum"]
+    array_enum: Optional[list[StrictStr]] = None
+    __properties: ClassVar[list[str]] = ["just_symbol", "array_enum"]
 
     @field_validator('just_symbol')
     def just_symbol_validate_enum(cls, value):
@@ -72,7 +72,7 @@ class EnumArrays(BaseModel):
         """Create an instance of EnumArrays from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -82,7 +82,7 @@ class EnumArrays(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -93,7 +93,7 @@ class EnumArrays(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of EnumArrays from a dict"""
         if obj is None:
             return None

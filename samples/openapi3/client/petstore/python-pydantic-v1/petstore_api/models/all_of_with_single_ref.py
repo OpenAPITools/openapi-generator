@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.single_ref_type import SingleRefType
 
@@ -28,7 +28,7 @@ class AllOfWithSingleRef(BaseModel):
     """
     username: Optional[StrictStr] = None
     single_ref_type: Optional[SingleRefType] = Field(default=None, alias="SingleRefType")
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["username", "SingleRefType"]
 
     class Config:

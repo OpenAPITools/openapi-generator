@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**dict_property** | **Dict[str, List[CreatureInfo]]** |  | [optional] 
+**dict_property** | **dict[str, list[CreatureInfo]]** |  | [optional] 
 
 ## Example
 

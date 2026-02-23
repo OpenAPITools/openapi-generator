@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file** | [**File**](File.md) |  | [optional] 
-**files** | [**List[File]**](File.md) |  | [optional] 
+**files** | [**list[File]**](File.md) |  | [optional] 
 
 ## Example
 

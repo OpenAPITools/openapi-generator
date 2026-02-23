@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel
 from petstore_api.models.foo import Foo
 
@@ -27,7 +27,7 @@ class FooGetDefaultResponse(BaseModel):
     FooGetDefaultResponse
     """
     string: Optional[Foo] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["string"]
 
     class Config:

@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictBool, StrictInt, StrictStr, validator
 
 class Order(BaseModel):
@@ -31,7 +31,7 @@ class Order(BaseModel):
     ship_date: Optional[datetime] = Field(default=None, alias="shipDate")
     status: Optional[StrictStr] = Field(default=None, description="Order Status")
     complete: Optional[StrictBool] = False
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["id", "petId", "quantity", "shipDate", "status", "complete"]
 
     @validator('status')

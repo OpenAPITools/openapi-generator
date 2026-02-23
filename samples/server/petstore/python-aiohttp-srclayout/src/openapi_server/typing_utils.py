@@ -10,11 +10,11 @@ if sys.version_info < (3, 7):
         return type(klass) == typing.GenericMeta
 
     def is_dict(klass):
-        """ Determine whether klass is a Dict """
+        """ Determine whether klass is a dict """
         return klass.__extra__ == dict
 
     def is_list(klass):
-        """ Determine whether klass is a List """
+        """ Determine whether klass is a list """
         return klass.__extra__ == list
 
 else:
@@ -24,9 +24,9 @@ else:
         return hasattr(klass, '__origin__')
 
     def is_dict(klass):
-        """ Determine whether klass is a Dict """
+        """ Determine whether klass is a dict """
         return klass.__origin__ == dict
 
     def is_list(klass):
-        """ Determine whether klass is a List """
+        """ Determine whether klass is a list """
         return klass.__origin__ == list

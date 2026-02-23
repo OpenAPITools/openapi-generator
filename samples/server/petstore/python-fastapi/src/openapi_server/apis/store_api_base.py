@@ -1,22 +1,22 @@
 # coding: utf-8
 
-from typing import ClassVar, Dict, List, Tuple  # noqa: F401
+from typing import ClassVar
 
 from pydantic import Field, StrictInt, StrictStr
-from typing import Any, Dict
+from typing import Any
 from typing_extensions import Annotated
 from openapi_server.models.order import Order
 from openapi_server.security_api import get_token_api_key
 
 class BaseStoreApi:
-    subclasses: ClassVar[Tuple] = ()
+    subclasses: ClassVar[tuple] = ()
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseStoreApi.subclasses = BaseStoreApi.subclasses + (cls,)
     async def get_inventory(
         self,
-    ) -> Dict[str, int]:
+    ) -> dict[str, int]:
         """Returns a map of status codes to quantities"""
         ...
 

@@ -18,15 +18,15 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field
 
 class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """
-    a_property: Optional[Dict[str, Any]] = Field(default=None, alias="aProperty")
-    additional_properties: Dict[str, Any] = {}
+    a_property: Optional[dict[str, Any]] = Field(default=None, alias="aProperty")
+    additional_properties: dict[str, Any] = {}
     __properties = ["aProperty"]
 
     class Config:

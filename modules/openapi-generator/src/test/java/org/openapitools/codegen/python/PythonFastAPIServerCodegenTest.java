@@ -52,6 +52,6 @@ public class PythonFastAPIServerCodegenTest {
         final Path p = Paths.get(outputPath + "src/openapi_server/apis/default_api.py");
 
         assertFileExists(p);
-        assertFileContains(p, "body: Optional[Dict[str, Any]] = Body(None, description=\"\"),");
+        assertFileContains(p, "body: Optional[dict[str, Any]] = Body(None, description=\"\"),");
     }
 }

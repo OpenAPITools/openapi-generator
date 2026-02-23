@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, StrictFloat, StrictInt, StrictStr, conlist
 from petstore_api.models.read_only_first import ReadOnlyFirst
 
@@ -30,7 +30,7 @@ class ArrayTest(BaseModel):
     array_of_nullable_float: Optional[conlist(StrictFloat)] = None
     array_array_of_integer: Optional[conlist(conlist(StrictInt))] = None
     array_array_of_model: Optional[conlist(conlist(ReadOnlyFirst))] = None
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     class Config:

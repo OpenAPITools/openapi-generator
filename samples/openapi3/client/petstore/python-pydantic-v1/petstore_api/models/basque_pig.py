@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict
+from typing import Any
 from pydantic import BaseModel, Field, StrictStr
 
 class BasquePig(BaseModel):
@@ -27,7 +27,7 @@ class BasquePig(BaseModel):
     """
     class_name: StrictStr = Field(default=..., alias="className")
     color: StrictStr = Field(...)
-    additional_properties: Dict[str, Any] = {}
+    additional_properties: dict[str, Any] = {}
     __properties = ["className", "color"]
 
     class Config:

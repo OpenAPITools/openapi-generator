@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 try:
     from typing import Self
 except ImportError:
@@ -39,7 +39,7 @@ class User(BaseModel):
     password: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(default=None, description="User Status", alias="userStatus")
-    __properties: ClassVar[List[str]] = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
+    __properties: ClassVar[list[str]] = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]
 
     model_config = {
         "populate_by_name": True,
@@ -62,7 +62,7 @@ class User(BaseModel):
         """Create an instance of User from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -81,7 +81,7 @@ class User(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: dict) -> Self:
         """Create an instance of User from a dict"""
         if obj is None:
             return None

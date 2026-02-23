@@ -1,6 +1,4 @@
 import connexion
-from typing import Dict
-from typing import Tuple
 from typing import Union
 
 from openapi_server.models.order import Order  # noqa: E501
@@ -15,7 +13,7 @@ def delete_order(order_id):  # noqa: E501
     :param order_id: ID of the order that needs to be deleted
     :type order_id: str
 
-    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
+    :rtype: Union[None, tuple[None, int], tuple[None, int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -26,7 +24,7 @@ def get_inventory():  # noqa: E501
     Returns a map of status codes to quantities # noqa: E501
 
 
-    :rtype: Union[Dict[str, int], Tuple[Dict[str, int], int], Tuple[Dict[str, int], int, Dict[str, str]]
+    :rtype: Union[dict[str, int], tuple[dict[str, int], int], tuple[dict[str, int], int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -39,7 +37,7 @@ def get_order_by_id(order_id):  # noqa: E501
     :param order_id: ID of pet that needs to be fetched
     :type order_id: int
 
-    :rtype: Union[Order, Tuple[Order, int], Tuple[Order, int, Dict[str, str]]
+    :rtype: Union[Order, tuple[Order, int], tuple[Order, int, dict[str, str]]
     """
     return 'do some magic!'
 
@@ -52,7 +50,7 @@ def place_order(body):  # noqa: E501
     :param order: order placed for purchasing the pet
     :type order: dict | bytes
 
-    :rtype: Union[Order, Tuple[Order, int], Tuple[Order, int, Dict[str, str]]
+    :rtype: Union[Order, tuple[Order, int], tuple[Order, int, dict[str, str]]
     """
     order = body
     if connexion.request.is_json:

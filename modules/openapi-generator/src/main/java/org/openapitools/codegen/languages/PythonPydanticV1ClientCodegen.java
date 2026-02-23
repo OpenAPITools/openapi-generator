@@ -90,10 +90,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         // at the moment
         importMapping.clear();
 
-        // override type mapping in abstract python codegen
-        typeMapping.put("array", "List");
-        typeMapping.put("set", "List");
-        typeMapping.put("map", "Dict");
+        // extend type mapping in abstract python codegen
         typeMapping.put("decimal", "decimal.Decimal");
         typeMapping.put("file", "bytearray");
         typeMapping.put("binary", "bytearray");

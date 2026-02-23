@@ -1,6 +1,4 @@
 import connexion
-from typing import Dict
-from typing import Tuple
 from typing import Union
 
 {{#imports}}{{import}}  # noqa: E501
@@ -38,7 +36,7 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
         {{#isArray}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: List[{{>param_type}}]
+    :type {{paramName}}: list[{{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
     :type {{paramName}}: list | bytes
@@ -48,7 +46,7 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
         {{#isMap}}
             {{#items}}
                 {{#isPrimitiveType}}
-    :type {{paramName}}: Dict[str, {{>param_type}}]
+    :type {{paramName}}: dict[str, {{>param_type}}]
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
     :type {{paramName}}: dict | bytes
@@ -57,7 +55,7 @@ def {{operationId}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{
         {{/isMap}}
     {{/allParams}}
 
-    :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], Tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, Dict[str, str]]
+    :rtype: Union[{{returnType}}{{^returnType}}None{{/returnType}}, tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int], tuple[{{returnType}}{{^returnType}}None{{/returnType}}, int, dict[str, str]]
     """
     {{#allParams}}
         {{#isBodyParam}}

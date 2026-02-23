@@ -18,10 +18,10 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.test_enum import TestEnum
 from petstore_api.models.test_enum_with_default import TestEnumWithDefault
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class TestModelWithEnumDefault(BaseModel):
@@ -33,8 +33,8 @@ class TestModelWithEnumDefault(BaseModel):
     test_enum_with_default: Optional[TestEnumWithDefault] = TestEnumWithDefault.ZWEI
     test_string_with_default: Optional[StrictStr] = 'ahoy matey'
     test_inline_defined_enum_with_default: Optional[StrictStr] = 'B'
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["test_enum", "test_string", "test_enum_with_default", "test_string_with_default", "test_inline_defined_enum_with_default"]
 
     @field_validator('test_inline_defined_enum_with_default')
     def test_inline_defined_enum_with_default_validate_enum(cls, value):
@@ -67,7 +67,7 @@ class TestModelWithEnumDefault(BaseModel):
         """Create an instance of TestModelWithEnumDefault from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -78,7 +78,7 @@ class TestModelWithEnumDefault(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -95,7 +95,7 @@ class TestModelWithEnumDefault(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of TestModelWithEnumDefault from a dict"""
         if obj is None:
             return None

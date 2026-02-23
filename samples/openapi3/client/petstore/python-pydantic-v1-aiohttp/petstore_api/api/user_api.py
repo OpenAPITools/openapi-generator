@@ -192,7 +192,7 @@ class UserApi:
           # noqa: E501
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -215,7 +215,7 @@ class UserApi:
           # noqa: E501
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -317,7 +317,7 @@ class UserApi:
           # noqa: E501
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -340,7 +340,7 @@ class UserApi:
           # noqa: E501
 
         :param user: List of user object (required)
-        :type user: List[User]
+        :type user: list[User]
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.

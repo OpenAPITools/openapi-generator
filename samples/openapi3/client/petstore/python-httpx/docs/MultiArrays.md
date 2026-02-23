@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**tags** | [**List[Tag]**](Tag.md) |  | [optional] 
-**files** | [**List[File]**](File.md) | Another array of objects in addition to tags (mypy check to not to reuse the same iterator) | [optional] 
+**tags** | [**list[Tag]**](Tag.md) |  | [optional] 
+**files** | [**list[File]**](File.md) | Another array of objects in addition to tags (mypy check to not to reuse the same iterator) | [optional] 
 
 ## Example
 

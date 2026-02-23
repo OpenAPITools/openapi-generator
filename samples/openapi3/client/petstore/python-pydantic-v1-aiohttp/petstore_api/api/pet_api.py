@@ -22,7 +22,7 @@ from typing import overload, Optional, Union, Awaitable
 from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, conlist, validator
 
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
@@ -299,13 +299,13 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def find_pets_by_status(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> List[Pet]:  # noqa: E501
+    async def find_pets_by_status(self, status : Annotated[conlist(StrictStr), Field(..., description="Status values that need to be considered for filter")], **kwargs) -> list[Pet]:  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
+        :type status: list[str]
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -313,7 +313,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[Pet]
+        :rtype: list[Pet]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -328,7 +328,7 @@ class PetApi:
         Multiple status values can be provided with comma separated strings  # noqa: E501
 
         :param status: Status values that need to be considered for filter (required)
-        :type status: List[str]
+        :type status: list[str]
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -349,7 +349,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         _params = locals()
@@ -404,7 +404,7 @@ class PetApi:
         _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
         _response_types_map = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
 
@@ -425,13 +425,13 @@ class PetApi:
             _request_auth=_params.get('_request_auth'))
 
     @validate_arguments
-    async def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> List[Pet]:  # noqa: E501
+    async def find_pets_by_tags(self, tags : Annotated[conlist(StrictStr, unique_items=True), Field(..., description="Tags to filter by")], **kwargs) -> list[Pet]:  # noqa: E501
         """(Deprecated) Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
 
         :param tags: Tags to filter by (required)
-        :type tags: List[str]
+        :type tags: list[str]
         :param _request_timeout: timeout setting for this request.
                If one number provided, it will be total request
                timeout. It can also be a pair (tuple) of
@@ -439,7 +439,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: List[Pet]
+        :rtype: list[Pet]
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
@@ -454,7 +454,7 @@ class PetApi:
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
 
         :param tags: Tags to filter by (required)
-        :type tags: List[str]
+        :type tags: list[str]
         :param _preload_content: if False, the ApiResponse.data will
                                  be set to none and raw_data will store the
                                  HTTP response body without reading/decoding.
@@ -475,7 +475,7 @@ class PetApi:
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
-        :rtype: tuple(List[Pet], status_code(int), headers(HTTPHeaderDict))
+        :rtype: tuple(list[Pet], status_code(int), headers(HTTPHeaderDict))
         """
 
         warnings.warn("GET /pet/findByTags is deprecated.", DeprecationWarning)
@@ -532,7 +532,7 @@ class PetApi:
         _auth_settings = ['petstore_auth', 'http_signature_test']  # noqa: E501
 
         _response_types_map = {
-            '200': "List[Pet]",
+            '200': "list[Pet]",
             '400': None,
         }
 

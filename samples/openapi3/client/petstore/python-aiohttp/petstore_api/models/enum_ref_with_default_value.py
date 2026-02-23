@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.data_output_format import DataOutputFormat
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class EnumRefWithDefaultValue(BaseModel):
@@ -28,7 +28,7 @@ class EnumRefWithDefaultValue(BaseModel):
     EnumRefWithDefaultValue
     """ # noqa: E501
     report_format: Optional[DataOutputFormat] = DataOutputFormat.JSON
-    __properties: ClassVar[List[str]] = ["report_format"]
+    __properties: ClassVar[list[str]] = ["report_format"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +51,7 @@ class EnumRefWithDefaultValue(BaseModel):
         """Create an instance of EnumRefWithDefaultValue from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -61,7 +61,7 @@ class EnumRefWithDefaultValue(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
         ])
 
         _dict = self.model_dump(
@@ -72,7 +72,7 @@ class EnumRefWithDefaultValue(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of EnumRefWithDefaultValue from a dict"""
         if obj is None:
             return None

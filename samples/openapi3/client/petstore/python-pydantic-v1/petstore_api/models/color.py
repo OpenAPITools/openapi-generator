@@ -18,28 +18,28 @@ import json
 import pprint
 import re  # noqa: F401
 
-from typing import Any, List, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, conint, conlist, constr, validator
-from typing import Union, Any, List, TYPE_CHECKING
+from typing import Union, Any, TYPE_CHECKING
 from pydantic import StrictStr, Field
 
-COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
+COLOR_ONE_OF_SCHEMAS = ["list[int]", "str"]
 
 class Color(BaseModel):
     """
     RGB array, RGBA array, or hex string.
     """
-    # data type: List[int]
+    # data type: list[int]
     oneof_schema_1_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=3, min_items=3)] = Field(default=None, description="RGB three element array with values 0-255.")
-    # data type: List[int]
+    # data type: list[int]
     oneof_schema_2_validator: Optional[conlist(conint(strict=True, le=255, ge=0), max_items=4, min_items=4)] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
     oneof_schema_3_validator: Optional[constr(strict=True, max_length=7, min_length=7)] = Field(default=None, description="Hex color string, such as #00FF00.")
     if TYPE_CHECKING:
-        actual_instance: Union[List[int], str]
+        actual_instance: Union[list[int], str]
     else:
         actual_instance: Any
-    one_of_schemas: List[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
+    one_of_schemas: list[str] = Field(COLOR_ONE_OF_SCHEMAS, const=True)
 
     class Config:
         validate_assignment = True
@@ -62,13 +62,13 @@ class Color(BaseModel):
         instance = Color.construct()
         error_messages = []
         match = 0
-        # validate data type: List[int]
+        # validate data type: list[int]
         try:
             instance.oneof_schema_1_validator = v
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # validate data type: List[int]
+        # validate data type: list[int]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
@@ -82,10 +82,10 @@ class Color(BaseModel):
             error_messages.append(str(e))
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -103,7 +103,7 @@ class Color(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into List[int]
+        # deserialize data into list[int]
         try:
             # validation
             instance.oneof_schema_1_validator = json.loads(json_str)
@@ -112,7 +112,7 @@ class Color(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into List[int]
+        # deserialize data into list[int]
         try:
             # validation
             instance.oneof_schema_2_validator = json.loads(json_str)
@@ -133,10 +133,10 @@ class Color(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into Color with oneOf schemas: List[int], str. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into Color with oneOf schemas: list[int], str. Details: " + ", ".join(error_messages))
         else:
             return instance
 

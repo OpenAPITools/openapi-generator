@@ -18,9 +18,9 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 from petstore_api.models.type import Type
-from typing import Optional, Set
+from typing import Optional
 from typing_extensions import Self
 
 class PonySizes(BaseModel):
@@ -28,8 +28,8 @@ class PonySizes(BaseModel):
     PonySizes
     """ # noqa: E501
     type: Optional[Type] = None
-    additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["type"]
+    additional_properties: dict[str, Any] = {}
+    __properties: ClassVar[list[str]] = ["type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +52,7 @@ class PonySizes(BaseModel):
         """Create an instance of PonySizes from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Return the dictionary representation of the model using alias.
 
         This has the following differences from calling pydantic's
@@ -63,7 +63,7 @@ class PonySizes(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
+        excluded_fields: set[str] = set([
             "additional_properties",
         ])
 
@@ -80,7 +80,7 @@ class PonySizes(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Optional[dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PonySizes from a dict"""
         if obj is None:
             return None
