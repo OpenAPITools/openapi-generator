@@ -29,7 +29,7 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
 
     private val inputSpecExtensionContents = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
+        inputSpec = file("spec.yaml")
         cleanupOutput.set(true)
         """.trimIndent()
 

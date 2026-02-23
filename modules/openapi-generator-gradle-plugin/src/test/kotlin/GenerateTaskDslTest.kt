@@ -20,8 +20,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -43,7 +43,7 @@ class GenerateTaskDslTest : TestBase() {
         openApiGenerate {
             generatorName = "kotlin"
             remoteInputSpec = "$specUrl$urlParams"
-            outputDir = file("build/kotlin").absolutePath
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -105,8 +105,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpecRootDirectory = file("specs").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpecRootDirectory = file("specs")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -246,8 +246,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -297,8 +297,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "java"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/java").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/java")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -433,8 +433,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -471,8 +471,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -508,8 +508,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -544,8 +544,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -585,8 +585,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = file("spec.yaml")
+            outputDir = file("build/kotlin")
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"

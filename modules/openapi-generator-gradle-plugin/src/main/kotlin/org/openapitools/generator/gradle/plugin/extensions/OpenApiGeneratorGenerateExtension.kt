@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,8 @@
 package org.openapitools.generator.gradle.plugin.extensions
 
 import org.gradle.api.Project
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Optional
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
@@ -47,7 +47,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The output target directory into which code will be generated.
      */
-    val outputDir = project.objects.property<String>()
+    val outputDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * The Open API 2.0/3.x specification location.
@@ -56,7 +56,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * changes to any $ref referenced files. Use the `inputSpecRootDirectory` property to have Gradle track changes to
      * an entire directory of spec files.
      */
-    val inputSpec = project.objects.property<String>()
+    val inputSpec: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Local root folder with spec files.
@@ -64,7 +64,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * By default, a merged spec file will be generated based on the contents of the directory. To disable this, set the
      * `inputSpecRootDirectorySkipMerge` property.
      */
-    val inputSpecRootDirectory = project.objects.property<String>()
+    val inputSpecRootDirectory: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * Skip bundling all spec files into a merged spec file, if true.
@@ -81,7 +81,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * The template directory holding a custom template.
      */
-    val templateDir = project.objects.property<String>()
+    val templateDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
      * The template location (which may be a directory or a classpath location) holding custom templates.
@@ -104,7 +104,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
      * File content should be in a json format { "optionKey":"optionValue", "optionKey1":"optionValue1"...}
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
-    val configFile = project.objects.property<String>()
+    val configFile: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
@@ -167,7 +167,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
-     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml. 
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
      */
     val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
 
@@ -279,7 +279,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
-    val ignoreFileOverride = project.objects.property<String>()
+    val ignoreFileOverride: RegularFileProperty = project.objects.fileProperty()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
@@ -293,71 +293,36 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
-     *
-     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
-     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
-     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val apiFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all).
-     *
-     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
-     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
-     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val modelFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
-     *
-     * Supporting files are those related to `projects/frameworks` which may be modified
-     * by consumers.
-     *
-     * NOTE: Configuring any one of [apiFilesConstrainedTo], [modelFilesConstrainedTo], or [supportingFilesConstrainedTo] results
-     *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
-     *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
      * Defines whether model-related _test_ files should be generated.
-     *
-     * This option enables/disables generation of ALL model-related _test_ files.
-     *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
      */
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
      * Defines whether model-related _documentation_ files should be generated.
-     *
-     * This option enables/disables generation of ALL model-related _documentation_ files.
-     *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
      */
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
      * Defines whether api-related _test_ files should be generated.
-     *
-     * This option enables/disables generation of ALL api-related _test_ files.
-     *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
      */
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
      * Defines whether api-related _documentation_ files should be generated.
-     *
-     * This option enables/disables generation of ALL api-related _documentation_ files.
-     *
-     * For more control over generation of individual files, configure an ignore file and
-     * refer to it via [ignoreFileOverride].
      */
     val generateApiDocumentation = project.objects.property<Boolean>()
 
@@ -368,9 +333,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     /**
      * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
-     * This only enables the post-processor. To define the post-processing command, define an environment variable such as
-     * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
-     * generator does not support this functionality.
      */
     val enablePostProcessFile = project.objects.property<Boolean>()
 
@@ -380,9 +342,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val skipValidateSpec = project.objects.property<Boolean>()
 
     /**
-     * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
-     * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
-     * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     * To generate alias (array, list, map) as model.
      */
     val generateAliasAsModel = project.objects.property<Boolean>()
 
@@ -398,7 +358,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
-     *
      */
     val cleanupOutput = project.objects.property<Boolean>()
 
@@ -413,22 +372,22 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun applyDefaults() {
-        releaseNote.set("Minor update")
-        inputSpecRootDirectorySkipMerge.set(false)
-        modelNamePrefix.set("")
-        modelNameSuffix.set("")
-        apiNameSuffix.set("")
-        generateModelTests.set(true)
-        generateModelDocumentation.set(true)
-        generateApiTests.set(true)
-        generateApiDocumentation.set(true)
-        configOptions.set(mapOf())
-        validateSpec.set(true)
-        logToStderr.set(false)
-        enablePostProcessFile.set(false)
-        skipValidateSpec.set(false)
-        generateAliasAsModel.set(false)
-        cleanupOutput.set(false)
-        dryRun.set(false)
+        releaseNote.convention("Minor update")
+        inputSpecRootDirectorySkipMerge.convention(false)
+        modelNamePrefix.convention("")
+        modelNameSuffix.convention("")
+        apiNameSuffix.convention("")
+        generateModelTests.convention(true)
+        generateModelDocumentation.convention(true)
+        generateApiTests.convention(true)
+        generateApiDocumentation.convention(true)
+        configOptions.convention(mapOf())
+        validateSpec.convention(true)
+        logToStderr.convention(false)
+        enablePostProcessFile.convention(false)
+        skipValidateSpec.convention(false)
+        generateAliasAsModel.convention(false)
+        cleanupOutput.convention(false)
+        dryRun.convention(false)
     }
 }

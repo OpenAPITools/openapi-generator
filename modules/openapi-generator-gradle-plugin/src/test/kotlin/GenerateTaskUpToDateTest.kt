@@ -15,7 +15,7 @@ class GenerateTaskUpToDateTest : TestBase() {
 
     private val inputSpecExtensionContents = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
+        inputSpec = file("spec.yaml")
         """.trimIndent()
 
     @Test(dataProvider = "gradle_version_provider")
@@ -36,8 +36,8 @@ class GenerateTaskUpToDateTest : TestBase() {
 
     private val templateDirExtensionContents = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        templateDir = file("templateDir").absolutePath
+        inputSpec = file("spec.yaml")
+        templateDir = file("templateDir")
         """.trimIndent()
 
     private fun initializeTemplateDirTest(): File {
@@ -64,8 +64,8 @@ class GenerateTaskUpToDateTest : TestBase() {
 
     private val configFileExtensionContents = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        configFile = file("configFile").absolutePath
+        inputSpec = file("spec.yaml")
+        configFile = file("configFile")
         """.trimIndent()
 
     private fun initializeConfigFileTest(): File {
@@ -90,8 +90,8 @@ class GenerateTaskUpToDateTest : TestBase() {
 
     private val ignoreFileOverrideExtensionContents = """
         generatorName = "kotlin"
-        inputSpec = file("spec.yaml").absolutePath
-        ignoreFileOverride = file(".openapi-generator-ignore").absolutePath
+        inputSpec = file("spec.yaml")
+        ignoreFileOverride = file(".openapi-generator-ignore")
         """.trimIndent()
 
     private fun initializeIgnoreFileTest(): File {

@@ -86,7 +86,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   inputSpec = file("spec.yaml")
             | }
         """.trimMargin(), projectFiles
         )
@@ -122,7 +122,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file('spec.yaml').absolutePath
+            |   inputSpec = file('spec.yaml')
             | }
         """.trimMargin(), projectFiles
         )
@@ -162,7 +162,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file('spec.yaml').absolutePath
+            |   inputSpec = file('spec.yaml')
             | }
         """.trimMargin(), projectFiles
         )
@@ -203,7 +203,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    inputSpec.set(file("spec.yaml").absolutePath)
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
@@ -239,7 +239,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    inputSpec.set(file("spec.yaml").absolutePath)
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
@@ -281,7 +281,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   inputSpec = file("spec.yaml")
             | }
         """.trimMargin(), projectFiles
         )
@@ -322,7 +322,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   inputSpec = file("spec.yaml")
             |   treatWarningsAsErrors = true
             | }
         """.trimMargin(), projectFiles
@@ -364,7 +364,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   inputSpec = file("spec.yaml")
             |   recommend = false
             | }
         """.trimMargin(), projectFiles
