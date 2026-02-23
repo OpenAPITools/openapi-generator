@@ -1,13 +1,26 @@
 package org.openapitools.codegen.typescript.axios;
 
+import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_AXIOS})
 public class TypeScriptAxiosClientCodegenTest {
@@ -129,5 +142,86 @@ public class TypeScriptAxiosClientCodegenTest {
         codegen.processOpts();
 
         assertEquals(codegen.additionalProperties().get("axiosVersion"), "^1.2.3");
+    }
+
+    @Test
+    public void testDefaultUseErasableSyntaxIsFalse() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+        codegen.processOpts();
+
+        // useErasableSyntax should not be set when not specified (defaults to false behavior)
+        assertFalse(codegen.additionalProperties().containsKey("useErasableSyntax"));
+    }
+
+    @Test
+    public void testUseErasableSyntaxSetToTrue() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+        codegen.additionalProperties().put("useErasableSyntax", true);
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("useErasableSyntax"), true);
+    }
+
+    @Test
+    public void testUseErasableSyntaxSetToFalse() {
+        TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+        codegen.additionalProperties().put("useErasableSyntax", false);
+
+        codegen.processOpts();
+
+        assertEquals(codegen.additionalProperties().get("useErasableSyntax"), false);
+    }
+
+    @Test(description = "Verify useErasableSyntax config parameter generates erasable code")
+    public void testUseErasableSyntaxGeneratesCorrectCode() throws IOException {
+        boolean[] options = {true, false};
+        for (boolean useErasableSyntax : options) {
+            final File output = Files.createTempDirectory("typescript-axios-erasable-").toFile();
+            output.deleteOnExit();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addAdditionalProperty("useErasableSyntax", useErasableSyntax)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            final DefaultGenerator generator = new DefaultGenerator();
+            final List<File> files = generator.opts(clientOptInput).generate();
+            files.forEach(File::deleteOnExit);
+
+            Path basePath = Paths.get(output + "/base.ts");
+            TestUtils.assertFileExists(basePath);
+
+            if (useErasableSyntax) {
+                // With erasable syntax: explicit property declarations
+                TestUtils.assertFileContains(basePath, "protected basePath: string;");
+                TestUtils.assertFileContains(basePath, "protected axios: AxiosInstance;");
+                // Constructor parameters should NOT have access modifiers
+                TestUtils.assertFileContains(basePath, "constructor(configuration?: Configuration, basePath: string = BASE_PATH, axios: AxiosInstance = globalAxios)");
+                // Explicit assignments in constructor
+                TestUtils.assertFileContains(basePath, "this.basePath = configuration?.basePath ?? basePath;");
+                TestUtils.assertFileContains(basePath, "this.axios = axios;");
+                // Class should close with } not };
+                TestUtils.assertFileNotContains(basePath, "};\n\nexport class RequiredError");
+
+                // RequiredError should have explicit field declaration
+                TestUtils.assertFileContains(basePath, "public field: string;");
+                TestUtils.assertFileContains(basePath, "this.field = field;");
+            } else {
+                // Without erasable syntax: parameter properties
+                TestUtils.assertFileContains(basePath, "constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios)");
+                // Should have if (configuration) check
+                TestUtils.assertFileContains(basePath, "if (configuration)");
+                // Class should close with };
+                TestUtils.assertFileContains(basePath, "};\n\nexport class RequiredError");
+
+                // RequiredError should use parameter property
+                TestUtils.assertFileContains(basePath, "constructor(public field: string, msg?: string)");
+                TestUtils.assertFileNotContains(basePath, "this.field = field;");
+            }
+        }
     }
 }
