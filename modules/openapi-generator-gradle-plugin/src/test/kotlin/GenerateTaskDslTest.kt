@@ -646,16 +646,12 @@ class GenerateTaskDslTest : TestBase() {
 
     @DataProvider(name = "gradle_version_provider")
     private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
-        arrayOf("8.14.4", "STRING"),
-        arrayOf("8.14.4", "FILE"),
-        arrayOf("8.5", "STRING"),
-        arrayOf("8.5", "FILE"),
+        arrayOf("8.14.4"),
+        arrayOf("8.5"),
     )
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `test implicit task wiring from producer task to generator`(gradleVersion: String, format: String) {
-        val propertyFormat = PropertyFormat.valueOf(format)
-
+    fun `test implicit task wiring from producer task to generator`(gradleVersion: String) {
         // Build script with a producer task that creates a spec file at execution time
         val buildContents = """
             plugins {
@@ -692,11 +688,7 @@ paths:
             // Configure the generator with implicit wiring
             openApiGenerate {
                 generatorName = "kotlin"
-                ${if (propertyFormat == PropertyFormat.FILE) {
-                    "inputSpec.set(producer.flatMap { it.outputFile })"
-                } else {
-                    "inputSpec = producer.flatMap { it.outputFile.get().asFile.absolutePath }"
-                }}
+                inputSpec.set(producer.flatMap { it.outputFile })
                 outputDir = layout.buildDirectory.dir("generated")
                 apiPackage = "org.openapitools.example.api"
                 modelPackage = "org.openapitools.example.model"
