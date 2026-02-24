@@ -697,16 +697,16 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             Q_EMIT allPendingRequestsCompleted();
         }
     });{{#authMethods}}{{#isOAuth}}{{#isCode}}
-    _OauthMethod = 2;
+    _OauthMethod = OauthMethod::AuthorizationFlow;
     _implicitFlow.unlink();
     _credentialFlow.unlink();
     _passwordFlow.unlink();
     _authFlow.link();
-    QStringList scope2;
+    QStringList scopeAuthorizationFlow;
     {{#scopes}}
-    scope2.append("{{scope}}");
+    scopeAuthorizationFlow.append("{{scope}}");
     {{/scopes}}
-    auto token2 = _authFlow.getToken(scope2.join(" "));
+    auto token2 = _authFlow.getToken(scopeAuthorizationFlow.join(" "));
     if(token2.isValid())
         input.headers.insert("Authorization", "Bearer " + token2.getToken());
 
@@ -725,18 +725,18 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope2;{{/isCode}}
+    _latestScope = scopeAuthorizationFlow;{{/isCode}}
     {{#isImplicit}}
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
+    QStringList scopeImplicitFlow;
     {{#scopes}}
-    scope1.append("{{scope}}");
+    scopeImplicitFlow.append("{{scope}}");
     {{/scopes}}
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -755,18 +755,18 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope1;{{/isImplicit}}
+    _latestScope = scopeImplicitFlow;{{/isImplicit}}
     {{#isApplication}}
-    _OauthMethod = 3;
+    _OauthMethod = OauthMethod::ClientCredentialsFlow;
     _authFlow.unlink();
     _implicitFlow.unlink();
     _passwordFlow.unlink();
     _credentialFlow.link();
-    QStringList scope3;
+    QStringList scopeClientCredentialsFlow;
     {{#scopes}}
-    scope3.append("{{scope}}");
+    scopeClientCredentialsFlow.append("{{scope}}");
     {{/scopes}}
-    auto token3 = _credentialFlow.getToken(scope3.join(" "));
+    auto token3 = _credentialFlow.getToken(scopeClientCredentialsFlow.join(" "));
     if(token3.isValid())
         input.headers.insert("Authorization", "Bearer " + token3.getToken());
 
@@ -785,18 +785,18 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope3;{{/isApplication}}
+    _latestScope = scopeClientCredentialsFlow;{{/isApplication}}
     {{#isPassword}}
-    _OauthMethod = 4;
+    _OauthMethod = OauthMethod::ResourceOwnerPasswordFlow;
     _passwordFlow.link();
     _authFlow.unlink();
     _implicitFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope4;
+    QStringList scopeResourceOwnerPasswordFlow;
     {{#scopes}}
-    scope4.append("{{scope}}");
+    scopeResourceOwnerPasswordFlow.append("{{scope}}");
     {{/scopes}}
-    auto token4 = _passwordFlow.getToken(scope4.join(" "));
+    auto token4 = _passwordFlow.getToken(scopeResourceOwnerPasswordFlow.join(" "));
     if(token4.isValid())
         input.headers.insert("Authorization", "Bearer " + token4.getToken());
 
@@ -815,7 +815,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope4;
+    _latestScope = scopeResourceOwnerPasswordFlow;
     {{/isPassword}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
@@ -960,11 +960,11 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
 {{/operation}}
 {{/operations}}
-void {{classname}}::tokenAvailable(){
+void {{classname}}::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -974,7 +974,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -984,7 +984,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -994,7 +994,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());

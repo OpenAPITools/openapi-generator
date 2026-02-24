@@ -264,15 +264,15 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -289,7 +289,7 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -472,15 +472,15 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -497,7 +497,7 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -667,15 +667,15 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -692,7 +692,7 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -872,15 +872,15 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -897,7 +897,7 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1084,15 +1084,15 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -1109,7 +1109,7 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1215,15 +1215,15 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -1240,7 +1240,7 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1346,15 +1346,15 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
             Q_EMIT allPendingRequestsCompleted();
         }
     });
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope1;
-    scope1.append("write:pets");
-    scope1.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scope1.join(" "));
+    QStringList scopeImplicitFlow;
+    scopeImplicitFlow.append("write:pets");
+    scopeImplicitFlow.append("read:pets");
+    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
     if(token1.isValid())
         input.headers.insert("Authorization", "Bearer " + token1.getToken());
 
@@ -1371,7 +1371,7 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     });
 
     _latestInput = input;
-    _latestScope = scope1;
+    _latestScope = scopeImplicitFlow;
 
 
 
@@ -1435,11 +1435,11 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
     }
 }
 
-void PFXPetApi::tokenAvailable(){
+void PFXPetApi::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1449,7 +1449,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1459,7 +1459,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -1469,7 +1469,7 @@ void PFXPetApi::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
