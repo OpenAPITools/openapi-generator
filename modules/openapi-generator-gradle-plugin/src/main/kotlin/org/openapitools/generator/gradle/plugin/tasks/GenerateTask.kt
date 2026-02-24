@@ -37,6 +37,7 @@ import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
 import org.openapitools.codegen.config.MergedSpecBuilder
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
 import javax.inject.Inject
 
 // =========================================================================================
@@ -318,14 +319,16 @@ abstract class GenerateTask : DefaultTask() {
     abstract val outputDir: DirectoryProperty
 
     @Suppress("unused")
-    @set:Option(option = "input", description = "The input specification.")
-    @get:Internal
-    var input: String? = null
-        set(value) {
-            if (value != null) {
+    @Option(option = "input", description = "The input specification (local path or URL/URI).")
+    fun setInput(value: String) {
+        if (value.isNotEmpty()) {
+            if (value.isRemoteUri()) {
+                remoteInputSpec.set(value)
+            } else {
                 inputSpec.set(layout.projectDirectory.file(value))
             }
         }
+    }
 
     /**
      * The Open API 2.0/3.x specification location.

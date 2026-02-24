@@ -22,6 +22,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
 
 /**
  * Gradle project level extension object definition for the `generate` task
@@ -444,7 +445,11 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
 
     /** Backwards-compatibility bridge for inputSpec */
     fun setInputSpec(path: String) {
-        inputSpec.set(project.layout.projectDirectory.file(path))
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+        } else {
+            inputSpec.set(project.layout.projectDirectory.file(path))
+        }
     }
 
     /** Backwards-compatibility bridge for inputSpecRootDirectory */

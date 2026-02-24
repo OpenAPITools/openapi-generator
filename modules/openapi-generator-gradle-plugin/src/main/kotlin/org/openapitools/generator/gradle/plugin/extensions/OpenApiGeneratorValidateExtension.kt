@@ -20,6 +20,7 @@ import org.gradle.api.Project
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.property
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
 
 /**
  * Gradle project level extension object definition for the generators task
@@ -31,6 +32,11 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
      * The input specification to validate. Supports all formats supported by the Parser.
      */
     val inputSpec: RegularFileProperty = project.objects.fileProperty()
+
+    /**
+     * The remote input specification to validate. Supports URLs/URIs.
+     */
+    val remoteInputSpec: Property<String> = project.objects.property()
 
     /**
      * Whether to offer recommendations related to the validated specification document.
@@ -49,6 +55,10 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
 
     /** Backwards-compatibility bridge for inputSpec */
     fun setInputSpec(path: String) {
-        inputSpec.set(project.layout.projectDirectory.file(path))
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+        } else {
+            inputSpec.set(project.layout.projectDirectory.file(path))
+        }
     }
 }

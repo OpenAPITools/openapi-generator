@@ -27,9 +27,8 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.options.Option
 import org.openapitools.codegen.validations.oas.OpenApiEvaluator
 import org.openapitools.codegen.validations.oas.RuleConfiguration
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
 import javax.inject.Inject
-import kotlin.text.get
-import kotlin.text.set
 
 /**
  * A generator which validates an Open API spec. This task outputs a list of validation issues and errors.
@@ -53,9 +52,14 @@ abstract class ValidateTask : DefaultTask() {
     @get:Inject
     abstract val layout: ProjectLayout
 
+    @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val inputSpec: RegularFileProperty
+
+    @get:Optional
+    @get:Input
+    abstract val remoteInputSpec: Property<String>
 
     @get:Optional
     @get:Input
@@ -70,29 +74,37 @@ abstract class ValidateTask : DefaultTask() {
         treatWarningsAsErrors.convention(false)
     }
 
-    @get:Internal
-    @set:Option(option = "input", description = "The input specification.")
-    var input: String? = null
-        set(value) {
-            if (value != null) {
+    @Suppress("unused")
+    @Option(option = "input", description = "The input specification (local path or URL).")
+    fun setInput(value: String) {
+        if (value.isNotEmpty()) {
+            if (value.isRemoteUri()) {
+                remoteInputSpec.set(value)
+            } else {
                 inputSpec.set(layout.projectDirectory.file(value))
             }
         }
+    }
 
     @TaskAction
     fun doWork() {
-        // Evaluate inputs
-        val specFile = inputSpec.get().asFile
-        val specPath = specFile.absolutePath
+        // Evaluate inputs - prefer remote if provided, fallback to local file
+        val specLocation = remoteInputSpec.orNull ?: inputSpec.orNull?.asFile?.absolutePath
+
+        if (specLocation == null) {
+            throw GradleException("You must configure either inputSpec or provide a valid remote input via --input")
+        }
+
         val recommendations = recommend.get()
         val failOnWarnings = treatWarningsAsErrors.get()
 
-        logger.lifecycle("Validating spec $specPath")
+        logger.lifecycle("Validating spec $specLocation")
 
         val options = ParseOptions()
         options.isResolve = true
 
-        val result = OpenAPIParser().readLocation(specPath, null, options)
+        // Pass specLocation instead of specPath
+        val result = OpenAPIParser().readLocation(specLocation, null, options)
         val messages = result.messages.toSet()
 
         val ruleConfiguration = RuleConfiguration()
