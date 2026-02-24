@@ -10,6 +10,7 @@ import java.nio.file.Files.createTempDirectory
 import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class GenerateTaskDslTest : TestBase() {
@@ -641,5 +642,88 @@ class GenerateTaskDslTest : TestBase() {
             TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
             "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
         )
+    }
+
+    @DataProvider(name = "gradle_version_provider")
+    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("8.14.4", "STRING"),
+        arrayOf("8.14.4", "FILE"),
+        arrayOf("8.5", "STRING"),
+        arrayOf("8.5", "FILE"),
+    )
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `test implicit task wiring from producer task to generator`(gradleVersion: String, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
+
+        // Build script with a producer task that creates a spec file at execution time
+        val buildContents = """
+            plugins {
+                id 'org.openapi.generator'
+            }
+
+            // A task that creates a spec file at execution time
+            abstract class SpecProducerTask extends DefaultTask {
+                @OutputFile
+                abstract RegularFileProperty getOutputFile()
+
+                @TaskAction
+                void create() {
+                    getOutputFile().get().asFile.text = '''
+openapi: 3.0.0
+info:
+  title: Produced API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      responses:
+        '200':
+          description: Success
+'''.stripIndent()
+                }
+            }
+
+            // Register the producer
+            def producer = tasks.register("produceSpec", SpecProducerTask) {
+                outputFile = layout.buildDirectory.file("dynamic-spec.yaml")
+            }
+
+            // Configure the generator with implicit wiring
+            openApiGenerate {
+                generatorName = "kotlin"
+                ${if (propertyFormat == PropertyFormat.FILE) {
+                    "inputSpec.set(producer.flatMap { it.outputFile })"
+                } else {
+                    "inputSpec = producer.flatMap { it.outputFile.get().asFile.absolutePath }"
+                }}
+                outputDir = layout.buildDirectory.dir("generated")
+                apiPackage = "org.openapitools.example.api"
+                modelPackage = "org.openapitools.example.model"
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .withGradleVersion(gradleVersion)
+            .build()
+
+        // Verify: The producer task MUST have run because the generator needed its output
+        val producerTask = result.task(":produceSpec")
+        val generatorTask = result.task(":openApiGenerate")
+
+        assertNotNull(producerTask, "Producer task should have been part of the graph")
+        assertEquals(TaskOutcome.SUCCESS, producerTask.outcome, "Producer task should have succeeded")
+        assertNotNull(generatorTask, "Generator task should have been part of the graph")
+        assertEquals(TaskOutcome.SUCCESS, generatorTask.outcome, "Generator task should have succeeded")
+
+        // Check that the generator actually produced something
+        val versionFile = File(temp, "build/generated/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have run and produced output")
     }
 }
