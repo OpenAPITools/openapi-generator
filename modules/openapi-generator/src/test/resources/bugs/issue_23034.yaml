@@ -17,12 +17,18 @@ components:
 
     Parent:
       required:
+        - classType
         - parentField
       type: object
       properties:
         parentField:
           type: string
           readOnly: true
+        classType:
+          description: Identifier of discriminator mapping class.
+          enum:
+            - Child
+          type: string
       discriminator:
         propertyName: classType
         mapping:
