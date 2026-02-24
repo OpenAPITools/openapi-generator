@@ -112,12 +112,12 @@ tasks.register('generateGoWithInvalidSpec', org.openapitools.generator.gradle.pl
     ]
 }
 
-tasks.register('validateGoodSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+def validateGoodSpec = tasks.register('validateGoodSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
     inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
 }
 
-tasks.register('validateBadSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+def validateBadSpec = tasks.register('validateBadSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
     inputSpec = layout.projectDirectory.file("petstore-v3.0-invalid.yaml")
 }
 
-tasks.register('validateSpecs') { dependsOn('validateGoodSpec', 'validateBadSpec') }
+tasks.register('validateSpecs') { dependsOn validateGoodSpec, validateBadSpec }
