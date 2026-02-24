@@ -263,6 +263,7 @@ Class | Method | HTTP request | Description
  - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
  - [UploadFileWithAdditionalPropertiesRequestObject](docs/UploadFileWithAdditionalPropertiesRequestObject.md)
  - [User](docs/User.md)
+ - [UuidWithPattern](docs/UuidWithPattern.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 
 
