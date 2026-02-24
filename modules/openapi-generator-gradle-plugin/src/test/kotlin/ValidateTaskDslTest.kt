@@ -16,6 +16,14 @@ class ValidateTaskDslTest : TestBase() {
 
     @DataProvider(name = "gradle_version_provider")
     fun gradleVersionProvider(): Array<Array<String?>> = arrayOf(
+        arrayOf(null, "STRING"), // uses the version of Gradle used to build the plugin itself
+        arrayOf(null, "FILE"), // uses the version of Gradle used to build the plugin itself
+        arrayOf("8.5", "STRING"),
+        arrayOf("8.5", "FILE")
+    )
+
+    @DataProvider(name = "gradle_version_only_provider")
+    fun gradleVersionOnlyProvider(): Array<Array<String?>> = arrayOf(
         arrayOf(null), // uses the version of Gradle used to build the plugin itself
         arrayOf("8.5")
     )
@@ -30,7 +38,23 @@ class ValidateTaskDslTest : TestBase() {
         }
     }
 
-    @Test(dataProvider = "gradle_version_provider")
+    private fun inputSpecProperty(path: String, format: PropertyFormat, useSetMethod: Boolean = false): String {
+        return if (useSetMethod) {
+            // For .set() method on RegularFileProperty in task definitions
+            // Both formats use file() since RegularFileProperty expects a File/RegularFile
+            """inputSpec.set(file("$path"))"""
+        } else {
+            // For direct assignment in extension (openApiValidate block)
+            // STRING: uses setInputSpec(String) bridge method
+            // FILE: direct file() assignment (also works via Gradle's property conversion)
+            when (format) {
+                PropertyFormat.STRING -> """inputSpec = "$path""""
+                PropertyFormat.FILE -> """inputSpec = file("$path")"""
+            }
+        }
+    }
+
+    @Test(dataProvider = "gradle_version_only_provider")
     fun `openApiValidate should fail on non-file spec`(gradleVersion: String?) {
         // Arrange
         withProject(
@@ -72,7 +96,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should succeed on valid spec`(gradleVersion: String?) {
+    fun `openApiValidate should succeed on valid spec`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -85,7 +110,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             | }
         """.trimMargin(), projectFiles
         )
@@ -109,7 +134,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should fail on invalid spec`(gradleVersion: String?) {
+    fun `openApiValidate should fail on invalid spec`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
@@ -121,7 +147,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file('spec.yaml').absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             | }
         """.trimMargin(), projectFiles
         )
@@ -149,7 +175,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should fail on invalid spec with duplicate 200 status code`(gradleVersion: String?) {
+    fun `openApiValidate should fail on invalid spec with duplicate 200 status code`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-duplicate-200-status-code.yaml")
@@ -161,7 +188,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file('spec.yaml').absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             | }
         """.trimMargin(), projectFiles
         )
@@ -188,7 +215,7 @@ class ValidateTaskDslTest : TestBase() {
         )
     }
 
-    @Test(dataProvider = "gradle_version_provider")
+    @Test(dataProvider = "gradle_version_only_provider")
     fun `validateGoodSpec as defined task should succeed on valid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
@@ -202,7 +229,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    inputSpec.set(file("spec.yaml").absolutePath)
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
@@ -225,7 +252,7 @@ class ValidateTaskDslTest : TestBase() {
         )
     }
 
-    @Test(dataProvider = "gradle_version_provider")
+    @Test(dataProvider = "gradle_version_only_provider")
     fun `validateBadSpec as defined task should fail on invalid spec`(gradleVersion: String?) {
         // Arrange
         val projectFiles = mapOf(
@@ -238,7 +265,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
-            |    inputSpec.set(file("spec.yaml").absolutePath)
+            |    inputSpec.set(file("spec.yaml"))
             | }
         """.trimMargin(), projectFiles
         )
@@ -266,7 +293,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should succeed with recommendations on valid spec`(gradleVersion: String?) {
+    fun `openApiValidate should succeed with recommendations on valid spec`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
@@ -280,7 +308,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             | }
         """.trimMargin(), projectFiles
         )
@@ -308,7 +336,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should fail with treatWarningsAsErrors on valid spec with warnings`(gradleVersion: String?) {
+    fun `openApiValidate should fail with treatWarningsAsErrors on valid spec with warnings`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
@@ -321,7 +350,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             |   treatWarningsAsErrors = true
             | }
         """.trimMargin(), projectFiles
@@ -350,7 +379,8 @@ class ValidateTaskDslTest : TestBase() {
     }
 
     @Test(dataProvider = "gradle_version_provider")
-    fun `openApiValidate should succeed without recommendations on valid spec`(gradleVersion: String?) {
+    fun `openApiValidate should succeed without recommendations on valid spec`(gradleVersion: String?, format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-recommend.yaml")
@@ -363,7 +393,7 @@ class ValidateTaskDslTest : TestBase() {
             | }
             |
             | openApiValidate {
-            |   inputSpec = file("spec.yaml").absolutePath
+            |   ${inputSpecProperty("spec.yaml", propertyFormat)}
             |   recommend = false
             | }
         """.trimMargin(), projectFiles

@@ -60,7 +60,8 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                 project
             )
 
-            generate.outputDir.set(project.layout.buildDirectory.dir("generate-resources/main").map { it.asFile.path })
+            // FIX: Use modern layout API and .convention() for defaults instead of .set()
+            generate.outputDir.convention(layout.buildDirectory.dir("generate-resources/main"))
 
             tasks.apply {
                 register("openApiGenerators", GeneratorsTask::class.java).configure {
