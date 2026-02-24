@@ -1,0 +1,41 @@
+---
+openapi: 3.0.4
+info:
+  title: Reproduce
+  version: 'v1'
+components:
+  schemas:
+    Child:
+      required:
+        - childField1
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Parent"
+      properties:
+        childField1:
+          type: string
+
+    Parent:
+      required:
+        - parentField
+      type: object
+      properties:
+        parentField:
+          type: string
+          readOnly: true
+      discriminator:
+        propertyName: classType
+        mapping:
+          Child: "#/components/schemas/Child"
+paths:
+  '/v1/reproduce':
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Child'
+          description: 'reproduce'
