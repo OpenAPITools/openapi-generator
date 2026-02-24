@@ -89,7 +89,6 @@ abstract class MetaTask : DefaultTask() {
             "openapiGeneratorVersion" to currentVersion
         )
 
-        // Use forEach instead of map since we aren't returning a transformed collection
         supportingFiles.forEach {
             try {
                 val destinationFolder = File(dir, it.folder)

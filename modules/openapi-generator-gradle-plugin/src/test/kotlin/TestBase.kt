@@ -51,14 +51,6 @@ abstract class TestBase {
             .build()!!
 }
 
-/**
- * Defines how file/directory properties are referenced in Gradle build scripts.
- * - STRING: Uses .absolutePath (e.g., file("spec.yaml").absolutePath)
- * - FILE: Uses direct file() reference (e.g., file("spec.yaml"))
- *
- * Note: File format tests only run with the newest Gradle version (8.7) for performance.
- * All properties in a single test use the same format (no mixing).
- */
 enum class PropertyFormat {
     STRING,
     FILE

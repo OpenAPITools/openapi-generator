@@ -43,7 +43,6 @@ open class OpenApiGeneratorMetaExtension(private val project: Project) {
     val outputFolder: DirectoryProperty = project.objects.directoryProperty()
 
     init {
-        // Use .convention() to allow users to cleanly override these defaults
         generatorName.convention("default")
         packageName.convention("org.openapitools.codegen")
 

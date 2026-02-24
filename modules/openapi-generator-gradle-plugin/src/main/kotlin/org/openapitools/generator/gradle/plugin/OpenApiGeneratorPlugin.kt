@@ -60,7 +60,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                 project
             )
 
-            // FIX: Use modern layout API and .convention() for defaults instead of .set()
             generate.outputDir.convention(layout.buildDirectory.dir("generate-resources/main"))
 
             tasks.apply {

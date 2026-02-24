@@ -38,7 +38,6 @@ open class OpenApiGeneratorGeneratorsExtension(project: Project) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun applyDefaults() {
-        // Use .convention() instead of .set() so users can cleanly override this default
         include.convention(
             Stability.values()
                 .map { it.value() }

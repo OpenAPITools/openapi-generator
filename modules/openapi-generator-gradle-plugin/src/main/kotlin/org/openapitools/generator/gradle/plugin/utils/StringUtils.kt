@@ -1,6 +1,5 @@
 package org.openapitools.generator.gradle.plugin.utils
 
-// Compile the regex once for performance
 private val remoteUriRegex = "^[a-zA-Z][a-zA-Z0-9+\\-.]+?:.*".toRegex()
 
 /**
