@@ -259,7 +259,7 @@ public class JavaMicroprofileServerCodegenTest {
         validateJavaSourceFiles(files);
 
         JavaFileAssert.assertThat(filesMap.get("Parent.java"))
-                .fileContains("protected parentField");
+                .fileContains("protected String parentField;");
     }
 }
 
