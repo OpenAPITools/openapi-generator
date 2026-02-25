@@ -25,6 +25,7 @@ import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
@@ -63,11 +64,9 @@ open class GenerateTask @Inject constructor(
      * Add custom generator jars via the `openApiGeneratorClasspath` configuration.
      * Parent-first classloader delegation means these entries supplement,
      * not override, the plugin's own classpath.
-     *
-     * Excluded from up-to-date checks and configuration cache (@Internal)
-     * because resolution requires repositories unavailable during input snapshotting.
      */
-    @get:Internal
+    @get:Optional
+    @get:Classpath
     val generatorClasspath: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
