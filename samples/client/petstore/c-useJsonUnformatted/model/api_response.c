@@ -32,11 +32,15 @@ __attribute__((deprecated)) api_response_t *api_response_create(
         code_copy = malloc(sizeof(int));
         if (code_copy) *code_copy = *code;
     }
-    return api_response_create_internal (
+    api_response_t *result = api_response_create_internal (
         code_copy,
         type,
         message
         );
+    if (!result) {
+        free(code_copy);
+    }
+    return result;
 }
 
 void api_response_free(api_response_t *api_response) {
@@ -152,6 +156,10 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
         type && !cJSON_IsNull(type) ? strdup(type->valuestring) : NULL,
         message && !cJSON_IsNull(message) ? strdup(message->valuestring) : NULL
         );
+
+    if (!api_response_local_var) {
+        goto end;
+    }
 
     return api_response_local_var;
 end:

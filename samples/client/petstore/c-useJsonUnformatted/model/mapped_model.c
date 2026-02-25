@@ -29,10 +29,14 @@ __attribute__((deprecated)) MappedModel_t *MappedModel_create(
         another_property_copy = malloc(sizeof(int));
         if (another_property_copy) *another_property_copy = *another_property;
     }
-    return MappedModel_create_internal (
+    MappedModel_t *result = MappedModel_create_internal (
         another_property_copy,
         uuid_property
         );
+    if (!result) {
+        free(another_property_copy);
+    }
+    return result;
 }
 
 void MappedModel_free(MappedModel_t *MappedModel) {
@@ -123,6 +127,10 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
         another_property_local_var,
         uuid_property && !cJSON_IsNull(uuid_property) ? strdup(uuid_property->valuestring) : NULL
         );
+
+    if (!MappedModel_local_var) {
+        goto end;
+    }
 
     return MappedModel_local_var;
 end:

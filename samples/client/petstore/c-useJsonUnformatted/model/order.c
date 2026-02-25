@@ -73,7 +73,7 @@ __attribute__((deprecated)) order_t *order_create(
         complete_copy = malloc(sizeof(int));
         if (complete_copy) *complete_copy = *complete;
     }
-    return order_create_internal (
+    order_t *result = order_create_internal (
         id_copy,
         pet_id_copy,
         quantity_copy,
@@ -81,6 +81,13 @@ __attribute__((deprecated)) order_t *order_create(
         status,
         complete_copy
         );
+    if (!result) {
+        free(id_copy);
+        free(pet_id_copy);
+        free(quantity_copy);
+        free(complete_copy);
+    }
+    return result;
 }
 
 void order_free(order_t *order) {
@@ -297,6 +304,10 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
         status ? statusVariable : openapi_petstore_order_STATUS_NULL,
         complete_local_var
         );
+
+    if (!order_local_var) {
+        goto end;
+    }
 
     return order_local_var;
 end:

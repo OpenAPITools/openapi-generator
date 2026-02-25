@@ -58,7 +58,7 @@ __attribute__((deprecated)) pet_t *pet_create(
         id_copy = malloc(sizeof(long));
         if (id_copy) *id_copy = *id;
     }
-    return pet_create_internal (
+    pet_t *result = pet_create_internal (
         id_copy,
         category,
         name,
@@ -66,6 +66,10 @@ __attribute__((deprecated)) pet_t *pet_create(
         tags,
         status
         );
+    if (!result) {
+        free(id_copy);
+    }
+    return result;
 }
 
 void pet_free(pet_t *pet) {
@@ -323,6 +327,10 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
         tags ? tagsList : NULL,
         status ? statusVariable : openapi_petstore_pet_STATUS_NULL
         );
+
+    if (!pet_local_var) {
+        goto end;
+    }
 
     return pet_local_var;
 end:

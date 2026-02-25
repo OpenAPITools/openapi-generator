@@ -58,7 +58,7 @@ __attribute__((deprecated)) user_t *user_create(
         user_status_copy = malloc(sizeof(int));
         if (user_status_copy) *user_status_copy = *user_status;
     }
-    return user_create_internal (
+    user_t *result = user_create_internal (
         id_copy,
         username,
         first_name,
@@ -70,6 +70,11 @@ __attribute__((deprecated)) user_t *user_create(
         extra,
         preference
         );
+    if (!result) {
+        free(id_copy);
+        free(user_status_copy);
+    }
+    return result;
 }
 
 void user_free(user_t *user) {
@@ -398,6 +403,10 @@ user_t *user_parseFromJSON(cJSON *userJSON){
         extra ? extraList : NULL,
         preference ? preference_local_nonprim : 0
         );
+
+    if (!user_local_var) {
+        goto end;
+    }
 
     return user_local_var;
 end:

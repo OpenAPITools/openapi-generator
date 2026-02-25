@@ -29,10 +29,14 @@ __attribute__((deprecated)) category_t *category_create(
         id_copy = malloc(sizeof(long));
         if (id_copy) *id_copy = *id;
     }
-    return category_create_internal (
+    category_t *result = category_create_internal (
         id_copy,
         name
         );
+    if (!result) {
+        free(id_copy);
+    }
+    return result;
 }
 
 void category_free(category_t *category) {
@@ -123,6 +127,10 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
         id_local_var,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
+
+    if (!category_local_var) {
+        goto end;
+    }
 
     return category_local_var;
 end:

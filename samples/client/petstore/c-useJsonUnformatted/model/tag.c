@@ -29,10 +29,14 @@ __attribute__((deprecated)) tag_t *tag_create(
         id_copy = malloc(sizeof(long));
         if (id_copy) *id_copy = *id;
     }
-    return tag_create_internal (
+    tag_t *result = tag_create_internal (
         id_copy,
         name
         );
+    if (!result) {
+        free(id_copy);
+    }
+    return result;
 }
 
 void tag_free(tag_t *tag) {
@@ -123,6 +127,10 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
         id_local_var,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
+
+    if (!tag_local_var) {
+        goto end;
+    }
 
     return tag_local_var;
 end:

@@ -305,7 +305,7 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isBoolean}}
     {{/isPrimitiveType}}
     {{/vars}}
-    return {{classname}}_create_internal (
+    {{classname}}_t *result = {{classname}}_create_internal (
         {{#vars}}
         {{#isPrimitiveType}}
         {{#isNumeric}}
@@ -325,6 +325,19 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
         {{/isPrimitiveType}}
         {{/vars}}
         );
+    if (!result) {
+        {{#vars}}
+        {{#isPrimitiveType}}
+        {{#isNumeric}}
+        free({{name}}_copy);
+        {{/isNumeric}}
+        {{#isBoolean}}
+        free({{name}}_copy);
+        {{/isBoolean}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    }
+    return result;
 }
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
@@ -1090,6 +1103,10 @@ fail:
         {{/isContainer}}
         {{/vars}}
         );
+
+    if (!{{classname}}_local_var) {
+        goto end;
+    }
 
     return {{classname}}_local_var;
 end:
