@@ -153,10 +153,10 @@ static {{classname}}_t *{{classname}}_create_internal(
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -201,8 +201,43 @@ static {{classname}}_t *{{classname}}_create_internal(
     if (!{{classname}}_local_var) {
         return NULL;
     }
+    memset({{classname}}_local_var, 0, sizeof({{classname}}_t));
     {{#vars}}
+    {{^isContainer}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    if ({{{name}}}) {
+        {{classname}}_local_var->{{{name}}} = malloc(sizeof({{datatype}}));
+        if (!{{classname}}_local_var->{{{name}}}) {
+            {{classname}}_free({{classname}}_local_var);
+            return NULL;
+        }
+        *{{classname}}_local_var->{{{name}}} = *{{{name}}};
+    }
+    {{/isNumeric}}
+    {{#isBoolean}}
+    if ({{{name}}}) {
+        {{classname}}_local_var->{{{name}}} = malloc(sizeof({{datatype}}));
+        if (!{{classname}}_local_var->{{{name}}}) {
+            {{classname}}_free({{classname}}_local_var);
+            return NULL;
+        }
+        *{{classname}}_local_var->{{{name}}} = *{{{name}}};
+    }
+    {{/isBoolean}}
+    {{^isNumeric}}
+    {{^isBoolean}}
     {{classname}}_local_var->{{{name}}} = {{{name}}};
+    {{/isBoolean}}
+    {{/isNumeric}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{classname}}_local_var->{{{name}}} = {{{name}}};
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{classname}}_local_var->{{{name}}} = {{{name}}};
+    {{/isContainer}}
     {{/vars}}
 
     {{classname}}_local_var->_library_owned = 1;
@@ -243,10 +278,10 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{name}}{{^-last}},{{/-last}}
+    {{datatype}} *{{name}}{{^-last}},{{/-last}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -344,6 +379,18 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{/isFreeFormObject}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
+    {{#isNumeric}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isNumeric}}
+    {{#isBoolean}}
+    if ({{{classname}}}->{{{name}}}) {
+        free({{{classname}}}->{{{name}}});
+        {{classname}}->{{name}} = NULL;
+    }
+    {{/isBoolean}}
     {{^isEnum}}
     {{#isString}}
     if ({{{classname}}}->{{{name}}}) {
@@ -454,12 +501,12 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{^isContainer}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", *{{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Numeric
     }
     {{/isNumeric}}
     {{#isBoolean}}
-    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", {{{classname}}}->{{{name}}}) == NULL) {
+    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", *{{{classname}}}->{{{name}}}) == NULL) {
     goto fail; //Bool
     }
     {{/isBoolean}}
@@ -700,6 +747,18 @@ fail:
     {{/isFreeFormObject}}
     {{/isModel}}
     {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{datatype}} *{{name}}_local_var = NULL;
+
+    {{/isNumeric}}
+    {{#isBoolean}}
+    // define the local variable for {{{classname}}}->{{{name}}}
+    {{datatype}} *{{name}}_local_var = NULL;
+
+    {{/isBoolean}}
+    {{/isPrimitiveType}}
     {{/isContainer}}
     {{/vars}}
     {{#vars}}
@@ -722,6 +781,12 @@ fail:
     {
     goto end; //Numeric
     }
+    {{name}}_local_var = malloc(sizeof({{datatype}}));
+    if(!{{name}}_local_var)
+    {
+        goto end;
+    }
+    *{{name}}_local_var = {{{name}}}->valuedouble;
     {{/isNumeric}}
     {{#isBoolean}}
     {{^required}}if ({{{name}}}) { {{/required}}
@@ -729,6 +794,12 @@ fail:
     {
     goto end; //Bool
     }
+    {{name}}_local_var = malloc(sizeof({{datatype}}));
+    if(!{{name}}_local_var)
+    {
+        goto end;
+    }
+    *{{name}}_local_var = {{{name}}}->valueint;
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -977,10 +1048,10 @@ fail:
         {{/isPrimitiveType}}
         {{#isPrimitiveType}}
         {{#isNumeric}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valuedouble{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_var{{^-last}},{{/-last}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}->valueint{{^required}} : 0{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_var{{^-last}},{{/-last}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
@@ -1045,6 +1116,20 @@ end:
     }
     {{/isFreeFormObject}}
     {{/isModel}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    if ({{{name}}}_local_var) {
+        free({{{name}}}_local_var);
+        {{{name}}}_local_var = NULL;
+    }
+    {{/isNumeric}}
+    {{#isBoolean}}
+    if ({{{name}}}_local_var) {
+        free({{{name}}}_local_var);
+        {{{name}}}_local_var = NULL;
+    }
+    {{/isBoolean}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
