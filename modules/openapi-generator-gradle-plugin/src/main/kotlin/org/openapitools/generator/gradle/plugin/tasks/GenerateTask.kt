@@ -20,6 +20,7 @@ import javax.inject.Inject
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
@@ -40,11 +41,7 @@ import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 import org.gradle.util.GradleVersion
-import org.openapitools.codegen.CodegenConstants
-import org.openapitools.codegen.DefaultGenerator
-import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.config.GlobalSettings
-import org.openapitools.codegen.config.MergedSpecBuilder
+import org.gradle.workers.WorkerExecutor
 
 /**
  * A task which generates the desired code.
@@ -56,7 +53,22 @@ import org.openapitools.codegen.config.MergedSpecBuilder
  * @author Jim Schubert
  */
 @CacheableTask
-open class GenerateTask @Inject constructor(private val objectFactory: ObjectFactory) : DefaultTask() {
+open class GenerateTask @Inject constructor(
+    private val objectFactory: ObjectFactory,
+    private val workerExecutor: WorkerExecutor
+) : DefaultTask() {
+
+    /**
+     * Extra classpath entries for the code generation worker.
+     * Add custom generator jars via the `openApiGeneratorClasspath` configuration.
+     * Parent-first classloader delegation means these entries supplement,
+     * not override, the plugin's own classpath.
+     *
+     * Excluded from up-to-date checks and configuration cache (@Internal)
+     * because resolution requires repositories unavailable during input snapshotting.
+     */
+    @get:Internal
+    val generatorClasspath: ConfigurableFileCollection = project.objects.fileCollection()
 
     /**
      * The verbosity of generation
@@ -606,8 +618,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
         }
     }
 
-    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
-
     private fun createFileSystemManager(): FileSystemManager {
         return if(GradleVersion.current() >= GradleVersion.version("6.0")) {
             objectFactory.newInstance(FileSystemManagerDefault::class.java)
@@ -619,30 +629,6 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        var resolvedInputSpec = ""
-
-        inputSpec.ifNotEmpty { value ->
-            resolvedInputSpec = value
-        }
-
-        remoteInputSpec.ifNotEmpty { value ->
-            resolvedInputSpec = value
-        }
-
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
-            val skipMerge = inputSpecRootDirectorySkipMerge.get()
-            val runMergeSpec = !skipMerge
-            if (runMergeSpec) {
-                run {
-                    resolvedInputSpec = MergedSpecBuilder(
-                        inputSpecRootDirectoryValue,
-                        mergedFileName.getOrElse("merged")
-                    ).buildMergedSpec()
-                    logger.info("Merge input spec would be used - {}", resolvedInputSpec)
-                }
-            }
-        }
-
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
                 createFileSystemManager().delete(outputDir)
@@ -652,334 +638,99 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             }
         }
 
-        val configurator: CodegenConfigurator = if (configFile.isPresent) {
-            CodegenConfigurator.fromFile(configFile.get())
-        } else createDefaultCodegenConfigurator()
+        // classLoaderIsolation prevents Jackson version conflicts with other
+        // plugins (issue #18753). The isolated classloader inherits the plugin's
+        // own classpath (openapi-generator and its dependencies). Extra entries
+        // from openApiGeneratorClasspath, if configured, supply custom generators.
+        val taskRef = this
+        val extraClasspath = taskRef.generatorClasspath.files
+        if (extraClasspath.isNotEmpty()) {
+            logger.info("OpenAPI Generator: adding {} extra classpath entries from openApiGeneratorClasspath", extraClasspath.size)
+        }
+
+        val workQueue = workerExecutor.classLoaderIsolation {
+            if (extraClasspath.isNotEmpty()) {
+                classpath.from(extraClasspath)
+            }
+        }
+
+        workQueue.submit(GenerateWorkAction::class.java) {
+            inputSpec.set(taskRef.inputSpec)
+            inputSpecRootDirectory.set(taskRef.inputSpecRootDirectory)
+            inputSpecRootDirectorySkipMerge.set(taskRef.inputSpecRootDirectorySkipMerge)
+            mergedFileName.set(taskRef.mergedFileName)
+            remoteInputSpec.set(taskRef.remoteInputSpec)
+            verbose.set(taskRef.verbose)
+            validateSpec.set(taskRef.validateSpec)
+            generatorName.set(taskRef.generatorName)
+            outputDir.set(taskRef.outputDir)
+            templateDir.set(taskRef.templateDir)
+            templateResourcePath.set(taskRef.templateResourcePath)
+            auth.set(taskRef.auth)
+            globalProperties.set(taskRef.globalProperties)
+            configFile.set(taskRef.configFile)
+            skipOverwrite.set(taskRef.skipOverwrite)
+            packageName.set(taskRef.packageName)
+            apiPackage.set(taskRef.apiPackage)
+            modelPackage.set(taskRef.modelPackage)
+            modelNamePrefix.set(taskRef.modelNamePrefix)
+            modelNameSuffix.set(taskRef.modelNameSuffix)
+            apiNameSuffix.set(taskRef.apiNameSuffix)
+            instantiationTypes.set(taskRef.instantiationTypes)
+            typeMappings.set(taskRef.typeMappings)
+            additionalProperties.set(taskRef.additionalProperties)
+            serverVariables.set(taskRef.serverVariables)
+            languageSpecificPrimitives.set(taskRef.languageSpecificPrimitives)
+            openapiGeneratorIgnoreList.set(taskRef.openapiGeneratorIgnoreList)
+            importMappings.set(taskRef.importMappings)
+            schemaMappings.set(taskRef.schemaMappings)
+            inlineSchemaNameMappings.set(taskRef.inlineSchemaNameMappings)
+            inlineSchemaOptions.set(taskRef.inlineSchemaOptions)
+            nameMappings.set(taskRef.nameMappings)
+            parameterNameMappings.set(taskRef.parameterNameMappings)
+            modelNameMappings.set(taskRef.modelNameMappings)
+            enumNameMappings.set(taskRef.enumNameMappings)
+            operationIdNameMappings.set(taskRef.operationIdNameMappings)
+            openapiNormalizer.set(taskRef.openapiNormalizer)
+            invokerPackage.set(taskRef.invokerPackage)
+            groupId.set(taskRef.groupId)
+            id.set(taskRef.id)
+            version.set(taskRef.version)
+            library.set(taskRef.library)
+            gitHost.set(taskRef.gitHost)
+            gitUserId.set(taskRef.gitUserId)
+            gitRepoId.set(taskRef.gitRepoId)
+            releaseNote.set(taskRef.releaseNote)
+            httpUserAgent.set(taskRef.httpUserAgent)
+            reservedWordsMappings.set(taskRef.reservedWordsMappings)
+            ignoreFileOverride.set(taskRef.ignoreFileOverride)
+            removeOperationIdPrefix.set(taskRef.removeOperationIdPrefix)
+            skipOperationExample.set(taskRef.skipOperationExample)
+            apiFilesConstrainedTo.set(taskRef.apiFilesConstrainedTo)
+            modelFilesConstrainedTo.set(taskRef.modelFilesConstrainedTo)
+            supportingFilesConstrainedTo.set(taskRef.supportingFilesConstrainedTo)
+            generateModelTests.set(taskRef.generateModelTests)
+            generateModelDocumentation.set(taskRef.generateModelDocumentation)
+            generateApiTests.set(taskRef.generateApiTests)
+            generateApiDocumentation.set(taskRef.generateApiDocumentation)
+            configOptions.set(taskRef.configOptions)
+            logToStderr.set(taskRef.logToStderr)
+            enablePostProcessFile.set(taskRef.enablePostProcessFile)
+            skipValidateSpec.set(taskRef.skipValidateSpec)
+            generateAliasAsModel.set(taskRef.generateAliasAsModel)
+            engine.set(taskRef.engine)
+            dryRun.set(taskRef.dryRun)
+        }
 
         try {
-            if (globalProperties.isPresent) {
-                globalProperties.get().forEach { (key, value) ->
-                    configurator.addGlobalProperty(key, value)
-                }
-            }
-
-            if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(
-                    CodegenConstants.SUPPORTING_FILES,
-                    supportingFilesConstrainedTo.get().joinToString(",")
-                )
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
-            }
-
-            if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.MODELS)
-            }
-
-            if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.APIS)
-            }
-
-            if (generateApiDocumentation.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            }
-
-            if (generateModelDocumentation.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            }
-
-            if (generateModelTests.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            }
-
-            if (generateApiTests.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            }
-
-            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
-                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
-            }
-
-            configurator.setInputSpec(resolvedInputSpec)
-
-            // now override with any specified parameters
-            verbose.ifNotEmpty { value ->
-                configurator.setVerbose(value)
-            }
-
-            validateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(value)
-            }
-
-            skipOverwrite.ifNotEmpty { value ->
-                configurator.setSkipOverwrite(value)
-            }
-
-            generatorName.ifNotEmpty { value ->
-                configurator.setGeneratorName(value)
-            }
-
-            outputDir.ifNotEmpty { value ->
-                configurator.setOutputDir(value)
-            }
-
-            auth.ifNotEmpty { value ->
-                configurator.setAuth(value)
-            }
-
-            templateDir.ifNotEmpty { value ->
-                configurator.setTemplateDir(value)
-            }
-
-            templateResourcePath.ifNotEmpty { value ->
-                templateDir.ifNotEmpty {
-                    logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
-                }
-                configurator.setTemplateDir(value)
-            }
-
-            packageName.ifNotEmpty { value ->
-                configurator.setPackageName(value)
-            }
-
-            apiPackage.ifNotEmpty { value ->
-                configurator.setApiPackage(value)
-            }
-
-            modelPackage.ifNotEmpty { value ->
-                configurator.setModelPackage(value)
-            }
-
-            modelNamePrefix.ifNotEmpty { value ->
-                configurator.setModelNamePrefix(value)
-            }
-
-            modelNameSuffix.ifNotEmpty { value ->
-                configurator.setModelNameSuffix(value)
-            }
-
-            apiNameSuffix.ifNotEmpty { value ->
-                configurator.setApiNameSuffix(value)
-            }
-
-            invokerPackage.ifNotEmpty { value ->
-                configurator.setInvokerPackage(value)
-            }
-
-            groupId.ifNotEmpty { value ->
-                configurator.setGroupId(value)
-            }
-
-            id.ifNotEmpty { value ->
-                configurator.setArtifactId(value)
-            }
-
-            version.ifNotEmpty { value ->
-                configurator.setArtifactVersion(value)
-            }
-
-            library.ifNotEmpty { value ->
-                configurator.setLibrary(value)
-            }
-
-            gitHost.ifNotEmpty { value ->
-                configurator.setGitHost(value)
-            }
-
-            gitUserId.ifNotEmpty { value ->
-                configurator.setGitUserId(value)
-            }
-
-            gitRepoId.ifNotEmpty { value ->
-                configurator.setGitRepoId(value)
-            }
-
-            releaseNote.ifNotEmpty { value ->
-                configurator.setReleaseNote(value)
-            }
-
-            httpUserAgent.ifNotEmpty { value ->
-                configurator.setHttpUserAgent(value)
-            }
-
-            ignoreFileOverride.ifNotEmpty { value ->
-                configurator.setIgnoreFileOverride(value)
-            }
-
-            removeOperationIdPrefix.ifNotEmpty { value ->
-                configurator.setRemoveOperationIdPrefix(value)
-            }
-
-            skipOperationExample.ifNotEmpty { value ->
-                configurator.setSkipOperationExample(value)
-            }
-
-            logToStderr.ifNotEmpty { value ->
-                configurator.setLogToStderr(value)
-            }
-
-            enablePostProcessFile.ifNotEmpty { value ->
-                configurator.setEnablePostProcessFile(value)
-            }
-
-            skipValidateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(!value)
-            }
-
-            generateAliasAsModel.ifNotEmpty { value ->
-                configurator.setGenerateAliasAsModel(value)
-            }
-
-            engine.ifNotEmpty { value ->
-                if ("handlebars".equals(value, ignoreCase = true)) {
-                    configurator.setTemplatingEngineName("handlebars")
-                } else {
-                    configurator.setTemplatingEngineName(value)
-                }
-            }
-
-            if (globalProperties.isPresent) {
-                globalProperties.get().forEach { entry ->
-                    configurator.addGlobalProperty(entry.key, entry.value)
-                }
-            }
-
-            if (instantiationTypes.isPresent) {
-                instantiationTypes.get().forEach { entry ->
-                    configurator.addInstantiationType(entry.key, entry.value)
-                }
-            }
-
-            if (importMappings.isPresent) {
-                importMappings.get().forEach { entry ->
-                    configurator.addImportMapping(entry.key, entry.value)
-                }
-            }
-
-            if (schemaMappings.isPresent) {
-                schemaMappings.get().forEach { entry ->
-                    configurator.addSchemaMapping(entry.key, entry.value)
-                }
-            }
-
-            if (inlineSchemaNameMappings.isPresent) {
-                inlineSchemaNameMappings.get().forEach { entry ->
-                    configurator.addInlineSchemaNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (inlineSchemaOptions.isPresent) {
-                inlineSchemaOptions.get().forEach { entry ->
-                    configurator.addInlineSchemaOption(entry.key, entry.value)
-                }
-            }
-
-            if (nameMappings.isPresent) {
-                nameMappings.get().forEach { entry ->
-                    configurator.addNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (parameterNameMappings.isPresent) {
-                parameterNameMappings.get().forEach { entry ->
-                    configurator.addParameterNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (modelNameMappings.isPresent) {
-                modelNameMappings.get().forEach { entry ->
-                    configurator.addModelNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (enumNameMappings.isPresent) {
-                enumNameMappings.get().forEach { entry ->
-                    configurator.addEnumNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (operationIdNameMappings.isPresent) {
-                operationIdNameMappings.get().forEach { entry ->
-                    configurator.addOperationIdNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (openapiNormalizer.isPresent) {
-                openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenapiNormalizer(entry.key, entry.value)
-                }
-            }
-
-            if (typeMappings.isPresent) {
-                typeMappings.get().forEach { entry ->
-                    configurator.addTypeMapping(entry.key, entry.value)
-                }
-            }
-
-            if (additionalProperties.isPresent) {
-                additionalProperties.get().forEach { entry ->
-                    configurator.addAdditionalProperty(entry.key, entry.value)
-                }
-            }
-
-            if (serverVariables.isPresent) {
-                serverVariables.get().forEach { entry ->
-                    configurator.addServerVariable(entry.key, entry.value)
-                }
-            }
-
-            if (languageSpecificPrimitives.isPresent) {
-                languageSpecificPrimitives.get().forEach {
-                    configurator.addLanguageSpecificPrimitive(it)
-                }
-            }
-
-            if (openapiGeneratorIgnoreList.isPresent) {
-                openapiGeneratorIgnoreList.get().forEach {
-                    configurator.addOpenapiGeneratorIgnoreList(it)
-                }
-            }
-
-            if (reservedWordsMappings.isPresent) {
-                reservedWordsMappings.get().forEach { entry ->
-                    configurator.addAdditionalReservedWordMapping(entry.key, entry.value)
-                }
-            }
-
-            var dryRunSetting = false
-            dryRun.ifNotEmpty { setting ->
-                dryRunSetting = setting
-            }
-
-            val clientOptInput = configurator.toClientOptInput()
-            val codegenConfig = clientOptInput.config
-
-            if (configOptions.isPresent) {
-                val userSpecifiedConfigOptions = configOptions.get()
-                codegenConfig.cliOptions().forEach {
-                    if (userSpecifiedConfigOptions.containsKey(it.opt)) {
-                        clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
-                    }
-                }
-            }
-
-            try {
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-
-                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
-
-                out.println("Successfully generated code to ${outputDir.get()}")
-            } catch (e: RuntimeException) {
-                throw GradleException("Code generation failed.", e)
-            }
-        } finally {
-            GlobalSettings.reset()
+            workQueue.await()
+        } catch (e: Exception) {
+            throw GradleException("Code generation failed. See the worker output above for details.", e)
         }
+
+        val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
+        out.withStyle(StyledTextOutput.Style.Success)
+        out.println("Successfully generated code to ${outputDir.get()}")
     }
 }
 
