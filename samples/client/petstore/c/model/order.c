@@ -23,35 +23,64 @@ openapi_petstore_order_STATUS_e order_status_FromString(char* status){
 }
 
 static order_t *order_create_internal(
-    long id,
-    long pet_id,
-    int quantity,
+    long *id,
+    long *pet_id,
+    int *quantity,
     char *ship_date,
     openapi_petstore_order_STATUS_e status,
-    int complete
+    int *complete
     ) {
     order_t *order_local_var = malloc(sizeof(order_t));
     if (!order_local_var) {
         return NULL;
     }
-    order_local_var->id = id;
-    order_local_var->pet_id = pet_id;
-    order_local_var->quantity = quantity;
+    memset(order_local_var, 0, sizeof(order_t));
+    if (id) {
+        order_local_var->id = malloc(sizeof(long));
+        if (!order_local_var->id) {
+            order_free(order_local_var);
+            return NULL;
+        }
+        *order_local_var->id = *id;
+    }
+    if (pet_id) {
+        order_local_var->pet_id = malloc(sizeof(long));
+        if (!order_local_var->pet_id) {
+            order_free(order_local_var);
+            return NULL;
+        }
+        *order_local_var->pet_id = *pet_id;
+    }
+    if (quantity) {
+        order_local_var->quantity = malloc(sizeof(int));
+        if (!order_local_var->quantity) {
+            order_free(order_local_var);
+            return NULL;
+        }
+        *order_local_var->quantity = *quantity;
+    }
     order_local_var->ship_date = ship_date;
     order_local_var->status = status;
-    order_local_var->complete = complete;
+    if (complete) {
+        order_local_var->complete = malloc(sizeof(int));
+        if (!order_local_var->complete) {
+            order_free(order_local_var);
+            return NULL;
+        }
+        *order_local_var->complete = *complete;
+    }
 
     order_local_var->_library_owned = 1;
     return order_local_var;
 }
 
 __attribute__((deprecated)) order_t *order_create(
-    long id,
-    long pet_id,
-    int quantity,
+    long *id,
+    long *pet_id,
+    int *quantity,
     char *ship_date,
     openapi_petstore_order_STATUS_e status,
-    int complete
+    int *complete
     ) {
     return order_create_internal (
         id,
@@ -72,9 +101,25 @@ void order_free(order_t *order) {
         return ;
     }
     listEntry_t *listEntry;
+    if (order->id) {
+        free(order->id);
+        order->id = NULL;
+    }
+    if (order->pet_id) {
+        free(order->pet_id);
+        order->pet_id = NULL;
+    }
+    if (order->quantity) {
+        free(order->quantity);
+        order->quantity = NULL;
+    }
     if (order->ship_date) {
         free(order->ship_date);
         order->ship_date = NULL;
+    }
+    if (order->complete) {
+        free(order->complete);
+        order->complete = NULL;
     }
     free(order);
 }
@@ -84,7 +129,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->id
     if(order->id) {
-    if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", *order->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -92,7 +137,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->pet_id
     if(order->pet_id) {
-    if(cJSON_AddNumberToObject(item, "petId", order->pet_id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "petId", *order->pet_id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -100,7 +145,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->quantity
     if(order->quantity) {
-    if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
+    if(cJSON_AddNumberToObject(item, "quantity", *order->quantity) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -125,7 +170,7 @@ cJSON *order_convertToJSON(order_t *order) {
 
     // order->complete
     if(order->complete) {
-    if(cJSON_AddBoolToObject(item, "complete", order->complete) == NULL) {
+    if(cJSON_AddBoolToObject(item, "complete", *order->complete) == NULL) {
     goto fail; //Bool
     }
     }
@@ -142,6 +187,18 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
 
     order_t *order_local_var = NULL;
 
+    // define the local variable for order->id
+    long *id_local_var = NULL;
+
+    // define the local variable for order->pet_id
+    long *pet_id_local_var = NULL;
+
+    // define the local variable for order->quantity
+    int *quantity_local_var = NULL;
+
+    // define the local variable for order->complete
+    int *complete_local_var = NULL;
+
     // order->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(orderJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -152,6 +209,12 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     {
     goto end; //Numeric
     }
+    id_local_var = malloc(sizeof(long));
+    if(!id_local_var)
+    {
+        goto end;
+    }
+    *id_local_var = id->valuedouble;
     }
 
     // order->pet_id
@@ -164,6 +227,12 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     {
     goto end; //Numeric
     }
+    pet_id_local_var = malloc(sizeof(long));
+    if(!pet_id_local_var)
+    {
+        goto end;
+    }
+    *pet_id_local_var = pet_id->valuedouble;
     }
 
     // order->quantity
@@ -176,6 +245,12 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     {
     goto end; //Numeric
     }
+    quantity_local_var = malloc(sizeof(int));
+    if(!quantity_local_var)
+    {
+        goto end;
+    }
+    *quantity_local_var = quantity->valuedouble;
     }
 
     // order->ship_date
@@ -214,20 +289,42 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     {
     goto end; //Bool
     }
+    complete_local_var = malloc(sizeof(int));
+    if(!complete_local_var)
+    {
+        goto end;
+    }
+    *complete_local_var = complete->valueint;
     }
 
 
     order_local_var = order_create_internal (
-        id ? id->valuedouble : 0,
-        pet_id ? pet_id->valuedouble : 0,
-        quantity ? quantity->valuedouble : 0,
+        id_local_var,
+        pet_id_local_var,
+        quantity_local_var,
         ship_date && !cJSON_IsNull(ship_date) ? strdup(ship_date->valuestring) : NULL,
         status ? statusVariable : openapi_petstore_order_STATUS_NULL,
-        complete ? complete->valueint : 0
+        complete_local_var
         );
 
     return order_local_var;
 end:
+    if (id_local_var) {
+        free(id_local_var);
+        id_local_var = NULL;
+    }
+    if (pet_id_local_var) {
+        free(pet_id_local_var);
+        pet_id_local_var = NULL;
+    }
+    if (quantity_local_var) {
+        free(quantity_local_var);
+        quantity_local_var = NULL;
+    }
+    if (complete_local_var) {
+        free(complete_local_var);
+        complete_local_var = NULL;
+    }
     return NULL;
 
 }

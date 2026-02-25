@@ -19,14 +19,14 @@ typedef struct category_t category_t;
 
 
 typedef struct category_t {
-    long id; //numeric
+    long *id; //numeric
     char *name; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
 } category_t;
 
 __attribute__((deprecated)) category_t *category_create(
-    long id,
+    long *id,
     char *name
 );
 

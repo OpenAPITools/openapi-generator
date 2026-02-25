@@ -6,14 +6,14 @@
 
 
 static user_t *user_create_internal(
-    long id,
+    long *id,
     char *username,
     char *first_name,
     char *last_name,
     char *email,
     char *password,
     char *phone,
-    int user_status,
+    int *user_status,
     list_t* extra,
     openapi_petstore_preference__e preference
     ) {
@@ -21,14 +21,29 @@ static user_t *user_create_internal(
     if (!user_local_var) {
         return NULL;
     }
-    user_local_var->id = id;
+    memset(user_local_var, 0, sizeof(user_t));
+    if (id) {
+        user_local_var->id = malloc(sizeof(long));
+        if (!user_local_var->id) {
+            user_free(user_local_var);
+            return NULL;
+        }
+        *user_local_var->id = *id;
+    }
     user_local_var->username = username;
     user_local_var->first_name = first_name;
     user_local_var->last_name = last_name;
     user_local_var->email = email;
     user_local_var->password = password;
     user_local_var->phone = phone;
-    user_local_var->user_status = user_status;
+    if (user_status) {
+        user_local_var->user_status = malloc(sizeof(int));
+        if (!user_local_var->user_status) {
+            user_free(user_local_var);
+            return NULL;
+        }
+        *user_local_var->user_status = *user_status;
+    }
     user_local_var->extra = extra;
     user_local_var->preference = preference;
 
@@ -37,14 +52,14 @@ static user_t *user_create_internal(
 }
 
 __attribute__((deprecated)) user_t *user_create(
-    long id,
+    long *id,
     char *username,
     char *first_name,
     char *last_name,
     char *email,
     char *password,
     char *phone,
-    int user_status,
+    int *user_status,
     list_t* extra,
     openapi_petstore_preference__e preference
     ) {
@@ -71,6 +86,10 @@ void user_free(user_t *user) {
         return ;
     }
     listEntry_t *listEntry;
+    if (user->id) {
+        free(user->id);
+        user->id = NULL;
+    }
     if (user->username) {
         free(user->username);
         user->username = NULL;
@@ -95,6 +114,10 @@ void user_free(user_t *user) {
         free(user->phone);
         user->phone = NULL;
     }
+    if (user->user_status) {
+        free(user->user_status);
+        user->user_status = NULL;
+    }
     if (user->extra) {
         list_ForEach(listEntry, user->extra) {
             keyValuePair_t *localKeyValue = listEntry->data;
@@ -113,7 +136,7 @@ cJSON *user_convertToJSON(user_t *user) {
 
     // user->id
     if(user->id) {
-    if(cJSON_AddNumberToObject(item, "id", user->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", *user->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -169,7 +192,7 @@ cJSON *user_convertToJSON(user_t *user) {
 
     // user->user_status
     if(user->user_status) {
-    if(cJSON_AddNumberToObject(item, "userStatus", user->user_status) == NULL) {
+    if(cJSON_AddNumberToObject(item, "userStatus", *user->user_status) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -215,6 +238,12 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
     user_t *user_local_var = NULL;
 
+    // define the local variable for user->id
+    long *id_local_var = NULL;
+
+    // define the local variable for user->user_status
+    int *user_status_local_var = NULL;
+
     // define the local map for user->extra
     list_t *extraList = NULL;
 
@@ -231,6 +260,12 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     {
     goto end; //Numeric
     }
+    id_local_var = malloc(sizeof(long));
+    if(!id_local_var)
+    {
+        goto end;
+    }
+    *id_local_var = id->valuedouble;
     }
 
     // user->username
@@ -315,6 +350,12 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     {
     goto end; //Numeric
     }
+    user_status_local_var = malloc(sizeof(int));
+    if(!user_status_local_var)
+    {
+        goto end;
+    }
+    *user_status_local_var = user_status->valuedouble;
     }
 
     // user->extra
@@ -351,20 +392,28 @@ user_t *user_parseFromJSON(cJSON *userJSON){
 
 
     user_local_var = user_create_internal (
-        id ? id->valuedouble : 0,
+        id_local_var,
         username && !cJSON_IsNull(username) ? strdup(username->valuestring) : NULL,
         first_name && !cJSON_IsNull(first_name) ? strdup(first_name->valuestring) : NULL,
         last_name && !cJSON_IsNull(last_name) ? strdup(last_name->valuestring) : NULL,
         email && !cJSON_IsNull(email) ? strdup(email->valuestring) : NULL,
         password && !cJSON_IsNull(password) ? strdup(password->valuestring) : NULL,
         phone && !cJSON_IsNull(phone) ? strdup(phone->valuestring) : NULL,
-        user_status ? user_status->valuedouble : 0,
+        user_status_local_var,
         extra ? extraList : NULL,
         preference ? preference_local_nonprim : 0
         );
 
     return user_local_var;
 end:
+    if (id_local_var) {
+        free(id_local_var);
+        id_local_var = NULL;
+    }
+    if (user_status_local_var) {
+        free(user_status_local_var);
+        user_status_local_var = NULL;
+    }
     if (extraList) {
         listEntry_t *listEntry = NULL;
         list_ForEach(listEntry, extraList) {
