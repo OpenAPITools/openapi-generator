@@ -1,86 +1,8 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
-  title: t
+  title: ExclusiveMinMax Test OAS 3.0
   version: 1.0.0
 paths:
-  /x:
-    get:
-      operationId: getX
-      parameters:
-        - name: price
-          in: query
-          required: true
-          schema:
-            type: number
-            exclusiveMinimum: 0
-            exclusiveMaximum: 10
-      responses:
-        '200':
-          description: ok
-  /foo:
-    get:
-      operationId: getFoo
-      parameters:
-        - name: foo
-          in: query
-          required: true
-          schema:
-            type: number
-            minimum: 0
-            exclusiveMinimum: 1
-            maximum: 11
-            exclusiveMaximum: 10
-      responses:
-        '200':
-          description: ok
-  /bar:
-    get:
-      operationId: getBar
-      parameters:
-        - name: bar
-          in: query
-          required: true
-          schema:
-            type: number
-            minimum: 0
-            exclusiveMinimum: 0
-            maximum: 10
-            exclusiveMaximum: 10
-      responses:
-        '200':
-          description: ok
-  /baz:
-    get:
-      operationId: getBaz
-      parameters:
-        - name: baz
-          in: query
-          required: true
-          schema:
-            type: number
-            minimum: 5
-            exclusiveMinimum: 0
-            maximum: 10
-            exclusiveMaximum: 11
-      responses:
-        '200':
-          description: ok
-  /old:
-    get:
-      operationId: getOld
-      parameters:
-        - name: old
-          in: query
-          required: true
-          schema:
-            type: number
-            minimum: 0
-            exclusiveMinimum: true
-            maximum: 10
-            exclusiveMaximum: true
-      responses:
-        '200':
-          description: ok
   /savePrice:
     post:
       summary: ''
@@ -96,8 +18,10 @@ paths:
               properties:
                 price:
                   type: number
-                  exclusiveMinimum: 0
-                  exclusiveMaximum: 10
+                  minimum: 0
+                  exclusiveMinimum: true
+                  maximum: 10
+                  exclusiveMaximum: true
                 sellingPrice:
                   type: number
                   minimum: 0
@@ -109,8 +33,10 @@ paths:
                     properties:
                       historyPrice0:
                         type: number
-                        exclusiveMinimum: 0
-                        exclusiveMaximum: 10
+                        minimum: 0
+                        exclusiveMinimum: true
+                        maximum: 10
+                        exclusiveMaximum: true
                       historySellingPrice0:
                         type: number
                         minimum: 0
@@ -137,14 +63,14 @@ components:
   schemas:
     PriceDto1:
       title: PriceDto1
-      x-stoplight:
-        id: 6c700sj3ukk3o
       type: object
       properties:
         price:
           type: number
-          exclusiveMinimum: 0
-          exclusiveMaximum: 10
+          minimum: 0
+          exclusiveMinimum: true
+          maximum: 10
+          exclusiveMaximum: true
         sellingPrice:
           type: number
           minimum: 0
@@ -156,8 +82,10 @@ components:
             properties:
               historyPrice1:
                 type: number
-                exclusiveMinimum: 0
-                exclusiveMaximum: 10
+                minimum: 0
+                exclusiveMinimum: true
+                maximum: 10
+                exclusiveMaximum: true
               historySellingPrice1:
                 type: number
                 minimum: 0
@@ -178,25 +106,23 @@ components:
         - sellingPrice
     PriceDto2:
       title: PriceDto2
-      x-stoplight:
-        id: xl2koq12tdte0
       type: object
       properties:
         historyPrice2:
           type: number
-          exclusiveMinimum: 3101
-          exclusiveMaximum: 3102
+          minimum: 3001
+          exclusiveMinimum: true
+          maximum: 3002
+          exclusiveMaximum: true
         historySellingPrice2:
           type: number
-          minimum: 3103
-          maximum: 3104
+          minimum: 3003
+          maximum: 3004
       required:
         - historyPrice2
         - historySellingPrice2
     PriceDto3:
       title: PriceDto3
-      x-stoplight:
-        id: gvpk3358r329k
       allOf:
         - type: object
           properties:
