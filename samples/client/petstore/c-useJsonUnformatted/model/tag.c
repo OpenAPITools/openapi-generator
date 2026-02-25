@@ -6,14 +6,22 @@
 
 
 static tag_t *tag_create_internal(
-    long id,
+    long *id,
     char *name
     ) {
     tag_t *tag_local_var = malloc(sizeof(tag_t));
     if (!tag_local_var) {
         return NULL;
     }
-    tag_local_var->id = id;
+    memset(tag_local_var, 0, sizeof(tag_t));
+    if (id) {
+        tag_local_var->id = malloc(sizeof(long));
+        if (!tag_local_var->id) {
+            tag_free(tag_local_var);
+            return NULL;
+        }
+        *tag_local_var->id = *id;
+    }
     tag_local_var->name = name;
 
     tag_local_var->_library_owned = 1;
@@ -21,7 +29,7 @@ static tag_t *tag_create_internal(
 }
 
 __attribute__((deprecated)) tag_t *tag_create(
-    long id,
+    long *id,
     char *name
     ) {
     return tag_create_internal (
@@ -39,6 +47,10 @@ void tag_free(tag_t *tag) {
         return ;
     }
     listEntry_t *listEntry;
+    if (tag->id) {
+        free(tag->id);
+        tag->id = NULL;
+    }
     if (tag->name) {
         free(tag->name);
         tag->name = NULL;
@@ -51,7 +63,7 @@ cJSON *tag_convertToJSON(tag_t *tag) {
 
     // tag->id
     if(tag->id) {
-    if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", *tag->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -76,6 +88,9 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     tag_t *tag_local_var = NULL;
 
+    // define the local variable for tag->id
+    long *id_local_var = NULL;
+
     // tag->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -86,6 +101,12 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     {
     goto end; //Numeric
     }
+    id_local_var = malloc(sizeof(long));
+    if(!id_local_var)
+    {
+        goto end;
+    }
+    *id_local_var = id->valuedouble;
     }
 
     // tag->name
@@ -102,12 +123,16 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
 
     tag_local_var = tag_create_internal (
-        id ? id->valuedouble : 0,
+        id_local_var,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
     return tag_local_var;
 end:
+    if (id_local_var) {
+        free(id_local_var);
+        id_local_var = NULL;
+    }
     return NULL;
 
 }

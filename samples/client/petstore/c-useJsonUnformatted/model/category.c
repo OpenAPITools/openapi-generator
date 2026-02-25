@@ -6,14 +6,22 @@
 
 
 static category_t *category_create_internal(
-    long id,
+    long *id,
     char *name
     ) {
     category_t *category_local_var = malloc(sizeof(category_t));
     if (!category_local_var) {
         return NULL;
     }
-    category_local_var->id = id;
+    memset(category_local_var, 0, sizeof(category_t));
+    if (id) {
+        category_local_var->id = malloc(sizeof(long));
+        if (!category_local_var->id) {
+            category_free(category_local_var);
+            return NULL;
+        }
+        *category_local_var->id = *id;
+    }
     category_local_var->name = name;
 
     category_local_var->_library_owned = 1;
@@ -21,7 +29,7 @@ static category_t *category_create_internal(
 }
 
 __attribute__((deprecated)) category_t *category_create(
-    long id,
+    long *id,
     char *name
     ) {
     return category_create_internal (
@@ -39,6 +47,10 @@ void category_free(category_t *category) {
         return ;
     }
     listEntry_t *listEntry;
+    if (category->id) {
+        free(category->id);
+        category->id = NULL;
+    }
     if (category->name) {
         free(category->name);
         category->name = NULL;
@@ -51,7 +63,7 @@ cJSON *category_convertToJSON(category_t *category) {
 
     // category->id
     if(category->id) {
-    if(cJSON_AddNumberToObject(item, "id", category->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", *category->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -76,6 +88,9 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
     category_t *category_local_var = NULL;
 
+    // define the local variable for category->id
+    long *id_local_var = NULL;
+
     // category->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -86,6 +101,12 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     {
     goto end; //Numeric
     }
+    id_local_var = malloc(sizeof(long));
+    if(!id_local_var)
+    {
+        goto end;
+    }
+    *id_local_var = id->valuedouble;
     }
 
     // category->name
@@ -102,12 +123,16 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
 
 
     category_local_var = category_create_internal (
-        id ? id->valuedouble : 0,
+        id_local_var,
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
     return category_local_var;
 end:
+    if (id_local_var) {
+        free(id_local_var);
+        id_local_var = NULL;
+    }
     return NULL;
 
 }
