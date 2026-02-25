@@ -194,6 +194,8 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     // define the local variable for order->quantity
     int *quantity_local_var = NULL;
 
+    char *ship_date_local_str = NULL;
+
     // define the local variable for order->complete
     int *complete_local_var = NULL;
 
@@ -296,11 +298,13 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
     }
 
 
+    if (ship_date && !cJSON_IsNull(ship_date)) ship_date_local_str = strdup(ship_date->valuestring);
+
     order_local_var = order_create_internal (
         id_local_var,
         pet_id_local_var,
         quantity_local_var,
-        ship_date && !cJSON_IsNull(ship_date) ? strdup(ship_date->valuestring) : NULL,
+        ship_date_local_str,
         status ? statusVariable : openapi_petstore_order_STATUS_NULL,
         complete_local_var
         );
@@ -322,6 +326,10 @@ end:
     if (quantity_local_var) {
         free(quantity_local_var);
         quantity_local_var = NULL;
+    }
+    if (ship_date_local_str) {
+        free(ship_date_local_str);
+        ship_date_local_str = NULL;
     }
     if (complete_local_var) {
         free(complete_local_var);

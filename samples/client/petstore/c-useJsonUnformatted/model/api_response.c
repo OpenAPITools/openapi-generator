@@ -108,6 +108,10 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     // define the local variable for api_response->code
     int *code_local_var = NULL;
 
+    char *type_local_str = NULL;
+
+    char *message_local_str = NULL;
+
     // api_response->code
     cJSON *code = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "code");
     if (cJSON_IsNull(code)) {
@@ -151,10 +155,13 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     }
 
 
+    if (type && !cJSON_IsNull(type)) type_local_str = strdup(type->valuestring);
+    if (message && !cJSON_IsNull(message)) message_local_str = strdup(message->valuestring);
+
     api_response_local_var = api_response_create_internal (
         code_local_var,
-        type && !cJSON_IsNull(type) ? strdup(type->valuestring) : NULL,
-        message && !cJSON_IsNull(message) ? strdup(message->valuestring) : NULL
+        type_local_str,
+        message_local_str
         );
 
     if (!api_response_local_var) {
@@ -166,6 +173,14 @@ end:
     if (code_local_var) {
         free(code_local_var);
         code_local_var = NULL;
+    }
+    if (type_local_str) {
+        free(type_local_str);
+        type_local_str = NULL;
+    }
+    if (message_local_str) {
+        free(message_local_str);
+        message_local_str = NULL;
     }
     return NULL;
 

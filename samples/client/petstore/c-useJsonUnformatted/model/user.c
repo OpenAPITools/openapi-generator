@@ -241,6 +241,18 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     // define the local variable for user->id
     long *id_local_var = NULL;
 
+    char *username_local_str = NULL;
+
+    char *first_name_local_str = NULL;
+
+    char *last_name_local_str = NULL;
+
+    char *email_local_str = NULL;
+
+    char *password_local_str = NULL;
+
+    char *phone_local_str = NULL;
+
     // define the local variable for user->user_status
     int *user_status_local_var = NULL;
 
@@ -391,14 +403,21 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
 
 
+    if (username && !cJSON_IsNull(username)) username_local_str = strdup(username->valuestring);
+    if (first_name && !cJSON_IsNull(first_name)) first_name_local_str = strdup(first_name->valuestring);
+    if (last_name && !cJSON_IsNull(last_name)) last_name_local_str = strdup(last_name->valuestring);
+    if (email && !cJSON_IsNull(email)) email_local_str = strdup(email->valuestring);
+    if (password && !cJSON_IsNull(password)) password_local_str = strdup(password->valuestring);
+    if (phone && !cJSON_IsNull(phone)) phone_local_str = strdup(phone->valuestring);
+
     user_local_var = user_create_internal (
         id_local_var,
-        username && !cJSON_IsNull(username) ? strdup(username->valuestring) : NULL,
-        first_name && !cJSON_IsNull(first_name) ? strdup(first_name->valuestring) : NULL,
-        last_name && !cJSON_IsNull(last_name) ? strdup(last_name->valuestring) : NULL,
-        email && !cJSON_IsNull(email) ? strdup(email->valuestring) : NULL,
-        password && !cJSON_IsNull(password) ? strdup(password->valuestring) : NULL,
-        phone && !cJSON_IsNull(phone) ? strdup(phone->valuestring) : NULL,
+        username_local_str,
+        first_name_local_str,
+        last_name_local_str,
+        email_local_str,
+        password_local_str,
+        phone_local_str,
         user_status_local_var,
         extra ? extraList : NULL,
         preference ? preference_local_nonprim : 0
@@ -413,6 +432,30 @@ end:
     if (id_local_var) {
         free(id_local_var);
         id_local_var = NULL;
+    }
+    if (username_local_str) {
+        free(username_local_str);
+        username_local_str = NULL;
+    }
+    if (first_name_local_str) {
+        free(first_name_local_str);
+        first_name_local_str = NULL;
+    }
+    if (last_name_local_str) {
+        free(last_name_local_str);
+        last_name_local_str = NULL;
+    }
+    if (email_local_str) {
+        free(email_local_str);
+        email_local_str = NULL;
+    }
+    if (password_local_str) {
+        free(password_local_str);
+        password_local_str = NULL;
+    }
+    if (phone_local_str) {
+        free(phone_local_str);
+        phone_local_str = NULL;
     }
     if (user_status_local_var) {
         free(user_status_local_var);

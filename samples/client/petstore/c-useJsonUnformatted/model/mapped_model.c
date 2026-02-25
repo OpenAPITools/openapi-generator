@@ -92,6 +92,8 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
     // define the local variable for MappedModel->another_property
     int *another_property_local_var = NULL;
 
+    char *uuid_property_local_str = NULL;
+
     // MappedModel->another_property
     cJSON *another_property = cJSON_GetObjectItemCaseSensitive(MappedModelJSON, "another_property");
     if (cJSON_IsNull(another_property)) {
@@ -123,9 +125,11 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
     }
 
 
+    if (uuid_property && !cJSON_IsNull(uuid_property)) uuid_property_local_str = strdup(uuid_property->valuestring);
+
     MappedModel_local_var = MappedModel_create_internal (
         another_property_local_var,
-        uuid_property && !cJSON_IsNull(uuid_property) ? strdup(uuid_property->valuestring) : NULL
+        uuid_property_local_str
         );
 
     if (!MappedModel_local_var) {
@@ -137,6 +141,10 @@ end:
     if (another_property_local_var) {
         free(another_property_local_var);
         another_property_local_var = NULL;
+    }
+    if (uuid_property_local_str) {
+        free(uuid_property_local_str);
+        uuid_property_local_str = NULL;
     }
     return NULL;
 

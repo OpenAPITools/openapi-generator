@@ -207,6 +207,8 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     // define the local variable for pet->category
     category_t *category_local_nonprim = NULL;
 
+    char *name_local_str = NULL;
+
     // define the local list for pet->photo_urls
     list_t *photo_urlsList = NULL;
 
@@ -319,10 +321,12 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     }
 
 
+    if (name && !cJSON_IsNull(name)) name_local_str = strdup(name->valuestring);
+
     pet_local_var = pet_create_internal (
         id_local_var,
         category ? category_local_nonprim : NULL,
-        strdup(name->valuestring),
+        name_local_str,
         photo_urlsList,
         tags ? tagsList : NULL,
         status ? statusVariable : openapi_petstore_pet_STATUS_NULL
@@ -341,6 +345,10 @@ end:
     if (category_local_nonprim) {
         category_free(category_local_nonprim);
         category_local_nonprim = NULL;
+    }
+    if (name_local_str) {
+        free(name_local_str);
+        name_local_str = NULL;
     }
     if (photo_urlsList) {
         listEntry_t *listEntry = NULL;

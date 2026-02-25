@@ -163,6 +163,7 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
     }
 
 
+
     model_with_set_propertes_local_var = model_with_set_propertes_create_internal (
         tag_set ? tag_setList : NULL,
         string_set ? string_setList : NULL

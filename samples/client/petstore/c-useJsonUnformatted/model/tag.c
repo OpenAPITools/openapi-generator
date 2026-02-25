@@ -92,6 +92,8 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     // define the local variable for tag->id
     long *id_local_var = NULL;
 
+    char *name_local_str = NULL;
+
     // tag->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -123,9 +125,11 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     }
 
 
+    if (name && !cJSON_IsNull(name)) name_local_str = strdup(name->valuestring);
+
     tag_local_var = tag_create_internal (
         id_local_var,
-        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
+        name_local_str
         );
 
     if (!tag_local_var) {
@@ -137,6 +141,10 @@ end:
     if (id_local_var) {
         free(id_local_var);
         id_local_var = NULL;
+    }
+    if (name_local_str) {
+        free(name_local_str);
+        name_local_str = NULL;
     }
     return NULL;
 

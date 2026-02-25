@@ -757,6 +757,14 @@ fail:
 
     {{/isFreeFormObject}}
     {{/isModel}}
+    {{#isUuid}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isUuid}}
+    {{#isEmail}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isEmail}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
@@ -769,6 +777,24 @@ fail:
     {{datatype}} *{{name}}_local_var = NULL;
 
     {{/isBoolean}}
+    {{^isEnum}}
+    {{#isString}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isByteArray}}
+    {{#isDate}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isDate}}
+    {{#isDateTime}}
+    char *{{name}}_local_str = NULL;
+
+    {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{/vars}}
@@ -1030,6 +1056,35 @@ fail:
 
     {{/vars}}
 
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{#isUuid}}
+    if ({{{name}}}) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isUuid}}
+    {{#isEmail}}
+    if ({{{name}}}) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isEmail}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{^isEnum}}
+    {{#isString}}
+    if ({{{name}}} && !cJSON_IsNull({{{name}}})) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{name}}}) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isByteArray}}
+    {{#isDate}}
+    if ({{{name}}}) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isDate}}
+    {{#isDateTime}}
+    if ({{{name}}} && !cJSON_IsNull({{{name}}})) {{name}}_local_str = strdup({{{name}}}->valuestring);
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{/vars}}
+
     {{classname}}_local_var = {{classname}}_create_internal (
         {{#vars}}
         {{^isContainer}}
@@ -1048,10 +1103,10 @@ fail:
         {{/isFreeFormObject}}
         {{/isModel}}
         {{#isUuid}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isUuid}}
         {{#isEmail}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isEmail}}
         {{#isFreeFormObject}}
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_object{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
@@ -1071,20 +1126,20 @@ fail:
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isByteArray}}
         {{#isBinary}}
         {{^required}}{{{name}}} ? {{/required}}decoded_str_{{{name}}}{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isBinary}}
         {{#isDate}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{name}}_local_str{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}
@@ -1131,6 +1186,18 @@ end:
     }
     {{/isFreeFormObject}}
     {{/isModel}}
+    {{#isUuid}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isUuid}}
+    {{#isEmail}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isEmail}}
     {{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{#isNumeric}}
@@ -1145,6 +1212,32 @@ end:
         {{{name}}}_local_var = NULL;
     }
     {{/isBoolean}}
+    {{^isEnum}}
+    {{#isString}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isString}}
+    {{/isEnum}}
+    {{#isByteArray}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isByteArray}}
+    {{#isDate}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isDate}}
+    {{#isDateTime}}
+    if ({{{name}}}_local_str) {
+        free({{{name}}}_local_str);
+        {{{name}}}_local_str = NULL;
+    }
+    {{/isDateTime}}
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}

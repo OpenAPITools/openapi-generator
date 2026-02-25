@@ -92,6 +92,8 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     // define the local variable for category->id
     long *id_local_var = NULL;
 
+    char *name_local_str = NULL;
+
     // category->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -123,9 +125,11 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
     }
 
 
+    if (name && !cJSON_IsNull(name)) name_local_str = strdup(name->valuestring);
+
     category_local_var = category_create_internal (
         id_local_var,
-        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
+        name_local_str
         );
 
     if (!category_local_var) {
@@ -137,6 +141,10 @@ end:
     if (id_local_var) {
         free(id_local_var);
         id_local_var = NULL;
+    }
+    if (name_local_str) {
+        free(name_local_str);
+        name_local_str = NULL;
     }
     return NULL;
 
