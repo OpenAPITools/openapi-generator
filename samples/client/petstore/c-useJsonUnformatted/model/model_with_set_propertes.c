@@ -14,10 +14,9 @@ static model_with_set_propertes_t *model_with_set_propertes_create_internal(
         return NULL;
     }
     memset(model_with_set_propertes_local_var, 0, sizeof(model_with_set_propertes_t));
+    model_with_set_propertes_local_var->_library_owned = 1;
     model_with_set_propertes_local_var->tag_set = tag_set;
     model_with_set_propertes_local_var->string_set = string_set;
-
-    model_with_set_propertes_local_var->_library_owned = 1;
     return model_with_set_propertes_local_var;
 }
 

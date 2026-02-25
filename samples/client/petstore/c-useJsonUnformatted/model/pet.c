@@ -35,21 +35,13 @@ static pet_t *pet_create_internal(
         return NULL;
     }
     memset(pet_local_var, 0, sizeof(pet_t));
-    if (id) {
-        pet_local_var->id = malloc(sizeof(long));
-        if (!pet_local_var->id) {
-            pet_free(pet_local_var);
-            return NULL;
-        }
-        *pet_local_var->id = *id;
-    }
+    pet_local_var->_library_owned = 1;
+    pet_local_var->id = id;
     pet_local_var->category = category;
     pet_local_var->name = name;
     pet_local_var->photo_urls = photo_urls;
     pet_local_var->tags = tags;
     pet_local_var->status = status;
-
-    pet_local_var->_library_owned = 1;
     return pet_local_var;
 }
 
@@ -61,8 +53,13 @@ __attribute__((deprecated)) pet_t *pet_create(
     list_t *tags,
     openapi_petstore_pet_STATUS_e status
     ) {
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
     return pet_create_internal (
-        id,
+        id_copy,
         category,
         name,
         photo_urls,

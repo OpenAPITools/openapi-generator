@@ -15,18 +15,10 @@ static api_response_t *api_response_create_internal(
         return NULL;
     }
     memset(api_response_local_var, 0, sizeof(api_response_t));
-    if (code) {
-        api_response_local_var->code = malloc(sizeof(int));
-        if (!api_response_local_var->code) {
-            api_response_free(api_response_local_var);
-            return NULL;
-        }
-        *api_response_local_var->code = *code;
-    }
+    api_response_local_var->_library_owned = 1;
+    api_response_local_var->code = code;
     api_response_local_var->type = type;
     api_response_local_var->message = message;
-
-    api_response_local_var->_library_owned = 1;
     return api_response_local_var;
 }
 
@@ -35,8 +27,13 @@ __attribute__((deprecated)) api_response_t *api_response_create(
     char *type,
     char *message
     ) {
+    int *code_copy = NULL;
+    if (code) {
+        code_copy = malloc(sizeof(int));
+        if (code_copy) *code_copy = *code;
+    }
     return api_response_create_internal (
-        code,
+        code_copy,
         type,
         message
         );

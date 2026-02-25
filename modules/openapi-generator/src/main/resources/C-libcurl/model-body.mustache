@@ -202,45 +202,10 @@ static {{classname}}_t *{{classname}}_create_internal(
         return NULL;
     }
     memset({{classname}}_local_var, 0, sizeof({{classname}}_t));
-    {{#vars}}
-    {{^isContainer}}
-    {{#isPrimitiveType}}
-    {{#isNumeric}}
-    if ({{{name}}}) {
-        {{classname}}_local_var->{{{name}}} = malloc(sizeof({{datatype}}));
-        if (!{{classname}}_local_var->{{{name}}}) {
-            {{classname}}_free({{classname}}_local_var);
-            return NULL;
-        }
-        *{{classname}}_local_var->{{{name}}} = *{{{name}}};
-    }
-    {{/isNumeric}}
-    {{#isBoolean}}
-    if ({{{name}}}) {
-        {{classname}}_local_var->{{{name}}} = malloc(sizeof({{datatype}}));
-        if (!{{classname}}_local_var->{{{name}}}) {
-            {{classname}}_free({{classname}}_local_var);
-            return NULL;
-        }
-        *{{classname}}_local_var->{{{name}}} = *{{{name}}};
-    }
-    {{/isBoolean}}
-    {{^isNumeric}}
-    {{^isBoolean}}
-    {{classname}}_local_var->{{{name}}} = {{{name}}};
-    {{/isBoolean}}
-    {{/isNumeric}}
-    {{/isPrimitiveType}}
-    {{^isPrimitiveType}}
-    {{classname}}_local_var->{{{name}}} = {{{name}}};
-    {{/isPrimitiveType}}
-    {{/isContainer}}
-    {{#isContainer}}
-    {{classname}}_local_var->{{{name}}} = {{{name}}};
-    {{/isContainer}}
-    {{/vars}}
-
     {{classname}}_local_var->_library_owned = 1;
+    {{#vars}}
+    {{classname}}_local_var->{{{name}}} = {{{name}}};
+    {{/vars}}
     return {{classname}}_local_var;
 }
 
@@ -322,9 +287,42 @@ __attribute__((deprecated)) {{classname}}_t *{{classname}}_create(
     {{/isContainer}}
     {{/vars}}
     ) {
+    {{#vars}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    {{datatype}} *{{name}}_copy = NULL;
+    if ({{{name}}}) {
+        {{name}}_copy = malloc(sizeof({{datatype}}));
+        if ({{name}}_copy) *{{name}}_copy = *{{{name}}};
+    }
+    {{/isNumeric}}
+    {{#isBoolean}}
+    {{datatype}} *{{name}}_copy = NULL;
+    if ({{{name}}}) {
+        {{name}}_copy = malloc(sizeof({{datatype}}));
+        if ({{name}}_copy) *{{name}}_copy = *{{{name}}};
+    }
+    {{/isBoolean}}
+    {{/isPrimitiveType}}
+    {{/vars}}
     return {{classname}}_create_internal (
         {{#vars}}
+        {{#isPrimitiveType}}
+        {{#isNumeric}}
+        {{name}}_copy{{^-last}},{{/-last}}
+        {{/isNumeric}}
+        {{#isBoolean}}
+        {{name}}_copy{{^-last}},{{/-last}}
+        {{/isBoolean}}
+        {{^isNumeric}}
+        {{^isBoolean}}
         {{name}}{{^-last}},{{/-last}}
+        {{/isBoolean}}
+        {{/isNumeric}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{name}}{{^-last}},{{/-last}}
+        {{/isPrimitiveType}}
         {{/vars}}
         );
 }

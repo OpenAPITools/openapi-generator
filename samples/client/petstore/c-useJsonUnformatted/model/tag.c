@@ -14,17 +14,9 @@ static tag_t *tag_create_internal(
         return NULL;
     }
     memset(tag_local_var, 0, sizeof(tag_t));
-    if (id) {
-        tag_local_var->id = malloc(sizeof(long));
-        if (!tag_local_var->id) {
-            tag_free(tag_local_var);
-            return NULL;
-        }
-        *tag_local_var->id = *id;
-    }
-    tag_local_var->name = name;
-
     tag_local_var->_library_owned = 1;
+    tag_local_var->id = id;
+    tag_local_var->name = name;
     return tag_local_var;
 }
 
@@ -32,8 +24,13 @@ __attribute__((deprecated)) tag_t *tag_create(
     long *id,
     char *name
     ) {
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
     return tag_create_internal (
-        id,
+        id_copy,
         name
         );
 }

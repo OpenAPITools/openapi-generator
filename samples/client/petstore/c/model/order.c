@@ -35,42 +35,13 @@ static order_t *order_create_internal(
         return NULL;
     }
     memset(order_local_var, 0, sizeof(order_t));
-    if (id) {
-        order_local_var->id = malloc(sizeof(long));
-        if (!order_local_var->id) {
-            order_free(order_local_var);
-            return NULL;
-        }
-        *order_local_var->id = *id;
-    }
-    if (pet_id) {
-        order_local_var->pet_id = malloc(sizeof(long));
-        if (!order_local_var->pet_id) {
-            order_free(order_local_var);
-            return NULL;
-        }
-        *order_local_var->pet_id = *pet_id;
-    }
-    if (quantity) {
-        order_local_var->quantity = malloc(sizeof(int));
-        if (!order_local_var->quantity) {
-            order_free(order_local_var);
-            return NULL;
-        }
-        *order_local_var->quantity = *quantity;
-    }
+    order_local_var->_library_owned = 1;
+    order_local_var->id = id;
+    order_local_var->pet_id = pet_id;
+    order_local_var->quantity = quantity;
     order_local_var->ship_date = ship_date;
     order_local_var->status = status;
-    if (complete) {
-        order_local_var->complete = malloc(sizeof(int));
-        if (!order_local_var->complete) {
-            order_free(order_local_var);
-            return NULL;
-        }
-        *order_local_var->complete = *complete;
-    }
-
-    order_local_var->_library_owned = 1;
+    order_local_var->complete = complete;
     return order_local_var;
 }
 
@@ -82,13 +53,33 @@ __attribute__((deprecated)) order_t *order_create(
     openapi_petstore_order_STATUS_e status,
     int *complete
     ) {
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
+    long *pet_id_copy = NULL;
+    if (pet_id) {
+        pet_id_copy = malloc(sizeof(long));
+        if (pet_id_copy) *pet_id_copy = *pet_id;
+    }
+    int *quantity_copy = NULL;
+    if (quantity) {
+        quantity_copy = malloc(sizeof(int));
+        if (quantity_copy) *quantity_copy = *quantity;
+    }
+    int *complete_copy = NULL;
+    if (complete) {
+        complete_copy = malloc(sizeof(int));
+        if (complete_copy) *complete_copy = *complete;
+    }
     return order_create_internal (
-        id,
-        pet_id,
-        quantity,
+        id_copy,
+        pet_id_copy,
+        quantity_copy,
         ship_date,
         status,
-        complete
+        complete_copy
         );
 }
 

@@ -14,17 +14,9 @@ static MappedModel_t *MappedModel_create_internal(
         return NULL;
     }
     memset(MappedModel_local_var, 0, sizeof(MappedModel_t));
-    if (another_property) {
-        MappedModel_local_var->another_property = malloc(sizeof(int));
-        if (!MappedModel_local_var->another_property) {
-            MappedModel_free(MappedModel_local_var);
-            return NULL;
-        }
-        *MappedModel_local_var->another_property = *another_property;
-    }
-    MappedModel_local_var->uuid_property = uuid_property;
-
     MappedModel_local_var->_library_owned = 1;
+    MappedModel_local_var->another_property = another_property;
+    MappedModel_local_var->uuid_property = uuid_property;
     return MappedModel_local_var;
 }
 
@@ -32,8 +24,13 @@ __attribute__((deprecated)) MappedModel_t *MappedModel_create(
     int *another_property,
     char *uuid_property
     ) {
+    int *another_property_copy = NULL;
+    if (another_property) {
+        another_property_copy = malloc(sizeof(int));
+        if (another_property_copy) *another_property_copy = *another_property;
+    }
     return MappedModel_create_internal (
-        another_property,
+        another_property_copy,
         uuid_property
         );
 }

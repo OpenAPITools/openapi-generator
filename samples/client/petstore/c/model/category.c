@@ -14,17 +14,9 @@ static category_t *category_create_internal(
         return NULL;
     }
     memset(category_local_var, 0, sizeof(category_t));
-    if (id) {
-        category_local_var->id = malloc(sizeof(long));
-        if (!category_local_var->id) {
-            category_free(category_local_var);
-            return NULL;
-        }
-        *category_local_var->id = *id;
-    }
-    category_local_var->name = name;
-
     category_local_var->_library_owned = 1;
+    category_local_var->id = id;
+    category_local_var->name = name;
     return category_local_var;
 }
 
@@ -32,8 +24,13 @@ __attribute__((deprecated)) category_t *category_create(
     long *id,
     char *name
     ) {
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
     return category_create_internal (
-        id,
+        id_copy,
         name
         );
 }

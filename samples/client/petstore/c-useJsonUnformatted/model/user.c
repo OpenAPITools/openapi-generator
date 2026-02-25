@@ -22,32 +22,17 @@ static user_t *user_create_internal(
         return NULL;
     }
     memset(user_local_var, 0, sizeof(user_t));
-    if (id) {
-        user_local_var->id = malloc(sizeof(long));
-        if (!user_local_var->id) {
-            user_free(user_local_var);
-            return NULL;
-        }
-        *user_local_var->id = *id;
-    }
+    user_local_var->_library_owned = 1;
+    user_local_var->id = id;
     user_local_var->username = username;
     user_local_var->first_name = first_name;
     user_local_var->last_name = last_name;
     user_local_var->email = email;
     user_local_var->password = password;
     user_local_var->phone = phone;
-    if (user_status) {
-        user_local_var->user_status = malloc(sizeof(int));
-        if (!user_local_var->user_status) {
-            user_free(user_local_var);
-            return NULL;
-        }
-        *user_local_var->user_status = *user_status;
-    }
+    user_local_var->user_status = user_status;
     user_local_var->extra = extra;
     user_local_var->preference = preference;
-
-    user_local_var->_library_owned = 1;
     return user_local_var;
 }
 
@@ -63,15 +48,25 @@ __attribute__((deprecated)) user_t *user_create(
     list_t* extra,
     openapi_petstore_preference__e preference
     ) {
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
+    int *user_status_copy = NULL;
+    if (user_status) {
+        user_status_copy = malloc(sizeof(int));
+        if (user_status_copy) *user_status_copy = *user_status;
+    }
     return user_create_internal (
-        id,
+        id_copy,
         username,
         first_name,
         last_name,
         email,
         password,
         phone,
-        user_status,
+        user_status_copy,
         extra,
         preference
         );
