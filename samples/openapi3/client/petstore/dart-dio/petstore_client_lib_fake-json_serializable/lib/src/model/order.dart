@@ -38,7 +38,6 @@ class Order {
     name: r'id',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -51,7 +50,6 @@ class Order {
     name: r'petId',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -64,7 +62,6 @@ class Order {
     name: r'quantity',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -77,7 +74,6 @@ class Order {
     name: r'shipDate',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -91,7 +87,6 @@ class Order {
     name: r'status',
     required: false,
     includeIfNull: false,
-
   unknownEnumValue: OrderStatusEnum.unknownDefaultOpenApi,
   )
 
@@ -105,7 +100,6 @@ class Order {
     name: r'complete',
     required: false,
     includeIfNull: false,
-
   )
 
 

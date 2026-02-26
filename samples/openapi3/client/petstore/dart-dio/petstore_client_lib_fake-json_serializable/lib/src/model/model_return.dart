@@ -28,7 +28,6 @@ class ModelReturn {
     name: r'return',
     required: false,
     includeIfNull: false,
-
   )
 
 

@@ -31,7 +31,6 @@ class AllOfWithSingleRef {
     name: r'username',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -44,7 +43,6 @@ class AllOfWithSingleRef {
     name: r'SingleRefType',
     required: false,
     includeIfNull: false,
-
   unknownEnumValue: SingleRefType.unknownDefaultOpenApi,
   )
 

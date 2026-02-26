@@ -29,7 +29,6 @@ class ObjectWithInlineEnumDefaultValue {
     name: r'attribute',
     required: false,
     includeIfNull: false,
-
   unknownEnumValue: ObjectWithInlineEnumDefaultValueAttributeEnum.unknownDefaultOpenApi,
   )
 

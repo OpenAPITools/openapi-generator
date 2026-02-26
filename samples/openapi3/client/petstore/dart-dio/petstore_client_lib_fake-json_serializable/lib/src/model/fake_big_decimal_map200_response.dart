@@ -30,7 +30,6 @@ class FakeBigDecimalMap200Response {
     name: r'someId',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -43,7 +42,6 @@ class FakeBigDecimalMap200Response {
     name: r'someMap',
     required: false,
     includeIfNull: false,
-
   )
 
 

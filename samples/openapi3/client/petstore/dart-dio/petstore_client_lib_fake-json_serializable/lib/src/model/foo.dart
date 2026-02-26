@@ -28,7 +28,6 @@ class Foo {
     name: r'bar',
     required: false,
     includeIfNull: false,
-
   )
 
 

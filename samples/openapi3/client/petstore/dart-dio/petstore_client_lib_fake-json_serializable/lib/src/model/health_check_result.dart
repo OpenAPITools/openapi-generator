@@ -28,7 +28,6 @@ class HealthCheckResult {
     name: r'NullableMessage',
     required: false,
     includeIfNull: false,
-
   )
 
 

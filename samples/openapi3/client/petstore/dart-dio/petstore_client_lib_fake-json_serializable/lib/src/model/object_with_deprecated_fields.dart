@@ -35,7 +35,6 @@ class ObjectWithDeprecatedFields {
     name: r'uuid',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -49,7 +48,6 @@ class ObjectWithDeprecatedFields {
     name: r'id',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -63,7 +61,6 @@ class ObjectWithDeprecatedFields {
     name: r'deprecatedRef',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -77,7 +74,6 @@ class ObjectWithDeprecatedFields {
     name: r'bars',
     required: false,
     includeIfNull: false,
-
   )
 
 

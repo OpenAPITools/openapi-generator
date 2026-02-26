@@ -35,7 +35,6 @@ class Cat {
     name: r'className',
     required: true,
     includeIfNull: false,
-
   )
 
 
@@ -48,7 +47,6 @@ class Cat {
     name: r'color',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -61,7 +59,6 @@ class Cat {
     name: r'declawed',
     required: false,
     includeIfNull: false,
-
   )
 
 

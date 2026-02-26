@@ -29,7 +29,6 @@ class FooGetDefaultResponse {
     name: r'string',
     required: false,
     includeIfNull: false,
-
   )
 
 

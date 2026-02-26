@@ -52,17 +52,13 @@ class {{{classname}}} {
   @Deprecated('{{{name}}} has been deprecated')
   {{/deprecated}}
   {{^isBinary}}
-{{^required}}
-{{#useOptional}}
-  @OptionalConverter()
-{{/useOptional}}
-{{/required}}
-  @JsonKey(
+{{^required}}{{#useOptional}}  @OptionalConverter()
+{{/useOptional}}{{/required}}  @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
-    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},
-{{^required}}{{#useOptional}}    readValue: readOptionalValue,{{/useOptional}}{{/required}}
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},{{^required}}{{#useOptional}}
+    readValue: readOptionalValue,{{/useOptional}}{{/required}}
   {{#isEnumOrRef}}
   {{#enumUnknownDefaultCase}}
   unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,

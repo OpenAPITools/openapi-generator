@@ -30,7 +30,6 @@ class Category {
     name: r'id',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -43,7 +42,6 @@ class Category {
     name: r'name',
     required: true,
     includeIfNull: false,
-
   )
 
 

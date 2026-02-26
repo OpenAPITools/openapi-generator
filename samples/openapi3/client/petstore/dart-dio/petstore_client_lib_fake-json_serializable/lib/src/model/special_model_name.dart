@@ -28,7 +28,6 @@ class SpecialModelName {
     name: r'$special[property.name]',
     required: false,
     includeIfNull: false,
-
   )
 
 

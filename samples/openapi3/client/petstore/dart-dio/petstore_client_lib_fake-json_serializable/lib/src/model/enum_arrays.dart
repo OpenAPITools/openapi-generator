@@ -30,7 +30,6 @@ class EnumArrays {
     name: r'just_symbol',
     required: false,
     includeIfNull: false,
-
   unknownEnumValue: EnumArraysJustSymbolEnum.unknownDefaultOpenApi,
   )
 
@@ -44,7 +43,6 @@ class EnumArrays {
     name: r'array_enum',
     required: false,
     includeIfNull: false,
-
   unknownEnumValue: List<EnumArraysArrayEnumEnum>.unknownDefaultOpenApi,
   )
 

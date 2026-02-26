@@ -31,7 +31,6 @@ class FileSchemaTestClass {
     name: r'file',
     required: false,
     includeIfNull: false,
-
   )
 
 
@@ -44,7 +43,6 @@ class FileSchemaTestClass {
     name: r'files',
     required: false,
     includeIfNull: false,
-
   )
 
 
