@@ -35,7 +35,7 @@ import java.util.StringJoiner;
   OuterComposite.JSON_PROPERTY_MY_STRING,
   OuterComposite.JSON_PROPERTY_MY_BOOLEAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterComposite {
   public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   @javax.annotation.Nullable
@@ -126,6 +126,7 @@ public class OuterComposite {
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
+
 
   @Override
   public boolean equals(Object o) {

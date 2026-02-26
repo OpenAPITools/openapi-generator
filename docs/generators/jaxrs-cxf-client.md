@@ -33,6 +33,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|legacy|
+|defaultToEmptyContainer|Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values| |null|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
 |developerOrganization|developer organization in generated pom.xml| |OpenAPITools.org|

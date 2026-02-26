@@ -40,7 +40,7 @@ import jakarta.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   @jakarta.annotation.Nonnull
@@ -239,6 +239,7 @@ public class TypeHolderExample {
   public void setArrayItem(@jakarta.annotation.Nonnull List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
+
 
   @Override
   public boolean equals(Object o) {

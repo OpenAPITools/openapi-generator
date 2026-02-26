@@ -33,7 +33,7 @@ import java.util.StringJoiner;
 @JsonPropertyOrder({
   OuterObjectWithEnumProperty.JSON_PROPERTY_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterObjectWithEnumProperty {
   public static final String JSON_PROPERTY_VALUE = "value";
   @javax.annotation.Nonnull
@@ -66,6 +66,7 @@ public class OuterObjectWithEnumProperty {
   public void setValue(@javax.annotation.Nonnull OuterEnumInteger value) {
     this.value = value;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -43,7 +43,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE2,
   AdditionalPropertiesClass.JSON_PROPERTY_ANYTYPE3
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_STRING = "map_string";
   @javax.annotation.Nullable
@@ -430,6 +430,7 @@ public class AdditionalPropertiesClass {
   public void setAnytype3(@javax.annotation.Nullable Object anytype3) {
     this.anytype3 = anytype3;
   }
+
 
   @Override
   public boolean equals(Object o) {

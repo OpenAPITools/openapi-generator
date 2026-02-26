@@ -229,7 +229,9 @@ samples/client/petstore/kotlin*/src/main/kotlin/test/
 samples/client/petstore/kotlin*/build/
 samples/server/others/kotlin-server/jaxrs-spec/build/
 samples/client/echo_api/kotlin-jvm-spring-3-restclient/build/
+samples/client/echo_api/kotlin-jvm-spring-3-webclient/build/
 samples/client/echo_api/kotlin-jvm-okhttp/build/
+samples/client/echo_api/kotlin-jvm-okhttp-multipart-json/build/
 
 # haskell
 .stack-work
@@ -302,6 +304,8 @@ samples/client/petstore/ocaml/_build/
 samples/client/petstore/ocaml-fake-petstore/_build/
 samples/client/petstore/ocaml-oneOf-primitive/_build/
 samples/client/petstore/ocaml-additional-properties/_build/
+samples/client/petstore/ocaml-enum-in-composed-schema/_build/
+samples/client/petstore/ocaml-recursion-test/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

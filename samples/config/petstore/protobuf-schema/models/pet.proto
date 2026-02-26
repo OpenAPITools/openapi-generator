@@ -34,7 +34,7 @@ message Pet {
     STATUS_SOLD = 2;
   }
 
-  Status status = 355610639;
+  string status = 355610639;
 
 }
 

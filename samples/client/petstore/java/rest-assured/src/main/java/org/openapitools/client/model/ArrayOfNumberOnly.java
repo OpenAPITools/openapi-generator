@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * ArrayOfNumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_NUMBER = "ArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
@@ -72,6 +72,7 @@ public class ArrayOfNumberOnly {
   public void setArrayNumber(@javax.annotation.Nullable List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

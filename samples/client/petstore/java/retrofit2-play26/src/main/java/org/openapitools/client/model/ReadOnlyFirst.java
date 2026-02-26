@@ -32,7 +32,7 @@ import jakarta.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @jakarta.annotation.Nullable
@@ -95,6 +95,7 @@ public class ReadOnlyFirst {
   public void setBaz(@jakarta.annotation.Nullable String baz) {
     this.baz = baz;
   }
+
 
   @Override
   public boolean equals(Object o) {

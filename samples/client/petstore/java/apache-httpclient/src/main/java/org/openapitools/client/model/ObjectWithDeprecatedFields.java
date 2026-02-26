@@ -40,7 +40,7 @@ import java.util.StringJoiner;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @javax.annotation.Nullable
@@ -174,6 +174,7 @@ public class ObjectWithDeprecatedFields {
   public void setBars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
   }
+
 
   @Override
   public boolean equals(Object o) {

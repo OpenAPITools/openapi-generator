@@ -9,7 +9,7 @@
     "node-qunit-puppeteer": "^1.0.12",
     "qunit": "^2.9.2",
     "requirejs": "^2.3.6",
-    "rewire": "^4.0.1",
+    "rewire": "^9.0.1",
     "ts-node": "^10.9.2",
     "ts-petstore-client": "file:../../builds/jquery",
     "webpack": "^4.41.2",

@@ -28,6 +28,26 @@ pub struct MultipartRelatedRequest {
 
 }
 
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MultipartRelatedRequest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MultipartRelatedRequest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+
 
 impl MultipartRelatedRequest {
     #[allow(clippy::new_without_default)]
@@ -142,7 +162,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -158,7 +178,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRelatedRequest>>
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipartRelatedRequest>> {
     type Error = String;
 
@@ -197,6 +217,26 @@ pub struct MultipartRequestObjectField {
     #[serde(skip_serializing_if="Option::is_none")]
     pub field_b: Option<Vec<String>>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MultipartRequestObjectField {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MultipartRequestObjectField {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -314,7 +354,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRequestObjectField>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -330,7 +370,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipartRequestObjectFie
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipartRequestObjectField>> {
     type Error = String;
 
@@ -370,6 +410,26 @@ pub struct MultipleIdenticalMimeTypesPostRequest {
     #[serde(skip_serializing_if="Option::is_none")]
     pub binary2: Option<swagger::ByteArray>,
 
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for MultipleIdenticalMimeTypesPostRequest {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for MultipleIdenticalMimeTypesPostRequest {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
 }
 
 
@@ -480,7 +540,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipleIdenticalMimeTypesPostRequest>>> for hyper::header::HeaderValue {
     type Error = String;
 
@@ -496,7 +556,7 @@ impl std::convert::TryFrom<header::IntoHeaderValue<Vec<MultipleIdenticalMimeType
     }
 }
 
-#[cfg(feature = "server")]
+#[cfg(any(feature = "client", feature = "server"))]
 impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<MultipleIdenticalMimeTypesPostRequest>> {
     type Error = String;
 

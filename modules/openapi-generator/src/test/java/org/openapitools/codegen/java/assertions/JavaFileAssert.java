@@ -5,6 +5,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -15,7 +16,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
@@ -53,6 +56,36 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 .withFailMessage("Expected type %s to be a normal class(non-abstract)", actual.getType(0).getName().asString())
                 .extracting(ClassOrInterfaceDeclaration::isInterface, NodeWithAbstractModifier::isAbstract)
                 .containsExactly(false, false);
+        return this;
+    }
+
+    public JavaFileAssert implementsInterfaces(String... implementedInterfaces) {
+        Set<String> expectedInterfaces = Stream.of(implementedInterfaces)
+                .collect(Collectors.toSet());
+
+        Set<String> actualInterfaces = actual.getType(0)
+                .asClassOrInterfaceDeclaration()
+                .getImplementedTypes().stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+
+        Assertions.assertThat(actualInterfaces)
+                .withFailMessage("Expected type %s to implement interfaces %s, but found %s",
+                        actual.getType(0).getName().asString(), expectedInterfaces, actualInterfaces)
+                .isEqualTo(expectedInterfaces);
+        return this;
+    }
+
+    public JavaFileAssert doesNotImplementInterfaces(String... interfaces) {
+        Set<String> forbiddenInterfaces = Stream.of(interfaces).collect(Collectors.toSet());
+        Set<String> implemented = actual.getType(0).asClassOrInterfaceDeclaration()
+                .getImplementedTypes().stream()
+                .map(ClassOrInterfaceType::getNameWithScope)
+                .collect(Collectors.toSet());
+        Assertions.assertThat(implemented)
+                .withFailMessage("Expected type %s to not implement interfaces %s, but found %s",
+                        actual.getType(0).getName().asString(), forbiddenInterfaces, implemented)
+                .doesNotContainAnyElementsOf(forbiddenInterfaces);
         return this;
     }
 

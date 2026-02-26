@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * A pet for sale in the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PetWithRequiredNullableCases1 {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -424,7 +424,7 @@ public class PetWithRequiredNullableCases1 {
       // ensure the required json array is present
       if (jsonObj.get("photoUrls") == null) {
         throw new IllegalArgumentException("Expected the field `linkedContent` to be an array in the JSON string but got `null`");
-      } else if (!jsonObj.get("photoUrls").isJsonArray()) {
+      } else if (!jsonObj.get("photoUrls").isJsonArray() && !jsonObj.get("photoUrls").isJsonNull()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {

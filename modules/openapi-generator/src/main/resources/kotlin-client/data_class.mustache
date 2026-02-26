@@ -176,7 +176,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
 
         override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
             val value = decoder.decodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}.serializer())
-            return {{nameInPascalCase}}.values().firstOrNull { it.value == value }
+            return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
                 ?: {{nameInPascalCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
         }
 
@@ -360,14 +360,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isEnum}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+            require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                 String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-                require({{{datatypeWithEnum}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+                require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                     String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
                 }
             }
@@ -376,14 +376,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isEnumRef}}
             {{#required}}
             // validate the required field `{{{baseName}}}`
-            require({{{dataType}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+            require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                 String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-                require({{{dataType}}}.values().any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
+                require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
                     String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
                 }
             }

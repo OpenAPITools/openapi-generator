@@ -32,7 +32,7 @@ homepage = "{{.}}"
 {{/homePageUrl}}
 
 [features]
-default = ["client", "server"]
+default = ["client", "server", "client-tls"]
 client = [
 {{#apiUsesMultipartFormData}}
     "multipart", "multipart/client", "swagger/multipart_form",
@@ -47,7 +47,19 @@ client = [
     "serde_ignored", "percent-encoding", {{^apiUsesByteArray}}"lazy_static", "regex",{{/apiUsesByteArray}}
 {{/hasCallbacks}}
 {{! Anything added to the list below, should probably be added to the callbacks list below }}
-    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "hyper-openssl", "hyper-tls", "native-tls", "openssl", "url"
+    "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "url"
+]
+# TLS support - automatically selects backend based on target OS:
+# - macOS/Windows/iOS: native-tls via hyper-tls
+# - Other platforms: OpenSSL via hyper-openssl
+# Dependencies are in target-specific sections below
+client-tls = [
+    "client",
+    "dep:native-tls",
+    "dep:hyper-tls",
+    "dep:openssl",
+    "dep:hyper-openssl",
+    "swagger/tls"
 ]
 server = [
 {{#apiUsesMultipartFormData}}
@@ -57,7 +69,7 @@ server = [
     "mime_multipart", "swagger/multipart_related",
 {{/apiUsesMultipartRelated}}
 {{#hasCallbacks}}
-    "native-tls", "hyper-openssl", "hyper-tls", "openssl",
+    "hyper-util/http1", "hyper-util/http2",
 {{/hasCallbacks}}
 {{! Anything added to the list below, should probably be added to the callbacks list above }}
    "serde_ignored", "hyper", "percent-encoding", "url",
@@ -74,25 +86,17 @@ conversion = ["frunk", "frunk_derives", "frunk_core", "frunk-enum-core", "frunk-
 mock = ["mockall"]
 validate = [{{^apiUsesByteArray}}"regex",{{/apiUsesByteArray}} "serde_valid", "swagger/serdevalid"]
 
-[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
-native-tls = { version = "0.2", optional = true }
-hyper-tls = { version = "0.6", optional = true }
-
-[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
-hyper-openssl = { version = "0.10", optional = true }
-openssl = { version = "0.10", optional = true }
-
 [dependencies]
 # Common
 async-trait = "0.1.88"
 chrono = { version = "0.4", features = ["serde"] }
 futures = "0.3"
-swagger = { version = "7.0.0", features = ["serdejson", "server", "client", "tls"] }
+swagger = { version = "7.0.0", features = ["serdejson", "server", "client"] }
 headers = "0.4.0"
 log = "0.4.27"
 
 mime = "0.3"
-mockall = { version = "0.13.1", optional = true }
+mockall = { version = "0.14", optional = true }
 {{#apiUsesByteArray}}
 lazy_static = "1.5"
 regex = "1.12"
@@ -101,6 +105,9 @@ regex = "1.12"
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+{{#apiUsesIntegerEnums}}
+serde_repr = "0.1"
+{{/apiUsesIntegerEnums}}
 serde_valid = { version = "2.0", optional = true }
 
 validator = { version = "0.20", features = ["derive"] }
@@ -157,6 +164,17 @@ frunk_core = { version = "0.4.3", optional = true }
 frunk-enum-derive = { version = "0.3.0", optional = true }
 frunk-enum-core = { version = "0.3.0", optional = true }
 
+# TLS dependencies - platform-specific backends
+# On macOS/Windows/iOS, use native-tls via hyper-tls
+[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))'.dependencies]
+native-tls = { version = "0.2", optional = true }
+hyper-tls = { version = "0.6", optional = true }
+
+# On other platforms (Linux, etc.), use OpenSSL via hyper-openssl
+[target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dependencies]
+openssl = { version = "0.10", optional = true }
+hyper-openssl = { version = "0.10", optional = true }
+
 [dev-dependencies]
 always_send = "0.1.1"
 clap = "4.5"
@@ -169,15 +187,17 @@ pin-project = "1.1.10"
 jsonwebtoken = {version = "10.0.0", features = ["rust_crypto"]}
 
 [target.'cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))'.dev-dependencies]
-tokio-openssl = "0.6"
 openssl = "0.10"
+tokio-openssl = "0.6"
 
 [[example]]
-name = "client"
+name = "{{{packageName}}}-client"
+path = "examples/client/main.rs"
 required-features = ["client"]
 
 [[example]]
-name = "server"
+name = "{{{packageName}}}-server"
+path = "examples/server/main.rs"
 required-features = ["server"]
 
 [[bin]]

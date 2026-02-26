@@ -137,7 +137,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
                 "bool",
                 "int",
                 "num",
-                "double"
+                "double",
+                "Object"
         );
 
         typeMapping = new HashMap<>();

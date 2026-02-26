@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: Model Import Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    A:
+      type: object
+      description: Base model A that will be referenced multiple times
+      properties:
+        id:
+          type: string
+        value:
+          type: string
+      required:
+        - id
+    
+    SubModel:
+      type: object
+      description: SubModel that uses model A
+      allOf:
+        - $ref: '#/components/schemas/ExtensibleModel'
+        - type: object
+          properties:
+            subField:
+              type: string
+            aReference:
+              $ref: '#/components/schemas/A'
+          required:
+            - subField
+    
+    Model:
+      type: object
+      description: Main model that uses A directly and via SubModel
+      properties:
+        name:
+          type: string
+        directA:
+          $ref: '#/components/schemas/A'
+        nestedSubModel:
+          $ref: '#/components/schemas/SubModel'
+      required:
+        - name
+    
+    ExtensibleModel:
+      type: object
+      description: Extensible model with discriminator that uses model A
+      discriminator:
+        propertyName: type
+        mapping:
+          child1: '#/components/schemas/ChildModel_1'
+          child2: '#/components/schemas/ChildModel_2'
+      properties:
+        type:
+          type: string
+        extensibleA:
+          $ref: '#/components/schemas/A'
+      required:
+        - type
+    
+    ChildModel_1:
+      allOf:
+        - $ref: '#/components/schemas/ExtensibleModel'
+        - type: object
+          properties:
+            childSpecificField:
+              type: string
+            childA:
+              $ref: '#/components/schemas/A'
+    ChildModel_2:
+      allOf:
+        - $ref: '#/components/schemas/SubExtensibleModel'
+        - type: object
+          properties:
+            anotherChildSpecificField:
+              type: integer
+            directA:
+              $ref: '#/components/schemas/A'
+    
+    SubExtensibleModel:
+      allOf:
+        - $ref: '#/components/schemas/ExtensibleModel'
+        - type: object
+          properties:
+            aSubExtensibleField:
+              type: boolean
+            subDirectA:
+              $ref: '#/components/schemas/A'

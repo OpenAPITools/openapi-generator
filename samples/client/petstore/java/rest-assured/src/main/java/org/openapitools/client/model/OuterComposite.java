@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -115,6 +115,7 @@ public class OuterComposite {
   public void setMyBoolean(@javax.annotation.Nullable Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
+
 
   @Override
   public boolean equals(Object o) {

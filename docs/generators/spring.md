@@ -37,6 +37,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |containerDefaultToNull|Set containers (array, set, map) default to null| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app only)</dd><dt>**legacy**</dt><dd>Legacy java.util.Date</dd><dt>**java8-localdatetime**</dt><dd>Java 8 using LocalDateTime (for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (preferred for jdk 1.8+)</dd></dl>|java8|
+|defaultToEmptyContainer|Initialize containers (array/set/map) to empty containers instead of null by default. Usage: https://github.com/OpenAPITools/openapi-generator/blob/master/docs/customization.md#default-values| |null|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
 |developerEmail|developer email in generated pom.xml| |team@openapitools.org|
 |developerName|developer name in generated pom.xml| |OpenAPI-Generator Contributors|
@@ -60,6 +61,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
+|includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.| |true (reactive) / false (blocking)|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|false|
@@ -79,6 +81,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |resourceFolder|resource folder for generated resources| |src/main/resources|
 |responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|
 |returnSuccessCode|Generated server returns 2xx code| |false|
+|schemaImplements|Ability to supply interfaces per schema that should be implemented (serves similar purpose as vendor extension `x-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)| |empty map|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmUrl|SCM URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
@@ -98,18 +101,21 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
 |useFeignClientContextId|Whether to generate Feign client with contextId parameter.| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
+|useJackson3|Set it in order to use jackson 3 dependencies (only allowed when `useSpringBoot4` is set and incompatible with `openApiNullable`).| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
 |useOptional|Use Optional container for optional parameters| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
 |useSealed|Whether to generate sealed model interfaces and classes| |false|
-|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
 |useSpringBuiltInValidation|Disable `@Validated` at the class level when using built-in validation.| |false|
 |useSpringController|Annotate the generated API as a Spring Controller| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|xImplementsSkip|Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema| |empty list|
 
 ## SUPPORTED VENDOR EXTENSIONS
 

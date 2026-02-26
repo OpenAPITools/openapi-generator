@@ -140,7 +140,7 @@
     <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
     <beanvalidation-version>2.0.2</beanvalidation-version>
     <jakarta.ws.rs-version>2.1.6</jakarta.ws.rs-version>
-    <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
+    <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
     <io.swagger.v3.annotations.version>2.2.21</io.swagger.v3.annotations.version>
   </properties>
 </project>

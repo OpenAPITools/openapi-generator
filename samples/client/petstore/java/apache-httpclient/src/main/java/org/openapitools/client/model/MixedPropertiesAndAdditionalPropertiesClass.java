@@ -39,7 +39,7 @@ import java.util.StringJoiner;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @javax.annotation.Nullable
@@ -138,6 +138,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
+
 
   @Override
   public boolean equals(Object o) {

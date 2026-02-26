@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   Tag.JSON_PROPERTY_ID,
   Tag.JSON_PROPERTY_NAME
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Tag {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -95,6 +95,7 @@ public class Tag {
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

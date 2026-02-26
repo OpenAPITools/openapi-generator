@@ -38,7 +38,7 @@ import jakarta.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @jakarta.annotation.Nullable
@@ -143,6 +143,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(@jakarta.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
+
 
   @Override
   public boolean equals(Object o) {

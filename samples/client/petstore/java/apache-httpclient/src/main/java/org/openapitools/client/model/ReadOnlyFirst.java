@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   @javax.annotation.Nullable
@@ -94,6 +94,7 @@ public class ReadOnlyFirst {
   public void setBaz(@javax.annotation.Nullable String baz) {
     this.baz = baz;
   }
+
 
   @Override
   public boolean equals(Object o) {

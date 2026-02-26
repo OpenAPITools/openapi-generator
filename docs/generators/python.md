@@ -55,7 +55,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>List</li>
 <li>UUID</li>
 <li>bool</li>
-<li>bytearray</li>
 <li>bytes</li>
 <li>date</li>
 <li>datetime</li>

@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Model for testing model name starting with number
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Model200Response {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -81,6 +81,7 @@ public class Model200Response {
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {

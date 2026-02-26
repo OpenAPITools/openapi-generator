@@ -54,7 +54,7 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
 
 PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
     : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
-    randomGenerator = QRandomGenerator(QDateTime::currentDateTime().toSecsSinceEpoch());
+    randomGenerator = QRandomGenerator(QDateTime::currentSecsSinceEpoch());
     if (manager == nullptr) {
         manager = new QNetworkAccessManager(this);
     }
@@ -213,7 +213,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         // variable layout is MULTIPART
 
         boundary = QString("__-----------------------%1%2")
-                            .arg(QDateTime::currentDateTime().toSecsSinceEpoch())
+                            .arg(QDateTime::currentSecsSinceEpoch())
                             .arg(randomGenerator.generate());
         QString boundary_delimiter = "--";
         QString new_line = "\r\n";

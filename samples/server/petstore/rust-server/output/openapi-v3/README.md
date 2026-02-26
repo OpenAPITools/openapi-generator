@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.7
-- Generator version: 7.20.0-SNAPSHOT
+- Generator version: 7.21.0-SNAPSHOT
 
 
 
@@ -66,64 +66,59 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example openapi-v3-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example openapi-v3-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example openapi-v3-server
 ```
 
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client AnyOfGet
-cargo run --example client CallbackWithHeaderPost
-cargo run --example client ComplexQueryParamGet
-cargo run --example client ExamplesTest
-cargo run --example client FormTest
-cargo run --example client GetWithBooleanParameter
-cargo run --example client JsonComplexQueryParamGet
-cargo run --example client MandatoryRequestHeaderGet
-cargo run --example client MergePatchJsonGet
-cargo run --example client MultigetGet
-cargo run --example client MultipleAuthSchemeGet
-cargo run --example client OneOfGet
-cargo run --example client OverrideServerGet
-cargo run --example client ParamgetGet
-cargo run --example client ReadonlyAuthSchemeGet
-cargo run --example client RegisterCallbackPost
-cargo run --example client RequiredOctetStreamPut
-cargo run --example client ResponsesWithHeadersGet
-cargo run --example client Rfc7807Get
-cargo run --example client TwoFirstLetterHeaders
-cargo run --example client UntypedPropertyGet
-cargo run --example client UuidGet
-cargo run --example client XmlExtraPost
-cargo run --example client XmlOtherPost
-cargo run --example client XmlOtherPut
-cargo run --example client XmlPost
-cargo run --example client XmlPut
-cargo run --example client EnumInPathPathParamGet
-cargo run --example client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
-cargo run --example client CreateRepo
-cargo run --example client GetRepoInfo
+cargo run --example openapi-v3-client AnyOfGet
+cargo run --example openapi-v3-client ComplexQueryParamGet
+cargo run --example openapi-v3-client ExamplesTest
+cargo run --example openapi-v3-client FormTest
+cargo run --example openapi-v3-client GetWithBooleanParameter
+cargo run --example openapi-v3-client JsonComplexQueryParamGet
+cargo run --example openapi-v3-client MergePatchJsonGet
+cargo run --example openapi-v3-client MultigetGet
+cargo run --example openapi-v3-client MultipleAuthSchemeGet
+cargo run --example openapi-v3-client OneOfGet
+cargo run --example openapi-v3-client OverrideServerGet
+cargo run --example openapi-v3-client ParamgetGet
+cargo run --example openapi-v3-client ReadonlyAuthSchemeGet
+cargo run --example openapi-v3-client RequiredOctetStreamPut
+cargo run --example openapi-v3-client ResponsesWithHeadersGet
+cargo run --example openapi-v3-client Rfc7807Get
+cargo run --example openapi-v3-client TwoFirstLetterHeaders
+cargo run --example openapi-v3-client UntypedPropertyGet
+cargo run --example openapi-v3-client UuidGet
+cargo run --example openapi-v3-client XmlExtraPost
+cargo run --example openapi-v3-client XmlOtherPost
+cargo run --example openapi-v3-client XmlOtherPut
+cargo run --example openapi-v3-client XmlPost
+cargo run --example openapi-v3-client XmlPut
+cargo run --example openapi-v3-client EnumInPathPathParamGet
+cargo run --example openapi-v3-client CreateRepo
 ```
 
 ### HTTPS
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example openapi-v3-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the
@@ -139,6 +134,10 @@ The generated library has a few optional features that can be activated through 
 * `client`
     * This defaults to enabled and creates the basic skeleton of a client implementation based on hyper
     * The constructed client implements the API trait by making remote API call.
+* `client-tls`
+    * This default to enabled and provides HTTPS support with automatic TLS backend selection:
+        - macOS/Windows/iOS: native-tls + hyper-tls
+        - Linux/Unix/others: OpenSSL + hyper-openssl
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
@@ -146,6 +145,25 @@ The generated library has a few optional features that can be activated through 
 * `validate`
     * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
     * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
+
+### HTTPS/TLS Support
+
+HTTPS support is included by default. To disable it (for example, to reduce dependencies), you can:
+
+```toml
+[dependencies]
+openapi-v3 = { version = "1.0.7", default-features = false, features = ["client", "server"] }
+```
+
+**For server with callbacks that need HTTPS:**
+```toml
+[dependencies]
+openapi-v3 = { version = "1.0.7", features = ["server", "client-tls"] }
+```
+
+The TLS backend is automatically selected based on your target platform:
+- **macOS, Windows, iOS**: Uses `native-tls` (system TLS libraries)
+- **Linux, Unix, other platforms**: Uses `openssl`
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 
@@ -169,6 +187,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /one-of | 
 [****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
+[**queryExampleGet**](docs/default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 

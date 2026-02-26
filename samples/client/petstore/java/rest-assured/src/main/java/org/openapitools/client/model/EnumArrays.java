@@ -31,7 +31,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -191,6 +191,7 @@ public class EnumArrays {
   public void setArrayEnum(@javax.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {

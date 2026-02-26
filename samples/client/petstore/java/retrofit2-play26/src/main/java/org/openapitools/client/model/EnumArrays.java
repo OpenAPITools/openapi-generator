@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -177,6 +177,7 @@ public class EnumArrays {
   public void setArrayEnum(@jakarta.annotation.Nullable List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
   }
+
 
   @Override
   public boolean equals(Object o) {

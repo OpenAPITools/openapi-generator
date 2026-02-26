@@ -30,7 +30,7 @@ import org.openapitools.client.model.Animal;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -120,6 +120,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   public void setMap(@javax.annotation.Nullable Map<String, Animal> map) {
     this.map = map;
   }
+
 
   @Override
   public boolean equals(Object o) {

@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 0.0.1
-- Generator version: 7.20.0-SNAPSHOT
+- Generator version: 7.21.0-SNAPSHOT
 
 
 
@@ -66,70 +66,70 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example ops-v3-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example ops-v3-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example ops-v3-server
 ```
 
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client Op10Get
-cargo run --example client Op11Get
-cargo run --example client Op12Get
-cargo run --example client Op13Get
-cargo run --example client Op14Get
-cargo run --example client Op15Get
-cargo run --example client Op16Get
-cargo run --example client Op17Get
-cargo run --example client Op18Get
-cargo run --example client Op19Get
-cargo run --example client Op1Get
-cargo run --example client Op20Get
-cargo run --example client Op21Get
-cargo run --example client Op22Get
-cargo run --example client Op23Get
-cargo run --example client Op24Get
-cargo run --example client Op25Get
-cargo run --example client Op26Get
-cargo run --example client Op27Get
-cargo run --example client Op28Get
-cargo run --example client Op29Get
-cargo run --example client Op2Get
-cargo run --example client Op30Get
-cargo run --example client Op31Get
-cargo run --example client Op32Get
-cargo run --example client Op33Get
-cargo run --example client Op34Get
-cargo run --example client Op35Get
-cargo run --example client Op36Get
-cargo run --example client Op37Get
-cargo run --example client Op3Get
-cargo run --example client Op4Get
-cargo run --example client Op5Get
-cargo run --example client Op6Get
-cargo run --example client Op7Get
-cargo run --example client Op8Get
-cargo run --example client Op9Get
+cargo run --example ops-v3-client Op10Get
+cargo run --example ops-v3-client Op11Get
+cargo run --example ops-v3-client Op12Get
+cargo run --example ops-v3-client Op13Get
+cargo run --example ops-v3-client Op14Get
+cargo run --example ops-v3-client Op15Get
+cargo run --example ops-v3-client Op16Get
+cargo run --example ops-v3-client Op17Get
+cargo run --example ops-v3-client Op18Get
+cargo run --example ops-v3-client Op19Get
+cargo run --example ops-v3-client Op1Get
+cargo run --example ops-v3-client Op20Get
+cargo run --example ops-v3-client Op21Get
+cargo run --example ops-v3-client Op22Get
+cargo run --example ops-v3-client Op23Get
+cargo run --example ops-v3-client Op24Get
+cargo run --example ops-v3-client Op25Get
+cargo run --example ops-v3-client Op26Get
+cargo run --example ops-v3-client Op27Get
+cargo run --example ops-v3-client Op28Get
+cargo run --example ops-v3-client Op29Get
+cargo run --example ops-v3-client Op2Get
+cargo run --example ops-v3-client Op30Get
+cargo run --example ops-v3-client Op31Get
+cargo run --example ops-v3-client Op32Get
+cargo run --example ops-v3-client Op33Get
+cargo run --example ops-v3-client Op34Get
+cargo run --example ops-v3-client Op35Get
+cargo run --example ops-v3-client Op36Get
+cargo run --example ops-v3-client Op37Get
+cargo run --example ops-v3-client Op3Get
+cargo run --example ops-v3-client Op4Get
+cargo run --example ops-v3-client Op5Get
+cargo run --example ops-v3-client Op6Get
+cargo run --example ops-v3-client Op7Get
+cargo run --example ops-v3-client Op8Get
+cargo run --example ops-v3-client Op9Get
 ```
 
 ### HTTPS
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example ops-v3-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the
@@ -145,6 +145,10 @@ The generated library has a few optional features that can be activated through 
 * `client`
     * This defaults to enabled and creates the basic skeleton of a client implementation based on hyper
     * The constructed client implements the API trait by making remote API call.
+* `client-tls`
+    * This default to enabled and provides HTTPS support with automatic TLS backend selection:
+        - macOS/Windows/iOS: native-tls + hyper-tls
+        - Linux/Unix/others: OpenSSL + hyper-openssl
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
@@ -152,6 +156,25 @@ The generated library has a few optional features that can be activated through 
 * `validate`
     * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
     * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
+
+### HTTPS/TLS Support
+
+HTTPS support is included by default. To disable it (for example, to reduce dependencies), you can:
+
+```toml
+[dependencies]
+ops-v3 = { version = "0.0.1", default-features = false, features = ["client", "server"] }
+```
+
+**For server with callbacks that need HTTPS:**
+```toml
+[dependencies]
+ops-v3 = { version = "0.0.1", features = ["server", "client-tls"] }
+```
+
+The TLS backend is automatically selected based on your target platform:
+- **macOS, Windows, iOS**: Uses `native-tls` (system TLS libraries)
+- **Linux, Unix, other platforms**: Uses `openssl`
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 

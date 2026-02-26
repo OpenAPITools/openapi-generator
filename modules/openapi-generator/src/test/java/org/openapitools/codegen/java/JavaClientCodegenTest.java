@@ -3769,6 +3769,35 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void testRequiredAndNullableAreBothTrue() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/bugs/issue_18516.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path modelFile = Paths.get(output + "/src/main/java/org/openapitools/client/model/SomeObject.java");
+        TestUtils.assertFileContains(
+                modelFile,
+                "} else if (!jsonObj.get(\"ids\").isJsonArray()  && !jsonObj.get(\"ids\").isJsonNull()) {",
+                "if (jsonObj.get(\"users\") != null && !jsonObj.get(\"users\").isJsonNull()) {",
+                "if (!jsonObj.get(\"users\").isJsonArray()) {",
+                "if (jsonObj.get(\"user\") != null && !jsonObj.get(\"user\").isJsonNull()) {",
+                "if (jsonObj.get(\"role\") != null && !jsonObj.get(\"role\").isJsonNull()) {",
+                "if (jsonObj.get(\"custom\") != null && !jsonObj.get(\"custom\").isJsonNull()) {");
+    }
+
     @Test(description = "Issue #21051")
     public void givenComplexObjectHasDefaultValueWhenGenerateThenDefaultAssignmentsAreValid() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

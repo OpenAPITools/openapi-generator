@@ -14,7 +14,7 @@ To see how to make this your own, look here:
 [README]((https://openapi-generator.tech))
 
 - API version: 1.0.0
-- Generator version: 7.20.0-SNAPSHOT
+- Generator version: 7.21.0-SNAPSHOT
 
 
 
@@ -66,58 +66,53 @@ You'll find the binary at `target/release/cli`.
 Run examples with:
 
 ```
-cargo run --example <example-name>
+cargo run --example petstore-with-fake-endpoints-models-for-testing-<client|server>
 ```
 
 To pass in arguments to the examples, put them after `--`, for example:
 
 ```
-cargo run --example client -- --help
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client -- --help
 ```
 
 ### Running the example server
 To run the server, follow these simple steps:
 
 ```
-cargo run --example server
+cargo run --example petstore-with-fake-endpoints-models-for-testing-server
 ```
 
 ### Running the example client
 To run a client, follow one of the following simple steps:
 
 ```
-cargo run --example client Call123example
-cargo run --example client FakeOuterBooleanSerialize
-cargo run --example client FakeOuterCompositeSerialize
-cargo run --example client FakeOuterNumberSerialize
-cargo run --example client FakeOuterStringSerialize
-cargo run --example client FakeResponseWithNumericalDescription
-cargo run --example client TestEndpointParameters
-cargo run --example client TestEnumParameters
-cargo run --example client TestJsonFormData
-cargo run --example client HyphenParam
-cargo run --example client FindPetsByStatus
-cargo run --example client FindPetsByTags
-cargo run --example client DeletePet
-cargo run --example client GetPetById
-cargo run --example client UpdatePetWithForm
-cargo run --example client UploadFile
-cargo run --example client GetInventory
-cargo run --example client DeleteOrder
-cargo run --example client GetOrderById
-cargo run --example client CreateUsersWithArrayInput
-cargo run --example client CreateUsersWithListInput
-cargo run --example client LoginUser
-cargo run --example client LogoutUser
-cargo run --example client DeleteUser
-cargo run --example client GetUserByName
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client Call123example
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeOuterBooleanSerialize
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeOuterCompositeSerialize
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeOuterNumberSerialize
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeOuterStringSerialize
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FakeResponseWithNumericalDescription
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestEndpointParameters
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestEnumParameters
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client TestJsonFormData
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FindPetsByStatus
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client FindPetsByTags
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client DeletePet
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetPetById
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client UpdatePetWithForm
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client UploadFile
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetInventory
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client GetOrderById
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client CreateUsersWithArrayInput
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client CreateUsersWithListInput
+cargo run --example petstore-with-fake-endpoints-models-for-testing-client LogoutUser
 ```
 
 ### HTTPS
 The examples can be run in HTTPS mode by passing in the flag `--https`, for example:
 
 ```
-cargo run --example server -- --https
+cargo run --example petstore-with-fake-endpoints-models-for-testing-server -- --https
 ```
 
 This will use the keys/certificates from the examples directory. Note that the
@@ -133,6 +128,10 @@ The generated library has a few optional features that can be activated through 
 * `client`
     * This defaults to enabled and creates the basic skeleton of a client implementation based on hyper
     * The constructed client implements the API trait by making remote API call.
+* `client-tls`
+    * This default to enabled and provides HTTPS support with automatic TLS backend selection:
+        - macOS/Windows/iOS: native-tls + hyper-tls
+        - Linux/Unix/others: OpenSSL + hyper-openssl
 * `conversions`
     * This defaults to disabled and creates extra derives on models to allow "transmogrification" between objects of structurally similar types.
 * `cli`
@@ -140,6 +139,25 @@ The generated library has a few optional features that can be activated through 
 * `validate`
     * This defaults to disabled and allows JSON Schema validation of received data using `MakeService::set_validation` or `Service::set_validation`.
     * Note, enabling validation will have a performance penalty, especially if the API heavily uses regex based checks.
+
+### HTTPS/TLS Support
+
+HTTPS support is included by default. To disable it (for example, to reduce dependencies), you can:
+
+```toml
+[dependencies]
+petstore-with-fake-endpoints-models-for-testing = { version = "1.0.0", default-features = false, features = ["client", "server"] }
+```
+
+**For server with callbacks that need HTTPS:**
+```toml
+[dependencies]
+petstore-with-fake-endpoints-models-for-testing = { version = "1.0.0", features = ["server", "client-tls"] }
+```
+
+The TLS backend is automatically selected based on your target platform:
+- **macOS, Windows, iOS**: Uses `native-tls` (system TLS libraries)
+- **Linux, Unix, other platforms**: Uses `openssl`
 
 See https://doc.rust-lang.org/cargo/reference/manifest.html#the-features-section for how to use features in your `Cargo.toml`.
 

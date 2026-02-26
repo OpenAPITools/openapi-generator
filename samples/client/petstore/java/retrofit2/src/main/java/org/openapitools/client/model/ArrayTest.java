@@ -29,7 +29,7 @@ import org.openapitools.client.model.ReadOnlyFirst;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
@@ -135,6 +135,7 @@ public class ArrayTest {
   public void setArrayArrayOfModel(@javax.annotation.Nullable List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
+
 
   @Override
   public boolean equals(Object o) {

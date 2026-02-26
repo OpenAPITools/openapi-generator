@@ -24,7 +24,7 @@ message Dog {
     BREED_SHEPHERD = 3;
   }
 
-  Breed breed = 94001524;
+  string breed = 94001524;
 
 }
 

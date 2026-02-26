@@ -29,7 +29,7 @@ import org.openapitools.client.model.ModelFile;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
@@ -93,6 +93,7 @@ public class FileSchemaTestClass {
   public void setFiles(@javax.annotation.Nullable List<ModelFile> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {

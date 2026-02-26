@@ -64,7 +64,7 @@ import org.hibernate.validator.constraints.*;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class XmlItem {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   @javax.annotation.Nullable
@@ -1015,6 +1015,7 @@ public class XmlItem {
   public void setPrefixNsWrappedArray(@javax.annotation.Nullable List<Integer> prefixNsWrappedArray) {
     this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
+
 
   @Override
   public boolean equals(Object o) {

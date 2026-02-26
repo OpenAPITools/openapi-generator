@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.20.0-SNAPSHOT</version>
+        <version>7.21.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -17,7 +17,7 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>7.6.4</gradleVersion>
+        <gradleVersion>8.14.4</gradleVersion>
         <gradle-tooling.version>7.4.2</gradle-tooling.version>
     </properties>
 

@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Capitalization
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -185,6 +185,7 @@ public class Capitalization {
   public void setATTNAME(@javax.annotation.Nullable String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
+
 
   @Override
   public boolean equals(Object o) {

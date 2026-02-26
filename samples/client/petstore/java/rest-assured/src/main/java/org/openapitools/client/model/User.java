@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class User {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -248,6 +248,7 @@ public class User {
   public void setUserStatus(@javax.annotation.Nullable Integer userStatus) {
     this.userStatus = userStatus;
   }
+
 
   @Override
   public boolean equals(Object o) {

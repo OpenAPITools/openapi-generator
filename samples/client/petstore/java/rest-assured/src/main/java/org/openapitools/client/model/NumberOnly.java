@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * NumberOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NumberOnly {
   public static final String SERIALIZED_NAME_JUST_NUMBER = "JustNumber";
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
@@ -61,6 +61,7 @@ public class NumberOnly {
   public void setJustNumber(@javax.annotation.Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }
+
 
   @Override
   public boolean equals(Object o) {

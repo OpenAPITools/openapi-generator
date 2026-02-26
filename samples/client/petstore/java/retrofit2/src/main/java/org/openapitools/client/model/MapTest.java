@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -214,6 +214,7 @@ public class MapTest {
   public void setIndirectMap(@javax.annotation.Nullable Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
+
 
   @Override
   public boolean equals(Object o) {

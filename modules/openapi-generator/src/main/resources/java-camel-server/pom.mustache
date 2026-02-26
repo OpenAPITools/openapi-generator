@@ -116,20 +116,22 @@ Do not edit the class manually.
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.8</version>
+            <version>0.2.9</version>
         </dependency>
+        {{#swagger1AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.6.3</version>
         </dependency>
-        {{#oas3}}
+        {{/swagger1AnnotationLibrary}}
+        {{#swagger2AnnotationLibrary}}
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>2.2.8</version>
         </dependency>
-        {{/oas3}}
+        {{/swagger2AnnotationLibrary}}
         {{#jackson}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

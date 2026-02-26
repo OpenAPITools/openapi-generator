@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.*;
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
 @JsonTypeName("200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Model200Response {
   public static final String JSON_PROPERTY_NAME = "name";
   @javax.annotation.Nullable
@@ -98,6 +98,7 @@ public class Model200Response {
   public void setPropertyClass(@javax.annotation.Nullable String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(Object o) {

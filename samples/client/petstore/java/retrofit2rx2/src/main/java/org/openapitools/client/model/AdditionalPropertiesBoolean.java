@@ -27,7 +27,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesBoolean
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -58,6 +58,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
   public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(Object o) {

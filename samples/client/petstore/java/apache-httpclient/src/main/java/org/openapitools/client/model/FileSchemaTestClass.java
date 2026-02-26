@@ -37,7 +37,7 @@ import java.util.StringJoiner;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   @javax.annotation.Nullable
@@ -107,6 +107,7 @@ public class FileSchemaTestClass {
   public void setFiles(@javax.annotation.Nullable List<ModelFile> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {

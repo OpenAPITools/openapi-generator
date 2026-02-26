@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -803,6 +804,13 @@ public class OpenAPINormalizer {
      * @param schema         Schema
      */
     protected void normalizeReferenceSchema(Schema schema) {
+        if (schema.getType() != null || schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // clears type(s) given that $ref is set
+            schema.setType(null);
+            schema.setTypes(null);
+            LOGGER.warn("Type(s) cleared (set to null) given $ref is set to {}.", schema.get$ref());
+        }
+
         if (schema.getTitle() != null || schema.getDescription() != null
                 || schema.getNullable() != null || schema.getDefault() != null || schema.getDeprecated() != null
                 || schema.getMaximum() != null || schema.getMinimum() != null
@@ -1549,10 +1557,12 @@ public class OpenAPINormalizer {
             }
 
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                // TODO convert oneOf const to enum
-                schema.setOneOf(null);
+                if (schema.getSpecVersion().equals(SpecVersion.V30)) {
+                    schema.setOneOf(null);
+                } //else {
+                    // TODO convert oneOf const/deprecated to enum
+               // }
             }
         }
 
@@ -1782,6 +1792,8 @@ public class OpenAPINormalizer {
             return null;
         }
 
+        normalizeExclusiveMinMax31(schema);
+
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null &&
                 schema.getTypes() == null && schema.getType() == null) {
@@ -1829,6 +1841,9 @@ public class OpenAPINormalizer {
                 as.setXml(schema.getXml());
                 as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
+                as.setDeprecated(schema.getDeprecated());
+                as.setReadOnly(schema.getReadOnly());
+                as.setWriteOnly(schema.getWriteOnly());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
                     if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
@@ -1875,6 +1890,51 @@ public class OpenAPINormalizer {
 
         return schema;
     }
+
+    private void normalizeExclusiveMinMax31(Schema<?> schema) {
+        if (schema == null || schema.get$ref() != null) return;
+
+        // OAS 3.1 numeric exclusiveMinimum
+        BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
+        if (exclusiveMinValue != null) {
+            BigDecimal minimum = schema.getMinimum();
+
+            if (minimum == null) {
+                schema.setMinimum(exclusiveMinValue);
+                schema.setExclusiveMinimum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMinValue.compareTo(minimum);
+
+                if (cmp > 0) {
+                    schema.setMinimum(exclusiveMinValue);
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMinimum(Boolean.TRUE);
+                }
+            }
+        }
+
+        // OAS 3.1 numeric exclusiveMaximum
+        BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
+        if (exclusiveMaxValue != null) {
+            BigDecimal maximum = schema.getMaximum();
+
+            if (maximum == null) {
+                schema.setMaximum(exclusiveMaxValue);
+                schema.setExclusiveMaximum(Boolean.TRUE);
+            } else {
+                int cmp = exclusiveMaxValue.compareTo(maximum);
+
+                if (cmp < 0) {
+                    schema.setMaximum(exclusiveMaxValue);
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                } else if (cmp == 0) {
+                    schema.setExclusiveMaximum(Boolean.TRUE);
+                }
+            }
+        }
+    }
+
 
     // ===================== end of rules =====================
 

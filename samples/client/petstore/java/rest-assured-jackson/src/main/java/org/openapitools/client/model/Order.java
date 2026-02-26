@@ -38,7 +38,7 @@ import org.hibernate.validator.constraints.*;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   @javax.annotation.Nullable
@@ -260,6 +260,7 @@ public class Order {
   public void setComplete(@javax.annotation.Nullable Boolean complete) {
     this.complete = complete;
   }
+
 
   @Override
   public boolean equals(Object o) {

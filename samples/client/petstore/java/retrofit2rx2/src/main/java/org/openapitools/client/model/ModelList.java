@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * ModelList
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelList {
   public static final String SERIALIZED_NAME_123LIST = "123-list";
   @SerializedName(SERIALIZED_NAME_123LIST)
@@ -55,6 +55,7 @@ public class ModelList {
   public void set123list(@javax.annotation.Nullable String _123list) {
     this._123list = _123list;
   }
+
 
   @Override
   public boolean equals(Object o) {

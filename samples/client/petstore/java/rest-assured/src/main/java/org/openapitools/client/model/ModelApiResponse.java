@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -113,6 +113,7 @@ public class ModelApiResponse {
   public void setMessage(@javax.annotation.Nullable String message) {
     this.message = message;
   }
+
 
   @Override
   public boolean equals(Object o) {

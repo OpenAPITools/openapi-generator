@@ -29,7 +29,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Dog
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
@@ -61,6 +61,7 @@ public class Dog extends Animal {
   public void setBreed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
   }
+
 
   @Override
   public Dog className(@javax.annotation.Nonnull String className) {
