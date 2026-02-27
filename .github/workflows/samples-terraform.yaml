@@ -29,7 +29,7 @@ jobs:
           - samples/client/others/terraform/oneof-anyof-required/
           - samples/client/others/terraform/oneof-discriminator-lookup/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
         with:
           go-version: "stable"
