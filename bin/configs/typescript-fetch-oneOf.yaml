@@ -2,3 +2,9 @@ generatorName: typescript-fetch
 outputDir: samples/client/petstore/typescript-fetch/builds/oneOf
 inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-fetch/oneOf.yaml
 templateDir: modules/openapi-generator/src/main/resources/typescript-fetch
+additionalProperties:
+  npmVersion: 1.0.0
+  npmName: '@openapitools/typescript-fetch-petstore'
+  npmRepository: https://skimdb.npmjs.com/registry
+  snapshot: false
+
