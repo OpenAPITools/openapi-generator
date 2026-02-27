@@ -96,8 +96,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
-            {{^useJackson3}}throw new IOException("Failed deserialization for {{classname}}: no match found");{{/useJackson3}}
-            {{#useJackson3}}throw new JsonMappingException(jp, "Failed deserialization for {{classname}}: no match found");{{/useJackson3}}
+{{^useJackson3}}
+            throw new IOException("Failed deserialization for {{classname}}: no match found");
+{{/useJackson3}}
+{{#useJackson3}}
+            throw new JsonMappingException(jp, "Failed deserialization for {{classname}}: no match found");
+{{/useJackson3}}
         }
 
         /**

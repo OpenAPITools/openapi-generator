@@ -91,8 +91,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/discriminator}}
             {{/useOneOfDiscriminatorLookup}}
-            {{^useJackson3}}boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);{{/useJackson3}}
-            {{#useJackson3}}boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3{{/useJackson3}}
+{{^useJackson3}}
+            boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
+{{/useJackson3}}
+{{#useJackson3}}
+            boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
+{{/useJackson3}}
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             {{#oneOf}}
@@ -131,8 +135,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            {{^useJackson3}}throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));{{/useJackson3}}
-            {{#useJackson3}}throw new JsonMappingException(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));{{/useJackson3}}
+{{^useJackson3}}
+            throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+{{/useJackson3}}
+{{#useJackson3}}
+            throw new JsonMappingException(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+{{/useJackson3}}
         }
 
         /**
