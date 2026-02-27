@@ -1,0 +1,16 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import io.ktor.server.routing.RoutingCall
+import {{packageName}}.infrastructure.ApiPrincipal
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+interface {{classname}}Delegate {
+
+{{#operation}}
+    suspend fun {{operationId}}({{#allParams}} {{paramName}}: {{{dataType}}}{{#isNullable}}?{{/isNullable}}{{^isNullable}}{{^defaultValue}}{{^required}}?{{/required}}{{/defaultValue}}{{/isNullable}}, {{/allParams}}call:RoutingCall) : {{{returnType}}}
+{{/operation}}
+}
+{{/operations}}

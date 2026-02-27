@@ -38,7 +38,7 @@ fun Route.{{classname}}() {
     }
     {{/featureResources}}
     {{#featureResources}}
-    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> {
+    {{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}<Paths.{{operationId}}> { {{operationId}} ->
         {{#lambda.indented_8}}{{>libraries/ktor/_api_body}}{{/lambda.indented_8}}
     }
     {{/featureResources}}

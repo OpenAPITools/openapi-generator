@@ -72,6 +72,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Getter
     @Setter
     private boolean fixJacksonJsonTypeInfoInheritance = true;
+    @Getter
+    @Setter
+    private Boolean delegatePatternEnabled = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -176,6 +179,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
         addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
+        addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getAutoHeadFeatureEnabled());
     }
 
     @Override
@@ -305,6 +309,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         } else {
             additionalProperties.put(Constants.METRICS, getMetricsFeatureEnabled());
         }
+        if(isKtor()){
+            if (additionalProperties.containsKey(Constants.DELEGATE_PATTERN)) {
+                setDelegatePatternEnabled(convertPropertyToBooleanAndWriteBack(Constants.DELEGATE_PATTERN));
+            } else {
+                additionalProperties.put(Constants.DELEGATE_PATTERN, getDelegatePatternEnabled());
+            }
+        }
 
         boolean generateApis = additionalProperties.containsKey(CodegenConstants.GENERATE_APIS) && (Boolean) additionalProperties.get(CodegenConstants.GENERATE_APIS);
         String packageFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
@@ -344,6 +355,12 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
             if (!getOmitGradleWrapper()) {
                 supportingFiles.add(new SupportingFile("gradle-wrapper.properties", "gradle" + File.separator + "wrapper", "gradle-wrapper.properties"));
+            }
+            if(isKtor()){
+                supportingFiles.add(new SupportingFile("AllApis.kt.mustache", packageFolder, "AllApis.kt"));
+                if(delegatePatternEnabled){
+                    apiTemplateFiles.put("apiDelegate.mustache", "Delegate.kt");
+                }
             }
 
         } else if (isJavalin()) {
@@ -398,6 +415,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String IS_KTOR = "isKtor";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String DELEGATE_PATTERN = "delegatePattern";
+        public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
     }
 
     @Override

@@ -1,3 +1,4 @@
+{{^delegatePattern}}
 {{#hasAuthMethods}}
 {{>libraries/ktor/_principal}}
 
@@ -21,3 +22,12 @@ call.respond(HttpStatusCode.NotImplemented)
 call.respond(HttpStatusCode.NotImplemented)
 {{/examples}}
 {{/hasAuthMethods}}
+{{/delegatePattern}}
+{{#delegatePattern}}
+{{#hasAuthMethods}}
+{{#lambda.indented}}{{>_api_delegate_body}}{{/lambda.indented}}
+{{/hasAuthMethods}}
+{{#hasAuthMethods}}
+{{>_api_delegate_body}}
+{{/hasAuthMethods}}
+{{/delegatePattern}}
