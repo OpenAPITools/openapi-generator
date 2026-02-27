@@ -1,7 +1,12 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
+{{^useJackson3}}
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.databind.util.StdDateFormat;
+{{/useJackson3}}
 
 import java.text.DateFormat;
 import java.text.FieldPosition;

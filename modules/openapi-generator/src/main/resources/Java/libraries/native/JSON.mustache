@@ -2,6 +2,7 @@
 
 package {{invokerPackage}};
 
+{{^useJackson3}}
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -12,6 +13,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.annotation.*;
+import tools.jackson.databind.*;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.datatype.jsr310.JavaTimeModule;
+{{#joda}}
+import tools.jackson.datatype.joda.JodaModule;
+{{/joda}}
+{{/useJackson3}}
 {{#models.0}}
 import {{modelPackage}}.*;
 {{/models.0}}
@@ -28,6 +39,7 @@ public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
+    {{^useJackson3}}
     mapper = JsonMapper.builder()
         .serializationInclusion(JsonInclude.Include.NON_NULL)
         .disable(MapperFeature.ALLOW_COERCION_OF_SCALARS)
@@ -51,6 +63,29 @@ public class JSON {
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
     {{/openApiNullable}}
+    {{/useJackson3}}
+    {{#useJackson3}}
+    mapper = JsonMapper.builder()
+        .serializationInclusion(JsonInclude.Include.NON_NULL)
+        // Note: MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
+        {{#failOnUnknownProperties}}
+        .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
+        {{^failOnUnknownProperties}}
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        {{/failOnUnknownProperties}}
+        .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
+        .defaultDateFormat(new RFC3339DateFormat())
+        .addModule(new JavaTimeModule())
+        .build();
+    {{#joda}}
+    mapper.registerModule(new JodaModule());
+    {{/joda}}
+    // FIXME: JsonNullableModule is not yet available for Jackson 3
+    {{/useJackson3}}
   }
 
   /**

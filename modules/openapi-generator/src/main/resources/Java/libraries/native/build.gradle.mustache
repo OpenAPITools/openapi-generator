@@ -72,7 +72,12 @@ ext {
     {{#swagger2AnnotationLibrary}}
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
+    {{^useJackson3}}
     jackson_version = "2.19.2"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    jackson3_version = "3.0.0-rc4"
+    {{/useJackson3}}
     {{#useJakartaEe}}
     jakarta_annotation_version = "2.1.1"
     beanvalidation_version = "3.0.2"
@@ -98,11 +103,20 @@ dependencies {
     implementation "io.swagger.core.v3:swagger-annotations:$swagger_annotations_version"
     {{/swagger2AnnotationLibrary}}
     implementation "com.google.code.findbugs:jsr305:3.0.2"
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:0.2.9"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    implementation "tools.jackson.core:jackson-core:$jackson3_version"
+    implementation "tools.jackson.core:jackson-annotations:$jackson3_version"
+    implementation "tools.jackson.core:jackson-databind:$jackson3_version"
+    implementation "tools.jackson.datatype:jackson-datatype-jsr310:$jackson3_version"
+    // Note: jackson-databind-nullable is not yet available for Jackson 3
+    {{/useJackson3}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     {{#useBeanValidation}}
     implementation "jakarta.validation:jakarta.validation-api:$beanvalidation_version"

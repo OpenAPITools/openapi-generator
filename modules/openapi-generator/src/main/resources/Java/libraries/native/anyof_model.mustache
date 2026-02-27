@@ -1,10 +1,13 @@
+{{^useJackson3}}
 import java.io.IOException;
+{{/useJackson3}}
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+{{^useJackson3}}
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +19,20 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonMappingException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.databind.ser.std.StdSerializer;
+{{/useJackson3}}
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.JSON;
 
@@ -35,7 +52,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
             jgen.writeObject(value.getActualInstance());
         }
     }
@@ -50,7 +67,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
@@ -79,7 +96,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
-            throw new IOException("Failed deserialization for {{classname}}: no match found");
+            {{^useJackson3}}throw new IOException("Failed deserialization for {{classname}}: no match found");{{/useJackson3}}
+            {{#useJackson3}}throw new JsonMappingException(jp, "Failed deserialization for {{classname}}: no match found");{{/useJackson3}}
         }
 
         /**

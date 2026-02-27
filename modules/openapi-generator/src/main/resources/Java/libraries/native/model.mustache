@@ -11,8 +11,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 {{#additionalPropertiesType}}
 import java.util.Map;
 import java.util.HashMap;
+{{^useJackson3}}
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.annotation.JsonAnyGetter;
+import tools.jackson.annotation.JsonAnySetter;
+{{/useJackson3}}
 {{/additionalPropertiesType}}
 {{/model}}
 {{/models}}
@@ -31,6 +37,7 @@ import {{import}};
 import java.io.Serializable;
 {{/serializableModel}}
 {{#jackson}}
+{{^useJackson3}}
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 {{#withXml}}
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
@@ -38,6 +45,16 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 {{#vendorExtensions.x-has-readonly-properties}}
 import com.fasterxml.jackson.annotation.JsonCreator;
 {{/vendorExtensions.x-has-readonly-properties}}
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.annotation.JsonPropertyOrder;
+{{#withXml}}
+import tools.jackson.dataformat.xml.annotation.*;
+{{/withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}
+import tools.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/useJackson3}}
 {{/jackson}}
 {{#withXml}}
 import {{javaxPackage}}.xml.bind.annotation.*;
@@ -58,7 +75,12 @@ import org.hibernate.validator.constraints.*;
 {{#model}}
 {{#oneOf}}
 {{#-first}}
+{{^useJackson3}}
 import com.fasterxml.jackson.core.type.TypeReference;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.type.TypeReference;
+{{/useJackson3}}
 {{/-first}}
 {{/oneOf}}
 

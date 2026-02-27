@@ -1,6 +1,7 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
+{{^useJackson3}}
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.annotation.JsonInclude;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.datatype.jsr310.JavaTimeModule;
+{{/useJackson3}}
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -214,9 +223,14 @@ public class ApiClient {
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
     mapper.registerModule(new JavaTimeModule());
+    {{^useJackson3}}
     {{#openApiNullable}}
     mapper.registerModule(new JsonNullableModule());
     {{/openApiNullable}}
+    {{/useJackson3}}
+    {{#useJackson3}}
+    // FIXME: JsonNullableModule is not yet available for Jackson 3
+    {{/useJackson3}}
     mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
   }
