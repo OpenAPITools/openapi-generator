@@ -1,0 +1,69 @@
+/*
+ * {{classname}}.h - OneOf Model
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H
+#define {{classname}}_H
+
+#include <QJsonObject>
+#include <QJsonValue>
+#include <memory>
+#include <QString>
+#include <variant>
+
+#include "{{prefix}}Enum.h"
+#include "{{prefix}}Object.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{#discriminator}}
+{{#mappedModels}}
+class {{modelName}};
+{{/mappedModels}}
+{{/discriminator}}
+
+class {{classname}} : public {{prefix}}Object {
+public:
+    {{classname}}();
+    explicit {{classname}}(QString json);
+    ~{{classname}}() override;
+
+    QString asJson() const override;
+    QJsonObject asJsonObject() const override;
+    void fromJsonObject(QJsonObject json) override;
+    void fromJson(QString jsonString) override;
+
+    virtual bool isSet() const override;
+    virtual bool isValid() const override;
+
+{{#discriminator}}
+    typedef std::variant<std::monostate{{#mappedModels}}, std::shared_ptr<{{modelName}}>{{/mappedModels}}> VariantType;
+    void setValue(const VariantType &value);
+{{/discriminator}}
+
+{{#discriminator}}
+{{#mappedModels}}
+    bool is{{modelName}}() const;
+    std::shared_ptr<{{modelName}}> as{{modelName}}() const;
+{{/mappedModels}}
+{{/discriminator}}
+
+private:
+    void initializeModel();
+{{#discriminator}}
+    VariantType m_actualInstance;
+{{/discriminator}}
+    QString m_discriminatorValue;
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{classname}})
+
+#endif // {{classname}}_H
