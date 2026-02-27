@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -69,6 +71,10 @@ import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
+import org.openapitools.codegen.validations.oas.ModelVendorExtensionAdd;
+import org.openapitools.codegen.validations.oas.ModelVendorExtensionRemove;
+import org.openapitools.codegen.validations.oas.OperationVendorExtensionAdd;
+import org.openapitools.codegen.validations.oas.OperationVendorExtensionRemove;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,6 +106,29 @@ public class DefaultCodegen implements CodegenConfig {
     public static final Pattern SPLIT_ON_SEMICOLON_OR_NEWLINE_REGEX = Pattern.compile("\\s*(;|\\r?\\n)\\s*"); // Splits on semicolon or new line, ignoring surrounding whitespace
 
     public static FeatureSet DefaultFeatureSet;
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    public static final String MODEL_VENDOR_EXTENSION_REMOVE = "modelVendorExtensionRemove";
+    public static final String MODEL_VENDOR_EXTENSION_ADD = "modelVendorExtensionAdd";
+    public static final String OPERATION_VENDOR_EXTENSION_REMOVE = "operationVendorExtensionRemove";
+    public static final String OPERATION_VENDOR_EXTENSION_ADD = "operationVendorExtensionAdd";
+
+    @Getter
+    @Setter
+    private Map<String, ModelVendorExtensionRemove> modelVendorExtensionRemove = new HashMap<>();
+
+    @Getter
+    @Setter
+    private Map<String, ModelVendorExtensionAdd> modelVendorExtensionAdd = new HashMap<>();
+
+    @Getter
+    @Setter
+    private Map<String, OperationVendorExtensionRemove> operationVendorExtensionRemove = new HashMap<>();
+
+    @Getter
+    @Setter
+    private Map<String, OperationVendorExtensionAdd> operationVendorExtensionAdd = new HashMap<>();
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
@@ -429,6 +458,28 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(DEFAULT_TO_EMPTY_CONTAINER) && additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER) instanceof String) {
             parseDefaultToEmptyContainer((String) additionalProperties.get(DEFAULT_TO_EMPTY_CONTAINER));
             defaultToEmptyContainer = true;
+        }
+
+        if(additionalProperties.containsKey(MODEL_VENDOR_EXTENSION_REMOVE)) {
+            setModelVendorExtensionRemove(
+                    mapper.convertValue(additionalProperties.get(MODEL_VENDOR_EXTENSION_REMOVE), new TypeReference<Map<String, ModelVendorExtensionRemove>>() {})
+            );
+        }
+        if(additionalProperties.containsKey(OPERATION_VENDOR_EXTENSION_REMOVE)) {
+            setOperationVendorExtensionRemove(
+                    mapper.convertValue(additionalProperties.get(OPERATION_VENDOR_EXTENSION_REMOVE), new TypeReference<Map<String, OperationVendorExtensionRemove>>() {})
+            );
+        }
+
+        if(additionalProperties.containsKey(MODEL_VENDOR_EXTENSION_ADD)) {
+            setModelVendorExtensionAdd(
+                    mapper.convertValue(additionalProperties.get(MODEL_VENDOR_EXTENSION_ADD), new TypeReference<>() {})
+            );
+        }
+        if(additionalProperties.containsKey(OPERATION_VENDOR_EXTENSION_ADD)) {
+            setOperationVendorExtensionAdd(
+                    mapper.convertValue(additionalProperties.get(OPERATION_VENDOR_EXTENSION_ADD), new TypeReference<>() {})
+            );
         }
     }
 
@@ -1136,6 +1187,101 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void processOpenAPI(OpenAPI openAPI) {
+        Map<String, Operation> operationsByOperationId = openAPI.getPaths() != null
+                ? openAPI.getPaths().entrySet().stream()
+                .flatMap(path -> path.getValue().readOperations().stream())
+                .collect(Collectors.toMap(Operation::getOperationId, Function.identity(), (existing, replacement) -> existing, LinkedHashMap::new))
+                : Map.of();
+        Map<String, Schema> modelsByName = (openAPI.getComponents() != null && openAPI.getComponents().getSchemas() != null)
+                ? openAPI.getComponents().getSchemas()
+                : Map.of();
+
+        // Remove model vendor extensions
+        modelVendorExtensionRemove.forEach((name, ext) -> {
+            if (modelsByName.containsKey(name)) {
+                Schema schema = modelsByName.get(name);
+                if (schema.getExtensions() != null) {
+                    ext.getClazz().forEach(schema.getExtensions()::remove);
+                }
+                ext.getFields().forEach((fieldName, fieldExtensionsToRemove) -> {
+                    Map<String, Schema> props = schema.getProperties();
+                    if (props != null && props.get(fieldName) != null && props.get(fieldName).getExtensions() != null) {
+                        Map fieldExtensions = props.get(fieldName).getExtensions();
+                        fieldExtensionsToRemove.forEach(fieldExtensions::remove);
+                    }
+                });
+            }
+        });
+
+        // Add model vendor extensions
+        modelVendorExtensionAdd.forEach((name, ext) -> {
+            if (modelsByName.containsKey(name)) {
+                var schema = modelsByName.get(name);
+                // retrieve the extensions map or initialize
+                Map<String, Object> classExt = Objects.requireNonNullElse((Map<String, Object>) schema.getExtensions(), new HashMap<>());
+                ext.getClazz().forEach((extName, extVals) -> mergeExtensions(classExt, extName, extVals));
+                // put the modified map back
+                schema.setExtensions(classExt);
+                var props = schema.getProperties();
+                if (props != null) {
+                    ext.getFields().forEach((fieldName, fieldExts) -> {
+                        if (props.containsKey(fieldName)) {
+                            Schema fieldSchema = (Schema) props.get(fieldName);
+                            // retrieve the extensions map or initialize
+                            Map<String, Object> fieldExt = Objects.requireNonNullElse((Map<String, Object>) fieldSchema.getExtensions(), new HashMap<>());
+                            fieldExts.forEach((extName, extVals) -> mergeExtensions(fieldExt, extName, extVals));
+                            // put the modified map back
+                            fieldSchema.setExtensions(fieldExt);
+                        }
+                    });
+                }
+            }
+        });
+
+        // Remove operation vendor extensions
+        operationVendorExtensionRemove.forEach((opId, ext) -> {
+            if (operationsByOperationId.containsKey(opId)) {
+                var op = operationsByOperationId.get(opId);
+                if (op.getExtensions() != null) {
+                    ext.getMethod().forEach(op.getExtensions()::remove);
+                }
+                ext.getParams().forEach((paramName, paramExtensionsToRemove) -> {
+                    var params = op.getParameters().stream().collect(Collectors.toMap(Parameter::getName, Function.identity()));
+                    if (params.containsKey(paramName) && params.get(paramName).getExtensions() != null) {
+                        var paramsExtensions = params.get(paramName).getExtensions();
+                        paramExtensionsToRemove.forEach(paramsExtensions::remove);
+                    }
+                });
+            }
+        });
+
+        // Add operation vendor extensions
+        operationVendorExtensionAdd.forEach((opId, ext) -> {
+            if (operationsByOperationId.containsKey(opId)) {
+                var op = operationsByOperationId.get(opId);
+                // retrieve the extensions map or initialize
+                Map<String, Object>  operationExtensions = Objects.requireNonNullElse(op.getExtensions(), new HashMap<>());
+                ext.getMethod().forEach((extName, extVals) -> mergeExtensions(operationExtensions, extName, extVals));
+                // put the modified map back
+                op.setExtensions(operationExtensions);
+                var params = op.getParameters().stream().collect(Collectors.toMap(Parameter::getName, Function.identity()));
+                ext.getParameters().forEach((paramName, paramExts) -> {
+                    if (params.containsKey(paramName)) {
+                        Parameter parameter = params.get(paramName);
+                        // retrieve the extensions map or initialize
+                        Map<String, Object> paramExt = Objects.requireNonNullElse(parameter.getExtensions(), new HashMap<>());
+                        paramExts.forEach((extName, extVals) -> mergeExtensions(paramExt, extName, extVals));
+                        // put the modified map back
+                        parameter.setExtensions(paramExt);
+                    }
+                });
+            }
+        });
+    }
+
+    private void mergeExtensions(Map<String, Object> extensionsMap, String name, List<String> values) {
+        var existing = getObjectAsStringList(extensionsMap.get(name));
+        extensionsMap.put(name, Stream.concat(existing.stream(), values.stream()).collect(Collectors.toList()));
     }
 
     // override with any special handling of the JMustache compiler
