@@ -332,8 +332,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
         for (ModelsMap modelsMap : result.values()) {
-            for (ModelMap mo : modelsMap.getModels()) {
-                CodegenModel cm = mo.getModel();
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
                 if (cm.parentModel != null) {
                     CodegenDiscriminator discriminator = cm.parentModel.getDiscriminator();
                     if (discriminator != null) {
