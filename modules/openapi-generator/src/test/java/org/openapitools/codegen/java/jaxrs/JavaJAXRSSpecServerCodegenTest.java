@@ -1268,5 +1268,4 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                 .fileContains("@JsonTypeName(\"DOG\")")
                 .fileDoesNotContain("@JsonTypeName(\"DogRequest\")");
     }
-
 }
