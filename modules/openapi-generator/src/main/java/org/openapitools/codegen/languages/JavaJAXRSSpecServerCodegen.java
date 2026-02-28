@@ -333,13 +333,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
         for (ModelsMap modelsMap : result.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
-                CodegenModel cm = modelMap.getModel();
-                if (cm.parentModel != null) {
-                    CodegenDiscriminator discriminator = cm.parentModel.getDiscriminator();
+                CodegenModel model = modelMap.getModel();
+                if (model.parentModel != null) {
+                    CodegenDiscriminator discriminator = model.parentModel.getDiscriminator();
                     if (discriminator != null) {
                         for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
-                            if (mappedModel.getModelName().equals(cm.name)) {
-                                cm.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
+                            if (mappedModel.getModelName().equals(model.name)) {
+                                model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
                                 break;
                             }
                         }
