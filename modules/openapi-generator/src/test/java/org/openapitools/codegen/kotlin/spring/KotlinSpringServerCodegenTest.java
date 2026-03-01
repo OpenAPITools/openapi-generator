@@ -4663,6 +4663,27 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(petContent.contains(") : CreatePetResponse {") || petContent.contains(") : CreatePetResponse"),
                 "Pet should implement CreatePetResponse");
     }
+
+    @Test
+    public void testSkipDefaultValues() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SKIP_DEFAULT_VALUES, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml"))
+                        .config(codegen))
+                .generate();
+
+        // Pet model has optional properties that would normally get "= null" defaults
+        assertFileNotContains(
+                Paths.get(output + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                "= null"
+        );
+    }
 }
 
 
