@@ -29,13 +29,13 @@ namespace test_namespace {
 class PFXEnumStatus : public PFXEnum {
 public:
     PFXEnumStatus();
-    PFXEnumStatus(QString json);
+    PFXEnumStatus(const QString &json);
     ~PFXEnumStatus() override;
 
     QString asJson() const override;
     QJsonValue asJsonValue() const override;
     void fromJsonValue(QJsonValue json) override;
-    void fromJson(QString jsonString) override;
+    void fromJson(const QString &jsonString) override;
 
     enum class ePFXEnumStatus {
         INVALID_VALUE_OPENAPI_GENERATED = 0,
