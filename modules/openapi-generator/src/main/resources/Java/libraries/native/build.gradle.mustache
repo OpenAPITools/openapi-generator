@@ -21,8 +21,14 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
+{{^useJackson3}}
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
+{{/useJackson3}}
+{{#useJackson3}}
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+{{/useJackson3}}
 
 // Some text from the schema is copy pasted into the source files as UTF-8
 // but the default still seems to be to use platform encoding
@@ -128,6 +134,11 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/useReflectionEqualsHashCode}}
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Use spotless plugin to automatically format code, remove unused import, etc

@@ -322,8 +322,14 @@
         {{#swagger2AnnotationLibrary}}
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
+        {{^useJackson3}}
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        {{/useJackson3}}
+        {{#useJackson3}}
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        {{/useJackson3}}
         {{^useJackson3}}
         <jackson-version>2.19.2</jackson-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
