@@ -1,12 +1,6 @@
 {{#jackson}}
-{{^useJackson3}}
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-{{/useJackson3}}
-{{#useJackson3}}
-import tools.jackson.annotation.JsonCreator;
-import tools.jackson.annotation.JsonValue;
-{{/useJackson3}}
 {{/jackson}}
 {{#gson}}
 import java.io.IOException;

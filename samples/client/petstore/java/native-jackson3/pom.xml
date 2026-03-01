@@ -202,20 +202,16 @@
             <version>${jackson3-version}</version>
         </dependency>
         <dependency>
-            <groupId>tools.jackson.core</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson3-version}</version>
+            <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson3-version}</version>
         </dependency>
-        <dependency>
-            <groupId>tools.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson3-version}</version>
-        </dependency>
+        <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
         <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
 
         <!-- @Nullable annotation -->
@@ -253,9 +249,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <jackson3-version>3.0.4</jackson3-version>
+        <jackson-annotations-version>2.20</jackson-annotations-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         <httpmime-version>4.5.14</httpmime-version>

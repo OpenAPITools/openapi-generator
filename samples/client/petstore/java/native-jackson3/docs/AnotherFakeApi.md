@@ -76,7 +76,7 @@ No authorization required
 
 ## call123testSpecialTagsWithHttpInfo
 
-> ApiResponse<Client> call123testSpecialTags call123testSpecialTagsWithHttpInfo(client)
+> ApiResponse<Client> call123testSpecialTagsWithHttpInfo(client)
 
 To test special tags
 

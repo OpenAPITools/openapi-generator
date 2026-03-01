@@ -97,7 +97,7 @@ null (empty response body)
 
 ## addPetWithHttpInfo
 
-> ApiResponse<Void> addPet addPetWithHttpInfo(pet)
+> ApiResponse<Void> addPetWithHttpInfo(pet)
 
 Add a new pet to the store
 
@@ -242,7 +242,7 @@ null (empty response body)
 
 ## deletePetWithHttpInfo
 
-> ApiResponse<Void> deletePet deletePetWithHttpInfo(petId, apiKey)
+> ApiResponse<Void> deletePetWithHttpInfo(petId, apiKey)
 
 Deletes a pet
 
@@ -389,7 +389,7 @@ public class Example {
 
 ## findPetsByStatusWithHttpInfo
 
-> ApiResponse<List<Pet>> findPetsByStatus findPetsByStatusWithHttpInfo(status)
+> ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(status)
 
 Finds Pets by status
 
@@ -537,7 +537,7 @@ public class Example {
 
 ## findPetsByTagsWithHttpInfo
 
-> ApiResponse<List<Pet>> findPetsByTags findPetsByTagsWithHttpInfo(tags)
+> ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(tags)
 
 Finds Pets by tags
 
@@ -687,7 +687,7 @@ public class Example {
 
 ## getPetByIdWithHttpInfo
 
-> ApiResponse<Pet> getPetById getPetByIdWithHttpInfo(petId)
+> ApiResponse<Pet> getPetByIdWithHttpInfo(petId)
 
 Find pet by ID
 
@@ -837,7 +837,7 @@ null (empty response body)
 
 ## updatePetWithHttpInfo
 
-> ApiResponse<Void> updatePet updatePetWithHttpInfo(pet)
+> ApiResponse<Void> updatePetWithHttpInfo(pet)
 
 Update an existing pet
 
@@ -986,7 +986,7 @@ null (empty response body)
 
 ## updatePetWithFormWithHttpInfo
 
-> ApiResponse<Void> updatePetWithForm updatePetWithFormWithHttpInfo(petId, name, status)
+> ApiResponse<Void> updatePetWithFormWithHttpInfo(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -1137,7 +1137,7 @@ public class Example {
 
 ## uploadFileWithHttpInfo
 
-> ApiResponse<ModelApiResponse> uploadFile uploadFileWithHttpInfo(petId, additionalMetadata, _file)
+> ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(petId, additionalMetadata, _file)
 
 uploads an image
 
@@ -1289,7 +1289,7 @@ public class Example {
 
 ## uploadFileWithRequiredFileWithHttpInfo
 
-> ApiResponse<ModelApiResponse> uploadFileWithRequiredFile uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
+> ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 

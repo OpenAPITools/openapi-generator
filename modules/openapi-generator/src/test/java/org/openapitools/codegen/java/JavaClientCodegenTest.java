@@ -650,17 +650,18 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/JSON.java")).content()
-                .contains("import tools.jackson.annotation.*;")
-                .doesNotContain("import com.fasterxml.jackson");
+                .contains("import com.fasterxml.jackson.annotation.*;")
+                .contains("import tools.jackson.databind.*;")
+                .doesNotContain("import com.fasterxml.jackson.databind");
         assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/ApiClient.java")).content()
                 .contains("import tools.jackson.databind.ObjectMapper;")
-                .doesNotContain("import com.fasterxml.jackson");
+                .doesNotContain("import com.fasterxml.jackson.databind");
         assertThat(output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java")).content()
                 .contains("import tools.jackson.core.type.TypeReference;")
-                .doesNotContain("import com.fasterxml.jackson");
+                .doesNotContain("import com.fasterxml.jackson.core.type.TypeReference");
         assertThat(output.resolve("pom.xml")).content()
                 .contains("<groupId>tools.jackson.core</groupId>")
-                .doesNotContain("<groupId>com.fasterxml.jackson.core</groupId>");
+                .contains("<groupId>com.fasterxml.jackson.core</groupId>");
     }
 
     @Test

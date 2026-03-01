@@ -89,7 +89,7 @@ No authorization required
 
 ## createUserWithHttpInfo
 
-> ApiResponse<Void> createUser createUserWithHttpInfo(user)
+> ApiResponse<Void> createUserWithHttpInfo(user)
 
 Create user
 
@@ -221,7 +221,7 @@ No authorization required
 
 ## createUsersWithArrayInputWithHttpInfo
 
-> ApiResponse<Void> createUsersWithArrayInput createUsersWithArrayInputWithHttpInfo(user)
+> ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(user)
 
 Creates list of users with given input array
 
@@ -353,7 +353,7 @@ No authorization required
 
 ## createUsersWithListInputWithHttpInfo
 
-> ApiResponse<Void> createUsersWithListInput createUsersWithListInputWithHttpInfo(user)
+> ApiResponse<Void> createUsersWithListInputWithHttpInfo(user)
 
 Creates list of users with given input array
 
@@ -486,7 +486,7 @@ No authorization required
 
 ## deleteUserWithHttpInfo
 
-> ApiResponse<Void> deleteUser deleteUserWithHttpInfo(username)
+> ApiResponse<Void> deleteUserWithHttpInfo(username)
 
 Delete user
 
@@ -622,7 +622,7 @@ No authorization required
 
 ## getUserByNameWithHttpInfo
 
-> ApiResponse<User> getUserByName getUserByNameWithHttpInfo(username)
+> ApiResponse<User> getUserByNameWithHttpInfo(username)
 
 Get user by user name
 
@@ -761,7 +761,7 @@ No authorization required
 
 ## loginUserWithHttpInfo
 
-> ApiResponse<String> loginUser loginUserWithHttpInfo(username, password)
+> ApiResponse<String> loginUserWithHttpInfo(username, password)
 
 Logs user into the system
 
@@ -893,7 +893,7 @@ No authorization required
 
 ## logoutUserWithHttpInfo
 
-> ApiResponse<Void> logoutUser logoutUserWithHttpInfo()
+> ApiResponse<Void> logoutUserWithHttpInfo()
 
 Logs out current logged in user session
 
@@ -1024,7 +1024,7 @@ No authorization required
 
 ## updateUserWithHttpInfo
 
-> ApiResponse<Void> updateUser updateUserWithHttpInfo(username, user)
+> ApiResponse<Void> updateUserWithHttpInfo(username, user)
 
 Updated user
 

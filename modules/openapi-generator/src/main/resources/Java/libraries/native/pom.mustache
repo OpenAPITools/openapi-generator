@@ -251,20 +251,16 @@
             <version>${jackson3-version}</version>
         </dependency>
         <dependency>
-            <groupId>tools.jackson.core</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson3-version}</version>
+            <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson3-version}</version>
         </dependency>
-        <dependency>
-            <groupId>tools.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson3-version}</version>
-        </dependency>
+        <!-- Note: jackson-datatype-jsr310 is included in jackson-databind for Jackson 3 -->
         <!-- Note: jackson-databind-nullable is not yet available for Jackson 3 -->
         {{/useJackson3}}
 
@@ -336,6 +332,7 @@
         {{/useJackson3}}
         {{#useJackson3}}
         <jackson3-version>3.0.4</jackson3-version>
+        <jackson-annotations-version>2.20</jackson-annotations-version>
         {{/useJackson3}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>

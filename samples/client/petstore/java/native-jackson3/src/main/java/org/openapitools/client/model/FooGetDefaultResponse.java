@@ -21,14 +21,14 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.Foo;
-import tools.jackson.annotation.JsonInclude;
-import tools.jackson.annotation.JsonProperty;
-import tools.jackson.annotation.JsonCreator;
-import tools.jackson.annotation.JsonTypeName;
-import tools.jackson.annotation.JsonValue;
-import tools.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import org.openapitools.client.ApiClient;

@@ -12,11 +12,10 @@
 
 package org.openapitools.client;
 
-import tools.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
-import tools.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -203,7 +202,6 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
-    mapper.registerModule(new JavaTimeModule());
     // FIXME: JsonNullableModule is not yet available for Jackson 3
     mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;

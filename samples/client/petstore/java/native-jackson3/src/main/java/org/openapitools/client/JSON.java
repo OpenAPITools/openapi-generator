@@ -13,10 +13,9 @@
 
 package org.openapitools.client;
 
-import tools.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.*;
 import tools.jackson.databind.*;
 import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.datatype.jsr310.JavaTimeModule;
 import org.openapitools.client.model.*;
 
 import java.text.DateFormat;
@@ -39,7 +38,7 @@ public class JSON {
         .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
         .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
         .defaultDateFormat(new RFC3339DateFormat())
-        .addModule(new JavaTimeModule())
+        // Note: JavaTimeModule (jsr310) is built into jackson-databind for Jackson 3 - no explicit registration needed
         .build();
     // FIXME: JsonNullableModule is not yet available for Jackson 3
   }

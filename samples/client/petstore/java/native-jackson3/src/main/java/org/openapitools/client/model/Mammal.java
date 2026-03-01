@@ -21,19 +21,19 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
-import tools.jackson.annotation.JsonIgnoreProperties;
-import tools.jackson.annotation.JsonInclude;
-import tools.jackson.annotation.JsonProperty;
-import tools.jackson.annotation.JsonCreator;
-import tools.jackson.annotation.JsonSubTypes;
-import tools.jackson.annotation.JsonTypeInfo;
-import tools.jackson.annotation.JsonTypeName;
-import tools.jackson.annotation.JsonValue;
-import tools.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import tools.jackson.core.type.TypeReference;
 
@@ -48,7 +48,7 @@ import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
 import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.JsonMappingException;
+import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.SerializerProvider;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -178,15 +178,15 @@ public class Mammal extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             }
-            throw new JsonMappingException(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for Mammal: %d classes match result, expected 1", match));
+            throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
 
         /**
          * Handle deserialization of the 'null' value.
          */
         @Override
-        public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "Mammal cannot be null");
+        public Mammal getNullValue(DeserializationContext ctxt) {
+            throw DatabindException.from(ctxt.getParser(), "Mammal cannot be null");
         }
     }
 

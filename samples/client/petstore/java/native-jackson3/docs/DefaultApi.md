@@ -70,7 +70,7 @@ No authorization required
 
 ## fooGetWithHttpInfo
 
-> ApiResponse<FooGetDefaultResponse> fooGet fooGetWithHttpInfo()
+> ApiResponse<FooGetDefaultResponse> fooGetWithHttpInfo()
 
 
 

@@ -21,16 +21,16 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
-import tools.jackson.annotation.JsonInclude;
-import tools.jackson.annotation.JsonProperty;
-import tools.jackson.annotation.JsonCreator;
-import tools.jackson.annotation.JsonTypeName;
-import tools.jackson.annotation.JsonValue;
-import tools.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import java.util.logging.Level;
@@ -43,7 +43,7 @@ import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.JsonMappingException;
+import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.SerializerProvider;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -110,15 +110,15 @@ public class GmFruit extends AbstractOpenApiSchema {
                 log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
-            throw new JsonMappingException(jp, "Failed deserialization for GmFruit: no match found");
+            throw DatabindException.from(jp, "Failed deserialization for GmFruit: no match found");
         }
 
         /**
          * Handle deserialization of the 'null' value.
          */
         @Override
-        public GmFruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException(ctxt.getParser(), "GmFruit cannot be null");
+        public GmFruit getNullValue(DeserializationContext ctxt) {
+            throw DatabindException.from(ctxt.getParser(), "GmFruit cannot be null");
         }
     }
 

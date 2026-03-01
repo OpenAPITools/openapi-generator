@@ -28,7 +28,7 @@ import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
 import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.JsonMappingException;
+import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.SerializerProvider;
 import tools.jackson.databind.annotation.JsonDeserialize;
@@ -139,7 +139,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
 {{/useJackson3}}
 {{#useJackson3}}
-            throw new JsonMappingException(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+            throw DatabindException.from(jp, String.format(java.util.Locale.ROOT, "Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
 {{/useJackson3}}
         }
 
@@ -147,12 +147,22 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
          * Handle deserialization of the 'null' value.
          */
         @Override
+{{^useJackson3}}
         public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+{{/useJackson3}}
+{{#useJackson3}}
+        public {{classname}} getNullValue(DeserializationContext ctxt) {
+{{/useJackson3}}
         {{#isNullable}}
             return null;
         {{/isNullable}}
         {{^isNullable}}
+{{^useJackson3}}
             throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
+{{#useJackson3}}
+            throw DatabindException.from(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
         {{/isNullable}}
         }
     }

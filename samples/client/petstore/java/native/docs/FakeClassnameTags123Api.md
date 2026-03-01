@@ -83,7 +83,7 @@ public class Example {
 
 ## testClassnameWithHttpInfo
 
-> ApiResponse<Client> testClassname testClassnameWithHttpInfo(client)
+> ApiResponse<Client> testClassnameWithHttpInfo(client)
 
 To test class name in snake case
 

@@ -17,7 +17,7 @@ import java.util.Objects;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import tools.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Abstract class for oneOf,anyOf schemas defined in OpenAPI spec
