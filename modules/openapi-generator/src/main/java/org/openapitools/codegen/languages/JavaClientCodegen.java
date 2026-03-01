@@ -814,33 +814,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 break;
         }
         
-        // Jackson 3 support: update importMapping to use tools.jackson.* packages
-        if (useJackson3) {
-            if (!libNative) {
-                LOGGER.warn("useJackson3 option is currently only supported for library=native. Ignoring useJackson3.");
-                useJackson3 = false;
-                additionalProperties.put(USE_JACKSON_3, false);
-            } else {
-                importMapping.put("JsonProperty", "tools.jackson.annotation.JsonProperty");
-                importMapping.put("JsonSubTypes", "tools.jackson.annotation.JsonSubTypes");
-                importMapping.put("JsonTypeInfo", "tools.jackson.annotation.JsonTypeInfo");
-                importMapping.put("JsonTypeName", "tools.jackson.annotation.JsonTypeName");
-                importMapping.put("JsonCreator", "tools.jackson.annotation.JsonCreator");
-                importMapping.put("JsonValue", "tools.jackson.annotation.JsonValue");
-                importMapping.put("JsonIgnore", "tools.jackson.annotation.JsonIgnore");
-                importMapping.put("JsonIgnoreProperties", "tools.jackson.annotation.JsonIgnoreProperties");
-                importMapping.put("JsonInclude", "tools.jackson.annotation.JsonInclude");
-                importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
-                importMapping.put("JsonFormat", "tools.jackson.annotation.JsonFormat");
-                // Secondary rule: when JsonProperty is imported, also import JsonCreator (Jackson 3)
-                importMapping.put("tools.jackson.annotation.JsonProperty", "tools.jackson.annotation.JsonCreator");
-                if (openApiNullable) {
-                    LOGGER.warn("openApiNullable with useJackson3=true: JsonNullableModule is not yet available for Jackson 3. " +
-                            "JsonNullable types will be generated but module registration will be skipped.");
-                }
-            }
-        }
-
         if (isLibrary(FEIGN)) {
             additionalProperties.put("feign-okhttp", "true");
         } else if (isLibrary(FEIGN_HC5)) {
