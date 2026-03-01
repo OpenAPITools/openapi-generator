@@ -3,7 +3,7 @@
 #
 language: java
 jdk:
-  - oraclejdk11
+  - oraclejdk17
 before_install:
   # ensure gradlew has proper permission
   - chmod a+x ./gradlew

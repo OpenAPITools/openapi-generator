@@ -27,10 +27,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -44,13 +40,14 @@ import org.openapitools.client.ApiClient;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class HealthCheckResult {
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
-  private JsonNullable<String> nullableMessage = JsonNullable.<String>undefined();
+  @javax.annotation.Nullable
+  private String nullableMessage;
 
   public HealthCheckResult() { 
   }
 
   public HealthCheckResult nullableMessage(@javax.annotation.Nullable String nullableMessage) {
-    this.nullableMessage = JsonNullable.<String>of(nullableMessage);
+    this.nullableMessage = nullableMessage;
     return this;
   }
 
@@ -59,25 +56,17 @@ public class HealthCheckResult {
    * @return nullableMessage
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public String getNullableMessage() {
-        return nullableMessage.orElse(null);
+    return nullableMessage;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_MESSAGE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<String> getNullableMessage_JsonNullable() {
-    return nullableMessage;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_NULLABLE_MESSAGE)
-  public void setNullableMessage_JsonNullable(JsonNullable<String> nullableMessage) {
-    this.nullableMessage = nullableMessage;
-  }
-
   public void setNullableMessage(@javax.annotation.Nullable String nullableMessage) {
-    this.nullableMessage = JsonNullable.<String>of(nullableMessage);
+    this.nullableMessage = nullableMessage;
   }
 
 
@@ -89,20 +78,9 @@ public class HealthCheckResult {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -178,10 +156,6 @@ public class HealthCheckResult {
     }
 
     public HealthCheckResult.Builder nullableMessage(String nullableMessage) {
-      this.instance.nullableMessage = JsonNullable.<String>of(nullableMessage);
-      return this;
-    }
-    public HealthCheckResult.Builder nullableMessage(JsonNullable<String> nullableMessage) {
       this.instance.nullableMessage = nullableMessage;
       return this;
     }

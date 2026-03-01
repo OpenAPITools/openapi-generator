@@ -27,10 +27,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -91,13 +87,16 @@ public class User {
   private Object objectWithNoDeclaredProps;
 
   public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
-  private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
+  @javax.annotation.Nullable
+  private Object objectWithNoDeclaredPropsNullable;
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
-  private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
+  @javax.annotation.Nullable
+  private Object anyTypeProp = null;
 
   public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
-  private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
+  @javax.annotation.Nullable
+  private Object anyTypePropNullable = null;
 
   public User() { 
   }
@@ -319,7 +318,7 @@ public class User {
 
 
   public User objectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
     return this;
   }
 
@@ -328,30 +327,22 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getObjectWithNoDeclaredPropsNullable() {
-        return objectWithNoDeclaredPropsNullable.orElse(null);
+    return objectWithNoDeclaredPropsNullable;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
-    return objectWithNoDeclaredPropsNullable;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
-  public void setObjectWithNoDeclaredPropsNullable_JsonNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
-  }
-
   public void setObjectWithNoDeclaredPropsNullable(@javax.annotation.Nullable Object objectWithNoDeclaredPropsNullable) {
-    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
   }
 
 
   public User anyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    this.anyTypeProp = anyTypeProp;
     return this;
   }
 
@@ -360,30 +351,22 @@ public class User {
    * @return anyTypeProp
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getAnyTypeProp() {
-        return anyTypeProp.orElse(null);
+    return anyTypeProp;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
-    return anyTypeProp;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
-  public void setAnyTypeProp_JsonNullable(JsonNullable<Object> anyTypeProp) {
-    this.anyTypeProp = anyTypeProp;
-  }
-
   public void setAnyTypeProp(@javax.annotation.Nullable Object anyTypeProp) {
-    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    this.anyTypeProp = anyTypeProp;
   }
 
 
   public User anyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
-    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+    this.anyTypePropNullable = anyTypePropNullable;
     return this;
   }
 
@@ -392,25 +375,17 @@ public class User {
    * @return anyTypePropNullable
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getAnyTypePropNullable() {
-        return anyTypePropNullable.orElse(null);
+    return anyTypePropNullable;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
-    return anyTypePropNullable;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
-  public void setAnyTypePropNullable_JsonNullable(JsonNullable<Object> anyTypePropNullable) {
-    this.anyTypePropNullable = anyTypePropNullable;
-  }
-
   public void setAnyTypePropNullable(@javax.annotation.Nullable Object anyTypePropNullable) {
-    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+    this.anyTypePropNullable = anyTypePropNullable;
   }
 
 
@@ -422,20 +397,9 @@ public class User {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -613,26 +577,14 @@ public class User {
       return this;
     }
     public User.Builder objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
-      this.instance.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
-      return this;
-    }
-    public User.Builder objectWithNoDeclaredPropsNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
       this.instance.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
       return this;
     }
     public User.Builder anyTypeProp(Object anyTypeProp) {
-      this.instance.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
-      return this;
-    }
-    public User.Builder anyTypeProp(JsonNullable<Object> anyTypeProp) {
       this.instance.anyTypeProp = anyTypeProp;
       return this;
     }
     public User.Builder anyTypePropNullable(Object anyTypePropNullable) {
-      this.instance.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
-      return this;
-    }
-    public User.Builder anyTypePropNullable(JsonNullable<Object> anyTypePropNullable) {
       this.instance.anyTypePropNullable = anyTypePropNullable;
       return this;
     }

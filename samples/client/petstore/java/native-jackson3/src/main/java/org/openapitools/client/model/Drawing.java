@@ -37,10 +37,6 @@ import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
 import org.openapitools.client.model.ShapeOrNull;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -65,7 +61,8 @@ public class Drawing {
   private ShapeOrNull shapeOrNull;
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
-  private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
+  @javax.annotation.Nullable
+  private NullableShape nullableShape;
 
   public static final String JSON_PROPERTY_SHAPES = "shapes";
   @javax.annotation.Nullable
@@ -123,7 +120,7 @@ public class Drawing {
 
 
   public Drawing nullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
-    this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
+    this.nullableShape = nullableShape;
     return this;
   }
 
@@ -132,25 +129,17 @@ public class Drawing {
    * @return nullableShape
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public NullableShape getNullableShape() {
-        return nullableShape.orElse(null);
+    return nullableShape;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_NULLABLE_SHAPE, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<NullableShape> getNullableShape_JsonNullable() {
-    return nullableShape;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_NULLABLE_SHAPE)
-  public void setNullableShape_JsonNullable(JsonNullable<NullableShape> nullableShape) {
-    this.nullableShape = nullableShape;
-  }
-
   public void setNullableShape(@javax.annotation.Nullable NullableShape nullableShape) {
-    this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
+    this.nullableShape = nullableShape;
   }
 
 
@@ -237,20 +226,9 @@ public class Drawing {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -358,10 +336,6 @@ public class Drawing {
       return this;
     }
     public Drawing.Builder nullableShape(NullableShape nullableShape) {
-      this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
-      return this;
-    }
-    public Drawing.Builder nullableShape(JsonNullable<NullableShape> nullableShape) {
       this.instance.nullableShape = nullableShape;
       return this;
     }

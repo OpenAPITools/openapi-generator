@@ -31,10 +31,6 @@ import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.OuterEnumDefaultValue;
 import org.openapitools.client.model.OuterEnumInteger;
 import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -255,7 +251,8 @@ public class EnumTest {
   private EnumNumberEnum enumNumber;
 
   public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
-  private JsonNullable<OuterEnum> outerEnum = JsonNullable.<OuterEnum>undefined();
+  @javax.annotation.Nullable
+  private OuterEnum outerEnum;
 
   public static final String JSON_PROPERTY_OUTER_ENUM_INTEGER = "outerEnumInteger";
   @javax.annotation.Nullable
@@ -393,7 +390,7 @@ public class EnumTest {
 
 
   public EnumTest outerEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
-    this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+    this.outerEnum = outerEnum;
     return this;
   }
 
@@ -402,25 +399,17 @@ public class EnumTest {
    * @return outerEnum
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public OuterEnum getOuterEnum() {
-        return outerEnum.orElse(null);
+    return outerEnum;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_OUTER_ENUM, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<OuterEnum> getOuterEnum_JsonNullable() {
-    return outerEnum;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
-  public void setOuterEnum_JsonNullable(JsonNullable<OuterEnum> outerEnum) {
-    this.outerEnum = outerEnum;
-  }
-
   public void setOuterEnum(@javax.annotation.Nullable OuterEnum outerEnum) {
-    this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
+    this.outerEnum = outerEnum;
   }
 
 
@@ -504,20 +493,9 @@ public class EnumTest {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -661,10 +639,6 @@ public class EnumTest {
       return this;
     }
     public EnumTest.Builder outerEnum(OuterEnum outerEnum) {
-      this.instance.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
-      return this;
-    }
-    public EnumTest.Builder outerEnum(JsonNullable<OuterEnum> outerEnum) {
       this.instance.outerEnum = outerEnum;
       return this;
     }

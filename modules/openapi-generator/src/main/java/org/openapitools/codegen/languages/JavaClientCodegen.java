@@ -458,6 +458,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(FAIL_ON_UNKNOWN_PROPERTIES, this::setFailOnUnknownProperties);
         convertPropertyToBooleanAndWriteBack(SUPPORT_VERTX_FUTURE, this::setSupportVertxFuture);
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
+        if (useJackson3 && openApiNullable) {
+            LOGGER.warn("openApiNullable is not supported with useJackson3=true (jackson-databind-nullable has no Jackson 3 release). Disabling openApiNullable.");
+            openApiNullable = false;
+            additionalProperties.put(OPENAPI_NULLABLE, false);
+        }
 
         // add URL query deepObject support to native, apache-httpclient by default
         if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {

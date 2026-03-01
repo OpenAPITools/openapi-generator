@@ -29,10 +29,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.openapitools.jackson.nullable.JsonNullable;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -61,7 +57,8 @@ public class AdditionalPropertiesClass {
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public static final String JSON_PROPERTY_ANYTYPE1 = "anytype_1";
-  private JsonNullable<Object> anytype1 = JsonNullable.<Object>of(null);
+  @javax.annotation.Nullable
+  private Object anytype1 = null;
 
   public static final String JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_ANYTYPE1 = "map_with_undeclared_properties_anytype_1";
   @javax.annotation.Nullable
@@ -151,7 +148,7 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype1(@javax.annotation.Nullable Object anytype1) {
-    this.anytype1 = JsonNullable.<Object>of(anytype1);
+    this.anytype1 = anytype1;
     return this;
   }
 
@@ -160,25 +157,17 @@ public class AdditionalPropertiesClass {
    * @return anytype1
    */
   @javax.annotation.Nullable
-  @JsonIgnore
+  @JsonProperty(value = JSON_PROPERTY_ANYTYPE1, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public Object getAnytype1() {
-        return anytype1.orElse(null);
+    return anytype1;
   }
+
 
   @JsonProperty(value = JSON_PROPERTY_ANYTYPE1, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-  public JsonNullable<Object> getAnytype1_JsonNullable() {
-    return anytype1;
-  }
-  
-  @JsonProperty(JSON_PROPERTY_ANYTYPE1)
-  public void setAnytype1_JsonNullable(JsonNullable<Object> anytype1) {
-    this.anytype1 = anytype1;
-  }
-
   public void setAnytype1(@javax.annotation.Nullable Object anytype1) {
-    this.anytype1 = JsonNullable.<Object>of(anytype1);
+    this.anytype1 = anytype1;
   }
 
 
@@ -326,20 +315,9 @@ public class AdditionalPropertiesClass {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
-  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
-    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
-  }
-
   @Override
   public int hashCode() {
     return HashCodeBuilder.reflectionHashCode(this);
-  }
-
-  private static <T> int hashCodeNullable(JsonNullable<T> a) {
-    if (a == null) {
-      return 1;
-    }
-    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -481,10 +459,6 @@ public class AdditionalPropertiesClass {
       return this;
     }
     public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
-      this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
-      return this;
-    }
-    public AdditionalPropertiesClass.Builder anytype1(JsonNullable<Object> anytype1) {
       this.instance.anytype1 = anytype1;
       return this;
     }
