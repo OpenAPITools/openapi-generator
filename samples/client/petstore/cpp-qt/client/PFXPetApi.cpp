@@ -272,9 +272,9 @@ void PFXPetApi::addPet(const PFXPet &pfx_pet) {
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -480,9 +480,9 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const ::test_namespace::Optional
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -675,9 +675,9 @@ void PFXPetApi::findPetsByStatus(const QList<QString> &status) {
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -880,9 +880,9 @@ void PFXPetApi::findPetsByTags(const QList<QString> &tags) {
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1092,9 +1092,9 @@ void PFXPetApi::updatePet(const PFXPet &pfx_pet) {
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1223,9 +1223,9 @@ void PFXPetApi::updatePetWithForm(const qint64 &pet_id, const ::test_namespace::
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -1354,9 +1354,9 @@ void PFXPetApi::uploadFile(const qint64 &pet_id, const ::test_namespace::Optiona
     QStringList scopeImplicitFlow;
     scopeImplicitFlow.append("write:pets");
     scopeImplicitFlow.append("read:pets");
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new PFXHttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);

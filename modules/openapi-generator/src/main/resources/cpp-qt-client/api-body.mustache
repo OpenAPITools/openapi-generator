@@ -706,9 +706,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#scopes}}
     scopeAuthorizationFlow.append("{{scope}}");
     {{/scopes}}
-    auto token2 = _authFlow.getToken(scopeAuthorizationFlow.join(" "));
-    if(token2.isValid())
-        input.headers.insert("Authorization", "Bearer " + token2.getToken());
+    auto tokenAuthorizationFlow = _authFlow.getToken(scopeAuthorizationFlow.join(" "));
+    if(tokenAuthorizationFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenAuthorizationFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -736,9 +736,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#scopes}}
     scopeImplicitFlow.append("{{scope}}");
     {{/scopes}}
-    auto token1 = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
-    if(token1.isValid())
-        input.headers.insert("Authorization", "Bearer " + token1.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -766,9 +766,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#scopes}}
     scopeClientCredentialsFlow.append("{{scope}}");
     {{/scopes}}
-    auto token3 = _credentialFlow.getToken(scopeClientCredentialsFlow.join(" "));
-    if(token3.isValid())
-        input.headers.insert("Authorization", "Bearer " + token3.getToken());
+    auto tokenClientCredentialsFlow = _credentialFlow.getToken(scopeClientCredentialsFlow.join(" "));
+    if(tokenClientCredentialsFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenClientCredentialsFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -796,9 +796,9 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     {{#scopes}}
     scopeResourceOwnerPasswordFlow.append("{{scope}}");
     {{/scopes}}
-    auto token4 = _passwordFlow.getToken(scopeResourceOwnerPasswordFlow.join(" "));
-    if(token4.isValid())
-        input.headers.insert("Authorization", "Bearer " + token4.getToken());
+    auto tokenResourceOwnerPasswordFlow = _passwordFlow.getToken(scopeResourceOwnerPasswordFlow.join(" "));
+    if(tokenResourceOwnerPasswordFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenResourceOwnerPasswordFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
