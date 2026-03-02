@@ -81,7 +81,7 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     default ResponseEntity<Void> deletePet(
-        @NotNull  @PathVariable("petId") Long petId
+         @PathVariable("petId") Long petId
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -178,7 +178,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Pet> getPetById(
-        @NotNull  @PathVariable("petId") Long petId
+         @PathVariable("petId") Long petId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -256,7 +256,7 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm(
-        @NotNull  @PathVariable("petId") Long petId,
+         @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "name", required = false) String name,
          @Valid @RequestParam(value = "status", required = false) String status
     ) {
@@ -282,7 +282,7 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ModelApiResponse> uploadFile(
-        @NotNull  @PathVariable("petId") Long petId,
+         @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     ) {

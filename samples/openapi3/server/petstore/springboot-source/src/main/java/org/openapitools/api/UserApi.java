@@ -107,7 +107,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     default ResponseEntity<Void> deleteUser(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -130,7 +130,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -210,7 +210,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> updateUser(
-        @NotNull  @PathVariable("username") String username,
+         @PathVariable("username") String username,
          @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

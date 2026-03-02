@@ -141,7 +141,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     default ResponseEntity<Void> deleteUser(
-        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -175,7 +175,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -282,7 +282,7 @@ public interface UserApi {
         value = UserApi.PATH_UPDATE_USER
     )
     default ResponseEntity<Void> updateUser(
-        @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
