@@ -908,7 +908,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
                 // field
                 if (cp.baseName != null && !cp.baseName.equals(cp.name)) { // base name not the same as name
-                    fields.add(String.format(Locale.ROOT, "alias=\"%s\"", cp.baseName));
+                    fields.add(String.format(Locale.ROOT, "validation_alias=\"%s\"", cp.baseName));
+                    fields.add(String.format(Locale.ROOT, "serialization_alias=\"%s\"", cp.baseName));
                 }
 
                 if (!StringUtils.isEmpty(cp.description)) { // has description
