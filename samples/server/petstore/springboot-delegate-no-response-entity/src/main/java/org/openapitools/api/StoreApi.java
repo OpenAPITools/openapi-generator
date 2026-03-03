@@ -53,7 +53,7 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void deleteOrder(
-        @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
+        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId
     ) {
         getDelegate().deleteOrder(orderId);
     }
@@ -122,7 +122,7 @@ public interface StoreApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Order getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
+        @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") Long orderId
     ) {
         return getDelegate().getOrderById(orderId);
     }

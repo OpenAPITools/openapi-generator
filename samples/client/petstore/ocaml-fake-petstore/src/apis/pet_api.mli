@@ -7,7 +7,7 @@
 
 val add_pet : pet_t:Pet.t -> unit Lwt.t
 val delete_pet : pet_id:int64 -> ?api_key:string -> unit -> unit Lwt.t
-val find_pets_by_status : status:Enums.status list -> Pet.t list Lwt.t
+val find_pets_by_status : status:Enums.pet_status list -> Pet.t list Lwt.t
 val find_pets_by_tags : tags:string list -> Pet.t list Lwt.t
 val get_pet_by_id : pet_id:int64 -> Pet.t Lwt.t
 val update_pet : pet_t:Pet.t -> unit Lwt.t

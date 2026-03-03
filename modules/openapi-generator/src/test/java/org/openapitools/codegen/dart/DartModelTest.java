@@ -19,9 +19,14 @@ package org.openapitools.codegen.dart;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.AbstractDartCodegen;
 import org.openapitools.codegen.languages.DartClientCodegen;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -563,5 +568,152 @@ public class DartModelTest {
 
         Assert.assertEquals(op.returnType, "DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "DateTime");
+    }
+
+    @Test(description = "useOptional flag wrapping non-required properties")
+    public void testUseOptionalFlagWrappingNonRequiredProperties() {
+        final Schema model = new Schema()
+                .description("a model with required and optional properties")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("name", new StringSchema())
+                .addProperties("description", new StringSchema())
+                .addRequiredItem("id");
+
+        final DartClientCodegen codegen = new DartClientCodegen();
+        codegen.setUseOptional(true);
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        final CodegenModel cm = codegen.fromModel("sample", model);
+        codegen.postProcessModels(createCodegenModelWrapper(cm));
+
+        final CodegenProperty idProp = cm.vars.get(0);
+        Assert.assertEquals(idProp.baseName, "id");
+        Assert.assertFalse(idProp.dataType.startsWith("Optional<"), "Required property should not be wrapped");
+
+        final CodegenProperty nameProp = cm.vars.get(1);
+        Assert.assertEquals(nameProp.baseName, "name");
+        Assert.assertTrue(nameProp.dataType.startsWith("Optional<"), "Non-required property should be wrapped");
+        Assert.assertTrue((Boolean) nameProp.vendorExtensions.get("x-is-optional"));
+
+        final CodegenProperty descProp = cm.vars.get(2);
+        Assert.assertEquals(descProp.baseName, "description");
+        Assert.assertTrue(descProp.dataType.startsWith("Optional<"), "Non-required property should be wrapped");
+    }
+
+    @Test(description = "patchOnly mode PATCH schema detection")
+    public void testPatchOnlyModePatchSchemaDetection() {
+        final Schema patchBodySchema = new Schema()
+                .description("PATCH request body schema")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("name", new StringSchema())
+                .addRequiredItem("id");
+
+        final Schema postBodySchema = new Schema()
+                .description("POST request body schema")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("title", new StringSchema())
+                .addRequiredItem("id");
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.getComponents().addSchemas("PatchBody", patchBodySchema);
+        openAPI.getComponents().addSchemas("PostBody", postBodySchema);
+
+        Operation patchOp = new Operation();
+        RequestBody patchRequestBody = new RequestBody();
+        MediaType patchMediaType = new MediaType();
+        patchMediaType.setSchema(new Schema().$ref("#/components/schemas/PatchBody"));
+        patchRequestBody.setContent(new Content().addMediaType("application/json", patchMediaType));
+        patchOp.setRequestBody(patchRequestBody);
+        patchOp.setOperationId("updateResource");
+
+        Operation postOp = new Operation();
+        RequestBody postRequestBody = new RequestBody();
+        MediaType postMediaType = new MediaType();
+        postMediaType.setSchema(new Schema().$ref("#/components/schemas/PostBody"));
+        postRequestBody.setContent(new Content().addMediaType("application/json", postMediaType));
+        postOp.setRequestBody(postRequestBody);
+        postOp.setOperationId("createResource");
+
+        PathItem pathItem = new PathItem();
+        pathItem.setPatch(patchOp);
+        pathItem.setPost(postOp);
+        openAPI.getPaths().addPathItem("/resource", pathItem);
+
+        final DartClientCodegen codegen = new DartClientCodegen();
+        codegen.setPatchOnly(true);
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
+
+        final CodegenModel patchModel = codegen.fromModel("PatchBody", patchBodySchema);
+        codegen.postProcessModels(createCodegenModelWrapper(patchModel));
+
+        final CodegenModel postModel = codegen.fromModel("PostBody", postBodySchema);
+        codegen.postProcessModels(createCodegenModelWrapper(postModel));
+
+        final CodegenProperty patchNameProp = patchModel.vars.get(1);
+        Assert.assertEquals(patchNameProp.baseName, "name");
+        Assert.assertTrue(patchNameProp.dataType.startsWith("Optional<"),
+                "PATCH body non-required property should be wrapped with Optional");
+
+        final CodegenProperty postTitleProp = postModel.vars.get(1);
+        Assert.assertEquals(postTitleProp.baseName, "title");
+        Assert.assertFalse(postTitleProp.dataType.startsWith("Optional<"),
+                "POST body non-required property should NOT be wrapped when patchOnly=true");
+    }
+
+    @Test(description = "patchOnly=true auto-enabling useOptional")
+    public void testPatchOnlyTrueAutoEnablingUseOptional() {
+        final DartClientCodegen codegen = new DartClientCodegen();
+        codegen.additionalProperties().put(AbstractDartCodegen.PATCH_ONLY, true);
+
+        codegen.processOpts();
+
+        Assert.assertTrue((Boolean) codegen.additionalProperties().get(AbstractDartCodegen.USE_OPTIONAL),
+                "patchOnly=true should auto-enable useOptional");
+    }
+
+    @Test(description = "Parameter unwrapping behavior")
+    public void testParameterUnwrappingBehavior() {
+        final Schema model = new Schema()
+                .description("a model")
+                .addProperties("id", new IntegerSchema())
+                .addProperties("name", new StringSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+
+        Operation getOp = new Operation();
+        io.swagger.v3.oas.models.parameters.QueryParameter queryParam =
+                new io.swagger.v3.oas.models.parameters.QueryParameter();
+        queryParam.setName("filter");
+        queryParam.setSchema(new StringSchema());
+        queryParam.setRequired(false);
+        getOp.addParametersItem(queryParam);
+        getOp.setOperationId("getResource");
+
+        PathItem pathItem = new PathItem();
+        pathItem.setGet(getOp);
+        openAPI.getPaths().addPathItem("/resource", pathItem);
+
+        final DartClientCodegen codegen = new DartClientCodegen();
+        codegen.setUseOptional(true);
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        final CodegenOperation op = codegen.fromOperation("/resource", "get", getOp, null);
+
+        OperationsMap opsMap = new OperationsMap();
+        OperationMap opMap = new OperationMap();
+        opMap.setOperation(Collections.singletonList(op));
+        opsMap.setOperation(opMap);
+
+        codegen.postProcessOperationsWithModels(opsMap, Collections.emptyList());
+
+        Assert.assertFalse(op.queryParams.isEmpty(), "Should have query params");
+        CodegenParameter filterParam = op.queryParams.get(0);
+        Assert.assertFalse(filterParam.dataType.startsWith("Optional<"),
+                "Query parameter should not be wrapped with Optional");
     }
 }

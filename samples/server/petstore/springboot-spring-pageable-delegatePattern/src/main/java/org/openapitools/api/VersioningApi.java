@@ -55,7 +55,7 @@ public interface VersioningApi {
         headers = { "VersionWithDefaultValue=V1", "VersionNoDefaultValue" } 
     )
     default ResponseEntity<ModelApiResponse> versioningHeaders(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningHeaders(petId);
     }
@@ -94,7 +94,7 @@ public interface VersioningApi {
     default ResponseEntity<ModelApiResponse> versioningMix(
         @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @Valid @RequestParam(value = "VersionWithDefaultValueQuery", required = true, defaultValue = "V1") String versionWithDefaultValueQuery,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValueQuery", required = true) String versionNoDefaultValueQuery,
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningMix(versionWithDefaultValueQuery, versionNoDefaultValueQuery, petId);
     }
@@ -128,7 +128,7 @@ public interface VersioningApi {
     default ResponseEntity<ModelApiResponse> versioningQueryParams(
         @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @Valid @RequestParam(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningQueryParams(versionWithDefaultValue, versionNoDefaultValue, petId);
     }

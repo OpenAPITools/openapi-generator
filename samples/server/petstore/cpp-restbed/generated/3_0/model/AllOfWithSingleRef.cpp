@@ -40,6 +40,7 @@ AllOfWithSingleRef::AllOfWithSingleRef(boost::property_tree::ptree const& pt)
         fromPropertyTree(pt);
 }
 
+AllOfWithSingleRef::~AllOfWithSingleRef = default;
 
 std::string AllOfWithSingleRef::toJsonString(bool prettyJson /* = false */) const
 {

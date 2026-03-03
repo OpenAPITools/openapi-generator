@@ -6,9 +6,9 @@
  *)
 
 type status = [
-| `Placed [@printer fun fmt _ -> Format.pp_print_string fmt "placed"] [@name "placed"]
 | `Approved [@printer fun fmt _ -> Format.pp_print_string fmt "approved"] [@name "approved"]
 | `Delivered [@printer fun fmt _ -> Format.pp_print_string fmt "delivered"] [@name "delivered"]
+| `Placed [@printer fun fmt _ -> Format.pp_print_string fmt "placed"] [@name "placed"]
 ] [@@deriving yojson, show { with_path = false }, eq];;
 
 let status_of_yojson json = status_of_yojson (`List [json])

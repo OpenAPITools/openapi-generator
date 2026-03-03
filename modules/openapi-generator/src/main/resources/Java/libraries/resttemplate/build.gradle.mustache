@@ -115,8 +115,9 @@ ext {
     {{#swagger2AnnotationLibrary}}
     swagger_annotations_version = "2.2.9"
     {{/swagger2AnnotationLibrary}}
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
+    jackson_version = "2.21.1"
+    jackson_annotations_version = "2.21"
+    jackson_databind_version = "2.21.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.9"
     {{/openApiNullable}}
@@ -145,7 +146,7 @@ dependencies {
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{^useJakartaEe}}
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"

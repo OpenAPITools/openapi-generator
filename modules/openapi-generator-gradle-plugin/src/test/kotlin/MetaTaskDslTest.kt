@@ -4,16 +4,16 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.testng.annotations.Test
 import java.io.File
+import java.nio.file.Files.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class MetaTaskDslTest : TestBase() {
-    override var temp: File = createTempDir(javaClass.simpleName)
+    override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
 
     @Test
     fun `openApiMeta should generate desired project contents`() {
         // Arrange
-        val buildDirReplacement = "\$buildDir/meta"
         withProject("""
             | plugins {
             |   id 'org.openapi.generator'
@@ -22,7 +22,7 @@ class MetaTaskDslTest : TestBase() {
             | openApiMeta {
             |     generatorName = "Sample"
             |     packageName = "org.openapitools.example"
-            |     outputFolder = "$buildDirReplacement".toString()
+            |     outputFolder = layout.buildDirectory.dir("meta").get().asFile.path
             | }
         """.trimMargin())
 

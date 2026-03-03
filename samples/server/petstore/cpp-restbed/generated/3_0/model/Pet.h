@@ -45,7 +45,7 @@ class  Pet
 public:
     Pet() = default;
     explicit Pet(boost::property_tree::ptree const& pt);
-    virtual ~Pet() = default;
+    virtual ~Pet();
 
     Pet(const Pet& other) = default; // copy constructor
     Pet(Pet&& other) noexcept = default; // move constructor

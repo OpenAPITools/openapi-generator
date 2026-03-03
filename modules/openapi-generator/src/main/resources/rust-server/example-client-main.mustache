@@ -44,17 +44,19 @@ fn main() {
     let matches = Command::new("client")
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .value_parser([
+            .value_parser(Vec::<&str>::from([
 {{#apiInfo}}
   {{#apis}}
     {{#operations}}
       {{#operation}}
+        {{^exts.x-no-client-example}}
                 "{{{operationId}}}",
+        {{/exts.x-no-client-example}}
       {{/operation}}
     {{/operations}}
   {{/apis}}
 {{/apiInfo}}
-            ])
+            ]))
             .required(true)
             .index(1))
         .arg(Arg::new("https")

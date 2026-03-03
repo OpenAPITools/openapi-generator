@@ -67,43 +67,28 @@ fn main() {
     let matches = Command::new("client")
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .value_parser([
-                "TestSpecialTags",
+            .value_parser(Vec::<&str>::from([
                 "Call123example",
                 "FakeOuterBooleanSerialize",
                 "FakeOuterCompositeSerialize",
                 "FakeOuterNumberSerialize",
                 "FakeOuterStringSerialize",
                 "FakeResponseWithNumericalDescription",
-                "TestBodyWithQueryParams",
-                "TestClientModel",
                 "TestEndpointParameters",
                 "TestEnumParameters",
-                "TestInlineAdditionalProperties",
                 "TestJsonFormData",
-                "HyphenParam",
-                "TestClassname",
-                "AddPet",
                 "FindPetsByStatus",
                 "FindPetsByTags",
-                "UpdatePet",
                 "DeletePet",
                 "GetPetById",
                 "UpdatePetWithForm",
                 "UploadFile",
                 "GetInventory",
-                "PlaceOrder",
-                "DeleteOrder",
                 "GetOrderById",
-                "CreateUser",
                 "CreateUsersWithArrayInput",
                 "CreateUsersWithListInput",
-                "LoginUser",
                 "LogoutUser",
-                "DeleteUser",
-                "GetUserByName",
-                "UpdateUser",
-            ])
+            ]))
             .required(true)
             .index(1))
         .arg(Arg::new("https")
@@ -233,7 +218,7 @@ fn main() {
         /* Disabled because there's no example.
         Some("TestBodyWithQueryParams") => {
             let result = rt.block_on(client.test_body_with_query_params(
-                  "query_example".to_string(),
+                  ???,
                   ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
@@ -293,12 +278,14 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("HyphenParam") => {
             let result = rt.block_on(client.hyphen_param(
-                  "hyphen_param_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         /* Disabled because there's no example.
         Some("TestClassname") => {
             let result = rt.block_on(client.test_classname(
@@ -337,20 +324,20 @@ fn main() {
         */
         Some("DeletePet") => {
             let result = rt.block_on(client.delete_pet(
-                  789,
-                  Some("api_key_example".to_string())
+                  0,
+                  None
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("GetPetById") => {
             let result = rt.block_on(client.get_pet_by_id(
-                  789
+                  0
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         Some("UpdatePetWithForm") => {
             let result = rt.block_on(client.update_pet_with_form(
-                  789,
+                  0,
                   Some("name_example".to_string()),
                   Some("status_example".to_string())
             ));
@@ -358,7 +345,7 @@ fn main() {
         },
         Some("UploadFile") => {
             let result = rt.block_on(client.upload_file(
-                  789,
+                  0,
                   Some("additional_metadata_example".to_string()),
                   Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))
             ));
@@ -377,15 +364,17 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        /* Disabled because there's no example.
         Some("DeleteOrder") => {
             let result = rt.block_on(client.delete_order(
-                  "order_id_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         Some("GetOrderById") => {
             let result = rt.block_on(client.get_order_by_id(
-                  789
+                  0
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
@@ -409,34 +398,40 @@ fn main() {
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("LoginUser") => {
             let result = rt.block_on(client.login_user(
-                  "username_example".to_string(),
-                  "password_example".to_string()
+                  ???,
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         Some("LogoutUser") => {
             let result = rt.block_on(client.logout_user(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        /* Disabled because there's no example.
         Some("DeleteUser") => {
             let result = rt.block_on(client.delete_user(
-                  "username_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
+        /* Disabled because there's no example.
         Some("GetUserByName") => {
             let result = rt.block_on(client.get_user_by_name(
-                  "username_example".to_string()
+                  ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
+        */
         /* Disabled because there's no example.
         Some("UpdateUser") => {
             let result = rt.block_on(client.update_user(
-                  "username_example".to_string(),
+                  ???,
                   ???
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());

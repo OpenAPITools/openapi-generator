@@ -1,5 +1,7 @@
 openapi: 3.1.0
-info: { title: t, version: 1.0.0 }
+info:
+  title: t
+  version: 1.0.0
 paths:
   /x:
     get:
@@ -13,7 +15,7 @@ paths:
             exclusiveMinimum: 0
             exclusiveMaximum: 10
       responses:
-        "200":
+        '200':
           description: ok
   /foo:
     get:
@@ -29,7 +31,7 @@ paths:
             maximum: 11
             exclusiveMaximum: 10
       responses:
-        "200":
+        '200':
           description: ok
   /bar:
     get:
@@ -45,7 +47,7 @@ paths:
             maximum: 10
             exclusiveMaximum: 10
       responses:
-        "200":
+        '200':
           description: ok
   /baz:
     get:
@@ -61,7 +63,7 @@ paths:
             maximum: 10
             exclusiveMaximum: 11
       responses:
-        "200":
+        '200':
           description: ok
   /old:
     get:
@@ -77,5 +79,127 @@ paths:
             maximum: 10
             exclusiveMaximum: true
       responses:
-        "200":
+        '200':
           description: ok
+  /savePrice:
+    post:
+      summary: ''
+      operationId: postPrice
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price:
+                  type: number
+                  exclusiveMinimum: 0
+                  exclusiveMaximum: 10
+                sellingPrice:
+                  type: number
+                  minimum: 0
+                  maximum: 10
+                historys:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      historyPrice0:
+                        type: number
+                        exclusiveMinimum: 0
+                        exclusiveMaximum: 10
+                      historySellingPrice0:
+                        type: number
+                        minimum: 0
+                        maximum: 10
+                    required:
+                      - historyPrice0
+                      - historySellingPrice0
+              required:
+                - price
+                - sellingPrice
+      description: ''
+    put:
+      summary: ''
+      operationId: putPrice
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceDto1'
+components:
+  schemas:
+    PriceDto1:
+      title: PriceDto1
+      x-stoplight:
+        id: 6c700sj3ukk3o
+      type: object
+      properties:
+        price:
+          type: number
+          exclusiveMinimum: 0
+          exclusiveMaximum: 10
+        sellingPrice:
+          type: number
+          minimum: 0
+          maximum: 10
+        historys:
+          type: array
+          items:
+            type: object
+            properties:
+              historyPrice1:
+                type: number
+                exclusiveMinimum: 0
+                exclusiveMaximum: 10
+              historySellingPrice1:
+                type: number
+                minimum: 0
+                maximum: 10
+            required:
+              - historyPrice1
+              - historySellingPrice1
+        historys2:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceDto2'
+        historys3:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceDto3'
+      required:
+        - price
+        - sellingPrice
+    PriceDto2:
+      title: PriceDto2
+      x-stoplight:
+        id: xl2koq12tdte0
+      type: object
+      properties:
+        historyPrice2:
+          type: number
+          exclusiveMinimum: 3101
+          exclusiveMaximum: 3102
+        historySellingPrice2:
+          type: number
+          minimum: 3103
+          maximum: 3104
+      required:
+        - historyPrice2
+        - historySellingPrice2
+    PriceDto3:
+      title: PriceDto3
+      x-stoplight:
+        id: gvpk3358r329k
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+        - $ref: '#/components/schemas/PriceDto2'

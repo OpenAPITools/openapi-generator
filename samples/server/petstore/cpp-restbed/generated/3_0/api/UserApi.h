@@ -69,7 +69,7 @@ class  UserResource: public restbed::Resource
 {
 public:
     UserResource(const std::string& context = "/v2");
-    virtual ~UserResource() = default;
+    virtual ~UserResource();
 
     UserResource(
         const UserResource& other) = default; // copy constructor
@@ -131,7 +131,7 @@ class  UserCreateWithArrayResource: public restbed::Resource
 {
 public:
     UserCreateWithArrayResource(const std::string& context = "/v2");
-    virtual ~UserCreateWithArrayResource() = default;
+    virtual ~UserCreateWithArrayResource();
 
     UserCreateWithArrayResource(
         const UserCreateWithArrayResource& other) = default; // copy constructor
@@ -193,7 +193,7 @@ class  UserCreateWithListResource: public restbed::Resource
 {
 public:
     UserCreateWithListResource(const std::string& context = "/v2");
-    virtual ~UserCreateWithListResource() = default;
+    virtual ~UserCreateWithListResource();
 
     UserCreateWithListResource(
         const UserCreateWithListResource& other) = default; // copy constructor
@@ -255,7 +255,7 @@ class  UserUsernameResource: public restbed::Resource
 {
 public:
     UserUsernameResource(const std::string& context = "/v2");
-    virtual ~UserUsernameResource() = default;
+    virtual ~UserUsernameResource();
 
     UserUsernameResource(
         const UserUsernameResource& other) = default; // copy constructor
@@ -333,7 +333,7 @@ class  UserLoginResource: public restbed::Resource
 {
 public:
     UserLoginResource(const std::string& context = "/v2");
-    virtual ~UserLoginResource() = default;
+    virtual ~UserLoginResource();
 
     UserLoginResource(
         const UserLoginResource& other) = default; // copy constructor
@@ -395,7 +395,7 @@ class  UserLogoutResource: public restbed::Resource
 {
 public:
     UserLogoutResource(const std::string& context = "/v2");
-    virtual ~UserLogoutResource() = default;
+    virtual ~UserLogoutResource();
 
     UserLogoutResource(
         const UserLogoutResource& other) = default; // copy constructor
