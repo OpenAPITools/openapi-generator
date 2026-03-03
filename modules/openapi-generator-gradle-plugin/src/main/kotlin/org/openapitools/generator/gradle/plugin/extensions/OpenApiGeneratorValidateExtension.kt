@@ -49,8 +49,9 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
     val treatWarningsAsErrors: Property<Boolean> = project.objects.property<Boolean>().convention(false)
 
     // ========================================================================
-    // Backwards-compatibility bridge setters for Groovy/Kotlin DSL
-    // These allow users to continue assigning paths as standard strings.
+    // Backwards-compatibility bridge setter for Groovy DSL
+    // This allows Groovy users to use assignment syntax: inputSpec = "path"
+    // For Kotlin DSL, use the extension function below instead.
     // ========================================================================
 
     /** Backwards-compatibility bridge for inputSpec */

@@ -51,8 +51,9 @@ open class OpenApiGeneratorMetaExtension(private val project: Project) {
     }
 
     // ========================================================================
-    // Backwards-compatibility bridge setter for Groovy/Kotlin DSL
-    // Allows users to continue assigning paths as standard strings.
+    // Backwards-compatibility bridge setter for Groovy DSL
+    // This allows Groovy users to use assignment syntax: outputFolder = "path"
+    // For Kotlin DSL, use the extension function below instead.
     // ========================================================================
 
     /** Backwards-compatibility bridge for outputFolder */

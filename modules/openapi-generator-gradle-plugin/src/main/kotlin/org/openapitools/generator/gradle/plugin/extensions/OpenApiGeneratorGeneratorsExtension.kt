@@ -46,8 +46,8 @@ open class OpenApiGeneratorGeneratorsExtension(project: Project) {
     }
 
     // ========================================================================
-    // Backwards-compatibility bridge setter for Groovy/Kotlin DSL
-    // Allows users to continue assigning lists directly via `=`
+    // Backwards-compatibility bridge setter for Groovy DSL
+    // This allows Groovy users to use assignment syntax: include = ...
     // ========================================================================
     fun setInclude(items: Iterable<String>) {
         include.set(items)
