@@ -28,6 +28,7 @@ import org.openapitools.codegen.antlr4.KotlinLexer;
 import org.openapitools.codegen.antlr4.KotlinParser;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
+import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.testutils.ConfigAssert;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.languages.KotlinClientCodegen.GENERATE_ONEOF_ANYOF_WRAPPERS;
 
 @SuppressWarnings("static-method")
@@ -876,6 +878,26 @@ public class KotlinClientCodegenModelTest {
 
         final Path modelKt = Paths.get(output + "/src/main/kotlin/model/EmptyModel.kt");
         TestUtils.assertFileNotContains(modelKt, "data class EmptyModel");
+    }
+
+    @Test(description = "issue #22049")
+    public void testGeneratedFreeFormObjectFileContainsExpectedContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("multiplatform");
+        codegen.setDateLibrary("kotlinx-datetime");
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/kotlin_additionalProperties_emptyObject.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/commonMain/kotlin/org/openapitools/client/models/FreeFormObject.kt";
+        Path modelPath = Paths.get(outputPath);
+        // Assert the generated file contains the expected type
+        assertFileContains(modelPath, "kotlin.collections.HashMap<String, kotlin.Any>() {"); // Adjust string as needed for your template
     }
 
     private static class ModelNameTest {
