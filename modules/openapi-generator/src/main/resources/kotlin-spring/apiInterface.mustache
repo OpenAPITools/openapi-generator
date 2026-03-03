@@ -102,6 +102,9 @@ interface {{classname}} {
     {{#vendorExtensions.x-operation-extra-annotation}}
     {{{.}}}
     {{/vendorExtensions.x-operation-extra-annotation}}
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
