@@ -21,6 +21,7 @@ import org.openapitools.client.Pair;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -237,7 +238,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -264,7 +265,7 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -346,7 +347,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -373,7 +374,7 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -455,7 +456,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -482,7 +483,7 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -564,7 +565,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -682,7 +683,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -804,7 +805,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -924,7 +925,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1027,7 +1028,7 @@ public class UserApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1059,7 +1060,7 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {

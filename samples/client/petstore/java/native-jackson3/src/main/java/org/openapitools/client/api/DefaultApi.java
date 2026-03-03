@@ -20,6 +20,7 @@ import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.FooGetDefaultResponse;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -240,7 +241,7 @@ public class DefaultApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {

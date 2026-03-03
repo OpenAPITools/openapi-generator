@@ -20,6 +20,7 @@ import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -244,7 +245,7 @@ public class AnotherFakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -271,7 +272,7 @@ public class AnotherFakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {

@@ -260,12 +260,12 @@ public class ApiClient {
   }
 
   /**
-   * Get a copy of the current {@link ObjectMapper}.
+   * Get the current {@link ObjectMapper}.
    *
-   * @return A copy of the current object mapper.
+   * @return The current object mapper.
    */
   public ObjectMapper getObjectMapper() {
-    return mapper.copy();
+    return mapper;
   }
 
   /**

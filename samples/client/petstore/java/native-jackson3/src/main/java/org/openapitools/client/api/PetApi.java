@@ -22,6 +22,7 @@ import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 
@@ -238,7 +239,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -265,7 +266,7 @@ public class PetApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -351,7 +352,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -472,7 +473,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -612,7 +613,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -744,7 +745,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -848,7 +849,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -875,7 +876,7 @@ public class PetApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -965,7 +966,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1109,7 +1110,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1272,7 +1273,7 @@ public class PetApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException | JacksonException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {

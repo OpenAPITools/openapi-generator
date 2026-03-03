@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 {{/useJackson3}}
 {{#useJackson3}}
+import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.ObjectMapper;
 {{/useJackson3}}
@@ -530,7 +531,7 @@ public class {{classname}} {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException e) {
+    } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -617,7 +618,7 @@ public class {{classname}} {
                   localVarResponseBody.close();
                 }
               }
-            } catch (IOException e) {
+            } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
         }
@@ -748,7 +749,7 @@ public class {{classname}} {
       {{^useGzipFeature}}
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
       {{/useGzipFeature}}
-    } catch (IOException e) {
+    } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
       throw new ApiException(e);
     }
     {{/isString}}
