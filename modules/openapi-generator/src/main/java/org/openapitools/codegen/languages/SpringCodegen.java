@@ -1293,7 +1293,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         return extensions;
     }
 
-    private boolean isSpringCodegen() {
+    protected boolean isSpringCodegen() {
         return getName().contains("spring");
     }
 
