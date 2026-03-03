@@ -226,7 +226,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -327,12 +327,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         {{/useJackson3}}
         {{^useJackson3}}
-        <jackson-version>2.19.2</jackson-version>
+        <jackson-version>2.21.1</jackson-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         {{/useJackson3}}
         {{#useJackson3}}
         <jackson3-version>3.0.4</jackson3-version>
-        <jackson-annotations-version>2.20</jackson-annotations-version>
+        <jackson-annotations-version>2.21</jackson-annotations-version>
         {{/useJackson3}}
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>

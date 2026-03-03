@@ -5,6 +5,7 @@
     <RootNamespace>Org.OpenAPITools.Test</RootNamespace>
     <TargetFramework>net48</TargetFramework>
     <IsPackable>false</IsPackable>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <ItemGroup>

@@ -142,7 +142,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     ResponseEntity<Void> deleteUser(
-        @NotNull @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be deleted", required = true) @PathVariable("username") String username
     );
 
 
@@ -174,7 +174,7 @@ public interface UserApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<User> getUserByName(
-        @NotNull @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
+        @ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required = true) @PathVariable("username") String username
     );
 
 
@@ -267,7 +267,7 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> updateUser(
-        @NotNull @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
+        @ApiParam(value = "name that need to be deleted", required = true) @PathVariable("username") String username,
         @ApiParam(value = "Updated user object", required = true) @Valid @RequestBody User user
     );
 

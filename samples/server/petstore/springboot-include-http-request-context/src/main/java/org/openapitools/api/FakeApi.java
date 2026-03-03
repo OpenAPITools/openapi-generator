@@ -241,7 +241,7 @@ public interface FakeApi {
         produces = { "application/json" }
     )
     default ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
@@ -715,7 +715,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiIgnore final HttpServletRequest servletRequest

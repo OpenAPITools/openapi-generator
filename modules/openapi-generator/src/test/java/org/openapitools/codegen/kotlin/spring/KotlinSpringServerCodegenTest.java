@@ -4663,6 +4663,49 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(petContent.contains(") : CreatePetResponse {") || petContent.contains(") : CreatePetResponse"),
                 "Pet should implement CreatePetResponse");
     }
+
+    @Test
+    public void testDeprecatedAnnotationOnInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
+
+    @Test
+    public void testDeprecatedAnnotationOnController() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
 }
 
 
