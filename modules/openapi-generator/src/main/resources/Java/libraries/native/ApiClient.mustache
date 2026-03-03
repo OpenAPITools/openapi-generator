@@ -13,9 +13,11 @@ import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/useJackson3}}
 {{#useJackson3}}
 import com.fasterxml.jackson.annotation.JsonInclude;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.EnumFeature;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 {{/useJackson3}}
 
 import java.io.InputStream;
@@ -213,6 +215,7 @@ public class ApiClient {
   }
 
   public static ObjectMapper createDefaultObjectMapper() {
+{{^useJackson3}}
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -221,19 +224,25 @@ public class ApiClient {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
-    {{^useJackson3}}
     mapper.registerModule(new JavaTimeModule());
-    {{/useJackson3}}
-    {{^useJackson3}}
     {{#openApiNullable}}
     mapper.registerModule(new JsonNullableModule());
     {{/openApiNullable}}
-    {{/useJackson3}}
-    {{#useJackson3}}
-    // FIXME: JsonNullableModule is not yet available for Jackson 3
-    {{/useJackson3}}
     mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
+{{/useJackson3}}
+{{#useJackson3}}
+    return JsonMapper.builder()
+        .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+        .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        .addModule(new RFC3339JavaTimeModule())
+        .build();
+{{/useJackson3}}
   }
 
   protected final String getDefaultBaseUri() {
