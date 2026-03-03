@@ -13,7 +13,7 @@ on:
       - samples/server/petstore/springboot-lombok-tostring/**
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
-      - samples/server/petstore/spring-boot-oneof-sealed/**
+      - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
   pull_request:
     paths:
@@ -27,7 +27,7 @@ on:
       - samples/server/petstore/springboot-lombok-tostring/**
       - samples/server/petstore/springboot-file-delegate-optional/**
       - samples/server/petstore/springboot-petstore-with-api-response-examples/**
-      - samples/server/petstore/spring-boot-oneof-sealed/**
+      - samples/openapi3/server/petstore/spring-boot-oneof-sealed/**
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
 jobs:
   build:
@@ -50,6 +50,7 @@ jobs:
           - samples/server/petstore/springboot-file-delegate-optional
           - samples/server/petstore/springboot-petstore-with-api-response-examples
           - samples/server/petstore/spring-boot-oneof-sealed
+          - samples/openapi3/server/petstore/spring-boot-oneof-sealed
           - samples/openapi3/server/petstore/spring-boot-oneof-interface
     steps:
       - uses: actions/checkout@v5
