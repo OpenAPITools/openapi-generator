@@ -115,6 +115,7 @@ if(hasProperty('target') && target == 'android') {
 ext {
     swagger_annotations_version = "1.6.3"
     jackson_version = "2.21.1"
+    jackson_annotations_version = "2.21"
     jackson_databind_version = "2.21.1"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.9"
@@ -137,7 +138,7 @@ dependencies {
     implementation "com.sun.jersey:jersey-client:$jersey_version"
     implementation "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     {{#openApiNullable}}
