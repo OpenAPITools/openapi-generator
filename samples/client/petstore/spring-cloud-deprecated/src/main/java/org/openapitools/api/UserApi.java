@@ -62,7 +62,7 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> createUser(
-        @Parameter(name = "User", description = "Created user object", required = true) @NotNull @Valid @RequestBody User user
+        @Parameter(name = "User", description = "Created user object", required = true) @Valid @RequestBody User user
     );
 
 
@@ -92,7 +92,7 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> createUsersWithArrayInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     );
 
 
@@ -122,7 +122,7 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> createUsersWithListInput(
-        @Parameter(name = "User", description = "List of user object", required = true) @NotNull @Valid @RequestBody List<@Valid User> user
+        @Parameter(name = "User", description = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     );
 
 
@@ -153,7 +153,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     ResponseEntity<Void> deleteUser(
-        @NotNull @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
 
@@ -187,7 +187,7 @@ public interface UserApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<User> getUserByName(
-        @NotNull @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
+        @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
 
@@ -282,8 +282,8 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> updateUser(
-        @NotNull @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
-        @Parameter(name = "User", description = "Updated user object", required = true) @NotNull @Valid @RequestBody User user
+        @Parameter(name = "username", description = "name that need to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("username") String username,
+        @Parameter(name = "User", description = "Updated user object", required = true) @Valid @RequestBody User user
     );
 
 }

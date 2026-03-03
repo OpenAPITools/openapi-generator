@@ -61,7 +61,7 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     CompletableFuture<ResponseEntity<Void>> deleteOrder(
-        @NotNull @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
+        @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId
     );
 
 
@@ -126,7 +126,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" }
     )
     CompletableFuture<ResponseEntity<Order>> getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
+        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     );
 
 
@@ -159,7 +159,7 @@ public interface StoreApi {
         consumes = "application/json"
     )
     CompletableFuture<ResponseEntity<Order>> placeOrder(
-        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @NotNull @Valid @RequestBody Order order
+        @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     );
 
 }
