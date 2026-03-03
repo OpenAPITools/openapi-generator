@@ -737,7 +737,7 @@ openApiMeta {
 
 [IMPORTANT]
 ====
-**Smart Input Routing:** The `setInputSpec()` method (in both extensions and tasks) automatically detects whether the provided path is a remote URL (e.g., `http://`, `https://`, `jar:`) or a local file path, and routes it to the appropriate property (`remoteInputSpec` or `inputSpec`).
+**Smart Input Routing:** The `setInputSpec()` method for extensions (and `setInputSpecAsString()` for custom tasks) automatically detects whether the provided path is a remote URL (e.g., `http://`, `https://`, `jar:`) or a local file path, and routes it to the appropriate property (`remoteInputSpec` or `inputSpec`).
 
 Additionally, when you set a local file path after previously setting a remote URL (or vice versa), the method automatically clears the conflicting property to prevent stale values from taking precedence. This ensures your configuration behaves predictably even when you change between local and remote specs.
 ====
