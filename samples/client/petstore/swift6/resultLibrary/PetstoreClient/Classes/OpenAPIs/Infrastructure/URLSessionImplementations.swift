@@ -66,7 +66,7 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
     let defaultURLSession: URLSession
 
     // Store current URLCredential for every URLSessionTask
-    var credentialStore = SynchronizedDictionary<Int, URLCredential>()
+    let credentialStore = SynchronizedDictionary<Int, URLCredential>()
 }
 
 internal class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
