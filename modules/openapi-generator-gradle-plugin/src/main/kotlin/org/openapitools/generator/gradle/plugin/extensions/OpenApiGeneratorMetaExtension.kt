@@ -59,4 +59,22 @@ open class OpenApiGeneratorMetaExtension(private val project: Project) {
     fun setOutputFolder(path: String) {
         outputFolder.set(project.layout.projectDirectory.dir(path))
     }
+
+    // ========================================================================
+    // Kotlin DSL extension function for property setter
+    // Allows Kotlin DSL users to call .set(String) on the outputFolder property
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting outputFolder with a String path in Kotlin DSL.
+     * Example: outputFolder.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        if (this === outputFolder) {
+            setOutputFolder(path)
+        } else {
+            // Fallback for any other DirectoryProperty
+            this.set(project.layout.projectDirectory.dir(path))
+        }
+    }
 }

@@ -67,4 +67,80 @@ class MetaTaskDslTest : TestBase() {
                 "Expected a successful run, but found ${result.task(":openApiMeta")?.outcome}"
         )
     }
+
+    @Test
+    fun `openApiMeta should support Kotlin DSL set String syntax`() {
+        // Build script using Kotlin DSL with .set(String) syntax
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiMeta {
+                generatorName.set("KotlinTest")
+                packageName.set("org.openapitools.example.kotlin")
+                outputFolder.set("${'$'}buildDir/meta-kotlin")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the meta task
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiMeta", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(result.output.contains("Wrote file to"), "User-friendly write notice is missing.")
+        assertTrue(result.output.contains("KotlinTestGenerator.java"), "Expected generator class file")
+        assertEquals(
+            TaskOutcome.SUCCESS,
+            result.task(":openApiMeta")?.outcome,
+            "Expected a successful run"
+        )
+
+        // Verify the generator was created in the right location
+        val generatorFile = File(temp, "build/meta-kotlin/src/main/java/org/openapitools/example/kotlin/KotlinTestGenerator.java")
+        assertTrue(generatorFile.exists(), "Generator file should have been created")
+    }
+
+    @Test
+    fun `openApiMeta should support task-level configuration with Kotlin DSL set String syntax`() {
+        // Build script using Kotlin DSL configuring task directly
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            tasks.named<org.openapitools.generator.gradle.plugin.tasks.MetaTask>("openApiMeta") {
+                generatorName.set("DirectTask")
+                packageName.set("org.openapitools.example.direct")
+                outputFolder.set("${'$'}buildDir/meta-direct")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the meta task
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiMeta", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(result.output.contains("Wrote file to"), "User-friendly write notice is missing.")
+        assertTrue(result.output.contains("DirectTaskGenerator.java"), "Expected generator class file")
+        assertEquals(
+            TaskOutcome.SUCCESS,
+            result.task(":openApiMeta")?.outcome,
+            "Expected a successful run with task-level configuration"
+        )
+
+        // Verify the generator was created in the right location
+        val generatorFile = File(temp, "build/meta-direct/src/main/java/org/openapitools/example/direct/DirectTaskGenerator.java")
+        assertTrue(generatorFile.exists(), "Generator file should have been created with task-level configuration")
+    }
 }

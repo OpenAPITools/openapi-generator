@@ -420,4 +420,135 @@ class ValidateTaskDslTest : TestBase() {
             "Expected a successful run, but found ${result.task(":openApiValidate")?.outcome}"
         )
     }
+
+    @Test(dataProvider = "gradle_version_only_provider")
+    fun `openApiValidate should support Kotlin DSL set String syntax in extension`(gradleVersion: String?) {
+        // Create a valid spec file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        // Build script using Kotlin DSL with .set(String) syntax
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiValidate {
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run validation
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Expected validation success message"
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_only_provider")
+    fun `openApiValidate should support Kotlin DSL set String syntax for remote spec`(gradleVersion: String?) {
+        // Build script using remote URL with .set(String) syntax
+        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiValidate {
+                inputSpec.set("$specUrl")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run validation
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Expected validation success message for remote spec"
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run"
+        )
+    }
+
+    @Test(dataProvider = "gradle_version_only_provider")
+    fun `openApiValidate should support task-level configuration with Kotlin DSL set String syntax`(gradleVersion: String?) {
+        // Create a valid spec file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        // Build script using Kotlin DSL configuring task directly
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            tasks.named<org.openapitools.generator.gradle.plugin.tasks.ValidateTask>("openApiValidate") {
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+                recommend.set(false)
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run validation
+        val result = getGradleRunner(gradleVersion)
+            .withProjectDir(temp)
+            .withArguments("openApiValidate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert
+        assertTrue(
+            result.output.contains("Spec is valid."),
+            "Expected validation success message with task-level configuration"
+        )
+        assertEquals(
+            SUCCESS, result.task(":openApiValidate")?.outcome,
+            "Expected a successful run"
+        )
+    }
 }

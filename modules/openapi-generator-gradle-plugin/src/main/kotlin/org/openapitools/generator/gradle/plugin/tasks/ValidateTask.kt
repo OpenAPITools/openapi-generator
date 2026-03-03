@@ -150,4 +150,30 @@ abstract class ValidateTask : DefaultTask() {
         logger.debug("No error validations from swagger-parser or internal validations.")
         logger.lifecycle("Spec is valid.")
     }
+
+    // ========================================================================
+    // Kotlin DSL extension function for property setter
+    // Allows Kotlin DSL users to call .set(String) on the inputSpec property
+    // when configuring tasks directly (e.g., tasks.named<ValidateTask>("openApiValidate") { ... })
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting inputSpec with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        when (this) {
+            inputSpec -> {
+                if (path.isRemoteUri()) {
+                    remoteInputSpec.set(path)
+                } else {
+                    this.set(layout.projectDirectory.file(path))
+                }
+            }
+            else -> {
+                // Fallback for any other RegularFileProperty
+                this.set(layout.projectDirectory.file(path))
+            }
+        }
+    }
 }

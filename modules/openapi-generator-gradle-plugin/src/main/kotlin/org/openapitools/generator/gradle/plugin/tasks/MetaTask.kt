@@ -20,6 +20,7 @@ import com.samskivert.mustache.Mustache
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
@@ -35,6 +36,7 @@ import org.openapitools.codegen.templating.TemplateManagerOptions
 import java.io.File
 import java.io.IOException
 import java.nio.charset.Charset
+import javax.inject.Inject
 
 /**
  * A task which generates a new generator (meta). Useful for redistributable generator packages.
@@ -43,6 +45,9 @@ import java.nio.charset.Charset
  */
 @CacheableTask
 abstract class MetaTask : DefaultTask() {
+
+    @get:Inject
+    abstract val layout: ProjectLayout
 
     @get:Input
     abstract val generatorName: Property<String>
@@ -135,4 +140,19 @@ abstract class MetaTask : DefaultTask() {
         split(Regex("[^a-zA-Z0-9]")).joinToString(separator = "-") { it.toLowerCase() }
 
     private fun dir(vararg parts: String): String = parts.joinToString(separator = File.separator)
+
+    // ========================================================================
+    // Kotlin DSL extension function for property setter
+    // Allows Kotlin DSL users to call .set(String) on the outputFolder property
+    // when configuring tasks directly (e.g., tasks.named<MetaTask>("openApiMeta") { ... })
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting outputFolder with a String path in Kotlin DSL.
+     * Example: outputFolder.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        // All directory properties use the same conversion logic
+        this.set(layout.projectDirectory.dir(path))
+    }
 }

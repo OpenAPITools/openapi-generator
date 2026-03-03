@@ -933,4 +933,42 @@ abstract class GenerateTask : DefaultTask() {
             }
         })
     }
+
+    // ========================================================================
+    // Kotlin DSL extension functions for property setters
+    // These allow Kotlin DSL users to call .set(String) on file/directory properties
+    // when configuring tasks directly (e.g., tasks.named<GenerateTask>("openApiGenerate") { ... })
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting file properties with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        when (this) {
+            inputSpec -> {
+                if (path.isRemoteUri()) {
+                    remoteInputSpec.set(path)
+                } else {
+                    this.set(layout.projectDirectory.file(path))
+                }
+            }
+            configFile, ignoreFileOverride -> {
+                this.set(layout.projectDirectory.file(path))
+            }
+            else -> {
+                // Fallback for any other RegularFileProperty
+                this.set(layout.projectDirectory.file(path))
+            }
+        }
+    }
+
+    /**
+     * Extension function to allow setting directory properties with a String path in Kotlin DSL.
+     * Example: outputDir.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        // All directory properties use the same conversion logic
+        this.set(layout.projectDirectory.dir(path))
+    }
 }

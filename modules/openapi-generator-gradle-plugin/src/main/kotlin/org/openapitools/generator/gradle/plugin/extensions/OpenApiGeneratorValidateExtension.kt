@@ -61,4 +61,22 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
             inputSpec.set(project.layout.projectDirectory.file(path))
         }
     }
+
+    // ========================================================================
+    // Kotlin DSL extension function for property setter
+    // Allows Kotlin DSL users to call .set(String) on the inputSpec property
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting inputSpec with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        if (this === inputSpec) {
+            setInputSpec(path)
+        } else {
+            // Fallback for any other RegularFileProperty
+            this.set(project.layout.projectDirectory.file(path))
+        }
+    }
 }
