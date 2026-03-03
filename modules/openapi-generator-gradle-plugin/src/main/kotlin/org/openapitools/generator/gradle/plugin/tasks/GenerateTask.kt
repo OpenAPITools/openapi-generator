@@ -38,6 +38,7 @@ import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
 import org.openapitools.codegen.config.MergedSpecBuilder
 import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
+import java.io.File
 import javax.inject.Inject
 
 // =========================================================================================
@@ -983,12 +984,15 @@ abstract class GenerateTask : DefaultTask() {
     /**
      * Groovy-compatible setter for inputSpec property.
      * Accepts a String and automatically routes to remote or local file based on URI detection.
+     * Clears the opposite property to prevent stale values from taking precedence.
      */
     fun setInputSpecAsString(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
+            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(layout.projectDirectory.file(path))
+            remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
         }
     }
 

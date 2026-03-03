@@ -21,6 +21,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.kotlin.dsl.property
 import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
+import java.io.File
 
 /**
  * Gradle project level extension object definition for the generators task
@@ -58,8 +59,10 @@ open class OpenApiGeneratorValidateExtension(private val project: Project) {
     fun setInputSpec(path: String) {
         if (path.isRemoteUri()) {
             remoteInputSpec.set(path)
+            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
         } else {
             inputSpec.set(project.layout.projectDirectory.file(path))
+            remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
         }
     }
 

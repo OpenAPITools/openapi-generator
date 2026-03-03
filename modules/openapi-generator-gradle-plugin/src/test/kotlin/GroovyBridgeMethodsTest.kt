@@ -12,6 +12,8 @@ import kotlin.test.assertTrue
  * Test class for Groovy DSL bridge methods (setPropertyNameAsString pattern).
  * These tests verify that Groovy users can use both method-style and property-style
  * syntax to set file/directory properties using String paths.
+ *
+ * Also tests the fix for stale remoteInputSpec values.
  */
 class GroovyBridgeMethodsTest : TestBase() {
     override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
@@ -91,6 +93,49 @@ class GroovyBridgeMethodsTest : TestBase() {
         assertEquals(
             TaskOutcome.SUCCESS, result.task(":customGenerate")?.outcome,
             "Expected a successful run with custom task using AsString methods"
+        )
+    }
+
+    @Test
+    fun `setInputSpecAsString should clear stale remoteInputSpec when setting local file`() {
+        // This test verifies the P2 bug fix: setting a local file after a remote URL
+        // should clear the remote URL to prevent it from taking precedence
+        val buildContents = """
+        plugins {
+          id 'org.openapi.generator'
+        }
+        
+        tasks.register('testGenerate', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+            generatorName = "kotlin"
+            // First set a remote URL (simulating previous configuration)
+            setInputSpecAsString("https://example.com/api.yaml")
+            // Then override with a local file - this should clear the remote URL
+            setInputSpecAsString("spec.yaml")
+            setOutputDirAsString("build/test-kotlin")
+            apiPackage = "org.openapitools.test.api"
+            invokerPackage = "org.openapitools.test.invoker"
+            modelPackage = "org.openapitools.test.model"
+            skipValidateSpec = true
+        }
+        """.trimIndent()
+
+        withProjectFiles(buildContents)
+
+        // Act
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("testGenerate")
+            .withPluginClasspath()
+            .build()
+
+        // Assert - should use local file, not remote URL
+        assertTrue(
+            result.output.contains("Successfully generated code to"),
+            "Expected successful generation using local file (not remote URL)"
+        )
+        assertEquals(
+            TaskOutcome.SUCCESS, result.task(":testGenerate")?.outcome,
+            "Expected a successful run with local file overriding remote URL"
         )
     }
 
