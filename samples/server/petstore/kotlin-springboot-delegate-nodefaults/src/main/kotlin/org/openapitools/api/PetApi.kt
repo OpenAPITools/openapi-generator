@@ -121,6 +121,7 @@ interface PetApi {
         ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
         // "/pet/findByTags"
