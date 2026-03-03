@@ -88,7 +88,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     {{{.}}}
     {{/vendorExtensions.x-operation-extra-annotation}}
     {{#isDeprecated}}
-    @Deprecated
+    @Deprecated(message="Operation is deprecated")
     {{/isDeprecated}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
