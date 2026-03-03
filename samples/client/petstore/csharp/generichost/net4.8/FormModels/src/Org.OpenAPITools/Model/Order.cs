@@ -232,9 +232,7 @@ namespace Org.OpenAPITools.Model
                             shipDate = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "status":
-                            string statusRawValue = utf8JsonReader.GetString();
-                            if (statusRawValue != null)
-                                status = new Option<OrderStatus?>(OrderStatusValueConverter.FromStringOrDefault(statusRawValue));
+                            status = new Option<OrderStatus?>(JsonSerializer.Deserialize<OrderStatus>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

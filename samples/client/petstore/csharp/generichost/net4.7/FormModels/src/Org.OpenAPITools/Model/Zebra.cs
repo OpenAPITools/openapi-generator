@@ -139,9 +139,7 @@ namespace Org.OpenAPITools.Model
                             className = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "type":
-                            string typeRawValue = utf8JsonReader.GetString();
-                            if (typeRawValue != null)
-                                type = new Option<ZebraType?>(ZebraTypeValueConverter.FromStringOrDefault(typeRawValue));
+                            type = new Option<ZebraType?>(JsonSerializer.Deserialize<ZebraType>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;

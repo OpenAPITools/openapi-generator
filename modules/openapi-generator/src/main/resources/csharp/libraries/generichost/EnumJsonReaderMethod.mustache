@@ -1,0 +1,1 @@
+{{#allowableValues}}{{#enumVars}}{{#-first}}{{#isNumeric}}{{#isLong}}GetInt64{{/isLong}}{{#isFloat}}GetSingle{{/isFloat}}{{#isDouble}}GetDouble{{/isDouble}}{{#isDecimal}}GetDecimal{{/isDecimal}}{{^isLong}}{{^isFloat}}{{^isDouble}}{{^isDecimal}}GetInt32{{/isDecimal}}{{/isDouble}}{{/isFloat}}{{/isLong}}{{/isNumeric}}{{/-first}}{{/enumVars}}{{/allowableValues}}

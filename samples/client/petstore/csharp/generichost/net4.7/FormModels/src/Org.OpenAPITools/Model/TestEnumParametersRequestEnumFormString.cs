@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersRequestEnumFormString? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             TestEnumParametersRequestEnumFormString? result = rawValue == null
@@ -183,7 +186,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersRequestEnumFormString? testEnumParametersRequestEnumFormString, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersRequestEnumFormString.HasValue ? TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString.Value).ToString() : "null");
+            if (testEnumParametersRequestEnumFormString.HasValue)
+                writer.WriteStringValue(TestEnumParametersRequestEnumFormStringValueConverter.ToJsonValue(testEnumParametersRequestEnumFormString.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

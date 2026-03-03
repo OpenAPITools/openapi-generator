@@ -118,15 +118,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumInteger Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
-
-            OuterEnumInteger? result = rawValue == null
-                ? null
-                : OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString();
+            OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -138,7 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumInteger outerEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger).ToString());
+            writer.WriteNumberValue(OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger));
         }
     }
 
@@ -156,15 +151,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumInteger? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            OuterEnumInteger? result = rawValue == null
-                ? null
-                : OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString();
+            OuterEnumInteger? result = OuterEnumIntegerValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -176,7 +169,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumInteger? outerEnumInteger, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumInteger.HasValue ? OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger.Value).ToString() : "null");
+            if (outerEnumInteger.HasValue)
+                writer.WriteNumberValue(OuterEnumIntegerValueConverter.ToJsonValue(outerEnumInteger.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 

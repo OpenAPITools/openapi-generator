@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override IconsSizeParameterAnyOf? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             IconsSizeParameterAnyOf? result = rawValue == null
@@ -183,7 +186,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, IconsSizeParameterAnyOf? iconsSizeParameterAnyOf, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(iconsSizeParameterAnyOf.HasValue ? IconsSizeParameterAnyOfValueConverter.ToJsonValue(iconsSizeParameterAnyOf.Value).ToString() : "null");
+            if (iconsSizeParameterAnyOf.HasValue)
+                writer.WriteStringValue(IconsSizeParameterAnyOfValueConverter.ToJsonValue(iconsSizeParameterAnyOf.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

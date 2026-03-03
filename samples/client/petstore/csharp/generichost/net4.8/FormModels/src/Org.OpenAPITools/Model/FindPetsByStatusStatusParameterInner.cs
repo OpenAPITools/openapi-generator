@@ -162,6 +162,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override FindPetsByStatusStatusParameterInner? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             FindPetsByStatusStatusParameterInner? result = rawValue == null
@@ -182,7 +185,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, FindPetsByStatusStatusParameterInner? findPetsByStatusStatusParameterInner, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(findPetsByStatusStatusParameterInner.HasValue ? FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner.Value).ToString() : "null");
+            if (findPetsByStatusStatusParameterInner.HasValue)
+                writer.WriteStringValue(FindPetsByStatusStatusParameterInnerValueConverter.ToJsonValue(findPetsByStatusStatusParameterInner.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

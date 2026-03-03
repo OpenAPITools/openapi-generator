@@ -221,9 +221,7 @@ namespace Org.OpenAPITools.Model
                             className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "type":
-                            string? typeRawValue = utf8JsonReader.GetString();
-                            if (typeRawValue != null)
-                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
+                            type = new Option<Zebra.TypeEnum?>(JsonSerializer.Deserialize<Zebra.TypeEnum>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
