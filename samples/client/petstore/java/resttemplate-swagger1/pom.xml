@@ -280,7 +280,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.6.9</swagger-annotations-version>
-        <jackson-version>2.19.2</jackson-version>
+        <jackson-version>2.21.1</jackson-version>
         <jackson-databind-version>2.19.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <spring-web-version>5.3.33</spring-web-version>

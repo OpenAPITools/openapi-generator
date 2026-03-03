@@ -66,7 +66,7 @@ artifacts {
 
 
 ext {
-    jackson_version = "2.19.2"
+    jackson_version = "2.21.1"
     jakarta_annotation_version = "2.1.1"
     beanvalidation_version = "3.0.2"
     junit_version = "5.10.2"
