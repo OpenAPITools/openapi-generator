@@ -24,7 +24,7 @@ fileprivate class AlamofireRequestBuilderConfiguration: @unchecked Sendable {
     static let shared = AlamofireRequestBuilderConfiguration()
     
     // Store manager to retain its reference
-    var managerStore = SynchronizedDictionary<String, Alamofire.Session>()
+    let managerStore = SynchronizedDictionary<String, Alamofire.Session>()
 }
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} class AlamofireRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
