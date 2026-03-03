@@ -472,4 +472,42 @@ open class OpenApiGeneratorGenerateExtension(private val project: Project) {
         ignoreFileOverride.set(project.layout.projectDirectory.file(path))
     }
 
+    // ========================================================================
+    // Kotlin DSL extension functions for property setters
+    // These allow Kotlin DSL users to call .set(String) on file/directory properties
+    // ========================================================================
+
+    /**
+     * Extension function to allow setting inputSpec with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        if (this === inputSpec) {
+            setInputSpec(path)
+        } else if (this === configFile) {
+            setConfigFile(path)
+        } else if (this === ignoreFileOverride) {
+            setIgnoreFileOverride(path)
+        } else {
+            // Fallback for any other RegularFileProperty
+            this.set(project.layout.projectDirectory.file(path))
+        }
+    }
+
+    /**
+     * Extension function to allow setting directory properties with a String path in Kotlin DSL.
+     * Example: outputDir.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        if (this === outputDir) {
+            setOutputDir(path)
+        } else if (this === inputSpecRootDirectory) {
+            setInputSpecRootDirectory(path)
+        } else if (this === templateDir) {
+            setTemplateDir(path)
+        } else {
+            // Fallback for any other DirectoryProperty
+            this.set(project.layout.projectDirectory.dir(path))
+        }
+    }
 }

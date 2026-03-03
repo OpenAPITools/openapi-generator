@@ -718,4 +718,53 @@ paths:
         val versionFile = File(temp, "build/generated/.openapi-generator/VERSION")
         assertTrue(versionFile.exists(), "Generator should have run and produced output")
     }
+
+    @Test
+    fun `openApiGenerate should support Kotlin DSL set String syntax`() {
+        // Create a spec file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        // Build script using Kotlin DSL with .set(String) syntax
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiGenerate {
+                generatorName.set("kotlin")
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+                outputDir.set("${'$'}buildDir/generated-kotlin")
+                apiPackage.set("org.openapitools.example.api")
+                modelPackage.set("org.openapitools.example.model")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Verify the task succeeded
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+
+        // Verify output was generated
+        val versionFile = File(temp, "build/generated-kotlin/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have produced output")
+    }
 }
