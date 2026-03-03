@@ -237,7 +237,7 @@ public class StoreApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -609,7 +609,7 @@ public class StoreApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(order);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {

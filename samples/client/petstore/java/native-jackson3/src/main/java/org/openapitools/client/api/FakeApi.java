@@ -503,7 +503,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -622,7 +622,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(outerComposite);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -741,7 +741,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -1155,7 +1155,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1182,7 +1182,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestBody);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -1264,7 +1264,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1291,7 +1291,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(fileSchemaTestClass);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -1377,7 +1377,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1423,7 +1423,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(user);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -1546,7 +1546,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -1680,7 +1680,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -1877,7 +1877,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2105,7 +2105,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2332,7 +2332,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2359,7 +2359,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestBody);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -2441,7 +2441,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2468,7 +2468,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(testInlineFreeformAdditionalPropertiesRequest);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {
@@ -2554,7 +2554,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2695,7 +2695,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2837,7 +2837,7 @@ public class FakeApi {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException | JacksonException e) {
+    } catch (IOException e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -2864,7 +2864,7 @@ public class FakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(requestBody);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {

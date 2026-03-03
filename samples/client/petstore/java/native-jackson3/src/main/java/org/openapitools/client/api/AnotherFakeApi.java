@@ -272,7 +272,7 @@ public class AnotherFakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(client);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-    } catch (IOException | JacksonException e) {
+    } catch (JacksonException e) {
       throw new ApiException(e);
     }
     if (memberVarReadTimeout != null) {

@@ -531,7 +531,7 @@ public class {{classname}} {
           localVarResponseBody.close();
         }
       }
-    } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
+    } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
       throw new ApiException(e);
     }
     catch (InterruptedException e) {
@@ -618,7 +618,7 @@ public class {{classname}} {
                   localVarResponseBody.close();
                 }
               }
-            } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
+            } catch (IOException {{#returnType}}{{#useJackson3}}| JacksonException {{/useJackson3}}{{/returnType}}e) {
               return CompletableFuture.failedFuture(new ApiException(e));
             }
         }
@@ -749,7 +749,7 @@ public class {{classname}} {
       {{^useGzipFeature}}
       localVarRequestBuilder.method("{{httpMethod}}", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
       {{/useGzipFeature}}
-    } catch (IOException {{#useJackson3}}| JacksonException {{/useJackson3}}e) {
+    } catch ({{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} e) {
       throw new ApiException(e);
     }
     {{/isString}}
