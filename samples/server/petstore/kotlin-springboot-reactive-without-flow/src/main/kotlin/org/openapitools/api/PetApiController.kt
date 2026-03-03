@@ -107,6 +107,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
         // "/pet/findByTags"
