@@ -27,7 +27,7 @@ import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
@@ -52,8 +52,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+        public void serialize({{classname}} value, JsonGenerator jgen, {{^useJackson3}}SerializerProvider provider{{/useJackson3}}{{#useJackson3}}SerializationContext serializationContext{{/useJackson3}}) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+{{^useJackson3}}
             jgen.writeObject(value.getActualInstance());
+{{/useJackson3}}
+{{#useJackson3}}
+            serializationContext.writeValue(jgen, value.getActualInstance());
+{{/useJackson3}}
         }
     }
 
@@ -77,7 +82,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.
                 // Get the discriminator mapping value to get the class.
+{{^useJackson3}}
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+{{/useJackson3}}
+{{#useJackson3}}
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(cls));
+{{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -86,7 +96,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#anyOf}}
             // deserialize {{{.}}}
             try {
+{{^useJackson3}}
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+{{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;

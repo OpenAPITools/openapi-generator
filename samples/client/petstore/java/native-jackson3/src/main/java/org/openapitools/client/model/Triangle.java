@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 import org.openapitools.client.model.EquilateralTriangle;
@@ -50,7 +49,7 @@ import tools.jackson.core.JsonToken;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
@@ -74,8 +73,8 @@ public class Triangle extends AbstractOpenApiSchema {
         }
 
         @Override
-        public void serialize(Triangle value, JsonGenerator jgen, SerializerProvider provider) throws JacksonException {
-            jgen.writeObject(value.getActualInstance());
+        public void serialize(Triangle value, JsonGenerator jgen, SerializationContext serializationContext) throws JacksonException {
+            serializationContext.writeValue(jgen, value.getActualInstance());
         }
     }
 
@@ -94,7 +93,7 @@ public class Triangle extends AbstractOpenApiSchema {
             Object deserialized = null;
             boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            JsonToken token = tree.asToken();
             // deserialize EquilateralTriangle
             try {
                 boolean attemptParsing = true;
@@ -109,7 +108,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                    deserialized = ctxt.readTreeAsValue(tree, EquilateralTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -135,7 +134,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                    deserialized = ctxt.readTreeAsValue(tree, IsoscelesTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -161,7 +160,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                    deserialized = ctxt.readTreeAsValue(tree, ScaleneTriangle.class);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.

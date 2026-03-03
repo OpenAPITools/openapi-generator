@@ -30,7 +30,7 @@ import tools.jackson.core.JsonToken;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
@@ -55,8 +55,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+        public void serialize({{classname}} value, JsonGenerator jgen, {{^useJackson3}}SerializerProvider provider{{/useJackson3}}{{#useJackson3}}SerializationContext serializationContext{{/useJackson3}}) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+{{^useJackson3}}
             jgen.writeObject(value.getActualInstance());
+{{/useJackson3}}
+{{#useJackson3}}
+            serializationContext.writeValue(jgen, value.getActualInstance());
+{{/useJackson3}}
         }
     }
 
@@ -76,12 +81,22 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
             {{classname}} new{{classname}} = new {{classname}}();
+{{^useJackson3}}
             Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
             String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
+{{/useJackson3}}
+{{#useJackson3}}
+            String discriminatorValue = tree.path("{{{propertyBaseName}}}").asText(null);
+{{/useJackson3}}
             switch (discriminatorValue) {
             {{#mappedModels}}
                 case "{{{mappingName}}}":
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, {{{modelName}}}.class);
+{{/useJackson3}}
                     new{{classname}}.setActualInstance(deserialized);
                     return new{{classname}};
             {{/mappedModels}}
@@ -98,7 +113,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
 {{/useJackson3}}
             int match = 0;
+{{^useJackson3}}
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+{{/useJackson3}}
+{{#useJackson3}}
+            JsonToken token = tree.asToken();
+{{/useJackson3}}
             {{#oneOf}}
             // deserialize {{{.}}}
             try {
@@ -117,7 +137,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     }
                 }
                 if (attemptParsing) {
+{{^useJackson3}}
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                    deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+{{/useJackson3}}
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.

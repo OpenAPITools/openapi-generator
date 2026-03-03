@@ -15,11 +15,10 @@ package org.openapitools.client.model;
 
 import java.util.Arrays;
 import org.openapitools.client.model.Foo;
-import tools.jackson.annotation.JsonInclude;
-import tools.jackson.annotation.JsonProperty;
-import tools.jackson.annotation.JsonCreator;
-import tools.jackson.annotation.JsonTypeName;
-import tools.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

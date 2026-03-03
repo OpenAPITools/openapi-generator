@@ -45,7 +45,7 @@ import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
@@ -69,8 +69,8 @@ public class GmFruit extends AbstractOpenApiSchema {
         }
 
         @Override
-        public void serialize(GmFruit value, JsonGenerator jgen, SerializerProvider provider) throws JacksonException {
-            jgen.writeObject(value.getActualInstance());
+        public void serialize(GmFruit value, JsonGenerator jgen, SerializationContext serializationContext) throws JacksonException {
+            serializationContext.writeValue(jgen, value.getActualInstance());
         }
     }
 
@@ -90,7 +90,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize Apple
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                deserialized = ctxt.readTreeAsValue(tree, Apple.class);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -101,7 +101,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                deserialized = ctxt.readTreeAsValue(tree, Banana.class);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
                 return ret;

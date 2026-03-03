@@ -47,7 +47,7 @@ import tools.jackson.core.JsonToken;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.SerializerProvider;
+import tools.jackson.databind.SerializationContext;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;
 import tools.jackson.databind.deser.std.StdDeserializer;
@@ -71,8 +71,8 @@ public class Fruit extends AbstractOpenApiSchema {
         }
 
         @Override
-        public void serialize(Fruit value, JsonGenerator jgen, SerializerProvider provider) throws JacksonException {
-            jgen.writeObject(value.getActualInstance());
+        public void serialize(Fruit value, JsonGenerator jgen, SerializationContext serializationContext) throws JacksonException {
+            serializationContext.writeValue(jgen, value.getActualInstance());
         }
     }
 
@@ -91,7 +91,7 @@ public class Fruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
             int match = 0;
-            JsonToken token = tree.traverse(jp.getCodec()).nextToken();
+            JsonToken token = tree.asToken();
             // deserialize Apple
             try {
                 boolean attemptParsing = true;
@@ -106,7 +106,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                    deserialized = ctxt.readTreeAsValue(tree, Apple.class);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
@@ -132,7 +132,7 @@ public class Fruit extends AbstractOpenApiSchema {
                     }
                 }
                 if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                    deserialized = ctxt.readTreeAsValue(tree, Banana.class);
                     // TODO: there is no validation against JSON schema constraints
                     // (min, max, enum, pattern...), this does not perform a strict JSON
                     // validation, which means the 'match' count may be higher than it should be.
