@@ -29,7 +29,7 @@ interface {{classname}}Service {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^required}}{{^defaultValue}} = null{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}ctx: Context): {{>returnTypes}}
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^required}}{{^defaultValue}} = null{{/defaultValue}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}ctx: Context): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}
