@@ -272,6 +272,7 @@ public class NullableClassDto {
     return arrayItemsNullable;
   }
 
+  @JsonProperty("array_items_nullable")
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
@@ -356,6 +357,7 @@ public class NullableClassDto {
     return objectItemsNullable;
   }
 
+  @JsonProperty("object_items_nullable")
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }

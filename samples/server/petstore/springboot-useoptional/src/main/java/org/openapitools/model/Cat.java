@@ -65,6 +65,7 @@ public class Cat extends Animal {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }

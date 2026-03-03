@@ -76,6 +76,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -96,6 +97,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }
@@ -116,6 +118,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atSchemaLocation;
   }
 
+  @JsonProperty("@schemaLocation")
   public void setAtSchemaLocation(@Nullable String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
   }
@@ -136,6 +139,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atBaseType;
   }
 
+  @JsonProperty("@baseType")
   public void setAtBaseType(@Nullable String atBaseType) {
     this.atBaseType = atBaseType;
   }
@@ -156,6 +160,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
     return atType;
   }
 
+  @JsonProperty("@type")
   public void setAtType(String atType) {
     this.atType = atType;
   }
