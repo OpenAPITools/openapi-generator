@@ -15,6 +15,8 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import tools.jackson.databind.*;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.EnumFeature;
 import tools.jackson.databind.json.JsonMapper;
 import org.openapitools.client.model.*;
 
@@ -29,18 +31,15 @@ public class JSON {
   private ObjectMapper mapper;
 
   public JSON() {
-    mapper = JsonMapper.builder()
-        .serializationInclusion(JsonInclude.Include.NON_NULL)
-        // Note: MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
+    JsonMapper.Builder jsonMapperBuilder = JsonMapper.builder()
+        .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
-        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING)
-        .enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING)
-        .defaultDateFormat(new RFC3339DateFormat())
-        // Note: JavaTimeModule (jsr310) is built into jackson-databind for Jackson 3 - no explicit registration needed
-        .build();
-    // FIXME: JsonNullableModule is not yet available for Jackson 3
+        .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+        .defaultDateFormat(new RFC3339DateFormat());
+    mapper = jsonMapperBuilder.build();
   }
 
   /**
@@ -49,7 +48,7 @@ public class JSON {
    * @param dateFormat Date format
    */
   public void setDateFormat(DateFormat dateFormat) {
-    mapper.setDateFormat(dateFormat);
+    mapper = ((JsonMapper) mapper).rebuild().defaultDateFormat(dateFormat).build();
   }
 
   /**
