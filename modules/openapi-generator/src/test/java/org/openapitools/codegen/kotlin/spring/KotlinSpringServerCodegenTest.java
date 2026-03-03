@@ -4682,7 +4682,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
-                "@Deprecated"
+                "@Deprecated @RequestMapping("
         );
     }
 
@@ -4703,7 +4703,7 @@ public class KotlinSpringServerCodegenTest {
 
         assertFileContains(
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
-                "@Deprecated"
+                "@Deprecated @RequestMapping("
         );
     }
 }
