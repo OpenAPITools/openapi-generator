@@ -58,7 +58,7 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     default ResponseEntity<Void> deleteOrder(
-        @NotNull @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
+        @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("order_id") String orderId,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -128,7 +128,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<OrderDto> getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
+        @Min(value = 1L) @Max(value = 5L) @ApiParam(value = "ID of pet that needs to be fetched", required = true) @PathVariable("order_id") Long orderId,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
@@ -177,7 +177,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<OrderDto> placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet", required = true) @NotNull @Valid @RequestBody OrderDto orderDto,
+        @ApiParam(value = "order placed for purchasing the pet", required = true) @Valid @RequestBody OrderDto orderDto,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {

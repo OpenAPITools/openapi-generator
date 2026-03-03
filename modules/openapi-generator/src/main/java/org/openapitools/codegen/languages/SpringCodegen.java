@@ -108,6 +108,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
     public static final String JACKSON3_PACKAGE = "tools.jackson";
     public static final String JACKSON_PACKAGE = "jacksonPackage";
+    public static final String ADDITIONAL_NOT_NULL_ANNOTATIONS = "additionalNotNullAnnotations";
 
     @Getter
     public enum RequestMappingMode {
@@ -180,6 +181,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useDeductionForOneOfInterfaces = false;
     @Getter @Setter
     protected boolean useJackson3 = false;
+    @Getter @Setter
+    protected boolean additionalNotNullAnnotations = false;
 
     public SpringCodegen() {
         super();
@@ -269,7 +272,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(X_IMPLEMENTS_SKIP, "Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema", "empty list"));
         cliOptions.add(CliOption.newString(SCHEMA_IMPLEMENTS, "Ability to supply interfaces per schema that should be implemented (serves similar purpose as vendor extension `x-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map"));
 
-
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")
                 .defaultValue(requestMappingMode.name());
@@ -324,6 +326,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
+
+        cliOptions.add(CliOption.newBoolean(ADDITIONAL_NOT_NULL_ANNOTATIONS,
+                "Add @NotNull to path variables (required by default) and requestBody.",
+                additionalNotNullAnnotations));
 
     }
 
@@ -532,6 +538,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
 
+        convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
 
         // override parent one
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");

@@ -63,7 +63,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().addPet(pet);
     }
@@ -99,7 +99,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default void deletePet(
-        @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     ) {
         getDelegate().deletePet(petId, apiKey);
@@ -218,7 +218,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet getPetById(
-        @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().getPetById(petId);
     }
@@ -264,7 +264,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Pet updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Pet pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Pet pet
     ) {
         return getDelegate().updatePet(pet);
     }
@@ -302,7 +302,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     default void updatePetWithForm(
-        @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     ) {
@@ -344,7 +344,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default ModelApiResponse uploadFile(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     ) {

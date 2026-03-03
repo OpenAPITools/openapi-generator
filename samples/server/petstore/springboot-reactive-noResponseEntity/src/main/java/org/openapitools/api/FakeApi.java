@@ -67,7 +67,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> createXmlItem(
-        @ApiParam(value = "XmlItem Body", required = true) @NotNull @Valid @RequestBody Mono<XmlItem> xmlItem
+        @ApiParam(value = "XmlItem Body", required = true) @Valid @RequestBody Mono<XmlItem> xmlItem
     ) {
         return getDelegate().createXmlItem(xmlItem);
     }
@@ -225,7 +225,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().responseObjectDifferentNames(petId);
     }
@@ -255,7 +255,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
+        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass
     ) {
         return getDelegate().testBodyWithFileSchema(fileSchemaTestClass);
     }
@@ -286,7 +286,7 @@ public interface FakeApi {
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody Mono<User> user
+        @ApiParam(value = "", required = true) @Valid @RequestBody Mono<User> user
     ) {
         return getDelegate().testBodyWithQueryParams(query, user);
     }
@@ -318,7 +318,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Client> testClientModel(
-        @ApiParam(value = "client model", required = true) @NotNull @Valid @RequestBody Mono<Client> client
+        @ApiParam(value = "client model", required = true) @Valid @RequestBody Mono<Client> client
     ) {
         return getDelegate().testClientModel(client);
     }
@@ -366,10 +366,10 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     default Mono<Void> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @NotNull @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @ApiParam(value = "None", required = true) @NotNull @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
+        @ApiParam(value = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestPart(value = "number", required = true) BigDecimal number,
+        @ApiParam(value = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestPart(value = "double", required = true) Double _double,
+        @ApiParam(value = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestPart(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @Valid @RequestPart(value = "byte", required = true) byte[] _byte,
         @ApiParam(value = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestPart(value = "integer", required = false) Integer integer,
         @ApiParam(value = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestPart(value = "int32", required = false) Integer int32,
         @ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false) Long int64,
@@ -494,7 +494,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Mono<Map<String, String>> requestBody
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<Map<String, String>> requestBody
     ) {
         return getDelegate().testInlineAdditionalProperties(requestBody);
     }
@@ -525,8 +525,8 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testJsonFormData(
-        @ApiParam(value = "field1", required = true) @NotNull @Valid @RequestPart(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @NotNull @Valid @RequestPart(value = "param2", required = true) String param2
+        @ApiParam(value = "field1", required = true) @Valid @RequestPart(value = "param", required = true) String param,
+        @ApiParam(value = "field2", required = true) @Valid @RequestPart(value = "param2", required = true) String param2
     ) {
         return getDelegate().testJsonFormData(param, param2);
     }
@@ -556,7 +556,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> testNullable(
-        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Mono<ChildWithNullable> childWithNullable
+        @ApiParam(value = "request body", required = true) @Valid @RequestBody Mono<ChildWithNullable> childWithNullable
     ) {
         return getDelegate().testNullable(childWithNullable);
     }
@@ -661,7 +661,7 @@ public interface FakeApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<ModelApiResponse> uploadFileWithRequiredFile(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata
     ) {

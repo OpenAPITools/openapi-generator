@@ -67,7 +67,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody PetDto petDto,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody PetDto petDto,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -106,7 +106,7 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     default ResponseEntity<Void> deletePet(
-        @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
@@ -258,7 +258,7 @@ public interface PetApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<PetDto> getPetById(
-        @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         getRequest().ifPresent(request -> {
@@ -315,7 +315,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody PetDto petDto,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody PetDto petDto,
         @ApiIgnore final HttpServletRequest servletRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
@@ -354,7 +354,7 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> updatePetWithForm(
-        @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status,
         @ApiIgnore final HttpServletRequest servletRequest
@@ -397,7 +397,7 @@ public interface PetApi {
         consumes = { "multipart/form-data" }
     )
     default ResponseEntity<ApiResponseDto> uploadFile(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file,
         @ApiIgnore final HttpServletRequest servletRequest

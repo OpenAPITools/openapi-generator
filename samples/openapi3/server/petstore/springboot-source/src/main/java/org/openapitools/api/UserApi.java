@@ -44,7 +44,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUser(
-         @NotNull @Valid @RequestBody User user
+         @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -65,7 +65,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithArrayInput(
-         @NotNull @Valid @RequestBody List<@Valid User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -86,7 +86,7 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> createUsersWithListInput(
-         @NotNull @Valid @RequestBody List<@Valid User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -107,7 +107,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     default ResponseEntity<Void> deleteUser(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -130,7 +130,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<User> getUserByName(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -210,8 +210,8 @@ public interface UserApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> updateUser(
-        @NotNull  @PathVariable("username") String username,
-         @NotNull @Valid @RequestBody User user
+         @PathVariable("username") String username,
+         @Valid @RequestBody User user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
