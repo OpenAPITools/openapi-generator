@@ -65,7 +65,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Mono<Pet> pet
     ) {
         return getDelegate().addPet(pet);
     }
@@ -266,7 +266,7 @@ public interface PetApi {
     )
     @ResponseStatus(HttpStatus.OK)
     default Mono<Void> updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody Mono<Pet> pet
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody Mono<Pet> pet
     ) {
         return getDelegate().updatePet(pet);
     }
