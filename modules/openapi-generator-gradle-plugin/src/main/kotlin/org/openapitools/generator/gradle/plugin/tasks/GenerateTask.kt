@@ -971,4 +971,66 @@ abstract class GenerateTask : DefaultTask() {
         // All directory properties use the same conversion logic
         this.set(layout.projectDirectory.dir(path))
     }
+
+    // ========================================================================
+    // Groovy DSL bridge methods
+    // These methods allow Groovy DSL users to set properties using String paths.
+    // Groovy's property syntax allows calling these as:
+    //   - Method style: setInputSpecAsString("$rootDir/api.yaml")
+    //   - Property style: inputSpecAsString = "$rootDir/api.yaml"
+    // ========================================================================
+
+    /**
+     * Groovy-compatible setter for inputSpec property.
+     * Accepts a String and automatically routes to remote or local file based on URI detection.
+     */
+    fun setInputSpecAsString(path: String) {
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+        } else {
+            inputSpec.set(layout.projectDirectory.file(path))
+        }
+    }
+
+    /**
+     * Groovy-compatible setter for configFile property.
+     */
+    fun setConfigFileAsString(path: String) {
+        configFile.set(layout.projectDirectory.file(path))
+    }
+
+    /**
+     * Groovy-compatible setter for ignoreFileOverride property.
+     */
+    fun setIgnoreFileOverrideAsString(path: String) {
+        ignoreFileOverride.set(layout.projectDirectory.file(path))
+    }
+
+    /**
+     * Groovy-compatible setter for templateDir property.
+     */
+    fun setTemplateDirAsString(path: String) {
+        templateDir.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for outputDir property.
+     */
+    fun setOutputDirAsString(path: String) {
+        outputDir.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for inputSpecRootDirectory property.
+     */
+    fun setInputSpecRootDirectoryAsString(path: String) {
+        inputSpecRootDirectory.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for schemaLocation property.
+     */
+    fun setSchemaLocationAsString(path: String) {
+        schemaLocation.set(layout.projectDirectory.dir(path))
+    }
 }

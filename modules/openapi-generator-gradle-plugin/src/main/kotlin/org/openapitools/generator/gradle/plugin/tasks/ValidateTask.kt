@@ -176,4 +176,24 @@ abstract class ValidateTask : DefaultTask() {
             }
         }
     }
+
+    // ========================================================================
+    // Groovy DSL bridge methods
+    // These methods allow Groovy DSL users to set properties using String paths.
+    // Groovy's property syntax allows calling these as:
+    //   - Method style: setInputSpecAsString("$rootDir/api.yaml")
+    //   - Property style: inputSpecAsString = "$rootDir/api.yaml"
+    // ========================================================================
+
+    /**
+     * Groovy-compatible setter for inputSpec property.
+     * Accepts a String and automatically routes to remote or local file based on URI detection.
+     */
+    fun setInputSpecAsString(path: String) {
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+        } else {
+            inputSpec.set(layout.projectDirectory.file(path))
+        }
+    }
 }

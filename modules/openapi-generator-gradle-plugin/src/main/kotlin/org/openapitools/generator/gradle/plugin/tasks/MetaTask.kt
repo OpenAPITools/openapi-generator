@@ -155,4 +155,19 @@ abstract class MetaTask : DefaultTask() {
         // All directory properties use the same conversion logic
         this.set(layout.projectDirectory.dir(path))
     }
+
+    // ========================================================================
+    // Groovy DSL bridge methods
+    // These methods allow Groovy DSL users to set properties using String paths.
+    // Groovy's property syntax allows calling these as:
+    //   - Method style: setOutputFolderAsString("$buildDir/generated")
+    //   - Property style: outputFolderAsString = "$buildDir/generated"
+    // ========================================================================
+
+    /**
+     * Groovy-compatible setter for outputFolder property.
+     */
+    fun setOutputFolderAsString(path: String) {
+        outputFolder.set(layout.projectDirectory.dir(path))
+    }
 }
