@@ -182,7 +182,21 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _items
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
+        {{#items.isMap}}
+        {{^items.items.isPrimitiveType}}
+        # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of dict)
+        _items = []
+        if self.{{{name}}}:
+            for _item_{{{name}}} in self.{{{name}}}:
+                if _item_{{{name}}}:
+                    _items.append(
+                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item_{{{name}}}.items()}
+                    )
+            _dict['{{{baseName}}}'] = _items
+        {{/items.items.isPrimitiveType}}
+        {{/items.isMap}}
         {{^items.isArray}}
+        {{^items.isMap}}
         {{^items.isPrimitiveType}}
         {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
@@ -194,6 +208,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
+        {{/items.isMap}}
         {{/items.isArray}}
         {{/isArray}}
         {{#isMap}}
@@ -210,6 +225,20 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _field_dict_of_array
         {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
+        {{#items.isMap}}
+        {{^items.items.isPrimitiveType}}
+        # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of dict)
+        _field_dict_of_dict = {}
+        if self.{{{name}}}:
+            for _key_{{{name}}}, _value_{{{name}}} in self.{{{name}}}.items():
+                if _value_{{{name}}} is not None:
+                    _field_dict_of_dict[_key_{{{name}}}] = {
+                        _key: _value.to_dict() for _key, _value in _value_{{{name}}}.items()
+                    }
+            _dict['{{{baseName}}}'] = _field_dict_of_dict
+        {{/items.items.isPrimitiveType}}
+        {{/items.isMap}}
+        {{^items.isMap}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}
         {{^items.isEnumOrRef}}
@@ -223,6 +252,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
         {{/items.isArray}}
+        {{/items.isMap}}
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
@@ -293,6 +323,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}
+            {{#items.isContainer}}
             {{#items.isArray}}
             {{#items.items.isPrimitiveType}}
             "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -304,7 +335,19 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                 ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{/items.isArray}}
-            {{^items.isArray}}
+            {{#items.isMap}}
+            {{#items.items.isPrimitiveType}}
+            "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
+            {{/items.items.isPrimitiveType}}
+            {{^items.items.isPrimitiveType}}
+            "{{{baseName}}}": [
+                    {_inner_key: {{{items.items.dataType}}}.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    for _item in obj["{{{baseName}}}"]
+                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{/items.items.isPrimitiveType}}
+            {{/items.isMap}}
+            {{/items.isContainer}}
+            {{^items.isContainer}}
             {{^items.isPrimitiveType}}
             {{#items.isEnumOrRef}}
             "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -316,7 +359,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isPrimitiveType}}
             "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
-            {{/items.isArray}}
+            {{/items.isContainer}}
             {{/isArray}}
             {{#isMap}}
             {{^items.isPrimitiveType}}
@@ -331,7 +374,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                     if _v is not None
                     else None
                 )
-                for _k, _v in obj.get("{{{baseName}}}").items()
+                for _k, _v in obj["{{{baseName}}}"].items()
             )
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
