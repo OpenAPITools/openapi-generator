@@ -71,7 +71,11 @@ public class AnotherFakeApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Client.class))
             })
         })
-    public Response call123testSpecialTags(@HeaderParam("uuid_test") @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="to test uuid example value") UUID uuidTest,@Valid @NotNull Client body) {
+    public Response call123testSpecialTags(
+
+@HeaderParam("uuid_test")   @NotNull   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="to test uuid example value") UUID uuidTest,
+
+  @Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 }
