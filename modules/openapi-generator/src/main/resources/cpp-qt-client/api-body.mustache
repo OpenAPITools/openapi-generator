@@ -831,7 +831,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
     {{#returnType}}
     {{#isArray}}
     {{{returnType}}} output;
-    QString json(worker->response) ;
+    QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
