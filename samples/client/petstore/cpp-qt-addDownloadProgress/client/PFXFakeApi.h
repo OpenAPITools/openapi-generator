@@ -97,11 +97,11 @@ Q_SIGNALS:
     void getEnumInlineOrRefSignalFull(PFXHttpRequestWorker *worker);
 
     Q_DECL_DEPRECATED_X("Use getEnumInlineOrRefSignalError() instead")
-    void getEnumInlineOrRefSignalE(QNetworkReply::NetworkError error_type, const QString &error_str);
+    void getEnumInlineOrRefSignalE(QNetworkReply::NetworkError error_type, QString error_str);
     void getEnumInlineOrRefSignalError(QNetworkReply::NetworkError error_type, const QString &error_str);
 
     Q_DECL_DEPRECATED_X("Use getEnumInlineOrRefSignalErrorFull() instead")
-    void getEnumInlineOrRefSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
+    void getEnumInlineOrRefSignalEFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
     void getEnumInlineOrRefSignalErrorFull(PFXHttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);
 
     void abortRequestsSignal();

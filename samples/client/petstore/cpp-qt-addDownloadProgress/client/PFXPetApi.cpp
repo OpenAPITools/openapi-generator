@@ -385,7 +385,7 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QSet<PFXPet> output;
-    QString json(worker->response) ;
+    QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
@@ -707,7 +707,7 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QList<PFXPet> output;
-    QString json(worker->response) ;
+    QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
@@ -912,7 +912,7 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
         error_str = QString("%1, %2").arg(worker->error_str, QString(worker->response));
     }
     QList<PFXPet> output;
-    QString json(worker->response) ;
+    QString json(worker->response);
     QByteArray array(json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
