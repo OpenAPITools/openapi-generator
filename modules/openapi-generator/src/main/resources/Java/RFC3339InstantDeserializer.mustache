@@ -14,16 +14,16 @@ import java.time.temporal.TemporalAccessor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.JsonParser;
+import {{jacksonPackage}}.databind.DeserializationContext;
 {{^useJackson3}}
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
 {{/useJackson3}}
 {{#useJackson3}}
-import tools.jackson.core.JacksonException;
-import tools.jackson.core.JsonParser;
-import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.ext.javatime.deser.InstantDeserializer;
 {{/useJackson3}}

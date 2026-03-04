@@ -2,28 +2,22 @@
 
 package {{invokerPackage}};
 
-{{^useJackson3}}
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import {{jacksonPackage}}.databind.*;
+import {{jacksonPackage}}.databind.json.JsonMapper;
+{{^useJackson3}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-{{#joda}}
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-{{/joda}}
 {{/useJackson3}}
 {{#useJackson3}}
-import com.fasterxml.jackson.annotation.*;
-import tools.jackson.databind.*;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
-import tools.jackson.databind.json.JsonMapper;
-{{#joda}}
-import tools.jackson.datatype.joda.JodaModule;
-{{/joda}}
 {{/useJackson3}}
+{{#joda}}
+import {{jacksonPackage}}.datatype.joda.JodaModule;
+{{/joda}}
 {{#models.0}}
 import {{modelPackage}}.*;
 {{/models.0}}

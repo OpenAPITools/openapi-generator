@@ -11,15 +11,11 @@ import {{invokerPackage}}.Pair;
 import {{import}};
 {{/imports}}
 
-{{^useJackson3}}
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-{{/useJackson3}}
 {{#useJackson3}}
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
 {{/useJackson3}}
+import {{jacksonPackage}}.core.type.TypeReference;
+import {{jacksonPackage}}.databind.ObjectMapper;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;

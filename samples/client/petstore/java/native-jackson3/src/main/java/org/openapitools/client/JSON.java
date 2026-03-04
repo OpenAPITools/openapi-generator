@@ -15,9 +15,9 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import tools.jackson.databind.*;
+import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.cfg.EnumFeature;
-import tools.jackson.databind.json.JsonMapper;
 import org.openapitools.client.model.*;
 
 import java.text.DateFormat;
