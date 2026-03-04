@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -82,54 +82,11 @@ public class ApiClient extends JavaTimeFormatter {
     protected final HttpHeaders defaultHeaders = new HttpHeaders();
     protected final MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<>();
 
-    protected String basePath = "http://petstore.swagger.io:80/v2";
+    protected String basePath = "http://petstore.swagger.io/v2";
     protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
         new ServerConfiguration(
-            "http://{server}.swagger.io:{port}/v2",
-            "petstore server",
-            new HashMap<String, ServerVariable>() {{
-                put("server", new ServerVariable(
-                    "No description provided",
-                    "petstore",
-                    new HashSet<String>(
-                        Arrays.asList(
-                            "petstore",
-                            "qa-petstore",
-                            "dev-petstore"
-                        )
-                    )
-                ));
-                put("port", new ServerVariable(
-                    "No description provided",
-                    "80",
-                    new HashSet<String>(
-                        Arrays.asList(
-                            "80",
-                            "8080"
-                        )
-                    )
-                ));
-            }}
-        ),
-        new ServerConfiguration(
-            "https://localhost:8080/{version}",
-            "The local server",
-            new HashMap<String, ServerVariable>() {{
-                put("version", new ServerVariable(
-                    "No description provided",
-                    "v2",
-                    new HashSet<String>(
-                        Arrays.asList(
-                            "v1",
-                            "v2"
-                        )
-                    )
-                ));
-            }}
-        ),
-        new ServerConfiguration(
-            "https://127.0.0.1/no_varaible",
-            "The local server without variables",
+            "http://petstore.swagger.io/v2",
+            "No description provided",
             new HashMap<String, ServerVariable>()
         )
     ));
@@ -188,10 +145,6 @@ public class ApiClient extends JavaTimeFormatter {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<>();
         authentications.put("petstore_auth", new OAuth());
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("http_basic_test", new HttpBasicAuth());
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
