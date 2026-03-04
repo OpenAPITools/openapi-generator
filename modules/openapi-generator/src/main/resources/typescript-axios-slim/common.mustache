@@ -1,0 +1,165 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import type { Configuration } from "./configuration{{importFileExtension}}";
+import type { RequestArgs } from "./base{{importFileExtension}}";
+import type { AxiosInstance, AxiosResponse } from 'axios';
+import * as v from 'valibot';
+{{#withAWSV4Signature}}
+import { aws4Interceptor } from "aws4-axios";
+{{/withAWSV4Signature}}
+import { RequiredError } from "./base{{importFileExtension}}";
+{{#withNodeImports}}
+import { URL, URLSearchParams } from 'url';
+{{/withNodeImports}}
+
+export const DUMMY_BASE_URL = 'https://example.com'
+
+/**
+ *
+ * @throws {RequiredError}
+ */
+export const assertParamExists = function (functionName: string, paramName: string, paramValue: unknown) {
+    if (paramValue === null || paramValue === undefined) {
+        throw new RequiredError(paramName, `Required parameter ${paramName} was null or undefined when calling ${functionName}.`);
+    }
+}
+
+export const validateRequestParameters = function (functionName: string, schema: v.GenericSchema<any>, requestParameters: unknown) {
+    const validationResult = v.safeParse(schema, requestParameters);
+    if (!validationResult.success) {
+        const firstIssue = validationResult.issues[0];
+        const issuePath = firstIssue?.path?.map((pathItem: any) => String(pathItem.key)).join('.') || 'requestParameters';
+        throw new RequiredError("requestParameters", `Invalid request parameters when calling ${functionName} at ${issuePath}.`);
+    }
+}
+
+export const withParams = function <T extends object>(path: string, params: T) {
+    const paramMap = params as any;
+    return path.replace(/\{([^}]+)\}/g, (_, key: string) => {
+        const value = paramMap[key];
+        if (value === undefined || value === null) {
+            return `{${key}}`;
+        }
+        return encodeURIComponent(String(value));
+    });
+}
+
+export const setApiKeyToObject = async function (object: any, keyParamName: string, configuration?: Configuration) {
+    if (configuration && configuration.apiKey) {
+        const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+            ? await configuration.apiKey(keyParamName)
+            : await configuration.apiKey;
+        object[keyParamName] = localVarApiKeyValue;
+    }
+}
+
+export const setBasicAuthToObject = function (object: any, configuration?: Configuration) {
+    if (configuration && (configuration.username || configuration.password)) {
+        object["auth"] = { username: configuration.username, password: configuration.password };
+    }
+}
+
+export const setBearerAuthToObject = async function (object: any, configuration?: Configuration) {
+    if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken()
+            : await configuration.accessToken;
+        object["Authorization"] = "Bearer " + accessToken;
+    }
+}
+
+export const setOAuthToObject = async function (object: any, name: string, scopes: string[], configuration?: Configuration) {
+    if (configuration && configuration.accessToken) {
+        const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+            ? await configuration.accessToken(name, scopes)
+            : await configuration.accessToken;
+        object["Authorization"] = "Bearer " + localVarAccessTokenValue;
+    }
+}
+
+{{#withAWSV4Signature}}
+const aws4SignedInstances = new WeakSet<AxiosInstance>();
+
+export const setAWS4SignatureInterceptor = async function (axiosInstance: AxiosInstance, configuration?: Configuration) {
+    if (configuration && configuration.awsv4 && !aws4SignedInstances.has(axiosInstance)) {
+        const interceptor = aws4Interceptor({
+            options: {
+                region: configuration.awsv4?.options?.region ?? process.env.AWS_REGION ?? 'us-east-1',
+                service: configuration.awsv4?.options?.service ?? 'execute-api',
+            },
+            credentials: {
+                accessKeyId: configuration.awsv4?.credentials?.accessKeyId ?? process.env.AWS_ACCESS_KEY_ID,
+                secretAccessKey: configuration.awsv4?.credentials?.secretAccessKey ?? process.env.AWS_SECRET_ACCESS_KEY,
+                sessionToken: configuration.awsv4?.credentials?.sessionToken ?? process.env.AWS_SESSION_TOKEN
+            },
+        });
+        axiosInstance.interceptors.request.use(interceptor);
+        aws4SignedInstances.add(axiosInstance);
+    }
+}
+{{/withAWSV4Signature}}
+
+function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
+    if (parameter == null) return;
+    if (typeof parameter === "object") {
+        if (Array.isArray(parameter) || parameter instanceof Set) {
+            (parameter as any[]).forEach(item => setFlattenedQueryParams(urlSearchParams, item, key));
+        }
+        else {
+            Object.keys(parameter).forEach(currentKey =>
+                setFlattenedQueryParams(urlSearchParams, parameter[currentKey], `${key}${key !== '' ? '.' : ''}${currentKey}`)
+            );
+        }
+    }
+    else {
+        if (urlSearchParams.has(key)) {
+            urlSearchParams.append(key, parameter);
+        }
+        else {
+            urlSearchParams.set(key, parameter);
+        }
+    }
+}
+
+export const setSearchParams = function (url: URL, ...objects: any[]) {
+    const searchParams = new URLSearchParams(url.search);
+    setFlattenedQueryParams(searchParams, objects);
+    url.search = searchParams.toString();
+}
+
+/**
+ * JSON serialization helper function which replaces instances of unserializable types with serializable ones.
+ * This function will run for every key-value pair encountered by JSON.stringify while traversing an object.
+ * Converting a set to a string will return an empty object, so an intermediate conversion to an array is required.
+ */
+// @ts-ignore
+export const replaceWithSerializableTypeIfNeeded = function(key: string, value: any) {
+    if (value instanceof Set) {
+        return Array.from(value);
+    } else {
+        return value;
+    }
+}
+
+export const serializeDataIfNeeded = function (value: any, requestOptions: any, configuration?: Configuration) {
+    const nonString = typeof value !== 'string';
+    const needsSerialization = nonString && configuration && configuration.isJsonMime
+        ? configuration.isJsonMime(requestOptions.headers['Content-Type'])
+        : nonString;
+    return needsSerialization
+        ? JSON.stringify(value !== undefined ? value : {}, replaceWithSerializableTypeIfNeeded)
+        : (value || "");
+}
+
+export const toPathString = function (url: URL) {
+    return url.pathname + url.search + url.hash
+}
+
+export const createRequestFunction = function (axiosArgs: RequestArgs, globalAxios: AxiosInstance, BASE_PATH: string, configuration?: Configuration) {
+    return <T = unknown, R = AxiosResponse<T>>(axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs = {...axiosArgs.options, url: (axios.defaults.baseURL ? '' : configuration?.basePath ?? basePath) + axiosArgs.url};
+        return axios.request<T, R>(axiosRequestArgs);
+    };
+}
