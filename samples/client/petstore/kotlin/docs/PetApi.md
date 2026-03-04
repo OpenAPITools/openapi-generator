@@ -311,4 +311,87 @@ Updates a pet in the store with form data
 val apiInstance = PetApi()
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be updated
 val name : kotlin.String = name_example // kotlin.String | Updated name of the pet
-va
+val status : kotlin.String = status_example // kotlin.String | Updated status of the pet
+try {
+    apiInstance.updatePetWithForm(petId, name, status)
+} catch (e: ClientException) {
+    println("4xx response calling PetApi#updatePetWithForm")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PetApi#updatePetWithForm")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **petId** | **kotlin.Long**| ID of pet that needs to be updated | |
+| **name** | **kotlin.String**| Updated name of the pet | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **status** | **kotlin.String**| Updated status of the pet | [optional] |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a id="uploadFile"></a>
+# **uploadFile**
+> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+
+uploads an image
+
+### Example
+```kotlin
+// Import classes:
+//import org.openapitools.client.infrastructure.*
+//import org.openapitools.client.models.*
+
+val apiInstance = PetApi()
+val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
+val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
+val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+try {
+    val result : ModelApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling PetApi#uploadFile")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling PetApi#uploadFile")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| **petId** | **kotlin.Long**| ID of pet to update | |
+| **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] |
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **file** | **java.io.File**| file to upload | [optional] |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
