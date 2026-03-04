@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Category
+ * A category for a pet
  */
 @JsonPropertyOrder({
   Category.JSON_PROPERTY_ID,
@@ -38,8 +38,8 @@ public class Category {
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nonnull
-  private String name = "default-name";
+  @jakarta.annotation.Nullable
+  private String name;
 
   public Category() {
   }
@@ -69,7 +69,7 @@ public class Category {
     this.id = id;
   }
 
-  public Category name(@jakarta.annotation.Nonnull String name) {
+  public Category name(@jakarta.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -79,18 +79,18 @@ public class Category {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nonnull
-  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+  @jakarta.annotation.Nullable
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
     return name;
   }
 
 
-  @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setName(@jakarta.annotation.Nonnull String name) {
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setName(@jakarta.annotation.Nullable String name) {
     this.name = name;
   }
 
