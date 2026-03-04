@@ -25,6 +25,7 @@ if __import__("typing").TYPE_CHECKING:
     from petstore_api.models.any_of_pig import AnyOfPig
     from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
     from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+    from petstore_api.models.array_of_map_model import ArrayOfMapModel
     from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
     from petstore_api.models.array_test import ArrayTest
     from petstore_api.models.base_discriminator import BaseDiscriminator
@@ -146,6 +147,7 @@ from petstore_api.models.any_of_color import AnyOfColor
 from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_map_model import ArrayOfMapModel
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.base_discriminator import BaseDiscriminator
