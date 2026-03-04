@@ -97,13 +97,13 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
+    jackson_version = "2.21.0"
+    jackson_annotations_version = "2.21"
     jackson_databind_nullable_version = "0.2.9"
-    spring_web_version = "6.1.21"
-    jakarta_annotation_version = "2.1.1"
-    jodatime_version = "2.9.9"
-    junit_version = "5.10.2"
+    spring_web_version = "7.0.5"
+    jakarta_annotation_version = "3.0.0"
+    jodatime_version = "2.14.0"
+    junit_version = "5.14.3"
 }
 
 dependencies {
@@ -111,7 +111,7 @@ dependencies {
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
     implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
