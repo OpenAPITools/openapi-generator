@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 README.md
 build.gradle
 docs/AnyOfUserOrPet.md
@@ -40,3 +41,12 @@ src/main/kotlin/org/openapitools/client/models/StringOrLong.kt
 src/main/kotlin/org/openapitools/client/models/User.kt
 src/main/kotlin/org/openapitools/client/models/UserOrPet.kt
 src/main/kotlin/org/openapitools/client/models/UserOrPetOrArrayString.kt
+src/test/kotlin/org/openapitools/client/apis/TestApiTest.kt
+src/test/kotlin/org/openapitools/client/models/AnyOfUserOrPetOrArrayStringTest.kt
+src/test/kotlin/org/openapitools/client/models/AnyOfUserOrPetTest.kt
+src/test/kotlin/org/openapitools/client/models/BooleanOrLongTest.kt
+src/test/kotlin/org/openapitools/client/models/PetTest.kt
+src/test/kotlin/org/openapitools/client/models/StringOrLongTest.kt
+src/test/kotlin/org/openapitools/client/models/UserOrPetOrArrayStringTest.kt
+src/test/kotlin/org/openapitools/client/models/UserOrPetTest.kt
+src/test/kotlin/org/openapitools/client/models/UserTest.kt
