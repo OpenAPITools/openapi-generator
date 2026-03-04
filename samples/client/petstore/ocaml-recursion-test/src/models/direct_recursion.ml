@@ -16,7 +16,7 @@
                 
                 
                 ; [@key "id"]
-                                              next: Direct_recursion.t
+                                              next: t
                   
                    option [@default None]
                 

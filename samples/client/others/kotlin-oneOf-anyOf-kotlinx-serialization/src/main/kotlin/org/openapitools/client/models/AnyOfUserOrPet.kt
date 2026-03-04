@@ -45,10 +45,10 @@ import kotlinx.serialization.json.encodeToJsonElement
 
 sealed interface AnyOfUserOrPet {
     @JvmInline
-    value class (val value: User) : AnyOfUserOrPet
+    value class UserValue(val value: User) : AnyOfUserOrPet
 
     @JvmInline
-    value class (val value: Pet) : AnyOfUserOrPet
+    value class PetValue(val value: Pet) : AnyOfUserOrPet
 
 }
 
@@ -59,8 +59,8 @@ object AnyOfUserOrPetSerializer : KSerializer<AnyOfUserOrPet> {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("AnyOfUserOrPet can only be serialized with Json")
 
         when (value) {
-            is AnyOfUserOrPet. -> jsonEncoder.encodeSerializableValue(User.serializer(), value.value)
-            is AnyOfUserOrPet. -> jsonEncoder.encodeSerializableValue(Pet.serializer(), value.value)
+            is AnyOfUserOrPet.UserValue -> jsonEncoder.encodeSerializableValue(User.serializer(), value.value)
+            is AnyOfUserOrPet.PetValue -> jsonEncoder.encodeSerializableValue(Pet.serializer(), value.value)
         }
     }
 
@@ -73,7 +73,7 @@ object AnyOfUserOrPetSerializer : KSerializer<AnyOfUserOrPet> {
         if (jsonElement !is JsonPrimitive) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<User>(jsonElement)
-                return AnyOfUserOrPet.(instance)
+                return AnyOfUserOrPet.UserValue(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as User: ${e.message}")
             }
@@ -81,7 +81,7 @@ object AnyOfUserOrPetSerializer : KSerializer<AnyOfUserOrPet> {
         if (jsonElement !is JsonPrimitive) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<Pet>(jsonElement)
-                return AnyOfUserOrPet.(instance)
+                return AnyOfUserOrPet.PetValue(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as Pet: ${e.message}")
             }

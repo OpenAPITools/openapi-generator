@@ -6,6 +6,8 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
+import org.openapitools.model.GetOrderByIdResponse
+import org.openapitools.model.PlaceOrderResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -64,7 +66,7 @@ interface StoreApi {
     )
     fun getOrderById(
         @Min(value=1L) @Max(value=5L) @PathVariable("orderId") orderId: kotlin.Long
-    ): ResponseEntity<Order> {
+    ): ResponseEntity<GetOrderByIdResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -78,7 +80,7 @@ interface StoreApi {
     )
     fun placeOrder(
         @Valid @RequestBody order: Order
-    ): ResponseEntity<Order> {
+    ): ResponseEntity<PlaceOrderResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

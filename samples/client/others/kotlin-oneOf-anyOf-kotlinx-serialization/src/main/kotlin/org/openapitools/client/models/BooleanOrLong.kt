@@ -42,10 +42,10 @@ import kotlinx.serialization.json.encodeToJsonElement
 @Serializable(with = BooleanOrLongSerializer::class)
 sealed interface BooleanOrLong {
     @JvmInline
-    value class (val value: kotlin.Boolean) : BooleanOrLong
+    value class BooleanValue(val value: kotlin.Boolean) : BooleanOrLong
 
     @JvmInline
-    value class (val value: kotlin.Long) : BooleanOrLong
+    value class LongValue(val value: kotlin.Long) : BooleanOrLong
 
 }
 
@@ -56,8 +56,8 @@ object BooleanOrLongSerializer : KSerializer<BooleanOrLong> {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("BooleanOrLong can only be serialized with Json")
 
         when (value) {
-            is BooleanOrLong. -> jsonEncoder.encodeBoolean(value.value)
-            is BooleanOrLong. -> jsonEncoder.encodeLong(value.value)
+            is BooleanOrLong.BooleanValue -> jsonEncoder.encodeBoolean(value.value)
+            is BooleanOrLong.LongValue -> jsonEncoder.encodeLong(value.value)
         }
     }
 
@@ -70,7 +70,7 @@ object BooleanOrLongSerializer : KSerializer<BooleanOrLong> {
         if (jsonElement is JsonPrimitive && !jsonElement.isString) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<kotlin.Boolean>(jsonElement)
-                return BooleanOrLong.(instance)
+                return BooleanOrLong.BooleanValue(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as kotlin.Boolean: ${e.message}")
             }
@@ -78,7 +78,7 @@ object BooleanOrLongSerializer : KSerializer<BooleanOrLong> {
         if (jsonElement is JsonPrimitive && !jsonElement.isString) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<kotlin.Long>(jsonElement)
-                return BooleanOrLong.(instance)
+                return BooleanOrLong.LongValue(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as kotlin.Long: ${e.message}")
             }

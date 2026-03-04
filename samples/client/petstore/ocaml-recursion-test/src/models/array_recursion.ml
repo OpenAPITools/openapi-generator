@@ -16,7 +16,7 @@
                 
                 
                 ; [@key "value"]
-                                              children: Array_recursion.t list
+                                              children: t list
                  [@default []]
                 
                 ; [@key "children"]

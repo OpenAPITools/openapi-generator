@@ -6,6 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import org.openapitools.model.GetUserByNameResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -92,7 +93,7 @@ interface UserApi {
     )
     fun getUserByName(
         @PathVariable("username") username: kotlin.String
-    ): ResponseEntity<User> {
+    ): ResponseEntity<GetUserByNameResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

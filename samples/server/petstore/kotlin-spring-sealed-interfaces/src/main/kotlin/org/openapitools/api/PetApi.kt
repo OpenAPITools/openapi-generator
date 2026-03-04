@@ -7,6 +7,10 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import org.openapitools.model.UpdatePetResponse
+import org.openapitools.model.AddPetResponse
+import org.openapitools.model.GetPetByIdResponse
+import org.openapitools.model.UploadFileResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -43,7 +47,7 @@ interface PetApi {
     )
     fun addPet(
         @Valid @RequestBody pet: Pet
-    ): ResponseEntity<Pet> {
+    ): ResponseEntity<AddPetResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -96,7 +100,7 @@ interface PetApi {
     )
     fun getPetById(
         @PathVariable("petId") petId: kotlin.Long
-    ): ResponseEntity<Pet> {
+    ): ResponseEntity<GetPetByIdResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -110,7 +114,7 @@ interface PetApi {
     )
     fun updatePet(
         @Valid @RequestBody pet: Pet
-    ): ResponseEntity<Pet> {
+    ): ResponseEntity<UpdatePetResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -141,7 +145,7 @@ interface PetApi {
         @PathVariable("petId") petId: kotlin.Long,
         @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
         @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile
-    ): ResponseEntity<ModelApiResponse> {
+    ): ResponseEntity<UploadFileResponse> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

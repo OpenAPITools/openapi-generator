@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 import org.openapitools.model.Category
 import org.openapitools.model.Tag
+import org.openapitools.model.UpdatePetResponse
+import org.openapitools.model.AddPetResponse
+import org.openapitools.model.GetPetByIdResponse
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -41,7 +44,7 @@ data class Pet(
 
     @Deprecated(message = "")
     @get:JsonProperty("status") val status: Pet.Status? = null
-) {
+) : UpdatePetResponse, AddPetResponse, GetPetByIdResponse {
 
     /**
     * pet status in the store

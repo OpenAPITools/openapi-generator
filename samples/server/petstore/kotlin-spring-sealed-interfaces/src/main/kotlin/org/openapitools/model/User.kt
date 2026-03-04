@@ -2,6 +2,7 @@ package org.openapitools.model
 
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.openapitools.model.GetUserByNameResponse
 import jakarta.validation.constraints.DecimalMax
 import jakarta.validation.constraints.DecimalMin
 import jakarta.validation.constraints.Email
@@ -40,7 +41,7 @@ data class User(
     @get:JsonProperty("phone") val phone: kotlin.String? = null,
 
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
-) {
+) : GetUserByNameResponse {
 
 }
 
