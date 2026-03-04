@@ -45,13 +45,13 @@ import kotlinx.serialization.json.encodeToJsonElement
 
 sealed interface AnyOfUserOrPetOrArrayString {
     @JvmInline
-    value class UserValue(val value: User) : AnyOfUserOrPetOrArrayString
+    value class (val value: User) : AnyOfUserOrPetOrArrayString
 
     @JvmInline
-    value class PetValue(val value: Pet) : AnyOfUserOrPetOrArrayString
+    value class (val value: Pet) : AnyOfUserOrPetOrArrayString
 
     @JvmInline
-    value class ListStringValue(val value: kotlin.collections.List<kotlin.String>) : AnyOfUserOrPetOrArrayString
+    value class (val value: kotlin.collections.List<kotlin.String>) : AnyOfUserOrPetOrArrayString
 
 }
 
@@ -62,9 +62,9 @@ object AnyOfUserOrPetOrArrayStringSerializer : KSerializer<AnyOfUserOrPetOrArray
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("AnyOfUserOrPetOrArrayString can only be serialized with Json")
 
         when (value) {
-            is AnyOfUserOrPetOrArrayString.UserValue -> jsonEncoder.encodeSerializableValue(User.serializer(), value.value)
-            is AnyOfUserOrPetOrArrayString.PetValue -> jsonEncoder.encodeSerializableValue(Pet.serializer(), value.value)
-            is AnyOfUserOrPetOrArrayString.ListStringValue -> jsonEncoder.encodeJsonElement(jsonEncoder.json.encodeToJsonElement(value.value))
+            is AnyOfUserOrPetOrArrayString. -> jsonEncoder.encodeSerializableValue(User.serializer(), value.value)
+            is AnyOfUserOrPetOrArrayString. -> jsonEncoder.encodeSerializableValue(Pet.serializer(), value.value)
+            is AnyOfUserOrPetOrArrayString. -> jsonEncoder.encodeJsonElement(jsonEncoder.json.encodeToJsonElement(value.value))
         }
     }
 
@@ -77,7 +77,7 @@ object AnyOfUserOrPetOrArrayStringSerializer : KSerializer<AnyOfUserOrPetOrArray
         if (jsonElement !is JsonPrimitive) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<User>(jsonElement)
-                return AnyOfUserOrPetOrArrayString.UserValue(instance)
+                return AnyOfUserOrPetOrArrayString.(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as User: ${e.message}")
             }
@@ -85,7 +85,7 @@ object AnyOfUserOrPetOrArrayStringSerializer : KSerializer<AnyOfUserOrPetOrArray
         if (jsonElement !is JsonPrimitive) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<Pet>(jsonElement)
-                return AnyOfUserOrPetOrArrayString.PetValue(instance)
+                return AnyOfUserOrPetOrArrayString.(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as Pet: ${e.message}")
             }
@@ -93,7 +93,7 @@ object AnyOfUserOrPetOrArrayStringSerializer : KSerializer<AnyOfUserOrPetOrArray
         if (jsonElement is JsonArray) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<kotlin.collections.List<kotlin.String>>(jsonElement)
-                return AnyOfUserOrPetOrArrayString.ListStringValue(instance)
+                return AnyOfUserOrPetOrArrayString.(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as kotlin.collections.List<kotlin.String>: ${e.message}")
             }

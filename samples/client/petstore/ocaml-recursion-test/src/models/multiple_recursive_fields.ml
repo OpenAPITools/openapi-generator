@@ -16,19 +16,19 @@
                 
                 
                 ; [@key "name"]
-                                              left: t
+                                              left: Multiple_recursive_fields.t
                   
                    option [@default None]
                 
                 
                 ; [@key "left"]
-                                              right: t
+                                              right: Multiple_recursive_fields.t
                   
                    option [@default None]
                 
                 
                 ; [@key "right"]
-                                              children: t list
+                                              children: Multiple_recursive_fields.t list
                  [@default []]
                 
                 ; [@key "children"]

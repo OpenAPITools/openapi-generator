@@ -16,7 +16,7 @@
                 
                 
                 ; [@key "value"]
-                                              parent: t
+                                              parent: Required_recursion.t
                   
                   
                 
@@ -25,7 +25,7 @@
                         } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Test required self-reference field *)
-        let create (value : string) (parent : t) : t = {
+        let create (value : string) (parent : Required_recursion.t) : t = {
             value = value;
             parent = parent;
         }

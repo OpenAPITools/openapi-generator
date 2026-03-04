@@ -16,14 +16,14 @@
                 
                 
                 ; [@key "id"]
-                                              siblings: t list
+                                              siblings: Required_array_recursion.t list
                 
                 
                 ; [@key "siblings"]
                         } [@@deriving yojson { strict = false }, show, eq ];;
         
         (** Test required array of self-references *)
-        let create (id : int32) (siblings : t list) : t = {
+        let create (id : int32) (siblings : Required_array_recursion.t list) : t = {
             id = id;
             siblings = siblings;
         }

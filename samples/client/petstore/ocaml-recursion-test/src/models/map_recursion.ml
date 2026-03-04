@@ -16,9 +16,9 @@
                 
                 
                 ; [@key "name"]
-                                              child_map: (string * t) list
+                                              child_map: (string * Map_recursion.t) list
                 
-                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: t]]
+                 [@default []] [@to_yojson JsonSupport.of_map_of [%to_yojson: Map_recursion.t]] [@of_yojson JsonSupport.to_map_of [%of_yojson: Map_recursion.t]]
                 ; [@key "childMap"]
                         } [@@deriving yojson { strict = false }, show, eq ];;
         
