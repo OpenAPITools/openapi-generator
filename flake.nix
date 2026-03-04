@@ -15,6 +15,7 @@
             buildInputs = with pkgs;[
               jdk17
               maven
+              gradle
             ];
           };
       }

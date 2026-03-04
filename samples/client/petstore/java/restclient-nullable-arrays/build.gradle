@@ -103,7 +103,7 @@ ext {
     spring_web_version = "6.2.16"
     jakarta_annotation_version = "2.1.1"
     jodatime_version = "2.14.0"
-    junit_version = "5.14.3"
+    junit_version = "5.10.2"
 }
 
 dependencies {
@@ -130,5 +130,4 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
-
 }

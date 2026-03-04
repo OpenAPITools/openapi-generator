@@ -270,6 +270,6 @@
         <jackson-annotations-version>2.21</jackson-annotations-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>
-        <junit-version>5.14.3</junit-version>
+        <junit-version>5.10.2</junit-version>
     </properties>
 </project>
