@@ -6223,4 +6223,148 @@ public class SpringCodegenTest {
                                                                          ));
     }
 
+    @Test
+    public void testSpringHttpInterfaceWithBeanValidationEnabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Verify that @Validated annotation is present in the generated API interface
+        assertFileContains(files.get("PetApi.java").toPath(), "@Validated");
+        // Verify that @Valid annotation is present in method parameters
+        assertFileContains(files.get("PetApi.java").toPath(), "@Valid");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceWithBeanValidationDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Verify that @Validated annotation is NOT present in the generated API interface
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@Validated");
+        // Verify that @Valid annotation is NOT present in method parameters
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@Valid");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceWithBeanValidationNotSpecified() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SpringCodegen.SPRING_HTTP_INTERFACE);
+        // Don't set USE_BEANVALIDATION, verify it defaults to false
+        codegen.processOpts();
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream().distinct()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Verify that useBeanValidation defaults to false, so no @Validated annotation
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@Validated");
+        assertFileNotContains(files.get("PetApi.java").toPath(), "@Valid");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceWithBeanValidationEnabledContainsAnnotations() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Check that the generated interface contains @Validated at class level
+        String apiContent = new String(Files.readAllBytes(files.get("PetApi.java").toPath()));
+        assertThat(apiContent).contains("@Validated");
+        assertThat(apiContent).contains("import jakarta.validation");
+    }
+
+    @Test
+    public void testSpringHttpInterfaceWithBeanValidationDisabledNoValidationImports() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, SpringCodegen.SPRING_HTTP_INTERFACE);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Check that the generated interface does NOT contain @Validated
+        String apiContent = new String(Files.readAllBytes(files.get("PetApi.java").toPath()));
+        assertThat(apiContent).doesNotContain("@Validated");
+        // Should still have proper formatting
+        assertThat(apiContent).contains("public interface PetApi");
+    }
+
 }
