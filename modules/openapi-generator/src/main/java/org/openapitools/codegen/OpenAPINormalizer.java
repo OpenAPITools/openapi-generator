@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -136,6 +137,9 @@ public class OpenAPINormalizer {
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
+
+    // when set (e.g. type:http|oauth2), filter out (or remove) everything else
+    final String SECURITY_SCHEMES_FILTER = "SECURITY_SCHEMES_FILTER";
 
     // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
@@ -1959,7 +1963,7 @@ public class OpenAPINormalizer {
         private final String input;
         // Key - filtering method, value - set of accepted values.
         // For example, to filter operations by method the key would be "method" and the value is a set of {"get", "post"}.
-        protected Map<String, Set<String>> filteringMethodsMap;
+        protected Map<String, Set<String>> filteringMethodsMap = new HashMap<>();
 
         protected BaseFilter(String input) {
             this.input = input.trim();
