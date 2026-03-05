@@ -28,7 +28,7 @@ interface PetApiService {
      * @return Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?, ctx: Context): Unit
+    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null, ctx: Context): Unit
 
     /**
      * GET /pet/findByStatus : Finds Pets by status
@@ -95,7 +95,7 @@ interface PetApiService {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?, ctx: Context): Unit
+    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null, ctx: Context): Unit
 
     /**
      * POST /pet/{petId}/uploadImage : uploads an image
@@ -108,5 +108,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.javalin.http.UploadedFile?, ctx: Context): ModelApiResponse
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: io.javalin.http.UploadedFile? = null, ctx: Context): ModelApiResponse
 }
