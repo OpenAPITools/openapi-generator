@@ -106,6 +106,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String GENERATE_ONEOF_ANYOF_WRAPPERS = "generateOneOfAnyOfWrappers";
 
+    public static final String COMPANION_OBJECT = "companionObject";
+
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
 
@@ -123,6 +125,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean mapFileBinaryToByteArray = false;
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean companionObject = false;
 
     protected String authFolder;
 
@@ -288,6 +291,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(GENERATE_ONEOF_ANYOF_WRAPPERS, "Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option."));
 
+        cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
+
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
 
@@ -320,6 +325,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public boolean getGenerateOneOfAnyOfWrappers() {
         return generateOneOfAnyOfWrappers;
+    }
+
+    public boolean getCompanionObject() {
+        return companionObject;
     }
 
     public void setGenerateRoomModels(Boolean generateRoomModels) {
@@ -482,6 +491,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         } else {
             additionalProperties.put(FAIL_ON_UNKNOWN_PROPERTIES, false);
             setFailOnUnknownProperties(false);
+        }
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
         }
 
         commonSupportingFiles();
@@ -936,7 +951,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         for (ModelMap mo : objects.getModels()) {
             CodegenModel cm = mo.getModel();
-            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers()) {
+            if (getGenerateRoomModels() || getGenerateOneOfAnyOfWrappers() || getCompanionObject()) {
                 cm.vendorExtensions.put("x-has-data-class-body", true);
             }
 

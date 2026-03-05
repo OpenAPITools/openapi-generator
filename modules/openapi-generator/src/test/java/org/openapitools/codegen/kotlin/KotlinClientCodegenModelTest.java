@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.openapitools.codegen.CodegenConstants.*;
+import static org.openapitools.codegen.languages.KotlinClientCodegen.COMPANION_OBJECT;
 import static org.openapitools.codegen.languages.KotlinClientCodegen.GENERATE_ONEOF_ANYOF_WRAPPERS;
 
 @SuppressWarnings("static-method")
@@ -876,6 +877,50 @@ public class KotlinClientCodegenModelTest {
 
         final Path modelKt = Paths.get(output + "/src/main/kotlin/model/EmptyModel.kt");
         TestUtils.assertFileNotContains(modelKt, "data class EmptyModel");
+    }
+
+    @Test
+    public void testCompanionObjectAdditionalProperty() {
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+
+        // Default case, nothing provided
+        codegen.processOpts();
+
+        ConfigAssert configAssert = new ConfigAssert(codegen.additionalProperties());
+        // Default to false
+        configAssert.assertValue(COMPANION_OBJECT, codegen::getCompanionObject, Boolean.FALSE);
+
+        // Provide true
+        codegen.additionalProperties().put(COMPANION_OBJECT, true);
+        codegen.processOpts();
+
+        // Should be true
+        configAssert.assertValue(COMPANION_OBJECT, codegen::getCompanionObject, Boolean.TRUE);
+
+        // Provide false
+        codegen.additionalProperties().put(COMPANION_OBJECT, false);
+        codegen.processOpts();
+
+        // Should be false
+        configAssert.assertValue(COMPANION_OBJECT, codegen::getCompanionObject, Boolean.FALSE);
+    }
+
+    @Test
+    public void testCompanionObjectGeneratesCompanionInModel() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .addAdditionalProperty(COMPANION_OBJECT, true)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path petModel = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
+        TestUtils.assertFileContains(petModel, "companion object { }");
     }
 
     private static class ModelNameTest {
