@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -132,50 +131,87 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava3 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
-    @Setter protected boolean doNotUseRx = true;
-    @Setter protected boolean usePlayWS = false;
-    @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    @Setter protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
-    @Setter protected boolean microprofileMutiny = false;
-    @Setter protected boolean microProfileGlobalExceptionMapper = true;
-    @Setter protected boolean microProfileRegisterExceptionMapper = true;
-    @Setter protected String configKey = null;
-    @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
-    @Setter protected boolean asyncNative = false;
-    @Setter protected boolean parcelableModel = false;
-    @Setter protected boolean performBeanValidation = false;
-    @Setter protected boolean useGzipFeature = false;
-    @Setter protected boolean useRuntimeException = false;
-    @Setter protected boolean useReflectionEqualsHashCode = false;
+    @Setter
+    protected boolean doNotUseRx = true;
+    @Setter
+    protected boolean usePlayWS = false;
+    @Setter
+    protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    @Setter
+    protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
+    @Setter
+    protected boolean microprofileMutiny = false;
+    @Setter
+    protected boolean microProfileGlobalExceptionMapper = true;
+    @Setter
+    protected boolean microProfileRegisterExceptionMapper = true;
+    @Setter
+    protected String configKey = null;
+    @Setter(AccessLevel.PRIVATE)
+    protected boolean configKeyFromClassName = false;
+    @Setter
+    protected boolean asyncNative = false;
+    @Setter
+    protected boolean parcelableModel = false;
+    @Setter
+    protected boolean performBeanValidation = false;
+    @Setter
+    protected boolean useGzipFeature = false;
+    @Setter
+    protected boolean useRuntimeException = false;
+    @Setter
+    protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
-    @Setter protected boolean useAbstractionForFiles = false;
-    @Setter protected boolean dynamicOperations = false;
-    @Setter protected boolean supportStreaming = false;
-    @Setter protected boolean withAWSV4Signature = false;
-    @Setter protected String gradleProperties;
-    @Setter protected String errorObjectType;
-    @Getter @Setter protected boolean failOnUnknownProperties = false;
-    @Setter protected boolean supportVertxFuture = false;
-    @Setter protected boolean useSealedOneOfInterfaces = false;
-    @Setter protected boolean useUnaryInterceptor = false;
+    @Setter
+    protected boolean useAbstractionForFiles = false;
+    @Setter
+    protected boolean dynamicOperations = false;
+    @Setter
+    protected boolean supportStreaming = false;
+    @Setter
+    protected boolean withAWSV4Signature = false;
+    @Setter
+    protected String gradleProperties;
+    @Setter
+    protected String errorObjectType;
+    @Getter
+    @Setter
+    protected boolean failOnUnknownProperties = false;
+    @Setter
+    protected boolean supportVertxFuture = false;
+    @Setter
+    protected boolean useSealedOneOfInterfaces = false;
+    @Setter
+    protected boolean useUnaryInterceptor = false;
 
     protected String authFolder;
     /**
      * Serialization library.
      */
-    @Getter protected String serializationLibrary = null;
-    @Getter @Setter protected boolean useSpringBoot4 = false;
-    @Getter @Setter protected boolean useJackson3 = false;
-    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Getter
+    protected String serializationLibrary = null;
+    @Getter
+    @Setter
+    protected boolean useSpringBoot4 = false;
+    @Getter
+    @Setter
+    protected boolean useJackson3 = false;
+    @Setter
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
-    @Setter(AccessLevel.PRIVATE) protected String useSingleRequestParameter = "false";
+    @Setter(AccessLevel.PRIVATE)
+    protected String useSingleRequestParameter = "false";
     protected boolean webclientBlockingOperations = false;
-    @Setter protected boolean generateClientAsBean = false;
-    @Setter protected boolean useEnumCaseInsensitive = false;
+    @Setter
+    protected boolean generateClientAsBean = false;
+    @Setter
+    protected boolean useEnumCaseInsensitive = false;
 
-    @Setter protected int maxAttemptsForRetry = 1;
-    @Setter protected long waitTimeMillis = 10l;
+    @Setter
+    protected int maxAttemptsForRetry = 1;
+    @Setter
+    protected long waitTimeMillis = 10l;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -280,7 +316,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(FEIGN_HC5, "HTTP client: OpenFeign 13.2.1/HttpClient5 5.4.2. JSON processing: Jackson 2.17.1 or Gson 2.10.1");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 4.11.0. JSON processing: Gson 2.10.1 (Retrofit 2.5.0) or Jackson 2.17.1. Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
-        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.1.5 if `useJakartaEe=true`). JSON processing: Jackson 2.17.1");
+        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 5.3.33 (6.2.x if `useJakartaEe=true`, 7.x.x if `useSpringBoot4=true`). JSON processing: Jackson 2.x (3.x if `useJackson3=true`)");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.1.18. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(RESTCLIENT, "HTTP client: Spring RestClient 6.1.6. JSON processing: Jackson 2.17.1");
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 4.7.6. JSON processing: Jackson 2.17.1");
@@ -307,7 +343,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x.", useSpringBoot4));
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `" + OPENAPI_NULLABLE + "`).", useJackson3));        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
@@ -378,14 +414,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
-        if(isUseJackson3() && !isUseSpringBoot4()){
+        if (isUseJackson3() && !isUseSpringBoot4()) {
             throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
         }
-        if(isUseJackson3() && isOpenApiNullable()){
+        if (isUseJackson3() && isOpenApiNullable()) {
             throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
         }
 
-        if(this.useJackson3){
+        if (this.useJackson3) {
             this.applyJackson3Package();
         } else {
             this.applyJackson2Package();
