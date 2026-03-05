@@ -1,0 +1,138 @@
+openapi: 3.0.1
+info:
+  title: oneOf/anyOf non-discriminator example
+  description: Test non-discriminator oneOf and anyOf with model, primitive, and array types
+  version: '0.1'
+servers:
+  - url: http://example.org
+tags:
+  - name: test
+paths:
+  '/v1/test/oneOf':
+    get:
+      tags:
+        - test
+      operationId: get-oneOf
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOrPet'
+  '/v1/test/oneOfArray':
+    get:
+      tags:
+        - test
+      operationId: get-oneOf-array
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOrPetOrArrayString'
+  '/v1/test/oneOfPrimitive':
+    get:
+      tags:
+        - test
+      operationId: get-oneOf-primitive
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringOrLong'
+  '/v1/test/oneOfBooleanPrimitive':
+    get:
+      tags:
+        - test
+      operationId: get-oneOf-boolean-primitive
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanOrLong'
+  '/v1/test/anyOf':
+    get:
+      tags:
+        - test
+      operationId: get-anyOf
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfUserOrPet'
+  '/v1/test/anyOfArray':
+    get:
+      tags:
+        - test
+      operationId: get-anyOf-array
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnyOfUserOrPetOrArrayString'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+      required:
+        - id
+        - username
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      required:
+        - id
+        - name
+    UserOrPet:
+      oneOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Pet'
+    UserOrPetOrArrayString:
+      oneOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Pet'
+        - type: array
+          items:
+            type: string
+    StringOrLong:
+      oneOf:
+        - type: string
+        - type: integer
+          format: int64
+    BooleanOrLong:
+      oneOf:
+        - type: boolean
+        - type: integer
+          format: int64
+    AnyOfUserOrPet:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Pet'
+    AnyOfUserOrPetOrArrayString:
+      anyOf:
+        - $ref: '#/components/schemas/User'
+        - $ref: '#/components/schemas/Pet'
+        - type: array
+          items:
+            type: string

@@ -69,6 +69,28 @@ export const OrderStatusEnum = {
 } as const;
 export type OrderStatusEnum = typeof OrderStatusEnum[keyof typeof OrderStatusEnum];
 
+export const OrderPropertyValidationAttributesMap: {
+    [property: string]: {
+        maxLength?: number,
+        minLength?: number,
+        pattern?: string,
+        maximum?: number,
+        exclusiveMaximum?: boolean,
+        minimum?: number,
+        exclusiveMinimum?: boolean,
+        multipleOf?: number,
+        maxItems?: number,
+        minItems?: number,
+        uniqueItems?: boolean
+    }
+} = {
+}
+
+export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
+    maxProperties: 10,
+    minProperties: 2,
+}
+
 
 /**
  * Check if a given object implements the Order interface.
@@ -116,27 +138,5 @@ export function OrderToJSONTyped(value?: Order | null, ignoreDiscriminator: bool
         'status': value['status'],
         'complete': value['complete'],
     };
-}
-
-export const OrderPropertyValidationAttributesMap: {
-    [property: string]: {
-        maxLength?: number,
-        minLength?: number,
-        pattern?: string,
-        maximum?: number,
-        exclusiveMaximum?: boolean,
-        minimum?: number,
-        exclusiveMinimum?: boolean,
-        multipleOf?: number,
-        maxItems?: number,
-        minItems?: number,
-        uniqueItems?: boolean
-    }
-} = {
-}
-
-export const OrderAdditionalPropertiesValidationAttributes: { maxProperties?: number, minProperties?: number } = {
-    maxProperties: 10,
-    minProperties: 2,
 }
 

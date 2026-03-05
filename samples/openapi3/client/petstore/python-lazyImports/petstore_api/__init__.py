@@ -147,6 +147,7 @@ __all__ = [
     "UnnamedDictWithAdditionalStringListProperties",
     "UploadFileWithAdditionalPropertiesRequestObject",
     "User",
+    "UuidWithPattern",
     "WithNestedOneOf",
 ]
 
@@ -285,6 +286,7 @@ if __import__("typing").TYPE_CHECKING:
     from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties as UnnamedDictWithAdditionalStringListProperties
     from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject as UploadFileWithAdditionalPropertiesRequestObject
     from petstore_api.models.user import User as User
+    from petstore_api.models.uuid_with_pattern import UuidWithPattern as UuidWithPattern
     from petstore_api.models.with_nested_one_of import WithNestedOneOf as WithNestedOneOf
     
 else:
@@ -429,6 +431,7 @@ from petstore_api.models.unnamed_dict_with_additional_model_list_properties impo
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties as UnnamedDictWithAdditionalStringListProperties
 from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject as UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User as User
+from petstore_api.models.uuid_with_pattern import UuidWithPattern as UuidWithPattern
 from petstore_api.models.with_nested_one_of import WithNestedOneOf as WithNestedOneOf
 
 """,

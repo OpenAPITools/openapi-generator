@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * PetWithTypesObjectNullAndRef
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class PetWithTypesObjectNullAndRef {
   public static final String SERIALIZED_NAME_FIRST_PROPERTY = "first_property";
   @SerializedName(SERIALIZED_NAME_FIRST_PROPERTY)

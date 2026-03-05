@@ -1,0 +1,6 @@
+generatorName: ocaml
+outputDir: samples/client/petstore/ocaml-recursion-test
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ocaml/direct-recursion.yaml
+templateDir: modules/openapi-generator/src/main/resources/ocaml
+additionalProperties:
+  packageName: recursion_test

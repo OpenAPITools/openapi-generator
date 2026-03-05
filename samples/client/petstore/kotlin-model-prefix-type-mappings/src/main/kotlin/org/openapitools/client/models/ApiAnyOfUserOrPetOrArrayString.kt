@@ -36,7 +36,6 @@ import java.io.IOException
  *
  */
 
-
 data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
 
     class CustomTypeAdapterFactory : TypeAdapterFactory {
@@ -202,3 +201,4 @@ data class ApiAnyOfUserOrPetOrArrayString(var actualInstance: Any? = null) {
         }
     }
 }
+

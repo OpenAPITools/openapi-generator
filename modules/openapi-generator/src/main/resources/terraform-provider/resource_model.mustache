@@ -1,0 +1,67 @@
+{{#operations}}
+{{>partial_header}}
+package provider
+
+{{#responseModel}}
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/internal/client"
+)
+{{/responseModel}}
+
+// {{resourceClassName}}Model is the Terraform model for {{resourceName}}.
+type {{resourceClassName}}Model struct {
+{{#tfAttributes}}
+	{{goName}} {{terraformType}} `tfsdk:"{{terraformName}}"`
+{{/tfAttributes}}
+}
+
+{{#responseModel}}
+// ToClientModel converts a Terraform model to a client model.
+func (m *{{resourceClassName}}Model) ToClientModel() *client.{{responseModel}} {
+	out := &client.{{responseModel}}{}
+{{#tfAttributes}}
+{{#isString}}
+	if !m.{{goName}}.IsNull() && !m.{{goName}}.IsUnknown() {
+		out.{{goName}} = m.{{goName}}.ValueString()
+	}
+{{/isString}}
+{{#isInt64}}
+	if !m.{{goName}}.IsNull() && !m.{{goName}}.IsUnknown() {
+		out.{{goName}} = {{goType}}(m.{{goName}}.ValueInt64())
+	}
+{{/isInt64}}
+{{#isFloat64}}
+	if !m.{{goName}}.IsNull() && !m.{{goName}}.IsUnknown() {
+		out.{{goName}} = {{goType}}(m.{{goName}}.ValueFloat64())
+	}
+{{/isFloat64}}
+{{#isBool}}
+	if !m.{{goName}}.IsNull() && !m.{{goName}}.IsUnknown() {
+		out.{{goName}} = m.{{goName}}.ValueBool()
+	}
+{{/isBool}}
+{{/tfAttributes}}
+	return out
+}
+
+// FromClientModel updates the Terraform model from a client model.
+func (m *{{resourceClassName}}Model) FromClientModel(c *client.{{responseModel}}) {
+{{#tfAttributes}}
+{{#isString}}
+	m.{{goName}} = types.StringValue(c.{{goName}})
+{{/isString}}
+{{#isInt64}}
+	m.{{goName}} = types.Int64Value(int64(c.{{goName}}))
+{{/isInt64}}
+{{#isFloat64}}
+	m.{{goName}} = types.Float64Value(float64(c.{{goName}}))
+{{/isFloat64}}
+{{#isBool}}
+	m.{{goName}} = types.BoolValue(c.{{goName}})
+{{/isBool}}
+{{/tfAttributes}}
+}
+{{/responseModel}}
+{{/operations}}

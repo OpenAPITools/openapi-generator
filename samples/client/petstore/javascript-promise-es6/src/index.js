@@ -20,6 +20,7 @@ import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
 import ArrayTest from './model/ArrayTest';
 import BasquePig from './model/BasquePig';
+import Bird from './model/Bird';
 import Capitalization from './model/Capitalization';
 import Cat from './model/Cat';
 import Category from './model/Category';
@@ -34,6 +35,8 @@ import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
 import File from './model/File';
 import FileSchemaTestClass from './model/FileSchemaTestClass';
+import Finch from './model/Finch';
+import Fish from './model/Fish';
 import Foo from './model/Foo';
 import FooGetDefaultResponse from './model/FooGetDefaultResponse';
 import FormatTest from './model/FormatTest';
@@ -56,14 +59,17 @@ import OuterEnumDefaultValue from './model/OuterEnumDefaultValue';
 import OuterEnumInteger from './model/OuterEnumInteger';
 import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
 import OuterObjectWithEnumProperty from './model/OuterObjectWithEnumProperty';
+import Parrot from './model/Parrot';
 import Pet from './model/Pet';
 import Pig from './model/Pig';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import Return from './model/Return';
+import Salmon from './model/Salmon';
 import SpecialModelName from './model/SpecialModelName';
 import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
 import TestInlineFreeformAdditionalPropertiesRequest from './model/TestInlineFreeformAdditionalPropertiesRequest';
+import Tuna from './model/Tuna';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
@@ -155,6 +161,12 @@ export {
     BasquePig,
 
     /**
+     * The Bird model constructor.
+     * @property {module:model/Bird}
+     */
+    Bird,
+
+    /**
      * The Capitalization model constructor.
      * @property {module:model/Capitalization}
      */
@@ -237,6 +249,18 @@ export {
      * @property {module:model/FileSchemaTestClass}
      */
     FileSchemaTestClass,
+
+    /**
+     * The Finch model constructor.
+     * @property {module:model/Finch}
+     */
+    Finch,
+
+    /**
+     * The Fish model constructor.
+     * @property {module:model/Fish}
+     */
+    Fish,
 
     /**
      * The Foo model constructor.
@@ -371,6 +395,12 @@ export {
     OuterObjectWithEnumProperty,
 
     /**
+     * The Parrot model constructor.
+     * @property {module:model/Parrot}
+     */
+    Parrot,
+
+    /**
      * The Pet model constructor.
      * @property {module:model/Pet}
      */
@@ -395,6 +425,12 @@ export {
     Return,
 
     /**
+     * The Salmon model constructor.
+     * @property {module:model/Salmon}
+     */
+    Salmon,
+
+    /**
      * The SpecialModelName model constructor.
      * @property {module:model/SpecialModelName}
      */
@@ -417,6 +453,12 @@ export {
      * @property {module:model/TestInlineFreeformAdditionalPropertiesRequest}
      */
     TestInlineFreeformAdditionalPropertiesRequest,
+
+    /**
+     * The Tuna model constructor.
+     * @property {module:model/Tuna}
+     */
+    Tuna,
 
     /**
      * The User model constructor.

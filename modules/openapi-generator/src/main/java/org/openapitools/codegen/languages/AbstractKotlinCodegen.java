@@ -394,7 +394,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(target) + "<kotlin.String, " + getItemsTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
     }

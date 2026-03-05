@@ -1,0 +1,59 @@
+name: Samples cpp httplib server
+
+on:
+  push:
+    paths:
+      - "samples/server/petstore/cpp-httplib-server/**"
+      - ".github/workflows/samples-cpp-httplib-server.yaml"
+  pull_request:
+    paths:
+      - "samples/server/petstore/cpp-httplib-server/**"
+      - ".github/workflows/samples-cpp-httplib-server.yaml"
+
+env:
+  GRADLE_VERSION: 6.9
+
+jobs:
+  build:
+    name: Build cpp httplib server
+    strategy:
+      matrix:
+        sample:
+          - samples/server/petstore/cpp-httplib-server/petstore
+          - samples/server/petstore/cpp-httplib-server/feature-test
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libssl-dev zlib1g-dev cmake
+
+      - name: Install dependencies (macOS)
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew install openssl zlib cmake
+
+      - name: Install dependencies (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          vcpkg install openssl:x64-windows zlib:x64-windows
+        shell: cmd
+        timeout-minutes: 20
+
+      - name: Build
+        working-directory: ${{ matrix.sample }}
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          else
+            cmake -S . -B build
+          fi
+          cmake --build build --verbose
+        shell: bash

@@ -2064,6 +2064,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add("pydantic", "field_validator");
             }
 
+            if (cp.getPattern() != null) {
+                moduleImports.add("pydantic", "field_validator");
+            }
+
             if (cp.getIsArray()) {
                 return arrayType(cp);
             } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {

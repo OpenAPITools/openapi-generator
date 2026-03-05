@@ -12,23 +12,34 @@ import {{apiPackage}}.{{classname}};
 {{/apiInfo}}
 
 import org.springframework.context.annotation.Bean;
+{{#reactive}}
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
+{{/reactive}}
+{{^reactive}}
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+{{/reactive}}
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 public abstract class HttpInterfacesAbstractConfigurator {
 
-    private final WebClient webClient;
+    private final {{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client;
 
-    public HttpInterfacesAbstractConfigurator(final WebClient webClient) {
-        this.webClient = webClient;
+    public HttpInterfacesAbstractConfigurator(final {{#reactive}}WebClient{{/reactive}}{{^reactive}}RestClient{{/reactive}} client) {
+        this.client = client;
     }
 
 {{#apiInfo}}
 {{#apis}}
     @Bean(name = "{{configPackage}}.HttpInterfacesAbstractConfigurator.{{classVarName}}")
     {{classname}} {{classVarName}}HttpProxy() {
-        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(webClient)).build();
+    {{#reactive}}
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
+    {{/reactive}}
+    {{^reactive}}
+        HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(client)).build();
+    {{/reactive}}
         return factory.createClient({{classname}}.class);
     }
 

@@ -10,6 +10,7 @@ on:
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       - 'samples/server/petstore/kotlin-spring-declarative*/**'
+      - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -21,6 +22,7 @@ on:
       - 'samples/server/petstore/kotlin-springboot-*/**'
       - 'samples/server/petstore/kotlin-server-required-and-nullable-properties/**'
       - 'samples/server/petstore/kotlin-spring-declarative*/**'
+      - 'samples/server/petstore/kotlin-spring-sealed-interfaces/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -57,6 +59,7 @@ jobs:
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-reactor-wrapped
           - samples/server/petstore/kotlin-spring-declarative-interface-wrapped
+          - samples/server/petstore/kotlin-spring-sealed-interfaces
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:
