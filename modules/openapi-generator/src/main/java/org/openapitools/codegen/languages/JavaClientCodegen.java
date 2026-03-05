@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.CodegenConstants.SERIALIZATION_LIBRARY;
 import static org.openapitools.codegen.CodegenConstants.X_IMPLEMENTS;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -131,87 +132,50 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRxJava3 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
-    @Setter
-    protected boolean doNotUseRx = true;
-    @Setter
-    protected boolean usePlayWS = false;
-    @Setter
-    protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    @Setter
-    protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
-    @Setter
-    protected boolean microprofileMutiny = false;
-    @Setter
-    protected boolean microProfileGlobalExceptionMapper = true;
-    @Setter
-    protected boolean microProfileRegisterExceptionMapper = true;
-    @Setter
-    protected String configKey = null;
-    @Setter(AccessLevel.PRIVATE)
-    protected boolean configKeyFromClassName = false;
-    @Setter
-    protected boolean asyncNative = false;
-    @Setter
-    protected boolean parcelableModel = false;
-    @Setter
-    protected boolean performBeanValidation = false;
-    @Setter
-    protected boolean useGzipFeature = false;
-    @Setter
-    protected boolean useRuntimeException = false;
-    @Setter
-    protected boolean useReflectionEqualsHashCode = false;
+    @Setter protected boolean doNotUseRx = true;
+    @Setter protected boolean usePlayWS = false;
+    @Setter protected String microprofileFramework = MICROPROFILE_DEFAULT;
+    @Setter protected String microprofileRestClientVersion = MICROPROFILE_REST_CLIENT_DEFAULT_VERSION;
+    @Setter protected boolean microprofileMutiny = false;
+    @Setter protected boolean microProfileGlobalExceptionMapper = true;
+    @Setter protected boolean microProfileRegisterExceptionMapper = true;
+    @Setter protected String configKey = null;
+    @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
+    @Setter protected boolean asyncNative = false;
+    @Setter protected boolean parcelableModel = false;
+    @Setter protected boolean performBeanValidation = false;
+    @Setter protected boolean useGzipFeature = false;
+    @Setter protected boolean useRuntimeException = false;
+    @Setter protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
-    @Setter
-    protected boolean useAbstractionForFiles = false;
-    @Setter
-    protected boolean dynamicOperations = false;
-    @Setter
-    protected boolean supportStreaming = false;
-    @Setter
-    protected boolean withAWSV4Signature = false;
-    @Setter
-    protected String gradleProperties;
-    @Setter
-    protected String errorObjectType;
-    @Getter
-    @Setter
-    protected boolean failOnUnknownProperties = false;
-    @Setter
-    protected boolean supportVertxFuture = false;
-    @Setter
-    protected boolean useSealedOneOfInterfaces = false;
-    @Setter
-    protected boolean useUnaryInterceptor = false;
+    @Setter protected boolean useAbstractionForFiles = false;
+    @Setter protected boolean dynamicOperations = false;
+    @Setter protected boolean supportStreaming = false;
+    @Setter protected boolean withAWSV4Signature = false;
+    @Setter protected String gradleProperties;
+    @Setter protected String errorObjectType;
+    @Getter @Setter protected boolean failOnUnknownProperties = false;
+    @Setter protected boolean supportVertxFuture = false;
+    @Setter protected boolean useSealedOneOfInterfaces = false;
+    @Setter protected boolean useUnaryInterceptor = false;
 
     protected String authFolder;
     /**
      * Serialization library.
      */
-    @Getter
-    protected String serializationLibrary = null;
-    @Getter
-    @Setter
-    protected boolean useSpringBoot4 = false;
-    @Getter
-    @Setter
-    protected boolean useJackson3 = false;
-    @Setter
-    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Getter protected String serializationLibrary = null;
+    @Getter @Setter protected boolean useSpringBoot4 = false;
+    @Getter @Setter protected boolean useJackson3 = false;
+    @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
-    @Setter(AccessLevel.PRIVATE)
-    protected String useSingleRequestParameter = "false";
+    @Setter(AccessLevel.PRIVATE) protected String useSingleRequestParameter = "false";
     protected boolean webclientBlockingOperations = false;
-    @Setter
-    protected boolean generateClientAsBean = false;
-    @Setter
-    protected boolean useEnumCaseInsensitive = false;
+    @Setter protected boolean generateClientAsBean = false;
+    @Setter protected boolean useEnumCaseInsensitive = false;
 
-    @Setter
-    protected int maxAttemptsForRetry = 1;
-    @Setter
-    protected long waitTimeMillis = 10l;
+    @Setter protected int maxAttemptsForRetry = 1;
+    @Setter protected long waitTimeMillis = 10l;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
