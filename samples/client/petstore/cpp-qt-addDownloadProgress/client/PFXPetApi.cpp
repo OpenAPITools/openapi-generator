@@ -321,32 +321,6 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT addPetSignalE(error_type, error_str);
-        Q_EMIT addPetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT addPetSignalError(error_type, error_str);
         Q_EMIT addPetSignalErrorFull(worker, error_type, error_str);
     }
@@ -400,32 +374,6 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT allPetsSignal(output);
         Q_EMIT allPetsSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT allPetsSignalE(output, error_type, error_str);
-        Q_EMIT allPetsSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT allPetsSignalError(output, error_type, error_str);
         Q_EMIT allPetsSignalErrorFull(worker, error_type, error_str);
     }
@@ -529,32 +477,6 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT deletePetSignalE(error_type, error_str);
-        Q_EMIT deletePetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT deletePetSignalError(error_type, error_str);
         Q_EMIT deletePetSignalErrorFull(worker, error_type, error_str);
     }
@@ -734,32 +656,6 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT findPetsByStatusSignalE(output, error_type, error_str);
-        Q_EMIT findPetsByStatusSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT findPetsByStatusSignalError(output, error_type, error_str);
         Q_EMIT findPetsByStatusSignalErrorFull(worker, error_type, error_str);
     }
@@ -939,32 +835,6 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT findPetsByTagsSignalE(output, error_type, error_str);
-        Q_EMIT findPetsByTagsSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT findPetsByTagsSignalError(output, error_type, error_str);
         Q_EMIT findPetsByTagsSignalErrorFull(worker, error_type, error_str);
     }
@@ -1027,32 +897,6 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getPetByIdSignal(output);
         Q_EMIT getPetByIdSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getPetByIdSignalE(output, error_type, error_str);
-        Q_EMIT getPetByIdSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getPetByIdSignalError(output, error_type, error_str);
         Q_EMIT getPetByIdSignalErrorFull(worker, error_type, error_str);
     }
@@ -1141,32 +985,6 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updatePetSignalE(error_type, error_str);
-        Q_EMIT updatePetSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updatePetSignalError(error_type, error_str);
         Q_EMIT updatePetSignalErrorFull(worker, error_type, error_str);
     }
@@ -1272,32 +1090,6 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT updatePetWithFormSignalE(error_type, error_str);
-        Q_EMIT updatePetWithFormSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT updatePetWithFormSignalError(error_type, error_str);
         Q_EMIT updatePetWithFormSignalErrorFull(worker, error_type, error_str);
     }
@@ -1404,32 +1196,6 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT uploadFileSignalE(output, error_type, error_str);
-        Q_EMIT uploadFileSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT uploadFileSignalError(output, error_type, error_str);
         Q_EMIT uploadFileSignalErrorFull(worker, error_type, error_str);
     }
