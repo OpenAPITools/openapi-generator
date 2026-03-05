@@ -4,6 +4,9 @@ import groovy.transform.Canonical
 {{#imports}}
 import {{import}};
 {{/imports}}
+{{#withXml}}
+import {{javaxPackage}}.xml.bind.annotation.*;
+{{/withXml}}
 
 {{#models}}
 {{#model}}

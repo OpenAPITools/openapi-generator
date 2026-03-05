@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -1003,8 +1004,7 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
         assertFileContains(
                 path,
-                "import java.io.Serializable",
-                ") : Serializable {",
+                ") : java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -1035,9 +1035,155 @@ public class KotlinSpringServerCodegenTest {
         Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
         assertFileContains(
                 path,
-                "import java.io.Serializable",
                 "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
-                ") : Pet, Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, com.some.pack.Fetchable, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateSerializableModelWithXimplementsSkip() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) val likesFetch: kotlin.Boolean,",
+                ") : Pet, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateSerializableModelWithSchemaImplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of(
+                "Pet", "com.some.pack.WithId",
+                "Category", List.of("com.some.pack.CategoryInterface"),
+                "Dog", List.of("com.some.pack.Canine")
+        ));
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS_FIELDS, Map.of(
+                "Pet", List.of("id"),
+                "Category", List.of("name", "id"),
+                "Dog", List.of("bark", "breed")
+        ));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path dog = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                dog,
+                "@get:JsonProperty(\"bark\", required = true) override val bark: kotlin.Boolean,",
+                "@get:JsonProperty(\"breed\", required = true) override val breed: Dog.Breed,",
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                "@get:JsonProperty(\"name\", required = true) override val name: kotlin.String,",
+                "@get:JsonProperty(\"photoUrls\", required = true) override val photoUrls: kotlin.collections.List<kotlin.String>,",
+                "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
+                "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
+                "@get:JsonProperty(\"category\") override val category: Category? = null,",
+                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
+                "@get:JsonProperty(\"color\") override val color: Color? = null",
+                ") : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+
+        Path pet = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(
+                pet,
+                "interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, com.some.pack.WithPhotoUrls, java.io.Serializable {",
+                "override val name: kotlin.String",
+                "val photoUrls: kotlin.collections.List<kotlin.String>",
+                "val petType: kotlin.String",
+                "override val id: kotlin.Long?",
+                "override val category: Category?",
+                "val tags: kotlin.collections.List<Tag>?",
+                "val color: Color?",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+
+        Path category = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Category.kt");
+        assertFileContains(
+                category,
+                "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
+                "@get:JsonProperty(\"name\") override val name: kotlin.String? = null",
+                ") : com.some.pack.CategoryInterface, java.io.Serializable {",
+                "private const val serialVersionUID: kotlin.Long = 1"
+        );
+    }
+
+    @Test
+    public void generateSerializableModelWithXimplementsSkipAndSchemaImplements() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.SERIALIZABLE_MODEL, true);
+        //remove the old interface with likesFetch attribute here
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_SKIP, List.of("com.some.pack.Fetchable"));
+        codegen.additionalProperties().put(X_KOTLIN_IMPLEMENTS_FIELDS_SKIP, Map.of("Dog", List.of("likesFetch")));
+        //and add a new one that again should mark likesFetch as override
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of("Dog", List.of("com.some.different.pack.MyOwnFetchable")
+        ));
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS_FIELDS, Map.of("Dog", List.of("likesFetch")));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Dog.kt");
+        assertFileContains(
+                path,
+                "@get:JsonProperty(\"likesFetch\", required = true) override val likesFetch: kotlin.Boolean,",
+                ") : Pet, com.some.different.pack.MyOwnFetchable, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -1070,26 +1216,29 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "import reactor.core.publisher.Flux\n"
                 + "import reactor.core.publisher.Mono",
                 "    @HttpExchange(\n"
-                + "        url = PATH_GET_INVENTORY /* \"/store/inventory\" */,\n"
+                + "        // \"/store/inventory\"\n"
+                + "        url = PATH_GET_INVENTORY,\n"
                 + "        method = \"GET\"\n"
                 + "    )\n"
                 + "    fun getInventory(\n"
                 + "    ): Mono<ResponseEntity<Map<String, kotlin.Int>>>",
                 "    @HttpExchange(\n"
-                + "        url = PATH_DELETE_ORDER /* \"/store/order/{orderId}\" */,\n"
+                + "        // \"/store/order/{orderId}\"\n"
+                + "        url = PATH_DELETE_ORDER,\n"
                 + "        method = \"DELETE\"\n"
                 + "    )\n"
                 + "    fun deleteOrder(\n"
                 + "        @Parameter(description = \"ID of the order that needs to be deleted\", required = true) @PathVariable(\"orderId\") orderId: kotlin.String\n"
                 + "    ): Mono<ResponseEntity<Unit>>",
                 "    @HttpExchange(\n"
-                + "        url = PATH_PLACE_ORDER /* \"/store/order\" */,\n"
+                + "        // \"/store/order\"\n"
+                + "        url = PATH_PLACE_ORDER,\n"
                 + "        method = \"POST\"\n"
                 + "    )\n"
                 + "    fun placeOrder(\n"
@@ -1097,6 +1246,7 @@ public class KotlinSpringServerCodegenTest {
                 + "    ): Mono<ResponseEntity<Order>>",
                 "    companion object {\n"
                 + "        //for your own safety never directly reuse these path definitions in tests\n"
+                + "        const val BASE_PATH: String = \"/v2\"\n"
                 + "        const val PATH_DELETE_ORDER: String = \"/store/order/{orderId}\"\n"
                 + "        const val PATH_GET_INVENTORY: String = \"/store/inventory\"\n"
                 + "        const val PATH_GET_ORDER_BY_ID: String = \"/store/order/{orderId}\"\n"
@@ -1105,7 +1255,8 @@ public class KotlinSpringServerCodegenTest {
         );
         assertFileNotContains(
                 path,
-                "suspend"
+                "suspend",
+                "@HttpExchange(BASE_PATH)" // this should not be present since "requestMappingMode" is set to "none"
         );
     }
 
@@ -1137,7 +1288,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    suspend fun getInventory(\n"
@@ -1179,7 +1330,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "import reactor.core.publisher.Flux\n"
@@ -1227,7 +1378,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    suspend fun getInventory(\n"
@@ -1268,7 +1419,7 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
         assertFileContains(
                 path,
                 "    fun getInventory(\n"
@@ -1313,12 +1464,12 @@ public class KotlinSpringServerCodegenTest {
 
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApiClient.kt");
-        // Note: We use simple ${api.base-path:<default>} syntax because Spring's @HttpExchange
-        // doesn't properly resolve nested ${outer:${inner:default}} property placeholder syntax
+        Path path = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/StoreApi.kt");
+        // Note: We cannot use property placeholders as HttpServiceProxyFactory does not resolve them by default.
         assertFileContains(
                 path,
-                "@HttpExchange(\"\\${api.base-path:/v2}\")",
+                "import org.openapitools.api.StoreApi.Companion.BASE_PATH",
+                "@HttpExchange(BASE_PATH) // Generate with 'requestMappingMode' set to 'none' to skip the base path on the interface", // this should be present since "requestMappingMode" is set to "api_interface"
                 "    fun getInventory(\n"
                 + "    ): Map<String, kotlin.Int>",
                 "    fun deleteOrder(\n"
@@ -1365,8 +1516,9 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(
                 path,
                 "import java.io.Serializable",
-                ") : Pet, Serializable,  com.some.pack.Fetchable {",
-                ") : Pet, Serializable {",
+                "Serializable",
+                ") : Pet, java.io.Serializable,  com.some.pack.Fetchable {",
+                ") : Pet, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
     }
@@ -2794,7 +2946,7 @@ public class KotlinSpringServerCodegenTest {
                                 + "        @PathVariable(\"petId\") petId: kotlin.Long"
                                 + "    ): ResponseEntity<Pet>"),
                         root.resolve("src/main/kotlin/org/openapitools/api/UserApi.kt"), List.of(
-                                    "fun logoutUser(): ResponseEntity<Unit>"
+                                "fun logoutUser(): ResponseEntity<Unit>"
                         ),
                         root.resolve("src/main/kotlin/org/openapitools/api/StoreApi.kt"), List.of(
                                 "fun getInventory(): ResponseEntity<Map<String, kotlin.Int>>")
@@ -3515,6 +3667,445 @@ public class KotlinSpringServerCodegenTest {
                 .hasNotAttributes(List.of("message"));
     }
 
+    @Test
+    public void springPaginatedWithSpringDoc() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSpringDocAndSpringBoot3() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSpringFox() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedQueryParamsRemoved() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that page, size, and sort query params are removed but other params remain
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "tags: kotlin.collections.List<kotlin.String>");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        assertFileNotContains(petApi.toPath(), "page:");
+        assertFileNotContains(petApi.toPath(), "sort:");
+        // Header param size should remain, query param size should be removed
+        assertFileContains(petApi.toPath(), "@RequestHeader(value = \"size\"");
+    }
+
+    @Test
+    public void springPaginatedWithReactive() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(REACTIVE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable works in reactive mode
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithIncludeHttpRequestContext() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable comes after request parameter
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "request: javax.servlet.http.HttpServletRequest");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithReactiveAndIncludeHttpRequestContext() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(REACTIVE, "true");
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable comes after exchange parameter in reactive mode
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "exchange: org.springframework.web.server.ServerWebExchange");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithDelegate() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable is in delegate interface
+        File petApiDelegate = files.get("PetApiDelegate.kt");
+        assertFileContains(petApiDelegate.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApiDelegate.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void customPageableSchemaNotOverridden_issue13052() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", additionalProperties);
+
+        // Custom Pageable model should be used instead of Spring's Pageable
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.openapitools.model.Pageable");
+        assertFileNotContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileNotContains(petApi.toPath(), "import org.springdoc.core.annotations.ParameterObject");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithNoDocumentationProvider() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "none");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Pageable should be added but no annotation imports
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        assertFileNotContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
+        assertFileNotContains(petApi.toPath(), "import org.springdoc.api.annotations.ParameterObject");
+        assertFileNotContains(petApi.toPath(), "@ApiIgnore pageable");
+        assertFileNotContains(petApi.toPath(), "@ParameterObject pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSwagger1AnnotationLibrary() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springfox");
+        additionalProperties.put(ANNOTATION_LIBRARY, "swagger1");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test with swagger1 annotations
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+        assertFileContains(petApi.toPath(), "import springfox.documentation.annotations.ApiIgnore");
+        assertFileContains(petApi.toPath(), "@ApiParam(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSpringDocUsesPageableAsQueryParam() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Verify @PageableAsQueryParam annotation is present at method level
+        assertFileContains(petApi.toPath(), "import org.springdoc.core.converters.models.PageableAsQueryParam");
+        assertFileContains(petApi.toPath(), "@PageableAsQueryParam");
+
+        // Verify Pageable parameter has @Parameter(hidden = true)
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+
+        // Verify the annotation appears before @RequestMapping for findPetsByStatus
+        int findPetsByStatusStart = content.indexOf("fun findPetsByStatus(");
+        Assert.assertTrue(findPetsByStatusStart > 0, "findPetsByStatus method should exist");
+
+        String methodBlock = content.substring(Math.max(0, findPetsByStatusStart - 1000), findPetsByStatusStart);
+        int pageableAsQueryParamPos = methodBlock.lastIndexOf("@PageableAsQueryParam");
+        int requestMappingPos = methodBlock.lastIndexOf("@RequestMapping");
+
+        Assert.assertTrue(pageableAsQueryParamPos > 0, "@PageableAsQueryParam should be present before method");
+        Assert.assertTrue(requestMappingPos > pageableAsQueryParamPos,
+            "@PageableAsQueryParam should appear before @RequestMapping");
+
+        // Verify page, size, sort parameters are NOT in the method signature
+        String methodSignature = content.substring(findPetsByStatusStart,
+            content.indexOf("): ResponseEntity", findPetsByStatusStart));
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page parameter should be removed from method signature");
+        Assert.assertFalse(methodSignature.contains("size:") && methodSignature.contains("@RequestParam"),
+            "size query parameter should be removed from method signature");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort parameter should be removed from method signature");
+    }
+
+    @Test
+    public void springPaginatedNoParamsNoContext() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test operation listAllPets which has no parameters except pageable
+        File petApi = files.get("PetApi.kt");
+        assertFileContains(petApi.toPath(), "fun listAllPets(@Parameter(hidden = true) pageable: Pageable)");
+    }
+
+    @Test
+    public void springPaginatedWithSpringDocPrependsToExistingAnnotation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Verify that both annotations are imported
+        assertFileContains(petApi.toPath(), "import org.springdoc.core.converters.models.PageableAsQueryParam");
+        assertFileContains(petApi.toPath(), "import org.springframework.validation.annotation.Validated");
+
+        // Find the listAllPets method
+        int listAllPetsStart = content.indexOf("fun listAllPets(");
+        Assert.assertTrue(listAllPetsStart > 0, "listAllPets method should exist");
+
+        // Check the annotations appear before the method in the correct order
+        String methodBlock = content.substring(Math.max(0, listAllPetsStart - 1000), listAllPetsStart);
+
+        int pageableAsQueryParamPos = methodBlock.lastIndexOf("@PageableAsQueryParam");
+        int validatedPos = methodBlock.lastIndexOf("@org.springframework.validation.annotation.Validated");
+        int requestMappingPos = methodBlock.lastIndexOf("@RequestMapping");
+
+        Assert.assertTrue(pageableAsQueryParamPos > 0, "@PageableAsQueryParam should be present before listAllPets method");
+        Assert.assertTrue(validatedPos > 0, "@Validated should be present before listAllPets method");
+
+        // Verify @PageableAsQueryParam comes before @Validated (prepended)
+        Assert.assertTrue(pageableAsQueryParamPos < validatedPos,
+            "@PageableAsQueryParam should be prepended (appear before) existing @Validated annotation");
+
+        // Verify both annotations come before @RequestMapping
+        Assert.assertTrue(validatedPos < requestMappingPos,
+            "Both annotations should appear before @RequestMapping");
+
+        // Verify the Pageable parameter still has @Parameter(hidden = true)
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedWithSpringDocPrependsToExistingAnnotationArray() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Verify that PageableAsQueryParam is imported
+        assertFileContains(petApi.toPath(), "import org.springdoc.core.converters.models.PageableAsQueryParam");
+
+        // Find the findPetsByStatus method
+        int findPetsByStatusStart = content.indexOf("fun findPetsByStatus(");
+        Assert.assertTrue(findPetsByStatusStart > 0, "findPetsByStatus method should exist");
+
+        // Check the annotations appear before the method in the correct order
+        String methodBlock = content.substring(Math.max(0, findPetsByStatusStart - 1500), findPetsByStatusStart);
+
+        int pageableAsQueryParamPos = methodBlock.lastIndexOf("@PageableAsQueryParam");
+        int validatedPos = methodBlock.lastIndexOf("@org.springframework.validation.annotation.Validated");
+        int preAuthorizePos = methodBlock.lastIndexOf("@org.springframework.security.access.prepost.PreAuthorize");
+        int requestMappingPos = methodBlock.lastIndexOf("@RequestMapping");
+
+        Assert.assertTrue(pageableAsQueryParamPos > 0, "@PageableAsQueryParam should be present before findPetsByStatus method");
+        Assert.assertTrue(validatedPos > 0, "@Validated should be present before findPetsByStatus method");
+        Assert.assertTrue(preAuthorizePos > 0, "@PreAuthorize should be present before findPetsByStatus method");
+
+        // Verify @PageableAsQueryParam comes first (prepended to the array)
+        Assert.assertTrue(pageableAsQueryParamPos < validatedPos,
+            "@PageableAsQueryParam should be prepended (appear before) @Validated annotation");
+
+        // Verify the original array order is preserved after @PageableAsQueryParam
+        Assert.assertTrue(validatedPos < preAuthorizePos,
+            "@Validated should appear before @PreAuthorize (original array order preserved)");
+
+        // Verify all annotations come before @RequestMapping
+        Assert.assertTrue(preAuthorizePos < requestMappingPos,
+            "All annotations should appear before @RequestMapping");
+
+        // Verify the Pageable parameter still has @Parameter(hidden = true)
+        assertFileContains(petApi.toPath(), "@Parameter(hidden = true) pageable: Pageable");
+    }
+
+    @Test
+    public void springPaginatedMixedOperations() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        
+        // Operation with x-spring-paginated should have Pageable
+        assertFileContains(petApi.toPath(), "fun findPetsByStatus(");
+        assertFileContains(petApi.toPath(), "pageable: Pageable");
+        
+        // Operation without x-spring-paginated should NOT have Pageable
+        assertFileContains(petApi.toPath(), "fun addPet(");
+        // Verify addPet doesn't have pageable (it has body param only)
+        String content = Files.readString(petApi.toPath());
+        String addPetMethod = content.substring(
+            content.indexOf("fun addPet("),
+            content.indexOf(")", content.indexOf("fun addPet(")) + 1
+        );
+        Assert.assertFalse(addPetMethod.contains("pageable"), 
+            "addPet should not have pageable parameter");
+    }
+
+    @Test
+    public void springPaginatedWithServiceInterface() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SERVICE_INTERFACE, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Test that pageable is in service interface
+        File petService = files.get("PetService.kt");
+        if (petService != null) {
+            assertFileContains(petService.toPath(), "import org.springframework.data.domain.Pageable");
+            assertFileContains(petService.toPath(), "pageable: Pageable");
+        }
+    }
+
+    @Test
+    public void springPaginatedParameterOrdering() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, "true");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Verify exact parameter ordering: allParams -> request -> pageable
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Find findPetsByStatus method
+        int methodStart = content.indexOf("fun findPetsByStatus(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+        
+        // Verify order: status param comes before request, request comes before pageable
+        int statusPos = methodSignature.indexOf("status:");
+        int requestPos = methodSignature.indexOf("request:");
+        int pageablePos = methodSignature.indexOf("pageable:");
+        
+        Assert.assertTrue(statusPos > 0, "status parameter should exist");
+        Assert.assertTrue(requestPos > statusPos, "request should come after status");
+        Assert.assertTrue(pageablePos > requestPos, "pageable should come after request");
+    }
+
+    @Test
+    public void springPaginatedDelegateCallPassesPageable() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+        additionalProperties.put(INTERFACE_ONLY, "false");
+        
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-with-spring-pageable.yaml", additionalProperties);
+
+        // Verify that interface method calls delegate with pageable parameter
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Check for delegate call pattern with pageable
+        if (content.contains("getDelegate().findPetsByStatus")) {
+            assertFileContains(petApi.toPath(), "getDelegate().findPetsByStatus(");
+            assertFileContains(petApi.toPath(), "pageable)");
+        }
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }
@@ -3565,4 +4156,556 @@ public class KotlinSpringServerCodegenTest {
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
     }
+
+    // ========== AUTO X-SPRING-PAGINATED TESTS ==========
+
+    @Test
+    public void autoXSpringPaginatedDetectsAllThreeParams() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with all three params (page, size, sort) should have Pageable auto-detected
+        assertFileContains(petApi.toPath(), "fun findPetsWithAutoDetect(");
+        assertFileContains(petApi.toPath(), "import org.springframework.data.domain.Pageable");
+
+        // Extract findPetsWithAutoDetect method
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        // Should have pageable parameter
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+            "findPetsWithAutoDetect should have pageable parameter when autoXSpringPaginated is enabled");
+
+        // Should NOT have page, size, sort query params (they should be removed)
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page query param should be removed when pageable is added");
+        Assert.assertFalse(methodSignature.contains("size:"),
+            "size query param should be removed when pageable is added");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort query param should be removed when pageable is added");
+
+        // Should still have the status parameter
+        Assert.assertTrue(methodSignature.contains("status:"),
+            "status parameter should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingPage() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'page' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingPage(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingPage should NOT have pageable when 'page' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSize() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'size' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSize(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingSize should NOT have pageable when 'size' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoDetectionWhenMissingSort() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation missing 'sort' param should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsMissingSort should NOT have pageable when 'sort' param is missing");
+
+        // Should still have the other params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedManualFalseTakesPrecedence() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with x-spring-paginated: false should NOT have Pageable (manual override)
+        int methodStart = content.indexOf("fun findPetsManualFalse(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsManualFalse should NOT have pageable when x-spring-paginated is explicitly set to false");
+
+        // Should still have all three params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain when x-spring-paginated: false");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain when x-spring-paginated: false");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain when x-spring-paginated: false");
+    }
+
+    @Test
+    public void autoXSpringPaginatedCaseSensitiveMatching() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with Page, Size, Sort (capitalized) should NOT match
+        int methodStart = content.indexOf("fun findPetsCaseSensitive(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsCaseSensitive should NOT have pageable with capitalized param names (case-sensitive)");
+
+        // Should still have all three params with capital letters
+        Assert.assertTrue(methodSignature.contains("page:") || methodSignature.contains("Page:"),
+            "Page param should remain");
+    }
+
+    @Test
+    public void autoXSpringPaginatedOnlyForSpringBoot() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        // Test with spring-cloud library (should NOT auto-detect)
+        Map<String, File> files = generateFromContract(
+            "src/test/resources/3_0/spring/petstore-auto-paginated.yaml",
+            additionalProperties,
+            new HashMap<>(),
+            configurator -> configurator.setLibrary("spring-cloud")
+        );
+
+        File petApi = files.get("PetApiClient.kt");
+        if (petApi != null) {
+            String content = Files.readString(petApi.toPath());
+
+            // For spring-cloud, should NOT have Pageable even with auto-detect enabled
+            Assert.assertFalse(content.contains("pageable: Pageable"),
+                "spring-cloud library should NOT auto-detect pageable (needs actual query params for HTTP)");
+
+            // Should have all three query params
+            int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+            if (methodStart >= 0) {
+                int methodEnd = content.indexOf("): ", methodStart);
+                String methodSignature = content.substring(methodStart, methodEnd);
+
+                Assert.assertTrue(methodSignature.contains("page") || methodSignature.contains("@Query"),
+                    "spring-cloud should keep query parameters");
+            }
+        }
+    }
+
+    @Test
+    public void autoXSpringPaginatedDisabledByDefault() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        // NOT setting AUTO_X_SPRING_PAGINATED (should default to false)
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Without AUTO_X_SPRING_PAGINATED, should NOT auto-detect
+        int methodStart = content.indexOf("fun findPetsWithAutoDetect(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "Should NOT have pageable when autoXSpringPaginated is not enabled (default: false)");
+
+        // Should have all three query params
+        Assert.assertTrue(methodSignature.contains("page:"),
+            "page param should remain when auto-detect is disabled");
+        Assert.assertTrue(methodSignature.contains("size:"),
+            "size param should remain when auto-detect is disabled");
+        Assert.assertTrue(methodSignature.contains("sort:"),
+            "sort param should remain when auto-detect is disabled");
+    }
+
+    @Test
+    public void autoXSpringPaginatedWorksWithManualTrue() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with manual x-spring-paginated: true should still work
+        int methodStart = content.indexOf("fun findPetsManualTrue(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+            "findPetsManualTrue should have pageable (manual x-spring-paginated: true)");
+
+        // Query params should be removed
+        Assert.assertFalse(methodSignature.contains("page:"),
+            "page param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"),
+            "size param should be removed");
+        Assert.assertFalse(methodSignature.contains("sort:"),
+            "sort param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedNoParamsDoesNotDetect() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // Operation with no params should NOT have Pageable
+        int methodStart = content.indexOf("fun findPetsNoParams(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
+            "findPetsNoParams should NOT have pageable when there are no pagination params");
+    }
+
+    @Test
+    public void testSealedResponseInterfaces() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces are declared in the model package
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt"),
+                "sealed interface CreateUserResponse",
+                "sealed interface GetUserResponse");
+
+        // Verify API file imports the sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "import org.openapitools.model.CreateUserResponse",
+                "import org.openapitools.model.GetUserResponse");
+
+        // Verify API methods use sealed interfaces as return types
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
+                "fun createUser(",
+                "): ResponseEntity<CreateUserResponse>",
+                "fun getUser(",
+                "): ResponseEntity<GetUserResponse>");
+
+        // Verify User model implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                "data class User(",
+                ": CreateUserResponse, GetUserResponse");
+
+        // Verify ConflictResponse implements CreateUserResponse
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                "data class ConflictResponse(",
+                ": CreateUserResponse");
+
+        // Verify ErrorResponse implements both sealed interfaces
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                "data class ErrorResponse(",
+                ": CreateUserResponse, GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "false");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify sealed interfaces file is NOT generated when feature is disabled
+        File sealedInterfacesFile = new File(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        Assert.assertFalse(sealedInterfacesFile.exists(), "SealedResponseInterfaces.kt should not exist when feature is disabled");
+
+        // Verify models do NOT implement sealed interfaces when disabled
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/User.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ConflictResponse.kt"),
+                ": CreateUserResponse");
+
+        assertFileNotContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/ErrorResponse.kt"),
+                ": CreateUserResponse",
+                ": GetUserResponse");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesNoDuplicates() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-duplicates.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Verify Order model does NOT have duplicate sealed interface implementations
+        Path orderFile = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Order.kt");
+        String orderContent = Files.readString(orderFile);
+
+        // Count occurrences of "PlaceOrderResponse" in the class declaration line
+        // Should appear exactly once, not multiple times
+        String classDeclaration = orderContent.lines()
+                .filter(line -> line.contains("data class Order") || line.contains(") : "))
+                .collect(Collectors.joining("\n"));
+
+        // Count how many times PlaceOrderResponse appears
+        long placeOrderCount = classDeclaration.chars()
+                .filter(c -> c == ',')
+                .count() + 1; // Number of interfaces = number of commas + 1
+
+        // Should have PlaceOrderResponse and GetOrderByIdResponse, not duplicates
+        Assert.assertTrue(classDeclaration.contains("PlaceOrderResponse"),
+                "Order should implement PlaceOrderResponse");
+        Assert.assertTrue(classDeclaration.contains("GetOrderByIdResponse"),
+                "Order should implement GetOrderByIdResponse");
+
+        // Check for duplicate imports
+        long importCount = orderContent.lines()
+                .filter(line -> line.contains("import org.openapitools.model.PlaceOrderResponse"))
+                .count();
+        Assert.assertEquals(importCount, 1L, "PlaceOrderResponse should be imported exactly once, not " + importCount);
+
+        // Verify no duplicate interface implementations
+        // The pattern should be ") : InterfaceA, InterfaceB {" not ") : InterfaceA, InterfaceA, InterfaceB, InterfaceB {"
+        Assert.assertFalse(classDeclaration.matches(".*PlaceOrderResponse.*,\\s*PlaceOrderResponse.*"),
+                "PlaceOrderResponse should not appear twice in implements list");
+        Assert.assertFalse(classDeclaration.matches(".*GetOrderByIdResponse.*,\\s*GetOrderByIdResponse.*"),
+                "GetOrderByIdResponse should not appear twice in implements list");
+    }
+
+    @Test
+    public void testSealedResponseInterfacesVoidResponse() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-void-response.yaml", null, new ParseOptions()).getOpenAPI();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "org.openapitools.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        // Read generated SealedResponseInterfaces.kt
+        Path sealedInterfacesPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/SealedResponseInterfaces.kt");
+        String sealedInterfacesContent = new String(Files.readAllBytes(sealedInterfacesPath), StandardCharsets.UTF_8);
+
+        // CreateUserResponse should NOT be generated (void response operation)
+        Assert.assertFalse(sealedInterfacesContent.contains("sealed interface CreateUserResponse"),
+                "CreateUserResponse should not be generated for operations with no response content");
+
+        // CreatePetResponse should be generated (has response content)
+        Assert.assertTrue(sealedInterfacesContent.contains("sealed interface CreatePetResponse"),
+                "CreatePetResponse should be generated for operations with response content");
+
+        // Read generated Pet.kt
+        Path petPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        String petContent = new String(Files.readAllBytes(petPath), StandardCharsets.UTF_8);
+
+        // Pet should implement CreatePetResponse
+        Assert.assertTrue(petContent.contains("import org.openapitools.model.CreatePetResponse"),
+                "Pet should import CreatePetResponse");
+        Assert.assertTrue(petContent.contains(") : CreatePetResponse {") || petContent.contains(") : CreatePetResponse"),
+                "Pet should implement CreatePetResponse");
+    }
+
+    @Test
+    public void testDeprecatedAnnotationOnInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
+
+    @Test
+    public void testDeprecatedAnnotationOnController() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "org.openapitools.api");
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/support-deprecated-api.yaml"))
+                        .config(codegen))
+                .generate();
+
+        assertFileContains(
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "@Deprecated(message=\"Operation is deprecated\") @RequestMapping("
+        );
+    }
 }
+
+

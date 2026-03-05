@@ -68,7 +68,7 @@ let find_pets_by_status ~status =
     let open Lwt.Infix in
     let uri = Request.build_uri "/pet/findByStatus" in
     let headers = Request.default_headers in
-    let uri = Request.add_query_param_list uri "status"     (Stdlib.List.map         Enums.show_status
+    let uri = Request.add_query_param_list uri "status"     (Stdlib.List.map         Enums.show_pet_status
         
 )
  status in

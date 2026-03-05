@@ -304,7 +304,7 @@
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         <jackson-databind-version>2.19.2</jackson-databind-version>
         <jackson-version>2.19.2</jackson-version>
-        <jackson-databind-nullable-version>0.2.8</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         <play-version>2.6.7</play-version>
         <retrofit-version>2.11.0</retrofit-version>

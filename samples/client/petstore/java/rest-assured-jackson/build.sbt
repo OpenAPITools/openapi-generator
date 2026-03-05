@@ -16,7 +16,7 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-core" % "2.19.2",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.19.2",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.19.2",
-      "org.openapitools" % "jackson-databind-nullable" % "0.2.8",
+      "org.openapitools" % "jackson-databind-nullable" % "0.2.9",
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.13.4.1",
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
       "jakarta.validation" % "jakarta.validation-api" % "3.0.2" % "compile",

@@ -1182,6 +1182,10 @@ components:
       properties:
         dummy:
           type: string
+    PetWithTypesObjectNullAndRef:
+      properties:
+        first_property:
+          $ref: "#/components/schemas/Pet"
     updatePetWithForm_request:
       properties:
         name:

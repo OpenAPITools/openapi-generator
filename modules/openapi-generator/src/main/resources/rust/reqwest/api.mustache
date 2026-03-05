@@ -404,37 +404,85 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{^supportAsync}}
     {{#required}}
     {{^isNullable}}
+    {{#isArray}}
+    for value in &{{{vendorExtensions.x-rust-param-identifier}}} {
+        multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+    }
+    {{/isArray}}
+    {{^isArray}}
     multipart_form = multipart_form.file("{{{baseName}}}", {{{vendorExtensions.x-rust-param-identifier}}})?;
+    {{/isArray}}
     {{/isNullable}}
     {{#isNullable}}
+    {{#isArray}}
+    match {{{vendorExtensions.x-rust-param-identifier}}} {
+        Some(param_value) => {
+            for value in param_value {
+                multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+            }
+        },
+        None => { unimplemented!("Required nullable form file param not supported"); },
+    }
+    {{/isArray}}
+    {{^isArray}}
     match {{{vendorExtensions.x-rust-param-identifier}}} {
         Some(param_value) => { multipart_form = multipart_form.file("{{{baseName}}}", param_value)?; },
         None => { unimplemented!("Required nullable form file param not supported"); },
     }
+    {{/isArray}}
     {{/isNullable}}
     {{/required}}
     {{^required}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
+        {{#isArray}}
+        for value in param_value {
+            multipart_form = multipart_form.file("{{{baseName}}}", value)?;
+        }
+        {{/isArray}}
+        {{^isArray}}
         multipart_form = multipart_form.file("{{{baseName}}}", param_value)?;
+        {{/isArray}}
     }
     {{/required}}
     {{/supportAsync}}
     {{#supportAsync}}
     {{^required}}
     if let Some(ref param_value) = {{{vendorExtensions.x-rust-param-identifier}}} {
-        let file = TokioFile::open(param_value).await?;
-        let stream = FramedRead::new(file, BytesCodec::new());
-        let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
-        let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
-        multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+        {{#isArray}}
+                for value in param_value {
+                let file = TokioFile::open(value).await?;
+                let stream = FramedRead::new(file, BytesCodec::new());
+                let file_name = value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+                let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+                multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+                }
+        {{/isArray}}
+        {{^isArray}}
+                let file = TokioFile::open(param_value).await?;
+                let stream = FramedRead::new(file, BytesCodec::new());
+                let file_name = param_value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+                let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+                multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+        {{/isArray}}
     }
     {{/required}}
     {{#required}}
+    {{#isArray}}
+    for value in &{{{vendorExtensions.x-rust-param-identifier}}} {
+        let file = TokioFile::open(value).await?;
+        let stream = FramedRead::new(file, BytesCodec::new());
+        let file_name = value.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
+        let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
+        multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+    }
+    {{/isArray}}
+    {{^isArray}}
     let file = TokioFile::open(&{{{vendorExtensions.x-rust-param-identifier}}}).await?;
     let stream = FramedRead::new(file, BytesCodec::new());
     let file_name = {{{vendorExtensions.x-rust-param-identifier}}}.file_name().map(|n| n.to_string_lossy().to_string()).unwrap_or_default();
     let file_part = reqwest::multipart::Part::stream(reqwest::Body::wrap_stream(stream)).file_name(file_name);
     multipart_form = multipart_form.part("{{{baseName}}}", file_part);
+    {{/isArray}}
     {{/required}}
     {{/supportAsync}}
     {{/isFile}}

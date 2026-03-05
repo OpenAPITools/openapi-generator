@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -93,6 +94,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
+    public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
     public static final String USE_REQUEST_MAPPING_ON_CONTROLLER = "useRequestMappingOnController";
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
@@ -101,6 +104,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String SPRING_API_VERSION = "springApiVersion";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+    public static final String ADDITIONAL_NOT_NULL_ANNOTATIONS = "additionalNotNullAnnotations";
 
     @Getter
     public enum RequestMappingMode {
@@ -154,6 +162,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    protected boolean useSpringBoot4 = false;
+    @Getter @Setter
+    private Boolean includeHttpRequestContext = null;
+    @Getter
+    private final boolean defaultIncludeHttpRequestContextForReactive = true;
+    @Getter
+    private final boolean defaultIncludeHttpRequestContextForBlocking = false;
     protected boolean generatedConstructorWithRequiredArgs = true;
     @Getter @Setter
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
@@ -163,6 +179,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringBuiltInValidation = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+    @Getter @Setter
+    protected boolean useJackson3 = false;
+    @Getter @Setter
+    protected boolean additionalNotNullAnnotations = false;
 
     public SpringCodegen() {
         super();
@@ -249,6 +269,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions
                 .add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(SPRING_CONTROLLER, "Annotate the generated API as a Spring Controller", useSpringController));
+        cliOptions.add(CliOption.newString(X_IMPLEMENTS_SKIP, "Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema", "empty list"));
+        cliOptions.add(CliOption.newString(SCHEMA_IMPLEMENTS, "Ability to supply interfaces per schema that should be implemented (serves similar purpose as vendor extension `x-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map"));
 
         CliOption requestMappingOpt = new CliOption(REQUEST_MAPPING_OPTION,
                 "Where to generate the class level @RequestMapping annotation.")
@@ -278,6 +300,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3,
                 "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
                 useSpringBoot3));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4,
+                "Generate code and provide dependencies for use with Spring Boot 4.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.",
+                useSpringBoot4));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));
+        cliOptions.add(new CliOption(INCLUDE_HTTP_REQUEST_CONTEXT,
+                "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue("true (reactive) / false (blocking)"));
         cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS,
                 "Whether to generate constructors with required args for models",
                 generatedConstructorWithRequiredArgs));
@@ -297,6 +326,10 @@ public class SpringCodegen extends AbstractJavaCodegen
                 .defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
+
+        cliOptions.add(CliOption.newBoolean(ADDITIONAL_NOT_NULL_ANNOTATIONS,
+                "Add @NotNull to path variables (required by default) and requestBody.",
+                additionalNotNullAnnotations));
 
     }
 
@@ -438,6 +471,22 @@ public class SpringCodegen extends AbstractJavaCodegen
             convertPropertyToBooleanAndWriteBack(REACTIVE, this::setReactive);
             convertPropertyToBooleanAndWriteBack(SSE, this::setSse);
         }
+        if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
+            convertPropertyToBooleanAndWriteBack(INCLUDE_HTTP_REQUEST_CONTEXT, this::setIncludeHttpRequestContext);
+        }
+        //set default value for includeHttpRequestContext based on reactive/blocking
+        if (includeHttpRequestContext == null) {
+            if (this.reactive) {
+                //default to true for reactive
+                this.setIncludeHttpRequestContext(this.isDefaultIncludeHttpRequestContextForReactive());
+                LOGGER.info("Defaulting {} to '{}' for reactive", INCLUDE_HTTP_REQUEST_CONTEXT, this.isDefaultIncludeHttpRequestContextForReactive());
+            } else {
+                //default to false for blocking
+                this.setIncludeHttpRequestContext(this.isDefaultIncludeHttpRequestContextForBlocking());
+                LOGGER.info("Defaulting {} to '{}' for blocking", INCLUDE_HTTP_REQUEST_CONTEXT, this.isDefaultIncludeHttpRequestContextForBlocking());
+            }
+        additionalProperties.put(INCLUDE_HTTP_REQUEST_CONTEXT, this.getIncludeHttpRequestContext());
+        }
 
         convertPropertyToStringAndWriteBack(RESPONSE_WRAPPER, this::setResponseWrapper);
         convertPropertyToBooleanAndWriteBack(USE_TAGS, this::setUseTags);
@@ -469,8 +518,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
+        convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3, this::setUseSpringBoot3);
-        if (isUseSpringBoot3()) {
+        convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
+        if(isUseSpringBoot3() && isUseSpringBoot4()){
+            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+        }
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -480,7 +534,23 @@ public class SpringCodegen extends AbstractJavaCodegen
             useJakartaEe = true;
             applyJakartaPackage();
         }
+        if(isUseJackson3() && !isUseSpringBoot4()){
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+        if(isUseJackson3() && isOpenApiNullable()){
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+        if(this.useJackson3){
+            this.applyJackson3Package();
+        } else {
+            this.applyJackson2Package();
+        }
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
+
+        convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
+
+        // override parent one
+        importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
         importMapping.put("Nullable", "org.springframework.lang.Nullable");
@@ -488,7 +558,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
 
@@ -497,7 +567,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put("delegate-method", true);
         }
 
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot4()) {
+            supportingFiles.add(new SupportingFile("pom-sb4.mustache", "", "pom.xml"));
+        } else if (isUseSpringBoot3()) {
             supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
         } else {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -660,6 +732,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
+    }
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
     }
 
     private boolean supportLibraryUseTags() {
@@ -976,11 +1056,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (model.getVendorExtensions().containsKey("x-jackson-optional-nullable-helpers")) {
             model.imports.add("Arrays");
         }
-
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-            model.imports.add("Nullable");
-        }
     }
 
     @Override
@@ -995,6 +1070,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (getAnnotationLibrary() != AnnotationLibrary.SWAGGER2) {
             // remove swagger imports
             codegenModel.imports.remove("Schema");
+        }
+
+        // Only add Nullable import for non-enum models that may have nullable fields
+        if (!Boolean.TRUE.equals(codegenModel.isEnum)) {
+            addSpringNullableImport(codegenModel.imports);
         }
 
         return codegenModel;
@@ -1036,7 +1116,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         // add org.springframework.format.annotation.DateTimeFormat when needed
         codegenOperation.allParams.stream().filter(p -> p.isDate || p.isDateTime).findFirst()
                 .ifPresent(p -> codegenOperation.imports.add("DateTimeFormat"));
-
         // add org.springframework.data.domain.Pageable import when needed
         if (codegenOperation.vendorExtensions.containsKey("x-spring-paginated")) {
             codegenOperation.imports.add("Pageable");
@@ -1060,19 +1139,14 @@ public class SpringCodegen extends AbstractJavaCodegen
             codegenOperation.imports.addAll(provideArgsClassSet);
         }
 
-        // to prevent inheritors (JavaCamelServerCodegen etc.) mistakenly use it
-        if (getName().contains("spring")) {
-          codegenOperation.allParams.stream().filter(CodegenParameter::notRequiredOrIsNullable).findAny()
-              .ifPresent(p -> codegenOperation.imports.add("Nullable"));
-        }
+        addSpringNullableImportForOperation(codegenOperation);
 
-        if (reactive) {
-            if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
-                codegenOperation.imports.add("ApiIgnore");
-            }
-            if (sse) {
-                var MEDIA_EVENT_STREAM = "text/event-stream";
-                // inspecting used streaming media types
+        if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider()) && includeHttpRequestContext != null && includeHttpRequestContext) {
+            codegenOperation.imports.add("ApiIgnore");
+        }
+        if (reactive && sse) {
+            var MEDIA_EVENT_STREAM = "text/event-stream";
+            // inspecting used streaming media types
                 /*
                  expected definition:
                  content:
@@ -1084,36 +1158,35 @@ public class SpringCodegen extends AbstractJavaCodegen
                             type: <type> or
                             $ref: <typeRef>
                  */
-                Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
-                        .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
-                        .filter(p -> p.getRight().is2xx) // consider only success
-                        .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
-                        .map(MediaType::getSchema)
-                        .collect(Collectors.toList()).stream()
-                        .collect(Collectors.groupingBy(Schema::getType));
-                if (schemaTypes.containsKey("array")) {
-                    // we have a match with SSE pattern
-                    // double check potential conflicting, multiple specs
-                    if (schemaTypes.keySet().size() > 1) {
-                        throw new RuntimeException("only 1 response media type supported, when SSE is detected");
-                    }
-                    // double check schema format
-                    List<Schema> eventTypes = schemaTypes.get("array");
-                    if (eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
-                        throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
-                    }
-                    // double check item types
-                    Set<String> itemTypes = eventTypes.stream()
-                            .map(schema -> schema.getItems().getType() != null
-                                    ? schema.getItems().getType()
-                                    : schema.getItems().get$ref())
-                            .collect(Collectors.toSet());
-                    if (itemTypes.size() > 1) {
-                        throw new RuntimeException("only single item type is supported, when SSE is detected");
-                    }
-                    codegenOperation.vendorExtensions.put("x-sse", true);
-                } // Not an SSE compliant definition
-            }
+            Map<String, List<Schema>> schemaTypes = operation.getResponses().entrySet().stream()
+                    .map(e -> Pair.of(e.getValue(), fromResponse(e.getKey(), e.getValue())))
+                    .filter(p -> p.getRight().is2xx) // consider only success
+                    .map(p -> p.getLeft().getContent().get(MEDIA_EVENT_STREAM))
+                    .map(MediaType::getSchema)
+                    .collect(Collectors.toList()).stream()
+                    .collect(Collectors.groupingBy(Schema::getType));
+            if (schemaTypes.containsKey("array")) {
+                // we have a match with SSE pattern
+                // double check potential conflicting, multiple specs
+                if (schemaTypes.keySet().size() > 1) {
+                    throw new RuntimeException("only 1 response media type supported, when SSE is detected");
+                }
+                // double check schema format
+                List<Schema> eventTypes = schemaTypes.get("array");
+                if (eventTypes.stream().anyMatch(schema -> !"event-stream".equalsIgnoreCase(schema.getFormat()))) {
+                    throw new RuntimeException("schema format 'event-stream' is required, when SSE is detected");
+                }
+                // double check item types
+                Set<String> itemTypes = eventTypes.stream()
+                        .map(schema -> schema.getItems().getType() != null
+                                ? schema.getItems().getType()
+                                : schema.getItems().get$ref())
+                        .collect(Collectors.toSet());
+                if (itemTypes.size() > 1) {
+                    throw new RuntimeException("only single item type is supported, when SSE is detected");
+                }
+                codegenOperation.vendorExtensions.put("x-sse", true);
+            } // Not an SSE compliant definition
         }
         return codegenOperation;
     }
@@ -1226,5 +1299,27 @@ public class SpringCodegen extends AbstractJavaCodegen
         extensions.add(VendorExtension.X_MAXIMUM_MESSAGE);
         extensions.add(VendorExtension.X_SPRING_API_VERSION);
         return extensions;
+    }
+
+    protected boolean isSpringCodegen() {
+        return getName().contains("spring");
+    }
+
+    private void addSpringNullableImport(Set<String> imports) {
+        if (isSpringCodegen()) {
+            imports.add("Nullable");
+        }
+    }
+
+    /**
+     * Adds Spring Nullable import if any parameter is nullable or optional.
+     */
+    private void addSpringNullableImportForOperation(CodegenOperation codegenOperation) {
+        if (isSpringCodegen()) {
+            codegenOperation.allParams.stream()
+                .filter(CodegenParameter::notRequiredOrIsNullable)
+                .findAny()
+                .ifPresent(param -> codegenOperation.imports.add("Nullable"));
+        }
     }
 }

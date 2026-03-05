@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI Petstore - Auto Pagination Test
+  description: Test spec for auto x-spring-paginated detection
+  version: 1.0.0
+servers:
+  - url: http://petstore.swagger.io/v2
+tags:
+  - name: pet
+    description: Everything about your Pets
+paths:
+  /pet/autoDetect:
+    get:
+      tags:
+        - pet
+      summary: Test auto-detection with all three params
+      description: Should auto-detect pagination params (page, size, sort)
+      operationId: findPetsWithAutoDetect
+      parameters:
+        - name: status
+          in: query
+          description: Status filter
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            default: "id,asc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/missingPage:
+    get:
+      tags:
+        - pet
+      summary: Test with missing page param
+      description: Should NOT auto-detect (missing page)
+      operationId: findPetsMissingPage
+      parameters:
+        - name: size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/missingSize:
+    get:
+      tags:
+        - pet
+      summary: Test with missing size param
+      description: Should NOT auto-detect (missing size)
+      operationId: findPetsMissingSize
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/missingSort:
+    get:
+      tags:
+        - pet
+      summary: Test with missing sort param
+      description: Should NOT auto-detect (missing sort)
+      operationId: findPetsMissingSort
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/manualFalse:
+    get:
+      tags:
+        - pet
+      summary: Test manual x-spring-paginated false
+      description: Should NOT auto-detect (manual override to false)
+      operationId: findPetsManualFalse
+      x-spring-paginated: false
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/caseSensitive:
+    get:
+      tags:
+        - pet
+      summary: Test case-sensitive matching
+      description: Should NOT auto-detect (Page, Size, Sort with capitals)
+      operationId: findPetsCaseSensitive
+      parameters:
+        - name: Page
+          in: query
+          description: Page number (capital P)
+          schema:
+            type: integer
+        - name: Size
+          in: query
+          description: Page size (capital S)
+          schema:
+            type: integer
+        - name: Sort
+          in: query
+          description: Sort order (capital S)
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/manualTrue:
+    get:
+      tags:
+        - pet
+      summary: Test manual x-spring-paginated true
+      description: Should have pageable (manual x-spring-paginated true)
+      operationId: findPetsManualTrue
+      x-spring-paginated: true
+      parameters:
+        - name: status
+          in: query
+          description: Status filter
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: Page size
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/noParams:
+    get:
+      tags:
+        - pet
+      summary: Test with no pagination params
+      description: Should NOT auto-detect (no pagination params)
+      operationId: findPetsNoParams
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: string
+          description: pet status in the store
+

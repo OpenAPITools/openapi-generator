@@ -27,7 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
-|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option.| |false|
+|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option.| |false|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |idea|Add IntelliJ Idea plugin and mark Kotlin main and test folders as source folders.| |false|

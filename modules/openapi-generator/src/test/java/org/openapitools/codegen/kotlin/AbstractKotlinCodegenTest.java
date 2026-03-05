@@ -383,6 +383,24 @@ public class AbstractKotlinCodegenTest {
         Assert.assertTrue(mapSchemaModel.isMap);
     }
 
+    @Test(description = "Issue #16501")
+    public void testNullableMap() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/issue16501-nullable-map.yaml");
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("NullMapNotNullMap");
+        CodegenModel cm1 = codegen.fromModel("NullMapNotNullMap", test1);
+
+        codegen.postProcessModels(createCodegenModelWrapper(cm1));
+
+        // Assert the dataType properly generated
+        CodegenProperty nullableMap = cm1.vars.get(0);
+        CodegenProperty notNullableMap = cm1.vars.get(1);
+        CodegenProperty defaultMap = cm1.vars.get(2);
+        Assert.assertEquals(nullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String?>");
+        Assert.assertEquals(notNullableMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
+        Assert.assertEquals(defaultMap.getDataType(), "kotlin.collections.Map<kotlin.String, kotlin.String>");
+    }
+
     @Test
     public void handleUseJakartaEeTrue() {
         codegen.additionalProperties().put("useJakartaEe", true);

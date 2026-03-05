@@ -30,6 +30,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |featureHSTS|Avoid sending content if client already has same content, by checking ETag or LastModified properties.| |true|
 |featureMetrics|Enables metrics feature.| |true|
 |featureResources|Generates routes in a typed way, for both: constructing URLs and reading the parameters.| |true|
+|fixJacksonJsonTypeInfoInheritance|When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.| |true|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |interfaceOnly|Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.| |false|
 |library|library template (sub-template)|<dl><dt>**ktor**</dt><dd>ktor framework</dd><dt>**ktor2**</dt><dd>ktor (2.x) framework</dd><dt>**jaxrs-spec**</dt><dd>JAX-RS spec only</dd><dt>**javalin5**</dt><dd>Javalin 5</dd><dt>**javalin6**</dt><dd>Javalin 6</dd></dl>|ktor|
@@ -262,11 +263,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
 |Composite|✓|OAS2,OAS3
-|Polymorphism|✗|OAS2,OAS3
+|Polymorphism|✓|OAS2,OAS3
 |Union|✗|OAS3
-|allOf|✗|OAS2,OAS3
+|allOf|✓|OAS2,OAS3
 |anyOf|✗|OAS3
-|oneOf|✗|OAS3
+|oneOf|✓|OAS3
 |not|✗|OAS3
 
 ### Security Feature

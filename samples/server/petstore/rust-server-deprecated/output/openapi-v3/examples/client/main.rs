@@ -20,6 +20,7 @@ use openapi_v3::{Api, ApiNoContext, Claims, Client, ContextWrapperExt, models,
                       OneOfGetResponse,
                       OverrideServerGetResponse,
                       ParamgetGetResponse,
+                      QueryExampleGetResponse,
                       ReadonlyAuthSchemeGetResponse,
                       RegisterCallbackPostResponse,
                       RequiredOctetStreamPutResponse,
@@ -79,6 +80,7 @@ fn main() {
                 "OneOfGet",
                 "OverrideServerGet",
                 "ParamgetGet",
+                "QueryExampleGet",
                 "ReadonlyAuthSchemeGet",
                 "RegisterCallbackPost",
                 "RequiredOctetStreamPut",
@@ -251,6 +253,13 @@ fn main() {
                   Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parse JSON example")),
                   None,
                   Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("QueryExampleGet") => {
+            let result = rt.block_on(client.query_example_get(
+                  "required_no_example_example".to_string(),
+                  42
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
