@@ -98,6 +98,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
+    public static final String COMPANION_OBJECT = "companionObject";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -163,6 +164,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean useSealedResponseInterfaces = false;
+    @Setter private boolean companionObject = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
@@ -265,6 +267,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
+        addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -511,6 +514,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
         }
         writePropertyBack(USE_SEALED_RESPONSE_INTERFACES, useSealedResponseInterfaces);
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            this.setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
+        }
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
