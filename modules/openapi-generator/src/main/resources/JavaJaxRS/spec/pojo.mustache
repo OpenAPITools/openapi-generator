@@ -38,7 +38,7 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 @Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useSwaggerV3Annotations}}{{#useMicroProfileOpenAPIAnnotations}}
 @org.eclipse.microprofile.openapi.annotations.media.Schema({{#title}}title="{{{.}}}", {{/title}}{{#description}}description="{{{.}}}"{{/description}}{{^description}}description=""{{/description}}){{/useMicroProfileOpenAPIAnnotations}}
 {{#jackson}}
-@JsonTypeName("{{name}}")
+@JsonTypeName("{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}")
 {{#additionalProperties}}
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
 {{/additionalProperties}}

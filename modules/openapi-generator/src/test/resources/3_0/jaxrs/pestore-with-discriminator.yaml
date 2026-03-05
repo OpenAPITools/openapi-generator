@@ -1,0 +1,69 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  description: >-
+    This is a sample server Petstore server that uses polymorphism and inheritance with a discriminator.
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: pet
+    description: Everything about your Pets
+
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      security: []
+      tags: [ pet ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetRequest'
+      responses:
+        '201':
+          description: Pet created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetRequest'
+
+components:
+  schemas:
+    PetRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/CatRequest'
+          DOG: '#/components/schemas/DogRequest'
+    CatRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetRequest'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+    DogRequest:
+      allOf:
+        - $ref: '#/components/schemas/PetRequest'
+        - type: object
+          properties:
+            bark:
+              type: string

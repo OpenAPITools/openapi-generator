@@ -1237,4 +1237,35 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }
 
+    @Test
+    public void testDiscriminatorMappingUsedInJsonTypeName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/jaxrs/pestore-with-discriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // Parent model uses its own name
+        JavaFileAssert.assertThat(files.get("PetRequest.java"))
+                .fileContains("@JsonTypeName(\"PetRequest\")");
+
+        // Child models must use the discriminator mapping value (e.g. "CAT"), not the class name (e.g. "CatRequest")
+        JavaFileAssert.assertThat(files.get("CatRequest.java"))
+                .fileContains("@JsonTypeName(\"CAT\")")
+                .fileDoesNotContain("@JsonTypeName(\"CatRequest\")");
+
+        JavaFileAssert.assertThat(files.get("DogRequest.java"))
+                .fileContains("@JsonTypeName(\"DOG\")")
+                .fileDoesNotContain("@JsonTypeName(\"DogRequest\")");
+    }
 }
