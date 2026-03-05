@@ -1,3 +1,10 @@
+{{#vendorExtensions.x-go-has-type-aliases}}
+// Type aliases for reused model types
+{{#vendorExtensions.x-go-type-aliases}}
+type {{aliasName}} = {{originalType}}
+{{/vendorExtensions.x-go-type-aliases}}
+
+{{/vendorExtensions.x-go-has-type-aliases}}
 // checks if the {{classname}} type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &{{classname}}{}
 
