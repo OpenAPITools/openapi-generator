@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+@Validated
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public interface PetApi {
 
@@ -39,7 +43,7 @@ public interface PetApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> addPet(
-         @RequestBody PetDto petDto
+         @Valid @RequestBody PetDto petDto
     );
 
 
@@ -77,7 +81,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<List<PetDto>> findPetsByStatus(
-         @RequestParam(value = "status", required = true) List<String> status
+        @NotNull  @Valid @RequestParam(value = "status", required = true) List<String> status
     );
 
 
@@ -97,7 +101,7 @@ public interface PetApi {
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Set<PetDto>> findPetsByTags(
-         @RequestParam(value = "tags", required = true) Set<String> tags
+        @NotNull  @Valid @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
 
@@ -153,7 +157,7 @@ public interface PetApi {
         contentType = "application/json"
     )
     ResponseEntity<Void> updatePet(
-         @RequestBody PetDto petDto
+         @Valid @RequestBody PetDto petDto
     );
 
 
@@ -174,8 +178,8 @@ public interface PetApi {
     )
     ResponseEntity<Void> updatePetWithForm(
          @PathVariable("petId") Long petId,
-         @RequestParam(value = "name", required = false) String name,
-         @RequestParam(value = "status", required = false) String status
+         @Valid @RequestParam(value = "name", required = false) String name,
+         @Valid @RequestParam(value = "status", required = false) String status
     );
 
 
@@ -196,7 +200,7 @@ public interface PetApi {
     )
     ResponseEntity<ApiResponseDto> uploadFile(
          @PathVariable("petId") Long petId,
-         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
+         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file
     );
 
@@ -219,7 +223,7 @@ public interface PetApi {
     ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
-         @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
+         @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
     );
 
 }
