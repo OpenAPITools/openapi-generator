@@ -1,7 +1,9 @@
 {{>licenseInfo}}
 package {{invokerPackage}};
 
+{{^useJackson3}}
 import java.io.IOException;
+{{/useJackson3}}
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -12,10 +14,19 @@ import java.time.temporal.TemporalAccessor;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+{{^useJackson3}}
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.datatype.jsr310.JavaTimeFeature;
+import tools.jackson.datatype.jsr310.deser.InstantDeserializer;
+{{/useJackson3}}
 
 {{>generatedAnnotation}}
 
@@ -84,7 +95,7 @@ public class RFC3339InstantDeserializer<T extends Temporal> extends InstantDeser
     }
 
     @Override
-    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws IOException {
+    protected T _fromString(JsonParser p, DeserializationContext ctxt, String string0) throws {{^useJackson3}}IOException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
         return super._fromString(p, ctxt, string0.replace( ' ', 'T' ));
     }
 }

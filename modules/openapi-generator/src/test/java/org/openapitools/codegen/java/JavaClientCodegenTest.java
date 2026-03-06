@@ -3487,6 +3487,45 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testWebClientWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(Map.of(
+                        API_PACKAGE, "xyz.abcdef.api",
+                        USE_SINGLE_REQUEST_PARAMETER, "static",
+                        USE_SPRING_BOOT4, true,
+                        USE_JACKSON_3, true,
+                        OPENAPI_NULLABLE, false
+                ))
+                .setInputSpec("src/test/resources/3_1/java/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/ApiClient.java")).content()
+                // Imports
+                .contains("import tools.jackson.databind.json.JsonMapper;")
+                .contains("import tools.jackson.databind.DeserializationFeature;")
+                .doesNotContain("import com.fasterxml.jackson")
+                .doesNotContain("JsonNullableModule")
+                // Jackson3's Json/ObjectMapper instead of Jackson2
+                .doesNotContain("ObjectMapper")
+                .contains("JsonMapper")
+                .contains(".build()")
+                .contains("this(buildWebClient(mapper), format);")
+                .doesNotContain("mapper.copy()")
+                // Codecs
+                .contains("clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonEncoder(new JacksonJsonEncoder(mapper));")
+                .contains("clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonDecoder(new JacksonJsonDecoder(mapper));")
+                .doesNotContain("jackson2JsonEncoder", "Jackson2JsonEncoder")
+                // Exception Handling
+                .doesNotContain("JsonProcessingException");
+    }
+
+    @Test
     public void testGenerateParameterId() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

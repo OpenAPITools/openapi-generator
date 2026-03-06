@@ -307,7 +307,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x.", useSpringBoot4));
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`).", useJackson3));        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Set it in order to use jackson 3 dependencies (only allowed when `" + USE_SPRING_BOOT4 + "` is set and incompatible with `"+OPENAPI_NULLABLE+"`). For 'java' generator: only supported for 'native' and 'webclient' libraries.", useJackson3));        // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
@@ -378,16 +378,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
-        if(isUseJackson3() && !isUseSpringBoot4()){
-            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
-        }
-        if(isUseJackson3() && isOpenApiNullable()){
-            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+
+        if (isUseJackson3()) {
+            if (!isUseSpringBoot4()) {
+                throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+            }
+            if (isOpenApiNullable()) {
+                throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+            }
         }
 
-        if(this.useJackson3){
+        if (isUseJackson3()) {
             this.applyJackson3Package();
-        } else {
+        }
+        else {
             this.applyJackson2Package();
         }
 
