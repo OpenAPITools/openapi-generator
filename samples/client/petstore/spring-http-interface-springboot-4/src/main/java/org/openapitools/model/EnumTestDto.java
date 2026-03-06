@@ -9,7 +9,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.model.OuterEnumDto;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -209,7 +211,7 @@ public class EnumTestDto {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -266,7 +268,7 @@ public class EnumTestDto {
    * Get outerEnum
    * @return outerEnum
    */
-  
+  @Valid 
   @JsonProperty("outerEnum")
   public @Nullable OuterEnumDto getOuterEnum() {
     return outerEnum;

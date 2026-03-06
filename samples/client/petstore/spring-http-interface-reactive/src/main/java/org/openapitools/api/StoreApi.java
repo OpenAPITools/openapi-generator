@@ -22,6 +22,7 @@ import java.util.Optional;
 import jakarta.annotation.Generated;
 
 
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public interface StoreApi {
 

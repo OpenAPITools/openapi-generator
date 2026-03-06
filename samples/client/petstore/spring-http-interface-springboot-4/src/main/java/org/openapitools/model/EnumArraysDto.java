@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -97,7 +99,7 @@ public class EnumArraysDto {
     }
   }
 
-  
+  @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArraysDto justSymbol(@Nullable JustSymbolEnum justSymbol) {

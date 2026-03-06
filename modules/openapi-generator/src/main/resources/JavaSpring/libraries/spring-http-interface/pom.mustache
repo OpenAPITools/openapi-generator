@@ -96,6 +96,12 @@
                 <optional>true</optional>
             </dependency>
         {{/lombok}}
+        {{#useBeanValidation}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        {{/useBeanValidation}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
