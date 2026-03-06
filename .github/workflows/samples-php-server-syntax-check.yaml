@@ -38,7 +38,7 @@ jobs:
           - samples/server/petstore/php-mezzio-ph/
           - samples/server/petstore/php-slim4/
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:
