@@ -16,6 +16,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
+import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -4734,6 +4735,169 @@ public class KotlinSpringServerCodegenTest {
                 Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
                 "companion object { }"
         );
+    }
+
+    @Test
+    public void shouldRefuseJackson3WithoutSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "false");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldRefuseSpringBoot3AndSpringBoot4Together() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, "true");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldRefuseOpenApiNullableWithJackson3() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put("openApiNullable", "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input);
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(generator::generate);
+    }
+
+    @Test
+    public void shouldUseJakartaImportsWithSpringBoot4() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path modelPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Pet.kt");
+        assertFileContains(modelPath, "jakarta.validation");
+        assertFileNotContains(modelPath, "javax.validation");
+    }
+
+    @Test
+    public void shouldGenerateSpringBoot4PomWithJackson3Deps() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pomPath, "spring-boot-starter-parent");
+        assertFileContains(pomPath, "4.0.1");
+        assertFileContains(pomPath, "tools.jackson.dataformat");
+        assertFileContains(pomPath, "tools.jackson.module");
+        assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void shouldGenerateSpringBoot4PomWithJackson2Deps() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "false");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pomPath, "4.0.1");
+        assertFileContains(pomPath, "com.fasterxml.jackson.dataformat");
+        assertFileContains(pomPath, "jackson-datatype-jsr310");
     }
 }
 
