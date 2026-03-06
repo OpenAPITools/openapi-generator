@@ -637,7 +637,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
         if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
-            this.setUseSpringBoot3(true);
+            if (!isUseSpringBoot4()) {
+                this.setUseSpringBoot3(true);
+            }
             this.setInterfaceOnly(true);
             this.setUseFeignClient(false);
             this.setSkipDefaultInterface(true);
@@ -759,14 +761,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
 
-            if (isUseSpringBoot3()) {
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "", "pom.xml"));
+            } else if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
             } else {
                 supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             }
 
             if (this.gradleBuildFile) {
-                if (isUseSpringBoot3()) {
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "", "build.gradle.kts"));
+                } else if (isUseSpringBoot3()) {
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "", "build.gradle.kts"));
                 } else {
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
@@ -805,14 +811,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (library.equals(SPRING_CLOUD_LIBRARY)) {
             LOGGER.info("Setup code generator for Kotlin Spring Cloud Client");
 
-            if (isUseSpringBoot3()) {
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "pom.xml"));
+            } else if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
             } else {
                 supportingFiles.add(new SupportingFile("pom.mustache", "pom.xml"));
             }
 
             if (this.gradleBuildFile) {
-                if (isUseSpringBoot3()) {
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "build.gradle.kts"));
+                } else if (isUseSpringBoot3()) {
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
                 } else {
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
@@ -844,10 +854,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
             LOGGER.info("Setup code generator for Kotlin Spring Declarative Http interface");
 
-            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            }
 
             if (this.gradleBuildFile) {
-                supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
