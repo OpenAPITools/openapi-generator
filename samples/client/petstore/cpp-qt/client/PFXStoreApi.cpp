@@ -280,32 +280,6 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT deleteOrderSignal();
         Q_EMIT deleteOrderSignalFull(worker);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT deleteOrderSignalE(error_type, error_str);
-        Q_EMIT deleteOrderSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT deleteOrderSignalError(error_type, error_str);
         Q_EMIT deleteOrderSignalErrorFull(worker, error_type, error_str);
     }
@@ -363,32 +337,6 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getInventorySignal(output);
         Q_EMIT getInventorySignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getInventorySignalE(output, error_type, error_str);
-        Q_EMIT getInventorySignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getInventorySignalError(output, error_type, error_str);
         Q_EMIT getInventorySignalErrorFull(worker, error_type, error_str);
     }
@@ -447,32 +395,6 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT getOrderByIdSignal(output);
         Q_EMIT getOrderByIdSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT getOrderByIdSignalE(output, error_type, error_str);
-        Q_EMIT getOrderByIdSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT getOrderByIdSignalError(output, error_type, error_str);
         Q_EMIT getOrderByIdSignalErrorFull(worker, error_type, error_str);
     }
@@ -522,32 +444,6 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
         Q_EMIT placeOrderSignal(output);
         Q_EMIT placeOrderSignalFull(worker, output);
     } else {
-
-#if defined(_MSC_VER)
-// For MSVC
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#elif defined(__clang__)
-// For Clang
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#elif defined(__GNUC__)
-// For GCC
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-
-        Q_EMIT placeOrderSignalE(output, error_type, error_str);
-        Q_EMIT placeOrderSignalEFull(worker, error_type, error_str);
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#elif defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
         Q_EMIT placeOrderSignalError(output, error_type, error_str);
         Q_EMIT placeOrderSignalErrorFull(worker, error_type, error_str);
     }
