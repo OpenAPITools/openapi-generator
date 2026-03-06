@@ -34,9 +34,9 @@ class ModelTests(unittest.TestCase):
         self.assertEqual("cat", self.cat.class_name)
         self.assertEqual("red", self.cat.color)
         cat_str = ("{'additional_properties': {},\n"
-                  " 'className': 'cat',\n"
-                  " 'color': 'red',\n"
-                  " 'declawed': None}")
+                   " 'className': 'cat',\n"
+                   " 'color': 'red',\n"
+                   " 'declawed': None}")
         self.assertEqual(cat_str, self.cat.to_str())
 
     def test_to_str(self):
@@ -78,62 +78,37 @@ class ModelTests(unittest.TestCase):
         self.pet1.tags = []
         self.assertFalse(self.pet1 == self.pet2)
 
-    def test_oneof_schema_2_validator(self):
-        new_color = petstore_api.Color()
-        array_of_integers = [12, 34, 56]
-
-        try:
-            new_color.oneof_schema_2_validator = array_of_integers
-            self.fail(f"Should have failed: {new_color.oneof_schema_2_validator}")
-        except ValueError as e:
-            self.assertTrue("List should have at least 4 items after validation, not 3" in str(e))
-
     def test_oneOf_array_of_integers(self):
         # test new Color 
         new_color = petstore_api.Color()
         self.assertEqual("null", new_color.to_json())
-        self.assertEqual(None, new_color.actual_instance)
+        self.assertIsNone(new_color.root)
 
-        # test the oneof schema validator
-        json_str = '[12,34,56]'
-        array_of_integers = json.loads(json_str)
-        # no error should be thrown
-        new_color.oneof_schema_1_validator = array_of_integers
-        new_color.actual_instance = array_of_integers
-        new_color.actual_instance = None
-
-        # test the oneof schema validator with invalid input 
-        json_str = '[12,34,56120938]'
-        array_of_integers = json.loads(json_str)
-        try:
-            new_color.oneof_schema_1_validator = array_of_integers
-        except ValueError as e:
-            self.assertTrue("Input should be less than or equal to 255" in str(e))
-
-        try:
-            new_color.actual_instance = array_of_integers
-        except ValueError as e:
-            self.assertTrue("Input should be less than or equal to 255" in str(e))
-
-        # test from_josn
+        # test from_json
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
-        self.assertEqual(p.actual_instance, [12, 34, 56])
+        self.assertEqual(p.root, [12, 34, 56])
 
         try:
-            p = petstore_api.Color.from_json('[2342112,0,0,0]')
-        except ValueError as e:
-            self.assertTrue("Input should be less than or equal to 255" in str(e))
+            petstore_api.Color.from_json('[1.1,0]')
+        except ValidationError as e:
+            # 2 validation errors for Color
+            # list[int].0
+            #   Input should be a valid integer, got a number with a fractional part [type=int_from_float, input_value=1.1, input_type=float]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/int_from_float
+            # str
+            #   Input should be a valid string [type=string_type, input_value=[1.1, 0], input_type=list]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/string_type
+            self.assertIn("list[int].0", str(e))
+            self.assertIn(
+                "Input should be a valid integer, got a number with a fractional part [type=int_from_float, input_value=1.1, input_type=float]",
+                str(e))
 
         # test to_json, to_dict method
         json_str = '[12,34,56]'
         p = petstore_api.Color.from_json(json_str)
         self.assertEqual(p.to_json(), "[12, 34, 56]")
         self.assertEqual(p.to_dict(), [12, 34, 56])
-
-        # test nullable
-        p = petstore_api.Color.from_json(None)
-        self.assertEqual(p.actual_instance, None)
 
     def test_oneof_enum_string_from_json(self):
         # test from_json
@@ -143,7 +118,7 @@ class ModelTests(unittest.TestCase):
         # test from_dict
         oneof_enum = petstore_api.OneOfEnumString.from_dict("a")
         assert oneof_enum is not None
-        nested = petstore_api.WithNestedOneOf(size = 1, nested_oneof_enum_string = oneof_enum)
+        nested = petstore_api.WithNestedOneOf(size=1, nested_oneof_enum_string=oneof_enum)
         # test to_json
         self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "a"}')
 
@@ -160,127 +135,127 @@ class ModelTests(unittest.TestCase):
 
     def test_oneof_nested_from_json_invalid(self):
         try:
-            nested2 = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "e"}')
-        except ValueError as e:
-            self.assertTrue("'e' is not a valid EnumString1, 'e' is not a valid EnumString" in str(e))
+            petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "e"}')
+        except ValidationError as e:
+            # pydantic_core._pydantic_core.ValidationError: 2 validation errors for WithNestedOneOf
+            # nested_oneof_enum_string.str-enum[EnumString1]
+            #   Input should be 'a' or 'b' [type=enum, input_value='e', input_type=str]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/enum
+            # nested_oneof_enum_string.str-enum[EnumString2]
+            #   Input should be 'c' or 'd' [type=enum, input_value='e', input_type=str]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/enum
+            self.assertIn("Input should be 'a' or 'b' [type=enum, input_value='e', input_type=str]", str(e))
+            self.assertIn("Input should be 'c' or 'd' [type=enum, input_value='e', input_type=str]", str(e))
 
     def test_oneof_enum_string(self):
         # test the constructor
         enum_string1 = petstore_api.EnumString1('a')
-        constructor1 = petstore_api.OneOfEnumString(actual_instance=enum_string1)
-        self.assertEqual(constructor1.actual_instance, enum_string1)
+        constructor1 = petstore_api.OneOfEnumString(root=enum_string1)
+        self.assertEqual(constructor1.root, enum_string1)
         constructor2 = petstore_api.OneOfEnumString(enum_string1)
-        self.assertEqual(constructor2.actual_instance, enum_string1)
-        constructor3 = petstore_api.OneOfEnumString()
-        self.assertEqual(constructor3.actual_instance, None)
+        self.assertEqual(constructor2.root, enum_string1)
+        try:
+            petstore_api.OneOfEnumString()
+        except ValidationError as e:
+            self.assertIn(
+                "Input should be 'a' or 'b' [type=enum, input_value=PydanticUndefined, input_type=PydanticUndefinedType]",
+                str(e))
+            self.assertIn(
+                "Input should be 'c' or 'd' [type=enum, input_value=PydanticUndefined, input_type=PydanticUndefinedType]",
+                str(e))
 
     def test_anyOf_array_of_integers(self):
-        # test new Color 
+        # test new Color
         new_color = petstore_api.AnyOfColor()
         self.assertEqual("null", new_color.to_json())
-        self.assertEqual(None, new_color.actual_instance)
+        self.assertEqual(None, new_color.root)
 
         # test the oneof schema validator
         json_str = '[12,34,56]'
         array_of_integers = json.loads(json_str)
-        # no error should be thrown
-        new_color.anyof_schema_1_validator = array_of_integers
-        new_color.actual_instance = array_of_integers
+        petstore_api.AnyOfColor(array_of_integers)
 
-        # test the oneof schema validator with invalid input 
-        json_str = '[12,34,56120938]'
-        array_of_integers = json.loads(json_str)
+        # test the oneof schema validator with invalid input
+        array_of_integers = [12, 34, 5.6]
         try:
-            new_color.anyof_schema_1_validator = array_of_integers
-        except ValueError as e:
-            self.assertIn("Input should be less than or equal to 255", str(e))
-
-        try:
-            new_color.actual_instance = array_of_integers
-        except ValueError as e:
-            self.assertIn("Input should be less than or equal to 255", str(e))
+            petstore_api.AnyOfColor.from_dict(array_of_integers)
+        except ValidationError as e:
+            self.assertIn("list[int].2", str(e))
+            self.assertIn("Input should be a valid integer [type=int_type, input_value=5.6, input_type=float]", str(e))
+            self.assertIn(
+                "Input should be a valid string [type=string_type, input_value=[12, 34, 5.6], input_type=list]", str(e))
 
         # test from_josn
         json_str = '[12,34,56]'
         p = petstore_api.AnyOfColor.from_json(json_str)
-        self.assertEqual(p.actual_instance, [12, 34,56])
+        self.assertEqual(p.root, [12, 34, 56])
 
         try:
-            p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
-        except ValueError as e:
-            self.assertIn("Input should be less than or equal to 255", str(e))
+            petstore_api.AnyOfColor.from_json('[0,1.1,0]')
+        except ValidationError as e:
+            self.assertIn("list[int].1", str(e))
+            self.assertIn(
+                "Input should be a valid integer, got a number with a fractional part [type=int_from_float, input_value=1.1, input_type=float]",
+                str(e))
+            self.assertIn("Input should be a valid string [type=string_type, input_value=[0, 1.1, 0], input_type=list]",
+                          str(e))
 
     def test_oneOf(self):
         # test new Pig
         bp = petstore_api.BasquePig.from_dict({"className": "BasquePig", "color": "red"})
-        new_pig = petstore_api.Pig()
-        self.assertEqual("null", new_pig.to_json())
-        self.assertEqual(None, new_pig.actual_instance)
-        new_pig2 = petstore_api.Pig(actual_instance=bp)
+        new_pig2 = petstore_api.Pig(bp)
         self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig2.to_json())
         new_pig3 = petstore_api.Pig(bp)
         self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig3.to_json())
         try:
-            new_pig4 = petstore_api.Pig(bp, actual_instance=bp)
-        except ValueError as e:
-            self.assertTrue("If position argument is used, keyword argument cannot be used.", str(e))
+            petstore_api.Pig(bp, root=bp)
+        except TypeError as e:
+            self.assertTrue("RootModel.__init__() got multiple values for argument 'root'", str(e))
         try:
-            new_pig5 = petstore_api.Pig(bp, bp)
-        except ValueError as e:
-            self.assertTrue("If position argument is used, only 1 is allowed to set `actual_instance`", str(e))
+            petstore_api.Pig(bp, root=bp)
+        except TypeError as e:
+            self.assertTrue("RootModel.__init__() got multiple values for argument 'root'", str(e))
 
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.Pig.from_json(json_str)
-        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+        self.assertIsInstance(p.root, petstore_api.BasquePig)
 
         # test from_dict
         json_dict = {"className": "BasquePig", "color": "red"}
         p = petstore_api.Pig.from_dict(json_dict)
-        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+        self.assertIsInstance(p.root, petstore_api.BasquePig)
 
         # test init
-        basque_pig = p.actual_instance
-        pig2 = petstore_api.Pig(actual_instance=basque_pig)
-        self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
+        basque_pig = p.root
+        pig2 = petstore_api.Pig(basque_pig)
+        self.assertIsInstance(pig2.root, petstore_api.BasquePig)
 
         # test failed init
         try:
-            pig3 = petstore_api.Pig(actual_instance="123")
+            petstore_api.Pig(root="123")
             self.assertTrue(False)  # this line shouldn't execute
-        except ValueError as e:
-            #   pydantic_core._pydantic_core.ValidationError: 2 validation errors for Pig
-            #   actual_instance.BasquePig
-            #     Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value='123', input_type=str]
-            #       For further information visit https://errors.pydantic.dev/2.3/v/model_type
-            #   actual_instance.DanishPig
-            #     Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value='123', input_type=str]
-            #       For further information visit https://errors.pydantic.dev/2.3/v/model_type
-            self.assertIn("or instance of BasquePig", str(e))
-            self.assertIn("or instance of DanishPig", str(e))
+        except ValidationError as e:
+            self.assertIn(
+                "Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value='123', input_type=str]",
+                str(e))
+            self.assertIn(
+                "Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value='123', input_type=str]",
+                str(e))
 
         # failure
         try:
-            p2 = petstore_api.Pig.from_json("1")
+            petstore_api.Pig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
-        except AttributeError as e:
-            self.assertEqual(str(e), "'int' object has no attribute 'get'")
-        # comment out below as the error message is different using oneOf discriminator lookup option
-        #except ValueError as e:
-        #    error_message = (
-        #        "No match found when deserializing the JSON string into Pig with oneOf schemas: BasquePig, DanishPig. "
-        #        "Details: 1 validation error for BasquePig\n"
-        #        "__root__\n"
-        #        "  BasquePig expected dict not int (type=type_error), 1 validation error for DanishPig\n"
-        #        "__root__\n"
-        #        "  DanishPig expected dict not int (type=type_error)")
-        #    self.assertEqual(str(e), error_message)
+        except ValidationError as e:
+            self.assertIn("BasquePig", str(e))
+            self.assertIn("DanishPig", str(e))
+            self.assertIn("Input should be an object [type=model_type, input_value=1, input_type=int]", str(e))
 
-        # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
 
         # test nested property
-        nested = petstore_api.WithNestedOneOf(size = 1, nested_pig = p)
+        nested = petstore_api.WithNestedOneOf(size=1, nested_pig=p)
         self.assertEqual(nested.to_json(), '{"size": 1, "nested_pig": {"className": "BasquePig", "color": "red"}}')
 
         nested_json = nested.to_json()
@@ -289,45 +264,48 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(nested2.to_json(), nested_json)
 
     def test_anyOf(self):
-        # test new AnyOfPig
-        new_anypig = petstore_api.AnyOfPig()
-        self.assertEqual("null", new_anypig.to_json())
-        self.assertEqual(None, new_anypig.actual_instance)
-
         # test from_json
         json_str = '{"className": "BasquePig", "color": "red"}'
         p = petstore_api.AnyOfPig.from_json(json_str)
-        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+        self.assertIsInstance(p.root, petstore_api.BasquePig)
 
         # test from_dict
         json_dict = {"className": "BasquePig", "color": "red"}
         p = petstore_api.AnyOfPig.from_dict(json_dict)
-        self.assertIsInstance(p.actual_instance, petstore_api.BasquePig)
+        self.assertIsInstance(p.root, petstore_api.BasquePig)
 
         # test init
-        basque_pig = p.actual_instance
-        pig2 = petstore_api.AnyOfPig(actual_instance=basque_pig)
-        self.assertIsInstance(pig2.actual_instance, petstore_api.BasquePig)
+        basque_pig = p.root
+        pig2 = petstore_api.AnyOfPig(root=basque_pig)
+        self.assertIsInstance(pig2.root, petstore_api.BasquePig)
 
         # test failed init
         try:
-            pig3 = petstore_api.AnyOfPig(actual_instance="123")
+            petstore_api.AnyOfPig(root="123")
             self.assertTrue(False)  # this line shouldn't execute
-        except ValueError as e:
-            #   pydantic_core._pydantic_core.ValidationError: 1 validation error for AnyOfPig
-            #   actual_instance
-            #     Value error, No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig. Details: Error! Input type `<class 'str'>` is not `BasquePig`, Error! Input type `<class 'str'>` is not `DanishPig` [type=value_error, input_value='123', input_type=str]
-            #       For further information visit https://errors.pydantic.dev/2.4/v/value_error
-            self.assertIn("No match found when setting the actual_instance in AnyOfPig with anyOf schemas: BasquePig, DanishPig.", str(e))
-            self.assertIn("Input type `<class 'str'>` is not `BasquePig`", str(e))
-            self.assertIn("Input type `<class 'str'>` is not `DanishPig`", str(e))
+        except ValidationError as e:
+            # 2 validation errors for AnyOfPig
+            # BasquePig
+            #   Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value='123', input_type=str]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/model_type
+            # DanishPig
+            #   Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value='123', input_type=str]
+            #     For further information visit https://errors.pydantic.dev/2.12/v/model_type
+            self.assertIn(
+                "Input should be a valid dictionary or instance of BasquePig [type=model_type, input_value='123', input_type=str]",
+                str(e))
+            self.assertIn(
+                "Input should be a valid dictionary or instance of DanishPig [type=model_type, input_value='123', input_type=str]",
+                str(e))
 
         # failure
         try:
-            p2 = petstore_api.AnyOfPig.from_json("1")
+            petstore_api.AnyOfPig.from_json("1")
             self.assertTrue(False)  # this line shouldn't execute
-        except ValueError as e:
-            self.assertIn("No match found when deserializing the JSON string into AnyOfPig with anyOf schemas: BasquePig, DanishPig", str(e))
+        except ValidationError as e:
+            self.assertIn("BasquePig", str(e))
+            self.assertIn("DanishPig", str(e))
+            self.assertIn("Input should be an object [type=model_type, input_value=1, input_type=int]", str(e))
 
         # test to_json
         self.assertEqual(p.to_json(), '{"className": "BasquePig", "color": "red"}')
@@ -342,7 +320,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
-    
+
     def test_inheritance_discriminators(self):
         model = petstore_api.DiscriminatorAllOfSuper.from_dict({"elementType": "DiscriminatorAllOfSub"})
         self.assertIsInstance(model, petstore_api.DiscriminatorAllOfSub)
@@ -373,7 +351,8 @@ class ModelTests(unittest.TestCase):
         # test to_json
         d = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d.to_json(), '{"value": 1}')
-        d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1, str_value=petstore_api.OuterEnum.DELIVERED)
+        d2 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1,
+                                                      str_value=petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
         d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
@@ -385,22 +364,24 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d4.to_json(), '{"value": 1, "str_value": null}')
         d5 = petstore_api.OuterObjectWithEnumProperty(value=petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d5.model_fields_set, {'value'})
-        d5.str_value = None # set None explicitly
+        d5.str_value = None  # set None explicitly
         self.assertEqual(d5.model_fields_set, {'value', 'str_value'})
         self.assertEqual(d5.to_json(), '{"value": 1, "str_value": null}')
 
     def test_valdiator(self):
         # test regular expression
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17),
+                                    password="testing09876")
         try:
             a.pattern_with_digits_and_delimiter = "123"
-            self.assertTrue(False) # this line shouldn't execute
+            self.assertTrue(False)  # this line shouldn't execute
         except ValueError as e:
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
         # test None with optional string (with regualr expression)
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
-        a.string = None # shouldn't throw an exception
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17),
+                                    password="testing09876")
+        a.string = None  # shouldn't throw an exception
 
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "IMAGE_123")
@@ -408,24 +389,29 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
         # test sanitize for serialization with different data types
-        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(a),
+                         {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876',
+                          'pattern_with_digits_and_delimiter': 'image_123'})
 
         # test sanitize for serialization with SecretStr (format: password)
         class LoginTest(BaseModel):
             username: StrictStr = Field(min_length=2, strict=True, max_length=64)
             password: SecretStr
-        
+
         l = LoginTest(username="admin", password=SecretStr("testing09876"))
-        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(l), {'username': "admin", 'password': "testing09876"})
+        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(l),
+                         {'username': "admin", 'password': "testing09876"})
 
     def test_inline_enum_validator(self):
         self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         try:
             self.pet.status = "error"
-            self.assertTrue(False, "should have failed with 'invalid status' error") # this line shouldn't execute
-        except ValueError as e:
-            self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
+            self.assertTrue(False, "should have failed with 'invalid status' error")  # this line shouldn't execute
+        except ValidationError as e:
+            self.assertIn(
+                "Input should be 'available', 'pending' or 'sold' [type=literal_error, input_value='error', input_type=str]",
+                str(e))
 
     def test_constraints(self):
         rgb = [128, 128, 128]
@@ -433,32 +419,14 @@ class ModelTests(unittest.TestCase):
         hex_color = "#00FF00"
 
         # These should all pass
-        color = petstore_api.Color(oneof_schema_1_validator=rgb)
-        self.assertEqual(rgb, color.oneof_schema_1_validator)
+        color = petstore_api.Color(rgb)
+        self.assertEqual(rgb, color.root)
 
-        color = petstore_api.Color(oneof_schema_2_validator=rgba)
-        self.assertEqual(rgba, color.oneof_schema_2_validator)
+        color = petstore_api.Color(rgba)
+        self.assertEqual(rgba, color.root)
 
-        color = petstore_api.Color(oneof_schema_3_validator=hex_color)
-        self.assertEqual(hex_color, color.oneof_schema_3_validator)
-
-        try:
-            petstore_api.Color(oneof_schema_1_validator=rgba)
-            self.fail("invalid validation")
-        except ValidationError as e:
-            self.assertIn("List should have at most 3 items after validation, not 4", str(e))
-
-        try:
-            petstore_api.Color(oneof_schema_2_validator=rgb)
-            self.fail("invalid validation")
-        except ValidationError as e:
-            self.assertIn("List should have at least 4 items after validation, not 3", str(e))
-
-        try:
-            petstore_api.Color(oneof_schema_3_validator="too long string")
-            self.fail("invalid validation")
-        except ValidationError as e:
-            self.assertIn("String should have at most 7 characters", str(e))
+        color = petstore_api.Color(hex_color)
+        self.assertEqual(hex_color, color.root)
 
     def test_object_id(self):
         pet_ap = petstore_api.Pet(name="test name", photoUrls=["string"])
@@ -468,7 +436,6 @@ class ModelTests(unittest.TestCase):
         pet_ap3 = petstore_api.Pet.from_dict(pet_ap.to_dict())
         pet_ap4 = petstore_api.Pet.from_dict(pet_ap.to_dict())
         self.assertNotEqual(id(pet_ap3), id(pet_ap4))
-
 
     def test_additional_properties(self):
         pet_ap = petstore_api.Pet(name="test name", photoUrls=["string"])
@@ -482,14 +449,15 @@ class ModelTests(unittest.TestCase):
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
 
         pet_ap.additional_properties["something-new"] = "haha"
-        self.assertEqual(pet_ap.to_json(), '{"id": 1, "name": "test name", "photoUrls": ["string"], "status": "available", "something-new": "haha"}')
+        self.assertEqual(pet_ap.to_json(),
+                         '{"id": 1, "name": "test name", "photoUrls": ["string"], "status": "available", "something-new": "haha"}')
         self.assertEqual(type(pet_ap2.additional_properties), dict)
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
         self.assertEqual(pet_ap.additional_properties["something-new"], "haha")
 
         try:
             _tmp = pet_ap2.additional_properties["something-new"]
-            self.assertTrue(False) # this line shouldn't execute
+            self.assertTrue(False)  # this line shouldn't execute
         except KeyError as e:
             self.assertEqual("'something-new'", str(e))
 
@@ -512,16 +480,16 @@ class ModelTests(unittest.TestCase):
         h.nullable_message = None
         self.assertEqual(h.to_json(), '{"NullableMessage": null}')
 
-        #import json
-        #dictionary ={ 
-        #  "id": "04", 
-        #  "name": "sunil", 
+        # import json
+        # dictionary ={
+        #  "id": "04",
+        #  "name": "sunil",
         #  "department": None
-        #} 
-        #      
-        ## Serializing json  
-        #json_object = json.dumps(dictionary) 
-        #self.assertEqual(json_object, "")
+        # }
+        #
+        ## Serializing json
+        # json_object = json.dumps(dictionary)
+        # self.assertEqual(json_object, "")
 
     def test_inline_enum_default(self):
         enum_test = petstore_api.EnumTest(enum_string_required="lower")
@@ -571,9 +539,9 @@ class ModelTests(unittest.TestCase):
 
     def test_int_or_string_oneof(self):
         a = petstore_api.IntOrString("-efg")
-        self.assertEqual(a.actual_instance, "-efg")
+        self.assertEqual(a.root, "-efg")
         a = petstore_api.IntOrString(100)
-        self.assertEqual(a.actual_instance, 100)
+        self.assertEqual(a.root, 100)
 
         try:
             a = petstore_api.IntOrString(1)
@@ -594,7 +562,7 @@ class ModelTests(unittest.TestCase):
         a = petstore_api.ArrayOfArrayOfModel()
         t = petstore_api.Tag(id=123, name="tag name")
         a.another_property = [[t]]
-        self.assertEqual(a.to_dict(), {'another_property': [[ {'id': 123, 'name': 'tag name'} ]]})
+        self.assertEqual(a.to_dict(), {'another_property': [[{'id': 123, 'name': 'tag name'}]]})
         self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
         a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
         assert a2 is not None
@@ -602,7 +570,7 @@ class ModelTests(unittest.TestCase):
 
     def test_object_with_additional_properties(self):
         a = petstore_api.ObjectToTestAdditionalProperties()
-        a.additional_properties = { "abc": 123 }
+        a.additional_properties = {"abc": 123}
         # should not throw the following errors:
         #   pydantic.errors.ConfigError: field "additional_properties" not yet prepared so type is still a ForwardRef, you might need to call ObjectToTestAdditionalProperties.update_forward_refs().
 
@@ -621,8 +589,10 @@ class ModelTests(unittest.TestCase):
 
     def test_allof_circular_imports(self):
         # for issue 18271
-        model_a = petstore_api.models.circular_all_of_ref.CircularAllOfRef.from_json('{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
-        model_b = petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef.from_json('{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
+        model_a = petstore_api.models.circular_all_of_ref.CircularAllOfRef.from_json(
+            '{"_name": "nameA", "second_circular_all_of_ref": {"name": "nameB"}}')
+        model_b = petstore_api.models.second_circular_all_of_ref.SecondCircularAllOfRef.from_json(
+            '{"_name": "nameB", "circular_all_of_ref": {"name": "nameA"}}')
         # shouldn't throw ImportError
         assert model_a is not None
         assert model_b is not None
@@ -637,22 +607,24 @@ class ModelTests(unittest.TestCase):
         assert user_info is not None
         self.assertEqual(user_info.to_json(), user_info_json)
 
+
 class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):
         a1 = petstore_api.AdditionalPropertiesAnyType()
-        a1.additional_properties = { "abc": 123 }
-        self.assertEqual(a1.to_dict(), {"abc": 123})
-        self.assertEqual(a1.to_json(), '{"abc": 123}')
+        a1.additional_properties = {"abc": 123}
+        self.assertEqual(a1.to_dict(), {"additional_properties": {"abc": 123}})
+        self.assertEqual(a1.to_json(), '{"additional_properties": {"abc": 123}}')
 
         a2 = petstore_api.AdditionalPropertiesObject()
-        a2.additional_properties = { "efg": 45.6 }
-        self.assertEqual(a2.to_dict(), {"efg": 45.6})
-        self.assertEqual(a2.to_json(), '{"efg": 45.6}')
+        a2.additional_properties = {"efg": 45.6}
+        self.assertEqual(a2.to_dict(), {"additional_properties": {"efg": 45.6}})
+        self.assertEqual(a2.to_json(), '{"additional_properties": {"efg": 45.6}}')
 
         a3 = petstore_api.AdditionalPropertiesWithDescriptionOnly()
-        a3.additional_properties = { "xyz": 45.6 }
-        self.assertEqual(a3.to_dict(), {"xyz": 45.6})
-        self.assertEqual(a3.to_json(), '{"xyz": 45.6}')
+        a3.additional_properties = {"xyz": 45.6}
+        self.assertEqual(a3.to_dict(), {"additional_properties": {"xyz": 45.6}})
+        self.assertEqual(a3.to_json(), '{"additional_properties": {"xyz": 45.6}}')
+
 
 class TestUnnamedDictWithAdditionalStringListProperties:
     def test_empty_dict(self):
@@ -668,6 +640,7 @@ class TestUnnamedDictWithAdditionalStringListProperties:
     def test_single_string_item(self):
         a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dictProperty={"b": ["c"]})
         assert a.to_dict() == {"dictProperty": {"b": ["c"]}}
+
 
 class TestUnnamedDictWithAdditionalModelListProperties:
     def test_empty_dict(self):
