@@ -23,9 +23,9 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason_phrase
         self.data = None
 
-    async def read(self):
+    {{#async}}async {{/async}}def read(self):
         if self.data is None:
-            self.data = await self.response.aread()
+            self.data = {{#async}}await {{/async}}self.response.{{#async}}a{{/async}}read()
         return self.data
 
     @property
@@ -65,13 +65,13 @@ class RESTClientObject:
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
 
-        self.pool_manager: Optional[httpx.AsyncClient] = None
+        self.pool_manager: Optional[httpx.{{#async}}Async{{/async}}Client] = None
 
-    async def close(self):
+    {{#async}}async {{/async}}def close(self):
         if self.pool_manager is not None:
-            await self.pool_manager.aclose()
+            {{#async}}await {{/async}}self.pool_manager.{{#async}}a{{/async}}close()
 
-    async def request(
+    {{#async}}async {{/async}}def request(
             self,
             method,
             url,
@@ -169,10 +169,10 @@ class RESTClientObject:
         if self.pool_manager is None:
             self.pool_manager = self._create_pool_manager()
 
-        r = await self.pool_manager.request(**args)
+        r = {{#async}}await {{/async}}self.pool_manager.request(**args)
         return RESTResponse(r)
 
-    def _create_pool_manager(self) -> httpx.AsyncClient:
+    def _create_pool_manager(self) -> httpx.{{#async}}Async{{/async}}Client:
         limits = httpx.Limits(max_connections=self.maxsize)
 
         proxy = None
@@ -182,7 +182,7 @@ class RESTClientObject:
                 headers=self.proxy_headers
             )
 
-        return httpx.AsyncClient(
+        return httpx.{{#async}}Async{{/async}}Client(
             limits=limits,
             proxy=proxy,
             verify=self.ssl_context,
