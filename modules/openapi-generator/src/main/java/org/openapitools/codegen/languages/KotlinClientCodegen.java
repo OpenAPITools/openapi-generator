@@ -293,6 +293,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_NON_ASCII_HEADERS, "Allow to use non-ascii headers with the okhttp library"));
         cliOptions.add(CliOption.newBoolean(USE_RESPONSE_AS_RETURN_TYPE, "When using retrofit2 and coroutines, use `Response`<`T`> as return type instead of `T`.", true));
+
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3,
+            "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
     }
 
     @Override
@@ -462,6 +465,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(this.serializationLibrary.name(), true);
         } else {
             additionalProperties.put(this.serializationLibrary.name(), true);
+        }
+
+        if (isUseJackson3()) {
+            if (this.serializationLibrary != SERIALIZATION_LIBRARY_TYPE.jackson) {
+                throw new IllegalArgumentException("useJackson3 requires serializationLibrary=jackson");
+            }
+            if (additionalProperties.containsKey("openApiNullable")
+                    && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
+                throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+            }
         }
 
         if (additionalProperties.containsKey(MAP_FILE_BINARY_TO_BYTE_ARRAY)) {
