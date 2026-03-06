@@ -104,15 +104,15 @@ public class ApiClient extends JavaTimeFormatter {
 
     protected final WebClient webClient;
     protected final DateFormat dateFormat;
-    protected final ObjectMapper objectMapper;
+    protected final ObjectMapper mapper;
 
     protected Map<String, Authentication> authentications;
 
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.objectMapper = createDefaultObjectMapper(this.dateFormat);
-        this.webClient = buildWebClient(this.objectMapper);
+        this.mapper = createDefaultMapper(this.dateFormat);
+        this.webClient = buildWebClient(this.mapper);
         this.init();
     }
 
@@ -131,7 +131,7 @@ public class ApiClient extends JavaTimeFormatter {
     protected ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
-        this.objectMapper = createDefaultObjectMapper(format);
+        this.mapper = createDefaultMapper(format);
         this.init();
     }
 
@@ -141,7 +141,7 @@ public class ApiClient extends JavaTimeFormatter {
         return dateFormat;
     }
 
-    public static ObjectMapper createDefaultObjectMapper(@Nullable DateFormat dateFormat) {
+    public static ObjectMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
         if (null == dateFormat) {
             dateFormat = createDefaultDateFormat();
         }
@@ -182,7 +182,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return WebClient
      */
     public static WebClient.Builder buildWebClientBuilder() {
-        return buildWebClientBuilder(createDefaultObjectMapper(null));
+        return buildWebClientBuilder(createDefaultMapper(null));
     }
 
     /**
@@ -199,7 +199,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @return WebClient
      */
     public static WebClient buildWebClient() {
-        return buildWebClientBuilder(createDefaultObjectMapper(null)).build();
+        return buildWebClientBuilder(createDefaultMapper(null)).build();
     }
 
     /**
@@ -373,10 +373,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     /**
      * Get the ObjectMapper used to make HTTP requests.
-     * @return ObjectMapper objectMapper
+     * @return ObjectMapper mapper
      */
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
+    public ObjectMapper getMapper() {
+        return mapper;
     }
 
     /**
@@ -426,7 +426,7 @@ public class ApiClient extends JavaTimeFormatter {
             valueCollection = (Collection<?>) value;
         } else {
             try {
-                return parameterToMultiValueMap(collectionFormat, name, objectMapper.writeValueAsString(value));
+                return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
@@ -435,7 +435,7 @@ public class ApiClient extends JavaTimeFormatter {
         List<String> values = new ArrayList<>();
         for(Object o : valueCollection) {
             try {
-                values.add(objectMapper.writeValueAsString(o));
+                values.add(mapper.writeValueAsString(o));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
