@@ -18,8 +18,8 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
-import tools.jackson.annotation.JsonEnumDefaultValue
-import tools.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * A pet for sale in the pet store

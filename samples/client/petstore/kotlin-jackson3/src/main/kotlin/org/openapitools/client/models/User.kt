@@ -16,8 +16,8 @@
 package org.openapitools.client.models
 
 
-import tools.jackson.annotation.JsonEnumDefaultValue
-import tools.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * A User who is purchasing from the pet store

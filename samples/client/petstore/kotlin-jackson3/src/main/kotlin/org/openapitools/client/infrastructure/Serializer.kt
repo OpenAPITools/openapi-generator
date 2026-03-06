@@ -3,7 +3,7 @@ package org.openapitools.client.infrastructure
 import tools.jackson.databind.DeserializationFeature
 import tools.jackson.databind.ObjectMapper
 import tools.jackson.databind.SerializationFeature
-import tools.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude
 import tools.jackson.module.kotlin.jacksonObjectMapper
 
 object Serializer {

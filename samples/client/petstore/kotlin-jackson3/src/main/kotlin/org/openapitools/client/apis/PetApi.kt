@@ -22,7 +22,7 @@ import okhttp3.HttpUrl
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
-import tools.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonProperty
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ApiResponse

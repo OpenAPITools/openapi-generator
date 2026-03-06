@@ -952,12 +952,12 @@ public class KotlinClientCodegenModelTest {
         generator.opts(input).generate();
 
         Path modelPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/models/Pet.kt");
-        TestUtils.assertFileContains(modelPath, "import tools.jackson.annotation.JsonProperty");
-        TestUtils.assertFileNotContains(modelPath, "com.fasterxml.jackson");
+        TestUtils.assertFileContains(modelPath, "import com.fasterxml.jackson.annotation.JsonProperty");
 
         Path serializerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
         TestUtils.assertFileContains(serializerPath, "import tools.jackson.databind.ObjectMapper");
-        TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson.module.kotlin.jacksonObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
     }
 
     @Test
