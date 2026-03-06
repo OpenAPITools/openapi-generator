@@ -17,21 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
-from petstore_api.models.pet import Pet
+from petstore_api.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AdditionalPropertiesClass(BaseModel):
+class ArrayOfMapModel(BaseModel):
     """
-    AdditionalPropertiesClass
+    ArrayOfMapModel
     """ # noqa: E501
-    map_property: Optional[Dict[str, StrictStr]] = None
-    map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    map_of_map_non_primitive_property: Optional[Dict[str, Dict[str, Pet]]] = None
+    array_of_map_property: Optional[List[Dict[str, Tag]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property", "map_of_map_non_primitive_property"]
+    __properties: ClassVar[List[str]] = ["array_of_map_property"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -52,7 +50,7 @@ class AdditionalPropertiesClass(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AdditionalPropertiesClass from a JSON string"""
+        """Create an instance of ArrayOfMapModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,15 +73,15 @@ class AdditionalPropertiesClass(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict of dict)
-        _field_dict_of_dict = {}
-        if self.map_of_map_non_primitive_property:
-            for _key_map_of_map_non_primitive_property, _value_map_of_map_non_primitive_property in self.map_of_map_non_primitive_property.items():
-                if _value_map_of_map_non_primitive_property is not None:
-                    _field_dict_of_dict[_key_map_of_map_non_primitive_property] = {
-                        _key: _value.to_dict() for _key, _value in _value_map_of_map_non_primitive_property.items()
-                    }
-            _dict['map_of_map_non_primitive_property'] = _field_dict_of_dict
+        # override the default output from pydantic by calling `to_dict()` of each item in array_of_map_property (list of dict)
+        _items = []
+        if self.array_of_map_property:
+            for _item_array_of_map_property in self.array_of_map_property:
+                if _item_array_of_map_property:
+                    _items.append(
+                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item_array_of_map_property.items()}
+                    )
+            _dict['array_of_map_property'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -93,7 +91,7 @@ class AdditionalPropertiesClass(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AdditionalPropertiesClass from a dict"""
+        """Create an instance of ArrayOfMapModel from a dict"""
         if obj is None:
             return None
 
@@ -101,20 +99,10 @@ class AdditionalPropertiesClass(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "map_property": obj.get("map_property"),
-            "map_of_map_property": obj.get("map_of_map_property"),
-            "map_of_map_non_primitive_property": dict(
-                (_k, dict(
-                    (_ik, Pet.from_dict(_iv))
-                        for _ik, _iv in _v.items()
-                    )
-                    if _v is not None
-                    else None
-                )
-                for _k, _v in obj["map_of_map_non_primitive_property"].items()
-            )
-            if obj.get("map_of_map_non_primitive_property") is not None
-            else None
+            "array_of_map_property": [
+                    {_inner_key: Tag.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    for _item in obj["array_of_map_property"]
+                ] if obj.get("array_of_map_property") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
