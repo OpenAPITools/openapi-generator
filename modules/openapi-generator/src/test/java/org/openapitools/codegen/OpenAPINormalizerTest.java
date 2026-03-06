@@ -914,7 +914,7 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [tag ; invalid] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter with no value not supported :[tag]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `tag ; invalid`. Error: filter with no value not supported :[tag]");
         }
     }
 
@@ -927,8 +927,34 @@ public class OpenAPINormalizerTest {
             new OpenAPINormalizer(openAPI, options).normalize();
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "FILTER rule [method:get ; unknown:test] must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Error: filter not supported :[unknown:test]");
+            assertEquals(e.getMessage(), "FILTER rule must be in the form of `operationId:name1|name2|name3` or `method:get|post|put` or `tag:tag1|tag2|tag3` or `path:/v1|/v2`. Input: `method:get ; unknown:test`. Error: filter not supported :[unknown:test]");
         }
+    }
+
+    @Test
+    public void testSecuritySchemesFilter() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1 ; type:oauth2");
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        System.err.println("Security schemes after filter3: " + openAPI.getComponents().getSecuritySchemes().get("api_key1").toString());
+        System.err.println("Security schemes after filter4: " + openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().toString());
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
+                false);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
     }
 
 

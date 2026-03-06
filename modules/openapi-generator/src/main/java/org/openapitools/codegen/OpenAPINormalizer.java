@@ -213,6 +213,7 @@ public class OpenAPINormalizer {
         ruleNames.add(NORMALIZE_31SPEC);
         ruleNames.add(REMOVE_X_INTERNAL);
         ruleNames.add(FILTER);
+        ruleNames.add(SECURITY_SCHEMES_FILTER);
         ruleNames.add(SET_CONTAINER_TO_NULLABLE);
         ruleNames.add(SET_PRIMITIVE_TYPES_TO_NULLABLE);
         ruleNames.add(SIMPLIFY_ONEOF_ANYOF_ENUM);
@@ -284,6 +285,11 @@ public class OpenAPINormalizer {
 
         if (inputRules.get(FILTER) != null) {
             rules.put(FILTER, true);
+            // actual parsing is delayed to allow customization of the Filter processing
+        }
+
+        if (inputRules.get(SECURITY_SCHEMES_FILTER) != null) {
+            rules.put(SECURITY_SCHEMES_FILTER, true);
             // actual parsing is delayed to allow customization of the Filter processing
         }
 
@@ -403,6 +409,15 @@ public class OpenAPINormalizer {
             return;
         }
 
+        OperationsFilter filter = null;
+        if (Boolean.TRUE.equals(getRule(FILTER))) {
+            String filters = inputRules.get(FILTER);
+            filter = createOperationsFilter(this.openAPI, filters);
+            if (!filter.parse()) {
+                filter = null;
+            }
+        }
+
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
             List<Operation> operations = new ArrayList<>(path.readOperations());
@@ -418,14 +433,10 @@ public class OpenAPINormalizer {
                     "trace", PathItem::getTrace
             );
 
-            if (Boolean.TRUE.equals(getRule(FILTER))) {
-                String filters = inputRules.get(FILTER);
-                OperationsFilter filter = createOperationsFilter(this.openAPI, filters);
-                if (filter.parse()) {
-                    // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
-                    // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
-                    filter.apply(pathsEntry.getKey(), path, methodMap);
-                }
+            if (filter != null && filter.hasFilter()) {
+                // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
+                // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
+                filter.apply(pathsEntry.getKey(), path, methodMap);
             }
 
             // Include callback operation as well
@@ -603,13 +614,17 @@ public class OpenAPINormalizer {
      * Normalizes securitySchemes in components
      */
     protected void normalizeComponentsSecuritySchemes() {
-        if (StringUtils.isEmpty(bearerAuthSecuritySchemeName)) {
-            return;
-        }
-
         Map<String, SecurityScheme> schemes = openAPI.getComponents().getSecuritySchemes();
         if (schemes == null) {
             return;
+        }
+
+        SecuritySchemesFilter filter = null;
+        if (Boolean.TRUE.equals(getRule(SECURITY_SCHEMES_FILTER))) {
+            filter = createSecuritySchemesFilter(openAPI, inputRules.get(SECURITY_SCHEMES_FILTER));
+            if (!filter.parse()) {
+                filter = null;
+            }
         }
 
         for (String schemeKey : schemes.keySet()) {
@@ -625,6 +640,14 @@ public class OpenAPINormalizer {
                 scheme.setExtensions(null);
                 scheme.set$ref(null);
                 schemes.put(schemeKey, scheme);
+            }
+
+            // At first we transform a scheme to HTTP bearer and then apply the filter.
+            // It may happen that bearer scheme will be filtered out on this step.
+            // To keep the scheme - change filter input.
+            if (filter != null && filter.hasFilter()) {
+                SecurityScheme scheme = schemes.get(schemeKey);
+                filter.apply(schemeKey, scheme);
             }
         }
     }
@@ -1955,7 +1978,7 @@ public class OpenAPINormalizer {
 
     // ===================== end of rules =====================
 
-    // Base class for filters. It provides basic parsing logic and utility functions for filters.
+    // Base class for filters. It provides parsing logic and utility functions for filters.
     // All filters should have the same syntax:
     // `filterName:value1|value2|value3` and multiple filters can be separated by `;`.
     protected static abstract class BaseFilter {
@@ -1987,7 +2010,7 @@ public class OpenAPINormalizer {
                 return hasFilter();
             } catch (RuntimeException e) {
                 String usage = usageMessage();
-                String message = String.format(Locale.ROOT, "%s Input: `%s` Error: %s", usage, input, e.getMessage());
+                String message = String.format(Locale.ROOT, "%s Input: `%s`. Error: %s", usage, input, e.getMessage());
                 // throw an exception. This is a breaking change compared to pre 7.16.0
                 // Workaround: fix the syntax!
                 throw new IllegalArgumentException(message);
@@ -2200,7 +2223,7 @@ public class OpenAPINormalizer {
         public void apply(String schemeKey, SecurityScheme scheme) {
             boolean found = false;
             found |= logIfMatch(KEY, schemeKey, hasKey(schemeKey));
-            found |= logIfMatch(TYPE, schemeKey, hasType(scheme.getType()));
+            found |= logIfMatch(TYPE, schemeKey, hasType(scheme.getType().toString()));
             found |= hasCustomFilterMatch(schemeKey, scheme);
 
             scheme.addExtension(X_INTERNAL, !found);
