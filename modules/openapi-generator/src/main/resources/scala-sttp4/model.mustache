@@ -7,6 +7,11 @@ import {{import}}
 
 {{#models}}
 {{#model}}
+{{#vendorExtensions.x-isOneOfMember}}
+// This case class is defined inline in {{vendorExtensions.x-oneOfParent}}.scala
+// This file is intentionally minimal to avoid duplication.
+{{/vendorExtensions.x-isOneOfMember}}
+{{^vendorExtensions.x-isOneOfMember}}
 {{#description}}
 {{#javadocRenderer}}
 {{#title}}
@@ -15,6 +20,169 @@ import {{import}}
 {{{description}}}
 {{/javadocRenderer}}
 {{/description}}
+{{#vendorExtensions.x-isSealedTrait}}
+sealed trait {{classname}}
+
+{{! Generate inline case classes for oneOf members }}
+{{#vendorExtensions.x-oneOfMembers}}
+case class {{classname}}(
+  {{#allVars}}
+  {{#description}}
+  /* {{{.}}} */
+  {{/description}}
+  {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
+  {{/allVars}}
+  {{^allVars}}
+  {{! Empty case class for models with no properties }}
+  {{/allVars}}
+) extends {{vendorExtensions.x-oneOfParent}}
+{{#circe}}
+object {{classname}} {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+}
+{{/circe}}
+
+{{/vendorExtensions.x-oneOfMembers}}
+object {{classname}} {
+{{#json4s}}
+  import org.json4s._
+
+{{^vendorExtensions.x-use-discr}}
+  // oneOf without discriminator - json4s custom serializer
+  implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
+    def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
+      case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
+        // Try each oneOf type in order
+        {{#oneOf}}
+        Extraction.extract[{{.}}](json) match {
+          case x: {{.}} => return x
+          case _ => // continue
+        }
+        {{/oneOf}}
+        throw new MappingException(s"Can't convert $json to {{classname}}")
+    }
+
+    def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+      {{#oneOf}}
+      case x: {{.}} => Extraction.decompose(x)
+      {{/oneOf}}
+    }
+  }
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+  // oneOf with discriminator
+  implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
+    def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
+      case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
+        (json \ "{{discriminator.propertyName}}") match {
+          {{#oneOf}}
+          case JString("{{.}}") => Extraction.extract[{{.}}](json)
+          {{/oneOf}}
+          case _ => throw new MappingException(s"Unknown discriminator value in $json")
+        }
+    }
+
+    def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+      {{#oneOf}}
+      case x: {{.}} => Extraction.decompose(x).merge(JObject("{{discriminator.propertyName}}" -> JString("{{.}}")))
+      {{/oneOf}}
+    }
+  }
+{{/vendorExtensions.x-use-discr}}
+{{/json4s}}
+{{#circe}}
+{{^vendorExtensions.x-use-discr}}
+  // oneOf without discriminator - using semiauto derivation
+  import io.circe.{Encoder, Decoder}
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+  // oneOf with discriminator - using semiauto derivation with Configuration
+  import io.circe.{Encoder, Decoder}
+  import io.circe.generic.extras._
+  import io.circe.generic.extras.semiauto._
+
+  private implicit val config: Configuration = Configuration.default.withDiscriminator("{{discriminator.propertyName}}")
+    .copy(
+      transformConstructorNames = {
+{{#vendorExtensions.x-oneOfMembers}}
+        case "{{classname}}" => "{{vendorExtensions.x-discriminator-value}}"
+{{/vendorExtensions.x-oneOfMembers}}
+        case other => sys.error(s"Invalid {{classname}} discriminant: ${other}")
+      }
+    )  
+  implicit val encoder: Encoder[{{classname}}] = deriveConfiguredEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveConfiguredDecoder
+{{/vendorExtensions.x-use-discr}}
+{{/circe}}
+}
+{{/vendorExtensions.x-isSealedTrait}}
+{{#vendorExtensions.x-isEnum}}
+sealed trait {{classname}}
+
+object {{classname}} {
+{{#allowableValues}}
+  {{#values}}
+  case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{classname}}
+  {{/values}}
+{{/allowableValues}}
+
+{{#circe}}
+  import io.circe.{Encoder, Decoder}
+
+  implicit val encoder: Encoder[{{classname}}] = Encoder.encodeString.contramap[{{classname}}] {
+{{#allowableValues}}
+  {{#values}}
+    case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => "{{.}}"
+  {{/values}}
+{{/allowableValues}}
+  }
+
+  implicit val decoder: Decoder[{{classname}}] = Decoder.decodeString.emap {
+{{#allowableValues}}
+  {{#values}}
+    case "{{.}}" => Right({{#fnEnumEntry}}{{.}}{{/fnEnumEntry}})
+  {{/values}}
+{{/allowableValues}}
+    case other => Left(s"Invalid {{classname}}: $other")
+  }
+{{/circe}}
+{{#json4s}}
+  import org.json4s._
+
+  implicit object {{classname}}Serializer extends Serializer[{{classname}}] {
+    def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{classname}}] = {
+      case (TypeInfo(clazz, _), json) if classOf[{{classname}}].isAssignableFrom(clazz) =>
+        json match {
+{{#allowableValues}}
+  {{#values}}
+          case JString("{{.}}") => {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+  {{/values}}
+{{/allowableValues}}
+          case other => throw new MappingException(s"Invalid {{classname}}: $other")
+        }
+    }
+
+    def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+{{#allowableValues}}
+  {{#values}}
+      case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => JString("{{.}}")
+  {{/values}}
+{{/allowableValues}}
+    }
+  }
+{{/json4s}}
+}
+{{/vendorExtensions.x-isEnum}}
+{{#vendorExtensions.x-isRegularModel}}
 {{^isEnum}}
 case class {{classname}}(
   {{#vars}}
@@ -23,38 +191,72 @@ case class {{classname}}(
   {{/description}}
   {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
   {{/vars}}
-)
+){{#parent}} extends {{parent}}{{/parent}}
 {{/isEnum}}
+{{#circe}}
+object {{classname}} {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
 
-{{#isEnum}}
-object {{classname}} extends Enumeration {
-    type {{classname}} = {{classname}}.Value
-{{#allowableValues}}
-    {{#values}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
-    {{/values}}
-{{/allowableValues}}
+  implicit val encoder: Encoder[{{classname}}] = deriveEncoder
+  implicit val decoder: Decoder[{{classname}}] = deriveDecoder
 }
-{{/isEnum}}
+{{/circe}}
 {{#hasEnums}}
 object {{classname}}Enums {
+  {{#vars}}
+  {{#isEnum}}
 
-  {{#vars}}
-  {{#isEnum}}
-  type {{datatypeWithEnum}} = {{datatypeWithEnum}}.Value
-  {{/isEnum}}
-  {{/vars}}
-  {{#vars}}
-  {{#isEnum}}
-  object {{datatypeWithEnum}} extends Enumeration {
+  sealed trait {{datatypeWithEnum}}
+  object {{datatypeWithEnum}} {
 {{#_enum}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
+    case object {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} extends {{datatypeWithEnum}}
 {{/_enum}}
-  }
 
+{{#circe}}
+    import io.circe.{Encoder, Decoder}
+
+    implicit val encoder: Encoder[{{datatypeWithEnum}}] = Encoder.encodeString.contramap[{{datatypeWithEnum}}] {
+{{#_enum}}
+      case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => "{{.}}"
+{{/_enum}}
+    }
+
+    implicit val decoder: Decoder[{{datatypeWithEnum}}] = Decoder.decodeString.emap {
+{{#_enum}}
+      case "{{.}}" => Right({{#fnEnumEntry}}{{.}}{{/fnEnumEntry}})
+{{/_enum}}
+      case other => Left(s"Invalid {{datatypeWithEnum}}: $other")
+    }
+{{/circe}}
+{{#json4s}}
+    import org.json4s._
+
+    implicit object {{datatypeWithEnum}}Serializer extends Serializer[{{datatypeWithEnum}}] {
+      def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), {{datatypeWithEnum}}] = {
+        case (TypeInfo(clazz, _), json) if classOf[{{datatypeWithEnum}}].isAssignableFrom(clazz) =>
+          json match {
+{{#_enum}}
+            case JString("{{.}}") => {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}}
+{{/_enum}}
+            case other => throw new MappingException(s"Invalid {{datatypeWithEnum}}: $other")
+          }
+      }
+
+      def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
+{{#_enum}}
+        case {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} => JString("{{.}}")
+{{/_enum}}
+      }
+    }
+{{/json4s}}
+  }
   {{/isEnum}}
   {{/vars}}
 }
 {{/hasEnums}}
+{{/vendorExtensions.x-isRegularModel}}
+{{/vendorExtensions.x-isOneOfMember}}
 {{/model}}
 {{/models}}

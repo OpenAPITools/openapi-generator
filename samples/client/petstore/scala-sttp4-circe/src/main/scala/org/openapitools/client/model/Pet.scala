@@ -25,6 +25,14 @@ case class Pet(
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
 )
+object Pet {
+  import io.circe._
+  import io.circe.syntax._
+  import io.circe.generic.semiauto._
+
+  implicit val encoder: Encoder[Pet] = deriveEncoder
+  implicit val decoder: Decoder[Pet] = deriveDecoder
+}
 object PetEnums {
 
   sealed trait Status
@@ -33,24 +41,19 @@ object PetEnums {
     case object Pending extends Status
     case object Sold extends Status
 
-    import org.json4s._
+    import io.circe.{Encoder, Decoder}
 
-    implicit object StatusSerializer extends Serializer[Status] {
-      def deserialize(implicit format: Formats): PartialFunction[(TypeInfo, JValue), Status] = {
-        case (TypeInfo(clazz, _), json) if classOf[Status].isAssignableFrom(clazz) =>
-          json match {
-            case JString("available") => Available
-            case JString("pending") => Pending
-            case JString("sold") => Sold
-            case other => throw new MappingException(s"Invalid Status: $other")
-          }
-      }
+    implicit val encoder: Encoder[Status] = Encoder.encodeString.contramap[Status] {
+      case Available => "available"
+      case Pending => "pending"
+      case Sold => "sold"
+    }
 
-      def serialize(implicit format: Formats): PartialFunction[Any, JValue] = {
-        case Available => JString("available")
-        case Pending => JString("pending")
-        case Sold => JString("sold")
-      }
+    implicit val decoder: Decoder[Status] = Decoder.decodeString.emap {
+      case "available" => Right(Available)
+      case "pending" => Right(Pending)
+      case "sold" => Right(Sold)
+      case other => Left(s"Invalid Status: $other")
     }
   }
 }

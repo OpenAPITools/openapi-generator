@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "4.0.0-M1");
+            "sttp client", "4.0.15");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
@@ -33,6 +33,10 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             "joda-time library", "2.10.13");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "4.0.6");
+    private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
+            "library", "0.14.15");
+    private static final StringProperty CIRCE_EXTRAS_VERSION = new StringProperty("circeExtrasVersion",
+      "The version of circe-generic-extras library", "0.14.4");
 
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
@@ -41,7 +45,7 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
 
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            JSON4S_VERSION, CIRCE_VERSION, CIRCE_EXTRAS_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttp4ClientCodegen.class);
 
@@ -86,14 +90,16 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
                 )
         );
 
+        // Enable oneOf interface generation
+        useOneOfInterfaces = true;
+        supportsMultipleInheritance = true;
+        supportsInheritance = true;
+        addOneOfInterfaceImports = true;
+
         outputFolder = "generated-code/scala-sttp4";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp4";
-
-        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
-
-        String jsonValueClass = "circe".equals(jsonLibrary) ? "io.circe.Json" : "org.json4s.JValue";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -124,13 +130,12 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
         typeMapping.put("double", "Double");
-        typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("number", "Double");
         typeMapping.put("decimal", "BigDecimal");
         typeMapping.put("ByteArray", "Array[Byte]");
-        typeMapping.put("AnyType", jsonValueClass);
+        // AnyType and object mapping will be set in processOpts() based on jsonLibrary
 
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
@@ -148,6 +153,20 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         invokerPackage = PACKAGE_PROPERTY.getInvokerPackage(additionalProperties);
         apiPackage = PACKAGE_PROPERTY.getApiPackage(additionalProperties);
         modelPackage = PACKAGE_PROPERTY.getModelPackage(additionalProperties);
+
+        // Set AnyType and object mapping based on jsonLibrary
+        String jsonLibrary = JSON_LIBRARY_PROPERTY.getValue(additionalProperties);
+        if ("circe".equals(jsonLibrary)) {
+            typeMapping.put("AnyType", "io.circe.Json");
+            typeMapping.put("object", "io.circe.JsonObject");
+            importMapping.put("io.circe.Json", "io.circe.Json");
+            importMapping.put("io.circe.JsonObject", "io.circe.JsonObject");
+        } else {
+            typeMapping.put("AnyType", "org.json4s.JValue");
+            typeMapping.put("object", "org.json4s.JObject");
+            importMapping.put("org.json4s.JValue", "org.json4s.JValue");
+            importMapping.put("org.json4s.JObject", "org.json4s.JObject");
+        }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -211,6 +230,16 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         return objs;
     }
 
+    private void setParameterDefaults(CodegenParameter param) {
+        // Set default values for optional parameters
+        // Template will handle Option[] wrapping, so all defaults should be None
+        if (!param.required) {
+            param.defaultValue = "None";
+        }
+    }
+
+
+
     /**
      * Invoked by {@link DefaultGenerator} after all models have been post-processed,
      * allowing for a last pass of codegen-specific model cleanup.
@@ -221,6 +250,104 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        // First pass: count how many oneOf parents each model has
+        Map<String, Integer> oneOfMemberCount = new HashMap<>();
+        for (ModelsMap mm : processed.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+                if (!cModel.oneOf.isEmpty()) {
+                    for (String childName : cModel.oneOf) {
+                        oneOfMemberCount.put(childName, oneOfMemberCount.getOrDefault(childName, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        // Second pass: process models
+        for (ModelsMap mm : processed.values()) {
+            for (ModelMap model : mm.getModels()) {
+                CodegenModel cModel = model.getModel();
+
+                if (!cModel.oneOf.isEmpty()) {
+                    cModel.getVendorExtensions().put("x-isSealedTrait", true);
+
+                    // Collect child models for inline generation
+                    // Only inline if they are used exclusively by this oneOf parent
+                    List<CodegenModel> childModels = new ArrayList<>();
+
+                    for (String childName : cModel.oneOf) {
+                        CodegenModel childModel = ModelUtils.getModelByName(childName, processed);
+                        if (childModel != null && oneOfMemberCount.getOrDefault(childName, 0) == 1) {
+                            // This child is only used by this parent - can be inlined
+                            childModel.getVendorExtensions().put("x-isOneOfMember", true);
+                            childModel.getVendorExtensions().put("x-oneOfParent", cModel.classname);
+
+                            // Add discriminator mapping value if present
+                            if (cModel.discriminator != null) {
+                                String discriminatorName = cModel.discriminator.getPropertyName();
+                                
+                                // Find the mapping value for this child model
+                                String discriminatorValue = null;
+                                if (cModel.discriminator.getMappedModels() != null) {
+                                    for (CodegenDiscriminator.MappedModel mappedModel : cModel.discriminator.getMappedModels()) {
+                                        if (mappedModel.getModelName().equals(childName)) {
+                                            discriminatorValue = mappedModel.getMappingName();
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                if (discriminatorValue != null) {
+                                    childModel.getVendorExtensions().put("x-discriminator-value", discriminatorValue);
+                                }
+                                
+                                // Remove discriminator field from child
+                                // (circe-generic-extras adds it automatically)
+                                childModel.vars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                                childModel.allVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                                childModel.requiredVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                                childModel.optionalVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                            }
+
+                            childModels.add(childModel);
+                        }
+                    }
+                    cModel.getVendorExtensions().put("x-oneOfMembers", childModels);
+                } else if (cModel.isEnum) {
+                    cModel.getVendorExtensions().put("x-isEnum", true);
+                } else {
+                    cModel.getVendorExtensions().put("x-isRegularModel", true);
+                }
+
+                if (cModel.discriminator != null) {
+                    cModel.getVendorExtensions().put("x-use-discr", true);
+
+                    if (cModel.discriminator.getMapping() != null) {
+                        cModel.getVendorExtensions().put("x-use-discr-mapping", true);
+                    }
+                }
+
+                // Remove discriminator property from models that extend a oneOf parent
+                // (circe-generic-extras adds it automatically)
+                if (cModel.parent != null && cModel.parentModel != null && cModel.parentModel.discriminator != null) {
+                    String discriminatorName = cModel.parentModel.discriminator.getPropertyName();
+                    cModel.vars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                    cModel.allVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                    cModel.requiredVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                    cModel.optionalVars.removeIf(prop -> prop.baseName.equals(discriminatorName));
+                }
+            }
+        }
+
+        // Third pass: remove oneOf members from the map to skip file generation
+        // (they are already inlined in their parent sealed trait)
+        processed.entrySet().removeIf(entry -> {
+            ModelsMap mm = entry.getValue();
+            return mm.getModels().stream()
+                    .anyMatch(model -> model.getModel().getVendorExtensions().containsKey("x-isOneOfMember"));
+        });
+
         postProcessUpdateImports(processed);
         return processed;
     }
@@ -349,6 +476,14 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
         }
         objs.setImports(newImports);
 
+        // Fix parameter types and defaults
+        OperationMap opsMap = objs.getOperations();
+        for (CodegenOperation operation : opsMap.getOperation()) {
+            for (CodegenParameter param : operation.allParams) {
+                setParameterDefaults(param);
+            }
+        }
+
         return super.postProcessOperationsWithModels(objs, allModels);
     }
 
@@ -402,11 +537,11 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
-            String inner = getSchemaType(ModelUtils.getSchemaItems(p));
+            // Use simple Seq.empty for cleaner code
             if (ModelUtils.isSet(p)) {
-                return "Set[" + inner + "].empty ";
+                return "Set.empty";
             }
-            return "Seq[" + inner + "].empty ";
+            return "Seq.empty";
         } else if (ModelUtils.isStringSchema(p)) {
             return null;
         } else {
