@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
+      - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/others/java/webclient-sealedInterface/**
@@ -13,6 +14,7 @@ on:
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
+      - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/others/java/webclient-sealedInterface/**
