@@ -386,7 +386,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        // rust-server templates expect value to be in quotes
+        // rust-server templates expect value to be in quotes for Display/FromStr
         return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
@@ -611,6 +611,10 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         for (CodegenParameter param : op.pathParams) {
+            processParam(param, op);
+        }
+
+        for (CodegenParameter param : op.queryParams) {
             processParam(param, op);
         }
 
@@ -977,7 +981,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
             for (CodegenSecurity s : op.authMethods) {
                 if (s.isApiKey && s.isKeyInHeader) {
-                    s.vendorExtensions.put("x-api-key-name", toModelName(s.keyParamName));
                     headerAuthMethods = true;
                 }
 
@@ -1063,6 +1066,25 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return codegenParameter;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        // Check whether the spec provides an example before calling super, which
+        // will fall back to auto-generating one from the param name/type.
+        boolean hasSpecExample =
+                parameter.getExample() != null ||
+                (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) ||
+                (parameter.getSchema() != null && parameter.getSchema().getExample() != null);
+
+        super.setParameterExampleValue(codegenParameter, parameter);
+
+        if (!hasSpecExample) {
+            // Null out the auto-generated example so processParam can detect
+            // required params with no user-provided example and disable the
+            // client example stub accordingly.
+            codegenParameter.example = null;
+        }
     }
 
     @Override
@@ -1565,6 +1587,58 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModelsEnum(objs);
 
+        // Detect integer enums and mark them for serde_repr usage
+        for (ModelMap modelMap : result.getModels()) {
+            CodegenModel model = modelMap.getModel();
+
+            if (Boolean.TRUE.equals(model.isEnum) &&
+                (model.isInteger || model.isLong || model.isNumber) &&
+                model.allowableValues != null) {
+
+                // Determine the correct Rust type for the enum's repr
+                String rustType;
+                if (model.isNumber && !model.isInteger && !model.isLong) {
+                    // Floating point enum - use dataType or default to f64
+                    rustType = "f32".equals(model.dataType) ? "f32" : "f64";
+                } else {
+                    // Integer enum - apply the same type fitting logic as properties
+                    rustType = applyIntegerTypeFitting(
+                        model.getFormat(),
+                        model.getMinimum(),
+                        model.getMaximum(),
+                        model.getExclusiveMinimum(),
+                        model.getExclusiveMaximum());
+                    // If applyIntegerTypeFitting returns null, default to i32
+                    if (rustType == null) {
+                        rustType = "i32";
+                    }
+                }
+
+                // Mark this as an integer enum and store the Rust type
+                model.vendorExtensions.put("x-is-integer-enum", true);
+                model.vendorExtensions.put("x-rust-type", rustType);
+
+                // Set global flag to include serde_repr dependency
+                additionalProperties.put("apiUsesIntegerEnums", true);
+
+                // Add numeric discriminant values for enum variants
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> enumVars =
+                    (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+
+                if (enumVars != null) {
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String value = (String) enumVar.get("value");
+                        if (value != null) {
+                            // Strip quotes to get raw numeric value
+                            String numericValue = value.substring(1, value.length() - 1);
+                            enumVar.put("numericDiscriminant", numericValue);
+                        }
+                    }
+                }
+            }
+        }
+
         // Check for model names that conflict with serde_valid macro internals
         // Once we find one, set a class-level flag that persists across all model batches
         if (!hasConflictingModelNames) {
@@ -1624,15 +1698,30 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             example = (param.example != null) ? "&vec![\"" + param.example + "\".to_string()]" : "&Vec::new()";
         } else if (param.isString) {
             param.vendorExtensions.put("x-format-string", "\\\"{}\\\"");
-            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
+            if (param.example != null) {
+                example = "\"" + param.example + "\".to_string()";
+            }
         } else if (param.isPrimitiveType) {
             if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("x-format-string", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
+            } else if (param.isBoolean) {
+                param.vendorExtensions.put("x-format-string", "{}");
+                example = (param.example != null) ? param.example : "true";
             } else {
                 param.vendorExtensions.put("x-format-string", "{}");
-                example = (param.example != null) ? param.example : "";
+                if (param.example != null) {
+                    example = param.example;
+                } else if (param.isFloat || param.isDouble) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0.0";
+                } else if (param.isInteger || param.isLong || param.isShort || param.isNumber) {
+                    // No example in spec: use the type zero value. This appears only in
+                    // generated client example code.
+                    example = "0";
+                }
             }
         } else if (param.isArray) {
             param.vendorExtensions.put("x-format-string", "{:?}");

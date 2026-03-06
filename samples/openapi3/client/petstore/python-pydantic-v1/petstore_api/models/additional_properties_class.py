@@ -20,6 +20,7 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictStr
+from petstore_api.models.pet import Pet
 
 class AdditionalPropertiesClass(BaseModel):
     """
@@ -27,8 +28,9 @@ class AdditionalPropertiesClass(BaseModel):
     """
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
+    map_of_map_non_primitive_property: Optional[Dict[str, Dict[str, Pet]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties = ["map_property", "map_of_map_property"]
+    __properties = ["map_property", "map_of_map_property", "map_of_map_non_primitive_property"]
 
     class Config:
         """Pydantic configuration"""
@@ -55,6 +57,13 @@ class AdditionalPropertiesClass(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
+        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict)
+        _field_dict = {}
+        if self.map_of_map_non_primitive_property:
+            for _key in self.map_of_map_non_primitive_property:
+                if self.map_of_map_non_primitive_property[_key]:
+                    _field_dict[_key] = self.map_of_map_non_primitive_property[_key].to_dict()
+            _dict['map_of_map_non_primitive_property'] = _field_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -73,7 +82,19 @@ class AdditionalPropertiesClass(BaseModel):
 
         _obj = AdditionalPropertiesClass.parse_obj({
             "map_property": obj.get("map_property"),
-            "map_of_map_property": obj.get("map_of_map_property")
+            "map_of_map_property": obj.get("map_of_map_property"),
+            "map_of_map_non_primitive_property": dict(
+                (_k, dict(
+                    (_ik, Pet.from_dict(_iv))
+                        for _ik, _iv in _v.items()
+                    )
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj.get("map_of_map_non_primitive_property").items()
+            )
+            if obj.get("map_of_map_non_primitive_property") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

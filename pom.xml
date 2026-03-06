@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.20.0-SNAPSHOT</version>
+    <version>7.21.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -1241,7 +1241,8 @@
         <guava.version>32.1.3-jre</guava.version>
         <handlebars-java.version>4.3.1</handlebars-java.version>
         <jackson-threetenbp.version>2.18.2</jackson-threetenbp.version>
-        <jackson.version>2.18.2</jackson.version>
+        <jackson.version>2.21.1</jackson.version>
+        <jackson-annotations.version>2.21</jackson-annotations.version>
         <jacoco.version>0.8.12</jacoco.version>
         <jmustache.version>1.16</jmustache.version>
         <junit.version>5.10.2</junit.version>
@@ -1265,7 +1266,7 @@
         <snakeyaml.version>2.4</snakeyaml.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.37</swagger-parser.version>
+        <swagger-parser.version>2.1.38</swagger-parser.version>
         <testng.version>7.10.2</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

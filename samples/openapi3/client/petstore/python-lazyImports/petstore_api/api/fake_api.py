@@ -2989,7 +2989,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> bytearray:
+    ) -> bytes:
         """test byte like json
 
 
@@ -3023,7 +3023,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3051,7 +3051,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[bytearray]:
+    ) -> ApiResponse[bytes]:
         """test byte like json
 
 
@@ -3085,7 +3085,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3147,7 +3147,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray",
+            '200': "bytes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5450,7 +5450,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5517,7 +5517,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5584,7 +5584,7 @@ class FakeApi:
         For this test, the body has to be a binary file.
 
         :param body: image to upload (required)
-        :type body: bytearray
+        :type body: bytes
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7089,7 +7089,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7101,9 +7101,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -7213,7 +7213,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7225,9 +7225,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -7337,7 +7337,7 @@ class FakeApi:
         :param pattern_without_delimiter: None (required)
         :type pattern_without_delimiter: str
         :param byte: None (required)
-        :type byte: bytearray
+        :type byte: bytes
         :param integer: None
         :type integer: int
         :param int32: None
@@ -7349,9 +7349,9 @@ class FakeApi:
         :param string: None
         :type string: str
         :param binary: None
-        :type binary: bytearray
+        :type binary: bytes
         :param byte_with_max_length: None
-        :type byte_with_max_length: bytearray
+        :type byte_with_max_length: bytes
         :param var_date: None
         :type var_date: date
         :param date_time: None
@@ -9840,7 +9840,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count
@@ -9915,7 +9915,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count
@@ -9990,7 +9990,7 @@ class FakeApi:
         
 
         :param file: file to upload (required)
-        :type file: bytearray
+        :type file: bytes
         :param object:
         :type object: UploadFileWithAdditionalPropertiesRequestObject
         :param count: Integer count

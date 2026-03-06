@@ -23,7 +23,7 @@ class {{declspec}} {{classname}}
 {
 public:
     {{classname}}();
-    virtual ~{{classname}}() = default;
+    virtual ~{{classname}}();
 {{#isEnum}}{{#allowableValues}}
     enum class e{{classname}} {
     // To have a valid default value.

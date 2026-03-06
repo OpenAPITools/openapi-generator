@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from petstore_api.models.pet import Pet
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,10 +29,12 @@ class AdditionalPropertiesClass(BaseModel):
     """ # noqa: E501
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
-    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property"]
+    map_of_map_non_primitive_property: Optional[Dict[str, Dict[str, Pet]]] = None
+    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property", "map_of_map_non_primitive_property"]
 
     model_config = ConfigDict(
-        populate_by_name=True,
+        validate_by_name=True,
+        validate_by_alias=True,
         validate_assignment=True,
         protected_namespaces=(),
     )
@@ -69,6 +72,15 @@ class AdditionalPropertiesClass(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict of dict)
+        _field_dict_of_dict = {}
+        if self.map_of_map_non_primitive_property:
+            for _key_map_of_map_non_primitive_property, _value_map_of_map_non_primitive_property in self.map_of_map_non_primitive_property.items():
+                if _value_map_of_map_non_primitive_property is not None:
+                    _field_dict_of_dict[_key_map_of_map_non_primitive_property] = {
+                        _key: _value.to_dict() for _key, _value in _value_map_of_map_non_primitive_property.items()
+                    }
+            _dict['map_of_map_non_primitive_property'] = _field_dict_of_dict
         return _dict
 
     @classmethod
@@ -82,7 +94,19 @@ class AdditionalPropertiesClass(BaseModel):
 
         _obj = cls.model_validate({
             "map_property": obj.get("map_property"),
-            "map_of_map_property": obj.get("map_of_map_property")
+            "map_of_map_property": obj.get("map_of_map_property"),
+            "map_of_map_non_primitive_property": dict(
+                (_k, dict(
+                    (_ik, Pet.from_dict(_iv))
+                        for _ik, _iv in _v.items()
+                    )
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj["map_of_map_non_primitive_property"].items()
+            )
+            if obj.get("map_of_map_non_primitive_property") is not None
+            else None
         })
         return _obj
 

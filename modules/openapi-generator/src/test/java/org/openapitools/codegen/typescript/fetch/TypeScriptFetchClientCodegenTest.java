@@ -444,6 +444,20 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
     }
 
+    @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")
+    public void testValidationAttributesWithWithoutRuntimeChecks() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, true);
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, true);
+
+        File output = generate(properties, "src/test/resources/3_0/typescript-fetch/validation-attributes.yaml");
+
+        Path modelsIndex = Paths.get(output + "/models/index.ts");
+        TestUtils.assertFileExists(modelsIndex);
+        TestUtils.assertFileContains(modelsIndex, "PetPropertyValidationAttributesMap");
+        TestUtils.assertFileContains(modelsIndex, "[property: string]:");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {

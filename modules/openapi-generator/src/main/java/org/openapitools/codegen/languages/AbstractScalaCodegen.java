@@ -47,6 +47,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
+    // https://spec.openapis.org/registry/format/date-time-local.html
+    protected static final String DATE_TIME_LOCAL_FORMAT = "date-time-local";
+
     @Getter protected String modelPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase.name();
     @Setter protected String invokerPackage = "org.openapitools.client";
     @Getter @Setter
@@ -137,6 +140,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         // Scala specific openApi types mapping
         typeMapping.put("ByteArray", "Array[Byte]");
+        typeMapping.put(DATE_TIME_LOCAL_FORMAT, "LocalDateTime");
 
 
         importMapping = new HashMap<String, String>();
@@ -226,8 +230,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
             this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString(), false);
         }
+        this.typeMapping.put(DATE_TIME_LOCAL_FORMAT, "LocalDateTime");
         if (DateLibraries.java8.name().equals(dateLibrary)) {
             this.importMapping.put("LocalDate", "java.time.LocalDate");
+            this.importMapping.put("LocalDateTime", "java.time.LocalDateTime");
             this.importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
             this.typeMapping.put("date", "LocalDate");
             this.typeMapping.put("DateTime", "OffsetDateTime");

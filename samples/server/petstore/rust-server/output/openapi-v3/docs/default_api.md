@@ -18,6 +18,7 @@ Method | HTTP request | Description
 ****](default_api.md#) | **GET** /one-of | 
 ****](default_api.md#) | **GET** /override-server | 
 ****](default_api.md#) | **GET** /paramget | Get some stuff with parameters.
+**queryExampleGet**](default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 ****](default_api.md#) | **GET** /readonly_auth_scheme | 
 ****](default_api.md#) | **POST** /register-callback | 
 ****](default_api.md#) | **PUT** /required_octet_stream | 
@@ -409,6 +410,32 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **queryExampleGet**
+> queryExampleGet(required_no_example, required_with_example)
+Test required query params with and without examples
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+  **required_no_example** | **String**|  | 
+  **required_with_example** | **i32**|  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

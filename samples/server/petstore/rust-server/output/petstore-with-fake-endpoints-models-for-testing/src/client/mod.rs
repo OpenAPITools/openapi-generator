@@ -2476,6 +2476,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }
@@ -2848,6 +2857,15 @@ impl<S, C, B> Api<C> for Client<S, C> where
             use headers::authorization::Credentials;
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
+                AuthData::ApiKey(ref api_key) => {
+                    let header = match HeaderValue::from_str(api_key.as_str()) {
+                        Ok(h) => h,
+                        Err(e) => return Err(ApiError(format!("Unable to create header: {e}")))
+                    };
+                    request.headers_mut().insert(
+                        HeaderName::from_static("api_key"),
+                        header);
+                },
                 _ => {}
             }
         }
