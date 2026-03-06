@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets EnumClass
@@ -32,7 +35,18 @@ public enum EnumClass {
   
   _XYZ_("(xyz)");
 
+  private static final Map<String, EnumClass> BY_VALUE = new HashMap<>();
+
   private String value;
+
+  static {
+    for (EnumClass e: values()) {
+      String key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
+    }
+  }
 
   EnumClass(String value) {
     this.value = value;
@@ -50,12 +64,7 @@ public enum EnumClass {
 
   @JsonCreator
   public static EnumClass fromValue(String value) {
-    for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 }
 
