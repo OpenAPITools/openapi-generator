@@ -91,6 +91,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
@@ -166,6 +167,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    protected boolean useSpringBoot4 = false;
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
@@ -252,6 +255,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.", useSpringBoot4);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         addSwitch(USE_RESPONSE_ENTITY,
@@ -464,6 +468,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
         }
+        if (additionalProperties.containsKey(USE_SPRING_BOOT4)) {
+            this.setUseSpringBoot4(convertPropertyToBoolean(USE_SPRING_BOOT4));
+        }
         if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
             this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
         }
@@ -489,6 +496,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // import JsonCreator if JsonProperty is imported
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
+
+        if (isUseJackson3()) {
+            // Override databind imports for Jackson 3
+            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
+        }
 
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
@@ -680,7 +692,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
         }
         writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot3() && isUseSpringBoot4()) {
+            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+        }
+
+        if (isUseJackson3() && !isUseSpringBoot4()) {
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+
+        if (isUseJackson3() && additionalProperties.containsKey("openApiNullable")
+                && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -692,6 +717,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             applyJakartaPackage();
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
+        writePropertyBack(USE_SPRING_BOOT4, isUseSpringBoot4());
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
