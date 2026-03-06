@@ -32,7 +32,15 @@ import java.util.UUID
 {{#jackson}}
 import {{jacksonPackage}}.databind.DeserializationFeature
 import {{jacksonPackage}}.databind.ObjectMapper
+{{^useJackson3}}
 import {{jacksonPackage}}.databind.SerializationFeature
+{{/useJackson3}}
+{{#useJackson3}}
+import {{jacksonPackage}}.databind.cfg.DateTimeFeature
+{{#enumUnknownDefaultCase}}
+import {{jacksonPackage}}.databind.cfg.EnumFeature
+{{/enumUnknownDefaultCase}}
+{{/useJackson3}}
 import com.fasterxml.jackson.annotation.JsonInclude
 import {{jacksonPackage}}.module.kotlin.jacksonObjectMapper
 {{/jackson}}
@@ -122,12 +130,24 @@ import java.util.concurrent.atomic.AtomicLong
 {{#jackson}}
     @JvmStatic
     val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
+        {{^useJackson3}}
         .findAndRegisterModules()
+        {{/useJackson3}}
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
         {{#enumUnknownDefaultCase}}
+        {{#useJackson3}}
+        .configure(EnumFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+        {{/useJackson3}}
+        {{^useJackson3}}
         .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+        {{/useJackson3}}
         {{/enumUnknownDefaultCase}}
+        {{#useJackson3}}
+        .configure(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        {{/useJackson3}}
+        {{^useJackson3}}
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        {{/useJackson3}}
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}})
 {{/jackson}}
 {{#kotlinx_serialization}}
