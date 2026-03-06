@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: Rust Anonymous OneOf Model
+  version: 1.0.0
+paths:
+  /example:
+    patch:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                custom_fields_attributes:
+                  $ref: "#/components/schemas/custom_fields_attributes"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    custom_fields_attributes:
+      oneOf:
+        - type: object
+          additionalProperties:
+            type: object
+            properties:
+              id:
+                type:
+                  - integer
+                  - string
+              value:
+                type: string
+            required:
+              - id
+              - value
+        - type: array
+          items:
+            type: object
+            properties:
+              id:
+                type:
+                  - integer
+                  - string
+              value:
+                type: string
