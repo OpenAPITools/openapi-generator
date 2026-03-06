@@ -695,4 +695,30 @@ public class PythonClientCodegenTest {
         // Verify it does NOT use the legacy string format
         TestUtils.assertFileNotContains(pyprojectPath, "license = \"BSD-3-Clause\"");
     }
+
+    @Test(description = "Test anyOf with string and array types - issue #17754")
+    public void testAnyOfStringArrayTypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("python")
+            .setInputSpec("src/test/resources/3_0/issue_17754_anyof_string_array.yaml")
+            .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // The anyOf creates an inline model - check that model
+        Path valueModelPath = Paths.get(output.getAbsolutePath(), "openapi_client", "models", "key_value_pair_value.py");
+        TestUtils.assertFileExists(valueModelPath);
+
+        String content = Files.readAllLines(valueModelPath).stream().collect(Collectors.joining("\n"));
+
+        // The anyOf schemas should contain Python types (str, List[str]) not OpenAPI types (string, array)
+        // Check that ANY_OF_SCHEMAS contains "List[str]" and "str"
+        Assert.assertTrue(content.contains("KEYVALUEPAIRVALUE_ANY_OF_SCHEMAS = [\"List[str]\", \"str\"]"),
+            "Expected anyOf schemas to contain Python types: List[str], str");
+    }
 }

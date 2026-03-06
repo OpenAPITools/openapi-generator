@@ -829,6 +829,63 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         return GeneratorLanguage.PYTHON;
     }
 
+    private String toPythonType(String openApiType) {
+        if (openApiType == null) {
+            return "Any";
+        }
+        if (openApiType.startsWith("array[")) {
+            String innerType = openApiType.substring(6, openApiType.length() - 1);
+            return "List[" + toPythonType(innerType) + "]";
+        }
+        if (openApiType.startsWith("map[")) {
+            String innerType = openApiType.substring(4, openApiType.length() - 1);
+            return "Dict[" + innerType + "]";
+        }
+        switch (openApiType) {
+            case "string":
+                return "str";
+            case "array":
+                return "List";
+            case "object":
+                return "Dict";
+            case "number":
+                return "float";
+            case "integer":
+                return "int";
+            case "boolean":
+                return "bool";
+            case "binary":
+                return "bytes";
+            default:
+                return openApiType;
+        }
+    }
+
+    /**
+     * Post-process the codegen models to convert OpenAPI types to Python types in anyOf/oneOf.
+     */
+    @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel model = mo.getModel();
+            if (model.anyOf != null && !model.anyOf.isEmpty()) {
+                Set<String> pythonTypes = new LinkedHashSet<>();
+                for (String type : model.anyOf) {
+                    pythonTypes.add(toPythonType(type));
+                }
+                model.anyOf = pythonTypes;
+            }
+            if (model.oneOf != null && !model.oneOf.isEmpty()) {
+                Set<String> pythonTypes = new LinkedHashSet<>();
+                for (String type : model.oneOf) {
+                    pythonTypes.add(toPythonType(type));
+                }
+                model.oneOf = pythonTypes;
+            }
+        }
+        return postProcessModelsEnum(objs);
+    }
+
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
@@ -1387,12 +1444,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         return pattern;
-    }
-
-    @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
     }
 
     @Override
