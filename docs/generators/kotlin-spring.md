@@ -59,9 +59,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
 |useFeignClientUrl|Whether to generate Feign client with url parameter.| |true|
 |useFlowForArrayReturnType|Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.| |true|
+|useJackson3|Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Incompatible with `openApiNullable`.| |false|
 |useResponseEntity|Whether (when false) to return actual type (e.g. List&lt;Fruit&gt;) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity&lt;List&lt;Fruit&gt;&gt;). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition| |true|
 |useSealedResponseInterfaces|Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |false|
+|useSpringBoot4|Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|Whether to use tags for creating interface and controller class names| |false|
 |xKotlinImplementsFieldsSkip|A list of fields per schema name that should NOT be created with `override` keyword despite their presence in vendor extension `x-kotlin-implements-fields` for the schema. Example: yaml `xKotlinImplementsFieldsSkip: Pet: [photoUrls]` skips `override` for `photoUrls` in schema `Pet`| |empty map|
