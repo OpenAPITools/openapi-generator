@@ -1,4 +1,3 @@
-README.md
 pom.xml
 src/main/java/org/openapitools/api/AnotherFakeApi.java
 src/main/java/org/openapitools/api/FakeApi.java

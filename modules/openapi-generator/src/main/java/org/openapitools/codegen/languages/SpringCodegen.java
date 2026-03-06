@@ -104,6 +104,11 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String USE_DEDUCTION_FOR_ONE_OF_INTERFACES = "useDeductionForOneOfInterfaces";
     public static final String SPRING_API_VERSION = "springApiVersion";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
+    public static final String ADDITIONAL_NOT_NULL_ANNOTATIONS = "additionalNotNullAnnotations";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
     @Getter
@@ -175,6 +180,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useSpringBuiltInValidation = false;
     @Getter @Setter
     protected boolean useDeductionForOneOfInterfaces = false;
+    @Getter @Setter
+    protected boolean useJackson3 = false;
+    @Getter @Setter
+    protected boolean additionalNotNullAnnotations = false;
     @Getter @Setter
     protected String clientRegistrationId = null;
 
