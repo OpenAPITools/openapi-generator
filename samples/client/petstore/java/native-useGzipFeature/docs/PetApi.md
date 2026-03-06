@@ -82,7 +82,7 @@ public class Example {
 
 ## addPetWithHttpInfo
 
-> ApiResponse<Pet> addPet addPetWithHttpInfo(pet)
+> ApiResponse<Pet> addPetWithHttpInfo(pet)
 
 Add a new pet to the store
 
