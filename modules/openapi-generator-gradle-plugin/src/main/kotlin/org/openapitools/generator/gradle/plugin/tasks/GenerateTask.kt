@@ -16,35 +16,245 @@
 
 package org.openapitools.generator.gradle.plugin.tasks
 
-import javax.inject.Inject
+import org.gradle.api.Action
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.Project
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
-import org.gradle.api.model.ObjectFactory
+import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.logging.Logging
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.CacheableTask
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Internal
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.gradle.api.tasks.options.Option
-import org.gradle.internal.logging.text.StyledTextOutput
-import org.gradle.internal.logging.text.StyledTextOutputFactory
-import org.gradle.kotlin.dsl.listProperty
-import org.gradle.kotlin.dsl.mapProperty
-import org.gradle.kotlin.dsl.property
-import org.gradle.util.GradleVersion
+import org.gradle.workers.WorkAction
+import org.gradle.workers.WorkParameters
+import org.gradle.workers.WorkerExecutor
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
 import org.openapitools.codegen.config.MergedSpecBuilder
+import org.openapitools.generator.gradle.plugin.utils.isRemoteUri
+import java.io.File
+import javax.inject.Inject
+
+// =========================================================================================
+// 1. WORKER API PARAMETERS
+// Defines the data that safely crosses the ClassLoader boundary.
+// =========================================================================================
+interface OpenApiWorkParameters : WorkParameters {
+    val resolvedInputSpec: Property<String>
+    val outputDir: DirectoryProperty
+    val configFile: RegularFileProperty
+    val verbose: Property<Boolean>
+    val validateSpec: Property<Boolean>
+    val generatorName: Property<String>
+    val auth: Property<String>
+    val templateDir: DirectoryProperty
+    val templateResourcePath: Property<String>
+    val packageName: Property<String>
+    val apiPackage: Property<String>
+    val modelPackage: Property<String>
+    val modelNamePrefix: Property<String>
+    val modelNameSuffix: Property<String>
+    val apiNameSuffix: Property<String>
+    val invokerPackage: Property<String>
+    val groupId: Property<String>
+    val id: Property<String>
+    val version: Property<String>
+    val library: Property<String>
+    val gitHost: Property<String>
+    val gitUserId: Property<String>
+    val gitRepoId: Property<String>
+    val releaseNote: Property<String>
+    val httpUserAgent: Property<String>
+    val ignoreFileOverride: RegularFileProperty
+    val removeOperationIdPrefix: Property<Boolean>
+    val skipOperationExample: Property<Boolean>
+    val skipOverwrite: Property<Boolean>
+    val logToStderr: Property<Boolean>
+    val enablePostProcessFile: Property<Boolean>
+    val skipValidateSpec: Property<Boolean>
+    val generateAliasAsModel: Property<Boolean>
+    val engine: Property<String>
+    val dryRun: Property<Boolean>
+
+    val globalProperties: MapProperty<String, String>
+    val instantiationTypes: MapProperty<String, String>
+    val importMappings: MapProperty<String, String>
+    val schemaMappings: MapProperty<String, String>
+    val inlineSchemaNameMappings: MapProperty<String, String>
+    val inlineSchemaOptions: MapProperty<String, String>
+    val nameMappings: MapProperty<String, String>
+    val parameterNameMappings: MapProperty<String, String>
+    val modelNameMappings: MapProperty<String, String>
+    val enumNameMappings: MapProperty<String, String>
+    val operationIdNameMappings: MapProperty<String, String>
+    val openapiNormalizer: MapProperty<String, String>
+    val typeMappings: MapProperty<String, String>
+    val additionalProperties: MapProperty<String, Any>
+    val serverVariables: MapProperty<String, String>
+    val reservedWordsMappings: MapProperty<String, String>
+    val configOptions: MapProperty<String, String>
+
+    val languageSpecificPrimitives: ListProperty<String>
+    val openapiGeneratorIgnoreList: ListProperty<String>
+
+    val supportingFilesConstrainedTo: ListProperty<String>
+    val modelFilesConstrainedTo: ListProperty<String>
+    val apiFilesConstrainedTo: ListProperty<String>
+    val generateModelTests: Property<Boolean>
+    val generateModelDocumentation: Property<Boolean>
+    val generateApiTests: Property<Boolean>
+    val generateApiDocumentation: Property<Boolean>
+}
+
+
+// =========================================================================================
+// 2. WORKER API ACTION
+// Executes the actual code generation in an isolated ClassLoader to protect GlobalSettings.
+// =========================================================================================
+abstract class OpenApiWorkAction : WorkAction<OpenApiWorkParameters> {
+
+    private val logger = Logging.getLogger(OpenApiWorkAction::class.java)
+
+    override fun execute() {
+        val params = parameters
+
+        val configurator = if (params.configFile.isPresent) {
+            CodegenConfigurator.fromFile(params.configFile.get().asFile.absolutePath)
+        } else {
+            CodegenConfigurator()
+        }
+
+        try {
+            // Apply Global Settings
+            if (params.supportingFilesConstrainedTo.orNull?.isNotEmpty() == true) {
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, params.supportingFilesConstrainedTo.get().joinToString(","))
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
+            }
+
+            if (params.modelFilesConstrainedTo.orNull?.isNotEmpty() == true) {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, params.modelFilesConstrainedTo.get().joinToString(","))
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS)
+            }
+
+            if (params.apiFilesConstrainedTo.orNull?.isNotEmpty() == true) {
+                GlobalSettings.setProperty(CodegenConstants.APIS, params.apiFilesConstrainedTo.get().joinToString(","))
+            } else {
+                GlobalSettings.clearProperty(CodegenConstants.APIS)
+            }
+
+            params.generateApiDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_DOCS, it.toString()) }
+            params.generateModelDocumentation.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, it.toString()) }
+            params.generateModelTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, it.toString()) }
+            params.generateApiTests.orNull?.let { GlobalSettings.setProperty(CodegenConstants.API_TESTS, it.toString()) }
+
+            // Apply Configurator Settings
+            params.resolvedInputSpec.orNull?.let { configurator.setInputSpec(it) }
+            params.outputDir.orNull?.let { configurator.setOutputDir(it.asFile.absolutePath) }
+            params.verbose.orNull?.let { configurator.setVerbose(it) }
+            params.validateSpec.orNull?.let { configurator.setValidateSpec(it) }
+            params.skipOverwrite.orNull?.let { configurator.setSkipOverwrite(it) }
+            params.generatorName.orNull?.let { configurator.setGeneratorName(it) }
+            params.auth.orNull?.let { configurator.setAuth(it) }
+
+            params.templateDir.orNull?.let { configurator.setTemplateDir(it.asFile.absolutePath) }
+            params.templateResourcePath.orNull?.let {
+                if (params.templateDir.isPresent) logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
+                configurator.setTemplateDir(it)
+            }
+
+            params.packageName.orNull?.let { configurator.setPackageName(it) }
+            params.apiPackage.orNull?.let { configurator.setApiPackage(it) }
+            params.modelPackage.orNull?.let { configurator.setModelPackage(it) }
+            params.modelNamePrefix.orNull?.let { configurator.setModelNamePrefix(it) }
+            params.modelNameSuffix.orNull?.let { configurator.setModelNameSuffix(it) }
+            params.apiNameSuffix.orNull?.let { configurator.setApiNameSuffix(it) }
+            params.invokerPackage.orNull?.let { configurator.setInvokerPackage(it) }
+            params.groupId.orNull?.let { configurator.setGroupId(it) }
+            params.id.orNull?.let { configurator.setArtifactId(it) }
+            params.version.orNull?.let { configurator.setArtifactVersion(it) }
+            params.library.orNull?.let { configurator.setLibrary(it) }
+            params.gitHost.orNull?.let { configurator.setGitHost(it) }
+            params.gitUserId.orNull?.let { configurator.setGitUserId(it) }
+            params.gitRepoId.orNull?.let { configurator.setGitRepoId(it) }
+            params.releaseNote.orNull?.let { configurator.setReleaseNote(it) }
+            params.httpUserAgent.orNull?.let { configurator.setHttpUserAgent(it) }
+            params.ignoreFileOverride.orNull?.let { configurator.setIgnoreFileOverride(it.asFile.absolutePath) }
+            params.removeOperationIdPrefix.orNull?.let { configurator.setRemoveOperationIdPrefix(it) }
+            params.skipOperationExample.orNull?.let { configurator.setSkipOperationExample(it) }
+            params.logToStderr.orNull?.let { configurator.setLogToStderr(it) }
+            params.enablePostProcessFile.orNull?.let { configurator.setEnablePostProcessFile(it) }
+            params.skipValidateSpec.orNull?.let { configurator.setValidateSpec(!it) }
+            params.generateAliasAsModel.orNull?.let { configurator.setGenerateAliasAsModel(it) }
+
+            params.engine.orNull?.let {
+                if ("handlebars".equals(it, ignoreCase = true)) configurator.setTemplatingEngineName("handlebars")
+                else configurator.setTemplatingEngineName(it)
+            }
+
+            // Maps and Lists
+            params.globalProperties.orNull?.forEach { (k, v) -> configurator.addGlobalProperty(k, v) }
+            params.instantiationTypes.orNull?.forEach { (k, v) -> configurator.addInstantiationType(k, v) }
+            params.importMappings.orNull?.forEach { (k, v) -> configurator.addImportMapping(k, v) }
+            params.schemaMappings.orNull?.forEach { (k, v) -> configurator.addSchemaMapping(k, v) }
+            params.inlineSchemaNameMappings.orNull?.forEach { (k, v) -> configurator.addInlineSchemaNameMapping(k, v) }
+            params.inlineSchemaOptions.orNull?.forEach { (k, v) -> configurator.addInlineSchemaOption(k, v) }
+            params.nameMappings.orNull?.forEach { (k, v) -> configurator.addNameMapping(k, v) }
+            params.parameterNameMappings.orNull?.forEach { (k, v) -> configurator.addParameterNameMapping(k, v) }
+            params.modelNameMappings.orNull?.forEach { (k, v) -> configurator.addModelNameMapping(k, v) }
+            params.enumNameMappings.orNull?.forEach { (k, v) -> configurator.addEnumNameMapping(k, v) }
+            params.operationIdNameMappings.orNull?.forEach { (k, v) -> configurator.addOperationIdNameMapping(k, v) }
+            params.openapiNormalizer.orNull?.forEach { (k, v) -> configurator.addOpenapiNormalizer(k, v) }
+            params.typeMappings.orNull?.forEach { (k, v) -> configurator.addTypeMapping(k, v) }
+            params.additionalProperties.orNull?.forEach { (k, v) -> configurator.addAdditionalProperty(k, v) }
+            params.serverVariables.orNull?.forEach { (k, v) -> configurator.addServerVariable(k, v) }
+            params.reservedWordsMappings.orNull?.forEach { (k, v) -> configurator.addAdditionalReservedWordMapping(k, v) }
+
+            params.languageSpecificPrimitives.orNull?.forEach { configurator.addLanguageSpecificPrimitive(it) }
+            params.openapiGeneratorIgnoreList.orNull?.forEach { configurator.addOpenapiGeneratorIgnoreList(it) }
+
+            val clientOptInput = configurator.toClientOptInput()
+            val codegenConfig = clientOptInput.config
+
+            params.configOptions.orNull?.let { userOptions ->
+                codegenConfig.cliOptions().forEach {
+                    if (userOptions.containsKey(it.opt)) {
+                        clientOptInput.config.additionalProperties()[it.opt] = userOptions[it.opt]
+                    }
+                }
+            }
+
+            // Run Generator
+            val isDryRun = params.dryRun.getOrElse(false)
+            DefaultGenerator(isDryRun).opts(clientOptInput).generate()
+
+            params.outputDir.orNull?.let { dir ->
+                logger.lifecycle("Successfully generated code to ${dir.asFile.absolutePath}")
+            }
+
+        } catch (e: Exception) {
+            // Gradle's Worker API hides nested exception messages by default.
+            // We append the original error message to the top-level GradleException
+            // so it prints clearly in the console without needing --stacktrace.
+            val errorMessage = e.message ?: e.javaClass.simpleName
+
+            // Optional: You can also log it explicitly to the error channel
+            logger.error("OpenAPI code generation failed: $errorMessage", e)
+
+            throw GradleException("OpenAPI code generation failed: $errorMessage", e)
+        } finally {
+            // Clean up static state in this isolated ClassLoader
+            GlobalSettings.reset()
+        }
+    }
+}
 
 /**
  * A task which generates the desired code.
@@ -55,29 +265,43 @@ import org.openapitools.codegen.config.MergedSpecBuilder
  *
  * @author Jim Schubert
  */
+
+// =========================================================================================
+// 3. GRADLE TASK
+// Handles Gradle inputs/outputs, up-to-date checks, and submits work to the Worker API.
+// =========================================================================================
 @CacheableTask
-open class GenerateTask @Inject constructor(private val objectFactory: ObjectFactory) : DefaultTask() {
+abstract class GenerateTask : DefaultTask() {
+
+    @get:Inject
+    abstract val workerExecutor: WorkerExecutor
+
+    @get:Inject
+    abstract val fs: FileSystemOperations
+
+    @get:Inject
+    abstract val layout: ProjectLayout
 
     /**
      * The verbosity of generation
      */
     @get:Optional
     @get:Input
-    val verbose = project.objects.property<Boolean>()
+    abstract val verbose: Property<Boolean>
 
     /**
      * Whether an input specification should be validated upon generation.
      */
     @get:Optional
     @get:Input
-    val validateSpec = project.objects.property<Boolean>()
+    abstract val validateSpec: Property<Boolean>
 
     /**
      * The name of the generator which will handle codegen. (see "openApiGenerators" task)
      */
     @get:Optional
     @get:Input
-    val generatorName = project.objects.property<String>()
+    abstract val generatorName: Property<String>
 
     /**
      * This is the configuration for reference paths where schemas for openapi generation are stored
@@ -86,22 +310,26 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.ABSOLUTE)
-    val schemaLocation = project.objects.property<String>()
+    abstract val schemaLocation: DirectoryProperty
 
     /**
      * The output target directory into which code will be generated.
      */
     @get:Optional
     @get:OutputDirectory
-    val outputDir = project.objects.property<String>()
+    abstract val outputDir: DirectoryProperty
 
     @Suppress("unused")
-    @set:Option(option = "input", description = "The input specification.")
-    @get:Internal
-    var input: String? = null
-        set(value) {
-            inputSpec.set(value)
+    @Option(option = "input", description = "The input specification (local path or URL/URI).")
+    fun setInput(value: String) {
+        if (value.isNotEmpty()) {
+            if (value.isRemoteUri()) {
+                remoteInputSpec.set(value)
+            } else {
+                inputSpec.set(layout.projectDirectory.file(value))
+            }
         }
+    }
 
     /**
      * The Open API 2.0/3.x specification location.
@@ -113,7 +341,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpec = project.objects.property<String>()
+    abstract val inputSpec: RegularFileProperty
 
     /**
      * Local root folder with spec files.
@@ -124,28 +352,28 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val inputSpecRootDirectory = project.objects.property<String>();
+    abstract val inputSpecRootDirectory: DirectoryProperty
 
     /**
      * Skip bundling all spec files into a merged spec file, if true.
      */
     @get:Input
     @get:Optional
-    val inputSpecRootDirectorySkipMerge = project.objects.property<Boolean>()
+    abstract val inputSpecRootDirectorySkipMerge: Property<Boolean>
 
     /**
      * Name of the file that will contain all merged specs
      */
     @get:Input
     @get:Optional
-    val mergedFileName = project.objects.property<String>();
+    abstract val mergedFileName: Property<String>
 
     /**
      * The remote Open API 2.0/3.x specification URL location.
      */
     @get:Input
     @get:Optional
-    val remoteInputSpec = project.objects.property<String>()
+    abstract val remoteInputSpec: Property<String>
 
     /**
      * The template directory holding a custom template.
@@ -153,14 +381,14 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val templateDir = project.objects.property<String>()
+    abstract val templateDir: DirectoryProperty
 
     /**
      * Resource path containing template files.
      */
     @get:Optional
     @get:Input
-    val templateResourcePath = project.objects.property<String>()
+    abstract val templateResourcePath: Property<String>
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
@@ -168,14 +396,14 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val auth = project.objects.property<String>()
+    abstract val auth: Property<String>
 
     /**
      * Sets specified global properties.
      */
     @get:Optional
     @get:Input
-    val globalProperties = project.objects.mapProperty<String, String>()
+    abstract val globalProperties: MapProperty<String, String>
 
     /**
      * Path to json configuration file.
@@ -185,70 +413,70 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val configFile = project.objects.property<String>()
+    abstract val configFile: RegularFileProperty
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
      */
     @get:Optional
     @get:Input
-    val skipOverwrite = project.objects.property<Boolean>()
+    abstract val skipOverwrite: Property<Boolean>
 
     /**
      * Package for generated classes (where supported)
      */
     @get:Optional
     @get:Input
-    val packageName = project.objects.property<String>()
+    abstract val packageName: Property<String>
 
     /**
      * Package for generated api classes
      */
     @get:Optional
     @get:Input
-    val apiPackage = project.objects.property<String>()
+    abstract val apiPackage: Property<String>
 
     /**
      * Package for generated models
      */
     @get:Optional
     @get:Input
-    val modelPackage = project.objects.property<String>()
+    abstract val modelPackage: Property<String>
 
     /**
      * Prefix that will be prepended to all model names. Default is the empty string.
      */
     @get:Optional
     @get:Input
-    val modelNamePrefix = project.objects.property<String>()
+    abstract val modelNamePrefix: Property<String>
 
     /**
      * Suffix that will be appended to all model names. Default is the empty string.
      */
     @get:Optional
     @get:Input
-    val modelNameSuffix = project.objects.property<String>()
+    abstract val modelNameSuffix: Property<String>
 
     /**
      * Suffix that will be appended to all api names. Default is the empty string.
      */
     @get:Optional
     @get:Input
-    val apiNameSuffix = project.objects.property<String>()
+    abstract val apiNameSuffix: Property<String>
 
     /**
      * Sets instantiation type mappings.
      */
     @get:Optional
     @get:Input
-    val instantiationTypes = project.objects.mapProperty<String, String>()
+    abstract val instantiationTypes: MapProperty<String, String>
 
     /**
      * Sets mappings between OpenAPI spec types and generated code types.
      */
     @get:Optional
     @get:Input
-    val typeMappings = project.objects.mapProperty<String, String>()
+    abstract val typeMappings: MapProperty<String, String>
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
@@ -256,7 +484,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val additionalProperties = project.objects.mapProperty<String, Any>()
+    abstract val additionalProperties: MapProperty<String, Any>
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
@@ -264,168 +492,168 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val serverVariables = project.objects.mapProperty<String, String>()
+    abstract val serverVariables: MapProperty<String, String>
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
      */
     @get:Optional
     @get:Input
-    val languageSpecificPrimitives = project.objects.listProperty<String>()
+    abstract val languageSpecificPrimitives: ListProperty<String>
 
     /**
      * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
      */
     @get:Optional
     @get:Input
-    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+    abstract val openapiGeneratorIgnoreList: ListProperty<String>
 
     /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @get:Optional
     @get:Input
-    val importMappings = project.objects.mapProperty<String, String>()
+    abstract val importMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between a given schema and the new one.
      */
     @get:Optional
     @get:Input
-    val schemaMappings = project.objects.mapProperty<String, String>()
+    abstract val schemaMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between the inline scheme name and the new name
      */
     @get:Optional
     @get:Input
-    val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
+    abstract val inlineSchemaNameMappings: MapProperty<String, String>
 
     /**
      * Specifies options for inline schemas
      */
     @get:Optional
     @get:Input
-    val inlineSchemaOptions = project.objects.mapProperty<String, String>()
+    abstract val inlineSchemaOptions: MapProperty<String, String>
 
     /**
      * Specifies mappings between the property name and the new name
      */
     @get:Optional
     @get:Input
-    val nameMappings = project.objects.mapProperty<String, String>()
+    abstract val nameMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between the parameter name and the new name
      */
     @get:Optional
     @get:Input
-    val parameterNameMappings = project.objects.mapProperty<String, String>()
+    abstract val parameterNameMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between the model name and the new name
      */
     @get:Optional
     @get:Input
-    val modelNameMappings = project.objects.mapProperty<String, String>()
+    abstract val modelNameMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between the enum name and the new name
      */
     @get:Optional
     @get:Input
-    val enumNameMappings = project.objects.mapProperty<String, String>()
+    abstract val enumNameMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings between the operation id name and the new name
      */
     @get:Optional
     @get:Input
-    val operationIdNameMappings = project.objects.mapProperty<String, String>()
+    abstract val operationIdNameMappings: MapProperty<String, String>
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     @get:Optional
     @get:Input
-    val openapiNormalizer = project.objects.mapProperty<String, String>()
+    abstract val openapiNormalizer: MapProperty<String, String>
 
     /**
      * Root package for generated code.
      */
     @get:Optional
     @get:Input
-    val invokerPackage = project.objects.property<String>()
+    abstract val invokerPackage: Property<String>
 
     /**
      * GroupId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @get:Optional
     @get:Input
-    val groupId = project.objects.property<String>()
+    abstract val groupId: Property<String>
 
     /**
      * ArtifactId in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @get:Optional
     @get:Input
-    val id = project.objects.property<String>()
+    abstract val id: Property<String>
 
     /**
      * Artifact version in generated pom.xml/build.gradle.kts or other build script. Language-specific conversions occur in non-jvm generators.
      */
     @get:Optional
     @get:Input
-    val version = project.objects.property<String>()
+    abstract val version: Property<String>
 
     /**
      * Reference the library template (sub-template) of a generator.
      */
     @get:Optional
     @get:Input
-    val library = project.objects.property<String>()
+    abstract val library: Property<String>
 
     /**
      * Git host, e.g. gitlab.com.
      */
     @get:Optional
     @get:Input
-    val gitHost = project.objects.property<String>()
+    abstract val gitHost: Property<String>
 
     /**
      * Git user ID, e.g. openapitools.
      */
     @get:Optional
     @get:Input
-    val gitUserId = project.objects.property<String>()
+    abstract val gitUserId: Property<String>
 
     /**
      * Git repo ID, e.g. openapi-generator.
      */
     @get:Optional
     @get:Input
-    val gitRepoId = project.objects.property<String>()
+    abstract val gitRepoId: Property<String>
 
     /**
      * Release note, default to 'Minor update'.
      */
     @get:Optional
     @get:Input
-    val releaseNote = project.objects.property<String>()
+    abstract val releaseNote: Property<String>
 
     /**
      * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     @get:Optional
     @get:Input
-    val httpUserAgent = project.objects.property<String>()
+    abstract val httpUserAgent: Property<String>
 
     /**
      * Specifies how a reserved name should be escaped to.
      */
     @get:Optional
     @get:Input
-    val reservedWordsMappings = project.objects.mapProperty<String, String>()
+    abstract val reservedWordsMappings: MapProperty<String, String>
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
@@ -433,21 +661,21 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @get:Optional
     @get:InputFile
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val ignoreFileOverride = project.objects.property<String>()
+    abstract val ignoreFileOverride: RegularFileProperty
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
      */
     @get:Optional
     @get:Input
-    val removeOperationIdPrefix = project.objects.property<Boolean>()
+    abstract val removeOperationIdPrefix: Property<Boolean>
 
     /**
      * Remove examples defined in the operation
      */
     @get:Optional
     @get:Input
-    val skipOperationExample = project.objects.property<Boolean>()
+    abstract val skipOperationExample: Property<Boolean>
 
     /**
      * Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -460,7 +688,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val apiFilesConstrainedTo = project.objects.listProperty<String>()
+    abstract val apiFilesConstrainedTo: ListProperty<String>
 
     /**
      * Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -471,7 +699,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val modelFilesConstrainedTo = project.objects.listProperty<String>()
+    abstract val modelFilesConstrainedTo: ListProperty<String>
 
     /**
      * Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all).
@@ -485,7 +713,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val supportingFilesConstrainedTo = project.objects.listProperty<String>()
+    abstract val supportingFilesConstrainedTo: ListProperty<String>
 
     /**
      * Defines whether model-related _test_ files should be generated.
@@ -497,7 +725,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val generateModelTests = project.objects.property<Boolean>()
+    abstract val generateModelTests: Property<Boolean>
 
     /**
      * Defines whether model-related _documentation_ files should be generated.
@@ -509,7 +737,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val generateModelDocumentation = project.objects.property<Boolean>()
+    abstract val generateModelDocumentation: Property<Boolean>
 
     /**
      * Defines whether api-related _test_ files should be generated.
@@ -521,7 +749,7 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val generateApiTests = project.objects.property<Boolean>()
+    abstract val generateApiTests: Property<Boolean>
 
     /**
      * Defines whether api-related _documentation_ files should be generated.
@@ -533,14 +761,14 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val generateApiDocumentation = project.objects.property<Boolean>()
+    abstract val generateApiDocumentation: Property<Boolean>
 
     /**
      * To write all log messages (not just errors) to STDOUT
      */
     @get:Optional
     @get:Input
-    val logToStderr = project.objects.property<Boolean>()
+    abstract val logToStderr: Property<Boolean>
 
     /**
      * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
@@ -550,14 +778,14 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val enablePostProcessFile = project.objects.property<Boolean>()
+    abstract val enablePostProcessFile: Property<Boolean>
 
     /**
      * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
      */
     @get:Optional
     @get:Input
-    val skipValidateSpec = project.objects.property<Boolean>()
+    abstract val skipValidateSpec: Property<Boolean>
 
     /**
      * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
@@ -566,21 +794,21 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val generateAliasAsModel = project.objects.property<Boolean>()
+    abstract val generateAliasAsModel: Property<Boolean>
 
     /**
      * A dynamic map of options specific to a generator.
      */
     @get:Optional
     @get:Input
-    val configOptions = project.objects.mapProperty<String, String>()
+    abstract val configOptions: MapProperty<String, String>
 
     /**
      * Templating engine: "mustache" (default) or "handlebars" (beta)
      */
     @get:Optional
     @get:Input
-    val engine = project.objects.property<String>()
+    abstract val engine: Property<String>
 
     /**
      * Defines whether the output dir should be cleaned up before generating the output.
@@ -588,417 +816,225 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
      */
     @get:Optional
     @get:Input
-    val cleanupOutput = project.objects.property<Boolean>()
+    abstract val cleanupOutput: Property<Boolean>
 
     /**
      * Defines whether the generator should run in dry-run mode.
      */
     @get:Optional
     @get:Input
-    val dryRun = project.objects.property<Boolean>()
+    abstract val dryRun: Property<Boolean>
 
-    private fun <T> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
-        if (isPresent) {
-            when (val value = get()) {
-                is String -> if (value.isNotEmpty()) block(value)
-                else -> block(value)
-            }
-        }
-    }
-
-    protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
-
-    private fun createFileSystemManager(): FileSystemManager {
-        return if(GradleVersion.current() >= GradleVersion.version("6.0")) {
-            objectFactory.newInstance(FileSystemManagerDefault::class.java)
-        } else {
-            objectFactory.newInstance(FileSystemManagerLegacy::class.java, project)
-        }
+    init {
+        inputSpecRootDirectorySkipMerge.convention(false)
+        mergedFileName.convention("merged")
     }
 
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        var resolvedInputSpec = ""
+        var finalResolvedInputSpec = ""
 
-        inputSpec.ifNotEmpty { value ->
-            resolvedInputSpec = value
+        if (inputSpec.isPresent && remoteInputSpec.isPresent) {
+            logger.warn("Both inputSpec and remoteInputSpec are specified. The remoteInputSpec takes priority.")
         }
 
-        remoteInputSpec.ifNotEmpty { value ->
-            resolvedInputSpec = value
+        inputSpec.orNull?.let { finalResolvedInputSpec = it.asFile.absolutePath }
+
+        remoteInputSpec.orNull?.takeIf { it.isNotEmpty() }?.let {
+            finalResolvedInputSpec = it
+            logger.warn("Using remoteInputSpec may result in stale build caches if the remote content changes.")
         }
 
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
-            val skipMerge = inputSpecRootDirectorySkipMerge.get()
-            val runMergeSpec = !skipMerge
-            if (runMergeSpec) {
-                run {
-                    resolvedInputSpec = MergedSpecBuilder(
-                        inputSpecRootDirectoryValue,
-                        mergedFileName.getOrElse("merged")
-                    ).buildMergedSpec()
-                    logger.info("Merge input spec would be used - {}", resolvedInputSpec)
-                }
-            }
-        }
-
-        cleanupOutput.ifNotEmpty { cleanup ->
-            if (cleanup) {
-                createFileSystemManager().delete(outputDir)
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-                out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
+        inputSpecRootDirectory.orNull?.let { inputDir ->
+            if (!inputSpecRootDirectorySkipMerge.get()) {
+                finalResolvedInputSpec = MergedSpecBuilder(
+                    inputDir.asFile.absolutePath,
+                    mergedFileName.get()
+                ).buildMergedSpec()
+                logger.info("Merge input spec used: {}", finalResolvedInputSpec)
             }
         }
 
-        val configurator: CodegenConfigurator = if (configFile.isPresent) {
-            CodegenConfigurator.fromFile(configFile.get())
-        } else createDefaultCodegenConfigurator()
-
-        try {
-            if (globalProperties.isPresent) {
-                globalProperties.get().forEach { (key, value) ->
-                    configurator.addGlobalProperty(key, value)
-                }
+        cleanupOutput.orNull?.let { cleanup ->
+            if (cleanup && outputDir.isPresent) {
+                fs.delete { delete(outputDir) }
+                logger.lifecycle("Cleaned up output directory ${outputDir.get().asFile.path} before code generation.")
             }
+        }
 
-            if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(
-                    CodegenConstants.SUPPORTING_FILES,
-                    supportingFilesConstrainedTo.get().joinToString(",")
-                )
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES)
+// Submit generation logic to the isolated Worker API Queue
+        val workQueue = workerExecutor.classLoaderIsolation()
+
+        workQueue.submit(OpenApiWorkAction::class.java, object : Action<OpenApiWorkParameters> {
+            override fun execute(parameters: OpenApiWorkParameters) {
+                parameters.resolvedInputSpec.set(finalResolvedInputSpec)
+                parameters.outputDir.set(outputDir)
+                parameters.configFile.set(configFile)
+                parameters.verbose.set(verbose)
+                parameters.validateSpec.set(validateSpec)
+                parameters.generatorName.set(generatorName)
+                parameters.auth.set(auth)
+                parameters.templateDir.set(templateDir)
+                parameters.templateResourcePath.set(templateResourcePath)
+                parameters.packageName.set(packageName)
+                parameters.apiPackage.set(apiPackage)
+                parameters.modelPackage.set(modelPackage)
+                parameters.modelNamePrefix.set(modelNamePrefix)
+                parameters.modelNameSuffix.set(modelNameSuffix)
+                parameters.apiNameSuffix.set(apiNameSuffix)
+                parameters.invokerPackage.set(invokerPackage)
+                parameters.groupId.set(groupId)
+                parameters.id.set(id)
+                parameters.version.set(version)
+                parameters.library.set(library)
+                parameters.gitHost.set(gitHost)
+                parameters.gitUserId.set(gitUserId)
+                parameters.gitRepoId.set(gitRepoId)
+                parameters.releaseNote.set(releaseNote)
+                parameters.httpUserAgent.set(httpUserAgent)
+                parameters.ignoreFileOverride.set(ignoreFileOverride)
+                parameters.removeOperationIdPrefix.set(removeOperationIdPrefix)
+                parameters.skipOperationExample.set(skipOperationExample)
+                parameters.skipOverwrite.set(skipOverwrite)
+                parameters.logToStderr.set(logToStderr)
+                parameters.enablePostProcessFile.set(enablePostProcessFile)
+                parameters.skipValidateSpec.set(skipValidateSpec)
+                parameters.generateAliasAsModel.set(generateAliasAsModel)
+                parameters.engine.set(engine)
+                parameters.dryRun.set(dryRun)
+
+                parameters.globalProperties.set(globalProperties)
+                parameters.instantiationTypes.set(instantiationTypes)
+                parameters.importMappings.set(importMappings)
+                parameters.schemaMappings.set(schemaMappings)
+                parameters.inlineSchemaNameMappings.set(inlineSchemaNameMappings)
+                parameters.inlineSchemaOptions.set(inlineSchemaOptions)
+                parameters.nameMappings.set(nameMappings)
+                parameters.parameterNameMappings.set(parameterNameMappings)
+                parameters.modelNameMappings.set(modelNameMappings)
+                parameters.enumNameMappings.set(enumNameMappings)
+                parameters.operationIdNameMappings.set(operationIdNameMappings)
+                parameters.openapiNormalizer.set(openapiNormalizer)
+                parameters.typeMappings.set(typeMappings)
+                parameters.additionalProperties.set(additionalProperties)
+                parameters.serverVariables.set(serverVariables)
+                parameters.reservedWordsMappings.set(reservedWordsMappings)
+                parameters.configOptions.set(configOptions)
+
+                parameters.languageSpecificPrimitives.set(languageSpecificPrimitives)
+                parameters.openapiGeneratorIgnoreList.set(openapiGeneratorIgnoreList)
+                parameters.supportingFilesConstrainedTo.set(supportingFilesConstrainedTo)
+                parameters.modelFilesConstrainedTo.set(modelFilesConstrainedTo)
+                parameters.apiFilesConstrainedTo.set(apiFilesConstrainedTo)
+                parameters.generateModelTests.set(generateModelTests)
+                parameters.generateModelDocumentation.set(generateModelDocumentation)
+                parameters.generateApiTests.set(generateApiTests)
+                parameters.generateApiDocumentation.set(generateApiDocumentation)
             }
+        })
+    }
 
-            if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.MODELS)
-            }
+    // ========================================================================
+    // Kotlin DSL extension functions for property setters
+    // These allow Kotlin DSL users to call .set(String) on file/directory properties
+    // when configuring tasks directly (e.g., tasks.named<GenerateTask>("openApiGenerate") { ... })
+    // ========================================================================
 
-            if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                GlobalSettings.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
-            } else {
-                GlobalSettings.clearProperty(CodegenConstants.APIS)
-            }
-
-            if (generateApiDocumentation.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            }
-
-            if (generateModelDocumentation.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            }
-
-            if (generateModelTests.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            }
-
-            if (generateApiTests.isPresent) {
-                GlobalSettings.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            }
-
-            if (inputSpec.isPresent && remoteInputSpec.isPresent) {
-                logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
-            }
-
-            configurator.setInputSpec(resolvedInputSpec)
-
-            // now override with any specified parameters
-            verbose.ifNotEmpty { value ->
-                configurator.setVerbose(value)
-            }
-
-            validateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(value)
-            }
-
-            skipOverwrite.ifNotEmpty { value ->
-                configurator.setSkipOverwrite(value)
-            }
-
-            generatorName.ifNotEmpty { value ->
-                configurator.setGeneratorName(value)
-            }
-
-            outputDir.ifNotEmpty { value ->
-                configurator.setOutputDir(value)
-            }
-
-            auth.ifNotEmpty { value ->
-                configurator.setAuth(value)
-            }
-
-            templateDir.ifNotEmpty { value ->
-                configurator.setTemplateDir(value)
-            }
-
-            templateResourcePath.ifNotEmpty { value ->
-                templateDir.ifNotEmpty {
-                    logger.warn("Both templateDir and templateResourcePath were configured. templateResourcePath overwrites templateDir.")
-                }
-                configurator.setTemplateDir(value)
-            }
-
-            packageName.ifNotEmpty { value ->
-                configurator.setPackageName(value)
-            }
-
-            apiPackage.ifNotEmpty { value ->
-                configurator.setApiPackage(value)
-            }
-
-            modelPackage.ifNotEmpty { value ->
-                configurator.setModelPackage(value)
-            }
-
-            modelNamePrefix.ifNotEmpty { value ->
-                configurator.setModelNamePrefix(value)
-            }
-
-            modelNameSuffix.ifNotEmpty { value ->
-                configurator.setModelNameSuffix(value)
-            }
-
-            apiNameSuffix.ifNotEmpty { value ->
-                configurator.setApiNameSuffix(value)
-            }
-
-            invokerPackage.ifNotEmpty { value ->
-                configurator.setInvokerPackage(value)
-            }
-
-            groupId.ifNotEmpty { value ->
-                configurator.setGroupId(value)
-            }
-
-            id.ifNotEmpty { value ->
-                configurator.setArtifactId(value)
-            }
-
-            version.ifNotEmpty { value ->
-                configurator.setArtifactVersion(value)
-            }
-
-            library.ifNotEmpty { value ->
-                configurator.setLibrary(value)
-            }
-
-            gitHost.ifNotEmpty { value ->
-                configurator.setGitHost(value)
-            }
-
-            gitUserId.ifNotEmpty { value ->
-                configurator.setGitUserId(value)
-            }
-
-            gitRepoId.ifNotEmpty { value ->
-                configurator.setGitRepoId(value)
-            }
-
-            releaseNote.ifNotEmpty { value ->
-                configurator.setReleaseNote(value)
-            }
-
-            httpUserAgent.ifNotEmpty { value ->
-                configurator.setHttpUserAgent(value)
-            }
-
-            ignoreFileOverride.ifNotEmpty { value ->
-                configurator.setIgnoreFileOverride(value)
-            }
-
-            removeOperationIdPrefix.ifNotEmpty { value ->
-                configurator.setRemoveOperationIdPrefix(value)
-            }
-
-            skipOperationExample.ifNotEmpty { value ->
-                configurator.setSkipOperationExample(value)
-            }
-
-            logToStderr.ifNotEmpty { value ->
-                configurator.setLogToStderr(value)
-            }
-
-            enablePostProcessFile.ifNotEmpty { value ->
-                configurator.setEnablePostProcessFile(value)
-            }
-
-            skipValidateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(!value)
-            }
-
-            generateAliasAsModel.ifNotEmpty { value ->
-                configurator.setGenerateAliasAsModel(value)
-            }
-
-            engine.ifNotEmpty { value ->
-                if ("handlebars".equals(value, ignoreCase = true)) {
-                    configurator.setTemplatingEngineName("handlebars")
+    /**
+     * Extension function to allow setting file properties with a String path in Kotlin DSL.
+     * Example: inputSpec.set("$rootDir/api.yaml")
+     */
+    fun RegularFileProperty.set(path: String) {
+        when (this) {
+            inputSpec -> {
+                if (path.isRemoteUri()) {
+                    remoteInputSpec.set(path)
                 } else {
-                    configurator.setTemplatingEngineName(value)
+                    this.set(layout.projectDirectory.file(path))
                 }
             }
-
-            if (globalProperties.isPresent) {
-                globalProperties.get().forEach { entry ->
-                    configurator.addGlobalProperty(entry.key, entry.value)
-                }
+            configFile, ignoreFileOverride -> {
+                this.set(layout.projectDirectory.file(path))
             }
-
-            if (instantiationTypes.isPresent) {
-                instantiationTypes.get().forEach { entry ->
-                    configurator.addInstantiationType(entry.key, entry.value)
-                }
+            else -> {
+                // Fallback for any other RegularFileProperty
+                this.set(layout.projectDirectory.file(path))
             }
-
-            if (importMappings.isPresent) {
-                importMappings.get().forEach { entry ->
-                    configurator.addImportMapping(entry.key, entry.value)
-                }
-            }
-
-            if (schemaMappings.isPresent) {
-                schemaMappings.get().forEach { entry ->
-                    configurator.addSchemaMapping(entry.key, entry.value)
-                }
-            }
-
-            if (inlineSchemaNameMappings.isPresent) {
-                inlineSchemaNameMappings.get().forEach { entry ->
-                    configurator.addInlineSchemaNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (inlineSchemaOptions.isPresent) {
-                inlineSchemaOptions.get().forEach { entry ->
-                    configurator.addInlineSchemaOption(entry.key, entry.value)
-                }
-            }
-
-            if (nameMappings.isPresent) {
-                nameMappings.get().forEach { entry ->
-                    configurator.addNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (parameterNameMappings.isPresent) {
-                parameterNameMappings.get().forEach { entry ->
-                    configurator.addParameterNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (modelNameMappings.isPresent) {
-                modelNameMappings.get().forEach { entry ->
-                    configurator.addModelNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (enumNameMappings.isPresent) {
-                enumNameMappings.get().forEach { entry ->
-                    configurator.addEnumNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (operationIdNameMappings.isPresent) {
-                operationIdNameMappings.get().forEach { entry ->
-                    configurator.addOperationIdNameMapping(entry.key, entry.value)
-                }
-            }
-
-            if (openapiNormalizer.isPresent) {
-                openapiNormalizer.get().forEach { entry ->
-                    configurator.addOpenapiNormalizer(entry.key, entry.value)
-                }
-            }
-
-            if (typeMappings.isPresent) {
-                typeMappings.get().forEach { entry ->
-                    configurator.addTypeMapping(entry.key, entry.value)
-                }
-            }
-
-            if (additionalProperties.isPresent) {
-                additionalProperties.get().forEach { entry ->
-                    configurator.addAdditionalProperty(entry.key, entry.value)
-                }
-            }
-
-            if (serverVariables.isPresent) {
-                serverVariables.get().forEach { entry ->
-                    configurator.addServerVariable(entry.key, entry.value)
-                }
-            }
-
-            if (languageSpecificPrimitives.isPresent) {
-                languageSpecificPrimitives.get().forEach {
-                    configurator.addLanguageSpecificPrimitive(it)
-                }
-            }
-
-            if (openapiGeneratorIgnoreList.isPresent) {
-                openapiGeneratorIgnoreList.get().forEach {
-                    configurator.addOpenapiGeneratorIgnoreList(it)
-                }
-            }
-
-            if (reservedWordsMappings.isPresent) {
-                reservedWordsMappings.get().forEach { entry ->
-                    configurator.addAdditionalReservedWordMapping(entry.key, entry.value)
-                }
-            }
-
-            var dryRunSetting = false
-            dryRun.ifNotEmpty { setting ->
-                dryRunSetting = setting
-            }
-
-            val clientOptInput = configurator.toClientOptInput()
-            val codegenConfig = clientOptInput.config
-
-            if (configOptions.isPresent) {
-                val userSpecifiedConfigOptions = configOptions.get()
-                codegenConfig.cliOptions().forEach {
-                    if (userSpecifiedConfigOptions.containsKey(it.opt)) {
-                        clientOptInput.config.additionalProperties()[it.opt] = userSpecifiedConfigOptions[it.opt]
-                    }
-                }
-            }
-
-            try {
-                val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
-                out.withStyle(StyledTextOutput.Style.Success)
-
-                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
-
-                out.println("Successfully generated code to ${outputDir.get()}")
-            } catch (e: RuntimeException) {
-                throw GradleException("Code generation failed.", e)
-            }
-        } finally {
-            GlobalSettings.reset()
         }
     }
-}
 
-internal interface FileSystemManager {
-
-    fun delete(outputDir: Property<String>)
-
-}
-
-internal open class FileSystemManagerLegacy @Inject constructor(private val project: Project): FileSystemManager {
-
-    override fun delete(outputDir: Property<String>) {
-        project.delete(outputDir)
+    /**
+     * Extension function to allow setting directory properties with a String path in Kotlin DSL.
+     * Example: outputDir.set("$buildDir/generated")
+     */
+    fun DirectoryProperty.set(path: String) {
+        // All directory properties use the same conversion logic
+        this.set(layout.projectDirectory.dir(path))
     }
-}
 
-internal open class FileSystemManagerDefault @Inject constructor(private val fs: FileSystemOperations) : FileSystemManager {
+    // ========================================================================
+    // Groovy DSL bridge methods
+    // These methods allow Groovy DSL users to set properties using String paths.
+    // Groovy's property syntax allows calling these as:
+    //   - Method style: setInputSpecAsString("$rootDir/api.yaml")
+    //   - Property style: inputSpecAsString = "$rootDir/api.yaml"
+    // ========================================================================
 
-    override fun delete(outputDir: Property<String>) {
-        fs.delete { delete(outputDir) }
+    /**
+     * Groovy-compatible setter for inputSpec property.
+     * Accepts a String and automatically routes to remote or local file based on URI detection.
+     * Clears the opposite property to prevent stale values from taking precedence.
+     */
+    fun setInputSpecAsString(path: String) {
+        if (path.isRemoteUri()) {
+            remoteInputSpec.set(path)
+            inputSpec.set(null as File?)  // Clear local file to prevent conflicts
+        } else {
+            inputSpec.set(layout.projectDirectory.file(path))
+            remoteInputSpec.set(null as String?)  // Clear remote URL to prevent conflicts
+        }
+    }
+
+    /**
+     * Groovy-compatible setter for configFile property.
+     */
+    fun setConfigFileAsString(path: String) {
+        configFile.set(layout.projectDirectory.file(path))
+    }
+
+    /**
+     * Groovy-compatible setter for ignoreFileOverride property.
+     */
+    fun setIgnoreFileOverrideAsString(path: String) {
+        ignoreFileOverride.set(layout.projectDirectory.file(path))
+    }
+
+    /**
+     * Groovy-compatible setter for templateDir property.
+     */
+    fun setTemplateDirAsString(path: String) {
+        templateDir.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for outputDir property.
+     */
+    fun setOutputDirAsString(path: String) {
+        outputDir.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for inputSpecRootDirectory property.
+     */
+    fun setInputSpecRootDirectoryAsString(path: String) {
+        inputSpecRootDirectory.set(layout.projectDirectory.dir(path))
+    }
+
+    /**
+     * Groovy-compatible setter for schemaLocation property.
+     */
+    fun setSchemaLocationAsString(path: String) {
+        schemaLocation.set(layout.projectDirectory.dir(path))
     }
 }

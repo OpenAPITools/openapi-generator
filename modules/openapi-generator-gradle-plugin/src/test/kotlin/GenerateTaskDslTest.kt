@@ -2,6 +2,7 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.testng.annotations.DataProvider
 import org.testng.annotations.Test
 import java.io.File
 import java.nio.file.Files.createDirectory
@@ -9,19 +10,26 @@ import java.nio.file.Files.createTempDirectory
 import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class GenerateTaskDslTest : TestBase() {
     override var temp: File = createTempDirectory(javaClass.simpleName).toFile()
 
-    private val defaultBuildGradle = """
+    @DataProvider(name = "property_format_provider")
+    private fun propertyFormatProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("STRING"),
+        arrayOf("FILE")
+    )
+
+    private fun defaultBuildGradle(format: PropertyFormat) = """
         plugins {
           id 'org.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(format)}
+            outputDir = ${"build/kotlin".toPropertyReference(format)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -91,8 +99,9 @@ class GenerateTaskDslTest : TestBase() {
         )
     }
 
-    @Test
-    fun `openApiGenerate should create an expected file structure from root directory config`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should create an expected file structure from root directory config`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml"),
             "spec-2.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.1.yaml")
@@ -105,8 +114,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpecRootDirectory = file("specs").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpecRootDirectory = ${"specs".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -160,13 +169,14 @@ class GenerateTaskDslTest : TestBase() {
         )
     }
 
-    @Test
-    fun `openApiGenerate should create an expected file structure from DSL config`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should create an expected file structure from DSL config`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
-        withProject(defaultBuildGradle, projectFiles)
+        withProject(defaultBuildGradle(propertyFormat), projectFiles)
 
         // Act
         val result = GradleRunner.create()
@@ -200,13 +210,14 @@ class GenerateTaskDslTest : TestBase() {
                 "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 
-    @Test
-    fun `openApiGenerate should not cleanup outputDir by default`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should not cleanup outputDir by default`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
-        withProject(defaultBuildGradle, projectFiles)
+        withProject(defaultBuildGradle(propertyFormat), projectFiles)
 
         val oldFile = File(temp, "build/kotlin/should-not-be-removed")
         oldFile.mkdirs()
@@ -233,8 +244,9 @@ class GenerateTaskDslTest : TestBase() {
         )
     }
 
-    @Test
-    fun `openApiGenerate should cleanup outputDir`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should cleanup outputDir`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -246,8 +258,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -285,8 +297,9 @@ class GenerateTaskDslTest : TestBase() {
         )
     }
 
-    @Test
-    fun `should apply prefix & suffix config parameters`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `should apply prefix & suffix config parameters`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -297,8 +310,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "java"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/java").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/java".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -334,13 +347,14 @@ class GenerateTaskDslTest : TestBase() {
                 "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 
-    @Test
-    fun `openApiGenerate should used up-to-date instead of regenerate`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should used up-to-date instead of regenerate`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
-        withProject(defaultBuildGradle, projectFiles)
+        withProject(defaultBuildGradle(propertyFormat), projectFiles)
 
         // Act
         val resultFirstRun = GradleRunner.create()
@@ -359,13 +373,14 @@ class GenerateTaskDslTest : TestBase() {
         assertTrue(resultSecondRun.output.contains("Task :openApiGenerate UP-TO-DATE"), "Task of second run should be up-to-date")
     }
 
-    @Test
-    fun `openApiGenerate should use cache instead of regenerate`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiGenerate should use cache instead of regenerate`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
-        withProject(defaultBuildGradle, projectFiles)
+        withProject(defaultBuildGradle(propertyFormat), projectFiles)
 
         // Act
         val resultFirstRun = GradleRunner.create()
@@ -398,14 +413,15 @@ class GenerateTaskDslTest : TestBase() {
         assertTrue(resultThirdRun.output.contains("Skipping task ':openApiGenerate' as it is up-to-date."), "Task of third run should not require rebuild")
     }
 
-    @Test
-    fun `openApiValidate should fail on invalid spec`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiValidate should fail on invalid spec`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
         )
 
-        withProject(defaultBuildGradle, projectFiles)
+        withProject(defaultBuildGradle(propertyFormat), projectFiles)
 
         // Act
         val result = GradleRunner.create()
@@ -420,8 +436,9 @@ class GenerateTaskDslTest : TestBase() {
                 "Expected a failed run, but found ${result.task(":openApiValidate")?.outcome}")
     }
 
-    @Test
-    fun `openApiValidate should ok skip spec validation`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openApiValidate should ok skip spec validation`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
@@ -433,8 +450,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -458,8 +475,9 @@ class GenerateTaskDslTest : TestBase() {
                 "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 
-    @Test
-    fun `openapiGenerate should attempt to set handlebars when specified as engine`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openapiGenerate should attempt to set handlebars when specified as engine`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
                 "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -471,8 +489,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -495,8 +513,9 @@ class GenerateTaskDslTest : TestBase() {
                 "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 
-    @Test
-    fun `openapiGenerate should attempt to set my-custom-engine (or any other) when specified as engine`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openapiGenerate should attempt to set my-custom-engine (or any other) when specified as engine`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -508,8 +527,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -531,8 +550,9 @@ class GenerateTaskDslTest : TestBase() {
             "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 
-    @Test
-    fun `openapiGenerate should set dryRun flag`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openapiGenerate should set dryRun flag`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -544,8 +564,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -572,8 +592,9 @@ class GenerateTaskDslTest : TestBase() {
         )
     }
 
-    @Test
-    fun `openapiGenerate should set openapiGeneratorIgnoreList option`() {
+    @Test(dataProvider = "property_format_provider")
+    fun `openapiGenerate should set openapiGeneratorIgnoreList option`(format: String) {
+        val propertyFormat = PropertyFormat.valueOf(format)
         // Arrange
         val projectFiles = mapOf(
             "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
@@ -585,8 +606,8 @@ class GenerateTaskDslTest : TestBase() {
         }
         openApiGenerate {
             generatorName = "kotlin"
-            inputSpec = file("spec.yaml").absolutePath
-            outputDir = file("build/kotlin").absolutePath
+            inputSpec = ${"spec.yaml".toPropertyReference(propertyFormat)}
+            outputDir = ${"build/kotlin".toPropertyReference(propertyFormat)}
             apiPackage = "org.openapitools.example.api"
             invokerPackage = "org.openapitools.example.invoker"
             modelPackage = "org.openapitools.example.model"
@@ -621,5 +642,270 @@ class GenerateTaskDslTest : TestBase() {
             TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
             "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}"
         )
+    }
+
+    @DataProvider(name = "gradle_version_provider")
+    private fun gradleVersionProvider(): Array<Array<String>> = arrayOf(
+        arrayOf("8.14.4"),
+        arrayOf("8.5"),
+    )
+
+    @Test(dataProvider = "gradle_version_provider")
+    fun `test implicit task wiring from producer task to generator`(gradleVersion: String) {
+        // Build script with a producer task that creates a spec file at execution time
+        val buildContents = """
+            plugins {
+                id 'org.openapi.generator'
+            }
+
+            // A task that creates a spec file at execution time
+            abstract class SpecProducerTask extends DefaultTask {
+                @OutputFile
+                abstract RegularFileProperty getOutputFile()
+
+                @TaskAction
+                void create() {
+                    getOutputFile().get().asFile.text = '''
+openapi: 3.0.0
+info:
+  title: Produced API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      responses:
+        '200':
+          description: Success
+'''.stripIndent()
+                }
+            }
+
+            // Register the producer
+            def producer = tasks.register("produceSpec", SpecProducerTask) {
+                outputFile = layout.buildDirectory.file("dynamic-spec.yaml")
+            }
+
+            // Configure the generator with implicit wiring
+            openApiGenerate {
+                generatorName = "kotlin"
+                inputSpec.set(producer.flatMap { it.outputFile })
+                outputDir = layout.buildDirectory.dir("generated")
+                apiPackage = "org.openapitools.example.api"
+                modelPackage = "org.openapitools.example.model"
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate")
+            .withPluginClasspath()
+            .withGradleVersion(gradleVersion)
+            .build()
+
+        // Verify: The producer task MUST have run because the generator needed its output
+        val producerTask = result.task(":produceSpec")
+        val generatorTask = result.task(":openApiGenerate")
+
+        assertNotNull(producerTask, "Producer task should have been part of the graph")
+        assertEquals(TaskOutcome.SUCCESS, producerTask.outcome, "Producer task should have succeeded")
+        assertNotNull(generatorTask, "Generator task should have been part of the graph")
+        assertEquals(TaskOutcome.SUCCESS, generatorTask.outcome, "Generator task should have succeeded")
+
+        // Check that the generator actually produced something
+        val versionFile = File(temp, "build/generated/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have run and produced output")
+    }
+
+    @Test
+    fun `openApiGenerate should support Kotlin DSL set String syntax`() {
+        // Create a spec file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        // Build script using Kotlin DSL with .set(String) syntax
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiGenerate {
+                generatorName.set("kotlin")
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+                outputDir.set("${'$'}buildDir/generated-kotlin")
+                apiPackage.set("org.openapitools.example.api")
+                modelPackage.set("org.openapitools.example.model")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Verify the task succeeded
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+
+        // Verify output was generated
+        val versionFile = File(temp, "build/generated-kotlin/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have produced output")
+    }
+
+    @Test
+    fun `openApiGenerate should support Kotlin DSL set String syntax for all file and directory properties`() {
+        // Create a spec file and config file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        val configContent = """
+{
+  "dateLibrary": "java8"
+}
+        """.trimIndent()
+        File(temp, "config.json").writeText(configContent)
+
+        // Build script using Kotlin DSL with .set(String) syntax for multiple properties
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiGenerate {
+                generatorName.set("kotlin")
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+                outputDir.set("${'$'}buildDir/generated")
+                configFile.set("${'$'}projectDir/config.json")
+                apiPackage.set("org.openapitools.example.api")
+                modelPackage.set("org.openapitools.example.model")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Verify the task succeeded
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+
+        // Verify output was generated
+        val versionFile = File(temp, "build/generated/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have produced output")
+    }
+
+    @Test
+    fun `openApiGenerate should support remote input spec with Kotlin DSL set String syntax`() {
+        // Build script using remote URL with .set(String) syntax
+        val specUrl = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/b6b8c0db872fb4a418ae496e89c7e656e14be165/modules/openapi-generator-gradle-plugin/src/test/resources/specs/petstore-v3.0.yaml"
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            openApiGenerate {
+                generatorName.set("kotlin")
+                inputSpec.set("$specUrl")
+                outputDir.set("${'$'}buildDir/generated-remote")
+                apiPackage.set("org.openapitools.example.api")
+                modelPackage.set("org.openapitools.example.model")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Verify the task succeeded
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+
+        // Verify output was generated
+        val versionFile = File(temp, "build/generated-remote/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have produced output from remote spec")
+    }
+
+    @Test
+    fun `openApiGenerate should support task-level configuration with Kotlin DSL set String syntax`() {
+        // Create a spec file
+        val specContent = """
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Success
+        """.trimIndent()
+        File(temp, "spec.yaml").writeText(specContent)
+
+        // Build script using Kotlin DSL configuring task directly
+        val buildContents = """
+            plugins {
+                id("org.openapi.generator")
+            }
+            
+            tasks.named<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("openApiGenerate") {
+                generatorName.set("kotlin")
+                inputSpec.set("${'$'}projectDir/spec.yaml")
+                outputDir.set("${'$'}buildDir/task-configured")
+                apiPackage.set("org.openapitools.example.api")
+                modelPackage.set("org.openapitools.example.model")
+            }
+        """.trimIndent()
+
+        File(temp, "build.gradle.kts").writeText(buildContents)
+
+        // Run the generator
+        val result = GradleRunner.create()
+            .withProjectDir(temp)
+            .withArguments("openApiGenerate", "--stacktrace")
+            .withPluginClasspath()
+            .build()
+
+        // Verify the task succeeded
+        assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome)
+
+        // Verify output was generated
+        val versionFile = File(temp, "build/task-configured/.openapi-generator/VERSION")
+        assertTrue(versionFile.exists(), "Generator should have produced output with task-level configuration")
     }
 }
