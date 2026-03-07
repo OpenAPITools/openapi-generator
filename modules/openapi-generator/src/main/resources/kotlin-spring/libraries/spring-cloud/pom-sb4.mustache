@@ -179,11 +179,8 @@
         </dependency>
         {{#hasAuthMethods}}
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            {{^parentOverridden}}
-                <version>2.2.5.RELEASE</version>
-            {{/parentOverridden}}
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
         </dependency>
         {{/hasAuthMethods}}
         <dependency>
