@@ -9,6 +9,7 @@ on:
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
+      - samples/client/petstore/java/webclient-jackson3/**
       - samples/client/others/java/restclient-enum-in-multipart/**
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - samples/client/others/java/webclient-sealedInterface/**
       - samples/client/others/java/webclient-sealedInterface_3_1/**
       - samples/client/petstore/java/webclient-useSingleRequestParameter/**
+      - samples/client/petstore/java/webclient-jackson3/**
       - samples/client/others/java/restclient-enum-in-multipart/**
 jobs:
   build:
@@ -40,6 +42,7 @@ jobs:
           - samples/client/others/java/webclient-sealedInterface
           - samples/client/others/java/webclient-sealedInterface_3_1
           - samples/client/petstore/java/webclient-useSingleRequestParameter
+          - samples/client/petstore/java/webclient-jackson3
           - samples/client/others/java/restclient-enum-in-multipart
     steps:
       - uses: actions/checkout@v5

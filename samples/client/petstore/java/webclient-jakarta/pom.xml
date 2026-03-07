@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-databind-version}</version>
+            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -121,7 +121,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jackson-version>2.19.2</jackson-version>
-        <jackson-databind-version>2.19.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <spring-boot-version>3.2.12</spring-boot-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
