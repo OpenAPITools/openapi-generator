@@ -956,7 +956,7 @@ public class KotlinClientCodegenModelTest {
 
         Path serializerPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
         TestUtils.assertFileContains(serializerPath, "import tools.jackson.databind.ObjectMapper");
-        TestUtils.assertFileContains(serializerPath, "import tools.jackson.module.kotlin.jacksonObjectMapper");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson.module.kotlin.jsonMapper");
         TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
     }
 
