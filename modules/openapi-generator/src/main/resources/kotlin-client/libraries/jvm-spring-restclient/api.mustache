@@ -2,14 +2,19 @@
 package {{apiPackage}}
 
 {{#jackson}}
-import com.fasterxml.jackson.annotation.JsonProperty
+import {{jacksonPackage}}.annotation.JsonProperty
 {{/jackson}}
 
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.RestClientResponseException
 
 {{#jackson}}
+{{^useJackson3}}
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+{{/useJackson3}}
+{{#useJackson3}}
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter
+{{/useJackson3}}
 {{/jackson}}
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
@@ -25,7 +30,12 @@ import {{packageName}}.infrastructure.*
     {{#jackson}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(RestClient.builder()
         .baseUrl(baseUrl)
+        {{^useJackson3}}
         .messageConverters { it.add(MappingJackson2HttpMessageConverter()) }
+        {{/useJackson3}}
+        {{#useJackson3}}
+        .messageConverters { it.add(JacksonJsonHttpMessageConverter()) }
+        {{/useJackson3}}
         .build()
     )
     {{/jackson}}

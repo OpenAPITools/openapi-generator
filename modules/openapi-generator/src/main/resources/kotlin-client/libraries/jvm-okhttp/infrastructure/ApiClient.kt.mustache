@@ -53,7 +53,7 @@ import org.threeten.bp.OffsetTime
 import com.google.gson.reflect.TypeToken
 {{/gson}}
 {{#jackson}}
-import com.fasterxml.jackson.core.type.TypeReference
+import {{jacksonPackage}}.core.type.TypeReference
 {{/jackson}}
 {{#moshi}}
 import com.squareup.moshi.adapter
@@ -413,7 +413,7 @@ import com.squareup.moshi.adapter
         {{#isOAuth}}
         if (requestConfig.headers[Authorization].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
+                requestConfig.headers[Authorization] = "Bearer $accessToken"
             }
         }
         {{/isOAuth}}

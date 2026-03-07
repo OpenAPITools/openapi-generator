@@ -2,7 +2,7 @@
 package {{apiPackage}}
 
 {{#jackson}}
-import com.fasterxml.jackson.annotation.JsonProperty
+import {{jacksonPackage}}.annotation.JsonProperty
 {{/jackson}}
 
 import org.springframework.web.reactive.function.client.WebClient
