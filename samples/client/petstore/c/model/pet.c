@@ -23,7 +23,7 @@ openapi_petstore_pet_STATUS_e pet_status_FromString(char* status){
 }
 
 static pet_t *pet_create_internal(
-    long id,
+    long *id,
     category_t *category,
     char *name,
     list_t *photo_urls,
@@ -34,33 +34,42 @@ static pet_t *pet_create_internal(
     if (!pet_local_var) {
         return NULL;
     }
+    memset(pet_local_var, 0, sizeof(pet_t));
+    pet_local_var->_library_owned = 1;
     pet_local_var->id = id;
     pet_local_var->category = category;
     pet_local_var->name = name;
     pet_local_var->photo_urls = photo_urls;
     pet_local_var->tags = tags;
     pet_local_var->status = status;
-
-    pet_local_var->_library_owned = 1;
     return pet_local_var;
 }
 
 __attribute__((deprecated)) pet_t *pet_create(
-    long id,
+    long *id,
     category_t *category,
     char *name,
     list_t *photo_urls,
     list_t *tags,
     openapi_petstore_pet_STATUS_e status
     ) {
-    return pet_create_internal (
-        id,
+    long *id_copy = NULL;
+    if (id) {
+        id_copy = malloc(sizeof(long));
+        if (id_copy) *id_copy = *id;
+    }
+    pet_t *result = pet_create_internal (
+        id_copy,
         category,
         name,
         photo_urls,
         tags,
         status
         );
+    if (!result) {
+        free(id_copy);
+    }
+    return result;
 }
 
 void pet_free(pet_t *pet) {
@@ -72,6 +81,10 @@ void pet_free(pet_t *pet) {
         return ;
     }
     listEntry_t *listEntry;
+    if (pet->id) {
+        free(pet->id);
+        pet->id = NULL;
+    }
     if (pet->category) {
         category_free(pet->category);
         pet->category = NULL;
@@ -102,7 +115,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
     // pet->id
     if(pet->id) {
-    if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", *pet->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -188,8 +201,13 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
 
     pet_t *pet_local_var = NULL;
 
+    // define the local variable for pet->id
+    long *id_local_var = NULL;
+
     // define the local variable for pet->category
     category_t *category_local_nonprim = NULL;
+
+    char *name_local_str = NULL;
 
     // define the local list for pet->photo_urls
     list_t *photo_urlsList = NULL;
@@ -207,6 +225,12 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     {
     goto end; //Numeric
     }
+    id_local_var = malloc(sizeof(long));
+    if(!id_local_var)
+    {
+        goto end;
+    }
+    *id_local_var = id->valuedouble;
     }
 
     // pet->category
@@ -297,20 +321,34 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     }
 
 
+    if (name && !cJSON_IsNull(name)) name_local_str = strdup(name->valuestring);
+
     pet_local_var = pet_create_internal (
-        id ? id->valuedouble : 0,
+        id_local_var,
         category ? category_local_nonprim : NULL,
-        strdup(name->valuestring),
+        name_local_str,
         photo_urlsList,
         tags ? tagsList : NULL,
         status ? statusVariable : openapi_petstore_pet_STATUS_NULL
         );
 
+    if (!pet_local_var) {
+        goto end;
+    }
+
     return pet_local_var;
 end:
+    if (id_local_var) {
+        free(id_local_var);
+        id_local_var = NULL;
+    }
     if (category_local_nonprim) {
         category_free(category_local_nonprim);
         category_local_nonprim = NULL;
+    }
+    if (name_local_str) {
+        free(name_local_str);
+        name_local_str = NULL;
     }
     if (photo_urlsList) {
         listEntry_t *listEntry = NULL;
