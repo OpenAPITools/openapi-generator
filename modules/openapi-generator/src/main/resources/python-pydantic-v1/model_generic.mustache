@@ -331,7 +331,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isMap}}
             "{{{name}}}": {
                 _k: {_ik: {{{items.items.dataType}}}.from_dict(_iv) for _ik, _iv in _v.items()} if _v is not None else None
-                for _k, _v in obj.get("{{{baseName}}}").items()
+                for _k, _v in obj["{{{baseName}}}"].items()
             }
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
@@ -339,13 +339,15 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isArray}}
             "{{{name}}}": {
                 _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            }{{^-last}},{{/-last}}
+                for _k, _v in obj["{{{baseName}}}"].items()
+            }
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
             "{{{name}}}": {
-                _k: {{{items.dataType}}}.from_dict(_v) for _k, _v in obj.get("{{{baseName}}}").items()
+                _k: {{{items.dataType}}}.from_dict(_v) for _k, _v in obj["{{{baseName}}}"].items()
             }
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
