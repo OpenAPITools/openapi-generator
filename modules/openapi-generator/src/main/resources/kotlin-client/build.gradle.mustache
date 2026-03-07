@@ -11,7 +11,12 @@ wrapper {
 buildscript {
     ext.kotlin_version = '2.2.20'
     {{#jvm-ktor}}
+    {{#useJackson3}}
+    ext.ktor_version = '3.4.0'
+    {{/useJackson3}}
+    {{^useJackson3}}
     ext.ktor_version = '3.2.3'
+    {{/useJackson3}}
     {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '3.0.0'
@@ -23,12 +28,17 @@ buildscript {
     ext.vertx_version = "5.0.4"
     {{/jvm-vertx}}
     {{#jvm-spring}}
+    {{#useJackson3}}
+    ext.spring_boot_version = "4.0.3"
+    {{/useJackson3}}
+    {{^useJackson3}}
     {{#useSpringBoot3}}
     ext.spring_boot_version = "3.5.5"
     {{/useSpringBoot3}}
     {{^useSpringBoot3}}
     ext.spring_boot_version = "2.7.18"
     {{/useSpringBoot3}}
+    {{/useJackson3}}
     {{/jvm-spring}}
     ext.spotless_version = "7.2.1"
 
@@ -163,8 +173,13 @@ dependencies {
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{#useJackson3}}
+    implementation "tools.jackson.module:jackson-module-kotlin:3.0.1"
+    {{/useJackson3}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
+    {{/useJackson3}}
     {{/jackson}}
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"

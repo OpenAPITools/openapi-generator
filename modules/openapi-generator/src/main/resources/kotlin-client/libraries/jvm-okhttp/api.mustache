@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName
 import com.squareup.moshi.Json
 {{/moshi}}
 {{#jackson}}
-import com.fasterxml.jackson.annotation.JsonProperty
+import {{jacksonPackage}}.annotation.JsonProperty
 {{/jackson}}
 {{#kotlinx_serialization}}
 import kotlinx.serialization.SerialName

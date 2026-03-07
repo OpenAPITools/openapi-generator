@@ -7,8 +7,8 @@ import java.io.IOException
 {{/imports}}
 
 {{#jackson}}
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.type.TypeReference
+import {{jacksonPackage}}.annotation.JsonProperty
+import {{jacksonPackage}}.core.type.TypeReference
 {{/jackson}}
 {{#gson}}
 import com.google.gson.reflect.TypeToken
