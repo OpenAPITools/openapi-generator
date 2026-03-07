@@ -7,12 +7,12 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 {{/moshi}}
 {{#jackson}}
-import {{jacksonPackage}}.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonCreator
 {{#enumUnknownDefaultCase}}
-import {{jacksonPackage}}.annotation.JsonEnumDefaultValue
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 {{/enumUnknownDefaultCase}}
-import {{jacksonPackage}}.annotation.JsonProperty
-import {{jacksonPackage}}.annotation.JsonValue
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 import kotlin.jvm.JvmStatic
 {{/jackson}}
 {{#kotlinx_serialization}}

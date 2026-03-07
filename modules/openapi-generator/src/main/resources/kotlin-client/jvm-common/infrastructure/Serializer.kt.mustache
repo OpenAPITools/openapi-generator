@@ -30,24 +30,11 @@ import kotlinx.datetime.LocalTime
 import java.util.UUID
 {{/gson}}
 {{#jackson}}
-{{^useJackson3}}
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-{{/useJackson3}}
-{{#useJackson3}}
-import {{jacksonPackage}}.databind.DeserializationFeature
-import {{jacksonPackage}}.databind.ObjectMapper
-import {{jacksonPackage}}.databind.cfg.DateTimeFeature
-{{#enumUnknownDefaultCase}}
-import {{jacksonPackage}}.databind.cfg.EnumFeature
-{{/enumUnknownDefaultCase}}
-import {{jacksonPackage}}.annotation.JsonInclude
-import {{jacksonPackage}}.module.kotlin.jsonMapper
-import {{jacksonPackage}}.module.kotlin.kotlinModule
-{{/useJackson3}}
 {{/jackson}}
 {{#kotlinx_serialization}}
 import java.math.BigDecimal
@@ -133,7 +120,6 @@ import java.util.concurrent.atomic.AtomicLong
     }
 {{/gson}}
 {{#jackson}}
-{{^useJackson3}}
     @JvmStatic
     val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
         .findAndRegisterModules()
@@ -143,24 +129,6 @@ import java.util.concurrent.atomic.AtomicLong
         {{/enumUnknownDefaultCase}}
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, {{failOnUnknownProperties}})
-{{/useJackson3}}
-{{#useJackson3}}
-    @JvmStatic
-    val jacksonObjectMapper: ObjectMapper = jsonMapper {
-        addModule(kotlinModule())
-        changeDefaultPropertyInclusion { it.withValueInclusion(JsonInclude.Include.NON_ABSENT) }
-        {{#enumUnknownDefaultCase}}
-        enable(EnumFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-        {{/enumUnknownDefaultCase}}
-        disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
-        {{#failOnUnknownProperties}}
-        enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        {{/failOnUnknownProperties}}
-        {{^failOnUnknownProperties}}
-        disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-        {{/failOnUnknownProperties}}
-    }
-{{/useJackson3}}
 {{/jackson}}
 {{#kotlinx_serialization}}
     private var isAdaptersInitialized = false

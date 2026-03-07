@@ -29,20 +29,12 @@ import java.text.DateFormat
 {{/gson}}
 {{#jackson}}
 import io.ktor.serialization.jackson.*
-{{^useJackson3}}
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-{{/useJackson3}}
-{{#useJackson3}}
-import {{jacksonPackage}}.databind.ObjectMapper
-import {{jacksonPackage}}.databind.SerializationFeature
-import {{jacksonPackage}}.core.util.DefaultIndenter
-import {{jacksonPackage}}.core.util.DefaultPrettyPrinter
-{{/useJackson3}}
 {{/jackson}}
 import {{packageName}}.auth.*
 
@@ -104,9 +96,7 @@ import {{packageName}}.auth.*
               indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
               indentObjectsWith(DefaultIndenter("  ", "\n"))
             })
-            {{^useJackson3}}
             registerModule(JavaTimeModule())
-            {{/useJackson3}}
           }
         {{/jackson}}
           protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
