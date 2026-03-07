@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    FreeFormObject:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+          example: "One or more errors occured"
+      additionalProperties: {}
