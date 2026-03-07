@@ -4868,6 +4868,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(pomPath, "tools.jackson.dataformat");
         assertFileContains(pomPath, "tools.jackson.module");
         assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
+        assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
     }
 
     @Test
@@ -4898,6 +4900,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(pomPath, "4.0.1");
         assertFileContains(pomPath, "com.fasterxml.jackson.dataformat");
         assertFileContains(pomPath, "jackson-datatype-jsr310");
+        assertFileNotContains(pomPath, "tools.jackson.dataformat");
+        assertFileNotContains(pomPath, "tools.jackson.module");
     }
 }
 
