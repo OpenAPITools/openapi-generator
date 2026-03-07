@@ -53,12 +53,14 @@ class ArrayOfMapModel(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each item in array_of_map_property (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in array_of_map_property (list of map)
         _items = []
         if self.array_of_map_property:
             for _item in self.array_of_map_property:
                 if _item:
-                    _items.append(_item.to_dict())
+                    _items.append(
+                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item.items() if _inner_value is not None}
+                    )
             _dict['array_of_map_property'] = _items
         return _dict
 
@@ -72,7 +74,10 @@ class ArrayOfMapModel(BaseModel):
             return ArrayOfMapModel.parse_obj(obj)
 
         _obj = ArrayOfMapModel.parse_obj({
-            "array_of_map_property": [Dict[str, Tag].from_dict(_item) for _item in obj.get("array_of_map_property")] if obj.get("array_of_map_property") is not None else None
+            "array_of_map_property": [
+                    {_inner_key: Tag.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    for _item in obj.get("array_of_map_property")
+                ] if obj.get("array_of_map_property") is not None else None
         })
         return _obj
 

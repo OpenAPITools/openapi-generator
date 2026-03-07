@@ -55,13 +55,15 @@ class AdditionalPropertiesClass(BaseModel):
                           exclude={
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict)
-        _field_dict = {}
+        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict of dict)
+        _field_dict_of_dict = {}
         if self.map_of_map_non_primitive_property:
-            for _key in self.map_of_map_non_primitive_property:
-                if self.map_of_map_non_primitive_property[_key]:
-                    _field_dict[_key] = self.map_of_map_non_primitive_property[_key].to_dict()
-            _dict['map_of_map_non_primitive_property'] = _field_dict
+            for _key, _value in self.map_of_map_non_primitive_property.items():
+                if _value is not None:
+                    _field_dict_of_dict[_key] = {
+                        _inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _value.items() if _inner_value is not None
+                    }
+            _dict['map_of_map_non_primitive_property'] = _field_dict_of_dict
         return _dict
 
     @classmethod
@@ -76,16 +78,10 @@ class AdditionalPropertiesClass(BaseModel):
         _obj = AdditionalPropertiesClass.parse_obj({
             "map_property": obj.get("map_property"),
             "map_of_map_property": obj.get("map_of_map_property"),
-            "map_of_map_non_primitive_property": dict(
-                (_k, dict(
-                    (_ik, Pet.from_dict(_iv))
-                        for _ik, _iv in _v.items()
-                    )
-                    if _v is not None
-                    else None
-                )
-                for _k, _v in obj.get("map_of_map_non_primitive_property").items()
-            )
+            "map_of_map_non_primitive_property": {
+                _k: {_ik: Pet.from_dict(_iv) for _ik, _iv in _v.items()} if _v is not None else None
+                for _k, _v in obj["map_of_map_non_primitive_property"].items()
+            }
             if obj.get("map_of_map_non_primitive_property") is not None
             else None
         })
