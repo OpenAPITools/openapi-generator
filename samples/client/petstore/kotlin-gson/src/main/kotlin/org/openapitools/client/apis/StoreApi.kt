@@ -262,7 +262,7 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
      * POST /store/order
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return Order
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -272,8 +272,8 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun placeOrder(body: Order) : Order {
-        val localVarResponse = placeOrderWithHttpInfo(body = body)
+    fun placeOrder(order: Order) : Order {
+        val localVarResponse = placeOrderWithHttpInfo(order = order)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Order
@@ -294,15 +294,15 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
      * POST /store/order
      * Place an order for a pet
      * 
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return ApiResponse<Order?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun placeOrderWithHttpInfo(body: Order) : ApiResponse<Order?> {
-        val localVariableConfig = placeOrderRequestConfig(body = body)
+    fun placeOrderWithHttpInfo(order: Order) : ApiResponse<Order?> {
+        val localVariableConfig = placeOrderRequestConfig(order = order)
 
         return request<Order, Order>(
             localVariableConfig
@@ -312,13 +312,14 @@ open class StoreApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     /**
      * To obtain the request config of the operation placeOrder
      *
-     * @param body order placed for purchasing the pet
+     * @param order order placed for purchasing the pet
      * @return RequestConfig
      */
-    fun placeOrderRequestConfig(body: Order) : RequestConfig<Order> {
-        val localVariableBody = body
+    fun placeOrderRequestConfig(order: Order) : RequestConfig<Order> {
+        val localVariableBody = order
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
         return RequestConfig(
