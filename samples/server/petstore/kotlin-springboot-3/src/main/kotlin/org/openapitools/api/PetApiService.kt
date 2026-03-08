@@ -48,6 +48,7 @@ interface PetApiService {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
+    @Deprecated(message="Operation is deprecated")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**

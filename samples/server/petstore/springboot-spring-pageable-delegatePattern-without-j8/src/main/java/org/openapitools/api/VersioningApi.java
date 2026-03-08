@@ -55,7 +55,7 @@ public interface VersioningApi {
     default ResponseEntity<ModelApiResponse> versioningHeaders(
         @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @RequestHeader(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningHeaders(versionWithDefaultValue, versionNoDefaultValue, petId);
     }
@@ -94,7 +94,7 @@ public interface VersioningApi {
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValueQuery", required = true) String versionNoDefaultValueQuery,
         @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @RequestHeader(value = "VersionWithDefaultValueHeader", required = true, defaultValue = "V1") String versionWithDefaultValueHeader,
         @NotNull @ApiParam(value = "", required = true) @RequestHeader(value = "VersionNoDefaultValueHeader", required = true) String versionNoDefaultValueHeader,
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningMix(versionWithDefaultValueQuery, versionNoDefaultValueQuery, versionWithDefaultValueHeader, versionNoDefaultValueHeader, petId);
     }
@@ -128,7 +128,7 @@ public interface VersioningApi {
     default ResponseEntity<ModelApiResponse> versioningQueryParams(
         @NotNull @ApiParam(value = "", required = true, defaultValue = "V1") @Valid @RequestParam(value = "VersionWithDefaultValue", required = true, defaultValue = "V1") String versionWithDefaultValue,
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "VersionNoDefaultValue", required = true) String versionNoDefaultValue,
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId
     ) {
         return getDelegate().versioningQueryParams(versionWithDefaultValue, versionNoDefaultValue, petId);
     }

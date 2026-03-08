@@ -41,17 +41,15 @@ fn main() {
     let matches = Command::new("client")
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .value_parser([
+            .value_parser(Vec::<&str>::from([
                 "AllOfGet",
                 "DummyGet",
-                "DummyPut",
                 "FileResponseGet",
                 "GetStructuredYaml",
                 "HtmlPost",
                 "PostYaml",
                 "RawJsonGet",
-                "SoloObjectPost",
-            ])
+            ]))
             .required(true)
             .index(1))
         .arg(Arg::new("https")

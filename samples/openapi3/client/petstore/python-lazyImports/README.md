@@ -162,6 +162,7 @@ Class | Method | HTTP request | Description
  - [AnyOfPig](docs/AnyOfPig.md)
  - [ArrayOfArrayOfModel](docs/ArrayOfArrayOfModel.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [ArrayOfMapModel](docs/ArrayOfMapModel.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [BaseDiscriminator](docs/BaseDiscriminator.md)
@@ -262,6 +263,7 @@ Class | Method | HTTP request | Description
  - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
  - [UploadFileWithAdditionalPropertiesRequestObject](docs/UploadFileWithAdditionalPropertiesRequestObject.md)
  - [User](docs/User.md)
+ - [UuidWithPattern](docs/UuidWithPattern.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 
 

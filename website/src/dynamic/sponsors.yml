@@ -163,3 +163,8 @@
   image: "img/companies/socialwick.png"
   infoLink: "https://socialwick.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
   bronze: true
+-
+  caption: "FBPostLikes"
+  image: "img/companies/fbpostlikes.png"
+  infoLink: "https://fbpostlikes.com/?utm_source=openapi-generator&utm_medium=sponsorship&utm_campaign=oss-sponsorship"
+  bronze: true

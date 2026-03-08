@@ -3,6 +3,7 @@ outputDir: samples/server/petstore/springboot-x-implements-skip
 inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing-x-implements.yaml
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
+  additionalNotNullAnnotations: true
   documentationProvider: springfox
   artifactId: springboot
   snapshotVersion: "true"

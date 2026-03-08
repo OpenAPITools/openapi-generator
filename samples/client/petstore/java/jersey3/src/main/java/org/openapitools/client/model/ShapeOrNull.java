@@ -97,7 +97,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
 
         @Override
         public ShapeOrNull deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             ShapeOrNull newShapeOrNull = new ShapeOrNull();
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});

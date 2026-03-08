@@ -39,6 +39,7 @@ ObjectWithDeprecatedFields::ObjectWithDeprecatedFields(boost::property_tree::ptr
         fromPropertyTree(pt);
 }
 
+ObjectWithDeprecatedFields::~ObjectWithDeprecatedFields = default;
 
 std::string ObjectWithDeprecatedFields::toJsonString(bool prettyJson /* = false */) const
 {

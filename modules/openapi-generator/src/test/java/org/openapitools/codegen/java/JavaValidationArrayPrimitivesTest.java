@@ -453,19 +453,19 @@ public class JavaValidationArrayPrimitivesTest {
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
                 .fileContains("ResponseEntity<" + arrayMapping + "<String>>",
                         arrayMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<String>>",
                         arrayMapping + "<@Size(min = 2, max = 2)String> requestBody")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
                         arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
-                .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
 
         String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))

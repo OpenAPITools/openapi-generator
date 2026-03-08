@@ -91,7 +91,7 @@ public interface UserApi {
         value = UserApi.PATH_DELETE_USER
     )
     ResponseEntity<Void> deleteUser(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     );
 
 
@@ -111,7 +111,7 @@ public interface UserApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<User> getUserByName(
-        @NotNull  @PathVariable("username") String username
+         @PathVariable("username") String username
     );
 
 
@@ -168,7 +168,7 @@ public interface UserApi {
         consumes = "application/json"
     )
     ResponseEntity<Void> updateUser(
-        @NotNull  @PathVariable("username") String username,
+         @PathVariable("username") String username,
          @Valid @RequestBody User user
     );
 

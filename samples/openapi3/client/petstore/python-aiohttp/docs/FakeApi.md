@@ -816,7 +816,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_return_byte_like_json**
-> bytearray fake_return_byte_like_json()
+> bytes fake_return_byte_like_json()
 
 test byte like json
 
@@ -857,7 +857,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**bytearray**
+**bytes**
 
 ### Authorization
 
@@ -1456,7 +1456,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    body = None # bytearray | image to upload
+    body = None # bytes | image to upload
 
     try:
         await api_instance.test_body_with_binary(body)
@@ -1471,7 +1471,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bytearray**| image to upload | 
+ **body** | **bytes**| image to upload | 
 
 ### Return type
 
@@ -1856,14 +1856,14 @@ async with petstore_api.ApiClient(configuration) as api_client:
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = None # bytearray | None
+    byte = None # bytes | None
     integer = 56 # int | None (optional)
     int32 = 56 # int | None (optional)
     int64 = 56 # int | None (optional)
     var_float = 3.4 # float | None (optional)
     string = 'string_example' # str | None (optional)
-    binary = None # bytearray | None (optional)
-    byte_with_max_length = None # bytearray | None (optional)
+    binary = None # bytes | None (optional)
+    byte_with_max_length = None # bytes | None (optional)
     var_date = '2013-10-20' # date | None (optional)
     date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
     password = 'password_example' # str | None (optional)
@@ -1886,14 +1886,14 @@ Name | Type | Description  | Notes
  **number** | **float**| None | 
  **double** | **float**| None | 
  **pattern_without_delimiter** | **str**| None | 
- **byte** | **bytearray**| None | 
+ **byte** | **bytes**| None | 
  **integer** | **int**| None | [optional] 
  **int32** | **int**| None | [optional] 
  **int64** | **int**| None | [optional] 
  **var_float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
- **binary** | **bytearray**| None | [optional] 
- **byte_with_max_length** | **bytearray**| None | [optional] 
+ **binary** | **bytes**| None | [optional] 
+ **byte_with_max_length** | **bytes**| None | [optional] 
  **var_date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 
@@ -2493,7 +2493,7 @@ configuration = petstore_api.Configuration(
 async with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
-    file = None # bytearray | file to upload
+    file = None # bytes | file to upload
     object = petstore_api.UploadFileWithAdditionalPropertiesRequestObject() # UploadFileWithAdditionalPropertiesRequestObject |  (optional)
     count = 56 # int | Integer count (optional)
 
@@ -2513,7 +2513,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | **bytearray**| file to upload | 
+ **file** | **bytes**| file to upload | 
  **object** | [**UploadFileWithAdditionalPropertiesRequestObject**](UploadFileWithAdditionalPropertiesRequestObject.md)|  | [optional] 
  **count** | **int**| Integer count | [optional] 
 

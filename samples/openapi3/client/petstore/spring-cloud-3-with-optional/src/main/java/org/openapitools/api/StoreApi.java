@@ -37,7 +37,7 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     ResponseEntity<Void> deleteOrder(
-        @NotNull  @PathVariable("orderId") String orderId
+         @PathVariable("orderId") String orderId
     );
 
 
@@ -74,7 +74,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<Order> getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L)  @PathVariable("orderId") Long orderId
+        @Min(value = 1L) @Max(value = 5L)  @PathVariable("orderId") Long orderId
     );
 
 
