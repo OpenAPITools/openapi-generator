@@ -186,5 +186,116 @@ namespace OpenAPIClient_generichost_manual_tests
             StringAssert.Contains(_capturingHandler.CapturedBody, "testmetadata",
                 "Body should contain the additionalMetadata value.");
         }
+
+        /// <summary>
+        /// Covers the case where an optional file and an optional text field are both supplied.
+        /// Ensures that adding text alongside a file does not strip the boundary.
+        /// </summary>
+        [TestMethod]
+        public async Task UploadFile_WithBothFileAndText_ContentTypeHasBoundary()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 1, 2, 3 });
+
+            await petApi.UploadFileAsync(
+                petId: 1,
+                file: new Option<System.IO.Stream>(stream),
+                additionalMetadata: new Option<string>("testmetadata"));
+
+            Assert.IsNotNull(_capturingHandler.CapturedContentType,
+                "Content-Type header should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "multipart/form-data",
+                "Content-Type should be multipart/form-data.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "boundary=",
+                "Content-Type must include a boundary parameter.");
+        }
+
+        [TestMethod]
+        public async Task UploadFile_WithBothFileAndText_BodyContainsBothFields()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 1, 2, 3 });
+
+            await petApi.UploadFileAsync(
+                petId: 1,
+                file: new Option<System.IO.Stream>(stream),
+                additionalMetadata: new Option<string>("testmetadata"));
+
+            Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "name=file",
+                "Body should contain a part named 'file'.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "testmetadata",
+                "Body should contain the additionalMetadata value.");
+        }
+
+        /// <summary>
+        /// Covers UploadFileWithRequiredFile: a required (non-optional) binary file param.
+        /// Tests the required-file code path in the template, which differs from optional files.
+        /// </summary>
+        [TestMethod]
+        public async Task UploadFileWithRequiredFile_RequiredFileOnly_ContentTypeHasBoundary()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
+
+            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: stream);
+
+            Assert.IsNotNull(_capturingHandler.CapturedContentType,
+                "Content-Type header should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "multipart/form-data",
+                "Content-Type should be multipart/form-data.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "boundary=",
+                "Content-Type must include a boundary parameter.");
+        }
+
+        [TestMethod]
+        public async Task UploadFileWithRequiredFile_RequiredFileOnly_BodyContainsCorrectFieldName()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
+
+            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: stream);
+
+            Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "name=requiredFile",
+                "Multipart part should use the field name 'requiredFile' as defined in the spec.");
+        }
+
+        [TestMethod]
+        public async Task UploadFileWithRequiredFile_WithTextAndFile_ContentTypeHasBoundary()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
+
+            await petApi.UploadFileWithRequiredFileAsync(
+                petId: 1,
+                requiredFile: stream,
+                additionalMetadata: new Option<string>("testmetadata"));
+
+            Assert.IsNotNull(_capturingHandler.CapturedContentType,
+                "Content-Type header should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "multipart/form-data",
+                "Content-Type should be multipart/form-data.");
+            StringAssert.Contains(_capturingHandler.CapturedContentType, "boundary=",
+                "Adding text fields alongside binary fields must not strip the boundary.");
+        }
+
+        [TestMethod]
+        public async Task UploadFileWithRequiredFile_WithTextAndFile_BodyContainsBothFields()
+        {
+            var petApi = _host.Services.GetRequiredService<IPetApi>();
+            using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
+
+            await petApi.UploadFileWithRequiredFileAsync(
+                petId: 1,
+                requiredFile: stream,
+                additionalMetadata: new Option<string>("testmetadata"));
+
+            Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "name=requiredFile",
+                "Body should contain a part named 'requiredFile'.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "testmetadata",
+                "Body should contain the additionalMetadata value.");
+        }
     }
 }
