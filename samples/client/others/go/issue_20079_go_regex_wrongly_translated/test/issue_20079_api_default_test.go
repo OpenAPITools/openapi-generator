@@ -1,20 +1,14 @@
 package openapi
 
 import (
-	"context"
 	"encoding/json"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"os"
 	"testing"
+
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_DefaultAPIService(t *testing.T) {
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-
 	t.Run("Matching regex", func(t *testing.T) {
 		filesNames := []string{"issue_20079_matching01.json", "issue_20079_matching02.json", "issue_20079_matching03.json", "issue_20079_matching04.json"}
 
@@ -25,7 +19,7 @@ func Test_openapi_DefaultAPIService(t *testing.T) {
 				t.Errorf("Cannot read test file resource %s: %s", fileName, errLoad.Error())
 			}
 
-			var importCode *openapiclient.FooGet200ResponseCode
+			var importCode *openapiclient.ImportCode
 
 			errParse := json.Unmarshal(data, &importCode)
 
@@ -45,26 +39,16 @@ func Test_openapi_DefaultAPIService(t *testing.T) {
 				t.Errorf("Cannot read test file resource %s: %s", fileName, errLoad.Error())
 			}
 
-			var importCode *openapiclient.FooGet200ResponseCode
+			var importCode *openapiclient.ImportCode
 
 			errParse := json.Unmarshal(data, &importCode)
 
 			if errParse == nil {
 				t.Errorf("The resource file %s that was expected non-matching, does", fileName)
+			} else {
+				t.Logf("Good. The resource file %s doesn't match for %s", fileName, errParse.Error())
 			}
 		}
-	})
-
-	t.Run("Test DefaultAPIService FooGet", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		resp, httpRes, err := apiClient.DefaultAPI.FooGet(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
 	})
 
 }
