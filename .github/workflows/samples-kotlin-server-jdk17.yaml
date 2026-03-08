@@ -27,7 +27,7 @@ on:
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: '8.11'
+  GRADLE_VERSION: '8.14'
 
 jobs:
   build:
@@ -48,6 +48,7 @@ jobs:
           - samples/server/petstore/kotlin-springboot-additionalproperties
           - samples/server/petstore/kotlin-springboot-delegate-nodefaults
           - samples/server/petstore/kotlin-springboot-request-cookie
+          - samples/server/petstore/kotlin-springboot-4
           - samples/server/petstore/kotlin-server/jaxrs-spec
           - samples/server/petstore/kotlin-server/jaxrs-spec-mutiny
           - samples/server/petstore/kotlin-server/javalin
