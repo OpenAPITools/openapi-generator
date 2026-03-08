@@ -64,9 +64,9 @@ You now can regenerate the API module as often as you want without overriding yo
 
 ## Using Cookie parameters
 
-In order for cookie parameters to work, the the framework specific cookie middleware must be enabled.
+In order for cookie parameters to work, the framework specific cookie middleware must be enabled.
 
-For Express, the `cookie-parser` middleware must be installed and enabled.
+For Express, the [cookie-parser](https://www.npmjs.com/package/cookie-parser) middleware must be installed and enabled.
 
 ```
 npm install cookie-parser
