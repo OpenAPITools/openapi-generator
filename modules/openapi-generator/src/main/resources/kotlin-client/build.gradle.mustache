@@ -163,8 +163,13 @@ dependencies {
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{#useJackson3}}
+    implementation "tools.jackson.module:jackson-module-kotlin:3.0.1"
+    {{/useJackson3}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.20.0"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0"
+    {{/useJackson3}}
     {{/jackson}}
     {{#kotlinx_serialization}}
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0"
