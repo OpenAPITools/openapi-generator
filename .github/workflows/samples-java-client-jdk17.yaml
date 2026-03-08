@@ -43,6 +43,7 @@ jobs:
           - samples/client/petstore/java/restclient-useSingleRequestParameter-static
           - samples/client/others/java/webclient-sealedInterface
           - samples/client/others/java/webclient-sealedInterface_3_1
+          - samples/client/petstore/java/webclient-springBoot4-jackson3
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
     steps:
