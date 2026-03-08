@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@nestjs/common';
-import { UserApi } from '../../builds/default/api';
-import { User } from '../../builds/default/models';
+import { UserApi } from '../../../builds/default/api';
+import { User } from '../../../builds/default/models';
 
 @Injectable()
 export class UserService implements UserApi {

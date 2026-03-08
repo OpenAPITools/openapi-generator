@@ -1,0 +1,1 @@
+{{#defaultValue}}, new DefaultValuePipe({{{defaultValue}}}){{/defaultValue}}{{#isNumber}}, new {{#isFloat}}ParseFloatPipe({{/isFloat}}{{^isFloat}}ParseIntPipe({{/isFloat}}{{^isRequired}}{optional: true}{{/isRequired}}{{#isNullable}}{optional: true}{{/isNullable}}){{/isNumber}}

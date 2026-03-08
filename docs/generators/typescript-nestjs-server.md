@@ -40,14 +40,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |paramNaming|Naming convention for parameters: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|rxjsVersion|The version of RxJS compatible with Angular (see ngVersion option).| |null|
+|rxjsVersion|The version of RxJS.| |null|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |stringEnums|Generate string enums instead of objects for enum values.| |false|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|
-|tsVersion|The version of typescript compatible with Angular (see ngVersion option).| |null|
+|tsVersion|The version of typescript.| |null|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 
 ## IMPORT MAPPING
