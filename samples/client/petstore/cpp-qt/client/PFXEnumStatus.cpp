@@ -20,7 +20,7 @@
 
 namespace test_namespace {
 
-PFXEnumStatus::PFXEnumStatus(QString json) {
+PFXEnumStatus::PFXEnumStatus(const QString &json) {
     this->initializeModel();
     this->fromJson(json);
 }
@@ -38,7 +38,7 @@ void PFXEnumStatus::initializeModel() {
     m_value = ePFXEnumStatus::INVALID_VALUE_OPENAPI_GENERATED;
 }
 
-void PFXEnumStatus::fromJson(QString jsonString) {
+void PFXEnumStatus::fromJson(const QString &jsonString) {
     
     if ( jsonString.compare("placed", Qt::CaseInsensitive) == 0) {
         m_value = ePFXEnumStatus::PLACED;
