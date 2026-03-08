@@ -2794,7 +2794,12 @@ public class DefaultCodegen implements CodegenConfig {
                 addImport(composed, refSchema, m, modelName);
 
                 if (allDefinitions != null && refSchema != null) {
-                    if (allParents.contains(ref) && supportsMultipleInheritance) {
+                    if (ModelUtils.isOneOfWrapperSchema(refSchema)) {
+                        Map<String, Schema> newProperties = new LinkedHashMap<>();
+                        addProperties(newProperties, required, refSchema, new HashSet<>());
+                        mergeProperties(properties, newProperties);
+                        addProperties(allProperties, allRequired, refSchema, new HashSet<>());
+                    } else if (allParents.contains(ref) && supportsMultipleInheritance) {
                         // multiple inheritance
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     } else if (parentName != null && parentName.equals(ref) && supportsInheritance) {
@@ -3155,6 +3160,31 @@ public class DefaultCodegen implements CodegenConfig {
 
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
+
+        if (m.parent != null && m.readOnlyVars != null) {
+            Schema parentSchema = null;
+            if (allDefinitions != null && m.parentSchema != null) {
+                parentSchema = allDefinitions.get(m.parentSchema);
+            }
+            
+            Map<String, Schema> parentProperties = new LinkedHashMap<>();
+            if (parentSchema != null) {
+                addProperties(parentProperties, new ArrayList<>(), parentSchema, new HashSet<>());
+            }
+            
+            Set<String> parentReadOnlyNames = new HashSet<>();
+            for (Map.Entry<String, Schema> entry : parentProperties.entrySet()) {
+                if (Boolean.TRUE.equals(entry.getValue().getReadOnly())) {
+                    parentReadOnlyNames.add(entry.getKey());
+                }
+            }
+            
+            for (CodegenProperty roVar : m.readOnlyVars) {
+                if (Boolean.TRUE.equals(roVar.isOverridden) || parentReadOnlyNames.contains(roVar.baseName)) {
+                    roVar.vendorExtensions.put("x-is-inherited-readonly", Boolean.TRUE);
+                }
+            }
+        }
 
         // set isDiscriminator on the discriminator property
         if (m.discriminator != null) {

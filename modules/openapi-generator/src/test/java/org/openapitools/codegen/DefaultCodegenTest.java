@@ -5074,4 +5074,69 @@ public class DefaultCodegenTest {
         if (props == null) return null;
         return props.stream().map(v -> v.name).collect(Collectors.toList());
     }
+
+    @Test
+    public void testOneOfWrapperSchemaShouldNotBeUsedAsParent() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-oneOf-wrapper-inheritance.yaml");
+        codegen.setOpenAPI(openAPI);
+        
+        Schema clickEventSchema = openAPI.getComponents().getSchemas().get("ClickEvent");
+        CodegenModel clickEventModel = codegen.fromModel("ClickEvent", clickEventSchema);
+        
+        assertNull(clickEventModel.parent, "ClickEvent should not have EventWrapper as parent");
+        
+        Set<String> clickEventVarNames = clickEventModel.vars.stream()
+                .map(v -> v.name)
+                .collect(Collectors.toSet());
+        assertTrue(clickEventVarNames.contains("timestamp"), "ClickEvent should have 'timestamp' inlined");
+        assertTrue(clickEventVarNames.contains("userId"), "ClickEvent should have 'userId' inlined");
+        assertTrue(clickEventVarNames.contains("sessionId"), "ClickEvent should have 'sessionId' inlined");
+        assertTrue(clickEventVarNames.contains("elementId"), "ClickEvent should have 'elementId'");
+        assertTrue(clickEventVarNames.contains("clickX"), "ClickEvent should have 'clickX'");
+        assertTrue(clickEventVarNames.contains("clickY"), "ClickEvent should have 'clickY'");
+    }
+
+    @Test
+    public void testIsOneOfWrapperSchema() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-oneOf-wrapper-inheritance.yaml");
+        
+        Schema eventWrapperSchema = openAPI.getComponents().getSchemas().get("EventWrapper");
+        assertTrue(ModelUtils.isOneOfWrapperSchema(eventWrapperSchema), 
+                "EventWrapper should be detected as oneOf wrapper");
+        
+        Schema clickEventSchema = openAPI.getComponents().getSchemas().get("ClickEvent");
+        assertFalse(ModelUtils.isOneOfWrapperSchema(clickEventSchema), 
+                "ClickEvent should not be detected as oneOf wrapper");
+        
+        Schema scrollEventSchema = openAPI.getComponents().getSchemas().get("ScrollEvent");
+        assertFalse(ModelUtils.isOneOfWrapperSchema(scrollEventSchema), 
+                "ScrollEvent should not be detected as oneOf wrapper");
+    }
+
+    @Test
+    public void testInheritedReadOnlyPropertiesHaveProtectedSetters() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue-inherited-readonly-jsoncreator.yaml");
+        codegen.setOpenAPI(openAPI);
+        
+        Schema baseModelSchema = openAPI.getComponents().getSchemas().get("BaseModel");
+        CodegenModel baseModel = codegen.fromModel("BaseModel", baseModelSchema);
+        
+        assertTrue(baseModel.readOnlyVars != null && !baseModel.readOnlyVars.isEmpty(), 
+                "BaseModel should have readOnly properties");
+        
+        Schema extendedModelSchema = openAPI.getComponents().getSchemas().get("ExtendedModel");
+        CodegenModel extendedModel = codegen.fromModel("ExtendedModel", extendedModelSchema);
+        
+        assertEquals("BaseModel", extendedModel.parent, "ExtendedModel should extend BaseModel");
+        
+        boolean foundInheritedReadOnly = false;
+        for (CodegenProperty roVar : extendedModel.readOnlyVars) {
+            if (Boolean.TRUE.equals(roVar.vendorExtensions.get("x-is-inherited-readonly"))) {
+                foundInheritedReadOnly = true;
+            }
+        }
+        assertTrue(foundInheritedReadOnly, "ExtendedModel should have inherited readOnly properties with x-is-inherited-readonly vendor extension");
+    }
 }
