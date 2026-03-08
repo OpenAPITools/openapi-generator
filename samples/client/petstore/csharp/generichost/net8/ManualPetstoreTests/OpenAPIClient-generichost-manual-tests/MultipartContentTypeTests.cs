@@ -151,15 +151,19 @@ namespace OpenAPIClient_generichost_manual_tests
                 $"but found {parts.Length - 1}. Body:\n{_capturingHandler.CapturedBody}");
         }
 
+        /// <summary>
+        /// Covers issue #21384: multipart/form-data with only text form fields (no file)
+        /// must still include the boundary in Content-Type so the server can parse the body.
+        /// Uses UploadFileAsync with only the optional additionalMetadata text field, no file.
+        /// </summary>
         [TestMethod]
-        public async Task UpdatePetWithForm_FormFieldsOnly_ContentTypeHasBoundary()
+        public async Task UploadFile_TextFieldOnly_NoFile_ContentTypeHasBoundary()
         {
             var petApi = _host.Services.GetRequiredService<IPetApi>();
 
-            await petApi.UpdatePetWithFormAsync(
+            await petApi.UploadFileAsync(
                 petId: 1,
-                name: new Option<string>("Fido"),
-                status: new Option<string>("available"));
+                additionalMetadata: new Option<string>("some metadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
                 "Content-Type header should not be null for a multipart/form-data request.");
@@ -170,20 +174,17 @@ namespace OpenAPIClient_generichost_manual_tests
         }
 
         [TestMethod]
-        public async Task UpdatePetWithForm_FormFieldsOnly_BodyContainsFormValues()
+        public async Task UploadFile_TextFieldOnly_NoFile_BodyContainsTextValue()
         {
             var petApi = _host.Services.GetRequiredService<IPetApi>();
 
-            await petApi.UpdatePetWithFormAsync(
+            await petApi.UploadFileAsync(
                 petId: 1,
-                name: new Option<string>("Fido"),
-                status: new Option<string>("available"));
+                additionalMetadata: new Option<string>("testmetadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
-            StringAssert.Contains(_capturingHandler.CapturedBody, "Fido",
-                "Body should contain the name value.");
-            StringAssert.Contains(_capturingHandler.CapturedBody, "available",
-                "Body should contain the status value.");
+            StringAssert.Contains(_capturingHandler.CapturedBody, "testmetadata",
+                "Body should contain the additionalMetadata value.");
         }
     }
 }
