@@ -60,6 +60,7 @@ data class User (
     val userStatus: kotlin.Int? = null
 
 ) {
+    companion object { }
 
 
 }
