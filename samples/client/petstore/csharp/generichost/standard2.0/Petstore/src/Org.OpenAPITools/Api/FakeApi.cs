@@ -4334,11 +4334,6 @@ namespace Org.OpenAPITools.Api
                         "application/x-www-form-urlencoded"
                     };
 
-                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
                     httpRequestMessageLocalVar.Method = new HttpMethod("POST");
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
@@ -4651,11 +4646,6 @@ namespace Org.OpenAPITools.Api
                     string[] contentTypes = new string[] {
                         "application/x-www-form-urlencoded"
                     };
-
-                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 
@@ -5560,11 +5550,6 @@ namespace Org.OpenAPITools.Api
                     string[] contentTypes = new string[] {
                         "application/x-www-form-urlencoded"
                     };
-
-                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
 
                     httpRequestMessageLocalVar.Method = new HttpMethod("GET");
 

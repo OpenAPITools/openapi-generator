@@ -618,10 +618,12 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#consumes}}
                     {{#-first}}
 
+                    {{^formParams}}
                     string{{nrt?}} contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
 
                     if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
                         httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+                    {{/formParams}}
 
                     {{/-first}}
                     {{/consumes}}
