@@ -91,7 +91,7 @@ export class UserApi extends runtime.BaseAPI {
      * Create user
      */
     async createUserRaw(requestParameters: UserApiCreateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.createUserRequestOpts(requestParameters);
+        const requestOptions = this.createUserRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -138,7 +138,7 @@ export class UserApi extends runtime.BaseAPI {
      * Creates list of users with given input array
      */
     async createUsersWithArrayInputRaw(requestParameters: UserApiCreateUsersWithArrayInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.createUsersWithArrayInputRequestOpts(requestParameters);
+        const requestOptions = this.createUsersWithArrayInputRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -184,7 +184,7 @@ export class UserApi extends runtime.BaseAPI {
      * Creates list of users with given input array
      */
     async createUsersWithListInputRaw(requestParameters: UserApiCreateUsersWithListInputRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.createUsersWithListInputRequestOpts(requestParameters);
+        const requestOptions = this.createUsersWithListInputRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -229,7 +229,7 @@ export class UserApi extends runtime.BaseAPI {
      * Delete user
      */
     async deleteUserRaw(requestParameters: UserApiDeleteUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.deleteUserRequestOpts(requestParameters);
+        const requestOptions = this.deleteUserRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -274,7 +274,7 @@ export class UserApi extends runtime.BaseAPI {
      * Get user by user name
      */
     async getUserByNameRaw(requestParameters: UserApiGetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
-        const requestOptions = await this.getUserByNameRequestOpts(requestParameters);
+        const requestOptions = this.getUserByNameRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
@@ -333,7 +333,7 @@ export class UserApi extends runtime.BaseAPI {
      * Logs user into the system
      */
     async loginUserRaw(requestParameters: UserApiLoginUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.loginUserRequestOpts(requestParameters);
+        const requestOptions = this.loginUserRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -374,7 +374,7 @@ export class UserApi extends runtime.BaseAPI {
      * Logs out current logged in user session
      */
     async logoutUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.logoutUserRequestOpts();
+        const requestOptions = this.logoutUserRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -429,7 +429,7 @@ export class UserApi extends runtime.BaseAPI {
      * Updated user
      */
     async updateUserRaw(requestParameters: UserApiUpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.updateUserRequestOpts(requestParameters);
+        const requestOptions = this.updateUserRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);

@@ -65,7 +65,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags
      */
     async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestOptions = await this._123testSpecialTagsRequestOpts(requestParameters);
+        const requestOptions = this._123testSpecialTagsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));

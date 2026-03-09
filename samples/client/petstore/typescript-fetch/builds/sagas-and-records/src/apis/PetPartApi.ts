@@ -74,7 +74,7 @@ export class PetPartApi extends runtime.BaseAPI {
      * Returns single pet part type for the petPart id.
      */
     async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
-        const requestOptions = await this.getFakePetPartTypeRequestOpts(requestParameters);
+        const requestOptions = this.getFakePetPartTypeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetPetPartTypeResponseFromJSON(jsonValue));
@@ -160,7 +160,7 @@ export class PetPartApi extends runtime.BaseAPI {
      * Get the matching parts for the given pet part.
      */
     async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
-        const requestOptions = await this.getMatchingPartsRequestOpts(requestParameters);
+        const requestOptions = this.getMatchingPartsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetMatchingPartsResponseFromJSON(jsonValue));

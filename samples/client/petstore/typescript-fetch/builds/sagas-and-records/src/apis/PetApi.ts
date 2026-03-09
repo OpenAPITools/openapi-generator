@@ -511,7 +511,7 @@ export class PetApi extends runtime.BaseAPI {
      * Gets regions for a single pet.
      */
     async getPetRegionsRaw(requestParameters: GetPetRegionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PetRegionsResponse>> {
-        const requestOptions = await this.getPetRegionsRequestOpts(requestParameters);
+        const requestOptions = this.getPetRegionsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
@@ -617,7 +617,7 @@ export class PetApi extends runtime.BaseAPI {
      * Updates the pet regions.
      */
     async updatePetRegionsRaw(requestParameters: UpdatePetRegionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PetRegionsResponse>> {
-        const requestOptions = await this.updatePetRegionsRequestOpts(requestParameters);
+        const requestOptions = this.updatePetRegionsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));

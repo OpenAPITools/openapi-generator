@@ -69,7 +69,7 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get permissions for the behavior
      */
     async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
-        const requestOptions = await this.getBehaviorPermissionsRequestOpts(requestParameters);
+        const requestOptions = this.getBehaviorPermissionsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorPermissionsResponseFromJSON(jsonValue));
@@ -114,7 +114,7 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get the type of behavior
      */
     async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
-        const requestOptions = await this.getBehaviorTypeRequestOpts(requestParameters);
+        const requestOptions = this.getBehaviorTypeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetBehaviorTypeResponseFromJSON(jsonValue));

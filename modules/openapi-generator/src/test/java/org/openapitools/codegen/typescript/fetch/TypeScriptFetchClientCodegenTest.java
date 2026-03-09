@@ -472,12 +472,14 @@ public class TypeScriptFetchClientCodegenTest {
         Path apiFile = Paths.get(output + "/apis/DefaultApi.ts");
         TestUtils.assertFileExists(apiFile);
 
-        // Endpoint without auth: synchronous signature
+        // Endpoint without auth: synchronous signature and no await at call site
         TestUtils.assertFileContains(apiFile, "listPublicItemsRequestOpts(): runtime.RequestOpts {");
         TestUtils.assertFileNotContains(apiFile, "listPublicItemsRequestOpts(): Promise<runtime.RequestOpts>");
+        TestUtils.assertFileContains(apiFile, "const requestOptions = this.listPublicItemsRequestOpts()");
 
-        // Endpoint with auth: async signature
+        // Endpoint with auth: async signature and await at call site
         TestUtils.assertFileContains(apiFile, "async listPrivateItemsRequestOpts(): Promise<runtime.RequestOpts> {");
+        TestUtils.assertFileContains(apiFile, "const requestOptions = await this.listPrivateItemsRequestOpts()");
     }
 
     private static File generate(

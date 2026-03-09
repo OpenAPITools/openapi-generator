@@ -360,7 +360,7 @@ export class {{classname}} extends runtime.BaseAPI {
      {{/isDeprecated}}
      */
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
-        const requestOptions = await this.{{nickname}}RequestOpts({{#allParams.0}}requestParameters{{/allParams.0}});
+        const requestOptions = {{#hasAuthMethods}}await {{/hasAuthMethods}}this.{{nickname}}RequestOpts({{#allParams.0}}requestParameters{{/allParams.0}});
         const response = await this.request(requestOptions, initOverrides);
 
         {{#returnType}}

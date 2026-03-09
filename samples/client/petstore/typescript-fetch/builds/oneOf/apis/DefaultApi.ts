@@ -55,7 +55,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async testRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestResponse>> {
-        const requestOptions = await this.testRequestOpts();
+        const requestOptions = this.testRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestResponseFromJSON(jsonValue));
@@ -90,7 +90,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async testArrayRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestArrayResponse>> {
-        const requestOptions = await this.testArrayRequestOpts();
+        const requestOptions = this.testArrayRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestArrayResponseFromJSON(jsonValue));
@@ -125,7 +125,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async testDiscriminatorRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TestDiscriminatorResponse>> {
-        const requestOptions = await this.testDiscriminatorRequestOpts();
+        const requestOptions = this.testDiscriminatorRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TestDiscriminatorResponseFromJSON(jsonValue));

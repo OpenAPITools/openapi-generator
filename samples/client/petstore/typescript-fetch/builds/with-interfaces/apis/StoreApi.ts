@@ -173,7 +173,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Delete purchase order by ID
      */
     async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.deleteOrderRequestOpts(requestParameters);
+        const requestOptions = this.deleteOrderRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -262,7 +262,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Find purchase order by ID
      */
     async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
-        const requestOptions = await this.getOrderByIdRequestOpts(requestParameters);
+        const requestOptions = this.getOrderByIdRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
@@ -310,7 +310,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
      * Place an order for a pet
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
-        const requestOptions = await this.placeOrderRequestOpts(requestParameters);
+        const requestOptions = this.placeOrderRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));

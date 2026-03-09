@@ -174,7 +174,7 @@ export class FakeApi extends runtime.BaseAPI {
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      */
     async fakeBigDecimalMapRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FakeBigDecimalMap200Response>> {
-        const requestOptions = await this.fakeBigDecimalMapRequestOpts();
+        const requestOptions = this.fakeBigDecimalMapRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FakeBigDecimalMap200ResponseFromJSON(jsonValue));
@@ -211,7 +211,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Health check endpoint
      */
     async fakeHealthGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HealthCheckResult>> {
-        const requestOptions = await this.fakeHealthGetRequestOpts();
+        const requestOptions = this.fakeHealthGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => HealthCheckResultFromJSON(jsonValue));
@@ -305,7 +305,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of outer boolean types
      */
     async fakeOuterBooleanSerializeRaw(requestParameters: FakeOuterBooleanSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
-        const requestOptions = await this.fakeOuterBooleanSerializeRequestOpts(requestParameters);
+        const requestOptions = this.fakeOuterBooleanSerializeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -349,7 +349,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of object with outer number type
      */
     async fakeOuterCompositeSerializeRaw(requestParameters: FakeOuterCompositeSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterComposite>> {
-        const requestOptions = await this.fakeOuterCompositeSerializeRequestOpts(requestParameters);
+        const requestOptions = this.fakeOuterCompositeSerializeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OuterCompositeFromJSON(jsonValue));
@@ -389,7 +389,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of outer number types
      */
     async fakeOuterNumberSerializeRaw(requestParameters: FakeOuterNumberSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
-        const requestOptions = await this.fakeOuterNumberSerializeRequestOpts(requestParameters);
+        const requestOptions = this.fakeOuterNumberSerializeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -433,7 +433,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of outer string types
      */
     async fakeOuterStringSerializeRaw(requestParameters: FakeOuterStringSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.fakeOuterStringSerializeRequestOpts(requestParameters);
+        const requestOptions = this.fakeOuterStringSerializeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -484,7 +484,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of enum (int) properties with examples
      */
     async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
-        const requestOptions = await this.fakePropertyEnumIntegerSerializeRequestOpts(requestParameters);
+        const requestOptions = this.fakePropertyEnumIntegerSerializeRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OuterObjectWithEnumPropertyFromJSON(jsonValue));
@@ -531,7 +531,7 @@ export class FakeApi extends runtime.BaseAPI {
      * For this test, the body has to be a binary file.
      */
     async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testBodyWithBinaryRequestOpts(requestParameters);
+        const requestOptions = this.testBodyWithBinaryRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -577,7 +577,7 @@ export class FakeApi extends runtime.BaseAPI {
      * For this test, the body for this request must reference a schema named `File`.
      */
     async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testBodyWithFileSchemaRequestOpts(requestParameters);
+        const requestOptions = this.testBodyWithFileSchemaRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -633,7 +633,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      */
     async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testBodyWithQueryParamsRequestOpts(requestParameters);
+        const requestOptions = this.testBodyWithQueryParamsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -679,7 +679,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test \"client\" model
      */
     async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        const requestOptions = await this.testClientModelRequestOpts(requestParameters);
+        const requestOptions = this.testClientModelRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
@@ -911,7 +911,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test enum parameters
      */
     async testEnumParametersRaw(requestParameters: TestEnumParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testEnumParametersRequestOpts(requestParameters);
+        const requestOptions = this.testEnumParametersRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -1050,7 +1050,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test inline additionalProperties
      */
     async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testInlineAdditionalPropertiesRequestOpts(requestParameters);
+        const requestOptions = this.testInlineAdditionalPropertiesRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -1125,7 +1125,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test json serialization of form data
      */
     async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testJsonFormDataRequestOpts(requestParameters);
+        const requestOptions = this.testJsonFormDataRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -1234,7 +1234,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test the collection format in query parameters
      */
     async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        const requestOptions = await this.testQueryParameterCollectionFormatRequestOpts(requestParameters);
+        const requestOptions = this.testQueryParameterCollectionFormatRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);

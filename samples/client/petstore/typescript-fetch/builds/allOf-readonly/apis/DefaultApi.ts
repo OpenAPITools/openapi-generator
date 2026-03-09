@@ -61,7 +61,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
-        const requestOptions = await this.listRequestOpts(requestParameters);
+        const requestOptions = this.listRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClubFromJSON(jsonValue));

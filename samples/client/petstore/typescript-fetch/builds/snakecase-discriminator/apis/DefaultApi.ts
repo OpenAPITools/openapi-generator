@@ -49,7 +49,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async fooGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FooGetDefaultResponse>> {
-        const requestOptions = await this.fooGetRequestOpts();
+        const requestOptions = this.fooGetRequestOpts();
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FooGetDefaultResponseFromJSON(jsonValue));

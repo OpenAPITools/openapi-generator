@@ -295,7 +295,7 @@ export class UserApi extends runtime.BaseAPI {
      * Get user by user name
      */
     async getUserByNameRaw(requestParameters: GetUserByNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
-        const requestOptions = await this.getUserByNameRequestOpts(requestParameters);
+        const requestOptions = this.getUserByNameRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
@@ -356,7 +356,7 @@ export class UserApi extends runtime.BaseAPI {
      * Logs user into the system
      */
     async loginUserRaw(requestParameters: LoginUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        const requestOptions = await this.loginUserRequestOpts(requestParameters);
+        const requestOptions = this.loginUserRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
