@@ -22,6 +22,7 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
+import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -4934,6 +4935,37 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(pomPath, "com.fasterxml.jackson.dataformat");
         assertFileNotContains(pomPath, "com.fasterxml.jackson.module");
         assertFileNotContains(pomPath, "jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void shouldDeclareSpringdocVersionWhenSwaggerUIDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.toCliOptValue());
+        codegen.additionalProperties().put(SwaggerUIFeatures.USE_SWAGGER_UI, false);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path pomPath = Paths.get(outputPath + "/pom.xml");
+        String pomContent = new String(Files.readAllBytes(pomPath), StandardCharsets.UTF_8);
+        String propertiesBlock = pomContent.substring(
+                pomContent.indexOf("<properties>"),
+                pomContent.indexOf("</properties>"));
+        assertThat(propertiesBlock).contains("<springdoc-openapi.version>");
     }
 }
 
