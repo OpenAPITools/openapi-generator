@@ -47,6 +47,60 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
         protected const val TEXT_MEDIA_TYPE: String = "text/plain"
 
+        @Deprecated(
+          message = "Please use the capitalized constant `CONTENT_TYPE` instead.",
+          replaceWith = ReplaceWith("CONTENT_TYPE")
+        )
+        protected const val ContentType: String = CONTENT_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `ACCEPT` instead.",
+          replaceWith = ReplaceWith("ACCEPT")
+        )
+        protected const val Accept: String = ACCEPT
+
+        @Deprecated(
+          message = "Please use the capitalized constant `AUTHORIZATION` instead.",
+          replaceWith = ReplaceWith("AUTHORIZATION")
+        )
+        protected const val Authorization: String = AUTHORIZATION
+
+        @Deprecated(
+          message = "Please use the capitalized constant `JSON_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("JSON_MEDIA_TYPE")
+        )
+        protected const val JsonMediaType: String = JSON_MEDIA_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_DATA_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_DATA_MEDIA_TYPE")
+        )
+        protected const val FormDataMediaType: String = FORM_DATA_MEDIA_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_URL_ENC_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_URL_ENC_MEDIA_TYPE")
+        )
+        protected const val FormUrlEncMediaType: String = FORM_URL_ENC_MEDIA_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `XML_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("XML_MEDIA_TYPE")
+        )
+        protected const val XmlMediaType: String = XML_MEDIA_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `OCTET_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("OCTET_MEDIA_TYPE")
+        )
+        protected const val OctetMediaType: String = OCTET_MEDIA_TYPE
+
+        @Deprecated(
+          message = "Please use the capitalized constant `TEXT_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("TEXT_MEDIA_TYPE")
+        )
+        protected const val TextMediaType: String = TEXT_MEDIA_TYPE
+
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
