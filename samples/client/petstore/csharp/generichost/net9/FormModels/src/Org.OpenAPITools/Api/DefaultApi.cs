@@ -768,7 +768,8 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("country", ClientUtils.ParameterToString(country)));
 
-                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    if (formParameterLocalVars.Count > 0)
+                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
