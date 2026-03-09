@@ -4967,6 +4967,49 @@ public class KotlinSpringServerCodegenTest {
                 pomContent.indexOf("</properties>"));
         assertThat(propertiesBlock).contains("<springdoc-openapi.version>");
     }
+
+    @Test
+    public void shouldNotUseLegacyOAuth2WithSpringBoot4CloudLibrary() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary("spring-cloud");
+
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
+        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(input).generate();
+
+        Path clientConfigPath = Paths.get(outputPath + "/src/main/kotlin/org/openapitools/configuration/ClientConfiguration.kt");
+        // Legacy OAuth2 classes must NOT be present
+        assertFileNotContains(clientConfigPath, "DefaultOAuth2ClientContext");
+        assertFileNotContains(clientConfigPath, "OAuth2FeignRequestInterceptor");
+        assertFileNotContains(clientConfigPath, "ClientCredentialsResourceDetails");
+        assertFileNotContains(clientConfigPath, "AuthorizationCodeResourceDetails");
+        assertFileNotContains(clientConfigPath, "ImplicitResourceDetails");
+        assertFileNotContains(clientConfigPath, "ResourceOwnerPasswordResourceDetails");
+
+        // Modern OAuth2 client classes MUST be present
+        assertFileContains(clientConfigPath, "OAuth2AuthorizedClientManager");
+        assertFileContains(clientConfigPath, "AuthorizedClientServiceOAuth2AuthorizedClientManager");
+        assertFileContains(clientConfigPath, "OAuth2AuthorizeRequest");
+        assertFileContains(clientConfigPath, "OAuth2AuthorizedClientService");
+        assertFileContains(clientConfigPath, "ClientRegistrationRepository");
+        assertFileContains(clientConfigPath, "OAuth2RequestInterceptor");
+    }
 }
 
 
