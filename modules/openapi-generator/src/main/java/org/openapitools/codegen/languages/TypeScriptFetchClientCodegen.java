@@ -33,6 +33,7 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -709,6 +710,32 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (!allModels.isEmpty() && !addedModelIndex) {
             addedModelIndex = true;
             supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        }
+
+        // Convert operations returning "Null" (from OpenAPI 3.1 `type: 'null'`) to void.
+        // No Null model file is generated, so importing it would cause compilation errors.
+        OperationMap operationMap = operations.getOperations();
+        if (operationMap != null) {
+            boolean hasNullReturnType = false;
+            for (CodegenOperation op : operationMap.getOperation()) {
+                if ("Null".equals(op.returnType)) {
+                    op.returnType = null;
+                    op.returnBaseType = null;
+                    op.imports.remove("Null");
+                    hasNullReturnType = true;
+                }
+            }
+            if (hasNullReturnType) {
+                boolean anyOpStillImportsNull = operationMap.getOperation().stream()
+                        .anyMatch(op -> op.imports.contains("Null"));
+                if (!anyOpStillImportsNull) {
+                    List<Map<String, String>> imports = operations.getImports();
+                    imports.removeIf(im -> {
+                        String importValue = im.get("import");
+                        return importValue != null && importValue.endsWith(".Null");
+                    });
+                }
+            }
         }
 
         this.addOperationModelImportInformation(operations);
