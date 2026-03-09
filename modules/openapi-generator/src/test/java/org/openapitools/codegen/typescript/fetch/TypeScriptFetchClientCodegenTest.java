@@ -462,8 +462,8 @@ public class TypeScriptFetchClientCodegenTest {
         // Should contain the valid model types
         TestUtils.assertFileContains(nullableResult, "FileLocation");
         TestUtils.assertFileContains(nullableResult, "DetailedLocation");
-        // Union type should not include Null
-        TestUtils.assertFileContains(nullableResult, "export type NullableResult = DetailedLocation | FileLocation");
+        // Union type should not include Null but should be nullable
+        TestUtils.assertFileContains(nullableResult, "export type NullableResult = DetailedLocation | FileLocation | null");
 
         // No Null.ts model file should be generated
         TestUtils.assertFileNotExists(Paths.get(output + "/models/Null.ts"));
