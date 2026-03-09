@@ -17,7 +17,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func deleteOrderRaw(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func deleteOrderRaw(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -50,7 +50,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of the order that needs to be deleted 
      - returns: `EventLoopFuture` of `DeleteOrder` 
      */
-    open class func deleteOrder(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder> {
+    open class func deleteOrder(orderId: String, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<DeleteOrder> {
         return deleteOrderRaw(orderId: orderId, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> DeleteOrder in
             switch response.status.code {
             case 400:
@@ -72,7 +72,7 @@ open class StoreAPI {
        - name: api_key
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getInventoryRaw(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getInventoryRaw(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/inventory"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -103,7 +103,7 @@ open class StoreAPI {
        - name: api_key
      - returns: `EventLoopFuture` of `GetInventory` 
      */
-    open class func getInventory(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory> {
+    open class func getInventory(headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetInventory> {
         return getInventoryRaw(headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetInventory in
             switch response.status.code {
             case 200:
@@ -121,7 +121,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func getOrderByIdRaw(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func getOrderByIdRaw(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         var localVariablePath = "/store/order/{order_id}"
         let orderIdPreEscape = String(describing: orderId)
         let orderIdPostEscape = orderIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -155,7 +155,7 @@ open class StoreAPI {
      - parameter orderId: (path) ID of pet that needs to be fetched 
      - returns: `EventLoopFuture` of `GetOrderById` 
      */
-    open class func getOrderById(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById> {
+    open class func getOrderById(orderId: Int64, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<GetOrderById> {
         return getOrderByIdRaw(orderId: orderId, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> GetOrderById in
             switch response.status.code {
             case 200:
@@ -176,7 +176,7 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func placeOrderRaw(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func placeOrderRaw(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/store/order"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -206,7 +206,7 @@ open class StoreAPI {
      - parameter body: (body) order placed for purchasing the pet 
      - returns: `EventLoopFuture` of `PlaceOrder` 
      */
-    open class func placeOrder(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder> {
+    open class func placeOrder(body: Order, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<PlaceOrder> {
         return placeOrderRaw(body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> PlaceOrder in
             switch response.status.code {
             case 200:

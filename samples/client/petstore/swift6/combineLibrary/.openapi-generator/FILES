@@ -18,6 +18,7 @@ Sources/CombineLibrary/Infrastructure/JSONDataEncoding.swift
 Sources/CombineLibrary/Infrastructure/JSONEncodingHelper.swift
 Sources/CombineLibrary/Infrastructure/JSONValue.swift
 Sources/CombineLibrary/Infrastructure/Models.swift
+Sources/CombineLibrary/Infrastructure/OpenAPIMutex.swift
 Sources/CombineLibrary/Infrastructure/OpenISO8601DateFormatter.swift
 Sources/CombineLibrary/Infrastructure/SynchronizedDictionary.swift
 Sources/CombineLibrary/Infrastructure/URLSessionImplementations.swift

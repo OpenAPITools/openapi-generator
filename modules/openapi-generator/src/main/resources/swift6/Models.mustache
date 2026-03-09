@@ -133,48 +133,39 @@ extension Response : Sendable where T : Sendable {}{{#useAlamofire}}
 }{{/useAlamofire}}
 
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} final class RequestTask: @unchecked Sendable {
-    private let lock = NSRecursiveLock()
 {{#useAlamofire}}
-    private var request: Request?
+    private let _state = OpenAPIMutex<Request?>(nil)
 
     internal func set(request: Request) {
-        lock.withLock {
-            self.request = request
-        }
+        _state.withValue { $0 = request }
     }
 
     internal func get() -> Request? {
-        lock.withLock {
-            request
-        }
+        _state.value
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
-        lock.withLock {
-            request?.cancel()
-            request = nil
+        _state.withValue {
+            $0?.cancel()
+            $0 = nil
         }
     }
 {{/useAlamofire}}
 {{^useAlamofire}}
-    private var task: URLSessionDataTaskProtocol?
+    private let _state = OpenAPIMutex<URLSessionDataTaskProtocol?>(nil)
 
     internal func set(task: URLSessionDataTaskProtocol) {
-        lock.withLock {
-            self.task = task
-        }
+        _state.withValue { $0 = task }
     }
 
     internal func get() -> URLSessionDataTaskProtocol? {
-        lock.withLock {
-            task
-        }
+        _state.value
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} func cancel() {
-        lock.withLock {
-            task?.cancel()
-            task = nil
+        _state.withValue {
+            $0?.cancel()
+            $0 = nil
         }
     }
 {{/useAlamofire}}

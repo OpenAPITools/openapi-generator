@@ -8,37 +8,58 @@
 import Foundation
 
 open class CodableHelper: @unchecked Sendable {
+
+    // MARK: - Private state
+
+    private struct State {
+        var customDateFormatter: DateFormatter?
+        var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
+        var customJSONDecoder: JSONDecoder?
+        var defaultJSONDecoder: JSONDecoder?
+        var customJSONEncoder: JSONEncoder?
+        var defaultJSONEncoder: JSONEncoder?
+    }
+
+    private let _state = OpenAPIMutex(State())
+
+    // MARK: - Init
+
     public init() {}
 
-    private var customDateFormatter: DateFormatter?
-    private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
-
-    private var customJSONDecoder: JSONDecoder?
-    private lazy var defaultJSONDecoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        return decoder
-    }()
-
-    private var customJSONEncoder: JSONEncoder?
-    private lazy var defaultJSONEncoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        encoder.outputFormatting = .prettyPrinted
-        return encoder
-    }()
+    // MARK: - Public interface
 
     public var dateFormatter: DateFormatter {
-        get { return customDateFormatter ?? defaultDateFormatter }
-        set { customDateFormatter = newValue }
+        get { _state.withValue { $0.customDateFormatter ?? $0.defaultDateFormatter } }
+        set { _state.withValue { $0.customDateFormatter = newValue } }
     }
+
     public var jsonDecoder: JSONDecoder {
-        get { return customJSONDecoder ?? defaultJSONDecoder }
-        set { customJSONDecoder = newValue }
+        get {
+            _state.withValue { state in
+                if let custom = state.customJSONDecoder { return custom }
+                if let cached = state.defaultJSONDecoder { return cached }
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .formatted(state.customDateFormatter ?? state.defaultDateFormatter)
+                state.defaultJSONDecoder = decoder
+                return decoder
+            }
+        }
+        set { _state.withValue { $0.customJSONDecoder = newValue } }
     }
+
     public var jsonEncoder: JSONEncoder {
-        get { return customJSONEncoder ?? defaultJSONEncoder }
-        set { customJSONEncoder = newValue }
+        get {
+            _state.withValue { state in
+                if let custom = state.customJSONEncoder { return custom }
+                if let cached = state.defaultJSONEncoder { return cached }
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .formatted(state.customDateFormatter ?? state.defaultDateFormatter)
+                encoder.outputFormatting = .prettyPrinted
+                state.defaultJSONEncoder = encoder
+                return encoder
+            }
+        }
+        set { _state.withValue { $0.customJSONEncoder = newValue } }
     }
 
     open func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {

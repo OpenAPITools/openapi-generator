@@ -11,28 +11,86 @@ import FoundationNetworking
 import Alamofire
 
 open class PetstoreClientAPIConfiguration: @unchecked Sendable {
-    public var basePath: String
-    public var customHeaders: [String: String]
-    public var credential: URLCredential?
-    public var requestBuilderFactory: RequestBuilderFactory
-    public var apiResponseQueue: DispatchQueue
-    public var codableHelper: CodableHelper
 
-    /// Configures the range of HTTP status codes that will result in a successful response
+    // MARK: - Private state
+
+    private struct State {
+        var basePath: String
+        var customHeaders: [String: String]
+        var credential: URLCredential?
+        var requestBuilderFactory: RequestBuilderFactory
+        var apiResponseQueue: DispatchQueue
+        var codableHelper: CodableHelper
+        var successfulStatusCodeRange: Range<Int>
+        var interceptor: RequestInterceptor?
+        var dataResponseSerializer: AnyResponseSerializer<Data>
+        var stringResponseSerializer: AnyResponseSerializer<String>
+    }
+
+    private let _state: OpenAPIMutex<State>
+
+    // MARK: - Public interface
+
+    public var basePath: String {
+        get { _state.value.basePath }
+        set { _state.withValue { $0.basePath = newValue } }
+    }
+
+    public var customHeaders: [String: String] {
+        get { _state.value.customHeaders }
+        set { _state.withValue { $0.customHeaders = newValue } }
+    }
+
+    public var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    public var requestBuilderFactory: RequestBuilderFactory {
+        get { _state.value.requestBuilderFactory }
+        set { _state.withValue { $0.requestBuilderFactory = newValue } }
+    }
+
+    public var apiResponseQueue: DispatchQueue {
+        get { _state.value.apiResponseQueue }
+        set { _state.withValue { $0.apiResponseQueue = newValue } }
+    }
+
+    public var codableHelper: CodableHelper {
+        get { _state.value.codableHelper }
+        set { _state.withValue { $0.codableHelper = newValue } }
+    }
+
+    /// Configures the range of HTTP status codes that will result in a successful response.
     ///
     /// If a HTTP status code is outside of this range the response will be interpreted as failed.
-    public var successfulStatusCodeRange: Range<Int>
+    public var successfulStatusCodeRange: Range<Int> {
+        get { _state.value.successfulStatusCodeRange }
+        set { _state.withValue { $0.successfulStatusCodeRange = newValue } }
+    }
 
-    public var interceptor: RequestInterceptor?
+    public var interceptor: RequestInterceptor? {
+        get { _state.value.interceptor }
+        set { _state.withValue { $0.interceptor = newValue } }
+    }
 
     /// ResponseSerializer that will be used by the generator for `Data` responses
     ///
-    /// If unchanged, Alamofires default `DataResponseSerializer` will be used. 
-    public var dataResponseSerializer: AnyResponseSerializer<Data>
+    /// If unchanged, Alamofires default `DataResponseSerializer` will be used.
+    public var dataResponseSerializer: AnyResponseSerializer<Data> {
+        get { _state.value.dataResponseSerializer }
+        set { _state.withValue { $0.dataResponseSerializer = newValue } }
+    }
+
     /// ResponseSerializer that will be used by the generator for `String` responses
     ///
-    /// If unchanged, Alamofires default `StringResponseSerializer` will be used. 
-    public var stringResponseSerializer: AnyResponseSerializer<String>
+    /// If unchanged, Alamofires default `StringResponseSerializer` will be used.
+    public var stringResponseSerializer: AnyResponseSerializer<String> {
+        get { _state.value.stringResponseSerializer }
+        set { _state.withValue { $0.stringResponseSerializer = newValue } }
+    }
+
+    // MARK: - Init
 
     public init(
         basePath: String = "http://petstore.swagger.io:80/v2",
@@ -46,24 +104,27 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
         dataResponseSerializer: AnyResponseSerializer<Data> = AnyResponseSerializer(DataResponseSerializer()),
         stringResponseSerializer: AnyResponseSerializer<String> = AnyResponseSerializer(StringResponseSerializer())
     ) {
-        self.basePath = basePath
-        self.customHeaders = customHeaders
-        self.credential = credential
-        self.requestBuilderFactory = requestBuilderFactory
-        self.apiResponseQueue = apiResponseQueue
-        self.codableHelper = codableHelper
-        self.successfulStatusCodeRange = successfulStatusCodeRange
-        self.interceptor = interceptor
-        self.dataResponseSerializer = dataResponseSerializer
-        self.stringResponseSerializer = stringResponseSerializer
+        _state = OpenAPIMutex(State(
+            basePath: basePath,
+            customHeaders: customHeaders,
+            credential: credential,
+            requestBuilderFactory: requestBuilderFactory,
+            apiResponseQueue: apiResponseQueue,
+            codableHelper: codableHelper,
+            successfulStatusCodeRange: successfulStatusCodeRange,
+            interceptor: interceptor,
+            dataResponseSerializer: dataResponseSerializer,
+            stringResponseSerializer: stringResponseSerializer
+        ))
     }
 
     public static let shared = PetstoreClientAPIConfiguration()
 }
 
 open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
-    public var credential: URLCredential?
-    public var headers: [String: String]
+
+    // MARK: - Immutable properties
+
     public let parameters: [String: any Sendable]?
     public let method: String
     public let URLString: String
@@ -71,24 +132,62 @@ open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
     public let requiresAuthentication: Bool
     public let apiConfiguration: PetstoreClientAPIConfiguration
 
-    /// Optional block to obtain a reference to the request's progress instance when available.
-    public var onProgressReady: ((Progress) -> Void)?
+    // MARK: - Private mutable state
 
-    required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
+    private struct MutableState {
+        var credential: URLCredential? = nil
+        var headers: [String: String]
+        var onProgressReady: ((Progress) -> Void)? = nil
+    }
+
+    private let _state: OpenAPIMutex<MutableState>
+
+    // MARK: - Public mutable interface
+
+    public var credential: URLCredential? {
+        get { _state.value.credential }
+        set { _state.withValue { $0.credential = newValue } }
+    }
+
+    public var headers: [String: String] {
+        get { _state.value.headers }
+        set { _state.withValue { $0.headers = newValue } }
+    }
+
+    /// Optional block to obtain a reference to the request's progress instance when available.
+    public var onProgressReady: ((Progress) -> Void)? {
+        get { _state.value.onProgressReady }
+        set { _state.withValue { $0.onProgressReady = newValue } }
+    }
+
+    // MARK: - Init
+
+    required public init(
+        method: String,
+        URLString: String,
+        parameters: [String: any Sendable]?,
+        headers: [String: String] = [:],
+        requiresAuthentication: Bool,
+        apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared
+    ) {
         self.method = method
         self.URLString = URLString
         self.parameters = parameters
-        self.headers = headers
         self.requiresAuthentication = requiresAuthentication
         self.apiConfiguration = apiConfiguration
+        self._state = OpenAPIMutex(MutableState(headers: headers))
 
         addHeaders(apiConfiguration.customHeaders)
         addCredential()
     }
 
+    // MARK: - Public methods
+
     open func addHeaders(_ aHeaders: [String: String]) {
-        for (header, value) in aHeaders {
-            headers[header] = value
+        _state.withValue { state in
+            for (header, value) in aHeaders {
+                state.headers[header] = value
+            }
         }
     }
 
@@ -145,13 +244,15 @@ open class RequestBuilder<T: Sendable>: @unchecked Sendable, Identifiable {
 
     public func addHeader(name: String, value: String) -> Self {
         if !value.isEmpty {
-            headers[name] = value
+            _state.withValue { $0.headers[name] = value }
         }
         return self
     }
 
     open func addCredential() {
-        credential = apiConfiguration.credential
+        _state.withValue { [apiConfiguration] state in
+            state.credential = apiConfiguration.credential
+        }
     }
 }
 
