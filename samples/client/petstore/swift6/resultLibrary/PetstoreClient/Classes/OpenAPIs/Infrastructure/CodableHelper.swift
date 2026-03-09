@@ -14,10 +14,22 @@ internal class CodableHelper: @unchecked Sendable {
     private struct State {
         var customDateFormatter: DateFormatter?
         var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
+
         var customJSONDecoder: JSONDecoder?
-        var defaultJSONDecoder: JSONDecoder?
+        var defaultJSONDecoder: JSONDecoder = JSONDecoder()
+
         var customJSONEncoder: JSONEncoder?
-        var defaultJSONEncoder: JSONEncoder?
+        var defaultJSONEncoder: JSONEncoder = JSONEncoder()
+
+        init() {
+            didUpdateDateFormatter()
+            defaultJSONEncoder.outputFormatting = .prettyPrinted
+        }
+
+        mutating func didUpdateDateFormatter() {
+            defaultJSONDecoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            defaultJSONEncoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+        }
     }
 
     private let _state = OpenAPIMutex(State())
@@ -33,46 +45,30 @@ internal class CodableHelper: @unchecked Sendable {
         set {
             _state.withValue { state in
                 state.customDateFormatter = newValue
-                state.defaultJSONDecoder = nil
-                state.defaultJSONEncoder = nil
+                state.didUpdateDateFormatter()
             }
         }
     }
 
     internal var jsonDecoder: JSONDecoder {
-        get {
-            _state.withValue { state in
-                if let custom = state.customJSONDecoder { return custom }
-                if let cached = state.defaultJSONDecoder { return cached }
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .formatted(state.customDateFormatter ?? state.defaultDateFormatter)
-                state.defaultJSONDecoder = decoder
-                return decoder
-            }
-        }
+        get { _state.withValue { $0.customJSONDecoder ?? $0.defaultJSONDecoder } }
         set { _state.withValue { $0.customJSONDecoder = newValue } }
     }
 
     internal var jsonEncoder: JSONEncoder {
-        get {
-            _state.withValue { state in
-                if let custom = state.customJSONEncoder { return custom }
-                if let cached = state.defaultJSONEncoder { return cached }
-                let encoder = JSONEncoder()
-                encoder.dateEncodingStrategy = .formatted(state.customDateFormatter ?? state.defaultDateFormatter)
-                encoder.outputFormatting = .prettyPrinted
-                state.defaultJSONEncoder = encoder
-                return encoder
-            }
-        }
+        get { _state.withValue { $0.customJSONEncoder ?? $0.defaultJSONEncoder } }
         set { _state.withValue { $0.customJSONEncoder = newValue } }
     }
 
     internal func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
-        return Swift.Result { try jsonDecoder.decode(type, from: data) }
+        _state.withValue { state in
+            Swift.Result { try (state.customJSONDecoder ?? state.defaultJSONDecoder).decode(type, from: data) }
+        }
     }
 
     internal func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
-        return Swift.Result { try jsonEncoder.encode(value) }
+        _state.withValue { state in
+            Swift.Result { try (state.customJSONEncoder ?? state.defaultJSONEncoder).encode(value) }
+        }
     }
 }
