@@ -2933,8 +2933,10 @@ namespace Org.OpenAPITools.Api
 
                     List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
 
-                    var streamContentLocalVar = new StreamContent(requiredFile.Content);
-                    multipartContentLocalVar.Add(streamContentLocalVar, "requiredFile", requiredFile.FileName ?? "requiredFile");
+                    {
+                        var streamContentLocalVar = new StreamContent(requiredFile.Content);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "requiredFile", requiredFile.FileName ?? "requiredFile");
+                    }
 
                     if (additionalMetadata.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));

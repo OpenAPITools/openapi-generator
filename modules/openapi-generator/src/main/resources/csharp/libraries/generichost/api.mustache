@@ -500,8 +500,10 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/isContainer}}
                     {{^isContainer}}
-                    var streamContentLocalVar = new StreamContent({{paramName}}.Content);
-                    multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.FileName ?? "{{baseName}}");
+                    {
+                        var streamContentLocalVar = new StreamContent({{paramName}}.Content);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.FileName ?? "{{baseName}}");
+                    }
 
                     {{/isContainer}}
                     {{/required}}
