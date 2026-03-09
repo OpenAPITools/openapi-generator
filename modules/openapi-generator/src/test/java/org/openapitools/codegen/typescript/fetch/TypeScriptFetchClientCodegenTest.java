@@ -469,6 +469,35 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotExists(Paths.get(output + "/models/Null.ts"));
     }
 
+    @Test(description = "Verify null response type is converted to void")
+    public void testNullResponseTypeConvertedToVoid() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/null-response.yaml"
+        );
+
+        Path apiFile = Paths.get(output + "/apis/ItemsApi.ts");
+        TestUtils.assertFileExists(apiFile);
+
+        // Should not import or reference a "Null" model
+        TestUtils.assertFileNotContains(apiFile, "Null,");
+        TestUtils.assertFileNotContains(apiFile, "NullFromJSON");
+        TestUtils.assertFileNotContains(apiFile, "NullToJSON");
+
+        // Delete endpoint should use void return type
+        TestUtils.assertFileContains(apiFile, "Promise<runtime.ApiResponse<void>>");
+        TestUtils.assertFileContains(apiFile, "VoidApiResponse");
+
+        // Get endpoint should still use Item model
+        TestUtils.assertFileContains(apiFile, "ItemFromJSON");
+        TestUtils.assertFileContains(apiFile, "Promise<runtime.ApiResponse<Item>>");
+
+        // No Null.ts model should be generated
+        TestUtils.assertFileNotExists(Paths.get(output + "/models/Null.ts"));
+        // Item model should still exist
+        TestUtils.assertFileExists(Paths.get(output + "/models/Item.ts"));
+    }
+
     @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")
     public void testValidationAttributesWithWithoutRuntimeChecks() throws IOException {
         Map<String, Object> properties = new HashMap<>();
