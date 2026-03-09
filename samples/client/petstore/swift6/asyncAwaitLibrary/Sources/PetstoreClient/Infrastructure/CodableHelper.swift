@@ -30,7 +30,13 @@ open class CodableHelper: @unchecked Sendable {
 
     public var dateFormatter: DateFormatter {
         get { _state.withValue { $0.customDateFormatter ?? $0.defaultDateFormatter } }
-        set { _state.withValue { $0.customDateFormatter = newValue } }
+        set {
+            _state.withValue { state in
+                state.customDateFormatter = newValue
+                state.defaultJSONDecoder = nil
+                state.defaultJSONEncoder = nil
+            }
+        }
     }
 
     public var jsonDecoder: JSONDecoder {
