@@ -7,11 +7,11 @@ import com.fasterxml.jackson.core.type.TypeReference
 
 open class ApiClient(val basePath: kotlin.String = defaultBasePath, val accessToken: String? = null, val apiKey: MutableMap<String, String> = mutableMapOf(), val apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), var username: String? = null, var password: String? = null, val vertx: Vertx) {
     companion object {
-        const val baseUrlKey: String = "org.openapitools.client.baseUrl"
+        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 

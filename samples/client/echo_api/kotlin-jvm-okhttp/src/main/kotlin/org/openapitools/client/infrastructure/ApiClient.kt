@@ -34,22 +34,22 @@ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
-        protected const val ContentType: String = "Content-Type"
-        protected const val Accept: String = "Accept"
-        protected const val Authorization: String = "Authorization"
-        protected const val JsonMediaType: String = "application/json"
-        protected const val FormDataMediaType: String = "multipart/form-data"
-        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType: String = "application/xml"
-        protected const val OctetMediaType: String = "application/octet-stream"
-        protected const val TextMediaType: String = "text/plain"
+        protected const val CONTENT_TYPE: String = "Content-Type"
+        protected const val ACCEPT: String = "ACCEPT"
+        protected const val AUTHORIZATION: String = "AUTHORIZATION"
+        protected const val JSON_MEDIA_TYPE: String = "application/json"
+        protected const val FORM_DATA_MEDIA_TYPE: String = "multipart/form-data"
+        protected const val FORM_URL_ENC_MEDIA_TYPE: String = "application/x-www-form-urlencoded"
+        protected const val XML_MEDIA_TYPE: String = "application/xml"
+        protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
+        protected const val TEXT_MEDIA_TYPE: String = "text/plain"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey: String = "org.openapitools.client.baseUrl"
+        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {
@@ -69,7 +69,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
         val contentType = try {
             URLConnection.guessContentTypeFromStream(byteArray.inputStream())
-        } catch (io: IOException) {
+        } catch (_: IOException) {
             "application/octet-stream"
         }
         return contentType
@@ -108,7 +108,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     /**
      * Adds a File to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
-     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is a File
      *
      * @param name The field name to add in the request
      * @param headers The headers that are in the PartConfig
@@ -138,7 +138,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         if (serializer != null) {
             return serializer(obj)
         }
-        
+
         return if (contentType?.contains("json") == true) {
             Serializer.moshi.adapter(Any::class.java).toJson(obj)
         } else {
@@ -149,7 +149,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
     /**
      * Adds any type to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
-     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is not a File.
      *
      * @param name The field name to add in the request
      * @param headers The headers that are in the PartConfig
@@ -172,7 +172,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         when {
             content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            mediaType == FormDataMediaType ->
+            mediaType == FORM_DATA_MEDIA_TYPE ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
@@ -194,7 +194,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                             }
                         }
                     }.build()
-            mediaType == FormUrlEncMediaType -> {
+            mediaType == FORM_URL_ENC_MEDIA_TYPE -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
@@ -208,21 +208,20 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                     EMPTY_REQUEST
                 } else {
                     Serializer.moshi.adapter(T::class.java).toJson(content)
-                        .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
+                        .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
-            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == TextMediaType && content is String ->
-                content.toRequestBody(TextMediaType.toMediaTypeOrNull())
+            mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
+            mediaType == TEXT_MEDIA_TYPE && content is String ->
+                content.toRequestBody(TEXT_MEDIA_TYPE.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
 
     @OptIn(ExperimentalStdlibApi::class)
-    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
         val body = response.body
-        if(body == null) {
-            return null
-        } else if (T::class.java == Unit::class.java) {
+
+        if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
             // Useful when API is returning other Content-Type
             return null
@@ -284,23 +283,23 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
                 }
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
             }
-            mediaType == OctetMediaType -> body.bytes() as? T
-            mediaType == TextMediaType -> body.string() as? T
+            mediaType == OCTET_MEDIA_TYPE -> body.bytes() as? T
+            mediaType == TEXT_MEDIA_TYPE -> body.string() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
 
     protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
-                    requestConfig.headers[Authorization] = okhttp3.Credentials.basic(username, password)
+                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(username, password)
                 }
             }
         }
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken"
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
             }
         }
     }
@@ -322,21 +321,21 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers[ContentType] = JsonMediaType
+        if (requestConfig.body != null && requestConfig.headers[CONTENT_TYPE].isNullOrEmpty()) {
+            requestConfig.headers[CONTENT_TYPE] = JSON_MEDIA_TYPE
         }
-        if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers[Accept] = JsonMediaType
+        if (requestConfig.headers[ACCEPT].isNullOrEmpty()) {
+            requestConfig.headers[ACCEPT] = JSON_MEDIA_TYPE
         }
         val headers = requestConfig.headers
 
-        if (headers[Accept].isNullOrEmpty()) {
-            throw kotlin.IllegalStateException("Missing Accept header. This is required.")
+        if (headers[ACCEPT].isNullOrEmpty()) {
+            throw kotlin.IllegalStateException("Missing ACCEPT header. This is required.")
         }
 
-        val contentType = if (headers[ContentType] != null) {
+        val contentType = if (headers[CONTENT_TYPE] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
+            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -359,7 +358,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
