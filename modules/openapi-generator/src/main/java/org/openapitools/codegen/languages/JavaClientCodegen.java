@@ -391,6 +391,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.applyJackson2Package();
         }
 
+        if(this.useSpringBoot4) {
+            setUseJakartaEe(true);
+            applyJakartaPackage();
+        }
+
         // override parent one
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
