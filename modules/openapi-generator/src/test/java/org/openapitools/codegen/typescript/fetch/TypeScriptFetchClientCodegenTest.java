@@ -468,12 +468,18 @@ public class TypeScriptFetchClientCodegenTest {
         Path apiFile = Paths.get(output + "/apis/PetControllerApi.ts");
         TestUtils.assertFileExists(apiFile);
 
+        // Read file content and split into interface and class sections
+        String content = new String(Files.readAllBytes(apiFile));
+        int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
+        int classStart = content.indexOf("export class PetControllerApi");
+        String interfaceSection = content.substring(interfaceStart, classStart);
+
         // Interface should contain RequestOpts methods
-        TestUtils.assertFileContains(apiFile, "export interface PetControllerApiInterface");
-        TestUtils.assertFileContains(apiFile, "addPetRequestOpts(");
+        assertThat(interfaceSection).contains("addPetRequestOpts(");
 
         // Class should also contain RequestOpts methods
-        TestUtils.assertFileContains(apiFile, "async addPetRequestOpts(");
+        String classSection = content.substring(classStart);
+        assertThat(classSection).contains("async addPetRequestOpts(");
     }
 
     @Test(description = "Verify withRequestOptsInInterface=false excludes RequestOpts from interface but keeps them on class")
@@ -490,14 +496,13 @@ public class TypeScriptFetchClientCodegenTest {
         // Read file content and split into interface and class sections
         String content = new String(Files.readAllBytes(apiFile));
         int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
-        int interfaceEnd = content.indexOf("}", interfaceStart);
-        String interfaceSection = content.substring(interfaceStart, interfaceEnd);
+        int classStart = content.indexOf("export class PetControllerApi");
+        String interfaceSection = content.substring(interfaceStart, classStart);
 
         // Interface should NOT contain RequestOpts methods
         assertThat(interfaceSection).doesNotContain("RequestOpts");
 
         // Class should still contain RequestOpts methods
-        int classStart = content.indexOf("export class PetControllerApi");
         String classSection = content.substring(classStart);
         assertThat(classSection).contains("async addPetRequestOpts(");
     }
