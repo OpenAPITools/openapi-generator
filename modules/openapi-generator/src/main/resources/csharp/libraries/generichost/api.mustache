@@ -246,7 +246,7 @@ namespace {{packageName}}.{{apiPackage}}
 
         {{#allParams}}
         {{#-first}}
-        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+        partial void Format{{operationId}}({{#allParams}}{{#isPrimitiveType}}ref {{/isPrimitiveType}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
         {{/-first}}
         {{/allParams}}
@@ -258,7 +258,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// <param name="{{paramName}}"></param>
         {{/vendorExtensions.x-not-nullable-reference-types}}
         /// <returns></returns>
-        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
+        private void Validate{{operationId}}({{#vendorExtensions.x-not-nullable-reference-types}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-not-nullable-reference-types}})
         {
             {{#lambda.trimTrailingWithNewLine}}
             {{#vendorExtensions.x-not-nullable-reference-types}}
@@ -288,7 +288,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void After{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}{{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLog = false;
             After{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLog  apiResponseLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -303,7 +303,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void After{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLog  {{interfacePrefix}}{{operationId}}ApiResponse apiResponseLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -314,7 +314,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
+        private void OnError{{operationId}}DefaultImplementation({{#lambda.joinWithComma}}Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}})
         {
             bool suppressDefaultLogLocalVar = false;
             OnError{{operationId}}({{#lambda.joinWithComma}}ref suppressDefaultLogLocalVar  exceptionLocalVar  pathFormatLocalVar  pathLocalVar  {{#allParams}}{{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
@@ -332,7 +332,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}
         /// <param name="{{paramName}}"></param>
         {{/allParams}}
-        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalParameter}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
+        partial void OnError{{operationId}}({{#lambda.joinWithComma}}ref bool suppressDefaultLogLocalVar  Exception exceptionLocalVar  string pathFormatLocalVar  string pathLocalVar  {{#allParams}}{{^required}}Option<{{/required}}{{>OperationDataType}}{{^required}}>{{/required}} {{paramName}}  {{/allParams}}{{/lambda.joinWithComma}});
 
         /// <summary>
         /// {{summary}} {{notes}}
@@ -492,16 +492,16 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#isFile}}
                     {{#required}}
                     {{#isContainer}}
-                    foreach (global::System.IO.Stream streamLocalVar in {{paramName}})
+                    foreach ({{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar in {{paramName}})
                     {
-                        var streamContentLocalVar = new StreamContent(streamLocalVar);
-                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                        var streamContentLocalVar = new StreamContent(fileParameterLocalVar.Content);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", fileParameterLocalVar.FileName ?? "{{baseName}}");
                     }
 
                     {{/isContainer}}
                     {{^isContainer}}
-                    var streamContentLocalVar = new StreamContent({{paramName}});
-                    multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                    var streamContentLocalVar = new StreamContent({{paramName}}.Content);
+                    multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.FileName ?? "{{baseName}}");
 
                     {{/isContainer}}
                     {{/required}}
@@ -509,15 +509,15 @@ namespace {{packageName}}.{{apiPackage}}
                     if ({{paramName}}.IsSet)
                     {
                         {{#isContainer}}
-                        foreach (global::System.IO.Stream streamLocalVar in {{paramName}}.Value)
+                        foreach ({{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar in {{paramName}}.Value)
                         {
-                            var streamContentLocalVar = new StreamContent(streamLocalVar);
-                            multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                            var streamContentLocalVar = new StreamContent(fileParameterLocalVar.Content);
+                            multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", fileParameterLocalVar.FileName ?? "{{baseName}}");
                         }
                         {{/isContainer}}
                         {{^isContainer}}
-                        var streamContentLocalVar = new StreamContent({{paramName}}.Value);
-                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}");
+                        var streamContentLocalVar = new StreamContent({{paramName}}.Value.Content);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.Value.FileName ?? "{{baseName}}");
                         {{/isContainer}}
                     }
 

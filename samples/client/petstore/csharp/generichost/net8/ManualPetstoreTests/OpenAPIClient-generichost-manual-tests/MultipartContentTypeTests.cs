@@ -87,7 +87,7 @@ namespace OpenAPIClient_generichost_manual_tests
             var petApi = _host.Services.GetRequiredService<IPetApi>();
             using var stream = new MemoryStream(new byte[] { 1, 2, 3 });
 
-            await petApi.UploadFileAsync(petId: 1, file: new Option<System.IO.Stream>(stream));
+            await petApi.UploadFileAsync(petId: 1, file: new Option<FileParameter>(new FileParameter(stream)));
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
                 "Content-Type header should not be null for a multipart/form-data request.");
@@ -103,7 +103,7 @@ namespace OpenAPIClient_generichost_manual_tests
             var petApi = _host.Services.GetRequiredService<IPetApi>();
             using var stream = new MemoryStream(new byte[] { 1, 2, 3 });
 
-            await petApi.UploadFileAsync(petId: 1, file: new Option<System.IO.Stream>(stream));
+            await petApi.UploadFileAsync(petId: 1, file: new Option<FileParameter>(new FileParameter(stream)));
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
             // .NET's MultipartFormDataContent writes unquoted names: name=file (valid per RFC 7578)
@@ -119,7 +119,7 @@ namespace OpenAPIClient_generichost_manual_tests
             using var stream2 = new MemoryStream(new byte[] { 4, 5, 6 });
 
             await petApi.UploadFilesAsync(
-                files: new List<System.IO.Stream> { stream1, stream2 },
+                files: new List<FileParameter> { new FileParameter(stream1), new FileParameter(stream2) },
                 petId: 1);
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
@@ -138,14 +138,15 @@ namespace OpenAPIClient_generichost_manual_tests
             using var stream2 = new MemoryStream(new byte[] { 40, 50, 60 });
 
             await petApi.UploadFilesAsync(
-                files: new List<System.IO.Stream> { stream1, stream2 },
+                files: new List<FileParameter> { new FileParameter(stream1), new FileParameter(stream2) },
                 petId: 1);
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
 
-            // .NET's MultipartFormDataContent writes unquoted names: name=files (valid per RFC 7578)
-            // Split on the boundary marker between parts; each file should appear as a separate part
-            var parts = _capturingHandler.CapturedBody!.Split("name=files");
+            // Count Content-Disposition headers for the "files" field. Each stream must appear as
+            // its own named part. Matching the full header prefix avoids false positives from
+            // "filename=files" which also contains "name=files" as a substring.
+            var parts = _capturingHandler.CapturedBody!.Split("Content-Disposition: form-data; name=files");
             Assert.AreEqual(3, parts.Length,
                 "Body should contain exactly two parts named 'files' (one per stream), " +
                 $"but found {parts.Length - 1}. Body:\n{_capturingHandler.CapturedBody}");
@@ -199,7 +200,7 @@ namespace OpenAPIClient_generichost_manual_tests
 
             await petApi.UploadFileAsync(
                 petId: 1,
-                file: new Option<System.IO.Stream>(stream),
+                file: new Option<FileParameter>(new FileParameter(stream)),
                 additionalMetadata: new Option<string>("testmetadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
@@ -218,7 +219,7 @@ namespace OpenAPIClient_generichost_manual_tests
 
             await petApi.UploadFileAsync(
                 petId: 1,
-                file: new Option<System.IO.Stream>(stream),
+                file: new Option<FileParameter>(new FileParameter(stream)),
                 additionalMetadata: new Option<string>("testmetadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
@@ -238,7 +239,7 @@ namespace OpenAPIClient_generichost_manual_tests
             var petApi = _host.Services.GetRequiredService<IPetApi>();
             using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
 
-            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: stream);
+            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: new FileParameter(stream));
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
                 "Content-Type header should not be null.");
@@ -254,7 +255,7 @@ namespace OpenAPIClient_generichost_manual_tests
             var petApi = _host.Services.GetRequiredService<IPetApi>();
             using var stream = new MemoryStream(new byte[] { 7, 8, 9 });
 
-            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: stream);
+            await petApi.UploadFileWithRequiredFileAsync(petId: 1, requiredFile: new FileParameter(stream));
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
             StringAssert.Contains(_capturingHandler.CapturedBody, "name=requiredFile",
@@ -269,7 +270,7 @@ namespace OpenAPIClient_generichost_manual_tests
 
             await petApi.UploadFileWithRequiredFileAsync(
                 petId: 1,
-                requiredFile: stream,
+                requiredFile: new FileParameter(stream),
                 additionalMetadata: new Option<string>("testmetadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedContentType,
@@ -288,7 +289,7 @@ namespace OpenAPIClient_generichost_manual_tests
 
             await petApi.UploadFileWithRequiredFileAsync(
                 petId: 1,
-                requiredFile: stream,
+                requiredFile: new FileParameter(stream),
                 additionalMetadata: new Option<string>("testmetadata"));
 
             Assert.IsNotNull(_capturingHandler.CapturedBody, "Body should not be null.");
