@@ -176,7 +176,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeBigDecimalMap without sending the request
      */
-    async fakeBigDecimalMapRequestOpts(): Promise<runtime.RequestOpts> {
+    fakeBigDecimalMapRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -213,7 +213,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeHealthGet without sending the request
      */
-    async fakeHealthGetRequestOpts(): Promise<runtime.RequestOpts> {
+    fakeHealthGetRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -304,7 +304,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeOuterBooleanSerialize without sending the request
      */
-    async fakeOuterBooleanSerializeRequestOpts(requestParameters: FakeOuterBooleanSerializeRequest): Promise<runtime.RequestOpts> {
+    fakeOuterBooleanSerializeRequestOpts(requestParameters: FakeOuterBooleanSerializeRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -348,7 +348,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeOuterCompositeSerialize without sending the request
      */
-    async fakeOuterCompositeSerializeRequestOpts(requestParameters: FakeOuterCompositeSerializeRequest): Promise<runtime.RequestOpts> {
+    fakeOuterCompositeSerializeRequestOpts(requestParameters: FakeOuterCompositeSerializeRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -388,7 +388,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeOuterNumberSerialize without sending the request
      */
-    async fakeOuterNumberSerializeRequestOpts(requestParameters: FakeOuterNumberSerializeRequest): Promise<runtime.RequestOpts> {
+    fakeOuterNumberSerializeRequestOpts(requestParameters: FakeOuterNumberSerializeRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -432,7 +432,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeOuterStringSerialize without sending the request
      */
-    async fakeOuterStringSerializeRequestOpts(requestParameters: FakeOuterStringSerializeRequest): Promise<runtime.RequestOpts> {
+    fakeOuterStringSerializeRequestOpts(requestParameters: FakeOuterStringSerializeRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -476,7 +476,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakePropertyEnumIntegerSerialize without sending the request
      */
-    async fakePropertyEnumIntegerSerializeRequestOpts(requestParameters: FakePropertyEnumIntegerSerializeRequest): Promise<runtime.RequestOpts> {
+    fakePropertyEnumIntegerSerializeRequestOpts(requestParameters: FakePropertyEnumIntegerSerializeRequest): runtime.RequestOpts {
         if (requestParameters['outerObjectWithEnumProperty'] == null) {
             throw new runtime.RequiredError(
                 'outerObjectWithEnumProperty',
@@ -523,7 +523,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testAdditionalPropertiesReference without sending the request
      */
-    async testAdditionalPropertiesReferenceRequestOpts(requestParameters: TestAdditionalPropertiesReferenceRequest): Promise<runtime.RequestOpts> {
+    testAdditionalPropertiesReferenceRequestOpts(requestParameters: TestAdditionalPropertiesReferenceRequest): runtime.RequestOpts {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',
@@ -571,7 +571,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testBodyWithBinary without sending the request
      */
-    async testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest): Promise<runtime.RequestOpts> {
+    testBodyWithBinaryRequestOpts(requestParameters: TestBodyWithBinaryRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -617,7 +617,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testBodyWithFileSchema without sending the request
      */
-    async testBodyWithFileSchemaRequestOpts(requestParameters: TestBodyWithFileSchemaRequest): Promise<runtime.RequestOpts> {
+    testBodyWithFileSchemaRequestOpts(requestParameters: TestBodyWithFileSchemaRequest): runtime.RequestOpts {
         if (requestParameters['fileSchemaTestClass'] == null) {
             throw new runtime.RequiredError(
                 'fileSchemaTestClass',
@@ -663,7 +663,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testBodyWithQueryParams without sending the request
      */
-    async testBodyWithQueryParamsRequestOpts(requestParameters: TestBodyWithQueryParamsRequest): Promise<runtime.RequestOpts> {
+    testBodyWithQueryParamsRequestOpts(requestParameters: TestBodyWithQueryParamsRequest): runtime.RequestOpts {
         if (requestParameters['query'] == null) {
             throw new runtime.RequiredError(
                 'query',
@@ -718,7 +718,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testClientModel without sending the request
      */
-    async testClientModelRequestOpts(requestParameters: TestClientModelRequest): Promise<runtime.RequestOpts> {
+    testClientModelRequestOpts(requestParameters: TestClientModelRequest): runtime.RequestOpts {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
@@ -909,7 +909,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testEnumParameters without sending the request
      */
-    async testEnumParametersRequestOpts(requestParameters: TestEnumParametersRequest): Promise<runtime.RequestOpts> {
+    testEnumParametersRequestOpts(requestParameters: TestEnumParametersRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         if (requestParameters['enumQueryStringArray'] != null) {
@@ -1089,7 +1089,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testInlineAdditionalProperties without sending the request
      */
-    async testInlineAdditionalPropertiesRequestOpts(requestParameters: TestInlineAdditionalPropertiesRequest): Promise<runtime.RequestOpts> {
+    testInlineAdditionalPropertiesRequestOpts(requestParameters: TestInlineAdditionalPropertiesRequest): runtime.RequestOpts {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',
@@ -1137,7 +1137,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testInlineFreeformAdditionalProperties without sending the request
      */
-    async testInlineFreeformAdditionalPropertiesRequestOpts(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest): Promise<runtime.RequestOpts> {
+    testInlineFreeformAdditionalPropertiesRequestOpts(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest): runtime.RequestOpts {
         if (requestParameters['testInlineFreeformAdditionalPropertiesRequest'] == null) {
             throw new runtime.RequiredError(
                 'testInlineFreeformAdditionalPropertiesRequest',
@@ -1185,7 +1185,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testJsonFormData without sending the request
      */
-    async testJsonFormDataRequestOpts(requestParameters: TestJsonFormDataRequest): Promise<runtime.RequestOpts> {
+    testJsonFormDataRequestOpts(requestParameters: TestJsonFormDataRequest): runtime.RequestOpts {
         if (requestParameters['param'] == null) {
             throw new runtime.RequiredError(
                 'param',
@@ -1260,7 +1260,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testNullable without sending the request
      */
-    async testNullableRequestOpts(requestParameters: TestNullableRequest): Promise<runtime.RequestOpts> {
+    testNullableRequestOpts(requestParameters: TestNullableRequest): runtime.RequestOpts {
         if (requestParameters['childWithNullable'] == null) {
             throw new runtime.RequiredError(
                 'childWithNullable',
@@ -1308,7 +1308,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testQueryParameterCollectionFormat without sending the request
      */
-    async testQueryParameterCollectionFormatRequestOpts(requestParameters: TestQueryParameterCollectionFormatRequest): Promise<runtime.RequestOpts> {
+    testQueryParameterCollectionFormatRequestOpts(requestParameters: TestQueryParameterCollectionFormatRequest): runtime.RequestOpts {
         if (requestParameters['pipe'] == null) {
             throw new runtime.RequiredError(
                 'pipe',
@@ -1416,7 +1416,7 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for testStringMapReference without sending the request
      */
-    async testStringMapReferenceRequestOpts(requestParameters: TestStringMapReferenceRequest): Promise<runtime.RequestOpts> {
+    testStringMapReferenceRequestOpts(requestParameters: TestStringMapReferenceRequest): runtime.RequestOpts {
         if (requestParameters['requestBody'] == null) {
             throw new runtime.RequiredError(
                 'requestBody',

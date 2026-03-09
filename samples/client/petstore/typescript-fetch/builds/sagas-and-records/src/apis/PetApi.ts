@@ -483,7 +483,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Creates request options for getPetRegions without sending the request
      */
-    async getPetRegionsRequestOpts(requestParameters: GetPetRegionsRequest): Promise<runtime.RequestOpts> {
+    getPetRegionsRequestOpts(requestParameters: GetPetRegionsRequest): runtime.RequestOpts {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
@@ -579,7 +579,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Creates request options for updatePetRegions without sending the request
      */
-    async updatePetRegionsRequestOpts(requestParameters: UpdatePetRegionsRequest): Promise<runtime.RequestOpts> {
+    updatePetRegionsRequestOpts(requestParameters: UpdatePetRegionsRequest): runtime.RequestOpts {
         if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',

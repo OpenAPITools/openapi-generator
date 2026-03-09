@@ -34,7 +34,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
     /**
      * Creates request options for _123testSpecialTags without sending the request
      */
-    async _123testSpecialTagsRequestOpts(requestParameters: 123testSpecialTagsRequest): Promise<runtime.RequestOpts> {
+    _123testSpecialTagsRequestOpts(requestParameters: 123testSpecialTagsRequest): runtime.RequestOpts {
         if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',

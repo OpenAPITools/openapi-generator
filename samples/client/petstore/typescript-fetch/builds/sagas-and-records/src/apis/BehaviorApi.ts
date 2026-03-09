@@ -41,7 +41,7 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Creates request options for getBehaviorPermissions without sending the request
      */
-    async getBehaviorPermissionsRequestOpts(requestParameters: GetBehaviorPermissionsRequest): Promise<runtime.RequestOpts> {
+    getBehaviorPermissionsRequestOpts(requestParameters: GetBehaviorPermissionsRequest): runtime.RequestOpts {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',
@@ -86,7 +86,7 @@ export class BehaviorApi extends runtime.BaseAPI {
     /**
      * Creates request options for getBehaviorType without sending the request
      */
-    async getBehaviorTypeRequestOpts(requestParameters: GetBehaviorTypeRequest): Promise<runtime.RequestOpts> {
+    getBehaviorTypeRequestOpts(requestParameters: GetBehaviorTypeRequest): runtime.RequestOpts {
         if (requestParameters['behaviorId'] == null) {
             throw new runtime.RequiredError(
                 'behaviorId',

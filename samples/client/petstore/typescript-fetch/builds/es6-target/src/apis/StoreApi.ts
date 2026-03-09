@@ -42,7 +42,7 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Creates request options for deleteOrder without sending the request
      */
-    async deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): Promise<runtime.RequestOpts> {
+    deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): runtime.RequestOpts {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -131,7 +131,7 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Creates request options for getOrderById without sending the request
      */
-    async getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): Promise<runtime.RequestOpts> {
+    getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): runtime.RequestOpts {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -178,7 +178,7 @@ export class StoreApi extends runtime.BaseAPI {
     /**
      * Creates request options for placeOrder without sending the request
      */
-    async placeOrderRequestOpts(requestParameters: PlaceOrderRequest): Promise<runtime.RequestOpts> {
+    placeOrderRequestOpts(requestParameters: PlaceOrderRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',

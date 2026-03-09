@@ -266,7 +266,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Creates request options for getUserByName without sending the request
      */
-    async getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): Promise<runtime.RequestOpts> {
+    getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -313,7 +313,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Creates request options for loginUser without sending the request
      */
-    async loginUserRequestOpts(requestParameters: LoginUserRequest): Promise<runtime.RequestOpts> {
+    loginUserRequestOpts(requestParameters: LoginUserRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',

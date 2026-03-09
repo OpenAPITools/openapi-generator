@@ -36,7 +36,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for test without sending the request
      */
-    async testRequestOpts(): Promise<runtime.RequestOpts> {
+    testRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -71,7 +71,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for testArray without sending the request
      */
-    async testArrayRequestOpts(): Promise<runtime.RequestOpts> {
+    testArrayRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -106,7 +106,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for testDiscriminator without sending the request
      */
-    async testDiscriminatorRequestOpts(): Promise<runtime.RequestOpts> {
+    testDiscriminatorRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};

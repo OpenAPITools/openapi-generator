@@ -53,7 +53,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts>;
+    {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): {{#hasAuthMethods}}Promise<{{/hasAuthMethods}}runtime.RequestOpts{{#hasAuthMethods}}>{{/hasAuthMethods}};
 
     /**
      * {{&notes}}
@@ -113,7 +113,7 @@ export class {{classname}} extends runtime.BaseAPI {
      * @deprecated
      {{/isDeprecated}}
      */
-    async {{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.RequestOpts> {
+    {{#hasAuthMethods}}async {{/hasAuthMethods}}{{nickname}}RequestOpts({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): {{#hasAuthMethods}}Promise<{{/hasAuthMethods}}runtime.RequestOpts{{#hasAuthMethods}}>{{/hasAuthMethods}} {
         {{#allParams}}
         {{#required}}
         if (requestParameters['{{paramName}}'] == null) {

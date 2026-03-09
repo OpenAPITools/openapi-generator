@@ -458,6 +458,28 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(modelsIndex, "[property: string]:");
     }
 
+    /**
+     * Endpoints without auth methods should generate synchronous RequestOpts functions,
+     * while endpoints with auth methods should generate async RequestOpts functions.
+     */
+    @Test(description = "Verify RequestOpts is only async when auth methods are present")
+    public void testRequestOptsIsAsyncOnlyWithAuthMethods() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/api-with-and-without-auth.yaml"
+        );
+
+        Path apiFile = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileExists(apiFile);
+
+        // Endpoint without auth: synchronous signature
+        TestUtils.assertFileContains(apiFile, "listPublicItemsRequestOpts(): runtime.RequestOpts {");
+        TestUtils.assertFileNotContains(apiFile, "listPublicItemsRequestOpts(): Promise<runtime.RequestOpts>");
+
+        // Endpoint with auth: async signature
+        TestUtils.assertFileContains(apiFile, "async listPrivateItemsRequestOpts(): Promise<runtime.RequestOpts> {");
+    }
+
     private static File generate(
         Map<String, Object> properties
     ) throws IOException {

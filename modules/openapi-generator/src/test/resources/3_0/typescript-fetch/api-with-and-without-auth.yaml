@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: API with mixed auth
+  version: 1.0.0
+paths:
+  /public/items:
+    get:
+      operationId: listPublicItems
+      summary: List public items (no auth)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+  /private/items:
+    get:
+      operationId: listPrivateItems
+      summary: List private items (requires API key)
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  schemas:
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string

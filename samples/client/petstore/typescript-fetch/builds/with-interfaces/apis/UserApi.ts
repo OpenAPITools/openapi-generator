@@ -65,7 +65,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUserRequestOpts(requestParameters: CreateUserRequest): Promise<runtime.RequestOpts>;
+    createUserRequestOpts(requestParameters: CreateUserRequest): runtime.RequestOpts;
 
     /**
      * This can only be done by the logged in user.
@@ -89,7 +89,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithArrayInputRequestOpts(requestParameters: CreateUsersWithArrayInputRequest): Promise<runtime.RequestOpts>;
+    createUsersWithArrayInputRequestOpts(requestParameters: CreateUsersWithArrayInputRequest): runtime.RequestOpts;
 
     /**
      * 
@@ -112,7 +112,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithListInputRequestOpts(requestParameters: CreateUsersWithListInputRequest): Promise<runtime.RequestOpts>;
+    createUsersWithListInputRequestOpts(requestParameters: CreateUsersWithListInputRequest): runtime.RequestOpts;
 
     /**
      * 
@@ -135,7 +135,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    deleteUserRequestOpts(requestParameters: DeleteUserRequest): Promise<runtime.RequestOpts>;
+    deleteUserRequestOpts(requestParameters: DeleteUserRequest): runtime.RequestOpts;
 
     /**
      * This can only be done by the logged in user.
@@ -159,7 +159,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): Promise<runtime.RequestOpts>;
+    getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): runtime.RequestOpts;
 
     /**
      * 
@@ -183,7 +183,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    loginUserRequestOpts(requestParameters: LoginUserRequest): Promise<runtime.RequestOpts>;
+    loginUserRequestOpts(requestParameters: LoginUserRequest): runtime.RequestOpts;
 
     /**
      * 
@@ -206,7 +206,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    logoutUserRequestOpts(): Promise<runtime.RequestOpts>;
+    logoutUserRequestOpts(): runtime.RequestOpts;
 
     /**
      * 
@@ -229,7 +229,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    updateUserRequestOpts(requestParameters: UpdateUserRequest): Promise<runtime.RequestOpts>;
+    updateUserRequestOpts(requestParameters: UpdateUserRequest): runtime.RequestOpts;
 
     /**
      * This can only be done by the logged in user.
@@ -258,7 +258,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for createUser without sending the request
      */
-    async createUserRequestOpts(requestParameters: CreateUserRequest): Promise<runtime.RequestOpts> {
+    createUserRequestOpts(requestParameters: CreateUserRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -306,7 +306,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for createUsersWithArrayInput without sending the request
      */
-    async createUsersWithArrayInputRequestOpts(requestParameters: CreateUsersWithArrayInputRequest): Promise<runtime.RequestOpts> {
+    createUsersWithArrayInputRequestOpts(requestParameters: CreateUsersWithArrayInputRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -352,7 +352,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for createUsersWithListInput without sending the request
      */
-    async createUsersWithListInputRequestOpts(requestParameters: CreateUsersWithListInputRequest): Promise<runtime.RequestOpts> {
+    createUsersWithListInputRequestOpts(requestParameters: CreateUsersWithListInputRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
@@ -398,7 +398,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for deleteUser without sending the request
      */
-    async deleteUserRequestOpts(requestParameters: DeleteUserRequest): Promise<runtime.RequestOpts> {
+    deleteUserRequestOpts(requestParameters: DeleteUserRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -444,7 +444,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for getUserByName without sending the request
      */
-    async getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): Promise<runtime.RequestOpts> {
+    getUserByNameRequestOpts(requestParameters: GetUserByNameRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -489,7 +489,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for loginUser without sending the request
      */
-    async loginUserRequestOpts(requestParameters: LoginUserRequest): Promise<runtime.RequestOpts> {
+    loginUserRequestOpts(requestParameters: LoginUserRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',
@@ -552,7 +552,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for logoutUser without sending the request
      */
-    async logoutUserRequestOpts(): Promise<runtime.RequestOpts> {
+    logoutUserRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -588,7 +588,7 @@ export class UserApi extends runtime.BaseAPI implements UserApiInterface {
     /**
      * Creates request options for updateUser without sending the request
      */
-    async updateUserRequestOpts(requestParameters: UpdateUserRequest): Promise<runtime.RequestOpts> {
+    updateUserRequestOpts(requestParameters: UpdateUserRequest): runtime.RequestOpts {
         if (requestParameters['username'] == null) {
             throw new runtime.RequiredError(
                 'username',

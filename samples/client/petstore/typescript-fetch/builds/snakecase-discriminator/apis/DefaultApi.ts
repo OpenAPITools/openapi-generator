@@ -30,7 +30,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fooGet without sending the request
      */
-    async fooGetRequestOpts(): Promise<runtime.RequestOpts> {
+    fooGetRequestOpts(): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};

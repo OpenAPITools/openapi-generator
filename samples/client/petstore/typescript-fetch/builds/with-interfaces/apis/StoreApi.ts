@@ -47,7 +47,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): Promise<runtime.RequestOpts>;
+    deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): runtime.RequestOpts;
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -93,7 +93,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): Promise<runtime.RequestOpts>;
+    getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): runtime.RequestOpts;
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
@@ -117,7 +117,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    placeOrderRequestOpts(requestParameters: PlaceOrderRequest): Promise<runtime.RequestOpts>;
+    placeOrderRequestOpts(requestParameters: PlaceOrderRequest): runtime.RequestOpts;
 
     /**
      * 
@@ -144,7 +144,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
     /**
      * Creates request options for deleteOrder without sending the request
      */
-    async deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): Promise<runtime.RequestOpts> {
+    deleteOrderRequestOpts(requestParameters: DeleteOrderRequest): runtime.RequestOpts {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -233,7 +233,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
     /**
      * Creates request options for getOrderById without sending the request
      */
-    async getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): Promise<runtime.RequestOpts> {
+    getOrderByIdRequestOpts(requestParameters: GetOrderByIdRequest): runtime.RequestOpts {
         if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
@@ -280,7 +280,7 @@ export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
     /**
      * Creates request options for placeOrder without sending the request
      */
-    async placeOrderRequestOpts(requestParameters: PlaceOrderRequest): Promise<runtime.RequestOpts> {
+    placeOrderRequestOpts(requestParameters: PlaceOrderRequest): runtime.RequestOpts {
         if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',

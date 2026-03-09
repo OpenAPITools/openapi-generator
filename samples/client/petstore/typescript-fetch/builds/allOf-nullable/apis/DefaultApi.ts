@@ -34,7 +34,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for list without sending the request
      */
-    async listRequestOpts(requestParameters: ListRequest): Promise<runtime.RequestOpts> {
+    listRequestOpts(requestParameters: ListRequest): runtime.RequestOpts {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',

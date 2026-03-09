@@ -61,7 +61,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestGetInline without sending the request
      */
-    async fakeEnumRequestGetInlineRequestOpts(requestParameters: FakeEnumRequestGetInlineRequest): Promise<runtime.RequestOpts> {
+    fakeEnumRequestGetInlineRequestOpts(requestParameters: FakeEnumRequestGetInlineRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -112,7 +112,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestGetRef without sending the request
      */
-    async fakeEnumRequestGetRefRequestOpts(requestParameters: FakeEnumRequestGetRefRequest): Promise<runtime.RequestOpts> {
+    fakeEnumRequestGetRefRequestOpts(requestParameters: FakeEnumRequestGetRefRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         if (requestParameters['stringEnum'] != null) {
@@ -163,7 +163,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestPostInline without sending the request
      */
-    async fakeEnumRequestPostInlineRequestOpts(requestParameters: FakeEnumRequestPostInlineRequest): Promise<runtime.RequestOpts> {
+    fakeEnumRequestPostInlineRequestOpts(requestParameters: FakeEnumRequestPostInlineRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -201,7 +201,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Creates request options for fakeEnumRequestPostRef without sending the request
      */
-    async fakeEnumRequestPostRefRequestOpts(requestParameters: FakeEnumRequestPostRefRequest): Promise<runtime.RequestOpts> {
+    fakeEnumRequestPostRefRequestOpts(requestParameters: FakeEnumRequestPostRefRequest): runtime.RequestOpts {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};

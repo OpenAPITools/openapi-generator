@@ -46,7 +46,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Creates request options for getFakePetPartType without sending the request
      */
-    async getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest): Promise<runtime.RequestOpts> {
+    getFakePetPartTypeRequestOpts(requestParameters: GetFakePetPartTypeRequest): runtime.RequestOpts {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
@@ -91,7 +91,7 @@ export class PetPartApi extends runtime.BaseAPI {
     /**
      * Creates request options for getMatchingParts without sending the request
      */
-    async getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest): Promise<runtime.RequestOpts> {
+    getMatchingPartsRequestOpts(requestParameters: GetMatchingPartsRequest): runtime.RequestOpts {
         if (requestParameters['fakePetPartId'] == null) {
             throw new runtime.RequiredError(
                 'fakePetPartId',
