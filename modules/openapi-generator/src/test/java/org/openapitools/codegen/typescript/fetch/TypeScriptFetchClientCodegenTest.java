@@ -403,7 +403,14 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(testDiscriminatorResponse);
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testDiscriminatorResponse, "import type { OptionTwo } from './OptionTwo'");
-        TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
+        // When variants already declare the discriminator property (OptionOne/OptionTwo have
+        // discriminatorField as a required single-value enum), the union should use simple types
+        // instead of intersection wrappers to avoid TypeScript `never` type issues with string enums
+        TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = OptionOne | OptionTwo");
+        TestUtils.assertFileNotContains(testDiscriminatorResponse, "{ discriminatorField: 'optionOne' } & OptionOne");
+        // FromJSON should delegate directly without Object.assign wrapper
+        TestUtils.assertFileContains(testDiscriminatorResponse, "return OptionOneFromJSONTyped(json, true)");
+        TestUtils.assertFileNotContains(testDiscriminatorResponse, "Object.assign");
     }
 
     /**
@@ -442,6 +449,21 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testResponse, "import type { OptionOne } from './OptionOne'");
         TestUtils.assertFileContains(testResponse, "import type { OptionTwo } from './OptionTwo'");
         TestUtils.assertFileContains(testResponse, "import type { OptionThree } from './OptionThree'");
+    }
+
+    @Test(description = "Verify discriminator uses intersection wrappers when variants do NOT have discriminator property")
+    public void testDiscriminatorWithoutPropertyOnVariantsUsesIntersectionWrapper() throws IOException {
+        File output = generate(
+            Collections.emptyMap(),
+            "src/test/resources/3_0/typescript-fetch/discriminator-without-property.yaml"
+        );
+
+        Path shapePath = Paths.get(output + "/models/Shape.ts");
+        TestUtils.assertFileExists(shapePath);
+        // When variants don't have the discriminator property, intersection wrappers should be used
+        TestUtils.assertFileContains(shapePath, "{ shapeType: 'circle' } & Circle");
+        TestUtils.assertFileContains(shapePath, "{ shapeType: 'square' } & Square");
+        TestUtils.assertFileContains(shapePath, "Object.assign");
     }
 
     @Test(description = "Verify validationAttributes works with withoutRuntimeChecks=true")

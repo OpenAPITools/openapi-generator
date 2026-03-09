@@ -475,6 +475,40 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        // Detect if discriminator variants already declare the discriminator property.
+        // When they do, the union type should use simple unions (e.g., ApiKey | Basic)
+        // instead of intersection wrappers (e.g., { type: 'APIKEY' } & ApiKey), because
+        // the intersection of a string literal with a string enum evaluates to `never`
+        // in TypeScript when stringEnums is enabled.
+        for (ExtendedCodegenModel rootModel : allModels) {
+            CodegenDiscriminator discriminator = rootModel.discriminator;
+            if (discriminator == null || discriminator.getMappedModels() == null
+                    || discriminator.getMappedModels().isEmpty()) {
+                continue;
+            }
+            String discPropBaseName = discriminator.getPropertyBaseName();
+            boolean allVariantsHaveDiscriminator = true;
+            for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+                boolean variantHasProp = false;
+                for (ExtendedCodegenModel model : allModels) {
+                    if (model.classname.equals(mm.getModelName())) {
+                        variantHasProp = model.vars.stream()
+                                .anyMatch(v -> v.baseName.equals(discPropBaseName));
+                        break;
+                    }
+                }
+                if (!variantHasProp) {
+                    allVariantsHaveDiscriminator = false;
+                    break;
+                }
+            }
+            if (allVariantsHaveDiscriminator) {
+                discriminator.getVendorExtensions()
+                        .put("x-variants-have-discriminator", true);
+            }
+        }
+
         return result;
     }
 
