@@ -483,22 +483,23 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         // in TypeScript when stringEnums is enabled.
         for (ExtendedCodegenModel rootModel : allModels) {
             CodegenDiscriminator discriminator = rootModel.discriminator;
-            if (discriminator == null || discriminator.getMappedModels() == null
-                    || discriminator.getMappedModels().isEmpty()) {
+            boolean hasDiscriminator = discriminator != null;
+            boolean hasMappedModels = hasDiscriminator
+                    && discriminator.getMappedModels() != null
+                    && !discriminator.getMappedModels().isEmpty();
+            if (!hasMappedModels) {
                 continue;
             }
             String discPropBaseName = discriminator.getPropertyBaseName();
             boolean allVariantsHaveDiscriminator = true;
             for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
-                boolean variantHasProp = false;
-                for (ExtendedCodegenModel model : allModels) {
-                    if (model.classname.equals(mm.getModelName())) {
-                        variantHasProp = model.vars.stream()
-                                .anyMatch(v -> v.baseName.equals(discPropBaseName));
-                        break;
-                    }
-                }
-                if (!variantHasProp) {
+                boolean variantDeclaresDiscriminatorProperty = allModels.stream()
+                        .filter(model -> model.classname.equals(mm.getModelName()))
+                        .findFirst()
+                        .map(model -> model.vars.stream()
+                                .anyMatch(v -> v.baseName.equals(discPropBaseName)))
+                        .orElse(false);
+                if (!variantDeclaresDiscriminatorProperty) {
                     allVariantsHaveDiscriminator = false;
                     break;
                 }
