@@ -4312,8 +4312,7 @@ namespace Org.OpenAPITools.Api
                     if (varString.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("string", ClientUtils.ParameterToString(varString.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -4616,8 +4615,7 @@ namespace Org.OpenAPITools.Api
                     if (enumFormStringArray.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -5516,8 +5514,7 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param2", ClientUtils.ParameterToString(param2)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

@@ -2391,8 +2391,7 @@ namespace Org.OpenAPITools.Api
                     if (status.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("status", ClientUtils.ParameterToString(status.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
