@@ -897,7 +897,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             }
             if (formatTest.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                if (formatTest.DateTimeOption.Value != null)
+                    writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                else
+                    writer.WriteNull("dateTime");
 
             if (formatTest.DecimalOption.IsSet)
             {
@@ -905,7 +908,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Decimal, jsonSerializerOptions);
             }
             if (formatTest.DoubleOption.IsSet)
-                writer.WriteNumber("double", formatTest.DoubleOption.Value!.Value);
+                if (formatTest.DoubleOption.Value != null)
+                    writer.WriteNumber("double", formatTest.DoubleOption.Value!.Value);
+                else
+                    writer.WriteNull("double");
 
             if (formatTest.DuplicatePropertyName2Option.IsSet)
                 writer.WriteString("duplicate_property_name", formatTest.DuplicatePropertyName2);
@@ -914,31 +920,58 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("@duplicate_property_name", formatTest.DuplicatePropertyName);
 
             if (formatTest.FloatOption.IsSet)
-                writer.WriteNumber("float", formatTest.FloatOption.Value!.Value);
+                if (formatTest.FloatOption.Value != null)
+                    writer.WriteNumber("float", formatTest.FloatOption.Value!.Value);
+                else
+                    writer.WriteNull("float");
 
             if (formatTest.Int32Option.IsSet)
-                writer.WriteNumber("int32", formatTest.Int32Option.Value!.Value);
+                if (formatTest.Int32Option.Value != null)
+                    writer.WriteNumber("int32", formatTest.Int32Option.Value!.Value);
+                else
+                    writer.WriteNull("int32");
 
             if (formatTest.Int32RangeOption.IsSet)
-                writer.WriteNumber("int32Range", formatTest.Int32RangeOption.Value!.Value);
+                if (formatTest.Int32RangeOption.Value != null)
+                    writer.WriteNumber("int32Range", formatTest.Int32RangeOption.Value!.Value);
+                else
+                    writer.WriteNull("int32Range");
 
             if (formatTest.Int64Option.IsSet)
-                writer.WriteNumber("int64", formatTest.Int64Option.Value!.Value);
+                if (formatTest.Int64Option.Value != null)
+                    writer.WriteNumber("int64", formatTest.Int64Option.Value!.Value);
+                else
+                    writer.WriteNull("int64");
 
             if (formatTest.Int64NegativeOption.IsSet)
-                writer.WriteNumber("int64Negative", formatTest.Int64NegativeOption.Value!.Value);
+                if (formatTest.Int64NegativeOption.Value != null)
+                    writer.WriteNumber("int64Negative", formatTest.Int64NegativeOption.Value!.Value);
+                else
+                    writer.WriteNull("int64Negative");
 
             if (formatTest.Int64NegativeExclusiveOption.IsSet)
-                writer.WriteNumber("int64NegativeExclusive", formatTest.Int64NegativeExclusiveOption.Value!.Value);
+                if (formatTest.Int64NegativeExclusiveOption.Value != null)
+                    writer.WriteNumber("int64NegativeExclusive", formatTest.Int64NegativeExclusiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64NegativeExclusive");
 
             if (formatTest.Int64PositiveOption.IsSet)
-                writer.WriteNumber("int64Positive", formatTest.Int64PositiveOption.Value!.Value);
+                if (formatTest.Int64PositiveOption.Value != null)
+                    writer.WriteNumber("int64Positive", formatTest.Int64PositiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64Positive");
 
             if (formatTest.Int64PositiveExclusiveOption.IsSet)
-                writer.WriteNumber("int64PositiveExclusive", formatTest.Int64PositiveExclusiveOption.Value!.Value);
+                if (formatTest.Int64PositiveExclusiveOption.Value != null)
+                    writer.WriteNumber("int64PositiveExclusive", formatTest.Int64PositiveExclusiveOption.Value!.Value);
+                else
+                    writer.WriteNull("int64PositiveExclusive");
 
             if (formatTest.IntegerOption.IsSet)
-                writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value);
+                if (formatTest.IntegerOption.Value != null)
+                    writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value);
+                else
+                    writer.WriteNull("integer");
 
             if (formatTest.PatternWithBackslashOption.IsSet)
                 writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);
@@ -953,16 +986,28 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("string", formatTest.String);
 
             if (formatTest.StringFormattedAsDecimalOption.IsSet)
-                writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
+                if (formatTest.StringFormattedAsDecimalOption.Value != null)
+                    writer.WriteString("string_formatted_as_decimal", formatTest.StringFormattedAsDecimal.ToString());
+                else
+                    writer.WriteNull("string_formatted_as_decimal");
 
             if (formatTest.UnsignedIntegerOption.IsSet)
-                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value!.Value);
+                if (formatTest.UnsignedIntegerOption.Value != null)
+                    writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value!.Value);
+                else
+                    writer.WriteNull("unsigned_integer");
 
             if (formatTest.UnsignedLongOption.IsSet)
-                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value!.Value);
+                if (formatTest.UnsignedLongOption.Value != null)
+                    writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value!.Value);
+                else
+                    writer.WriteNull("unsigned_long");
 
             if (formatTest.UuidOption.IsSet)
-                writer.WriteString("uuid", formatTest.UuidOption.Value!.Value);
+                if (formatTest.UuidOption.Value != null)
+                    writer.WriteString("uuid", formatTest.UuidOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid");
         }
     }
 

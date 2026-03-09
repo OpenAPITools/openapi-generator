@@ -189,7 +189,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
             }
             if (rolesReportsHash.RoleUuidOption.IsSet)
-                writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value);
+                if (rolesReportsHash.RoleUuidOption.Value != null)
+                    writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value);
+                else
+                    writer.WriteNull("role_uuid");
         }
     }
 }

@@ -236,7 +236,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value != null)
+                    writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat));
+                else
+                    writer.WriteNull("dateTime");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {
@@ -244,10 +247,16 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             }
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
+                if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value != null)
+                    writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet)
-                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
+                if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value != null)
+                    writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
+                else
+                    writer.WriteNull("uuid_with_pattern");
         }
     }
 }

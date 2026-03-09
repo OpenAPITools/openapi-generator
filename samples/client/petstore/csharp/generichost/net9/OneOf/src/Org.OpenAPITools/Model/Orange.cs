@@ -164,7 +164,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Orange orange, JsonSerializerOptions jsonSerializerOptions)
         {
             if (orange.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", orange.SweetOption.Value!.Value);
+                if (orange.SweetOption.Value != null)
+                    writer.WriteBoolean("sweet", orange.SweetOption.Value!.Value);
+                else
+                    writer.WriteNull("sweet");
         }
     }
 }

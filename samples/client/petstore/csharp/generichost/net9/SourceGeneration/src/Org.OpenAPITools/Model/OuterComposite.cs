@@ -205,10 +205,16 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, OuterComposite outerComposite, JsonSerializerOptions jsonSerializerOptions)
         {
             if (outerComposite.MyBooleanOption.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
+                if (outerComposite.MyBooleanOption.Value != null)
+                    writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
+                else
+                    writer.WriteNull("my_boolean");
 
             if (outerComposite.MyNumberOption.IsSet)
-                writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
+                if (outerComposite.MyNumberOption.Value != null)
+                    writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
+                else
+                    writer.WriteNull("my_number");
 
             if (outerComposite.MyStringOption.IsSet)
                 writer.WriteString("my_string", outerComposite.MyString);

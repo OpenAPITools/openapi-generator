@@ -362,7 +362,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             }
             if (pet.IdOption.IsSet)
-                writer.WriteNumber("id", pet.IdOption.Value!.Value);
+                if (pet.IdOption.Value != null)
+                    writer.WriteNumber("id", pet.IdOption.Value!.Value);
+                else
+                    writer.WriteNull("id");
 
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
             writer.WriteString("status", statusRawValue);

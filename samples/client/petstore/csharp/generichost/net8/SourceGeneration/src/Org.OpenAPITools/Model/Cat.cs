@@ -169,7 +169,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("color", cat.Color);
 
             if (cat.DeclawedOption.IsSet)
-                writer.WriteBoolean("declawed", cat.DeclawedOption.Value!.Value);
+                if (cat.DeclawedOption.Value != null)
+                    writer.WriteBoolean("declawed", cat.DeclawedOption.Value!.Value);
+                else
+                    writer.WriteNull("declawed");
         }
     }
 

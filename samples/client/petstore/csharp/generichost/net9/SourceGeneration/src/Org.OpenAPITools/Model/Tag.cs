@@ -185,7 +185,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
             if (tag.IdOption.IsSet)
-                writer.WriteNumber("id", tag.IdOption.Value!.Value);
+                if (tag.IdOption.Value != null)
+                    writer.WriteNumber("id", tag.IdOption.Value!.Value);
+                else
+                    writer.WriteNull("id");
 
             if (tag.NameOption.IsSet)
                 writer.WriteString("name", tag.Name);

@@ -2136,10 +2136,16 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("required_notnullableinteger_prop", requiredClass.RequiredNotnullableintegerProp);
 
             if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
-                writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value.ToString(NotRequiredNotnullableDatePropFormat));
+                if (requiredClass.NotRequiredNotnullableDatePropOption.Value != null)
+                    writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value.ToString(NotRequiredNotnullableDatePropFormat));
+                else
+                    writer.WriteNull("not_required_notnullable_date_prop");
 
             if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
-                writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
+                if (requiredClass.NotRequiredNotnullableintegerPropOption.Value != null)
+                    writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
+                else
+                    writer.WriteNull("not_required_notnullableinteger_prop");
 
             if (requiredClass.NotRequiredNullableDatePropOption.IsSet)
                 if (requiredClass.NotRequiredNullableDatePropOption.Value != null)
@@ -2159,16 +2165,28 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableArrayOfString, jsonSerializerOptions);
             }
             if (requiredClass.NotrequiredNotnullableBooleanPropOption.IsSet)
-                writer.WriteBoolean("notrequired_notnullable_boolean_prop", requiredClass.NotrequiredNotnullableBooleanPropOption.Value!.Value);
+                if (requiredClass.NotrequiredNotnullableBooleanPropOption.Value != null)
+                    writer.WriteBoolean("notrequired_notnullable_boolean_prop", requiredClass.NotrequiredNotnullableBooleanPropOption.Value!.Value);
+                else
+                    writer.WriteNull("notrequired_notnullable_boolean_prop");
 
             if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet)
-                writer.WriteString("notrequired_notnullable_datetime_prop", requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value.ToString(NotrequiredNotnullableDatetimePropFormat));
+                if (requiredClass.NotrequiredNotnullableDatetimePropOption.Value != null)
+                    writer.WriteString("notrequired_notnullable_datetime_prop", requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value.ToString(NotrequiredNotnullableDatetimePropFormat));
+                else
+                    writer.WriteNull("notrequired_notnullable_datetime_prop");
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
+                if (requiredClass.NotrequiredNotnullableEnumIntegerOption.Value != null)
+                    writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
+                else
+                    writer.WriteNull("notrequired_notnullable_enum_integer");
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
+                if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value != null)
+                    writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
+                else
+                    writer.WriteNull("notrequired_notnullable_enum_integer_only");
 
             var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
             writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
@@ -2181,7 +2199,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("notrequired_notnullable_string_prop", requiredClass.NotrequiredNotnullableStringProp);
 
             if (requiredClass.NotrequiredNotnullableUuidOption.IsSet)
-                writer.WriteString("notrequired_notnullable_uuid", requiredClass.NotrequiredNotnullableUuidOption.Value!.Value);
+                if (requiredClass.NotrequiredNotnullableUuidOption.Value != null)
+                    writer.WriteString("notrequired_notnullable_uuid", requiredClass.NotrequiredNotnullableUuidOption.Value!.Value);
+                else
+                    writer.WriteNull("notrequired_notnullable_uuid");
 
             if (requiredClass.NotrequiredNullableArrayOfStringOption.IsSet)
                 if (requiredClass.NotrequiredNullableArrayOfStringOption.Value != null)

@@ -182,7 +182,10 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("cultivar", appleReq.Cultivar);
 
             if (appleReq.MealyOption.IsSet)
-                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value);
+                if (appleReq.MealyOption.Value != null)
+                    writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value);
+                else
+                    writer.WriteNull("mealy");
         }
     }
 

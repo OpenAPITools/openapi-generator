@@ -230,7 +230,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("abstract");
 
             if (varReturn.VarReturnOption.IsSet)
-                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value);
+                if (varReturn.VarReturnOption.Value != null)
+                    writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value);
+                else
+                    writer.WriteNull("return");
 
             if (varReturn.UnsafeOption.IsSet)
                 writer.WriteString("unsafe", varReturn.Unsafe);

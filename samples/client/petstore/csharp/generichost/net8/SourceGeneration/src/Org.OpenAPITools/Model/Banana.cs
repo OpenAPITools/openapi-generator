@@ -165,7 +165,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.LengthCmOption.IsSet)
-                writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
+                if (banana.LengthCmOption.Value != null)
+                    writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
+                else
+                    writer.WriteNull("lengthCm");
         }
     }
 

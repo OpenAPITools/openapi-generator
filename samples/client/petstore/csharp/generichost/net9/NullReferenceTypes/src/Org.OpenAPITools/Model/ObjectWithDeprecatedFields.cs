@@ -237,7 +237,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
             }
             if (objectWithDeprecatedFields.IdOption.IsSet)
-                writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value);
+                if (objectWithDeprecatedFields.IdOption.Value != null)
+                    writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value);
+                else
+                    writer.WriteNull("id");
 
             if (objectWithDeprecatedFields.UuidOption.IsSet)
                 writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);

@@ -209,10 +209,16 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", whale.ClassName);
 
             if (whale.HasBaleenOption.IsSet)
-                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);
+                if (whale.HasBaleenOption.Value != null)
+                    writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);
+                else
+                    writer.WriteNull("hasBaleen");
 
             if (whale.HasTeethOption.IsSet)
-                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value);
+                if (whale.HasTeethOption.Value != null)
+                    writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value);
+                else
+                    writer.WriteNull("hasTeeth");
         }
     }
 

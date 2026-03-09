@@ -821,13 +821,22 @@ namespace Org.OpenAPITools.Model
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
             writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             if (enumTest.EnumIntegerOption.IsSet)
-                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value));
+                if (enumTest.EnumIntegerOption.Value != null)
+                    writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_integer");
 
             if (enumTest.EnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value!.Value));
+                if (enumTest.EnumIntegerOnlyOption.Value != null)
+                    writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_integer_only");
 
             if (enumTest.EnumNumberOption.IsSet)
-                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
+                if (enumTest.EnumNumberOption.Value != null)
+                    writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
+                else
+                    writer.WriteNull("enum_number");
 
             var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value);
             writer.WriteString("enum_string", enumStringRawValue);

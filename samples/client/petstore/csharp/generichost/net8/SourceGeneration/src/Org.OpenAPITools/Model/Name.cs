@@ -270,10 +270,16 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("property", name.Property);
 
             if (name.SnakeCaseOption.IsSet)
-                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value!.Value);
+                if (name.SnakeCaseOption.Value != null)
+                    writer.WriteNumber("snake_case", name.SnakeCaseOption.Value!.Value);
+                else
+                    writer.WriteNull("snake_case");
 
             if (name.Var123NumberOption.IsSet)
-                writer.WriteNumber("123Number", name.Var123NumberOption.Value!.Value);
+                if (name.Var123NumberOption.Value != null)
+                    writer.WriteNumber("123Number", name.Var123NumberOption.Value!.Value);
+                else
+                    writer.WriteNull("123Number");
         }
     }
 

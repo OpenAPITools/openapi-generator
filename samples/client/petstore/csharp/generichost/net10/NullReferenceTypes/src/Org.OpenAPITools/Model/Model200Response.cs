@@ -187,7 +187,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("class", model200Response.Class);
 
             if (model200Response.NameOption.IsSet)
-                writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
+                if (model200Response.NameOption.Value != null)
+                    writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
+                else
+                    writer.WriteNull("name");
         }
     }
 }

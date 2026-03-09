@@ -165,7 +165,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
+                if (numberOnly.JustNumberOption.Value != null)
+                    writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
+                else
+                    writer.WriteNull("JustNumber");
         }
     }
 

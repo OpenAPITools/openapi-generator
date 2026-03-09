@@ -205,7 +205,10 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apiResponse.CodeOption.IsSet)
-                writer.WriteNumber("code", apiResponse.CodeOption.Value!.Value);
+                if (apiResponse.CodeOption.Value != null)
+                    writer.WriteNumber("code", apiResponse.CodeOption.Value!.Value);
+                else
+                    writer.WriteNull("code");
 
             if (apiResponse.MessageOption.IsSet)
                 writer.WriteString("message", apiResponse.Message);

@@ -182,10 +182,16 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(Utf8JsonWriter writer, Child child, JsonSerializerOptions jsonSerializerOptions)
         {
             if (child.AgeOption.IsSet)
-                writer.WriteNumber("age", child.AgeOption.Value!.Value);
+                if (child.AgeOption.Value != null)
+                    writer.WriteNumber("age", child.AgeOption.Value!.Value);
+                else
+                    writer.WriteNull("age");
 
             if (child.BoosterSeatOption.IsSet)
-                writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
+                if (child.BoosterSeatOption.Value != null)
+                    writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
+                else
+                    writer.WriteNull("boosterSeat");
 
             if (child.FirstNameOption.IsSet)
                 writer.WriteString("firstName", child.FirstName);

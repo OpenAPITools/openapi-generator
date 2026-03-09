@@ -179,7 +179,10 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
 
             if (bananaReq.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
+                if (bananaReq.SweetOption.Value != null)
+                    writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
+                else
+                    writer.WriteNull("sweet");
         }
     }
 
