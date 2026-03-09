@@ -361,33 +361,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (email.IsSet && email.Value == null)
-                throw new ArgumentNullException(nameof(email), "Property is not nullable for class User.");
-
-            if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class User.");
-
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class User.");
-
-            if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class User.");
-
-            if (objectWithNoDeclaredProps.IsSet && objectWithNoDeclaredProps.Value == null)
-                throw new ArgumentNullException(nameof(objectWithNoDeclaredProps), "Property is not nullable for class User.");
-
-            if (password.IsSet && password.Value == null)
-                throw new ArgumentNullException(nameof(password), "Property is not nullable for class User.");
-
-            if (phone.IsSet && phone.Value == null)
-                throw new ArgumentNullException(nameof(phone), "Property is not nullable for class User.");
-
-            if (userStatus.IsSet && userStatus.Value == null)
-                throw new ArgumentNullException(nameof(userStatus), "Property is not nullable for class User.");
-
-            if (username.IsSet && username.Value == null)
-                throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
-
             return new User(anyTypeProp, anyTypePropNullable, email, firstName, id, lastName, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, password, phone, userStatus, username);
         }
 
@@ -415,27 +388,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, User user, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (user.EmailOption.IsSet && user.Email == null)
-                throw new ArgumentNullException(nameof(user.Email), "Property is required for class User.");
-
-            if (user.FirstNameOption.IsSet && user.FirstName == null)
-                throw new ArgumentNullException(nameof(user.FirstName), "Property is required for class User.");
-
-            if (user.LastNameOption.IsSet && user.LastName == null)
-                throw new ArgumentNullException(nameof(user.LastName), "Property is required for class User.");
-
-            if (user.ObjectWithNoDeclaredPropsOption.IsSet && user.ObjectWithNoDeclaredProps == null)
-                throw new ArgumentNullException(nameof(user.ObjectWithNoDeclaredProps), "Property is required for class User.");
-
-            if (user.PasswordOption.IsSet && user.Password == null)
-                throw new ArgumentNullException(nameof(user.Password), "Property is required for class User.");
-
-            if (user.PhoneOption.IsSet && user.Phone == null)
-                throw new ArgumentNullException(nameof(user.Phone), "Property is required for class User.");
-
-            if (user.UsernameOption.IsSet && user.Username == null)
-                throw new ArgumentNullException(nameof(user.Username), "Property is required for class User.");
-
             if (user.AnyTypePropOption.IsSet)
                 if (user.AnyTypePropOption.Value != null)
                 {

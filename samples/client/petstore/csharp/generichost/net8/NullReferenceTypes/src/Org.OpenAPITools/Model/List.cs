@@ -136,9 +136,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (var123List.IsSet && var123List.Value == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
-
             return new List(var123List);
         }
 
@@ -166,9 +163,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (list.Var123ListOption.IsSet && list.Var123List == null)
-                throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
-
             if (list.Var123ListOption.IsSet)
                 writer.WriteString("123-list", list.Var123List);
         }

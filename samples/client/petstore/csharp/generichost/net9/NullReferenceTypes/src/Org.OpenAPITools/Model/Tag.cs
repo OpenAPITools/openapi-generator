@@ -156,12 +156,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Tag.");
-
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Tag.");
-
             return new Tag(id, name);
         }
 
@@ -189,9 +183,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (tag.NameOption.IsSet && tag.Name == null)
-                throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
-
             if (tag.IdOption.IsSet)
                 writer.WriteNumber("id", tag.IdOption.Value!.Value);
 

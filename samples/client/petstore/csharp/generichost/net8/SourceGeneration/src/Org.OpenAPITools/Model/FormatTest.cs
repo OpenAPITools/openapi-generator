@@ -848,75 +848,6 @@ namespace Org.OpenAPITools.Model
             if (stringFormattedAsDecimalRequired.IsSet && stringFormattedAsDecimalRequired.Value == null)
                 throw new ArgumentNullException(nameof(stringFormattedAsDecimalRequired), "Property is not nullable for class FormatTest.");
 
-            if (binary.IsSet && binary.Value == null)
-                throw new ArgumentNullException(nameof(binary), "Property is not nullable for class FormatTest.");
-
-            if (dateTime.IsSet && dateTime.Value == null)
-                throw new ArgumentNullException(nameof(dateTime), "Property is not nullable for class FormatTest.");
-
-            if (varDecimal.IsSet && varDecimal.Value == null)
-                throw new ArgumentNullException(nameof(varDecimal), "Property is not nullable for class FormatTest.");
-
-            if (varDouble.IsSet && varDouble.Value == null)
-                throw new ArgumentNullException(nameof(varDouble), "Property is not nullable for class FormatTest.");
-
-            if (duplicatePropertyName2.IsSet && duplicatePropertyName2.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName2), "Property is not nullable for class FormatTest.");
-
-            if (duplicatePropertyName.IsSet && duplicatePropertyName.Value == null)
-                throw new ArgumentNullException(nameof(duplicatePropertyName), "Property is not nullable for class FormatTest.");
-
-            if (varFloat.IsSet && varFloat.Value == null)
-                throw new ArgumentNullException(nameof(varFloat), "Property is not nullable for class FormatTest.");
-
-            if (int32.IsSet && int32.Value == null)
-                throw new ArgumentNullException(nameof(int32), "Property is not nullable for class FormatTest.");
-
-            if (int32Range.IsSet && int32Range.Value == null)
-                throw new ArgumentNullException(nameof(int32Range), "Property is not nullable for class FormatTest.");
-
-            if (int64.IsSet && int64.Value == null)
-                throw new ArgumentNullException(nameof(int64), "Property is not nullable for class FormatTest.");
-
-            if (int64Negative.IsSet && int64Negative.Value == null)
-                throw new ArgumentNullException(nameof(int64Negative), "Property is not nullable for class FormatTest.");
-
-            if (int64NegativeExclusive.IsSet && int64NegativeExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64NegativeExclusive), "Property is not nullable for class FormatTest.");
-
-            if (int64Positive.IsSet && int64Positive.Value == null)
-                throw new ArgumentNullException(nameof(int64Positive), "Property is not nullable for class FormatTest.");
-
-            if (int64PositiveExclusive.IsSet && int64PositiveExclusive.Value == null)
-                throw new ArgumentNullException(nameof(int64PositiveExclusive), "Property is not nullable for class FormatTest.");
-
-            if (integer.IsSet && integer.Value == null)
-                throw new ArgumentNullException(nameof(integer), "Property is not nullable for class FormatTest.");
-
-            if (patternWithBackslash.IsSet && patternWithBackslash.Value == null)
-                throw new ArgumentNullException(nameof(patternWithBackslash), "Property is not nullable for class FormatTest.");
-
-            if (patternWithDigits.IsSet && patternWithDigits.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigits), "Property is not nullable for class FormatTest.");
-
-            if (patternWithDigitsAndDelimiter.IsSet && patternWithDigitsAndDelimiter.Value == null)
-                throw new ArgumentNullException(nameof(patternWithDigitsAndDelimiter), "Property is not nullable for class FormatTest.");
-
-            if (varString.IsSet && varString.Value == null)
-                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FormatTest.");
-
-            if (stringFormattedAsDecimal.IsSet && stringFormattedAsDecimal.Value == null)
-                throw new ArgumentNullException(nameof(stringFormattedAsDecimal), "Property is not nullable for class FormatTest.");
-
-            if (unsignedInteger.IsSet && unsignedInteger.Value == null)
-                throw new ArgumentNullException(nameof(unsignedInteger), "Property is not nullable for class FormatTest.");
-
-            if (unsignedLong.IsSet && unsignedLong.Value == null)
-                throw new ArgumentNullException(nameof(unsignedLong), "Property is not nullable for class FormatTest.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
-
             return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, stringFormattedAsDecimalRequired.Value!.Value!, binary, dateTime, varDecimal, varDouble, duplicatePropertyName2, duplicatePropertyName, varFloat, int32, int32Range, int64, int64Negative, int64NegativeExclusive, int64Positive, int64PositiveExclusive, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, stringFormattedAsDecimal, unsignedInteger, unsignedLong, uuid);
         }
 
@@ -949,27 +880,6 @@ namespace Org.OpenAPITools.Model
 
             if (formatTest.Password == null)
                 throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");
-
-            if (formatTest.BinaryOption.IsSet && formatTest.Binary == null)
-                throw new ArgumentNullException(nameof(formatTest.Binary), "Property is required for class FormatTest.");
-
-            if (formatTest.DuplicatePropertyName2Option.IsSet && formatTest.DuplicatePropertyName2 == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName2), "Property is required for class FormatTest.");
-
-            if (formatTest.DuplicatePropertyNameOption.IsSet && formatTest.DuplicatePropertyName == null)
-                throw new ArgumentNullException(nameof(formatTest.DuplicatePropertyName), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithBackslashOption.IsSet && formatTest.PatternWithBackslash == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithBackslash), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithDigitsOption.IsSet && formatTest.PatternWithDigits == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigits), "Property is required for class FormatTest.");
-
-            if (formatTest.PatternWithDigitsAndDelimiterOption.IsSet && formatTest.PatternWithDigitsAndDelimiter == null)
-                throw new ArgumentNullException(nameof(formatTest.PatternWithDigitsAndDelimiter), "Property is required for class FormatTest.");
-
-            if (formatTest.StringOption.IsSet && formatTest.String == null)
-                throw new ArgumentNullException(nameof(formatTest.String), "Property is required for class FormatTest.");
 
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);

@@ -158,12 +158,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (now.IsSet && now.Value == null)
-                throw new ArgumentNullException(nameof(now), "Property is not nullable for class NowGet200Response.");
-
-            if (today.IsSet && today.Value == null)
-                throw new ArgumentNullException(nameof(today), "Property is not nullable for class NowGet200Response.");
-
             return new NowGet200Response(now, today);
         }
 

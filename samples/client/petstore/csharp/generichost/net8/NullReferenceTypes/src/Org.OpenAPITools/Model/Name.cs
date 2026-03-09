@@ -236,15 +236,6 @@ namespace Org.OpenAPITools.Model
             if (varName.IsSet && varName.Value == null)
                 throw new ArgumentNullException(nameof(varName), "Property is not nullable for class Name.");
 
-            if (property.IsSet && property.Value == null)
-                throw new ArgumentNullException(nameof(property), "Property is not nullable for class Name.");
-
-            if (snakeCase.IsSet && snakeCase.Value == null)
-                throw new ArgumentNullException(nameof(snakeCase), "Property is not nullable for class Name.");
-
-            if (var123Number.IsSet && var123Number.Value == null)
-                throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
-
             return new Name(varName.Value!.Value!, property, snakeCase, var123Number);
         }
 
@@ -272,9 +263,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Name name, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (name.PropertyOption.IsSet && name.Property == null)
-                throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
-
             writer.WriteNumber("name", name.VarName);
 
             if (name.PropertyOption.IsSet)

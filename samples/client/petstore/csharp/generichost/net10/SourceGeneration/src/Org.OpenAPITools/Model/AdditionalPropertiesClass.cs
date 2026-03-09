@@ -278,27 +278,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (emptyMap.IsSet && emptyMap.Value == null)
-                throw new ArgumentNullException(nameof(emptyMap), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapOfMapProperty.IsSet && mapOfMapProperty.Value == null)
-                throw new ArgumentNullException(nameof(mapOfMapProperty), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapProperty.IsSet && mapProperty.Value == null)
-                throw new ArgumentNullException(nameof(mapProperty), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapWithUndeclaredPropertiesAnytype1.IsSet && mapWithUndeclaredPropertiesAnytype1.Value == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype1), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapWithUndeclaredPropertiesAnytype2.IsSet && mapWithUndeclaredPropertiesAnytype2.Value == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype2), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapWithUndeclaredPropertiesAnytype3.IsSet && mapWithUndeclaredPropertiesAnytype3.Value == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesAnytype3), "Property is not nullable for class AdditionalPropertiesClass.");
-
-            if (mapWithUndeclaredPropertiesString.IsSet && mapWithUndeclaredPropertiesString.Value == null)
-                throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is not nullable for class AdditionalPropertiesClass.");
-
             return new AdditionalPropertiesClass(anytype1, emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString);
         }
 
@@ -326,27 +305,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, AdditionalPropertiesClass additionalPropertiesClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (additionalPropertiesClass.EmptyMapOption.IsSet && additionalPropertiesClass.EmptyMap == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.EmptyMap), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapOfMapPropertyOption.IsSet && additionalPropertiesClass.MapOfMapProperty == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapOfMapProperty), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapPropertyOption.IsSet && additionalPropertiesClass.MapProperty == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapProperty), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype1), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype2), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3Option.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3 == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesAnytype3), "Property is required for class AdditionalPropertiesClass.");
-
-            if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesString == null)
-                throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
-
             if (additionalPropertiesClass.Anytype1Option.IsSet)
                 if (additionalPropertiesClass.Anytype1Option.Value != null)
                 {

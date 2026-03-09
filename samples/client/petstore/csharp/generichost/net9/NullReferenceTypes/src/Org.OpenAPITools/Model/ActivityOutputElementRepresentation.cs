@@ -156,12 +156,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (prop1.IsSet && prop1.Value == null)
-                throw new ArgumentNullException(nameof(prop1), "Property is not nullable for class ActivityOutputElementRepresentation.");
-
-            if (prop2.IsSet && prop2.Value == null)
-                throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
-
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }
 
@@ -189,12 +183,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (activityOutputElementRepresentation.Prop1Option.IsSet && activityOutputElementRepresentation.Prop1 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop1), "Property is required for class ActivityOutputElementRepresentation.");
-
-            if (activityOutputElementRepresentation.Prop2Option.IsSet && activityOutputElementRepresentation.Prop2 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
-
             if (activityOutputElementRepresentation.Prop1Option.IsSet)
                 writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
 

@@ -320,18 +320,6 @@ namespace Org.OpenAPITools.Model
             if (photoUrls.IsSet && photoUrls.Value == null)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is not nullable for class Pet.");
 
-            if (category.IsSet && category.Value == null)
-                throw new ArgumentNullException(nameof(category), "Property is not nullable for class Pet.");
-
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Pet.");
-
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Pet.");
-
-            if (tags.IsSet && tags.Value == null)
-                throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
-
             return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags);
         }
 
@@ -364,12 +352,6 @@ namespace Org.OpenAPITools.Model
 
             if (pet.PhotoUrls == null)
                 throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
-
-            if (pet.CategoryOption.IsSet && pet.Category == null)
-                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
-
-            if (pet.TagsOption.IsSet && pet.Tags == null)
-                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
 
             writer.WriteString("name", pet.Name);
 

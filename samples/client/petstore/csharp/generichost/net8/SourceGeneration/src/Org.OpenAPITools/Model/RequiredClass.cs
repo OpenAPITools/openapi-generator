@@ -2080,39 +2080,6 @@ namespace Org.OpenAPITools.Model
             if (requiredNotnullableintegerProp.IsSet && requiredNotnullableintegerProp.Value == null)
                 throw new ArgumentNullException(nameof(requiredNotnullableintegerProp), "Property is not nullable for class RequiredClass.");
 
-            if (notRequiredNotnullableDateProp.IsSet && notRequiredNotnullableDateProp.Value == null)
-                throw new ArgumentNullException(nameof(notRequiredNotnullableDateProp), "Property is not nullable for class RequiredClass.");
-
-            if (notRequiredNotnullableintegerProp.IsSet && notRequiredNotnullableintegerProp.Value == null)
-                throw new ArgumentNullException(nameof(notRequiredNotnullableintegerProp), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableArrayOfString.IsSet && notrequiredNotnullableArrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableArrayOfString), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableBooleanProp.IsSet && notrequiredNotnullableBooleanProp.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableBooleanProp), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableDatetimeProp.IsSet && notrequiredNotnullableDatetimeProp.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableDatetimeProp), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableEnumInteger.IsSet && notrequiredNotnullableEnumInteger.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableEnumInteger), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableEnumIntegerOnly.IsSet && notrequiredNotnullableEnumIntegerOnly.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableEnumIntegerOnly), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableEnumString.IsSet && notrequiredNotnullableEnumString.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableEnumString), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableOuterEnumDefaultValue.IsSet && notrequiredNotnullableOuterEnumDefaultValue.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableOuterEnumDefaultValue), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableStringProp.IsSet && notrequiredNotnullableStringProp.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableStringProp), "Property is not nullable for class RequiredClass.");
-
-            if (notrequiredNotnullableUuid.IsSet && notrequiredNotnullableUuid.Value == null)
-                throw new ArgumentNullException(nameof(notrequiredNotnullableUuid), "Property is not nullable for class RequiredClass.");
-
             return new RequiredClass(requiredNotNullableDateProp.Value!.Value!, requiredNotnullableArrayOfString.Value!, requiredNotnullableBooleanProp.Value!.Value!, requiredNotnullableDatetimeProp.Value!.Value!, requiredNotnullableEnumInteger.Value!.Value!, requiredNotnullableEnumIntegerOnly.Value!.Value!, requiredNotnullableEnumString.Value!.Value!, requiredNotnullableOuterEnumDefaultValue.Value!.Value!, requiredNotnullableStringProp.Value!, requiredNotnullableUuid.Value!.Value!, requiredNotnullableintegerProp.Value!.Value!, notRequiredNotnullableDateProp, notRequiredNotnullableintegerProp, notRequiredNullableDateProp, notRequiredNullableIntegerProp, notrequiredNotnullableArrayOfString, notrequiredNotnullableBooleanProp, notrequiredNotnullableDatetimeProp, notrequiredNotnullableEnumInteger, notrequiredNotnullableEnumIntegerOnly, notrequiredNotnullableEnumString, notrequiredNotnullableOuterEnumDefaultValue, notrequiredNotnullableStringProp, notrequiredNotnullableUuid, notrequiredNullableArrayOfString, notrequiredNullableBooleanProp, notrequiredNullableDatetimeProp, notrequiredNullableEnumInteger, notrequiredNullableEnumIntegerOnly, notrequiredNullableEnumString, notrequiredNullableOuterEnumDefaultValue, notrequiredNullableStringProp, notrequiredNullableUuid, requiredNullableArrayOfString.Value!, requiredNullableBooleanProp.Value!, requiredNullableDateProp.Value!, requiredNullableDatetimeProp.Value!, requiredNullableEnumInteger.Value!, requiredNullableEnumIntegerOnly.Value!, requiredNullableEnumString.Value!, requiredNullableIntegerProp.Value!, requiredNullableOuterEnumDefaultValue.Value!, requiredNullableStringProp.Value!, requiredNullableUuid.Value!);
         }
 
@@ -2145,12 +2112,6 @@ namespace Org.OpenAPITools.Model
 
             if (requiredClass.RequiredNotnullableStringProp == null)
                 throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
-
-            if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet && requiredClass.NotrequiredNotnullableArrayOfString == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
-
-            if (requiredClass.NotrequiredNotnullableStringPropOption.IsSet && requiredClass.NotrequiredNotnullableStringProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableStringProp), "Property is required for class RequiredClass.");
 
             writer.WriteString("required_not_nullable_date_prop", requiredClass.RequiredNotNullableDateProp.ToString(RequiredNotNullableDatePropFormat));
 

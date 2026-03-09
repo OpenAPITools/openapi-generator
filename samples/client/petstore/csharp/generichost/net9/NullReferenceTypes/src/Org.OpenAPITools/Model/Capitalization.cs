@@ -237,24 +237,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (aTTNAME.IsSet && aTTNAME.Value == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is not nullable for class Capitalization.");
-
-            if (capitalCamel.IsSet && capitalCamel.Value == null)
-                throw new ArgumentNullException(nameof(capitalCamel), "Property is not nullable for class Capitalization.");
-
-            if (capitalSnake.IsSet && capitalSnake.Value == null)
-                throw new ArgumentNullException(nameof(capitalSnake), "Property is not nullable for class Capitalization.");
-
-            if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is not nullable for class Capitalization.");
-
-            if (smallCamel.IsSet && smallCamel.Value == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is not nullable for class Capitalization.");
-
-            if (smallSnake.IsSet && smallSnake.Value == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
-
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
 
@@ -282,24 +264,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (capitalization.ATT_NAMEOption.IsSet && capitalization.ATT_NAME == null)
-                throw new ArgumentNullException(nameof(capitalization.ATT_NAME), "Property is required for class Capitalization.");
-
-            if (capitalization.CapitalCamelOption.IsSet && capitalization.CapitalCamel == null)
-                throw new ArgumentNullException(nameof(capitalization.CapitalCamel), "Property is required for class Capitalization.");
-
-            if (capitalization.CapitalSnakeOption.IsSet && capitalization.CapitalSnake == null)
-                throw new ArgumentNullException(nameof(capitalization.CapitalSnake), "Property is required for class Capitalization.");
-
-            if (capitalization.SCAETHFlowPointsOption.IsSet && capitalization.SCAETHFlowPoints == null)
-                throw new ArgumentNullException(nameof(capitalization.SCAETHFlowPoints), "Property is required for class Capitalization.");
-
-            if (capitalization.SmallCamelOption.IsSet && capitalization.SmallCamel == null)
-                throw new ArgumentNullException(nameof(capitalization.SmallCamel), "Property is required for class Capitalization.");
-
-            if (capitalization.SmallSnakeOption.IsSet && capitalization.SmallSnake == null)
-                throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
-
             if (capitalization.ATT_NAMEOption.IsSet)
                 writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
 

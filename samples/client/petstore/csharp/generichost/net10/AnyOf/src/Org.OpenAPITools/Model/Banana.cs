@@ -136,9 +136,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (count.IsSet && count.Value == null)
-                throw new ArgumentNullException(nameof(count), "Property is not nullable for class Banana.");
-
             return new Banana(count);
         }
 

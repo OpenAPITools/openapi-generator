@@ -175,12 +175,6 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Whale.");
 
-            if (hasBaleen.IsSet && hasBaleen.Value == null)
-                throw new ArgumentNullException(nameof(hasBaleen), "Property is not nullable for class Whale.");
-
-            if (hasTeeth.IsSet && hasTeeth.Value == null)
-                throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
-
             return new Whale(className.Value!, hasBaleen, hasTeeth);
         }
 

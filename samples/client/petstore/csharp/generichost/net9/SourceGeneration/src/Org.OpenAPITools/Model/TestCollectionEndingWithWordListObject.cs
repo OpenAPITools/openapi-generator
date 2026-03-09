@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (testCollectionEndingWithWordList.IsSet && testCollectionEndingWithWordList.Value == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is not nullable for class TestCollectionEndingWithWordListObject.");
-
             return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList);
         }
 
@@ -167,9 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet && testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
-
             if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet)
             {
                 writer.WritePropertyName("TestCollectionEndingWithWordList");

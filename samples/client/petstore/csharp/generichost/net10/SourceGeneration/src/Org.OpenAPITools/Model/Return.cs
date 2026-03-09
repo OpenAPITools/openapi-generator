@@ -192,12 +192,6 @@ namespace Org.OpenAPITools.Model
             if (varLock.IsSet && varLock.Value == null)
                 throw new ArgumentNullException(nameof(varLock), "Property is not nullable for class Return.");
 
-            if (varReturn.IsSet && varReturn.Value == null)
-                throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
-
-            if (varUnsafe.IsSet && varUnsafe.Value == null)
-                throw new ArgumentNullException(nameof(varUnsafe), "Property is not nullable for class Return.");
-
             return new Return(varLock.Value!, varAbstract.Value!, varReturn, varUnsafe);
         }
 
@@ -227,9 +221,6 @@ namespace Org.OpenAPITools.Model
         {
             if (varReturn.Lock == null)
                 throw new ArgumentNullException(nameof(varReturn.Lock), "Property is required for class Return.");
-
-            if (varReturn.UnsafeOption.IsSet && varReturn.Unsafe == null)
-                throw new ArgumentNullException(nameof(varReturn.Unsafe), "Property is required for class Return.");
 
             writer.WriteString("lock", varReturn.Lock);
 

@@ -238,9 +238,6 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
 
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
-
             return new Zebra(className.Value!, type);
         }
 

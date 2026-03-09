@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClient.IsSet && varClient.Value == null)
-                throw new ArgumentNullException(nameof(varClient), "Property is not nullable for class ModelClient.");
-
             return new ModelClient(varClient);
         }
 
@@ -167,9 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ModelClient modelClient, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (modelClient.VarClientOption.IsSet && modelClient.VarClient == null)
-                throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
-
             if (modelClient.VarClientOption.IsSet)
                 writer.WriteString("client", modelClient.VarClient);
         }

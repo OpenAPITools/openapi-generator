@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
-
             return new ClassModel(varClass);
         }
 
@@ -167,9 +164,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (classModel.ClassOption.IsSet && classModel.Class == null)
-                throw new ArgumentNullException(nameof(classModel.Class), "Property is required for class ClassModel.");
-
             if (classModel.ClassOption.IsSet)
                 writer.WriteString("_class", classModel.Class);
         }

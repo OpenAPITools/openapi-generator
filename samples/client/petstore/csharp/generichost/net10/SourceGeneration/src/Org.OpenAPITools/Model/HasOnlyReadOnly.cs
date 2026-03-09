@@ -198,12 +198,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
-
-            if (foo.IsSet && foo.Value == null)
-                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
-
             return new HasOnlyReadOnly(bar, foo);
         }
 
@@ -231,12 +225,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (hasOnlyReadOnly.BarOption.IsSet && hasOnlyReadOnly.Bar == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Bar), "Property is required for class HasOnlyReadOnly.");
-
-            if (hasOnlyReadOnly.FooOption.IsSet && hasOnlyReadOnly.Foo == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
-
             if (hasOnlyReadOnly.BarOption.IsSet)
                 writer.WriteString("bar", hasOnlyReadOnly.Bar);
 

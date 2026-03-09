@@ -326,24 +326,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (complete.IsSet && complete.Value == null)
-                throw new ArgumentNullException(nameof(complete), "Property is not nullable for class Order.");
-
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Order.");
-
-            if (petId.IsSet && petId.Value == null)
-                throw new ArgumentNullException(nameof(petId), "Property is not nullable for class Order.");
-
-            if (quantity.IsSet && quantity.Value == null)
-                throw new ArgumentNullException(nameof(quantity), "Property is not nullable for class Order.");
-
-            if (shipDate.IsSet && shipDate.Value == null)
-                throw new ArgumentNullException(nameof(shipDate), "Property is not nullable for class Order.");
-
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Order.");
-
             return new Order(complete, id, petId, quantity, shipDate, status);
         }
 

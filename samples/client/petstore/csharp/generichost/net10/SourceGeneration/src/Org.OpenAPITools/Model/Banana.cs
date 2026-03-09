@@ -137,9 +137,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class Banana.");
-
             return new Banana(lengthCm);
         }
 

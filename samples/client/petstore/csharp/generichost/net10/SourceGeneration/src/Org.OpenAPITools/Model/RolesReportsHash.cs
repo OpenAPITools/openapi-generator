@@ -157,12 +157,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (role.IsSet && role.Value == null)
-                throw new ArgumentNullException(nameof(role), "Property is not nullable for class RolesReportsHash.");
-
-            if (roleUuid.IsSet && roleUuid.Value == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
-
             return new RolesReportsHash(role, roleUuid);
         }
 
@@ -190,9 +184,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RolesReportsHash rolesReportsHash, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (rolesReportsHash.RoleOption.IsSet && rolesReportsHash.Role == null)
-                throw new ArgumentNullException(nameof(rolesReportsHash.Role), "Property is required for class RolesReportsHash.");
-
             if (rolesReportsHash.RoleOption.IsSet)
             {
                 writer.WritePropertyName("role");

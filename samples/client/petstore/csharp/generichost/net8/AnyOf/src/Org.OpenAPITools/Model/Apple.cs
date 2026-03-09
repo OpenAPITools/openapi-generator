@@ -136,9 +136,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (kind.IsSet && kind.Value == null)
-                throw new ArgumentNullException(nameof(kind), "Property is not nullable for class Apple.");
-
             return new Apple(kind);
         }
 
@@ -166,9 +163,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apple.KindOption.IsSet && apple.Kind == null)
-                throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
-
             if (apple.KindOption.IsSet)
                 writer.WriteString("kind", apple.Kind);
         }

@@ -176,15 +176,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class ApiResponse.");
-
-            if (message.IsSet && message.Value == null)
-                throw new ArgumentNullException(nameof(message), "Property is not nullable for class ApiResponse.");
-
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class ApiResponse.");
-
             return new ApiResponse(code, message, type);
         }
 
@@ -212,12 +203,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ApiResponse apiResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (apiResponse.MessageOption.IsSet && apiResponse.Message == null)
-                throw new ArgumentNullException(nameof(apiResponse.Message), "Property is required for class ApiResponse.");
-
-            if (apiResponse.TypeOption.IsSet && apiResponse.Type == null)
-                throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
-
             if (apiResponse.CodeOption.IsSet)
                 writer.WriteNumber("code", apiResponse.CodeOption.Value!.Value);
 

@@ -290,12 +290,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayEnum.IsSet && arrayEnum.Value == null)
-                throw new ArgumentNullException(nameof(arrayEnum), "Property is not nullable for class EnumArrays.");
-
-            if (justSymbol.IsSet && justSymbol.Value == null)
-                throw new ArgumentNullException(nameof(justSymbol), "Property is not nullable for class EnumArrays.");
-
             return new EnumArrays(arrayEnum, justSymbol);
         }
 
@@ -323,9 +317,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, EnumArrays enumArrays, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (enumArrays.ArrayEnumOption.IsSet && enumArrays.ArrayEnum == null)
-                throw new ArgumentNullException(nameof(enumArrays.ArrayEnum), "Property is required for class EnumArrays.");
-
             if (enumArrays.ArrayEnumOption.IsSet)
             {
                 writer.WritePropertyName("array_enum");

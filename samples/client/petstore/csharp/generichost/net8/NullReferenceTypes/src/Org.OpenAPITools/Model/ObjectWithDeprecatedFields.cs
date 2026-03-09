@@ -199,18 +199,6 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bars.IsSet && bars.Value == null)
-                throw new ArgumentNullException(nameof(bars), "Property is not nullable for class ObjectWithDeprecatedFields.");
-
-            if (deprecatedRef.IsSet && deprecatedRef.Value == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is not nullable for class ObjectWithDeprecatedFields.");
-
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class ObjectWithDeprecatedFields.");
-
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
-
             return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
         }
 
@@ -238,15 +226,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (objectWithDeprecatedFields.BarsOption.IsSet && objectWithDeprecatedFields.Bars == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Bars), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet && objectWithDeprecatedFields.DeprecatedRef == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.DeprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (objectWithDeprecatedFields.UuidOption.IsSet && objectWithDeprecatedFields.Uuid == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
-
             if (objectWithDeprecatedFields.BarsOption.IsSet)
             {
                 writer.WritePropertyName("bars");
