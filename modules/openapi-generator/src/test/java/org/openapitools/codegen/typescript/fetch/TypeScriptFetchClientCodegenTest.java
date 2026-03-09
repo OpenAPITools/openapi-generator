@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -469,7 +470,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(apiFile);
 
         // Read file content and split into interface and class sections
-        String content = new String(Files.readAllBytes(apiFile));
+        String content = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
         int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
         int classStart = content.indexOf("export class PetControllerApi");
         String interfaceSection = content.substring(interfaceStart, classStart);
@@ -494,7 +495,7 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileExists(apiFile);
 
         // Read file content and split into interface and class sections
-        String content = new String(Files.readAllBytes(apiFile));
+        String content = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
         int interfaceStart = content.indexOf("export interface PetControllerApiInterface");
         int classStart = content.indexOf("export class PetControllerApi");
         String interfaceSection = content.substring(interfaceStart, classStart);
