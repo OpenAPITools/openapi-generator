@@ -16,19 +16,31 @@ import Foundation
         var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
 
         var customJSONDecoder: JSONDecoder?
-        var defaultJSONDecoder: JSONDecoder = JSONDecoder()
+        var defaultJSONDecoder: JSONDecoder
 
         var customJSONEncoder: JSONEncoder?
-        var defaultJSONEncoder: JSONEncoder = JSONEncoder()
+        var defaultJSONEncoder: JSONEncoder
 
         init() {
-            didUpdateDateFormatter()
-            defaultJSONEncoder.outputFormatting = .prettyPrinted
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(defaultDateFormatter)
+            defaultJSONDecoder = decoder
+
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .formatted(defaultDateFormatter)
+            encoder.outputFormatting = .prettyPrinted
+            defaultJSONEncoder = encoder
         }
 
-        mutating func didUpdateDateFormatter() {
-            defaultJSONDecoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
-            defaultJSONEncoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+        mutating func rebuildDefaultCoders() {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            defaultJSONDecoder = decoder
+
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            encoder.outputFormatting = .prettyPrinted
+            defaultJSONEncoder = encoder
         }
     }
 
@@ -45,7 +57,7 @@ import Foundation
         set {
             _state.withValue { state in
                 state.customDateFormatter = newValue
-                state.didUpdateDateFormatter()
+                state.rebuildDefaultCoders()
             }
         }
     }

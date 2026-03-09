@@ -14,21 +14,33 @@ open class CodableHelper: @unchecked Sendable {
     private struct State {
         var customDateFormatter: DateFormatter?
         var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
-        
+
         var customJSONDecoder: JSONDecoder?
-        var defaultJSONDecoder: JSONDecoder = JSONDecoder()
-        
+        var defaultJSONDecoder: JSONDecoder
+
         var customJSONEncoder: JSONEncoder?
-        var defaultJSONEncoder: JSONEncoder = JSONEncoder()
-        
+        var defaultJSONEncoder: JSONEncoder
+
         init() {
-            didUpdateDateFormatter()
-            defaultJSONEncoder.outputFormatting = .prettyPrinted
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(defaultDateFormatter)
+            defaultJSONDecoder = decoder
+
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .formatted(defaultDateFormatter)
+            encoder.outputFormatting = .prettyPrinted
+            defaultJSONEncoder = encoder
         }
 
-        mutating func didUpdateDateFormatter() {
-            defaultJSONDecoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
-            defaultJSONEncoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+        mutating func rebuildDefaultCoders() {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            defaultJSONDecoder = decoder
+
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            encoder.outputFormatting = .prettyPrinted
+            defaultJSONEncoder = encoder
         }
     }
 
@@ -45,7 +57,7 @@ open class CodableHelper: @unchecked Sendable {
         set {
             _state.withValue { state in
                 state.customDateFormatter = newValue
-                state.didUpdateDateFormatter()
+                state.rebuildDefaultCoders()
             }
         }
     }
@@ -61,10 +73,14 @@ open class CodableHelper: @unchecked Sendable {
     }
 
     open func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
-        return Swift.Result { try jsonDecoder.decode(type, from: data) }
+        _state.withValue { state in
+            Swift.Result { try (state.customJSONDecoder ?? state.defaultJSONDecoder).decode(type, from: data) }
+        }
     }
 
     open func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
-        return Swift.Result { try jsonEncoder.encode(value) }
+        _state.withValue { state in
+            Swift.Result { try (state.customJSONEncoder ?? state.defaultJSONEncoder).encode(value) }
+        }
     }
 }
