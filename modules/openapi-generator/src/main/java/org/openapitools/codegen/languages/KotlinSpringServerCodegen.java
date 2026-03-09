@@ -424,9 +424,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void processOpts() {
-        if (additionalProperties.containsKey(USE_SPRING_BOOT4)
-                && Boolean.parseBoolean(additionalProperties.get(USE_SPRING_BOOT4).toString())
-                && !additionalProperties.containsKey(USE_JACKSON_3)) {
+        boolean springBoot4Enabled = useSpringBoot4
+                || (additionalProperties.containsKey(USE_SPRING_BOOT4)
+                    && Boolean.parseBoolean(additionalProperties.get(USE_SPRING_BOOT4).toString()));
+        if (springBoot4Enabled && !additionalProperties.containsKey(USE_JACKSON_3)) {
             additionalProperties.put(USE_JACKSON_3, "true");
         }
 
