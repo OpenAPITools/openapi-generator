@@ -27,7 +27,7 @@ on:
       # - samples/server/petstore/kotlin-spring-default/**
 
 env:
-  GRADLE_VERSION: '8.10'
+  GRADLE_VERSION: '8.11'
 
 jobs:
   build:
@@ -54,6 +54,7 @@ jobs:
           - samples/server/petstore/kotlin-server/javalin-6
           - samples/server/petstore/kotlin-server/ktor
           - samples/server/petstore/kotlin-server/ktor2
+          - samples/server/petstore/kotlin-server-modelMutable
           - samples/server/petstore/kotlin-misk
           - samples/server/petstore/kotlin-spring-declarative-interface
           - samples/server/petstore/kotlin-spring-declarative-interface-reactive-coroutines

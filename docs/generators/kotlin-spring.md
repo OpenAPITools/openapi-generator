@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |autoXSpringPaginated|Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |beanQualifiers|Whether to add fully-qualifier class names as bean qualifiers in @Component and @RestController annotations. May be used to prevent bean names clash if multiple generated libraries (contexts) added to single project.| |false|
+|companionObject|Whether to generate companion objects in data classes, enabling companion extensions.| |false|
 |configPackage|configuration package for generated code| |org.openapitools.configuration|
 |declarativeInterfaceReactiveMode|What type of reactive style to use in Spring Http declarative interface|<dl><dt>**coroutines**</dt><dd>Use kotlin-idiomatic 'suspend' functions</dd><dt>**reactor**</dt><dd>Use reactor return wrappers 'Mono' and 'Flux'</dd></dl>|coroutines|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|

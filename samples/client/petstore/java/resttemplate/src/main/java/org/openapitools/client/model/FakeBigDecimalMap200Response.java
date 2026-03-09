@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * FakeBigDecimalMap200Response

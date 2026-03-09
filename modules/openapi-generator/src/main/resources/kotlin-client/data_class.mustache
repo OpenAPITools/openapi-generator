@@ -123,7 +123,8 @@ import {{packageName}}.infrastructure.ITransformForStorage
         private const val serialVersionUID: Long = 123
     }
 {{/serializableModel}}
-{{#discriminator}}{{#vars}}{{#required}}
+{{^serializableModel}}{{^generateRoomModels}}{{^generateOneOfAnyOfWrappers}}{{#companionObject}}    {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object { }
+{{/companionObject}}{{/generateOneOfAnyOfWrappers}}{{/generateRoomModels}}{{/serializableModel}}{{#discriminator}}{{#vars}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}
 {{>interface_opt_var}}{{/required}}{{/vars}}{{/discriminator}}
 {{#hasEnums}}

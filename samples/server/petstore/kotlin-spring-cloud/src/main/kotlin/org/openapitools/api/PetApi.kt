@@ -73,6 +73,7 @@ interface PetApi {
     }
 
 
+    @Deprecated(message="Operation is deprecated")
     @RequestMapping(
         method = [RequestMethod.GET],
         // "/pet/findByTags"

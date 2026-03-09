@@ -64,7 +64,7 @@ public interface StoreApi {
         value = StoreApi.PATH_DELETE_ORDER
     )
     default ResponseEntity<Void> deleteOrder(
-        @NotNull @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId,
+        @Parameter(name = "orderId", description = "ID of the order that needs to be deleted", required = true, in = ParameterIn.PATH) @PathVariable("orderId") String orderId,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().deleteOrder(orderId, servletRequest);
@@ -134,7 +134,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     default ResponseEntity<Order> getOrderById(
-        @NotNull @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId,
+        @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
         return getDelegate().getOrderById(orderId, servletRequest);

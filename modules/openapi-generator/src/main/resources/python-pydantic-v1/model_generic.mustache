@@ -126,7 +126,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_json(cls, json_str: str) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -145,8 +145,9 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
-        {{#items.isArray}}
+        {{#items.isContainer}}
         {{^items.items.isPrimitiveType}}
+        {{#items.isArray}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of list)
         _items = []
         if self.{{{name}}}:
@@ -156,9 +157,21 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                          [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
                     )
             _dict['{{{baseName}}}'] = _items
-        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
-        {{^items.isArray}}
+        {{#items.isMap}}
+        # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list of map)
+        _items = []
+        if self.{{{name}}}:
+            for _item in self.{{{name}}}:
+                if _item:
+                    _items.append(
+                         {_inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _item.items() if _inner_value is not None}
+                    )
+            _dict['{{{baseName}}}'] = _items
+        {{/items.isMap}}
+        {{/items.items.isPrimitiveType}}
+        {{/items.isContainer}}
+        {{^items.isContainer}}
         {{^items.isPrimitiveType}}
         {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each item in {{{name}}} (list)
@@ -170,11 +183,12 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _items
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
-        {{/items.isArray}}
+        {{/items.isContainer}}
         {{/isArray}}
         {{#isMap}}
-        {{#items.isArray}}
+        {{#items.isContainer}}
         {{^items.items.isPrimitiveType}}
+        {{#items.isArray}}      
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
@@ -184,9 +198,21 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
-        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
-        {{^items.isArray}}
+        {{#items.isMap}}      
+        # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of dict)
+        _field_dict_of_dict = {}
+        if self.{{{name}}}:
+            for _key, _value in self.{{{name}}}.items():
+                if _value is not None:
+                    _field_dict_of_dict[_key] = {
+                        _inner_key: _inner_value.to_dict() for _inner_key, _inner_value in _value.items() if _inner_value is not None
+                    }
+            _dict['{{{baseName}}}'] = _field_dict_of_dict
+        {{/items.isMap}}
+        {{/items.items.isPrimitiveType}}
+        {{/items.isContainer}}
+        {{^items.isContainer}}
         {{^items.isPrimitiveType}}
         {{^items.isEnumOrRef}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict)
@@ -198,7 +224,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             _dict['{{{baseName}}}'] = _field_dict
         {{/items.isEnumOrRef}}
         {{/items.isPrimitiveType}}
-        {{/items.isArray}}
+        {{/items.isContainer}}
         {{/isMap}}
         {{/isContainer}}
         {{^isContainer}}
@@ -230,7 +256,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union({{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}){{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: dict) -> {{^hasChildren}}{{{classname}}}{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}{{{classname}}}{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}{{{classname}}}{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#hasChildren}}
         {{#discriminator}}
@@ -265,18 +291,26 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#allVars}}
             {{#isContainer}}
             {{#isArray}}
-            {{#items.isArray}}
+            {{#items.isContainer}}
             {{#items.items.isPrimitiveType}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{^items.items.isPrimitiveType}}
+            {{#items.isArray}}
             "{{{name}}}": [
                     [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
                     for _item in obj.get("{{{baseName}}}")
                 ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
-            {{/items.items.isPrimitiveType}}
             {{/items.isArray}}
-            {{^items.isArray}}
+            {{#items.isMap}}
+            "{{{name}}}": [
+                    {_inner_key: {{{items.items.dataType}}}.from_dict(_inner_value) for _inner_key, _inner_value in _item.items()}
+                    for _item in obj.get("{{{baseName}}}")
+                ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            {{/items.isMap}}
+            {{/items.items.isPrimitiveType}}
+            {{/items.isContainer}}
+            {{^items.isContainer}}
             {{^items.isPrimitiveType}}
             {{#items.isEnumOrRef}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -288,48 +322,39 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{#items.isPrimitiveType}}
             "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isPrimitiveType}}
-            {{/items.isArray}}
+            {{/items.isContainer}}
             {{/isArray}}
             {{#isMap}}
             {{^items.isPrimitiveType}}
             {{^items.isEnumOrRef}}
             {{#items.isContainer}}
             {{#items.isMap}}
-            "{{{name}}}": dict(
-                (_k, dict(
-                    (_ik, {{{items.items.dataType}}}.from_dict(_iv))
-                        for _ik, _iv in _v.items()
-                    )
-                    if _v is not None
-                    else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            )
+            "{{{name}}}": {
+                _k: {_ik: {{{items.items.dataType}}}.from_dict(_iv) for _ik, _iv in _v.items()} if _v is not None else None
+                for _k, _v in obj["{{{baseName}}}"].items()
+            }
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
             {{/items.isMap}}
             {{#items.isArray}}
-            "{{{name}}}": dict(
-                (_k,
-                        [{{{items.items.dataType}}}.from_dict(_item) for _item in _v]
-                        if _v is not None
-                        else None
-                )
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            ){{^-last}},{{/-last}}
+            "{{{name}}}": {
+                _k: [{{{items.items.dataType}}}.from_dict(_item) for _item in _v] if _v is not None else None
+                for _k, _v in obj["{{{baseName}}}"].items()
+            }
+            if obj.get("{{{baseName}}}") is not None
+            else None{{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
-            "{{{name}}}": dict(
-                (_k, {{{items.dataType}}}.from_dict(_v))
-                for _k, _v in obj.get("{{{baseName}}}").items()
-            )
+            "{{{name}}}": {
+                _k: {{{items.dataType}}}.from_dict(_v) for _k, _v in obj["{{{baseName}}}"].items()
+            }
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
             {{/items.isContainer}}
             {{/items.isEnumOrRef}}
             {{#items.isEnumOrRef}}
-            "{{{name}}}": dict((_k, _v) for _k, _v in obj.get("{{{baseName}}}").items()){{^-last}},{{/-last}}
+            "{{{name}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
