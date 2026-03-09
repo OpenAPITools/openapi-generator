@@ -938,9 +938,6 @@ public class OpenAPINormalizerTest {
 
         new OpenAPINormalizer(openAPI, options).normalize();
 
-        System.err.println("Security schemes after filter3: " + openAPI.getComponents().getSecuritySchemes().get("api_key1").toString());
-        System.err.println("Security schemes after filter4: " + openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().toString());
-
         assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
                 false);
         assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
@@ -957,6 +954,34 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
     }
 
+    @Test
+    public void testSecuritySchemesFilterAndBearerAuthName() {
+        // We expect that api_key1 scheme will converted to bearer auth at first and then the filter will be applied
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/all_security_schemes.yaml");
+        Map<String, String> options = Map.of("SECURITY_SCHEMES_FILTER", "key:api_key1",
+                    "SET_BEARER_AUTH_FOR_NAME", "api_key1"
+        );
+
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key1").getExtensions().get(X_INTERNAL),
+                false);
+        SecurityScheme scheme = openAPI.getComponents().getSecuritySchemes().get("api_key1");
+        assertEquals(scheme.getType(), SecurityScheme.Type.HTTP);
+        assertEquals(scheme.getScheme(), "bearer");
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("api_key2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("http2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("mutualTLS2").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_1").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("oauth2_2").getExtensions().get(X_INTERNAL),
+                true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect1").getExtensions().get(X_INTERNAL), true);
+        assertEquals(openAPI.getComponents().getSecuritySchemes().get("openIdConnect2").getExtensions().get(X_INTERNAL), true);
+    }
 
     @Test
     public void testComposedSchemaDoesNotThrow() {
