@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -100,7 +100,7 @@ public class ApiClient extends JavaTimeFormatter {
     protected HttpHeaders defaultHeaders = new HttpHeaders();
     protected MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
-    protected String basePath = "http://petstore.swagger.io:80/v2";
+    protected String basePath = "http://petstore.swagger.io/v2";
 
     protected final WebClient webClient;
     protected final DateFormat dateFormat;
@@ -153,10 +153,6 @@ public class ApiClient extends JavaTimeFormatter {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
         authentications.put("petstore_auth", new OAuth());
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("http_basic_test", new HttpBasicAuth());
-        authentications.put("bearer_test", new HttpBearerAuth("bearer"));
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
     }
