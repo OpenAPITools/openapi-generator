@@ -55,7 +55,7 @@ import {{packageName}}.infrastructure.Serializer
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         @JvmStatic
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "{{{basePath}}}")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "{{{basePath}}}")
         }
     }
 

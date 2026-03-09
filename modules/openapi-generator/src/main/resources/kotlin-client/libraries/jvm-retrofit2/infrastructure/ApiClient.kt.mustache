@@ -377,11 +377,11 @@ import okhttp3.MediaType.Companion.toMediaType
 
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         @JvmStatic
-        protected val baseUrlKey: String = "{{packageName}}.baseUrl"
+        protected val BASE_URL_KEY: String = "{{packageName}}.baseUrl"
 
         @JvmStatic
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(baseUrlKey, "{{{basePath}}}")
+            System.getProperties().getProperty(BASE_URL_KEY, "{{{basePath}}}")
         }
     }
 }
