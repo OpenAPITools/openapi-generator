@@ -4636,8 +4636,6 @@ namespace Org.OpenAPITools.Api
                     if (enumFormStringArray.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray.Value)));
 
-                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] contentTypes = new string[] {
@@ -5535,8 +5533,6 @@ namespace Org.OpenAPITools.Api
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param", ClientUtils.ParameterToString(param)));
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param2", ClientUtils.ParameterToString(param2)));
-
-                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
