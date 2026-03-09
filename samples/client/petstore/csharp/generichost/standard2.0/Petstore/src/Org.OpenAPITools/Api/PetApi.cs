@@ -2382,10 +2382,6 @@ namespace Org.OpenAPITools.Api
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/pet/{petId}");
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
-
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
-
                     List<KeyValuePair<string, string>> formParameterLocalVars = new List<KeyValuePair<string, string>>();
 
                     if (name.IsSet)
@@ -2394,8 +2390,7 @@ namespace Org.OpenAPITools.Api
                     if (status.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("status", ClientUtils.ParameterToString(status.Value)));
 
-                    foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2645,7 +2640,7 @@ namespace Org.OpenAPITools.Api
                     }
 
                     foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2934,7 +2929,7 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
                     foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3212,7 +3207,7 @@ namespace Org.OpenAPITools.Api
                     }
 
                     foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

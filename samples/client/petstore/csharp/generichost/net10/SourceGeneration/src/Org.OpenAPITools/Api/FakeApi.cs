@@ -4283,55 +4283,47 @@ namespace Org.OpenAPITools.Api
                         ? "/fake"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake");
 
-                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("number", ClientUtils.ParameterToString(number)));
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("pattern_without_delimiter", ClientUtils.ParameterToString(patternWithoutDelimiter)));
 
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("number", ClientUtils.ParameterToString(number)));
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("byte", ClientUtils.ParameterToString(varByte)));
 
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("pattern_without_delimiter", ClientUtils.ParameterToString(patternWithoutDelimiter)));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("byte", ClientUtils.ParameterToString(varByte)));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("double", ClientUtils.ParameterToString(varDouble)));
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("double", ClientUtils.ParameterToString(varDouble)));
 
                     if (binary.IsSet)
-                    {
-                        var streamContentLocalVar = new StreamContent(binary.Value.Content);
-                        multipartContentLocalVar.Add(streamContentLocalVar, "binary", binary.Value.FileName ?? "binary");
-                    }
+                        throw new NotSupportedException("File parameters cannot be sent with application/x-www-form-urlencoded. Change the operation's content type to multipart/form-data.");
 
                     if (callback.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("callback", ClientUtils.ParameterToString(callback.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("callback", ClientUtils.ParameterToString(callback.Value)));
 
                     if (date.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("date", ClientUtils.ParameterToString(date.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("date", ClientUtils.ParameterToString(date.Value)));
 
                     if (dateTime.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     if (int32.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("int32", ClientUtils.ParameterToString(int32.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("int32", ClientUtils.ParameterToString(int32.Value)));
 
                     if (int64.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("int64", ClientUtils.ParameterToString(int64.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("int64", ClientUtils.ParameterToString(int64.Value)));
 
                     if (integer.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("integer", ClientUtils.ParameterToString(integer.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("integer", ClientUtils.ParameterToString(integer.Value)));
 
                     if (password.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("password", ClientUtils.ParameterToString(password.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("password", ClientUtils.ParameterToString(password.Value)));
 
                     if (varFloat.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("float", ClientUtils.ParameterToString(varFloat.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("float", ClientUtils.ParameterToString(varFloat.Value)));
 
                     if (varString.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("string", ClientUtils.ParameterToString(varString.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("string", ClientUtils.ParameterToString(varString.Value)));
 
-                    foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -4638,20 +4630,15 @@ namespace Org.OpenAPITools.Api
                     if (enumHeaderStringArray.IsSet)
                         httpRequestMessageLocalVar.Headers.Add("enum_header_string_array", ClientUtils.ParameterToString(enumHeaderStringArray.Value));
 
-                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
-
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
-
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
                     if (enumFormString.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("enum_form_string", ClientUtils.ParameterToString(enumFormString.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("enum_form_string", ClientUtils.ParameterToString(enumFormString.Value)));
 
                     if (enumFormStringArray.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string?, string?>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string?>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray.Value)));
 
-                    foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -5545,18 +5532,13 @@ namespace Org.OpenAPITools.Api
                         ? "/fake/jsonFormData"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/fake/jsonFormData");
 
-                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("param", ClientUtils.ParameterToString(param)));
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("param2", ClientUtils.ParameterToString(param2)));
 
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("param", ClientUtils.ParameterToString(param)));
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("param2", ClientUtils.ParameterToString(param2)));
-
-                    foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

@@ -766,16 +766,11 @@ namespace Org.OpenAPITools.Api
                         ? "/country"
                         : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/country");
 
-                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    httpRequestMessageLocalVar.Content = multipartContentLocalVar;
+                    formParameterLocalVars.Add(new KeyValuePair<string, string?>("country", ClientUtils.ParameterToString(country)));
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
-
-                    formParameterLocalVars.Add(new KeyValuePair<string?, string?>("country", ClientUtils.ParameterToString(country)));
-
-                    foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

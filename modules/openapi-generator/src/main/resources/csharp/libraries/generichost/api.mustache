@@ -471,25 +471,40 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/headerParams}}
                     {{#formParams}}
                     {{#-first}}
+                    {{#isMultipart}}
                     MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>> formParameterLocalVars = new List<KeyValuePair<string{{nrt?}}, string{{nrt?}}>>();
+                    {{/isMultipart}}
+                    List<KeyValuePair<string, string{{nrt?}}>> formParameterLocalVars = new List<KeyValuePair<string, string{{nrt?}}>>();
 
                     {{/-first}}
                     {{^isFile}}
                     {{#required}}
-                    formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
+                    formParameterLocalVars.Add(new KeyValuePair<string, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}})));
 
                     {{/required}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
-                        formParameterLocalVars.Add(new KeyValuePair<string{{nrt?}}, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value)));
+                        formParameterLocalVars.Add(new KeyValuePair<string, string{{nrt?}}>("{{baseName}}", ClientUtils.ParameterToString({{paramName}}.Value)));
 
                     {{/required}}
                     {{/isFile}}
                     {{#isFile}}
+                    {{^isMultipart}}
+                    {{! application/x-www-form-urlencoded encodes everything as text key=value pairs and has no mechanism to carry binary data. File params require multipart/form-data.}}
+                    {{#required}}
+                    throw new NotSupportedException("File parameters cannot be sent with application/x-www-form-urlencoded. Change the operation's content type to multipart/form-data.");
+
+                    {{/required}}
+                    {{^required}}
+                    if ({{paramName}}.IsSet)
+                        throw new NotSupportedException("File parameters cannot be sent with application/x-www-form-urlencoded. Change the operation's content type to multipart/form-data.");
+
+                    {{/required}}
+                    {{/isMultipart}}
+                    {{#isMultipart}}
                     {{#required}}
                     {{#isContainer}}
                     foreach ({{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar in {{paramName}})
@@ -524,12 +539,18 @@ namespace {{packageName}}.{{apiPackage}}
                     }
 
                     {{/required}}
+                    {{/isMultipart}}
                     {{/isFile}}
                     {{/formParams}}
                     {{#formParams}}
                     {{#-first}}
+                    {{#isMultipart}}
                     foreach (var formParamLocalVar in formParameterLocalVars)
-                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
+                    {{/isMultipart}}
+                    {{^isMultipart}}
+                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
+                    {{/isMultipart}}
 
                     {{/-first}}
                     {{/formParams}}
