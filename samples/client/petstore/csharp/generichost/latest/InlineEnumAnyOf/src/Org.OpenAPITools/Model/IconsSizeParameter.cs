@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets IconsSizeParameterAnyOf
         /// </summary>
-        public IconsSizeParameterAnyOf? IconsSizeParameterAnyOf { get { return this.IconsSizeParameterAnyOfOption; } set { this.IconsSizeParameterAnyOfOption = new(value); } }
+        public IconsSizeParameterAnyOf? IconsSizeParameterAnyOf { get { return this.IconsSizeParameterAnyOfOption.Value; } set { this.IconsSizeParameterAnyOfOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int
@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Int
         /// </summary>
-        public int? Int { get { return this.IntOption; } set { this.IntOption = new(value); } }
+        public int? Int { get { return this.IntOption.Value; } set { this.IntOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
