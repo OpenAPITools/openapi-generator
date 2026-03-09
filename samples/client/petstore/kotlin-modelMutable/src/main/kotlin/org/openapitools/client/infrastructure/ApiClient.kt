@@ -105,12 +105,6 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         var accessToken: String? = null
         const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
 
-        @Deprecated(
-          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
-          replaceWith = ReplaceWith("BASE_URL_KEY")
-        )
-        const val baseUrlKey: String = BASE_URL_KEY
-
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {
             builder.build()
