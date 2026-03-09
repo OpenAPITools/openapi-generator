@@ -813,12 +813,21 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 .map(CodegenComposedSchemas::getOneOf)
                 .orElse(Collections.emptyList());
 
+        // Remove "Null" from oneOf variants. In OpenAPI 3.1, oneOf can include
+        // `type: 'null'` to represent nullable types. The codegen maps this to a
+        // "Null" model name, but no Null model file is generated, causing import
+        // errors. Instead, mark the model as nullable and filter out the Null entry.
+        if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.remove("Null")) {
+            cm.isNullable = true;
+        }
+
         // create a set of any non-primitive, non-array types used in the oneOf schemas which will
         // need to be imported.
         cm.oneOfModels = oneOfsList.stream()
                 .filter(cp -> !cp.getIsPrimitiveType() && !cp.getIsArray())
                 .map(CodegenProperty::getBaseType)
                 .filter(Objects::nonNull)
+                .filter(baseType -> !"Null".equals(baseType))
                 .collect(Collectors.toCollection(TreeSet::new));
 
         // create a set of any complex, inner types used by arrays in the oneOf schema (e.g. if
