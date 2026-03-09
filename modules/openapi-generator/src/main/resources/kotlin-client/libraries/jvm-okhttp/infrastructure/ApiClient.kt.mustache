@@ -98,7 +98,7 @@ import com.squareup.moshi.adapter
     protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
         val contentType = try {
             URLConnection.guessContentTypeFromStream(byteArray.inputStream())
-        } catch (io: IOException) {
+        } catch (_: IOException) {
             "application/octet-stream"
         }
         return contentType
@@ -275,9 +275,8 @@ import com.squareup.moshi.adapter
     {{/moshi}}
     protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
         val body = response.body
-        if(body == null) {
-            return null
-        } else if (T::class.java == Unit::class.java) {
+
+        if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
             // Useful when API is returning other Content-Type
             return null
