@@ -549,9 +549,8 @@ namespace {{packageName}}.{{apiPackage}}
                         multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
                     {{/isMultipart}}
                     {{^isMultipart}}
-                    {{#isBodyAllowed}}
-                    httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
-                    {{/isBodyAllowed}}
+                    if (formParameterLocalVars.Count > 0)
+                        httpRequestMessageLocalVar.Content = new FormUrlEncodedContent(formParameterLocalVars);
                     {{/isMultipart}}
 
                     {{/-first}}
