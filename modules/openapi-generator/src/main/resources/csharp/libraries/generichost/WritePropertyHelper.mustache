@@ -5,6 +5,26 @@ else
     writer.WriteNull("{{baseName}}");
 {{/isNullable}}
 {{^isNullable}}
+{{^required}}
+{{#nrt}}
+{{#vendorExtensions.x-is-value-type}}
+if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.Value != null)
+    {{#lambda.paste}}{{/lambda.paste}}
+else
+    writer.WriteNull("{{baseName}}");
+{{/vendorExtensions.x-is-value-type}}
+{{^vendorExtensions.x-is-value-type}}
 {{#lambda.paste}}
 {{/lambda.paste}}
+{{/vendorExtensions.x-is-value-type}}
+{{/nrt}}
+{{^nrt}}
+{{#lambda.paste}}
+{{/lambda.paste}}
+{{/nrt}}
+{{/required}}
+{{#required}}
+{{#lambda.paste}}
+{{/lambda.paste}}
+{{/required}}
 {{/isNullable}}
