@@ -2401,8 +2401,8 @@ namespace Org.OpenAPITools.Api
                     if (status.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("status", ClientUtils.ParameterToString(status.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2651,8 +2651,8 @@ namespace Org.OpenAPITools.Api
                         multipartContentLocalVar.Add(streamContentLocalVar, "file", file.Value.FileName ?? "file");
                     }
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -2941,8 +2941,8 @@ namespace Org.OpenAPITools.Api
                     if (additionalMetadata.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -3220,8 +3220,8 @@ namespace Org.OpenAPITools.Api
                         multipartContentLocalVar.Add(streamContentLocalVar, "files", fileParameterLocalVar.FileName ?? "files");
                     }
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;

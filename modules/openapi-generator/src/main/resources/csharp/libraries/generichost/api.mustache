@@ -528,8 +528,8 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/formParams}}
                     {{#formParams}}
                     {{#-first}}
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     {{/-first}}
                     {{/formParams}}

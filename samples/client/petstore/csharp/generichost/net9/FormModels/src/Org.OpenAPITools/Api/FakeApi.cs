@@ -4328,8 +4328,8 @@ namespace Org.OpenAPITools.Api
                     if (varString.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("string", ClientUtils.ParameterToString(varString.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
@@ -4636,8 +4636,8 @@ namespace Org.OpenAPITools.Api
                     if (enumFormStringArray.IsSet)
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("enum_form_string_array", ClientUtils.ParameterToString(enumFormStringArray.Value)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -5541,8 +5541,8 @@ namespace Org.OpenAPITools.Api
 
                     formParameterLocalVars.Add(new KeyValuePair<string, string>("param2", ClientUtils.ParameterToString(param2)));
 
-                    if (formParameterLocalVars.Count > 0)
-                        multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value), formParamLocalVar.Key);
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
