@@ -131,6 +131,16 @@ public class TypeScriptAxiosSlimParityTest {
         assertTrue(apiSource.contains("return localVarResponse.data;"), "Slim API class should resolve axios response data directly");
     }
 
+    @Test(description = "slim: useSingleRequestParameter remains enabled even if configured false")
+    public void shouldForceSingleRequestParameterForSlimGenerator() throws Exception {
+        Consumer<CodegenConfigurator> forceSingleRequestFalse = cfg -> cfg.addAdditionalProperty("useSingleRequestParameter", false);
+
+        IdentitySurface axiosSurface = generateIdentity("typescript-axios", EDGE_CASE_SPEC, NO_CUSTOMIZER);
+        IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, forceSingleRequestFalse);
+
+        assertIdentitySurfaceEquals("forced-single-request-parameter", axiosSurface, slimSurface);
+    }
+
     private IdentitySurface generateIdentity(String generatorName, String specPath, Consumer<CodegenConfigurator> customizer) throws Exception {
         File output = Files.createTempDirectory("typescript_axios_identity_").toFile().getCanonicalFile();
         output.deleteOnExit();

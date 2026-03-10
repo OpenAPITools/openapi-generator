@@ -23,6 +23,7 @@ public class TypeScriptAxiosSlimClientCodegen extends TypeScriptAxiosClientCodeg
         super();
         outputFolder = "generated-code/typescript-axios-slim";
         embeddedTemplateDir = templateDir = "typescript-axios-slim";
+        cliOptions.removeIf(option -> USE_SINGLE_REQUEST_PARAMETER.equals(option.getOpt()));
         additionalProperties.put(USE_SINGLE_REQUEST_PARAMETER, true);
     }
 
@@ -40,6 +41,6 @@ public class TypeScriptAxiosSlimClientCodegen extends TypeScriptAxiosClientCodeg
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript client library using axios (slim direct API style with valibot validation).";
+        return "Generates a TypeScript client library using axios (slim direct API style with valibot validation and enforced single request parameter object).";
     }
 }
