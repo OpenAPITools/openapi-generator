@@ -343,9 +343,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         if (additionalProperties.containsKey(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER)) {
             if (Boolean.parseBoolean(additionalProperties.get(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER).toString())) {
-                 modelTemplateFiles.put("model-header-v7_20_0.mustache", ".h");
-                 modelTemplateFiles.put("model-body-v7_20_0.mustache", ".c");
-             }
+                modelTemplateFiles.put("model-header-v7_20_0.mustache", ".h");
+                modelTemplateFiles.put("model-body-v7_20_0.mustache", ".c");
+
+                modelTemplateFiles.remove("model-header.mustache");
+                modelTemplateFiles.remove("model-body.mustache");
+            }
         }
 
         // make api and model doc path available in mustache template
