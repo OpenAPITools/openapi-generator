@@ -16,31 +16,19 @@ open class CodableHelper: @unchecked Sendable {
         var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
 
         var customJSONDecoder: JSONDecoder?
-        var defaultJSONDecoder: JSONDecoder
+        var defaultJSONDecoder: JSONDecoder = JSONDecoder()
 
         var customJSONEncoder: JSONEncoder?
-        var defaultJSONEncoder: JSONEncoder
+        var defaultJSONEncoder: JSONEncoder = JSONEncoder()
 
         init() {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(defaultDateFormatter)
-            defaultJSONDecoder = decoder
-
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .formatted(defaultDateFormatter)
-            encoder.outputFormatting = .prettyPrinted
-            defaultJSONEncoder = encoder
+            defaultJSONEncoder.outputFormatting = .prettyPrinted
+            rebuildDefaultCoders()
         }
 
         mutating func rebuildDefaultCoders() {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
-            defaultJSONDecoder = decoder
-
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
-            encoder.outputFormatting = .prettyPrinted
-            defaultJSONEncoder = encoder
+            defaultJSONDecoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            defaultJSONEncoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
         }
     }
 
@@ -73,14 +61,10 @@ open class CodableHelper: @unchecked Sendable {
     }
 
     open func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {
-        _state.withValue { state in
-            Swift.Result { try (state.customJSONDecoder ?? state.defaultJSONDecoder).decode(type, from: data) }
-        }
+        return Swift.Result { try jsonDecoder.decode(type, from: data) }
     }
 
     open func encode<T>(_ value: T) -> Swift.Result<Data, Error> where T: Encodable {
-        _state.withValue { state in
-            Swift.Result { try (state.customJSONEncoder ?? state.defaultJSONEncoder).encode(value) }
-        }
+        return Swift.Result { try jsonEncoder.encode(value) }
     }
 }
