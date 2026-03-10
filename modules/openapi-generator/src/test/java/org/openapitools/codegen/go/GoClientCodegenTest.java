@@ -484,4 +484,48 @@ public class GoClientCodegenTest {
         // Verify that quotes are properly escaped in email parameter examples
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
     }
+
+    @Test(description = "anyOf default behaviour: return on the first successful schema match")
+    public void testAnyOfUnmarshalDefaultBehaviorReturnOnFirstMatch() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/anyof_multiple_matches.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_contact.go");
+        // Default: return on the first match (does not try remaining schemas)
+        TestUtils.assertFileContains(modelFile, "return on the first match");
+        TestUtils.assertFileNotContains(modelFile, "match++");
+        TestUtils.assertFileNotContains(modelFile, "match >= 1");
+    }
+
+    @Test(description = "anyOf with useAnyOfAllMatches=true: tries all schemas and populates every matching field")
+    public void testAnyOfUnmarshalAllMatchesPopulatesAllSchemas() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .addAdditionalProperty(GoClientCodegen.USE_ANYOF_ALL_MATCHES, true)
+                .setInputSpec("src/test/resources/3_0/go/anyof_multiple_matches.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_contact.go");
+        // useAnyOfAllMatches=true: all schemas are tried, match count checked
+        TestUtils.assertFileContains(modelFile, "match++");
+        TestUtils.assertFileContains(modelFile, "match >= 1");
+        // Should NOT return early on first match
+        TestUtils.assertFileNotContains(modelFile, "return on the first match");
+    }
 }

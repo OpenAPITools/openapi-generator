@@ -58,9 +58,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String WITH_GO_MOD = "withGoMod";
     public static final String USE_DEFAULT_VALUES_FOR_REQUIRED_VARS = "useDefaultValuesForRequiredVars";
     public static final String IMPORT_VALIDATOR = "importValidator";
+    public static final String USE_ANYOF_ALL_MATCHES = "useAnyOfAllMatches";
     @Setter protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     @Setter protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    @Setter protected boolean useAnyOfAllMatches = false; // try all anyOf schemas and populate all matching fields (spec-compliant)
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -138,6 +140,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        cliOptions.add(CliOption.newBoolean(USE_ANYOF_ALL_MATCHES,
+                "When set to true, anyOf UnmarshalJSON tries all schemas and populates all matching fields (spec-compliant: anyOf requires one or more matches). " +
+                "Default (false) returns on the first successful match, which is faster but non-compliant when multiple schemas can simultaneously match.").defaultValue("false"));
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
                 CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
@@ -275,6 +280,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, getUseOneOfDiscriminatorLookup());
         }
 
+        if (additionalProperties.containsKey(USE_ANYOF_ALL_MATCHES)) {
+            setUseAnyOfAllMatches(Boolean.parseBoolean(additionalProperties.get(USE_ANYOF_ALL_MATCHES).toString()));
+            additionalProperties.put(USE_ANYOF_ALL_MATCHES, useAnyOfAllMatches);
+        } else {
+            additionalProperties.put(USE_ANYOF_ALL_MATCHES, useAnyOfAllMatches);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
@@ -321,6 +333,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseAnyOfAllMatches() {
+        return this.useAnyOfAllMatches;
     }
 
     public void setIsGoSubmodule(boolean isGoSubmodule) {
