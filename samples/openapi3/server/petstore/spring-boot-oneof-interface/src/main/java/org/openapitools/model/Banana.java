@@ -58,6 +58,7 @@ public class Banana implements Fruit {
     return length;
   }
 
+  @JsonProperty("length")
   public void setLength(Integer length) {
     this.length = length;
   }
@@ -78,6 +79,7 @@ public class Banana implements Fruit {
     return fruitType;
   }
 
+  @JsonProperty("fruitType")
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }

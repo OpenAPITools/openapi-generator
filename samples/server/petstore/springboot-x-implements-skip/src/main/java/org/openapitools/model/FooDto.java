@@ -43,6 +43,7 @@ public class FooDto implements com.custompackage.WithBar, com.custompackage.With
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(String bar) {
     this.bar = bar;
   }

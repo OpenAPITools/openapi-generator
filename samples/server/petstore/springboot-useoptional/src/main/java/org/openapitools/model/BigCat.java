@@ -97,6 +97,7 @@ public class BigCat extends Cat {
     return kind;
   }
 
+  @JsonProperty("kind")
   public void setKind(Optional<KindEnum> kind) {
     this.kind = kind;
   }

@@ -42,6 +42,7 @@ public class NumberOnly {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(Optional<BigDecimal> justNumber) {
     this.justNumber = justNumber;
   }

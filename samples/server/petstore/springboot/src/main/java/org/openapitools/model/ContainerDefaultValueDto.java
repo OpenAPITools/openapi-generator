@@ -106,6 +106,7 @@ public class ContainerDefaultValueDto {
     return nullableRequiredArray;
   }
 
+  @JsonProperty("nullable_required_array")
   public void setNullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
     this.nullableRequiredArray = nullableRequiredArray;
   }
@@ -134,6 +135,7 @@ public class ContainerDefaultValueDto {
     return requiredArray;
   }
 
+  @JsonProperty("required_array")
   public void setRequiredArray(List<String> requiredArray) {
     this.requiredArray = requiredArray;
   }

@@ -56,6 +56,7 @@ public class Pasta extends Entity {
     return vendor;
   }
 
+  @JsonProperty("vendor")
   public void setVendor(@Nullable String vendor) {
     this.vendor = vendor;
   }

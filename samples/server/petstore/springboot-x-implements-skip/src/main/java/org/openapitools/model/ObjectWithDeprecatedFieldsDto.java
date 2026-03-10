@@ -58,6 +58,7 @@ public class ObjectWithDeprecatedFieldsDto {
     return uuid;
   }
 
+  @JsonProperty("uuid")
   public void setUuid(@Nullable String uuid) {
     this.uuid = uuid;
   }
@@ -74,8 +75,8 @@ public class ObjectWithDeprecatedFieldsDto {
    */
   @Valid 
   @ApiModelProperty(value = "")
-  @JsonProperty("id")
   @Deprecated
+  @JsonProperty("id")
   public @Nullable BigDecimal getId() {
     return id;
   }
@@ -84,6 +85,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("id")
   public void setId(@Nullable BigDecimal id) {
     this.id = id;
   }
@@ -100,8 +102,8 @@ public class ObjectWithDeprecatedFieldsDto {
    */
   @Valid 
   @ApiModelProperty(value = "")
-  @JsonProperty("deprecatedRef")
   @Deprecated
+  @JsonProperty("deprecatedRef")
   public @Nullable DeprecatedObjectDto getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -110,6 +112,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("deprecatedRef")
   public void setDeprecatedRef(@Nullable DeprecatedObjectDto deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
@@ -134,8 +137,8 @@ public class ObjectWithDeprecatedFieldsDto {
    */
   
   @ApiModelProperty(value = "")
-  @JsonProperty("bars")
   @Deprecated
+  @JsonProperty("bars")
   public List<String> getBars() {
     return bars;
   }
@@ -144,6 +147,7 @@ public class ObjectWithDeprecatedFieldsDto {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("bars")
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
