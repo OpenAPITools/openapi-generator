@@ -36,75 +36,80 @@ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
     companion object {
         protected const val CONTENT_TYPE: String = "Content-Type"
-        protected const val ACCEPT: String = "ACCEPT"
-        protected const val AUTHORIZATION: String = "AUTHORIZATION"
-        protected const val JSON_MEDIA_TYPE: String = "application/json"
-        protected const val FORM_DATA_MEDIA_TYPE: String = "multipart/form-data"
-        protected const val FORM_URL_ENC_MEDIA_TYPE: String = "application/x-www-form-urlencoded"
-        protected const val XML_MEDIA_TYPE: String = "application/xml"
-        protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
-        protected const val TEXT_MEDIA_TYPE: String = "text/plain"
-
         @Deprecated(
           message = "Please use the capitalized constant `CONTENT_TYPE` instead.",
           replaceWith = ReplaceWith("CONTENT_TYPE")
         )
         protected const val ContentType: String = CONTENT_TYPE
 
+        protected const val ACCEPT: String = "Accept"
         @Deprecated(
           message = "Please use the capitalized constant `ACCEPT` instead.",
           replaceWith = ReplaceWith("ACCEPT")
         )
         protected const val Accept: String = ACCEPT
 
+        protected const val AUTHORIZATION: String = "Authorization"
         @Deprecated(
           message = "Please use the capitalized constant `AUTHORIZATION` instead.",
           replaceWith = ReplaceWith("AUTHORIZATION")
         )
         protected const val Authorization: String = AUTHORIZATION
 
+        protected const val JSON_MEDIA_TYPE: String = "application/json"
         @Deprecated(
           message = "Please use the capitalized constant `JSON_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("JSON_MEDIA_TYPE")
         )
         protected const val JsonMediaType: String = JSON_MEDIA_TYPE
 
+        protected const val FORM_DATA_MEDIA_TYPE: String = "multipart/form-data"
         @Deprecated(
           message = "Please use the capitalized constant `FORM_DATA_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("FORM_DATA_MEDIA_TYPE")
         )
         protected const val FormDataMediaType: String = FORM_DATA_MEDIA_TYPE
 
+        protected const val FORM_URL_ENC_MEDIA_TYPE: String = "application/x-www-form-urlencoded"
         @Deprecated(
           message = "Please use the capitalized constant `FORM_URL_ENC_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("FORM_URL_ENC_MEDIA_TYPE")
         )
         protected const val FormUrlEncMediaType: String = FORM_URL_ENC_MEDIA_TYPE
 
+        protected const val XML_MEDIA_TYPE: String = "application/xml"
         @Deprecated(
           message = "Please use the capitalized constant `XML_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("XML_MEDIA_TYPE")
         )
         protected const val XmlMediaType: String = XML_MEDIA_TYPE
 
+        protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
         @Deprecated(
           message = "Please use the capitalized constant `OCTET_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("OCTET_MEDIA_TYPE")
         )
         protected const val OctetMediaType: String = OCTET_MEDIA_TYPE
 
+        protected const val TEXT_MEDIA_TYPE: String = "text/plain"
         @Deprecated(
           message = "Please use the capitalized constant `TEXT_MEDIA_TYPE` instead.",
           replaceWith = ReplaceWith("TEXT_MEDIA_TYPE")
         )
         protected const val TextMediaType: String = TEXT_MEDIA_TYPE
 
+        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        const val baseUrlKey: String = BASE_URL_KEY
+
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {

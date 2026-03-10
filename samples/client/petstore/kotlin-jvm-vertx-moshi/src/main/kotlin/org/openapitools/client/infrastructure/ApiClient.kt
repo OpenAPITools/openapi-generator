@@ -8,6 +8,12 @@ open class ApiClient(val basePath: kotlin.String = defaultBasePath, val accessTo
     companion object {
         const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
 
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        const val baseUrlKey: String = BASE_URL_KEY
+
         @JvmStatic
         val defaultBasePath: String by lazy {
             System.getProperties().getProperty(BASE_URL_KEY, "http://petstore.swagger.io/v2")
