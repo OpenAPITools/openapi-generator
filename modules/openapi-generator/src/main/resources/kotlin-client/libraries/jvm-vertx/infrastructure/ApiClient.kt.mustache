@@ -14,6 +14,12 @@ import com.google.gson.reflect.TypeToken
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val BASE_URL_KEY: String = "{{packageName}}.baseUrl"
 
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val baseUrlKey: String = BASE_URL_KEY
+
         @JvmStatic
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultBasePath: String by lazy {
             System.getProperties().getProperty(BASE_URL_KEY, "{{{basePath}}}")
