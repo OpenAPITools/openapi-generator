@@ -214,7 +214,13 @@ class ApiClient(
 
     companion object {
         @JvmStatic
-        protected val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
+        protected const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        @JvmStatic
+        protected const val baseUrlKey: String = BASE_URL_KEY
 
         @JvmStatic
         val defaultBasePath: String by lazy {

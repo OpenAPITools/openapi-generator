@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets
 open class ApiClient(val basePath: kotlin.String = defaultBasePath, val accessToken: String? = null, val apiKey: MutableMap<String, String> = mutableMapOf(), val apiKeyPrefix: MutableMap<String, String> = mutableMapOf(), var username: String? = null, var password: String? = null, val vertx: Vertx) {
     companion object {
         const val BASE_URL_KEY: String = "org.openapitools.client.baseUrl"
-
         @Deprecated(
           message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
           replaceWith = ReplaceWith("BASE_URL_KEY")
