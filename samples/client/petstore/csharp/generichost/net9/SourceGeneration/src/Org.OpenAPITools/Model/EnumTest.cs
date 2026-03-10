@@ -287,7 +287,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumInteger
         /// </summary>
         [JsonPropertyName("enum_integer")]
-        public EnumIntegerEnum? EnumInteger { get { return this.EnumIntegerOption; } set { this.EnumIntegerOption = new(value); } }
+        public EnumIntegerEnum? EnumInteger { get { return this.EnumIntegerOption.Value; } set { this.EnumIntegerOption = new(value); } }
 
         /// <summary>
         /// Defines EnumIntegerOnly
@@ -359,7 +359,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumIntegerOnly
         /// </summary>
         [JsonPropertyName("enum_integer_only")]
-        public EnumIntegerOnlyEnum? EnumIntegerOnly { get { return this.EnumIntegerOnlyOption; } set { this.EnumIntegerOnlyOption = new(value); } }
+        public EnumIntegerOnlyEnum? EnumIntegerOnly { get { return this.EnumIntegerOnlyOption.Value; } set { this.EnumIntegerOnlyOption = new(value); } }
 
         /// <summary>
         /// Defines EnumNumber
@@ -438,7 +438,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumNumber
         /// </summary>
         [JsonPropertyName("enum_number")]
-        public EnumNumberEnum? EnumNumber { get { return this.EnumNumberOption; } set { this.EnumNumberOption = new(value); } }
+        public EnumNumberEnum? EnumNumber { get { return this.EnumNumberOption.Value; } set { this.EnumNumberOption = new(value); } }
 
         /// <summary>
         /// Defines EnumString
@@ -601,7 +601,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EnumString
         /// </summary>
         [JsonPropertyName("enum_string")]
-        public EnumStringEnum? EnumString { get { return this.EnumStringOption; } set { this.EnumStringOption = new(value); } }
+        public EnumStringEnum? EnumString { get { return this.EnumStringOption.Value; } set { this.EnumStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of OuterEnum
@@ -614,7 +614,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnum
         /// </summary>
         [JsonPropertyName("outerEnum")]
-        public OuterEnum? OuterEnum { get { return this.OuterEnumOption; } set { this.OuterEnumOption = new(value); } }
+        public OuterEnum? OuterEnum { get { return this.OuterEnumOption.Value; } set { this.OuterEnumOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of OuterEnumDefaultValue
@@ -627,7 +627,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumDefaultValue")]
-        public OuterEnumDefaultValue? OuterEnumDefaultValue { get { return this.OuterEnumDefaultValueOption; } set { this.OuterEnumDefaultValueOption = new(value); } }
+        public OuterEnumDefaultValue? OuterEnumDefaultValue { get { return this.OuterEnumDefaultValueOption.Value; } set { this.OuterEnumDefaultValueOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of OuterEnumInteger
@@ -640,7 +640,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumInteger
         /// </summary>
         [JsonPropertyName("outerEnumInteger")]
-        public OuterEnumInteger? OuterEnumInteger { get { return this.OuterEnumIntegerOption; } set { this.OuterEnumIntegerOption = new(value); } }
+        public OuterEnumInteger? OuterEnumInteger { get { return this.OuterEnumIntegerOption.Value; } set { this.OuterEnumIntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of OuterEnumIntegerDefaultValue
@@ -653,7 +653,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
         [JsonPropertyName("outerEnumIntegerDefaultValue")]
-        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get { return this.OuterEnumIntegerDefaultValueOption; } set { this.OuterEnumIntegerDefaultValueOption = new(value); } }
+        public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get { return this.OuterEnumIntegerDefaultValueOption.Value; } set { this.OuterEnumIntegerDefaultValueOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
