@@ -469,11 +469,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
         }
 
-        if (isUseJackson3()) {
-            throw new IllegalArgumentException(
-                "useJackson3 is not yet supported for kotlin-client. Jackson 3 support for kotlin-client will be added in a future release.");
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
             setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
             additionalProperties.put(this.serializationLibrary.name(), true);
