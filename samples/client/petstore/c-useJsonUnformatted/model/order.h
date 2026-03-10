@@ -27,23 +27,23 @@ openapi_petstore_order_STATUS_e order_status_FromString(char* status);
 
 
 typedef struct order_t {
-    long *id; //numeric
-    long *pet_id; //numeric
-    int *quantity; //numeric
+    long id; //numeric
+    long pet_id; //numeric
+    int quantity; //numeric
     char *ship_date; //date time
     openapi_petstore_order_STATUS_e status; //enum
-    int *complete; //boolean
+    int complete; //boolean
 
     int _library_owned; // Is the library responsible for freeing this object?
 } order_t;
 
 __attribute__((deprecated)) order_t *order_create(
-    long *id,
-    long *pet_id,
-    int *quantity,
+    long id,
+    long pet_id,
+    int quantity,
     char *ship_date,
     openapi_petstore_order_STATUS_e status,
-    int *complete
+    int complete
 );
 
 void order_free(order_t *order);

@@ -41,6 +41,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public static final String USE_JSON_UNFORMATTED = "useJsonUnformatted";
     public static final String USE_JSON_UNFORMATTED_DESC = "Use cJSON_PrintUnformatted instead of cJSON_Print when creating the JSON string.";
 
+    public static final String DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER = "declareNumberBooleanWithoutPointer";
+    public static final String DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER_DESC = "Declare number, boolean types without pointer using model-body, model-header templates from OpenAPI Generator v7.20.0.";
+
     public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
     protected String projectName;
@@ -270,7 +273,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // primitives in C lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("short");
-        languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("long");
         languageSpecificPrimitives.add("float");
         languageSpecificPrimitives.add("double");
@@ -315,6 +317,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(USE_JSON_UNFORMATTED, USE_JSON_UNFORMATTED_DESC).
                 defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER, DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER_DESC).
+                defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -334,6 +339,13 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             additionalProperties.put("cJSONPrint", "cJSON_PrintUnformatted");
         } else {
             additionalProperties.put("cJSONPrint", "cJSON_Print");
+        }
+
+        if (additionalProperties.containsKey(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER)) {
+            if (Boolean.parseBoolean(additionalProperties.get(DECLARE_NUMBER_BOOLEAN_WITHOUT_POINTER).toString())) {
+                 modelTemplateFiles.put("model-header-v7_20_0.mustache", ".h");
+                 modelTemplateFiles.put("model-body-v7_20_0.mustache", ".c");
+             }
         }
 
         // make api and model doc path available in mustache template

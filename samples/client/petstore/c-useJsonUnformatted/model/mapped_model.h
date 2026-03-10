@@ -19,14 +19,14 @@ typedef struct MappedModel_t MappedModel_t;
 
 
 typedef struct MappedModel_t {
-    int *another_property; //numeric
+    int another_property; //numeric
     char *uuid_property; // string
 
     int _library_owned; // Is the library responsible for freeing this object?
 } MappedModel_t;
 
 __attribute__((deprecated)) MappedModel_t *MappedModel_create(
-    int *another_property,
+    int another_property,
     char *uuid_property
 );
 
