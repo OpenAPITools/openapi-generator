@@ -295,7 +295,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             // for Faraday
             additionalProperties.put("isHttpx", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
+            throw new IllegalArgumentException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
         }
 
         // test files should not be overwritten
@@ -469,11 +469,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public String toApiFilename(final String name) {
         // replace - with _ e.g. created-at => created_at
         String filename = name;
-        if (apiNameSuffix != null && apiNameSuffix.length() > 0) {
+        if (apiNameSuffix != null && !apiNameSuffix.isEmpty()) {
             filename = filename + "_" + apiNameSuffix;
         }
 
-        filename = filename.replaceAll("-", "_");
+        filename = filename.replace("-", "_");
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return underscore(filename);
@@ -495,11 +495,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toApiName(String name) {
-        return super.toApiName(name);
-    }
-
-    @Override
     public String toEnumValue(String value, String datatype) {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
@@ -514,16 +509,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return enumNameMapping.get(name);
         }
 
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "EMPTY";
         }
 
         // number
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             String varName = name;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
+            varName = varName.replace("-", "MINUS_");
+            varName = varName.replace("+", "PLUS_");
+            varName = varName.replace(".", "_DOT_");
             return NUMERIC_ENUM_PREFIX + varName;
         }
 
@@ -594,7 +589,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        final Schema<?> additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -692,7 +687,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             if (modelMaps.containsKey(codegenParameter.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, processedModelMap);
             } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                LOGGER.debug("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
             }
         }
@@ -702,8 +697,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if (codegenProperty.isArray) { // array
             if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
                 String value = codegenProperty.example;
-                value = value.replaceAll(",", ", ");
-                value = value.replaceAll(":", ": ");
+                value = value.replace(",", ", ");
+                value = value.replace(":", ": ");
                 return value;
             }
             return "[" + constructExampleCode(codegenProperty.items, modelMaps, processedModelMap) + "]";
@@ -764,7 +759,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             if (modelMaps.containsKey(codegenProperty.dataType)) {
                 return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, processedModelMap);
             } else {
-                //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                LOGGER.debug("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "TODO";
             }
         }
@@ -791,7 +786,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 // oneOf models
                 return constructExampleCode(modelMaps.get(subModel), modelMaps, processedModelMap);
             } else {
-                // TODO oneOf primitive type not supported at the moment
+                // oneOf primitive type not supported at the moment
                 LOGGER.warn("oneOf example value not supported at the moment.");
                 return "nil";
             }
