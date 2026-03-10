@@ -500,13 +500,15 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_contact.go");
-        // Default: return on the first match (does not try remaining schemas)
+        // Default unmarshal: return on the first match (does not try remaining schemas)
         TestUtils.assertFileContains(modelFile, "return on the first match");
         TestUtils.assertFileNotContains(modelFile, "match++");
         TestUtils.assertFileNotContains(modelFile, "match >= 1");
+        // Default marshal: return on the first non-nil field
+        TestUtils.assertFileNotContains(modelFile, "merged := make(map[string]interface{})");
     }
 
-    @Test(description = "anyOf with useAnyOfAllMatches=true: tries all schemas and populates every matching field")
+    @Test(description = "anyOf with useAnyOfAllMatches=true: tries all schemas, populates all matching fields, and merges them on re-serialization")
     public void testAnyOfUnmarshalAllMatchesPopulatesAllSchemas() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -522,10 +524,14 @@ public class GoClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         Path modelFile = Paths.get(output + "/model_contact.go");
-        // useAnyOfAllMatches=true: all schemas are tried, match count checked
+        // Unmarshal: all schemas are tried, match count checked
         TestUtils.assertFileContains(modelFile, "match++");
         TestUtils.assertFileContains(modelFile, "match >= 1");
-        // Should NOT return early on first match
+        // Should NOT return early on first unmarshal match
         TestUtils.assertFileNotContains(modelFile, "return on the first match");
+        // Marshal: merge all non-nil schema fields into a single JSON object (lossless round-trip)
+        TestUtils.assertFileContains(modelFile, "merged := make(map[string]interface{})");
+        TestUtils.assertFileContains(modelFile, "merged[k] = v");
+        TestUtils.assertFileContains(modelFile, "json.Marshal(merged)");
     }
 }

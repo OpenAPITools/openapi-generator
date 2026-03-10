@@ -94,6 +94,35 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src {{classname}}) MarshalJSON() ([]byte, error) {
+{{#useAnyOfAllMatches}}
+	// Merge all non-nil schema fields into a single JSON object so that
+	// a round-trip through UnmarshalJSON (useAnyOfAllMatches=true) is lossless.
+	// Non-object schemas (primitives, arrays) that cannot be merged into a map
+	// are skipped; object schemas have their keys merged with last-write-wins
+	// semantics on key conflicts.
+	merged := make(map[string]interface{})
+	hasData := false
+{{#anyOf}}
+	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
+		data, err := json.Marshal(src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
+		if err != nil {
+			return nil, err
+		}
+		var m map[string]interface{}
+		if jsonErr := json.Unmarshal(data, &m); jsonErr == nil {
+			for k, v := range m {
+				merged[k] = v
+			}
+			hasData = true
+		}
+	}
+{{/anyOf}}
+	if !hasData {
+		return nil, nil // no data in anyOf schemas
+	}
+	return json.Marshal(merged)
+{{/useAnyOfAllMatches}}
+{{^useAnyOfAllMatches}}
 {{#anyOf}}
 	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
 		return json.Marshal(&src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
@@ -101,6 +130,7 @@ func (src {{classname}}) MarshalJSON() ([]byte, error) {
 
 {{/anyOf}}
 	return nil, nil // no data in anyOf schemas
+{{/useAnyOfAllMatches}}
 }
 
 {{#discriminator}}
