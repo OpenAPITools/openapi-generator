@@ -55,10 +55,7 @@ export interface {{classname}}Interface {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
-     {{#allParams.0}}
-     * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
-     {{/allParams.0}}
-     * @param {*} [options] Override http request option.{{#isDeprecated}}
+     {{#isDeprecated}}
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
@@ -71,9 +68,6 @@ export interface {{classname}}Interface {
 {{#useSingleRequestParameter}}
 {{#operation}}
 {{#allParams.0}}
-/**
- * Request parameters for {{nickname}} operation in {{classname}}.
- */
 export interface {{classname}}{{operationIdCamelCase}}Request {
     {{#allParams}}
     {{#description}}
@@ -107,10 +101,7 @@ export class {{classname}} extends BaseAPI {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
-     {{#allParams.0}}
-     * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
-     {{/allParams.0}}
-     * @param {*} [options] Override http request option.{{#isDeprecated}}
+     {{#isDeprecated}}
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
