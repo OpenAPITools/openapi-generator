@@ -6,37 +6,28 @@
 
 
 static tag_t *tag_create_internal(
-    long *id,
+    long id,
     char *name
     ) {
     tag_t *tag_local_var = malloc(sizeof(tag_t));
     if (!tag_local_var) {
         return NULL;
     }
-    memset(tag_local_var, 0, sizeof(tag_t));
-    tag_local_var->_library_owned = 1;
     tag_local_var->id = id;
     tag_local_var->name = name;
+
+    tag_local_var->_library_owned = 1;
     return tag_local_var;
 }
 
 __attribute__((deprecated)) tag_t *tag_create(
-    long *id,
+    long id,
     char *name
     ) {
-    long *id_copy = NULL;
-    if (id) {
-        id_copy = malloc(sizeof(long));
-        if (id_copy) *id_copy = *id;
-    }
-    tag_t *result = tag_create_internal (
-        id_copy,
+    return tag_create_internal (
+        id,
         name
         );
-    if (!result) {
-        free(id_copy);
-    }
-    return result;
 }
 
 void tag_free(tag_t *tag) {
@@ -48,10 +39,6 @@ void tag_free(tag_t *tag) {
         return ;
     }
     listEntry_t *listEntry;
-    if (tag->id) {
-        free(tag->id);
-        tag->id = NULL;
-    }
     if (tag->name) {
         free(tag->name);
         tag->name = NULL;
@@ -64,7 +51,7 @@ cJSON *tag_convertToJSON(tag_t *tag) {
 
     // tag->id
     if(tag->id) {
-    if(cJSON_AddNumberToObject(item, "id", *tag->id) == NULL) {
+    if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -89,11 +76,6 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
 
     tag_t *tag_local_var = NULL;
 
-    // define the local variable for tag->id
-    long *id_local_var = NULL;
-
-    char *name_local_str = NULL;
-
     // tag->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
     if (cJSON_IsNull(id)) {
@@ -104,12 +86,6 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     {
     goto end; //Numeric
     }
-    id_local_var = malloc(sizeof(long));
-    if(!id_local_var)
-    {
-        goto end;
-    }
-    *id_local_var = id->valuedouble;
     }
 
     // tag->name
@@ -125,27 +101,13 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
     }
 
 
-    if (name && !cJSON_IsNull(name)) name_local_str = strdup(name->valuestring);
-
     tag_local_var = tag_create_internal (
-        id_local_var,
-        name_local_str
+        id ? id->valuedouble : 0,
+        name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
-
-    if (!tag_local_var) {
-        goto end;
-    }
 
     return tag_local_var;
 end:
-    if (id_local_var) {
-        free(id_local_var);
-        id_local_var = NULL;
-    }
-    if (name_local_str) {
-        free(name_local_str);
-        name_local_str = NULL;
-    }
     return NULL;
 
 }

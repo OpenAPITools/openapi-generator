@@ -6,7 +6,7 @@
 
 
 static api_response_t *api_response_create_internal(
-    int *code,
+    int code,
     char *type,
     char *message
     ) {
@@ -14,33 +14,24 @@ static api_response_t *api_response_create_internal(
     if (!api_response_local_var) {
         return NULL;
     }
-    memset(api_response_local_var, 0, sizeof(api_response_t));
-    api_response_local_var->_library_owned = 1;
     api_response_local_var->code = code;
     api_response_local_var->type = type;
     api_response_local_var->message = message;
+
+    api_response_local_var->_library_owned = 1;
     return api_response_local_var;
 }
 
 __attribute__((deprecated)) api_response_t *api_response_create(
-    int *code,
+    int code,
     char *type,
     char *message
     ) {
-    int *code_copy = NULL;
-    if (code) {
-        code_copy = malloc(sizeof(int));
-        if (code_copy) *code_copy = *code;
-    }
-    api_response_t *result = api_response_create_internal (
-        code_copy,
+    return api_response_create_internal (
+        code,
         type,
         message
         );
-    if (!result) {
-        free(code_copy);
-    }
-    return result;
 }
 
 void api_response_free(api_response_t *api_response) {
@@ -52,10 +43,6 @@ void api_response_free(api_response_t *api_response) {
         return ;
     }
     listEntry_t *listEntry;
-    if (api_response->code) {
-        free(api_response->code);
-        api_response->code = NULL;
-    }
     if (api_response->type) {
         free(api_response->type);
         api_response->type = NULL;
@@ -72,7 +59,7 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
 
     // api_response->code
     if(api_response->code) {
-    if(cJSON_AddNumberToObject(item, "code", *api_response->code) == NULL) {
+    if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
     goto fail; //Numeric
     }
     }
@@ -105,13 +92,6 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
 
     api_response_t *api_response_local_var = NULL;
 
-    // define the local variable for api_response->code
-    int *code_local_var = NULL;
-
-    char *type_local_str = NULL;
-
-    char *message_local_str = NULL;
-
     // api_response->code
     cJSON *code = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "code");
     if (cJSON_IsNull(code)) {
@@ -122,12 +102,6 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     {
     goto end; //Numeric
     }
-    code_local_var = malloc(sizeof(int));
-    if(!code_local_var)
-    {
-        goto end;
-    }
-    *code_local_var = code->valuedouble;
     }
 
     // api_response->type
@@ -155,33 +129,14 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
     }
 
 
-    if (type && !cJSON_IsNull(type)) type_local_str = strdup(type->valuestring);
-    if (message && !cJSON_IsNull(message)) message_local_str = strdup(message->valuestring);
-
     api_response_local_var = api_response_create_internal (
-        code_local_var,
-        type_local_str,
-        message_local_str
+        code ? code->valuedouble : 0,
+        type && !cJSON_IsNull(type) ? strdup(type->valuestring) : NULL,
+        message && !cJSON_IsNull(message) ? strdup(message->valuestring) : NULL
         );
-
-    if (!api_response_local_var) {
-        goto end;
-    }
 
     return api_response_local_var;
 end:
-    if (code_local_var) {
-        free(code_local_var);
-        code_local_var = NULL;
-    }
-    if (type_local_str) {
-        free(type_local_str);
-        type_local_str = NULL;
-    }
-    if (message_local_str) {
-        free(message_local_str);
-        message_local_str = NULL;
-    }
     return NULL;
 
 }

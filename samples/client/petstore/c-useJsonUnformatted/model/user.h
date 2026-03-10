@@ -21,14 +21,14 @@ typedef struct user_t user_t;
 
 
 typedef struct user_t {
-    long *id; //numeric
+    long id; //numeric
     char *username; // string
     char *first_name; // string
     char *last_name; // string
     char *email; // string
     char *password; // string
     char *phone; // string
-    int *user_status; //numeric
+    int user_status; //numeric
     list_t* extra; //map
     openapi_petstore_preference__e preference; //referenced enum
 
@@ -36,14 +36,14 @@ typedef struct user_t {
 } user_t;
 
 __attribute__((deprecated)) user_t *user_create(
-    long *id,
+    long id,
     char *username,
     char *first_name,
     char *last_name,
     char *email,
     char *password,
     char *phone,
-    int *user_status,
+    int user_status,
     list_t* extra,
     openapi_petstore_preference__e preference
 );
