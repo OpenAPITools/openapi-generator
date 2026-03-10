@@ -95,13 +95,17 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src {{classname}}) MarshalJSON() ([]byte, error) {
 {{#useAnyOfAllMatches}}
-	// Merge all non-nil schema fields into a single JSON object so that
-	// a round-trip through UnmarshalJSON (useAnyOfAllMatches=true) is lossless.
-	// Non-object schemas (primitives, arrays) that cannot be merged into a map
-	// are skipped; object schemas have their keys merged with last-write-wins
-	// semantics on key conflicts.
+	// When useAnyOfAllMatches=true, multiple fields may be populated simultaneously.
+	// Strategy:
+	//   - Object schemas: marshal each to map[string]interface{} and merge (last-write-wins on key conflicts).
+	//   - Non-object schemas (primitives, arrays): cannot be merged into a map; store the first
+	//     one encountered as a fallback.
+	// If any object schemas contributed data, return the merged object (all objects merged losslessly
+	// for non-overlapping keys). Otherwise fall back to the first non-object value, preserving the
+	// data rather than returning nil.
 	merged := make(map[string]interface{})
-	hasData := false
+	hasObjectData := false
+	var firstNonObjectJSON []byte
 {{#anyOf}}
 	if src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}} != nil {
 		data, err := json.Marshal(src.{{#lambda.type-to-name}}{{{.}}}{{/lambda.type-to-name}})
@@ -111,16 +115,29 @@ func (src {{classname}}) MarshalJSON() ([]byte, error) {
 		var m map[string]interface{}
 		if jsonErr := json.Unmarshal(data, &m); jsonErr == nil {
 			for k, v := range m {
+				if existing, ok := merged[k]; ok {
+					existingJSON, _ := json.Marshal(existing)
+					newJSON, _ := json.Marshal(v)
+					if string(existingJSON) != string(newJSON) {
+						return nil, fmt.Errorf("anyOf schemas have conflicting values for key %q", k)
+					}
+				}
 				merged[k] = v
 			}
-			hasData = true
+			hasObjectData = true
+		} else if firstNonObjectJSON == nil {
+			// Not an object (primitive or array); keep as fallback
+			firstNonObjectJSON = data
 		}
 	}
 {{/anyOf}}
-	if !hasData {
-		return nil, nil // no data in anyOf schemas
+	if hasObjectData {
+		return json.Marshal(merged)
 	}
-	return json.Marshal(merged)
+	if firstNonObjectJSON != nil {
+		return firstNonObjectJSON, nil
+	}
+	return nil, nil // no data in anyOf schemas
 {{/useAnyOfAllMatches}}
 {{^useAnyOfAllMatches}}
 {{#anyOf}}
