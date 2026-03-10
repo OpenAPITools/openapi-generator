@@ -125,14 +125,19 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     {{#swagger1AnnotationLibrary}}
-    swagger_annotations_version = "1.6.3"
+    swagger_annotations_version = "1.6.16"
     {{/swagger1AnnotationLibrary}}
     {{#swagger2AnnotationLibrary}}
-    swagger_annotations_version = "2.2.9"
+    swagger_annotations_version = "2.2.43"
     {{/swagger2AnnotationLibrary}}
     {{#useJakartaEe}}
-    spring_boot_version = "3.2.12"
-    jakarta_annotation_version = "2.1.1"
+    {{^useSpringBoot4}}
+    spring_boot_version = "3.5.11"
+    {{/useSpringBoot4}}
+    {{#useSpringBoot4}}
+    spring_boot_version = "4.0.3"
+    {{/useSpringBoot4}}
+    jakarta_annotation_version = "3.0.0"
     beanvalidation_version = "3.0.2"
     reactor_version = "3.5.12"
     reactor_netty_version = "1.2.8"
@@ -144,13 +149,18 @@ ext {
     reactor_version = "3.4.34"
     reactor_netty_version = "1.2.8"
     {{/useJakartaEe}}
-    jackson_version = "2.19.2"
-    jackson_databind_version = "2.19.2"
+    {{#useJackson3}}
+    jackson_version = "3.1.0"
+    {{/useJackson3}}
+    {{^useJackson3}}
+    jackson_version = "2.21.1"
+    {{/useJackson3}}
+    jackson_annotations_version = "2.21"
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.9"
     {{/openApiNullable}}
     {{#joda}}
-    jodatime_version = "2.9.9"
+    jodatime_version = "2.14.0"
     {{/joda}}
     junit_version = "5.10.2"
 }
@@ -166,17 +176,18 @@ dependencies {
     implementation "io.projectreactor:reactor-core:$reactor_version"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor.netty:reactor-netty-http:$reactor_netty_version"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
-    implementation "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    implementation "{{jacksonPackage}}.core:jackson-core:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
+    implementation "{{jacksonPackage}}.core:jackson-databind:$jackson_version"
     {{#openApiNullable}}
     implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     {{/openApiNullable}}
     {{#joda}}
     implementation "joda-time:joda-time:$jodatime_version"
     {{/joda}}
+    {{^useJackson3}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    {{/useJackson3}}
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
 }

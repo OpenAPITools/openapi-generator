@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public TestResultCode? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<TestResultCode?>(value); } }
+        public TestResultCode? Code { get { return this.CodeOption.Value; } set { this.CodeOption = new Option<TestResultCode?>(value); } }
 
         /// <summary>
         /// Used to track the state of Data

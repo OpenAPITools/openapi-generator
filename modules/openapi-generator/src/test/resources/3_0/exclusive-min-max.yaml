@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: ExclusiveMinMax Test OAS 3.0
+  version: 1.0.0
+paths:
+  /savePrice:
+    post:
+      summary: ''
+      operationId: postPrice
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price:
+                  type: number
+                  minimum: 0
+                  exclusiveMinimum: true
+                  maximum: 10
+                  exclusiveMaximum: true
+                sellingPrice:
+                  type: number
+                  minimum: 0
+                  maximum: 10
+                historys:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      historyPrice0:
+                        type: number
+                        minimum: 0
+                        exclusiveMinimum: true
+                        maximum: 10
+                        exclusiveMaximum: true
+                      historySellingPrice0:
+                        type: number
+                        minimum: 0
+                        maximum: 10
+                    required:
+                      - historyPrice0
+                      - historySellingPrice0
+              required:
+                - price
+                - sellingPrice
+      description: ''
+    put:
+      summary: ''
+      operationId: putPrice
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceDto1'
+components:
+  schemas:
+    PriceDto1:
+      title: PriceDto1
+      type: object
+      properties:
+        price:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          maximum: 10
+          exclusiveMaximum: true
+        sellingPrice:
+          type: number
+          minimum: 0
+          maximum: 10
+        historys:
+          type: array
+          items:
+            type: object
+            properties:
+              historyPrice1:
+                type: number
+                minimum: 0
+                exclusiveMinimum: true
+                maximum: 10
+                exclusiveMaximum: true
+              historySellingPrice1:
+                type: number
+                minimum: 0
+                maximum: 10
+            required:
+              - historyPrice1
+              - historySellingPrice1
+        historys2:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceDto2'
+        historys3:
+          type: array
+          items:
+            $ref: '#/components/schemas/PriceDto3'
+      required:
+        - price
+        - sellingPrice
+    PriceDto2:
+      title: PriceDto2
+      type: object
+      properties:
+        historyPrice2:
+          type: number
+          minimum: 3001
+          exclusiveMinimum: true
+          maximum: 3002
+          exclusiveMaximum: true
+        historySellingPrice2:
+          type: number
+          minimum: 3003
+          maximum: 3004
+      required:
+        - historyPrice2
+        - historySellingPrice2
+    PriceDto3:
+      title: PriceDto3
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+        - $ref: '#/components/schemas/PriceDto2'

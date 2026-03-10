@@ -152,7 +152,7 @@ public interface FakeApi {
         consumes = { "application/json", "application/xml" }
     )
     default ResponseEntity<Void> fakeHttpSignatureTest(
-        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @Valid @RequestBody PetDto petDto,
+        @ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid @RequestBody PetDto petDto,
         @ApiParam(value = "query parameter") @Valid @RequestParam(value = "query_1", required = false) @Nullable String query1,
         @ApiParam(value = "header parameter") @RequestHeader(value = "header_1", required = false) @Nullable String header1
     ) {
@@ -323,7 +323,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<OuterObjectWithEnumPropertyDto> fakePropertyEnumIntegerSerialize(
-        @ApiParam(value = "Input enum (int) as post body", required = true) @Valid @RequestBody OuterObjectWithEnumPropertyDto outerObjectWithEnumPropertyDto
+        @ApiParam(value = "Input enum (int) as post body", required = true) @NotNull @Valid @RequestBody OuterObjectWithEnumPropertyDto outerObjectWithEnumPropertyDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -362,7 +362,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testAdditionalPropertiesReference(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, Object> requestBody
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Map<String, Object> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -392,7 +392,7 @@ public interface FakeApi {
         consumes = { "image/png" }
     )
     default ResponseEntity<Void> testBodyWithBinary(
-        @ApiParam(value = "image to upload", required = true) @Valid @RequestBody org.springframework.core.io.Resource body
+        @ApiParam(value = "image to upload", required = true) @NotNull @Valid @RequestBody org.springframework.core.io.Resource body
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -422,7 +422,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testBodyWithFileSchema(
-        @ApiParam(value = "", required = true) @Valid @RequestBody FileSchemaTestClassDto fileSchemaTestClassDto
+        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody FileSchemaTestClassDto fileSchemaTestClassDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -453,7 +453,7 @@ public interface FakeApi {
     )
     default ResponseEntity<Void> testBodyWithQueryParams(
         @NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,
-        @ApiParam(value = "", required = true) @Valid @RequestBody UserDto userDto
+        @ApiParam(value = "", required = true) @NotNull @Valid @RequestBody UserDto userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -485,7 +485,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<ClientDto> testClientModel(
-        @ApiParam(value = "client model", required = true) @Valid @RequestBody ClientDto clientDto
+        @ApiParam(value = "client model", required = true) @NotNull @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -542,10 +542,10 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testEndpointParameters(
-        @ApiParam(value = "None", required = true) @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
-        @ApiParam(value = "None", required = true) @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
-        @ApiParam(value = "None", required = true) @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
-        @ApiParam(value = "None", required = true) @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
+        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "32.1") @DecimalMax(value = "543.2") @Valid @RequestParam(value = "number", required = true) BigDecimal number,
+        @ApiParam(value = "None", required = true) @NotNull @DecimalMin(value = "67.8") @DecimalMax(value = "123.4") @Valid @RequestParam(value = "double", required = true) Double _double,
+        @ApiParam(value = "None", required = true) @NotNull @Pattern(regexp = "^[A-Z].*") @Valid @RequestParam(value = "pattern_without_delimiter", required = true) String patternWithoutDelimiter,
+        @ApiParam(value = "None", required = true) @NotNull @Valid @RequestParam(value = "byte", required = true) byte[] _byte,
         @ApiParam(value = "None") @Min(value = 10) @Max(value = 100) @Valid @RequestParam(value = "integer", required = false) Integer integer,
         @ApiParam(value = "None") @Min(value = 20) @Max(value = 200) @Valid @RequestParam(value = "int32", required = false) Integer int32,
         @ApiParam(value = "None") @Valid @RequestParam(value = "int64", required = false) Long int64,
@@ -675,7 +675,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -705,7 +705,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineFreeformAdditionalProperties(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody TestInlineFreeformAdditionalPropertiesRequestDto testInlineFreeformAdditionalPropertiesRequestDto
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody TestInlineFreeformAdditionalPropertiesRequestDto testInlineFreeformAdditionalPropertiesRequestDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -736,8 +736,8 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" }
     )
     default ResponseEntity<Void> testJsonFormData(
-        @ApiParam(value = "field1", required = true) @Valid @RequestParam(value = "param", required = true) String param,
-        @ApiParam(value = "field2", required = true) @Valid @RequestParam(value = "param2", required = true) String param2
+        @ApiParam(value = "field1", required = true) @NotNull @Valid @RequestParam(value = "param", required = true) String param,
+        @ApiParam(value = "field2", required = true) @NotNull @Valid @RequestParam(value = "param2", required = true) String param2
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -767,7 +767,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testNullable(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody ChildWithNullableDto childWithNullableDto
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody ChildWithNullableDto childWithNullableDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -838,7 +838,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testStringMapReference(
-        @ApiParam(value = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
+        @ApiParam(value = "request body", required = true) @NotNull @Valid @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

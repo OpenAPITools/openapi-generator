@@ -100,6 +100,7 @@ cargo run --example openapi-v3-client MultipleAuthSchemeGet
 cargo run --example openapi-v3-client OneOfGet
 cargo run --example openapi-v3-client OverrideServerGet
 cargo run --example openapi-v3-client ParamgetGet
+cargo run --example openapi-v3-client QueryExampleGet
 cargo run --example openapi-v3-client ReadonlyAuthSchemeGet
 cargo run --example openapi-v3-client RegisterCallbackPost
 cargo run --example openapi-v3-client RequiredOctetStreamPut
@@ -166,6 +167,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /one-of | 
 [****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
+[**queryExampleGet**](docs/default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 

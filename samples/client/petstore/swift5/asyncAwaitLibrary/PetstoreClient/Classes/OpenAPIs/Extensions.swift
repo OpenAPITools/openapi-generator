@@ -157,6 +157,7 @@ extension KeyedEncodingContainerProtocol {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.locale = Locale(identifier: "en_US")
+        numberFormatter.usesGroupingSeparator = false
         let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
         try encode(formattedString, forKey: key)
     }

@@ -69,7 +69,7 @@ fn main() {
     let matches = Command::new("client")
         .arg(Arg::new("operation")
             .help("Sets the operation to run")
-            .value_parser([
+            .value_parser(Vec::<&str>::from([
                 "Op10Get",
                 "Op11Get",
                 "Op12Get",
@@ -107,7 +107,7 @@ fn main() {
                 "Op7Get",
                 "Op8Get",
                 "Op9Get",
-            ])
+            ]))
             .required(true)
             .index(1))
         .arg(Arg::new("https")

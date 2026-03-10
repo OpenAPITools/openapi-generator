@@ -835,6 +835,8 @@ public class ModelUtils {
                         sc.getMaximum() != null ||
                         sc.getExclusiveMaximum() != null ||
                         sc.getExclusiveMinimum() != null ||
+                        sc.getExclusiveMaximumValue() != null ||
+                        sc.getExclusiveMinimumValue() != null ||
                         sc.getUniqueItems() != null
         );
     }
@@ -1869,15 +1871,44 @@ public class ModelUtils {
         if (multipleOf != null) vSB.withMultipleOf();
 
         BigDecimal minimum = schema.getMinimum();
-        if (minimum != null) vSB.withMinimum();
-
         BigDecimal maximum = schema.getMaximum();
-        if (maximum != null) vSB.withMaximum();
-
         Boolean exclusiveMinimum = schema.getExclusiveMinimum();
-        if (exclusiveMinimum != null) vSB.withExclusiveMinimum();
-
         Boolean exclusiveMaximum = schema.getExclusiveMaximum();
+
+        // === START: Added code to handle OpenAPI 3.1.0+ numeric exclusiveMinimum/exclusiveMaximum ===
+        // Logic synced from OpenAPINormalizer#normalizeExclusiveMinMax31()
+        BigDecimal exclusiveMinValue = schema.getExclusiveMinimumValue();
+        if (exclusiveMinValue != null) {
+            if (minimum == null) {
+                minimum = exclusiveMinValue;
+                exclusiveMinimum = Boolean.TRUE;
+            } else {
+                int cmp = exclusiveMinValue.compareTo(minimum);
+                if (cmp >= 0) {
+                    minimum = exclusiveMinValue;
+                    exclusiveMinimum = Boolean.TRUE;
+                }
+            }
+        }
+
+        BigDecimal exclusiveMaxValue = schema.getExclusiveMaximumValue();
+        if (exclusiveMaxValue != null) {
+            if (maximum == null) {
+                maximum = exclusiveMaxValue;
+                exclusiveMaximum = Boolean.TRUE;
+            } else {
+                int cmp = exclusiveMaxValue.compareTo(maximum);
+                if (cmp <= 0) {
+                    maximum = exclusiveMaxValue;
+                    exclusiveMaximum = Boolean.TRUE;
+                }
+            }
+        }
+        // === END: Added code ===
+
+        if (minimum != null) vSB.withMinimum();
+        if (maximum != null) vSB.withMaximum();
+        if (exclusiveMinimum != null) vSB.withExclusiveMinimum();
         if (exclusiveMaximum != null) vSB.withExclusiveMaximum();
 
         LinkedHashSet<String> setValidations = vSB.build();
@@ -2207,6 +2238,7 @@ public class ModelUtils {
         if (schema.getNullable() != null || schema.getDefault() != null ||
                 schema.getMinimum() != null || schema.getMaximum() != null ||
                 schema.getExclusiveMaximum() != null || schema.getExclusiveMinimum() != null ||
+                schema.getExclusiveMaximumValue() != null || schema.getExclusiveMinimumValue() != null ||
                 schema.getMinLength() != null || schema.getMaxLength() != null ||
                 schema.getMinItems() != null || schema.getMaxItems() != null ||
                 schema.getReadOnly() != null || schema.getWriteOnly() != null ||

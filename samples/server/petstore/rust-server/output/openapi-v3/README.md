@@ -87,13 +87,11 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example openapi-v3-client AnyOfGet
-cargo run --example openapi-v3-client CallbackWithHeaderPost
 cargo run --example openapi-v3-client ComplexQueryParamGet
 cargo run --example openapi-v3-client ExamplesTest
 cargo run --example openapi-v3-client FormTest
 cargo run --example openapi-v3-client GetWithBooleanParameter
 cargo run --example openapi-v3-client JsonComplexQueryParamGet
-cargo run --example openapi-v3-client MandatoryRequestHeaderGet
 cargo run --example openapi-v3-client MergePatchJsonGet
 cargo run --example openapi-v3-client MultigetGet
 cargo run --example openapi-v3-client MultipleAuthSchemeGet
@@ -101,7 +99,6 @@ cargo run --example openapi-v3-client OneOfGet
 cargo run --example openapi-v3-client OverrideServerGet
 cargo run --example openapi-v3-client ParamgetGet
 cargo run --example openapi-v3-client ReadonlyAuthSchemeGet
-cargo run --example openapi-v3-client RegisterCallbackPost
 cargo run --example openapi-v3-client RequiredOctetStreamPut
 cargo run --example openapi-v3-client ResponsesWithHeadersGet
 cargo run --example openapi-v3-client Rfc7807Get
@@ -114,9 +111,7 @@ cargo run --example openapi-v3-client XmlOtherPut
 cargo run --example openapi-v3-client XmlPost
 cargo run --example openapi-v3-client XmlPut
 cargo run --example openapi-v3-client EnumInPathPathParamGet
-cargo run --example openapi-v3-client MultiplePathParamsWithVeryLongPathToTestFormattingPathParamAPathParamBGet
 cargo run --example openapi-v3-client CreateRepo
-cargo run --example openapi-v3-client GetRepoInfo
 ```
 
 ### HTTPS
@@ -192,6 +187,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /one-of | 
 [****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
+[**queryExampleGet**](docs/default_api.md#queryExampleGet) | **GET** /query-example | Test required query params with and without examples
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
 [****](docs/default_api.md#) | **POST** /register-callback | 
 [****](docs/default_api.md#) | **PUT** /required_octet_stream | 

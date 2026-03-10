@@ -1557,10 +1557,12 @@ public class OpenAPINormalizer {
             }
 
             schema = simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
-
             if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
-                // TODO convert oneOf const to enum
-                schema.setOneOf(null);
+                if (schema.getSpecVersion().equals(SpecVersion.V30)) {
+                    schema.setOneOf(null);
+                } //else {
+                    // TODO convert oneOf const/deprecated to enum
+               // }
             }
         }
 
@@ -1839,6 +1841,9 @@ public class OpenAPINormalizer {
                 as.setXml(schema.getXml());
                 as.setNullable(schema.getNullable());
                 as.setUniqueItems(schema.getUniqueItems());
+                as.setDeprecated(schema.getDeprecated());
+                as.setReadOnly(schema.getReadOnly());
+                as.setWriteOnly(schema.getWriteOnly());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
                     if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {

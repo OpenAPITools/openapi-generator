@@ -92,7 +92,7 @@ public interface PetApi {
         value = PetApi.PATH_DELETE_PET
     )
     ResponseEntity<Void> deletePet(
-        @NotNull @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "Pet id to delete", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "") @RequestHeader(value = "api_key", required = false) @Nullable String apiKey
     );
 
@@ -202,7 +202,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" }
     )
     ResponseEntity<Pet> getPetById(
-        @NotNull @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
+        @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") Long petId
     );
 
 
@@ -280,7 +280,7 @@ public interface PetApi {
         consumes = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
-        @NotNull @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet that needs to be updated", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Updated name of the pet") @Valid @RequestParam(value = "name", required = false) String name,
         @ApiParam(value = "Updated status of the pet") @Valid @RequestParam(value = "status", required = false) String status
     );
@@ -319,7 +319,7 @@ public interface PetApi {
         consumes = "multipart/form-data"
     )
     ResponseEntity<ModelApiResponse> uploadFile(
-        @NotNull @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
+        @ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
         @ApiParam(value = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @ApiParam(value = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
     );
