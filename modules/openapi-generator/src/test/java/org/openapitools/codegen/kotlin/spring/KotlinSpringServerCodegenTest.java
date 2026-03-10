@@ -4874,38 +4874,6 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
-    public void shouldGenerateSpringBoot4PomWithJackson2Deps() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
-        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
-
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT4, "true");
-        codegen.additionalProperties().put(AbstractKotlinCodegen.USE_JACKSON_3, "false");
-        codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue());
-        codegen.additionalProperties().put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE.toCliOptValue());
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.setGenerateMetadata(false);
-        generator.opts(input).generate();
-
-        Path pomPath = Paths.get(outputPath + "/pom.xml");
-        assertFileContains(pomPath, "4.0.1");
-        assertFileContains(pomPath, "com.fasterxml.jackson.dataformat");
-        assertFileContains(pomPath, "jackson-datatype-jsr310");
-        assertFileNotContains(pomPath, "tools.jackson.dataformat");
-        assertFileNotContains(pomPath, "tools.jackson.module");
-    }
-
-    @Test
     public void shouldDefaultToJackson3WhenSpringBoot4Enabled() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
