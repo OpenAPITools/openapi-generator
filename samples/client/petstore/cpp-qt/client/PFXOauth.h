@@ -61,7 +61,7 @@ class ReplyServer : public QTcpServer
     Q_OBJECT
 public:
     explicit ReplyServer(QObject *parent = nullptr);
-    void setReply(QByteArray reply){m_reply = reply;};
+    void setReply(const QByteArray &reply) {m_reply = reply;};
     void run();
 private:
     QByteArray m_reply;
@@ -82,9 +82,9 @@ class OauthBase : public QObject
     Q_OBJECT
 public: 
     OauthBase(QObject* parent = nullptr) : QObject(parent) {};
-    oauthToken getToken(QString scope);
+    oauthToken getToken(const QString &scope);
     void addToken(oauthToken token);
-    void removeToken(QString scope);
+    void removeToken(const QString &scope);
     bool linked(){return m_linked;};
     virtual void link()=0;
     virtual void unlink()=0;
@@ -113,7 +113,7 @@ public:
     OauthCode(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
-    void setVariables(QString authUrl, QString tokenUrl, QString scope, QString state, QString redirectUri, QString clientId, QString clientSecret, QString accessType = "");
+    void setVariables(const QString &authUrl, const QString &tokenUrl, const QString &scope, const QString  &state, const QString &redirectUri, const QString &clientId, const QString &clientSecret, const QString &accessType = QString());
 
 private:
     ReplyServer m_server;
@@ -132,7 +132,7 @@ public:
     OauthImplicit(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
-    void setVariables(QString authUrl, QString scope, QString state, QString redirectUri, QString clientId, QString accessType = "");
+    void setVariables(const QString &authUrl, const QString &scope, const QString &state, const QString &redirectUri, const QString &clientId, const QString &accessType = QString());
 
 private:
     ReplyServer m_server;
@@ -150,7 +150,7 @@ public:
     OauthCredentials(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
-    void setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret);
+    void setVariables(const QString &tokenUrl, const QString &scope, const QString &clientId, const QString &clientSecret);
 
 public Q_SLOTS:
     void authenticationNeededCallback() override;
@@ -165,7 +165,7 @@ public:
     OauthPassword(QObject *parent = nullptr);
     void link() override;
     void unlink() override;
-    void setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret, QString username, QString password);
+    void setVariables(const QString &tokenUrl, const QString &scope, const QString &clientId, const QString &clientSecret, const QString &username, const QString &password);
 
 private:
     QString m_username, m_password;

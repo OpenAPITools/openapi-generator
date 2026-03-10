@@ -23,7 +23,7 @@ class PFXEnum {
 public:
     PFXEnum() {}
 
-    PFXEnum(QString jsonString) {
+    PFXEnum(const QString &jsonString) {
         fromJson(jsonString);
     }
 
@@ -43,7 +43,7 @@ public:
         return obj;
     }
 	
-    virtual void fromJson(QString jsonString) {
+    virtual void fromJson(const QString &jsonString) {
         jstr = jsonString;
     }
 
