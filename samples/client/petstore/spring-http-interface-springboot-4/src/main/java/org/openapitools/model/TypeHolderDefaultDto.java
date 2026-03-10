@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.lang.Nullable;
 import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
 
 
 import java.util.*;
@@ -33,7 +35,7 @@ public class TypeHolderDefaultDto {
 
   private Boolean boolItem = true;
 
-  
+  @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
   public TypeHolderDefaultDto() {
@@ -49,7 +51,7 @@ public class TypeHolderDefaultDto {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -68,7 +70,7 @@ public class TypeHolderDefaultDto {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull
+  @NotNull @Valid 
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -87,7 +89,7 @@ public class TypeHolderDefaultDto {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -106,7 +108,7 @@ public class TypeHolderDefaultDto {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -133,7 +135,7 @@ public class TypeHolderDefaultDto {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull
+  @NotNull 
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
