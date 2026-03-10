@@ -5,7 +5,7 @@
 
 
 import type { Configuration } from '{{apiRelativeToRoot}}configuration{{importFileExtension}}';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
@@ -62,7 +62,7 @@ export interface {{classname}}Interface {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{nickname}}({{#allParams.0}}requestParameters{{^hasRequiredParams}}?{{/hasRequiredParams}}: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: RawAxiosRequestConfig): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
 
 {{/operation}}
 }
@@ -114,7 +114,7 @@ export class {{classname}} extends BaseAPI {
      * @deprecated{{/isDeprecated}}
      * @throws {RequiredError}
      */
-    public async {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: RawAxiosRequestConfig = {}): Promise<AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+    public async {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options: RawAxiosRequestConfig = {}): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
     {{#allParams.0}}
         validateRequestParameters('{{nickname}}', {{nickname}}RequestSchema, requestParameters);
     {{/allParams.0}}
@@ -308,7 +308,8 @@ export class {{classname}} extends BaseAPI {
         const effectiveBasePath = localVarOperationServerBasePath || this.basePath || BASE_PATH;
         localVarRequestOptions.url = (this.axios.defaults.baseURL ? '' : this.configuration?.basePath ?? effectiveBasePath) + toPathString(localVarUrlObj);
 
-        return this.axios.request<{{{returnType}}}{{^returnType}}void{{/returnType}}, AxiosResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>(localVarRequestOptions);
+        const localVarResponse = await this.axios.request<{{{returnType}}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions);
+        return localVarResponse.data;
     }
     {{^-last}}
 

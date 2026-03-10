@@ -33,9 +33,10 @@ public class TypeScriptAxiosSlimParityTest {
 
     private static final Pattern REQUEST_INTERFACE_PATTERN = Pattern.compile("export interface (\\w+Request) \\{([\\s\\S]*?)\\n\\}");
     private static final Pattern API_INTERFACE_PATTERN = Pattern.compile("export interface (\\w+Interface) \\{([\\s\\S]*?)\\n\\}");
-    private static final Pattern API_INTERFACE_METHOD_PATTERN = Pattern.compile("(\\w+)\\(([^)]*)\\):\\s*AxiosPromise<([^;]+)>;");
+    private static final Pattern API_INTERFACE_METHOD_PATTERN = Pattern.compile("^\\s*(\\w+)\\((.*)\\):\\s*(.+);\\s*$", Pattern.MULTILINE);
     private static final Pattern ENUM_DECL_PATTERN = Pattern.compile("export enum (\\w+) \\{([\\s\\S]*?)\\n\\}");
     private static final Pattern CONST_ENUM_DECL_PATTERN = Pattern.compile("export const (\\w+) = \\{([\\s\\S]*?)\\} as const;");
+    private static final Pattern WRAPPED_RETURN_TYPE_PATTERN = Pattern.compile("^(AxiosPromise|Promise|AxiosResponse)\\s*<\\s*(.+)\\s*>$");
 
     private static final List<String> API_DIR_CANDIDATES = Arrays.asList("api", "apis");
     private static final List<String> MODEL_DIR_CANDIDATES = Arrays.asList("model", "models");
@@ -117,6 +118,17 @@ public class TypeScriptAxiosSlimParityTest {
         IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", "src/test/resources/3_1/issue_21317.yaml", mappedTypeCustomizer);
 
         assertIdentitySurfaceEquals("generic-type-mapping-signature", axiosSurface, slimSurface);
+    }
+
+    @Test(description = "slim: object-oriented methods return payload data directly")
+    public void shouldReturnPayloadDataFromObjectOrientedMethods() throws Exception {
+        IdentitySurface slimSurface = generateIdentity("typescript-axios-slim", EDGE_CASE_SPEC, NO_CUSTOMIZER);
+        String apiSource = String.join(" ", slimSurface.apiFiles.values());
+
+        assertTrue(apiSource.contains("): Promise<"), "Slim API methods should return Promise payload types");
+        assertFalse(apiSource.contains("AxiosPromise<"), "Slim API interface should not expose AxiosPromise return wrappers");
+        assertFalse(apiSource.contains("Promise<AxiosResponse<"), "Slim API class should not return Promise<AxiosResponse<T>>");
+        assertTrue(apiSource.contains("return localVarResponse.data;"), "Slim API class should resolve axios response data directly");
     }
 
     private IdentitySurface generateIdentity(String generatorName, String specPath, Consumer<CodegenConfigurator> customizer) throws Exception {
@@ -220,11 +232,48 @@ public class TypeScriptAxiosSlimParityTest {
             while (methodMatcher.find()) {
                 String methodName = methodMatcher.group(1);
                 String params = normalize(methodMatcher.group(2));
-                String returnType = normalize(methodMatcher.group(3));
+                String returnType = normalizeComparableReturnType(methodMatcher.group(3));
                 target.computeIfAbsent(interfaceName, ignored -> new TreeSet<>())
                         .add(methodName + "(" + params + "):" + returnType);
             }
         }
+    }
+
+    private String normalizeComparableReturnType(String returnType) {
+        String current = normalize(returnType);
+        while (true) {
+            Matcher wrapperMatcher = WRAPPED_RETURN_TYPE_PATTERN.matcher(current);
+            if (!wrapperMatcher.matches()) {
+                return current;
+            }
+
+            String wrapperType = wrapperMatcher.group(1);
+            String innerType = wrapperMatcher.group(2).trim();
+            if ("AxiosResponse".equals(wrapperType)) {
+                innerType = firstTopLevelTypeArgument(innerType);
+            }
+
+            if (innerType.equals(current)) {
+                return innerType;
+            }
+            current = innerType;
+        }
+    }
+
+    private String firstTopLevelTypeArgument(String typeArguments) {
+        int depth = 0;
+        for (int i = 0; i < typeArguments.length(); i++) {
+            char current = typeArguments.charAt(i);
+            if (current == '<') {
+                depth++;
+            } else if (current == '>') {
+                depth = Math.max(0, depth - 1);
+            } else if (current == ',' && depth == 0) {
+                return typeArguments.substring(0, i).trim();
+            }
+        }
+
+        return typeArguments.trim();
     }
 
     private void extractOperationEnums(Map<String, String> target, String apiSource) {

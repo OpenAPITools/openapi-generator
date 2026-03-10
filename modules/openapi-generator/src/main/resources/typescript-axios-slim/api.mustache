@@ -5,7 +5,7 @@
 
 {{^withSeparateModelsAndApi}}
 import type { Configuration } from './configuration{{importFileExtension}}';
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 {{#withNodeImports}}
 // URLSearchParams not necessarily used
