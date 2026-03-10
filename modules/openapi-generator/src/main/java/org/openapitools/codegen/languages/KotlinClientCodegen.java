@@ -88,6 +88,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String USE_RESPONSE_AS_RETURN_TYPE = "useResponseAsReturnType";
 
     public static final String DATE_LIBRARY = "dateLibrary";
@@ -271,6 +272,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3, "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Use Spring Boot 4 with the jvm-spring-restclient or jvm-spring-webclient library. Implies useJackson3."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
         cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
@@ -467,6 +469,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT3);
+        }
+
+        if (additionalProperties.containsKey(USE_SPRING_BOOT4)) {
+            convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
+            additionalProperties.put(USE_JACKSON_3, "true");
+            setUseJackson3(true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -869,8 +877,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
-        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
-            throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)
+                && additionalProperties.getOrDefault(USE_SPRING_BOOT4, false).equals(false)) {
+            throw new RuntimeException("This library requires Spring Boot 3 or 4. Try adding '--additional-properties useSpringBoot3=true' or '--additional-properties useSpringBoot4=true' to your command.");
         }
 
         processJvmSpring(infrastructureFolder);

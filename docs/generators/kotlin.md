@@ -56,6 +56,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |useSettingsGradle|Whether the project uses settings.gradle.| |false|
 |useSpringBoot3|Whether to use the Spring Boot 3 with the jvm-spring-webclient library.| |false|
+|useSpringBoot4|Use Spring Boot 4 with the jvm-spring-restclient or jvm-spring-webclient library. Implies useJackson3.| |false|
 
 ## SUPPORTED VENDOR EXTENSIONS
 
