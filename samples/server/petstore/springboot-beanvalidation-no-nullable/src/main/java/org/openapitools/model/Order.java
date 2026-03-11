@@ -91,6 +91,7 @@ public class Order {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -111,6 +112,7 @@ public class Order {
     return petId;
   }
 
+  @JsonProperty("petId")
   public void setPetId(@Nullable Long petId) {
     this.petId = petId;
   }
@@ -131,6 +133,7 @@ public class Order {
     return quantity;
   }
 
+  @JsonProperty("quantity")
   public void setQuantity(@Nullable Integer quantity) {
     this.quantity = quantity;
   }
@@ -151,6 +154,7 @@ public class Order {
     return shipDate;
   }
 
+  @JsonProperty("shipDate")
   public void setShipDate(@Nullable OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
@@ -171,6 +175,7 @@ public class Order {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }
@@ -191,6 +196,7 @@ public class Order {
     return complete;
   }
 
+  @JsonProperty("complete")
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }

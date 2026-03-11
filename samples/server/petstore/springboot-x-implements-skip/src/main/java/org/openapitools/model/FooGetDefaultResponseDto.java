@@ -44,6 +44,7 @@ public class FooGetDefaultResponseDto {
     return string;
   }
 
+  @JsonProperty("string")
   public void setString(@Nullable FooDto string) {
     this.string = string;
   }

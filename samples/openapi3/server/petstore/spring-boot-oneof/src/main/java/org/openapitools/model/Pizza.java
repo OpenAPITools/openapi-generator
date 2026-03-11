@@ -65,6 +65,7 @@ public class Pizza extends Entity {
     return pizzaSize;
   }
 
+  @JsonProperty("pizzaSize")
   public void setPizzaSize(@Nullable BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
   }

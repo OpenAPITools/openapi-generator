@@ -87,6 +87,7 @@ public class BigCatDto extends CatDto {
     return kind;
   }
 
+  @JsonProperty("kind")
   public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }
