@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
 
 import { Injectable } from '@nestjs/common';
-import { PetApi } from '../../builds/default/api';
-import { ApiResponse, Pet } from '../../builds/default/models';
-import { TestService } from '../TestService'
+import { PetApi } from '../../../builds/default/api';
+import { ApiResponse, Pet } from '../../../builds/default/models';
+import { TestService } from '../../TestService'
 
 @Injectable()
 export class PetService implements PetApi {
