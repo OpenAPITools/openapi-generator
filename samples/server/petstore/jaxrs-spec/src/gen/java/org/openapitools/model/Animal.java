@@ -118,10 +118,7 @@ public class Animal  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return String.valueOf(o).replace("\n", "\n    ");
   }
 
 

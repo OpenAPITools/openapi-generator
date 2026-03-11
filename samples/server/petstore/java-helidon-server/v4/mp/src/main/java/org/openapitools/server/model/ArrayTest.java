@@ -129,10 +129,7 @@ public class ArrayTest  {
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
+    return String.valueOf(o).replace("\n", "\n    ");
   }
 }
 
