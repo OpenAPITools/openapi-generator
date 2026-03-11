@@ -71,6 +71,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.OPENAPI_NULLABLE;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.USE_ONE_OF_INTERFACES;
 import static org.openapitools.codegen.languages.JavaClientCodegen.*;
 import static org.testng.Assert.*;
 
@@ -2373,9 +2376,9 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EnumTest.java"))
-                .assertMethod("fromValue")
-                .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
+        assertThat(files.get("EnumTest.java"))
+                .content()
+                .contains("toLowerCase(Locale.ROOT)");
     }
 
     @Test
@@ -2389,9 +2392,9 @@ public class JavaClientCodegenTest {
         Map<String, File> files = new DefaultGenerator().opts(new ClientOptInput().openAPI(openAPI).config(codegen))
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("EnumTest.java"))
-                .assertMethod("fromValue")
-                .bodyContainsLines("if (b.value.equals(value)) {");
+        assertThat(files.get("EnumTest.java"))
+                .content()
+                .contains("new HashMap<>()");
     }
 
     @Test

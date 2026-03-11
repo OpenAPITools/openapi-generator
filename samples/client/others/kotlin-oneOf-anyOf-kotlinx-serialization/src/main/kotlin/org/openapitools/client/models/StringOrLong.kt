@@ -42,10 +42,10 @@ import kotlinx.serialization.json.encodeToJsonElement
 @Serializable(with = StringOrLongSerializer::class)
 sealed interface StringOrLong {
     @JvmInline
-    value class StringValue(val value: kotlin.String) : StringOrLong
+    value class (val value: kotlin.String) : StringOrLong
 
     @JvmInline
-    value class LongValue(val value: kotlin.Long) : StringOrLong
+    value class (val value: kotlin.Long) : StringOrLong
 
 }
 
@@ -56,8 +56,8 @@ object StringOrLongSerializer : KSerializer<StringOrLong> {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("StringOrLong can only be serialized with Json")
 
         when (value) {
-            is StringOrLong.StringValue -> jsonEncoder.encodeString(value.value)
-            is StringOrLong.LongValue -> jsonEncoder.encodeLong(value.value)
+            is StringOrLong. -> jsonEncoder.encodeString(value.value)
+            is StringOrLong. -> jsonEncoder.encodeLong(value.value)
         }
     }
 
@@ -70,7 +70,7 @@ object StringOrLongSerializer : KSerializer<StringOrLong> {
         if (jsonElement is JsonPrimitive && jsonElement.isString) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<kotlin.String>(jsonElement)
-                return StringOrLong.StringValue(instance)
+                return StringOrLong.(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as kotlin.String: ${e.message}")
             }
@@ -78,7 +78,7 @@ object StringOrLongSerializer : KSerializer<StringOrLong> {
         if (jsonElement is JsonPrimitive && !jsonElement.isString) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<kotlin.Long>(jsonElement)
-                return StringOrLong.LongValue(instance)
+                return StringOrLong.(instance)
             } catch (e: Exception) {
                 errorMessages.add("Failed to deserialize as kotlin.Long: ${e.message}")
             }

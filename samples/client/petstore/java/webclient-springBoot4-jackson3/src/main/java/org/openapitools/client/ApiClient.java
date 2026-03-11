@@ -13,10 +13,10 @@
 
 package org.openapitools.client;
 
-import tools.jackson.databind.DeserializationFeature;
+import .databind.DeserializationFeature;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.json.JsonMapper;
+import .core.JacksonException;
+import .databind.json.JsonMapper;
 import org.springframework.http.codec.json.JacksonJsonDecoder;
 import org.springframework.http.codec.json.JacksonJsonEncoder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -70,7 +70,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
-import jakarta.annotation.Nullable;
+import javax.annotation.Nullable;
 
 import java.time.OffsetDateTime;
 
@@ -80,7 +80,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
@@ -713,7 +713,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param requestBuilder The current request
      */
     protected void addHeadersToRequest(HttpHeaders headers, WebClient.RequestBodySpec requestBuilder) {
-        for (Entry<String, List<String>> entry : headers.headerSet()) {
+        for (Entry<String, List<String>> entry : headers.entrySet()) {
             List<String> values = entry.getValue();
             for(String value : values) {
                 if (value != null) {

@@ -20,6 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Gets or Sets FruitType
@@ -30,7 +32,18 @@ public enum FruitType {
   
   BANANA("BANANA");
 
+  private static final Map<String, FruitType> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (FruitType e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   FruitType(String value) {
     this.value = value;
@@ -48,10 +61,9 @@ public enum FruitType {
 
   @JsonCreator
   public static FruitType fromValue(String value) {
-    for (FruitType b : FruitType.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    FruitType result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }

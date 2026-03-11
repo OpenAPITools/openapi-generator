@@ -2,6 +2,9 @@
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
+{{#useEnumCaseInsensitive}}import java.util.Locale;
+{{/useEnumCaseInsensitive}}import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
@@ -22,7 +25,18 @@ import com.fasterxml.jackson.annotation.JsonValue;
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
   {{/gson}}
 
+  private static final Map<{{{dataType}}}, {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> cacheByValue = new HashMap<>();
+
   private {{{dataType}}} value;
+
+  static {
+    for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} e: values()) {
+      {{{dataType}}} key = {{#useEnumCaseInsensitive}}{{#isString}}e.value == null ? null : e.value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}e.value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}e.value{{/useEnumCaseInsensitive}};
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{{dataType}}} value) {
     this.value = value;
@@ -43,12 +57,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   @JsonCreator
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
-    for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
-      if (b.value.equals{{#isString}}{{#useEnumCaseInsensitive}}IgnoreCase{{/useEnumCaseInsensitive}}{{/isString}}(value)) {
-        return b;
-      }
+    {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} result = {{#useEnumCaseInsensitive}}{{#isString}}value == null ? null : {{/isString}}{{/useEnumCaseInsensitive}}cacheByValue.get({{#useEnumCaseInsensitive}}{{#isString}}value.toLowerCase(Locale.ROOT){{/isString}}{{^isString}}value{{/isString}}{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}value{{/useEnumCaseInsensitive}});
+    if (result != null) {
+      return result;
     }
-    {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/isNullable}}
+    {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
 {{/jackson}}
 }

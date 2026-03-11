@@ -26,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class PetApi {
     private ApiClient apiClient;
 
@@ -55,7 +55,7 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    private ResponseSpec addPetRequestCreation(@jakarta.annotation.Nonnull Pet pet) throws WebClientResponseException {
+    private ResponseSpec addPetRequestCreation(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         Object postBody = pet;
         // verify the required parameter 'pet' is set
         if (pet == null) {
@@ -93,7 +93,7 @@ public class PetApi {
      * @return Pet
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Pet> addPet(@jakarta.annotation.Nonnull Pet pet) throws WebClientResponseException {
+    public Mono<Pet> addPet(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return addPetRequestCreation(pet).bodyToMono(localVarReturnType);
     }
@@ -107,7 +107,7 @@ public class PetApi {
      * @return ResponseEntity&lt;Pet&gt;
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<ResponseEntity<Pet>> addPetWithHttpInfo(@jakarta.annotation.Nonnull Pet pet) throws WebClientResponseException {
+    public Mono<ResponseEntity<Pet>> addPetWithHttpInfo(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         ParameterizedTypeReference<Pet> localVarReturnType = new ParameterizedTypeReference<Pet>() {};
         return addPetRequestCreation(pet).toEntity(localVarReturnType);
     }
@@ -121,7 +121,7 @@ public class PetApi {
      * @return ResponseSpec
      * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public ResponseSpec addPetWithResponseSpec(@jakarta.annotation.Nonnull Pet pet) throws WebClientResponseException {
+    public ResponseSpec addPetWithResponseSpec(@javax.annotation.Nonnull Pet pet) throws WebClientResponseException {
         return addPetRequestCreation(pet);
     }
 }

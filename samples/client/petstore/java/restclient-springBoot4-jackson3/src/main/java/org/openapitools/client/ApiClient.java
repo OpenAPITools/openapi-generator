@@ -14,10 +14,10 @@
 package org.openapitools.client;
 
 
-import tools.jackson.databind.DeserializationFeature;
+import .databind.DeserializationFeature;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.json.JsonMapper;
+import .core.JacksonException;
+import .databind.json.JsonMapper;
 import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 
@@ -63,7 +63,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
     public enum CollectionFormat {
         CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);

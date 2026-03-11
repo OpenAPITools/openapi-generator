@@ -30,20 +30,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
-  @jakarta.annotation.Nullable
+  @javax.annotation.Nullable
   private Long id;
 
   public static final String JSON_PROPERTY_NAME = "name";
-  @jakarta.annotation.Nullable
+  @javax.annotation.Nullable
   private String name;
 
   public Category() {
   }
 
-  public Category id(@jakarta.annotation.Nullable Long id) {
+  public Category id(@javax.annotation.Nullable Long id) {
     
     this.id = id;
     return this;
@@ -53,7 +53,7 @@ public class Category {
    * Get id
    * @return id
    */
-  @jakarta.annotation.Nullable
+  @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -64,11 +64,11 @@ public class Category {
 
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setId(@jakarta.annotation.Nullable Long id) {
+  public void setId(@javax.annotation.Nullable Long id) {
     this.id = id;
   }
 
-  public Category name(@jakarta.annotation.Nullable String name) {
+  public Category name(@javax.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -78,7 +78,7 @@ public class Category {
    * Get name
    * @return name
    */
-  @jakarta.annotation.Nullable
+  @javax.annotation.Nullable
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -89,7 +89,7 @@ public class Category {
 
   @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setName(@jakarta.annotation.Nullable String name) {
+  public void setName(@javax.annotation.Nullable String name) {
     this.name = name;
   }
 

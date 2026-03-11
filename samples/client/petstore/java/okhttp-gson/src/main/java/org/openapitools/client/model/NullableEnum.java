@@ -17,6 +17,8 @@ import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
@@ -31,7 +33,18 @@ public enum NullableEnum {
   
   CUSTOM("custom");
 
+  private static final Map<String, NullableEnum> cacheByValue = new HashMap<>();
+
   private String value;
+
+  static {
+    for (NullableEnum e: values()) {
+      String key = e.value;
+      if (!cacheByValue.containsKey(key)) {
+        cacheByValue.put(key, e);
+      }
+    }
+  }
 
   NullableEnum(String value) {
     this.value = value;
@@ -47,10 +60,9 @@ public enum NullableEnum {
   }
 
   public static NullableEnum fromValue(String value) {
-    for (NullableEnum b : NullableEnum.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
+    NullableEnum result = cacheByValue.get(value);
+    if (result != null) {
+      return result;
     }
     return null;
   }

@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Gets or Sets OuterEnumInteger
@@ -32,7 +35,18 @@ public enum OuterEnumInteger {
   
   NUMBER_2(2);
 
+  private static final Map<Integer, OuterEnumInteger> BY_VALUE = new HashMap<>();
+
   private Integer value;
+
+  static {
+    for (OuterEnumInteger e: values()) {
+      Integer key = e.value;
+      if (!BY_VALUE.containsKey(key)) {
+        BY_VALUE.put(key, e);
+      }
+    }
+  }
 
   OuterEnumInteger(Integer value) {
     this.value = value;
@@ -50,12 +64,7 @@ public enum OuterEnumInteger {
 
   @JsonCreator
   public static OuterEnumInteger fromValue(Integer value) {
-    for (OuterEnumInteger b : OuterEnumInteger.values()) {
-      if (b.value.equals(value)) {
-        return b;
-      }
-    }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    return Optional.ofNullable(value).map(v -> BY_VALUE.get(v)).orElseThrow(() -> new IllegalArgumentException("Unexpected value '" + value + "'"));
   }
 }
 
