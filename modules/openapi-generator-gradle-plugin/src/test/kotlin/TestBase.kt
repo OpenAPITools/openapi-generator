@@ -50,3 +50,20 @@ abstract class TestBase {
             .apply(configure)
             .build()!!
 }
+
+enum class PropertyFormat {
+    STRING,
+    FILE
+}
+
+/**
+ * Converts a file path to a Gradle property reference based on format.
+ * @param format The property format to use
+ * @return Formatted property value (either file("path").absolutePath or file("path"))
+ */
+fun String.toPropertyReference(format: PropertyFormat): String {
+    return when (format) {
+        PropertyFormat.STRING -> """file("$this").absolutePath"""
+        PropertyFormat.FILE -> """file("$this")"""
+    }
+}

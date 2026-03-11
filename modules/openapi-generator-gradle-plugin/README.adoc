@@ -63,15 +63,16 @@ task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 
 [NOTE]
 ====
-The tasks support Gradle Up-To-Date checking and Gradle Cache. Enable caching globally by setting `org.gradle.caching=true` in the `gradle.settings`
-file or by passing the command line property `--build-cache` when executing on the command line.
+**Modern Gradle Support:** This plugin fully supports Gradle's **Configuration Cache**, **Build Cache**, and **Lazy Configuration (Provider API)**.
 
-Disable up-to-date checks and caching by setting the following property when using the extension:
+Enable caching globally by setting `org.gradle.caching=true` and `org.gradle.configuration-cache=true` in your `gradle.properties` file, or by passing `--build-cache` and `--configuration-cache` on the command line.
+
+If you need to disable up-to-date checks and caching for a specific task, you can do so like this:
 
 .Disable caching for extension
 [source,groovy]
 ----
-tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask).configureEach {
     outputs.upToDateWhen { false }
     outputs.cacheIf { false }
 }
@@ -130,312 +131,312 @@ apply plugin: 'org.openapi.generator'
 |Key |Data Type |Default |Description
 
 |verbose
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |The verbosity of generation
 
 |validateSpec
-|Boolean
+|Boolean / Provider<Boolean>
 |true
 |Whether or not we should validate the input spec before generation. Invalid specs result in an error.
 
 |generatorName
-|String
+|String / Provider<String>
 |None
 |The name of the generator which will handle codegen.
 
 |outputDir
-|String
+|String / Provider<Directory>
 |None
 |The output target directory into which code will be generated.
 
 |inputSpec
-|String
+|String / Provider<RegularFile>
 |None
-|The Open API 2.0/3.x specification location.
+|The Open API 2.0/3.x specification location. This acts as a smart router: if a local path is provided, it utilizes Gradle's Lazy File API for caching. If a URL/URI (e.g., `http://`, `jar:`) is provided, it automatically routes to `remoteInputSpec`.
 
 |inputSpecRootDirectory
-|String
+|String / Provider<Directory>
 |None
 |Local root folder with spec file(s)
 
 |mergedFileName
-|String
+|String / Provider<String>
 |None
 |Name of the file that will contain all merged specs
 
 |remoteInputSpec
-|String
+|String / Provider<String>
 |None
-|The remote Open API 2.0/3.x specification URL location.
+|The remote Open API 2.0/3.x specification URL location. (Note: Using remote specs may result in stale build caches if the remote content changes without the URL changing).
 
 |templateDir
-|String
+|String / Provider<Directory>
 |None
 |The template directory holding a custom template.
 
 |templateResourcePath
-|String
+|String / Provider<String>
 |None
 |Directory with mustache templates via resource path. This option will overwrite any option defined in `templateDir`
 
 |auth
-|String
+|String / Provider<String>
 |None
 |Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
 
 |globalProperties
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Sets specified global properties.
 
 |configFile
-|String
+|String / Provider<RegularFile>
 |None
 |Path to json configuration file. See OpenAPI Generator readme for structure details.
 
 |skipOverwrite
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |Specifies if the existing files should be overwritten during the generation.
 
 |packageName
-|String
+|String / Provider<String>
 |(generator specific)
 |Package for generated classes (where supported).
 
 |apiPackage
-|String
+|String / Provider<String>
 |(generator specific)
 |Package for generated api classes.
 
 |modelPackage
-|String
+|String / Provider<String>
 |(generator specific)
 |Package for generated model classes.
 
 |modelNamePrefix
-|String
+|String / Provider<String>
 |None
 |Prefix that will be prepended to all model names.
 
 |modelNameSuffix
-|String
+|String / Provider<String>
 |None
 |Suffix that will be appended to all model names.
 
 |apiNameSuffix
-|String
+|String / Provider<String>
 |None
 |Suffix that will be appended to all api names.
 
 |instantiationTypes
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Sets instantiation type mappings.
 
 |typeMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option. To map a specified format, use type+format, e.g. string+password=EncryptedString will map `type: string, format: password` to `EncryptedString`.
 
 |schemaMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies mappings between the schema and the new name in the format of schema_a=Cat,schema_b=Bird. https://openapi-generator.tech/docs/customization/#schema-mapping
 
 |nameMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies mappings between the property name and the new name in the format of property_a=firstProperty,property_b=secondProperty. https://openapi-generator.tech/docs/customization/#name-mapping
 
 |modelNameMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies mappings between the model name and the new name in the format of model_a=FirstModel,property_b=SecondModel. https://openapi-generator.tech/docs/customization/#name-mapping
 
 |parameterNameMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies mappings between the parameter name and the new name in the format of parameter_a=firstParameter,parameter_b=secondParameter. https://openapi-generator.tech/docs/customization/#name-mapping
 
 |inlineSchemaNameMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies mappings between the inline schema name and the new name in the format of inline_object_2=Cat,inline_object_5=Bird.
 
 |inlineSchemaOptions
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies the options used when handling inline schema in inline model resolver
 
 |additionalProperties
-|Map(String,Any)
+|Map / Provider<Map>
 |None
 |Sets additional properties that can be referenced by the mustache templates.
 
 |serverVariables
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Sets server variable for server URL template substitution, in the format of name=value,name=value. You can also have multiple occurrences of this option.
 
 |languageSpecificPrimitives
-|List(String)
+|List / Provider<List>
 |None
 |Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
 
 |importMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Specifies mappings between a given class and the import that should be used for that class.
 
 |invokerPackage
-|String
+|String / Provider<String>
 |None
 |Root package for generated code.
 
 |groupId
-|String
+|String / Provider<String>
 |None
 |GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
 
 |id
-|String
+|String / Provider<String>
 |None
 |ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
 
 |version
-|String
+|String / Provider<String>
 |None
 |Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
 
 |library
-|String
+|String / Provider<String>
 |None
 |Reference the library template (sub-template) of a generator.
 
 |gitHost
-|String
+|String / Provider<String>
 |github.com
 |Git user ID, e.g. gitlab.com.
 
 |gitUserId
-|String
+|String / Provider<String>
 |None
 |Git user ID, e.g. openapitools.
 
 |gitRepoId
-|String
+|String / Provider<String>
 |None
 |Git repo ID, e.g. openapi-generator.
 
 |releaseNote
-|String
+|String / Provider<String>
 |'Minor update'
 |Release note.
 
 |httpUserAgent
-|String
+|String / Provider<String>
 |None
 |HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |Specifies how a reserved name should be escaped to. Otherwise, the default _<name> is used.
 
 |ignoreFileOverride
-|String
+|String / Provider<RegularFile>
 |None
 |Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
 
 |removeOperationIdPrefix
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |Remove prefix of operationId, e.g. config_getId => getId.
 
 |skipOperationExample
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |Skip examples defined in the operation
 
 |apiFilesConstrainedTo
-|List(String)
+|List / Provider<List>
 |None
 |Defines which API-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
 
 |modelFilesConstrainedTo
-|List(String)
+|List / Provider<List>
 |None
 |Defines which model-related files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
 
 |supportingFilesConstrainedTo
-|List(String)
+|List / Provider<List>
 |None
 |Defines which supporting files should be generated. This allows you to create a subset of generated files (or none at all). See Note Below.
 
 |generateModelTests
-|Boolean
+|Boolean / Provider<Boolean>
 |true
 |Defines whether or not model-related _test_ files should be generated.
 
 |generateModelDocumentation
-|Boolean
+|Boolean / Provider<Boolean>
 |true
 |Defines whether or not model-related _documentation_ files should be generated.
 
 |generateApiTests
-|Boolean
+|Boolean / Provider<Boolean>
 |true
 |Defines whether or not api-related _test_ files should be generated.
 
 |generateApiDocumentation
-|Boolean
+|Boolean / Provider<Boolean>
 |true
 |Defines whether or not api-related _documentation_ files should be generated.
 
 |configOptions
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md[generators docs]. Note that any config options from a generator specific document may go here, and some generators may duplicate other options which are siblings to `configOptions`.
 
 |logToStderr
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |To write all log messages (not just errors) to STDOUT
 
 |enablePostProcessFile
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program). This only enables the post-processor. To define the post-processing command, define an environment variable such as LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target generator does not support this functionality.
 
 |skipValidateSpec
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
 
 |openapiNormalizer
-|Map(String,String)
+|Map / Provider<Map>
 |None
 |specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original.
 
 |generateAliasAsModel
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
 |engine
-|String
+|String / Provider<String>
 |mustache
 |Templating engine: "mustache" (default) or "handlebars" (beta)
 
 |cleanupOutput
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |Defines whether the output directory should be cleaned up before generating the output.
 
 |dryRun
-|Boolean
+|Boolean / Provider<Boolean>
 |false
 |Defines whether the generator should run in dry-run mode. In dry-run mode no files are written and a summary about
 file states is output.
@@ -455,22 +456,22 @@ When configuring `globalProperties` in order to perform selective generation you
 [source,groovy]
 ----
 openApiGenerate {
-    // other settings omitted
-    globalProperties.set([
-        modelDocs: "false",
-        apis: "false"
-    ])
+// other settings omitted
+globalProperties.set([
+modelDocs: "false",
+apis: "false"
+])
 }
 ----
 When enabling generation of only specific parts you either have to provide CSV list of what you particularly are generating or provide an empty string `""` to generate everything. If you provide `"true"` it will be treated as a specific name of model or api you want to generate.
 [source,groovy]
 ----
 openApiGenerate {
-    // other settings omitted
-    globalProperties.set([
-        apis: "",
-        models: "User:Pet"
-    ])
+// other settings omitted
+globalProperties.set([
+apis: "",
+models: "User:Pet"
+])
 }
 ----
 ====
@@ -482,9 +483,9 @@ openApiGenerate {
 |Key |Data Type |Default |Description
 
 |inputSpec
-|String
+|String / Provider<RegularFile>
 |None
-|The input specification to validate. Supports all formats supported by the Parser.
+|The input specification to validate. Acts as a smart router, supporting local files (with full Gradle caching) or remote URLs/URIs.
 
 |recommend
 |Boolean
@@ -680,6 +681,67 @@ Run with --stacktrace option to get the stack trace. Run with --info or --debug 
 $ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 ----
 
+=== Groovy DSL Bridge Methods
+
+Both project extensions and custom task instances provide bridge methods that allow Groovy DSL users to set file and directory properties using simple String paths. These bridge methods support both **method-style** and **property-style** syntax.
+
+==== Extension Bridge Methods (for openApiGenerate, openApiValidate, openApiMeta)
+
+When configuring project extensions like `openApiGenerate { }`, `openApiValidate { }`, or `openApiMeta { }`, Groovy DSL users can use bridge methods to set properties with String paths.
+
+.Available Extension Bridge Methods
+|===
+|Extension |Available Methods
+
+|`openApiGenerate`
+|`setInputSpec(path)`, `setOutputDir(path)`, `setTemplateDir(path)`, `setConfigFile(path)`, `setIgnoreFileOverride(path)`, `setInputSpecRootDirectory(path)`
+
+|`openApiValidate`
+|`setInputSpec(path)`
+
+|`openApiMeta`
+|`setOutputFolder(path)`
+|===
+
+.Example: Using extension bridge methods in Groovy DSL
+[source,groovy]
+----
+// Method-style syntax
+openApiGenerate {
+    generatorName.set("kotlin")
+    setInputSpec("$rootDir/specs/petstore.yaml")
+    setOutputDir("build/generated")
+    apiPackage.set("org.openapi.example.api")
+}
+
+// Property-style syntax (Groovy allows this syntactic sugar)
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    outputDir = "build/generated"
+    apiPackage.set("org.openapi.example.api")
+}
+
+// Also works with openApiValidate
+openApiValidate {
+    inputSpec = "$rootDir/specs/petstore.yaml"
+    recommend.set(true)
+}
+
+// And openApiMeta
+openApiMeta {
+    generatorName.set("MyGenerator")
+    outputFolder = "build/custom-generator"
+}
+----
+
+[IMPORTANT]
+====
+**Smart Input Routing:** The `setInputSpec()` method for extensions (and `setInputSpecAsString()` for custom tasks) automatically detects whether the provided path is a remote URL (e.g., `http://`, `https://`, `jar:`) or a local file path, and routes it to the appropriate property (`remoteInputSpec` or `inputSpec`).
+
+Additionally, when you set a local file path after previously setting a remote URL (or vice versa), the method automatically clears the conflicting property to prevent stale values from taking precedence. This ensures your configuration behaves predictably even when you change between local and remote specs.
+====
+
 === Generate multiple sources
 
 If you want to perform multiple generation tasks, you'd want to create a task that inherits from the `GenerateTask`.
@@ -715,6 +777,57 @@ task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.Gene
 }
 ```
 
+==== Custom Task Bridge Methods (AsString suffix)
+
+When creating custom task instances (as shown above), Groovy DSL users also have access to bridge methods with the `AsString` suffix. These methods provide the same functionality as the extension bridge methods.
+
+[NOTE]
+====
+**Why the "AsString" suffix?**
+
+Due to technical limitations with Gradle's abstract property getters in task classes, the bridge methods for custom tasks require the `AsString` suffix to avoid naming conflicts with Gradle's internal getter methods.
+
+- **Extensions** (e.g., `openApiGenerate { }`) use methods like `setInputSpec()`, `setOutputDir()`
+- **Custom Tasks** (e.g., `task myTask(type: GenerateTask) { }`) use methods like `setInputSpecAsString()`, `setOutputDirAsString()`
+
+Both patterns work identically for String-based property configuration in Groovy DSL.
+====
+
+.Available AsString Bridge Methods for Custom Tasks
+|===
+|Task Type |Available Methods
+
+|`GenerateTask`
+|`setInputSpecAsString(path)`, `setOutputDirAsString(path)`, `setTemplateDirAsString(path)`, `setConfigFileAsString(path)`, `setIgnoreFileOverrideAsString(path)`, `setInputSpecRootDirectoryAsString(path)`, `setSchemaLocationAsString(path)`
+
+|`ValidateTask`
+|`setInputSpecAsString(path)`
+
+|`MetaTask`
+|`setOutputFolderAsString(path)`
+|===
+
+.Example: Using AsString methods in Groovy DSL
+[source,groovy]
+----
+// Method-style syntax
+task buildCustomClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("kotlin")
+    setInputSpecAsString("$rootDir/specs/api.yaml")
+    setOutputDirAsString("build/generated/custom")
+    setTemplateDirAsString("templates/custom")
+    apiPackage.set("com.example.api")
+}
+
+// Property-style syntax (Groovy allows this syntactic sugar)
+task buildAnotherClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("java")
+    inputSpecAsString = "$rootDir/specs/another-api.yaml"
+    outputDirAsString = "build/generated/another"
+    modelPackage.set("com.example.model")
+}
+----
+
 To execute your specs, you'd then do:
 
 ```
@@ -740,6 +853,44 @@ compileJava.dependsOn buildKotlinClient, tasks.openApiGenerate
 you need a task reference or instance. One way to do this is to access it as `tasks.openApiGenerate`.
 
 You can run `gradle tasks --debug` to see this registration.
+====
+
+=== Advanced: Task Wiring and Lazy Configuration
+
+The OpenAPI Generator plugin fully supports Gradle's Provider API and Lazy Configuration. This means that if your OpenAPI spec is generated or downloaded by another Gradle task, you **do not** need to use `dependsOn` or hardcode paths in the `buildDir`.
+
+Instead of passing a static string path, simply pass the output `Provider` from your producer task directly into the generator's properties. Gradle will automatically build the task dependency graph and execute them in the correct order.
+
+.Implicit Task Wiring (Kotlin DSL)
+[source,kotlin]
+----
+// 1. A task that produces a spec file
+val downloadSpec by tasks.registering(DownloadTask::class) {
+    sourceUrl.set("https://api.mycompany.com/openapi.yaml")
+    outputFile.set(layout.buildDirectory.file("downloaded-spec.yaml"))
+}
+
+// 2. The generator task
+openApiGenerate {
+    generatorName.set("kotlin")
+
+    // Wire the output of the download task directly to the input of the generator.
+    // Gradle automatically knows `openApiGenerate` depends on `downloadSpec`.
+    inputSpec.set(downloadSpec.flatMap { it.outputFile })
+
+    outputDir.set(layout.buildDirectory.dir("generated-code"))
+}
+----
+
+[NOTE]
+====
+**Provider API vs Bridge Methods:**
+
+For optimal lazy configuration and task wiring, both Groovy and Kotlin DSL users should use `.set()` with the Provider API when possible (e.g., `inputSpec.set(downloadSpec.flatMap { it.outputFile })`).
+
+For simpler cases with static String paths, Groovy DSL users can use the convenient bridge methods:
+- Extension configuration: Use methods like `setInputSpec()`, `setOutputDir()` (see "Extension Bridge Methods" section)
+- Custom task configuration: Use methods like `setInputSpecAsString()`, `setOutputDirAsString()` (see "Custom Task Bridge Methods" section)
 ====
 
 == Troubleshooting

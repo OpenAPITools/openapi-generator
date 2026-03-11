@@ -23,19 +23,19 @@ apply plugin: 'org.openapi.generator'
 openApiMeta {
     generatorName = "Sample"
     packageName = "org.openapitools.example"
-    outputFolder = layout.buildDirectory.dir("meta").get().asFile.toString()
+    outputFolder = layout.buildDirectory.dir("meta")
 }
 
 openApiValidate {
-    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0-invalid.yaml")
     recommend = true
 }
 
 // Builds a Kotlin client by default.
 openApiGenerate {
     generatorName = "kotlin"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = layout.buildDirectory.dir("kotlin").get().asFile.toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
+    outputDir = layout.buildDirectory.dir("kotlin")
     apiPackage = "org.openapitools.example.api"
     invokerPackage = "org.openapitools.example.invoker"
     modelPackage = "org.openapitools.example.model"
@@ -54,11 +54,11 @@ openApiGenerate {
     enablePostProcessFile = false
 }
 
-task buildJavaResttemplateSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+tasks.register('buildJavaResttemplateSdk', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName = "java"
     library = "resttemplate"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
-    outputDir = layout.buildDirectory.dir("java-resttemplate-api-client").get().asFile.toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
+    outputDir = layout.buildDirectory.dir("java-resttemplate-api-client")
     apiPackage = "com.example.client"
     invokerPackage = "com.example.invoker"
     modelPackage = "com.example.cdm"
@@ -73,51 +73,51 @@ task buildJavaResttemplateSdk(type: org.openapitools.generator.gradle.plugin.tas
     enablePostProcessFile = false
 }
 
-task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+tasks.register('buildGoSdk', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName = "go"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
     additionalProperties = [
             packageName: "petstore"
     ]
-    outputDir = layout.buildDirectory.dir("go").get().asFile.toString()
+    outputDir = layout.buildDirectory.dir("go")
     configOptions = [
             dateLibrary: "threetenp"
     ]
 }
 
-task buildDotnetSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+tasks.register('buildDotnetSdk', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     generatorName = "csharp"
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
     additionalProperties = [
-            packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
+            packageGuid         : "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}",
             useCompareNetObjects: "true"
     ]
-    outputDir = layout.buildDirectory.dir("csharp").get().asFile.toString()
+    outputDir = layout.buildDirectory.dir("csharp")
     globalProperties = [
             models: "",
             apis  : "",
     ]
 }
 
-task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+tasks.register('generateGoWithInvalidSpec', org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
     validateSpec = true
     generatorName = "go"
-    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    inputSpec = layout.projectDirectory.file("petstore-v3.0-invalid.yaml")
     additionalProperties = [
             packageName: "petstore"
     ]
-    outputDir = layout.buildDirectory.dir("go").get().asFile.toString()
+    outputDir = layout.buildDirectory.dir("go")
     configOptions = [
             dateLibrary: "threetenp"
     ]
 }
 
-task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
-    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+def validateGoodSpec = tasks.register('validateGoodSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+    inputSpec = layout.projectDirectory.file("petstore-v3.0.yaml")
 }
 
-task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
-    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+def validateBadSpec = tasks.register('validateBadSpec', org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
+    inputSpec = layout.projectDirectory.file("petstore-v3.0-invalid.yaml")
 }
 
-task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+tasks.register('validateSpecs') { dependsOn validateGoodSpec, validateBadSpec }
