@@ -2644,6 +2644,7 @@ namespace Org.OpenAPITools.Api
                     if (file.IsSet)
                     {
                         var streamContentLocalVar = new StreamContent(file.Value.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(file.Value.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "file", file.Value.FileName ?? "file");
                     }
 
@@ -2931,6 +2932,7 @@ namespace Org.OpenAPITools.Api
 
                     {
                         var streamContentLocalVar = new StreamContent(requiredFile.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(requiredFile.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "requiredFile", requiredFile.FileName ?? "requiredFile");
                     }
 
@@ -3213,6 +3215,7 @@ namespace Org.OpenAPITools.Api
                     foreach (Org.OpenAPITools.Client.FileParameter fileParameterLocalVar in files)
                     {
                         var streamContentLocalVar = new StreamContent(fileParameterLocalVar.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(fileParameterLocalVar.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "files", fileParameterLocalVar.FileName ?? "files");
                     }
 

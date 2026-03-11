@@ -30,14 +30,22 @@ namespace Org.OpenAPITools.Client
         public string? FileName { get; }
 
         /// <summary>
+        /// The MIME type sent in the Content-Type header of the part.
+        /// Defaults to <c>application/octet-stream</c>.
+        /// </summary>
+        public string ContentType { get; }
+
+        /// <summary>
         /// Creates a new <see cref="FileParameter"/>.
         /// </summary>
         /// <param name="content">The file content stream.</param>
         /// <param name="fileName">Optional filename for the Content-Disposition header.</param>
-        public FileParameter(global::System.IO.Stream content, string? fileName = null)
+        /// <param name="contentType">Optional MIME type for the Content-Type header of the part. Defaults to <c>application/octet-stream</c>.</param>
+        public FileParameter(global::System.IO.Stream content, string? fileName = null, string contentType = "application/octet-stream")
         {
             Content = content;
             FileName = fileName;
+            ContentType = contentType;
         }
     }
 }

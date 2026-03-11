@@ -510,6 +510,7 @@ namespace {{packageName}}.{{apiPackage}}
                     foreach ({{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar in {{paramName}})
                     {
                         var streamContentLocalVar = new StreamContent(fileParameterLocalVar.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(fileParameterLocalVar.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", fileParameterLocalVar.FileName ?? "{{baseName}}");
                     }
 
@@ -517,6 +518,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{^isContainer}}
                     {
                         var streamContentLocalVar = new StreamContent({{paramName}}.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue({{paramName}}.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.FileName ?? "{{baseName}}");
                     }
 
@@ -529,11 +531,13 @@ namespace {{packageName}}.{{apiPackage}}
                         foreach ({{packageName}}.{{clientPackage}}.FileParameter fileParameterLocalVar in {{paramName}}.Value)
                         {
                             var streamContentLocalVar = new StreamContent(fileParameterLocalVar.Content);
+                            streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(fileParameterLocalVar.ContentType);
                             multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", fileParameterLocalVar.FileName ?? "{{baseName}}");
                         }
                         {{/isContainer}}
                         {{^isContainer}}
                         var streamContentLocalVar = new StreamContent({{paramName}}.Value.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue({{paramName}}.Value.ContentType);
                         multipartContentLocalVar.Add(streamContentLocalVar, "{{baseName}}", {{paramName}}.Value.FileName ?? "{{baseName}}");
                         {{/isContainer}}
                     }
