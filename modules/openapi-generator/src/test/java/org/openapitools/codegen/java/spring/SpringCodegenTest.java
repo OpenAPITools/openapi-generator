@@ -28,6 +28,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.MapAssert;
+import org.junit.jupiter.api.DisplayName;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -6637,4 +6638,33 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
+
+  @Test
+  @DisplayName("Testing Issue #23206: Support JSpecify with SchemaMappings")
+  public void testIssue23206() throws IOException {
+    final SpringCodegen codegen = new SpringCodegen();
+
+    codegen.setLibrary("spring-boot");
+
+    codegen.importMapping().put("org.springframework.lang.Nullable", "org.jspecify.annotations.Nullable");
+    codegen.schemaMapping().put("PersonCountValue", "a.b.c.PersonCountValue");
+
+    codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+    codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+    codegen.additionalProperties().put(USE_SPRING_BOOT4, "true");
+    codegen.additionalProperties().put(USE_JACKSON_3, "true");
+    codegen.additionalProperties().put(USE_TAGS, "true");
+    codegen.additionalProperties().put(USE_BEANVALIDATION, "false");
+
+    final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/issue_23206.yaml");
+    final var javaFileAssert = JavaFileAssert.assertThat(files.get("MyDto.java"));
+
+    javaFileAssert
+        .hasImports("org.jspecify.annotations.Nullable")
+        .assertProperty("men");
+
+    // Should Fail without any changes to the mustache templates!
+    javaFileAssert.fileContains("private a.b.c.@Nullable PersonCountValue men;"); // Actual: private @Nullable a.b.c.PersonCountValue men;
+    javaFileAssert.fileContains("private a.b.c.@Nullable PersonCountValue women;"); // Actual: private @Nullable a.b.c.PersonCountValue women;
+  }
 }
