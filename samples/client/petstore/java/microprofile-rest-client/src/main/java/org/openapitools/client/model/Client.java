@@ -32,7 +32,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Client  {
   
   @JsonbProperty("client")
-  private String client;
+  protected String client;
 
 
   /**

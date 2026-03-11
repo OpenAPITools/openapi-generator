@@ -39,7 +39,7 @@ public class MapTest  {
   
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  protected Map<String, Map<String, String>> mapMapOfString = null;
 
   public enum InnerEnum {
 
@@ -75,15 +75,15 @@ public class MapTest  {
 
   public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
   
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  protected Map<String, InnerEnum> mapOfEnumString = null;
 
   public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
   
-  private Map<String, Boolean> directMap = null;
+  protected Map<String, Boolean> directMap = null;
 
   public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
   
-  private Map<String, Boolean> indirectMap = null;
+  protected Map<String, Boolean> indirectMap = null;
 
 
   /**

@@ -52,19 +52,19 @@ public class Order  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_PET_ID = "petId";
   @XmlElement(name = "petId")
-  private Long petId;
+  protected Long petId;
 
   public static final String JSON_PROPERTY_QUANTITY = "quantity";
   @XmlElement(name = "quantity")
-  private Integer quantity;
+  protected Integer quantity;
 
   public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   @XmlElement(name = "shipDate")
-  private Date shipDate;
+  protected Date shipDate;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -104,11 +104,11 @@ public class Order  {
  /**
   * Order Status
   */
-  private StatusEnum status;
+  protected StatusEnum status;
 
   public static final String JSON_PROPERTY_COMPLETE = "complete";
   @XmlElement(name = "complete")
-  private Boolean complete = false;
+  protected Boolean complete = false;
 
 
   /**

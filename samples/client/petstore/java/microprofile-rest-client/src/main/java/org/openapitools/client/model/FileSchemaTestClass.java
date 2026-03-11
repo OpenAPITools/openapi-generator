@@ -36,10 +36,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class FileSchemaTestClass  {
   
   @JsonbProperty("file")
-  private ModelFile _file;
+  protected ModelFile _file;
 
   @JsonbProperty("files")
-  private List<ModelFile> files = null;
+  protected List<ModelFile> files = null;
 
 
   /**

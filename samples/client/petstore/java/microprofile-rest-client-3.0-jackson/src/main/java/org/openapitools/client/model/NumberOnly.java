@@ -35,7 +35,7 @@ public class NumberOnly  {
   
   public static final String JSON_PROPERTY_JUST_NUMBER = "JustNumber";
   
-  private BigDecimal justNumber;
+  protected BigDecimal justNumber;
 
 
   /**

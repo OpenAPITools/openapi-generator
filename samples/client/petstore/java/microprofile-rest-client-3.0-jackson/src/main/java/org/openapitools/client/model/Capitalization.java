@@ -39,30 +39,30 @@ public class Capitalization  {
   
   public static final String JSON_PROPERTY_SMALL_CAMEL = "smallCamel";
   
-  private String smallCamel;
+  protected String smallCamel;
 
   public static final String JSON_PROPERTY_CAPITAL_CAMEL = "CapitalCamel";
   
-  private String capitalCamel;
+  protected String capitalCamel;
 
   public static final String JSON_PROPERTY_SMALL_SNAKE = "small_Snake";
   
-  private String smallSnake;
+  protected String smallSnake;
 
   public static final String JSON_PROPERTY_CAPITAL_SNAKE = "Capital_Snake";
   
-  private String capitalSnake;
+  protected String capitalSnake;
 
   public static final String JSON_PROPERTY_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   
-  private String scAETHFlowPoints;
+  protected String scAETHFlowPoints;
 
   public static final String JSON_PROPERTY_A_T_T_N_A_M_E = "ATT_NAME";
  /**
   * Name of the pet 
   */
   
-  private String ATT_NAME;
+  protected String ATT_NAME;
 
 
   /**
