@@ -9,7 +9,7 @@ import (
 	"github.com/go-resty/resty/v2"
 
 {{#appTags}}
-    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/{{apiPackage}}/{{name}}"
+    "github.com/{{gitUserId}}/{{gitRepoId}}/{{#packagePath}}{{.}}/{{/packagePath}}{{packageName}}/{{apiPackage}}/{{#lambda.to-package}}{{name}}{{/lambda.to-package}}"
 {{/appTags}}
 )
 
@@ -83,7 +83,7 @@ func New(c *RestyConfig) *APIClient {
 
 	return &APIClient{
 {{#appTags}}
-        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{name}}.New(client),
+        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{#lambda.to-package}}{{name}}{{/lambda.to-package}}.New(client),
 {{/appTags}}
 	}
 }
@@ -91,13 +91,13 @@ func New(c *RestyConfig) *APIClient {
 func NewWithClient(client *resty.Client) *APIClient {
 	return &APIClient{
 {{#appTags}}
-        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{name}}.New(client),
+        {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}: {{#lambda.to-package}}{{name}}{{/lambda.to-package}}.New(client),
 {{/appTags}}
 	}
 }
 
 type APIClient struct {
 {{#appTags}}
-    {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}} *{{name}}.API
+    {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}} *{{#lambda.to-package}}{{name}}{{/lambda.to-package}}.API
 {{/appTags}}
 }

@@ -49,11 +49,16 @@ public class GoRestyClient extends GoGinServer2Codegen {
     public void processOpts() {
         super.processOpts();
         additionalProperties.put("lambda.append-package", (Mustache.Lambda) (fragment, writer) -> writer.write(appendPackage(fragment.execute())));
+        additionalProperties.put("lambda.to-package", (Mustache.Lambda) (fragment, writer) -> writer.write(toPackage(fragment.execute())));
         additionalProperties.put("goHttpStatus", new GoHttpStatusLambda());
         additionalProperties.put("goHttpStatusName", new HttpStatusNameLambda());
     }
 
     private String appendPackage(String content) {
         return content.trim().replace("[]", "[]models.");
+    }
+
+    private String toPackage(String content) {
+        return content.trim().replace("-", "").toLowerCase();
     }
 }
