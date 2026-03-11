@@ -414,6 +414,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         super.processOpts();
 
         if (SPRING_HTTP_INTERFACE.equals(library)) {
+            if (documentationProvider != null) {
+                additionalProperties.remove(documentationProvider.getPropertyName());
+            }
+            if (annotationLibrary != null) {
+                additionalProperties.remove(annotationLibrary.getPropertyName());
+            }
             documentationProvider = DocumentationProvider.NONE;
             annotationLibrary = AnnotationLibrary.NONE;
             useJakartaEe = true;
@@ -491,7 +497,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(RETURN_SUCCESS_CODE, this::setReturnSuccessCode);
         convertPropertyToBooleanAndWriteBack(USE_SWAGGER_UI, this::setUseSwaggerUI);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
-        if (getDocumentationProvider().equals(DocumentationProvider.NONE)) {
+        if (DocumentationProvider.NONE.equals(getDocumentationProvider())) {
             this.setUseSwaggerUI(false);
         }
 
