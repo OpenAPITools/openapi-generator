@@ -39,58 +39,58 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class FormatTest  {
   
   @JsonbProperty("integer")
-  private Integer integer;
+  protected Integer integer;
 
   @JsonbProperty("int32")
-  private Integer int32;
+  protected Integer int32;
 
   @JsonbProperty("int64")
-  private Long int64;
+  protected Long int64;
 
   @JsonbProperty("number")
-  private BigDecimal number;
+  protected BigDecimal number;
 
   @JsonbProperty("float")
-  private Float _float;
+  protected Float _float;
 
   @JsonbProperty("double")
-  private Double _double;
+  protected Double _double;
 
   @JsonbProperty("decimal")
-  private BigDecimal decimal;
+  protected BigDecimal decimal;
 
   @JsonbProperty("string")
-  private String string;
+  protected String string;
 
   @JsonbProperty("byte")
-  private byte[] _byte;
+  protected byte[] _byte;
 
   @JsonbProperty("binary")
-  private File binary;
+  protected File binary;
 
   @JsonbProperty("date")
-  private Date date;
+  protected Date date;
 
   @JsonbProperty("dateTime")
-  private Date dateTime;
+  protected Date dateTime;
 
   @JsonbProperty("uuid")
-  private UUID uuid;
+  protected UUID uuid;
 
   @JsonbProperty("password")
-  private String password;
+  protected String password;
 
  /**
   * A string that is a 10 digit number. Can have leading zeros.
   */
   @JsonbProperty("pattern_with_digits")
-  private String patternWithDigits;
+  protected String patternWithDigits;
 
  /**
   * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
   */
   @JsonbProperty("pattern_with_digits_and_delimiter")
-  private String patternWithDigitsAndDelimiter;
+  protected String patternWithDigitsAndDelimiter;
 
 
   /**

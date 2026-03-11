@@ -39,11 +39,11 @@ public class Model200Response  {
   
   public static final String JSON_PROPERTY_NAME = "name";
   
-  private Integer name;
+  protected Integer name;
 
   public static final String JSON_PROPERTY_PROPERTY_CLASS = "class";
   
-  private String propertyClass;
+  protected String propertyClass;
 
 
   /**

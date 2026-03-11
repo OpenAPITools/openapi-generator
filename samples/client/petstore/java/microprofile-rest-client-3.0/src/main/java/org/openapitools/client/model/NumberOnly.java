@@ -36,7 +36,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class NumberOnly  {
   
   @JsonbProperty("JustNumber")
-  private BigDecimal justNumber;
+  protected BigDecimal justNumber;
 
 
   /**

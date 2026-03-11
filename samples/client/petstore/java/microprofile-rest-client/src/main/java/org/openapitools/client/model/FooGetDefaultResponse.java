@@ -33,7 +33,7 @@ import javax.json.bind.annotation.JsonbCreator;
 public class FooGetDefaultResponse  {
   
   @JsonbProperty("string")
-  private Foo string;
+  protected Foo string;
 
 
   /**

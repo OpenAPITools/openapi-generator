@@ -38,7 +38,7 @@ public class ModelFile  {
   * Test capitalization
   */
   @JsonbProperty("sourceURI")
-  private String sourceURI;
+  protected String sourceURI;
 
 
   /**

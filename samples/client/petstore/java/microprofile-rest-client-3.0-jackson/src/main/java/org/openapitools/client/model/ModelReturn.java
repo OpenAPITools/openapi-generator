@@ -38,7 +38,7 @@ public class ModelReturn  {
   
   public static final String JSON_PROPERTY_RETURN = "return";
   
-  private Integer _return;
+  protected Integer _return;
 
 
   /**

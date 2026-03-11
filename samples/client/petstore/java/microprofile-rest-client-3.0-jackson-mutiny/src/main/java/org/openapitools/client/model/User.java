@@ -42,38 +42,38 @@ public class User  {
   
   public static final String JSON_PROPERTY_ID = "id";
   
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
   
-  private String username;
+  protected String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   
-  private String firstName;
+  protected String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   
-  private String lastName;
+  protected String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
   
-  private String email;
+  protected String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   
-  private String password;
+  protected String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
   
-  private String phone;
+  protected String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
  /**
   * User Status
   */
   
-  private Integer userStatus;
+  protected Integer userStatus;
 
 
   /**

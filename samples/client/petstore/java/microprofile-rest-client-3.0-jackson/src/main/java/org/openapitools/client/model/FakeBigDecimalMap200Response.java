@@ -39,11 +39,11 @@ public class FakeBigDecimalMap200Response  {
   
   public static final String JSON_PROPERTY_SOME_ID = "someId";
   
-  private BigDecimal someId;
+  protected BigDecimal someId;
 
   public static final String JSON_PROPERTY_SOME_MAP = "someMap";
   
-  private Map<String, BigDecimal> someMap = null;
+  protected Map<String, BigDecimal> someMap = null;
 
 
   /**

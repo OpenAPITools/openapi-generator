@@ -34,7 +34,7 @@ public class Client  {
   
   public static final String JSON_PROPERTY_CLIENT = "client";
   
-  private String client;
+  protected String client;
 
 
   /**

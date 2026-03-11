@@ -35,16 +35,16 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Name  {
   
   @JsonbProperty("name")
-  private Integer name;
+  protected Integer name;
 
   @JsonbProperty("snake_case")
-  private Integer snakeCase;
+  protected Integer snakeCase;
 
   @JsonbProperty("property")
-  private String property;
+  protected String property;
 
   @JsonbProperty("123Number")
-  private Integer _123number;
+  protected Integer _123number;
 
 
   public Name() {
