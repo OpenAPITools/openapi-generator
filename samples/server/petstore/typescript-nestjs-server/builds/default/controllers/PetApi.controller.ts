@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Post, Put, Param, Query, Req } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Post, Put, Param, ParseIntPipe, ParseFloatPipe, Query, Req } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { Cookies, Headers } from '../decorators';
 import { PetApi } from '../api';
 import { ApiResponse, Pet,  } from '../models';
 
@@ -13,7 +14,7 @@ export class PetApiController {
   }
 
   @Delete('/pet/:petId')
-  deletePet(@Param('petId') petId: number, apiKey: string, @Req() request: Request): void | Promise<void> | Observable<void> {
+  deletePet(@Param('petId') petId: number, @Headers('api_key') apiKey: string | undefined, @Req() request: Request): void | Promise<void> | Observable<void> {
     return this.petApi.deletePet(petId, apiKey, request);
   }
 
@@ -38,12 +39,12 @@ export class PetApiController {
   }
 
   @Post('/pet/:petId')
-  updatePetWithForm(@Param('petId') petId: number, name: string, status: string, @Req() request: Request): void | Promise<void> | Observable<void> {
+  updatePetWithForm(@Param('petId') petId: number, name: string | undefined, status: string | undefined, @Req() request: Request): void | Promise<void> | Observable<void> {
     return this.petApi.updatePetWithForm(petId, name, status, request);
   }
 
   @Post('/pet/:petId/uploadImage')
-  uploadFile(@Param('petId') petId: number, additionalMetadata: string, file: Blob, @Req() request: Request): ApiResponse | Promise<ApiResponse> | Observable<ApiResponse> {
+  uploadFile(@Param('petId') petId: number, additionalMetadata: string | undefined, file: Blob | undefined, @Req() request: Request): ApiResponse | Promise<ApiResponse> | Observable<ApiResponse> {
     return this.petApi.uploadFile(petId, additionalMetadata, file, request);
   }
 

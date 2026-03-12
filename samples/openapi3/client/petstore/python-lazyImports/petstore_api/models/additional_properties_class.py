@@ -19,8 +19,10 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from petstore_api.models.pet import Pet
 from typing import Optional, Set
 from typing_extensions import Self
+from pydantic_core import to_jsonable_python
 
 class AdditionalPropertiesClass(BaseModel):
     """
@@ -28,8 +30,9 @@ class AdditionalPropertiesClass(BaseModel):
     """ # noqa: E501
     map_property: Optional[Dict[str, StrictStr]] = None
     map_of_map_property: Optional[Dict[str, Dict[str, StrictStr]]] = None
+    map_of_map_non_primitive_property: Optional[Dict[str, Dict[str, Pet]]] = None
     additional_properties: Dict[str, Any] = {}
-    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property"]
+    __properties: ClassVar[List[str]] = ["map_property", "map_of_map_property", "map_of_map_non_primitive_property"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -45,8 +48,7 @@ class AdditionalPropertiesClass(BaseModel):
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+        return json.dumps(to_jsonable_python(self.to_dict()))
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
@@ -73,6 +75,15 @@ class AdditionalPropertiesClass(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each value in map_of_map_non_primitive_property (dict of dict)
+        _field_dict_of_dict = {}
+        if self.map_of_map_non_primitive_property:
+            for _key_map_of_map_non_primitive_property, _value_map_of_map_non_primitive_property in self.map_of_map_non_primitive_property.items():
+                if _value_map_of_map_non_primitive_property is not None:
+                    _field_dict_of_dict[_key_map_of_map_non_primitive_property] = {
+                        _key: _value.to_dict() for _key, _value in _value_map_of_map_non_primitive_property.items()
+                    }
+            _dict['map_of_map_non_primitive_property'] = _field_dict_of_dict
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -91,7 +102,19 @@ class AdditionalPropertiesClass(BaseModel):
 
         _obj = cls.model_validate({
             "map_property": obj.get("map_property"),
-            "map_of_map_property": obj.get("map_of_map_property")
+            "map_of_map_property": obj.get("map_of_map_property"),
+            "map_of_map_non_primitive_property": dict(
+                (_k, dict(
+                    (_ik, Pet.from_dict(_iv))
+                        for _ik, _iv in _v.items()
+                    )
+                    if _v is not None
+                    else None
+                )
+                for _k, _v in obj["map_of_map_non_primitive_property"].items()
+            )
+            if obj.get("map_of_map_non_primitive_property") is not None
+            else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

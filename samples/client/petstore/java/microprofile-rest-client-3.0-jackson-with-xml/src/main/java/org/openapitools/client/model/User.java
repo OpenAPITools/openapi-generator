@@ -53,38 +53,38 @@ public class User  {
   
   public static final String JSON_PROPERTY_ID = "id";
   @XmlElement(name = "id")
-  private Long id;
+  protected Long id;
 
   public static final String JSON_PROPERTY_USERNAME = "username";
   @XmlElement(name = "username")
-  private String username;
+  protected String username;
 
   public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   @XmlElement(name = "firstName")
-  private String firstName;
+  protected String firstName;
 
   public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   @XmlElement(name = "lastName")
-  private String lastName;
+  protected String lastName;
 
   public static final String JSON_PROPERTY_EMAIL = "email";
   @XmlElement(name = "email")
-  private String email;
+  protected String email;
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   @XmlElement(name = "password")
-  private String password;
+  protected String password;
 
   public static final String JSON_PROPERTY_PHONE = "phone";
   @XmlElement(name = "phone")
-  private String phone;
+  protected String phone;
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   @XmlElement(name = "userStatus")
  /**
   * User Status
   */
-  private Integer userStatus;
+  protected Integer userStatus;
 
 
   /**

@@ -2,6 +2,8 @@
 
 Usage: The generated output is intended to be its own module, that can be imported into your NestJS App Module. You do not need to change generated files, just import the module and implement the API
 
+Currently, only Express is supported.
+
 Example usage (with the openapi sample `petstore.yaml`):
 
 1. Invoke openapi-generator
@@ -28,7 +30,7 @@ Example usage (with the openapi sample `petstore.yaml`):
    
    ...
    ```
-3. Import the generated `ApiModule` with `ApiModule.forRoot` and provide a instance of `ApiImplementations` with a reference to your implementation  
+3. Import the generated `ApiModule` with `ApiModule.forRoot` and provide an instance of `ApiImplementations` with a reference to your implementation  
    `app.module.ts`
    ```typescript
    import { Module } from "@nestjs/common";
@@ -45,7 +47,12 @@ Example usage (with the openapi sample `petstore.yaml`):
    
    @Module({
      imports: [
-       ApiModule.forRoot(apiImplementations),
+       ApiModule.forRoot({
+         apiImplementations: apiImplementations,
+         providers: [
+           // additional providers for services injected into apiImplementations
+         ]
+   }),
      ],
      controllers: [],
      providers: [],
@@ -54,3 +61,21 @@ Example usage (with the openapi sample `petstore.yaml`):
    ```
 
 You now can regenerate the API module as often as you want without overriding your implementation.
+
+## Using Cookie parameters
+
+In order for cookie parameters to work, the framework specific cookie middleware must be enabled.
+
+For Express, the [cookie-parser](https://www.npmjs.com/package/cookie-parser) middleware must be installed and enabled.
+
+```
+npm install cookie-parser
+```
+
+in  `main.ts`
+
+```
+import * as cookieParser from 'cookie-parser';
+
+app.use(cookieParser());
+```

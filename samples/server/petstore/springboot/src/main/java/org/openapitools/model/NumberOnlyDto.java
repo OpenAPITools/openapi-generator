@@ -44,6 +44,7 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }

@@ -6592,7 +6592,6 @@ public class SpringCodegenTest {
         codegen.setOpenAPI(openAPI);
         codegen.setOutputDir(output.getAbsolutePath());
 
-
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_BOOT4, "true");
         codegen.additionalProperties().put(SpringCodegen.USE_JACKSON_3, "true");
         codegen.additionalProperties().put(SpringCodegen.OPENAPI_NULLABLE, "false");
@@ -6611,4 +6610,31 @@ public class SpringCodegenTest {
                 .hasImports("tools.jackson.databind.annotation.JsonDeserialize");
     }
 
+    @Test
+    public void shouldNotHaveDocumentationAnnotationWhenUsingLibrarySpringHttpInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setLibrary(SPRING_HTTP_INTERFACE);
+        codegen.setAnnotationLibrary(AnnotationLibrary.SWAGGER2);
+        codegen.setDocumentationProvider(DocumentationProvider.SPRINGDOC);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false); // skip metadata generation
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
+                .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
+    }
 }

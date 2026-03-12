@@ -49,15 +49,15 @@ public class ModelApiResponse  {
   
   public static final String JSON_PROPERTY_CODE = "code";
   @XmlElement(name = "code")
-  private Integer code;
+  protected Integer code;
 
   public static final String JSON_PROPERTY_TYPE = "type";
   @XmlElement(name = "type")
-  private String type;
+  protected String type;
 
   public static final String JSON_PROPERTY_MESSAGE = "message";
   @XmlElement(name = "message")
-  private String message;
+  protected String message;
 
 
   /**

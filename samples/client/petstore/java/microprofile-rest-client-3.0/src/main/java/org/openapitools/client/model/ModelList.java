@@ -35,7 +35,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class ModelList  {
   
   @JsonbProperty("123-list")
-  private String _123list;
+  protected String _123list;
 
 
   /**

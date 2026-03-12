@@ -36,7 +36,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Cat extends Animal {
   
   @JsonbProperty("declawed")
-  private Boolean declawed;
+  protected Boolean declawed;
 
 
   /**

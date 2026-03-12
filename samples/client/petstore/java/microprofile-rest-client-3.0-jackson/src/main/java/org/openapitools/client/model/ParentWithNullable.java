@@ -79,11 +79,11 @@ public class ParentWithNullable  {
 
   public static final String JSON_PROPERTY_TYPE = "type";
   
-  private TypeEnum type;
+  protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
   
-  private String nullableProperty;
+  protected String nullableProperty;
 
 
   /**

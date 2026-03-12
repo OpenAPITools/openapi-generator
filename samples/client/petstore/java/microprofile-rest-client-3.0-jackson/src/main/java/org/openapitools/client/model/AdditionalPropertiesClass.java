@@ -37,11 +37,11 @@ public class AdditionalPropertiesClass  {
   
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   
-  private Map<String, String> mapProperty = null;
+  protected Map<String, String> mapProperty = null;
 
   public static final String JSON_PROPERTY_MAP_OF_MAP_PROPERTY = "map_of_map_property";
   
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  protected Map<String, Map<String, String>> mapOfMapProperty = null;
 
 
   /**

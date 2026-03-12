@@ -35,10 +35,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Category  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
 
   /**

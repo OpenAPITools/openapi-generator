@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
+      - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
@@ -14,6 +15,7 @@ on:
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
+      - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
@@ -31,6 +33,8 @@ jobs:
         sample:
           # clients
           - samples/client/petstore/java/resttemplate-jakarta
+          - samples/client/petstore/java/resttemplate-springBoot4-jackson2
+          - samples/client/petstore/java/resttemplate-springBoot4-jackson3
           - samples/client/petstore/java/webclient-jakarta
           - samples/client/petstore/java/restclient
           - samples/client/petstore/java/restclient-nullable-arrays
@@ -42,6 +46,7 @@ jobs:
           - samples/client/petstore/java/native-jackson3
           - samples/client/others/java/webclient-sealedInterface
           - samples/client/others/java/webclient-sealedInterface_3_1
+          - samples/client/petstore/java/webclient-springBoot4-jackson3
           - samples/client/petstore/java/webclient-useSingleRequestParameter
           - samples/client/others/java/restclient-enum-in-multipart
     steps:

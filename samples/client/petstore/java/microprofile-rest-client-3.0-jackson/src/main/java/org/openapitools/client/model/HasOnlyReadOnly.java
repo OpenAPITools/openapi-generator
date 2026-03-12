@@ -36,11 +36,11 @@ public class HasOnlyReadOnly  {
   
   public static final String JSON_PROPERTY_BAR = "bar";
   
-  private String bar;
+  protected String bar;
 
   public static final String JSON_PROPERTY_FOO = "foo";
   
-  private String foo;
+  protected String foo;
 
 
   public HasOnlyReadOnly() {

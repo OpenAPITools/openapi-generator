@@ -109,6 +109,7 @@ public class Pet {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable Long id) {
     this.id = id;
   }
@@ -129,6 +130,7 @@ public class Pet {
     return category;
   }
 
+  @JsonProperty("category")
   public void setCategory(@Nullable Category category) {
     this.category = category;
   }
@@ -149,6 +151,7 @@ public class Pet {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(JsonNullable<String> name) {
     this.name = name;
   }
@@ -173,8 +176,8 @@ public class Pet {
    */
   @NotNull 
   @Schema(name = "photoUrls", deprecated = true, requiredMode = Schema.RequiredMode.REQUIRED)
-  @JsonProperty("photoUrls")
   @Deprecated
+  @JsonProperty("photoUrls")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -183,6 +186,7 @@ public class Pet {
    * @deprecated
    */
   @Deprecated
+  @JsonProperty("photoUrls")
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
@@ -211,6 +215,7 @@ public class Pet {
     return tags;
   }
 
+  @JsonProperty("tags")
   public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
@@ -231,6 +236,7 @@ public class Pet {
     return status;
   }
 
+  @JsonProperty("status")
   public void setStatus(@Nullable StatusEnum status) {
     this.status = status;
   }

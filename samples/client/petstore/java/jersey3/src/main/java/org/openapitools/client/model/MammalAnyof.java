@@ -95,7 +95,7 @@ public class MammalAnyof extends AbstractOpenApiSchema {
 
         @Override
         public MammalAnyof deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
 
             Object deserialized = null;
             Class<?> cls = JSON.getClassForElement(tree, new MammalAnyof().getClass());

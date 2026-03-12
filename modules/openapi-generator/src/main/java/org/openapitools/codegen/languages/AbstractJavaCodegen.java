@@ -1769,8 +1769,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     innerExample = p.items.defaultValue;
                 }
                 example = "Arrays.asList(" + innerExample + ")";
+                if (p.uniqueItems) {
+                    example = "new LinkedHashSet<>(" + example + ")";
+                }
             } else {
-                example = "Arrays.asList()";
+                if (p.uniqueItems) {
+                    example = "new LinkedHashSet<>()";
+                }
+                else {
+                    example = "Arrays.asList()";
+                }
             }
         } else if (Boolean.TRUE.equals(p.isMap)) {
             example = "new HashMap()";

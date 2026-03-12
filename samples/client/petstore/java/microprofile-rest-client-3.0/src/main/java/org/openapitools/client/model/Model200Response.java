@@ -38,10 +38,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Model200Response  {
   
   @JsonbProperty("name")
-  private Integer name;
+  protected Integer name;
 
   @JsonbProperty("class")
-  private String propertyClass;
+  protected String propertyClass;
 
 
   /**

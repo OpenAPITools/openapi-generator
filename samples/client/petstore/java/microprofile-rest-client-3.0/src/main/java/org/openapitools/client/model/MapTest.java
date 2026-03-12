@@ -37,7 +37,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class MapTest  {
   
   @JsonbProperty("map_map_of_string")
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  protected Map<String, Map<String, String>> mapMapOfString = null;
 
   @JsonbTypeSerializer(InnerEnum.Serializer.class)
   @JsonbTypeDeserializer(InnerEnum.Deserializer.class)
@@ -82,13 +82,13 @@ public class MapTest  {
   }
 
   @JsonbProperty("map_of_enum_string")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  protected Map<String, InnerEnum> mapOfEnumString = null;
 
   @JsonbProperty("direct_map")
-  private Map<String, Boolean> directMap = null;
+  protected Map<String, Boolean> directMap = null;
 
   @JsonbProperty("indirect_map")
-  private Map<String, Boolean> indirectMap = null;
+  protected Map<String, Boolean> indirectMap = null;
 
 
   /**

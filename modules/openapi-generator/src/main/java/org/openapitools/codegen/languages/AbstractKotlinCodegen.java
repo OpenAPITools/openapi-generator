@@ -56,6 +56,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
+    public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
+    public static final String JACKSON3_PACKAGE = "tools.jackson";
+    public static final String JACKSON_PACKAGE = "jacksonPackage";
     public static final String SCHEMA_IMPLEMENTS = "schemaImplements";
     public static final String SCHEMA_IMPLEMENTS_FIELDS = "schemaImplementsFields";
     public static final String X_KOTLIN_IMPLEMENTS_SKIP = "xKotlinImplementsSkip";
@@ -80,6 +84,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean serializableModel = false;
 
     @Setter protected boolean useJakartaEe = false;
+    @Getter @Setter protected boolean useJackson3 = false;
 
     @Setter protected boolean nonPublicApi = false;
 
@@ -569,6 +574,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else {
             applyJavaxPackage();
         }
+
+        if (additionalProperties.containsKey(USE_JACKSON_3)) {
+            setUseJackson3(Boolean.parseBoolean(additionalProperties.get(USE_JACKSON_3).toString()));
+        }
+        additionalProperties.put(USE_JACKSON_3, useJackson3);
+
+        if (useJackson3) {
+            applyJackson3Package();
+        } else {
+            applyJackson2Package();
+        }
     }
 
     protected boolean isModelMutable() {
@@ -842,6 +858,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected void applyJakartaPackage() {
         writePropertyBack(JAVAX_PACKAGE, "jakarta");
+    }
+
+    protected void applyJackson2Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON2_PACKAGE);
+    }
+
+    protected void applyJackson3Package() {
+        writePropertyBack(JACKSON_PACKAGE, JACKSON3_PACKAGE);
     }
 
     @Override

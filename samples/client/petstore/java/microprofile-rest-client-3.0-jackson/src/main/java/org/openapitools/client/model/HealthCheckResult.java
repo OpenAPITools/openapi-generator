@@ -37,7 +37,7 @@ public class HealthCheckResult  {
   
   public static final String JSON_PROPERTY_NULLABLE_MESSAGE = "NullableMessage";
   
-  private String nullableMessage;
+  protected String nullableMessage;
 
 
   /**

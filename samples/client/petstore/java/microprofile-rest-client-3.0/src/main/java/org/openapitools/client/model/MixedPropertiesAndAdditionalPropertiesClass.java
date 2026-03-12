@@ -40,13 +40,13 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class MixedPropertiesAndAdditionalPropertiesClass  {
   
   @JsonbProperty("uuid")
-  private UUID uuid;
+  protected UUID uuid;
 
   @JsonbProperty("dateTime")
-  private Date dateTime;
+  protected Date dateTime;
 
   @JsonbProperty("map")
-  private Map<String, Animal> map = null;
+  protected Map<String, Animal> map = null;
 
 
   /**

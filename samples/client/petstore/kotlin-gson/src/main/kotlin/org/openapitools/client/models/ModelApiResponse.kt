@@ -39,6 +39,7 @@ data class ModelApiResponse (
     val message: kotlin.String? = null
 
 ) {
+    companion object { }
 
 
 }

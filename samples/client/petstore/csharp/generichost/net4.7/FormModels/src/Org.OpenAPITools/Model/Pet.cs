@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Status
         /// </summary>
         [JsonPropertyName("status")]
-        public PetStatus? Status { get { return this.StatusOption; } set { this.StatusOption = new Option<PetStatus?>(value); } }
+        public PetStatus? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new Option<PetStatus?>(value); } }
 
         /// <summary>
         /// Gets or Sets Name

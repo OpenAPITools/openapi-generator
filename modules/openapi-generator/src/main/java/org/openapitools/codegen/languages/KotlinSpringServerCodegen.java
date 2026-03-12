@@ -91,6 +91,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
     public static final String REQUEST_MAPPING_OPTION = "requestMappingMode";
@@ -98,6 +99,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_REQUEST_MAPPING_ON_INTERFACE = "useRequestMappingOnInterface";
     public static final String AUTO_X_SPRING_PAGINATED = "autoXSpringPaginated";
     public static final String USE_SEALED_RESPONSE_INTERFACES = "useSealedResponseInterfaces";
+    public static final String COMPANION_OBJECT = "companionObject";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -163,9 +165,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean useResponseEntity = true;
     @Setter private boolean autoXSpringPaginated = false;
     @Setter private boolean useSealedResponseInterfaces = false;
+    @Setter private boolean companionObject = false;
 
     @Getter @Setter
     protected boolean useSpringBoot3 = false;
+    @Getter @Setter
+    protected boolean useSpringBoot4 = false;
     protected RequestMappingMode requestMappingMode = RequestMappingMode.controller;
     private DocumentationProvider documentationProvider;
     private AnnotationLibrary annotationLibrary;
@@ -252,6 +257,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot ≥ 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(USE_SPRING_BOOT4, "Generate code and provide dependencies for use with Spring Boot 4.x. Enabling this option will also enable `useJakartaEe`.", useSpringBoot4);
+        addSwitch(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Only available with `useSpringBoot4`. Defaults to true when `useSpringBoot4` is enabled. Incompatible with `openApiNullable`.", useJackson3);
         addSwitch(USE_FLOW_FOR_ARRAY_RETURN_TYPE, "Whether to use Flow for array/collection return types when reactive is enabled. If false, will use List instead.", useFlowForArrayReturnType);
         addSwitch(INCLUDE_HTTP_REQUEST_CONTEXT, "Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods.", includeHttpRequestContext);
         addSwitch(USE_RESPONSE_ENTITY,
@@ -265,6 +272,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SCHEMA_IMPLEMENTS, "A map of single interface or a list of interfaces per schema name that should be implemented (serves similar purpose as `x-kotlin-implements`, but is fully decoupled from the api spec). Example: yaml `schemaImplements: {Pet: com.some.pack.WithId, Category: [com.some.pack.CategoryInterface], Dog: [com.some.pack.Canine, com.some.pack.OtherInterface]}` implements interfaces in schemas `Pet` (interface `com.some.pack.WithId`), `Category` (interface `com.some.pack.CategoryInterface`), `Dog`(interfaces `com.some.pack.Canine`, `com.some.pack.OtherInterface`)", "empty map");
         addOption(SCHEMA_IMPLEMENTS_FIELDS, "A map of single field or a list of fields per schema name that should be prepended with `override` (serves similar purpose as `x-kotlin-implements-fields`, but is fully decoupled from the api spec). Example: yaml `schemaImplementsFields: {Pet: id, Category: [name, id], Dog: [bark, breed]}` marks fields to be prepended with `override` in schemas `Pet` (field `id`), `Category` (fields `name`, `id`) and `Dog` (fields `bark`, `breed`)", "empty map");
         addSwitch(AUTO_X_SPRING_PAGINATED, "Automatically add x-spring-paginated to operations that have 'page', 'size', and 'sort' query parameters. When enabled, operations with all three parameters will have Pageable support automatically applied. Operations with x-spring-paginated explicitly set to false will not be auto-detected.", autoXSpringPaginated);
+        addSwitch(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", companionObject);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -416,6 +424,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void processOpts() {
+        boolean springBoot4Enabled = useSpringBoot4
+                || (additionalProperties.containsKey(USE_SPRING_BOOT4)
+                    && convertPropertyToBoolean(USE_SPRING_BOOT4));
+        if (springBoot4Enabled) {
+            additionalProperties.put(USE_JACKSON_3, "true");
+        }
+
         super.processOpts();
 
         if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
@@ -464,6 +479,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (additionalProperties.containsKey(USE_SPRING_BOOT3)) {
             this.setUseSpringBoot3(convertPropertyToBoolean(USE_SPRING_BOOT3));
         }
+        if (additionalProperties.containsKey(USE_SPRING_BOOT4)) {
+            this.setUseSpringBoot4(convertPropertyToBoolean(USE_SPRING_BOOT4));
+        }
         if (additionalProperties.containsKey(INCLUDE_HTTP_REQUEST_CONTEXT)) {
             this.setIncludeHttpRequestContext(convertPropertyToBoolean(INCLUDE_HTTP_REQUEST_CONTEXT));
         }
@@ -490,6 +508,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
+        if (isUseJackson3()) {
+            // Override databind imports for Jackson 3
+            importMapping.put("JsonDeserialize", "tools.jackson.databind.annotation.JsonDeserialize");
+        }
+
         // Spring-specific import mappings for x-spring-paginated support
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
@@ -511,6 +534,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
         }
         writePropertyBack(USE_SEALED_RESPONSE_INTERFACES, useSealedResponseInterfaces);
+
+        if (additionalProperties.containsKey(COMPANION_OBJECT)) {
+            this.setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
+        } else {
+            additionalProperties.put(COMPANION_OBJECT, companionObject);
+        }
 
         additionalProperties.put("springHttpStatus", new SpringHttpStatusLambda());
 
@@ -625,7 +654,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
         if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
-            this.setUseSpringBoot3(true);
+            if (!isUseSpringBoot4()) {
+                this.setUseSpringBoot3(true);
+            }
             this.setInterfaceOnly(true);
             this.setUseFeignClient(false);
             this.setSkipDefaultInterface(true);
@@ -680,7 +711,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setAutoXSpringPaginated(convertPropertyToBoolean(AUTO_X_SPRING_PAGINATED));
         }
         writePropertyBack(AUTO_X_SPRING_PAGINATED, autoXSpringPaginated);
-        if (isUseSpringBoot3()) {
+        if (isUseSpringBoot3() && isUseSpringBoot4()) {
+            throw new IllegalArgumentException("Choose between Spring Boot 3 and Spring Boot 4");
+        }
+
+        if (isUseJackson3() && !isUseSpringBoot4()) {
+            throw new IllegalArgumentException("useJackson3 is only available with Spring Boot >= 4");
+        }
+
+        if (isUseJackson3() && additionalProperties.containsKey("openApiNullable")
+                && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
+            throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
+        }
+
+        if (isUseSpringBoot3() || isUseSpringBoot4()) {
             if (DocumentationProvider.SPRINGFOX.equals(getDocumentationProvider())) {
                 throw new IllegalArgumentException(DocumentationProvider.SPRINGFOX.getPropertyName() + " is not supported with Spring Boot > 3.x");
             }
@@ -692,6 +736,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             applyJakartaPackage();
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
+        writePropertyBack(USE_SPRING_BOOT4, isUseSpringBoot4());
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
@@ -733,14 +778,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.kt"));
 
-            if (isUseSpringBoot3()) {
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "", "pom.xml"));
+            } else if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "", "pom.xml"));
             } else {
                 supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
             }
 
             if (this.gradleBuildFile) {
-                if (isUseSpringBoot3()) {
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "", "build.gradle.kts"));
+                } else if (isUseSpringBoot3()) {
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "", "build.gradle.kts"));
                 } else {
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
@@ -779,14 +828,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (library.equals(SPRING_CLOUD_LIBRARY)) {
             LOGGER.info("Setup code generator for Kotlin Spring Cloud Client");
 
-            if (isUseSpringBoot3()) {
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "pom.xml"));
+            } else if (isUseSpringBoot3()) {
                 supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
             } else {
                 supportingFiles.add(new SupportingFile("pom.mustache", "pom.xml"));
             }
 
             if (this.gradleBuildFile) {
-                if (isUseSpringBoot3()) {
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "build.gradle.kts"));
+                } else if (isUseSpringBoot3()) {
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
                 } else {
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
@@ -818,10 +871,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (library.equals(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
             LOGGER.info("Setup code generator for Kotlin Spring Declarative Http interface");
 
-            supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            if (isUseSpringBoot4()) {
+                supportingFiles.add(new SupportingFile("pom-sb4.mustache", "pom.xml"));
+            } else {
+                supportingFiles.add(new SupportingFile("pom-sb3.mustache", "pom.xml"));
+            }
 
             if (this.gradleBuildFile) {
-                supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                if (isUseSpringBoot4()) {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb4-Kts.mustache", "build.gradle.kts"));
+                } else {
+                    supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
+                }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
