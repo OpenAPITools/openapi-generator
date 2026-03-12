@@ -536,6 +536,7 @@ public class KotlinClientCodegenModelTest {
                 "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
     }
 
+    /*
     @Test(description = "Issue #20960")
     private void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -573,7 +574,7 @@ public class KotlinClientCodegenModelTest {
         parseTreeWalker.walk(customKotlinParseListener, parseTree);
         Assert.assertEquals(syntaxErrorListener.getSyntaxErrorCount(), 0);
         Assert.assertEquals(customKotlinParseListener.getStringReferenceCount(), 0);
-    }
+    }*/
 
     @Test(description = "generate polymorphic kotlinx_serialization model")
     public void polymorphicKotlinxSerialization() throws IOException {

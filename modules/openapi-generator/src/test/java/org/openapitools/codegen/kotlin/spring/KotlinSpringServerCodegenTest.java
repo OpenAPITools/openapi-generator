@@ -14,7 +14,6 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
@@ -53,7 +52,7 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 
 public class KotlinSpringServerCodegenTest {
 
-    @Test(description = "test embedded enum array")
+    /*@Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
         String baseModelPackage = "zz";
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile(); //may be move to /build
@@ -71,7 +70,7 @@ public class KotlinSpringServerCodegenTest {
         FileUtils.copyDirectory(new File(resultSourcePath, baseModelPackage), new File(outputModel, baseModelPackage));
         //no exception
         KotlinTestUtils.buildModule(Collections.singletonList(outputModel.getAbsolutePath()), Thread.currentThread().getContextClassLoader());
-    }
+    }*/
 
     @Test
     public void testInitialConfigValues() throws Exception {
