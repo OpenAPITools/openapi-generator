@@ -697,18 +697,18 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
             Q_EMIT allPendingRequestsCompleted();
         }
     });{{#authMethods}}{{#isOAuth}}{{#isCode}}
-    _OauthMethod = 2;
+    _OauthMethod = OauthMethod::AuthorizationFlow;
     _implicitFlow.unlink();
     _credentialFlow.unlink();
     _passwordFlow.unlink();
     _authFlow.link();
-    QStringList scope;
+    QStringList scopeAuthorizationFlow;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scopeAuthorizationFlow.append("{{scope}}");
     {{/scopes}}
-    auto token = _authFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto tokenAuthorizationFlow = _authFlow.getToken(scopeAuthorizationFlow.join(" "));
+    if(tokenAuthorizationFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenAuthorizationFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -725,20 +725,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isCode}}
+    _latestScope = scopeAuthorizationFlow;{{/isCode}}
     {{#isImplicit}}
-    _OauthMethod = 1;
+    _OauthMethod = OauthMethod::ImplicitFlow;
     _implicitFlow.link();
     _passwordFlow.unlink();
     _authFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
+    QStringList scopeImplicitFlow;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scopeImplicitFlow.append("{{scope}}");
     {{/scopes}}
-    auto token = _implicitFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto tokenImplicitFlow = _implicitFlow.getToken(scopeImplicitFlow.join(" "));
+    if(tokenImplicitFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenImplicitFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -755,20 +755,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isImplicit}}
+    _latestScope = scopeImplicitFlow;{{/isImplicit}}
     {{#isApplication}}
-    _OauthMethod = 3;
+    _OauthMethod = OauthMethod::ClientCredentialsFlow;
     _authFlow.unlink();
     _implicitFlow.unlink();
     _passwordFlow.unlink();
     _credentialFlow.link();
-    QStringList scope;
+    QStringList scopeClientCredentialsFlow;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scopeClientCredentialsFlow.append("{{scope}}");
     {{/scopes}}
-    auto token = _credentialFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto tokenClientCredentialsFlow = _credentialFlow.getToken(scopeClientCredentialsFlow.join(" "));
+    if(tokenClientCredentialsFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenClientCredentialsFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -785,20 +785,20 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;{{/isApplication}}
+    _latestScope = scopeClientCredentialsFlow;{{/isApplication}}
     {{#isPassword}}
-    _OauthMethod = 4;
+    _OauthMethod = OauthMethod::ResourceOwnerPasswordFlow;
     _passwordFlow.link();
     _authFlow.unlink();
     _implicitFlow.unlink();
     _credentialFlow.unlink();
-    QStringList scope;
+    QStringList scopeResourceOwnerPasswordFlow;
     {{#scopes}}
-    scope.append("{{scope}}");
+    scopeResourceOwnerPasswordFlow.append("{{scope}}");
     {{/scopes}}
-    auto token = _passwordFlow.getToken(scope.join(" "));
-    if(token.isValid())
-        input.headers.insert("Authorization", "Bearer " + token.getToken());
+    auto tokenResourceOwnerPasswordFlow = _passwordFlow.getToken(scopeResourceOwnerPasswordFlow.join(" "));
+    if(tokenResourceOwnerPasswordFlow.isValid())
+        input.headers.insert("Authorization", "Bearer " + tokenResourceOwnerPasswordFlow.getToken());
 
     _latestWorker = new {{prefix}}HttpRequestWorker(this, _manager);
     _latestWorker->setTimeOut(_timeOut);
@@ -815,7 +815,7 @@ void {{classname}}::{{nickname}}({{#allParams}}{{#required}}const {{{dataType}}}
     });
 
     _latestInput = input;
-    _latestScope = scope;
+    _latestScope = scopeResourceOwnerPasswordFlow;
     {{/isPassword}}{{/isOAuth}}{{/authMethods}}
 
     worker->execute(&input);
@@ -934,11 +934,11 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
 
 {{/operation}}
 {{/operations}}
-void {{classname}}::tokenAvailable(){
+void {{classname}}::tokenAvailable() {
 
     oauthToken token;
     switch (_OauthMethod) {
-    case 1: //implicit flow
+    case OauthMethod::ImplicitFlow:
         token = _implicitFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -948,7 +948,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 2: //authorization flow
+    case OauthMethod::AuthorizationFlow:
         token = _authFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -958,7 +958,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 3: //client credentials flow
+    case OauthMethod::ClientCredentialsFlow:
         token = _credentialFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
@@ -968,7 +968,7 @@ void {{classname}}::tokenAvailable(){
             qDebug() << "Could not retrieve a valid token";
         }
         break;
-    case 4: //resource owner password flow
+    case OauthMethod::ResourceOwnerPasswordFlow:
         token = _passwordFlow.getToken(_latestScope.join(" "));
         if(token.isValid()){
             _latestInput.headers.insert("Authorization", "Bearer " + token.getToken());
