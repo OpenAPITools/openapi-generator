@@ -9,3 +9,5 @@ additionalProperties:
   containerDefaultToNull: "true"
   useJakartaEe: true
   useSpringBoot4: true
+  useJackson3: true
+  openApiNullable: false

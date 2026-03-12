@@ -41,7 +41,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 
 
 import java.io.BufferedReader;

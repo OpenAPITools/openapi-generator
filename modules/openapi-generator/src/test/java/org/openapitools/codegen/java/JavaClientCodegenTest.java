@@ -2876,6 +2876,11 @@ public class JavaClientCodegenTest {
         return new JavaClientCodegen().supportedLibraries().keySet().iterator();
     }
 
+    @DataProvider
+    Iterator<String> springBoot4Jackson3Libraries() {
+        return Arrays.asList(JavaClientCodegen.RESTTEMPLATE, JavaClientCodegen.WEBCLIENT, JavaClientCodegen.RESTCLIENT).iterator();
+    }
+
     @Test(dataProvider = "serializationLibraries")
     void setsDefaultSerializationLibrary(String library) {
         var codegen = new JavaClientCodegen();
@@ -2888,6 +2893,31 @@ public class JavaClientCodegenTest {
                         entry(SERIALIZATION_LIBRARY_JACKSON, "true"),
                         entry(SERIALIZATION_LIBRARY_JSONB, "true")
                 );
+    }
+
+    @Test(dataProvider = "springBoot4Jackson3Libraries")
+    void supportsJackson3ForSpringBoot4Libraries(String library) {
+        String outputDir = newTempFolder().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty(USE_JACKSON_3, true)
+                .addAdditionalProperty(USE_SPRING_BOOT4, true)
+                .addAdditionalProperty(OPENAPI_NULLABLE, false)
+                .setInputSpec("src/test/resources/3_0/java/autoset_constant.yaml")
+                .setOutputDir(outputDir);
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(files).isNotEmpty();
+        if (library.equals(JavaClientCodegen.RESTTEMPLATE) || library.equals(JavaClientCodegen.WEBCLIENT)) {
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339DateFormat.java"))
+                    .content().contains("tools.jackson.databind.util.StdDateFormat");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java"))
+                    .content().contains("tools.jackson.databind.cfg.DateTimeFeature");
+            assertThat(new File(outputDir, "src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java"))
+                    .content().contains("tools.jackson.databind.module.SimpleModule");
+        }
     }
 
     /**

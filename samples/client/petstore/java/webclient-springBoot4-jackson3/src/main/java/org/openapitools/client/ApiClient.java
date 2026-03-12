@@ -13,14 +13,12 @@
 
 package org.openapitools.client;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.DeserializationFeature;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
-import org.openapitools.jackson.nullable.JsonNullableModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonEncoder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -106,7 +104,7 @@ public class ApiClient extends JavaTimeFormatter {
 
     protected final WebClient webClient;
     protected final DateFormat dateFormat;
-    protected final ObjectMapper mapper;
+    protected final JsonMapper mapper;
 
     protected Map<String, Authentication> authentications;
 
@@ -122,11 +120,11 @@ public class ApiClient extends JavaTimeFormatter {
         this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient()), createDefaultDateFormat());
     }
 
-    public ApiClient(ObjectMapper mapper, DateFormat format) {
+    public ApiClient(JsonMapper mapper, DateFormat format) {
         this(buildWebClient(mapper), format);
     }
 
-    public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
+    public ApiClient(WebClient webClient, JsonMapper mapper, DateFormat format) {
         this(Optional.ofNullable(webClient).orElseGet(() -> buildWebClient(mapper)), format);
     }
 
@@ -143,17 +141,11 @@ public class ApiClient extends JavaTimeFormatter {
         return dateFormat;
     }
 
-    public static ObjectMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
-        if (null == dateFormat) {
-            dateFormat = createDefaultDateFormat();
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setDateFormat(dateFormat);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNullableModule jnm = new JsonNullableModule();
-        mapper.registerModule(jnm);
-        return mapper;
+    public static JsonMapper createDefaultMapper(@Nullable DateFormat dateFormat) {
+        return JsonMapper.builder()
+            .defaultDateFormat(dateFormat)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
     }
 
 
@@ -170,12 +162,12 @@ public class ApiClient extends JavaTimeFormatter {
     * @param mapper ObjectMapper used for serialize/deserialize
     * @return WebClient
     */
-    public static WebClient.Builder buildWebClientBuilder(ObjectMapper mapper) {
+    public static WebClient.Builder buildWebClientBuilder(JsonMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
-                clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(mapper, MediaType.APPLICATION_JSON));
-                clientDefaultCodecsConfigurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(mapper, MediaType.APPLICATION_JSON));
+                clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonEncoder(new JacksonJsonEncoder(mapper, MediaType.APPLICATION_JSON));
+                clientDefaultCodecsConfigurer.defaultCodecs().jacksonJsonDecoder(new JacksonJsonDecoder(mapper, MediaType.APPLICATION_JSON));
             }).build();
         WebClient.Builder webClientBuilder = WebClient.builder().exchangeStrategies(strategies);
         return webClientBuilder;
@@ -194,7 +186,7 @@ public class ApiClient extends JavaTimeFormatter {
      * @param mapper ObjectMapper used for serialize/deserialize
      * @return WebClient
      */
-    public static WebClient buildWebClient(ObjectMapper mapper) {
+    public static WebClient buildWebClient(JsonMapper mapper) {
         return buildWebClientBuilder(mapper).build();
     }
 
@@ -390,10 +382,10 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
-     * Get the ObjectMapper used to make HTTP requests.
-     * @return ObjectMapper mapper
+     * Get the JsonMapper used to make HTTP requests.
+     * @return JsonMapper mapper
      */
-    public ObjectMapper getObjectMapper() {
+    public JsonMapper getJsonMapper() {
         return mapper;
     }
 
@@ -445,7 +437,7 @@ public class ApiClient extends JavaTimeFormatter {
         } else {
             try {
                 return parameterToMultiValueMap(collectionFormat, name, mapper.writeValueAsString(value));
-           } catch (JsonProcessingException e) {
+           } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -454,7 +446,7 @@ public class ApiClient extends JavaTimeFormatter {
         for(Object o : valueCollection) {
             try {
                 values.add(mapper.writeValueAsString(o));
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 throw new RuntimeException(e);
             }
         }

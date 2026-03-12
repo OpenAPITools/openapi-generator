@@ -231,7 +231,7 @@
 
         <!-- JSON processing: jackson -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -241,26 +241,16 @@
             <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <groupId>tools.jackson.jakarta.rs</groupId>
             <artifactId>jackson-jakarta-rs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${jackson-databind-nullable-version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -280,11 +270,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <spring-web-version>7.0.5</spring-web-version>
-        <jackson-version>2.21.1</jackson-version>
+        <jackson-version>3.1.0</jackson-version>
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
 
         <jackson-annotations-version>2.21</jackson-annotations-version>
-        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <junit-version>5.10.2</junit-version>
     </properties>
 </project>

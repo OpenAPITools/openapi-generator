@@ -97,9 +97,8 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    jackson_version = "2.21.1"
+    jackson_version = "3.1.0"
     jackson_annotations_version = "2.21"
-    jackson_databind_nullable_version = "0.2.9"
     spring_web_version = "7.0.5"
     jakarta_annotation_version = "3.0.0"
     bean_validation_version = "3.1.1"
@@ -111,12 +110,10 @@ dependencies {
     implementation "com.google.code.findbugs:jsr305:3.0.2"
     implementation "org.springframework:spring-web:$spring_web_version"
     implementation "org.springframework:spring-context:$spring_web_version"
-    implementation "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    implementation "tools.jackson.core:jackson-core:$jackson_version"
     implementation "com.fasterxml.jackson.core:jackson-annotations:$jackson_annotations_version"
-    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    implementation "com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$jackson_version"
-    implementation "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    implementation "tools.jackson.core:jackson-databind:$jackson_version"
+    implementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$jackson_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
