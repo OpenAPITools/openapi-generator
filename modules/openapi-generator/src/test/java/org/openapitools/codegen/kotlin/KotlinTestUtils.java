@@ -62,7 +62,7 @@ public class KotlinTestUtils {
         configuration.put(CLIConfigurationKeys.MESSAGE_COLLECTOR_KEY, new PrintingMessageCollector(ps, MessageRenderer.PLAIN_FULL_PATHS, true));
         configuration.put(JVMConfigurationKeys.OUTPUT_DIRECTORY, saveClassesDir);
 //        configuration.put(JVMConfigurationKeys.RETAIN_OUTPUT_IN_MEMORY, true)
-        configuration.put(JVMConfigurationKeys.JVM_TARGET, JvmTarget.JVM_1_8);
+        configuration.put(JVMConfigurationKeys.JVM_TARGET, JvmTarget.JVM_11);
         Set<File> classPath = new HashSet<>();
         if (classLoader != null) {
             classPath.addAll(classpathFromClassloader(classLoader, false));
