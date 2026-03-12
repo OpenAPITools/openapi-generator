@@ -48,6 +48,7 @@ jobs:
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
           - samples/client/petstore/kotlin-default-values-multiplatform
+          - samples/client/petstore/kotlin-enum-integers-multiplatform
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
           - samples/client/petstore/kotlin-bigdecimal-default-multiplatform
