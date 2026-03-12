@@ -382,14 +382,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (useJackson3 && libRestClient && !useSpringBoot4) {
             throw new IllegalArgumentException("useJackson3 for the restclient library requires useSpringBoot4=true");
         } else if (useJackson3 && !libNative && !libRestClient) {
-            LOGGER.warn("useJackson3 is only supported for 'native' and 'restclient' libraries. Disabling useJackson3.");
-            useJackson3 = false;
-            additionalProperties.put(USE_JACKSON_3, false);
+            throw new IllegalArgumentException("useJackson3 is only supported for the 'native' and 'restclient' libraries. " +
+                    "Either set library=native or library=restclient (restclient also requires useSpringBoot4=true), or set useJackson3=false.");
         }
         if (useJackson3 && openApiNullable) {
-            LOGGER.warn("openApiNullable is not supported with useJackson3=true (jackson-databind-nullable has no Jackson 3 release). Disabling openApiNullable.");
-            openApiNullable = false;
-            additionalProperties.put(OPENAPI_NULLABLE, false);
+            throw new IllegalArgumentException("openApiNullable=true is not compatible with useJackson3=true " +
+                    "(jackson-databind-nullable has no Jackson 3 release). Please set openApiNullable=false explicitly.");
         }
 
         if(this.useJackson3){
