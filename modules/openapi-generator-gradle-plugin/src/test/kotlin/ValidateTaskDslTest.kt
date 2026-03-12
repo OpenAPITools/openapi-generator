@@ -17,7 +17,7 @@ class ValidateTaskDslTest : TestBase() {
     @DataProvider(name = "gradle_version_provider")
     fun gradleVersionProvider(): Array<Array<String?>> = arrayOf(
         arrayOf(null), // uses the version of Gradle used to build the plugin itself
-        arrayOf("8.10")
+        arrayOf("8.14.4")
     )
 
     private fun getGradleRunner(gradleVersion: String?): GradleRunner {
