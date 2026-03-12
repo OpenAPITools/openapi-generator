@@ -88,7 +88,7 @@
 
         <!-- JSON processing: jackson -->
         <dependency>
-            <groupId>tools.jackson.core</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson-version}</version>
         </dependency>
@@ -98,11 +98,21 @@
             <version>${jackson-annotations-version}</version>
         </dependency>
         <dependency>
-            <groupId>tools.jackson.core</groupId>
+            <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -120,7 +130,8 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jackson-version>3.1.0</jackson-version>
+        <jackson-version>2.21.1</jackson-version>
+        <jackson-databind-nullable-version>0.2.9</jackson-databind-nullable-version>
         <spring-boot-version>4.0.3</spring-boot-version>
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
         <reactor-version>3.5.12</reactor-version>

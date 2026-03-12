@@ -8,5 +8,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   containerDefaultToNull: "true"
   useSpringBoot4: true
-  useJackson3: true
-  openApiNullable: false
+
