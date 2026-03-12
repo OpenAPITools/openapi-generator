@@ -10,8 +10,8 @@ import java.io.InputStream
 
 
 
-@Path("/")
-@jakarta.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.20.0-SNAPSHOT")
+@Path("")
+@jakarta.annotation.Generated(value = arrayOf("org.openapitools.codegen.languages.KotlinServerCodegen"), comments = "Generator version: 7.21.0-SNAPSHOT")
 interface StuffApi {
 
     @GET
