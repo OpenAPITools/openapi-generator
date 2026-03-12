@@ -88,7 +88,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
         @Override
         public Quadrilateral deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             boolean typeCoercion = false; // MapperFeature.ALLOW_COERCION_OF_SCALARS was removed in Jackson 3
             int match = 0;

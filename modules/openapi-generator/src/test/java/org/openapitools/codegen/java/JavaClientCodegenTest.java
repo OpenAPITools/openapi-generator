@@ -643,6 +643,7 @@ public class JavaClientCodegenTest {
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
                 .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.OPENAPI_NULLABLE, false)
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 

@@ -85,7 +85,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
         @Override
         public GmFruit deserialize(JsonParser jp, DeserializationContext ctxt) throws JacksonException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
 
             Object deserialized = null;
             // deserialize Apple

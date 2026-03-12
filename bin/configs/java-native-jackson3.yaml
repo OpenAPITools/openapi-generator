@@ -9,3 +9,4 @@ additionalProperties:
   generateBuilders: true
   useReflectionEqualsHashCode: "true"
   useJackson3: "true"
+  openApiNullable: "false"
