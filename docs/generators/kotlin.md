@@ -23,11 +23,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactId|Generated artifact id (name of jar).| |kotlin-client|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |collectionType|Option. Collection type to use|<dl><dt>**array**</dt><dd>kotlin.Array</dd><dt>**list**</dt><dd>kotlin.collections.List</dd></dl>|list|
+|companionObject|Whether to generate companion objects in data classes, enabling companion extensions.| |false|
 |dateLibrary|Option. Date library to use|<dl><dt>**threetenbp-localdatetime**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, for legacy app only)</dd><dt>**kotlinx-datetime**</dt><dd>kotlinx-datetime (preferred for multiplatform)</dd><dt>**string**</dt><dd>String</dd><dt>**java8-localdatetime**</dt><dd>Java 8 native JSR310 (jvm only, for legacy app only)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)</dd><dt>**threetenbp**</dt><dd>Threetenbp - Backport of JSR310 (jvm only, preferred for jdk &lt; 1.8)</dd></dl>|java8|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |original|
 |explicitApi|Generates code with explicit access modifiers to comply with Kotlin Explicit API Mode.| |false|
 |failOnUnknownProperties|Fail Jackson de-serialization on unknown properties| |false|
-|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library), `gson`(serializationLibrary) support this option.| |false|
+|generateOneOfAnyOfWrappers|Generate oneOf, anyOf schemas as wrappers. Only `jvm-retrofit2`(library) with `gson` or `kotlinx_serialization`(serializationLibrary) support this option.| |false|
 |generateRoomModels|Generate Android Room database models in addition to API models (JVM Volley library only)| |false|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |idea|Add IntelliJ Idea plugin and mark Kotlin main and test folders as source folders.| |false|
@@ -49,6 +50,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |supportAndroidApiLevel25AndBelow|[WARNING] This flag will generate code that has a known security vulnerability. It uses `kotlin.io.createTempFile` instead of `java.nio.file.Files.createTempFile` in order to support Android API level 25 and below. For more info, please check the following links https://github.com/OpenAPITools/openapi-generator/security/advisories/GHSA-23x4-m842-fmwf, https://github.com/OpenAPITools/openapi-generator/pull/9284| |false|
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
+|useJackson3|Use Jackson 3 dependencies (tools.jackson package). Not yet supported for kotlin-client; reserved for future use.| |false|
 |useNonAsciiHeaders|Allow to use non-ascii headers with the okhttp library| |false|
 |useResponseAsReturnType|When using retrofit2 and coroutines, use `Response`&lt;`T`&gt; as return type instead of `T`.| |true|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|

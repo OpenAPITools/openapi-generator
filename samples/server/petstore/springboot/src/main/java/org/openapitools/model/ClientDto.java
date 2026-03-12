@@ -22,7 +22,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("Client")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ClientDto {
 
   private @Nullable String client;
@@ -43,6 +43,7 @@ public class ClientDto {
     return client;
   }
 
+  @JsonProperty("client")
   public void setClient(@Nullable String client) {
     this.client = client;
   }

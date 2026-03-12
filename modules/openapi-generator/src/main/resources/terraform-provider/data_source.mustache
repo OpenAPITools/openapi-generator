@@ -1,0 +1,108 @@
+{{#operations}}
+{{>partial_header}}
+package provider
+
+import (
+	"context"
+	"fmt"
+{{#hasRead}}
+	"encoding/json"
+{{/hasRead}}
+
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+{{#hasRead}}
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+{{/hasRead}}
+
+	"{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/internal/client"
+)
+
+var _ datasource.DataSource = &{{resourceClassName}}DataSource{}
+
+func New{{resourceClassName}}DataSource() datasource.DataSource {
+	return &{{resourceClassName}}DataSource{}
+}
+
+type {{resourceClassName}}DataSource struct {
+	client *client.Client
+}
+
+func (d *{{resourceClassName}}DataSource) Metadata(_ context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_{{resourceName}}"
+}
+
+func (d *{{resourceClassName}}DataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		Description: "Fetches a {{resourceName}} data source.",
+		Attributes: map[string]schema.Attribute{
+{{#tfAttributes}}
+			"{{terraformName}}": schema.{{#isString}}String{{/isString}}{{#isInt64}}Int64{{/isInt64}}{{#isFloat64}}Float64{{/isFloat64}}{{#isBool}}Bool{{/isBool}}{{^isString}}{{^isInt64}}{{^isFloat64}}{{^isBool}}String{{/isBool}}{{/isFloat64}}{{/isInt64}}{{/isString}}Attribute{
+{{#isRequired}}
+				Required:    true,
+{{/isRequired}}
+{{^isRequired}}
+				Computed:    true,
+{{/isRequired}}
+				Description: "{{description}}",
+			},
+{{/tfAttributes}}
+		},
+	}
+}
+
+func (d *{{resourceClassName}}DataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+	if req.ProviderData == nil {
+		return
+	}
+
+	c, ok := req.ProviderData.(*client.Client)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Data Source Configure Type",
+			fmt.Sprintf("Expected *client.Client, got: %T.", req.ProviderData),
+		)
+		return
+	}
+
+	d.client = c
+}
+
+{{#hasRead}}
+func (d *{{resourceClassName}}DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var config {{resourceClassName}}Model
+
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+{{#readHasPathParams}}
+	respBody, err := d.client.DoRequest(ctx, "{{readMethod}}", fmt.Sprintf("{{readPath}}", config.{{idFieldExported}}{{idFieldValueAccessor}}), nil)
+{{/readHasPathParams}}
+{{^readHasPathParams}}
+	respBody, err := d.client.DoRequest(ctx, "{{readMethod}}", "{{readPath}}", nil)
+{{/readHasPathParams}}
+	if err != nil {
+		resp.Diagnostics.AddError("Error reading {{resourceName}}", err.Error())
+		return
+	}
+
+	var result client.{{responseModel}}
+	if err := json.Unmarshal(respBody, &result); err != nil {
+		resp.Diagnostics.AddError("Error parsing response", err.Error())
+		return
+	}
+
+	config.FromClientModel(&result)
+
+	tflog.Trace(ctx, "read {{resourceName}} data source")
+	resp.Diagnostics.Append(resp.State.Set(ctx, &config)...)
+}
+{{/hasRead}}
+{{^hasRead}}
+func (d *{{resourceClassName}}DataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	resp.Diagnostics.AddError("Not Supported", "Read is not supported for {{resourceName}}")
+}
+{{/hasRead}}
+{{/operations}}

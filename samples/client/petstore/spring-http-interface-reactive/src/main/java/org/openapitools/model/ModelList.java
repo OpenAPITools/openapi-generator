@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("List")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelList {
 
   private @Nullable String _123list;
@@ -39,6 +39,7 @@ public class ModelList {
     return _123list;
   }
 
+  @JsonProperty("123-list")
   public void set123list(@Nullable String _123list) {
     this._123list = _123list;
   }

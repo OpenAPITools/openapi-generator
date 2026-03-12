@@ -77,7 +77,7 @@ public class EnumArrays  {
   }
 
   @JsonbProperty("just_symbol")
-  private JustSymbolEnum justSymbol;
+  protected JustSymbolEnum justSymbol;
 
   @JsonbTypeSerializer(ArrayEnumEnum.Serializer.class)
   @JsonbTypeDeserializer(ArrayEnumEnum.Deserializer.class)
@@ -122,7 +122,7 @@ public class EnumArrays  {
   }
 
   @JsonbProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = null;
+  protected List<ArrayEnumEnum> arrayEnum = null;
 
 
   /**

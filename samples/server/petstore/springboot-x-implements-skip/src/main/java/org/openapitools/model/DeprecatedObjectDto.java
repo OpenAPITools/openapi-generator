@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 
 @Deprecated
 @JsonTypeName("DeprecatedObject")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class DeprecatedObjectDto {
 
   private @Nullable String name;
@@ -45,6 +45,7 @@ public class DeprecatedObjectDto {
     return name;
   }
 
+  @JsonProperty("name")
   public void setName(@Nullable String name) {
     this.name = name;
   }

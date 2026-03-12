@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class FooRef extends EntityRef implements FooRefOrValue {
 
   private @Nullable String foorefPropA;
@@ -56,6 +56,7 @@ public final class FooRef extends EntityRef implements FooRefOrValue {
     return foorefPropA;
   }
 
+  @JsonProperty("foorefPropA")
   public void setFoorefPropA(@Nullable String foorefPropA) {
     this.foorefPropA = foorefPropA;
   }

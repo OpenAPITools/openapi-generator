@@ -40,19 +40,19 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Pet  {
   
   @JsonbProperty("id")
-  private Long id;
+  protected Long id;
 
   @JsonbProperty("category")
-  private Category category;
+  protected Category category;
 
   @JsonbProperty("name")
-  private String name;
+  protected String name;
 
   @JsonbProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  protected List<String> photoUrls = new ArrayList<>();
 
   @JsonbProperty("tags")
-  private List<Tag> tags = null;
+  protected List<Tag> tags = null;
 
   @JsonbTypeSerializer(StatusEnum.Serializer.class)
   @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
@@ -100,7 +100,7 @@ public class Pet  {
   * pet status in the store
   */
   @JsonbProperty("status")
-  private StatusEnum status;
+  protected StatusEnum status;
 
 
   /**

@@ -41,7 +41,7 @@ open class StuffApi(basePath: kotlin.String = defaultBasePath, client: Call.Fact
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://example.org/v1")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "https://example.org/v1")
         }
     }
 

@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("AllOfWithSingleRef")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class AllOfWithSingleRefDto {
 
   private @Nullable String username;
@@ -47,6 +47,7 @@ public class AllOfWithSingleRefDto {
     return username;
   }
 
+  @JsonProperty("username")
   public void setUsername(@Nullable String username) {
     this.username = username;
   }
@@ -67,6 +68,7 @@ public class AllOfWithSingleRefDto {
     return singleRefType;
   }
 
+  @JsonProperty("SingleRefType")
   public void setSingleRefType(@Nullable SingleRefTypeDto singleRefType) {
     this.singleRefType = singleRefType;
   }

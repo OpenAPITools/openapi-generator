@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Addressable", description = "Base schema for addressable entities")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Addressable {
 
   private @Nullable String href;
@@ -43,6 +43,7 @@ public final class Addressable {
     return href;
   }
 
+  @JsonProperty("href")
   public void setHref(@Nullable String href) {
     this.href = href;
   }
@@ -63,6 +64,7 @@ public final class Addressable {
     return id;
   }
 
+  @JsonProperty("id")
   public void setId(@Nullable String id) {
     this.id = id;
   }

@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("BigCat")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class BigCatDto extends CatDto {
 
   /**
@@ -88,6 +88,7 @@ public class BigCatDto extends CatDto {
     return kind;
   }
 
+  @JsonProperty("kind")
   public void setKind(@Nullable KindEnum kind) {
     this.kind = kind;
   }

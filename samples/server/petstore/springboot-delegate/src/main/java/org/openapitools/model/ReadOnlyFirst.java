@@ -20,7 +20,7 @@ import javax.annotation.Generated;
  * ReadOnlyFirst
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ReadOnlyFirst {
 
   private @Nullable String bar;
@@ -55,6 +55,7 @@ public class ReadOnlyFirst {
     return bar;
   }
 
+  @JsonProperty("bar")
   public void setBar(@Nullable String bar) {
     this.bar = bar;
   }
@@ -75,6 +76,7 @@ public class ReadOnlyFirst {
     return baz;
   }
 
+  @JsonProperty("baz")
   public void setBaz(@Nullable String baz) {
     this.baz = baz;
   }

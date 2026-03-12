@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * Apple
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Apple implements Fruit {
 
   private Integer seeds;
@@ -58,6 +58,7 @@ public final class Apple implements Fruit {
     return seeds;
   }
 
+  @JsonProperty("seeds")
   public void setSeeds(Integer seeds) {
     this.seeds = seeds;
   }
@@ -78,6 +79,7 @@ public final class Apple implements Fruit {
     return fruitType;
   }
 
+  @JsonProperty("fruitType")
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }

@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("testInlineFreeformAdditionalProperties_request")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequestDto {
 
   private @Nullable String someProperty;
@@ -47,6 +47,7 @@ public class TestInlineFreeformAdditionalPropertiesRequestDto {
     return someProperty;
   }
 
+  @JsonProperty("someProperty")
   public void setSomeProperty(@Nullable String someProperty) {
     this.someProperty = someProperty;
   }

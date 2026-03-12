@@ -35,7 +35,7 @@ public class ModelList  {
   
   public static final String JSON_PROPERTY_123LIST = "123-list";
   
-  private String _123list;
+  protected String _123list;
 
 
   /**

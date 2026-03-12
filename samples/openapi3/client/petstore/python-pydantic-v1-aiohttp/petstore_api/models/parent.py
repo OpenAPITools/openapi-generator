@@ -72,10 +72,9 @@ class Parent(BaseModel):
             return Parent.parse_obj(obj)
 
         _obj = Parent.parse_obj({
-            "optional_dict": dict(
-                (_k, InnerDictWithProperty.from_dict(_v))
-                for _k, _v in obj.get("optionalDict").items()
-            )
+            "optional_dict": {
+                _k: InnerDictWithProperty.from_dict(_v) for _k, _v in obj["optionalDict"].items()
+            }
             if obj.get("optionalDict") is not None
             else None
         })

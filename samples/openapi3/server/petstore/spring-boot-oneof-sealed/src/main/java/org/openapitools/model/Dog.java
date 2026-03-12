@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Dog
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Dog implements Animal {
 
   private @Nullable Boolean bark;
@@ -40,6 +40,7 @@ public final class Dog implements Animal {
     return bark;
   }
 
+  @JsonProperty("bark")
   public void setBark(@Nullable Boolean bark) {
     this.bark = bark;
   }

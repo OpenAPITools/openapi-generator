@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 
 @JsonTypeName("NullableClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NullableClassDto {
 
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -272,6 +272,7 @@ public class NullableClassDto {
     return arrayItemsNullable;
   }
 
+  @JsonProperty("array_items_nullable")
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
@@ -356,6 +357,7 @@ public class NullableClassDto {
     return objectItemsNullable;
   }
 
+  @JsonProperty("object_items_nullable")
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }

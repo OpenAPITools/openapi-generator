@@ -63,22 +63,81 @@ import com.squareup.moshi.adapter
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val baseUrl: String, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val client: Call.Factory = defaultClient) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
-        protected const val ContentType: String = "Content-Type"
-        protected const val Accept: String = "Accept"
-        protected const val Authorization: String = "Authorization"
-        protected const val JsonMediaType: String = "application/json"
-        protected const val FormDataMediaType: String = "multipart/form-data"
-        protected const val FormUrlEncMediaType: String = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType: String = "application/xml"
-        protected const val OctetMediaType: String = "application/octet-stream"
-        protected const val TextMediaType: String = "text/plain"
+        protected const val CONTENT_TYPE: String = "Content-Type"
+        @Deprecated(
+          message = "Please use the capitalized constant `CONTENT_TYPE` instead.",
+          replaceWith = ReplaceWith("CONTENT_TYPE")
+        )
+        protected const val ContentType: String = CONTENT_TYPE
+
+        protected const val ACCEPT: String = "Accept"
+        @Deprecated(
+          message = "Please use the capitalized constant `ACCEPT` instead.",
+          replaceWith = ReplaceWith("ACCEPT")
+        )
+        protected const val Accept: String = ACCEPT
+
+        protected const val AUTHORIZATION: String = "Authorization"
+        @Deprecated(
+          message = "Please use the capitalized constant `AUTHORIZATION` instead.",
+          replaceWith = ReplaceWith("AUTHORIZATION")
+        )
+        protected const val Authorization: String = AUTHORIZATION
+
+        protected const val JSON_MEDIA_TYPE: String = "application/json"
+        @Deprecated(
+          message = "Please use the capitalized constant `JSON_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("JSON_MEDIA_TYPE")
+        )
+        protected const val JsonMediaType: String = JSON_MEDIA_TYPE
+
+        protected const val FORM_DATA_MEDIA_TYPE: String = "multipart/form-data"
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_DATA_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_DATA_MEDIA_TYPE")
+        )
+        protected const val FormDataMediaType: String = FORM_DATA_MEDIA_TYPE
+
+        protected const val FORM_URL_ENC_MEDIA_TYPE: String = "application/x-www-form-urlencoded"
+        @Deprecated(
+          message = "Please use the capitalized constant `FORM_URL_ENC_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("FORM_URL_ENC_MEDIA_TYPE")
+        )
+        protected const val FormUrlEncMediaType: String = FORM_URL_ENC_MEDIA_TYPE
+
+        protected const val XML_MEDIA_TYPE: String = "application/xml"
+        @Deprecated(
+          message = "Please use the capitalized constant `XML_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("XML_MEDIA_TYPE")
+        )
+        protected const val XmlMediaType: String = XML_MEDIA_TYPE
+
+        protected const val OCTET_MEDIA_TYPE: String = "application/octet-stream"
+        @Deprecated(
+          message = "Please use the capitalized constant `OCTET_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("OCTET_MEDIA_TYPE")
+        )
+        protected const val OctetMediaType: String = OCTET_MEDIA_TYPE
+
+        protected const val TEXT_MEDIA_TYPE: String = "text/plain"
+        @Deprecated(
+          message = "Please use the capitalized constant `TEXT_MEDIA_TYPE` instead.",
+          replaceWith = ReplaceWith("TEXT_MEDIA_TYPE")
+        )
+        protected const val TextMediaType: String = TEXT_MEDIA_TYPE
+
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val BASE_URL_KEY: String = "{{packageName}}.baseUrl"
+        @Deprecated(
+          message = "Please use the capitalized constant `BASE_URL_KEY` instead.",
+          replaceWith = ReplaceWith("BASE_URL_KEY")
+        )
+        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val baseUrlKey: String = BASE_URL_KEY
 
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKey: MutableMap<String, String> = mutableMapOf()
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var username: String? = null
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var password: String? = null
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}var accessToken: String? = null
-        {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}const val baseUrlKey: String = "{{packageName}}.baseUrl"
 
         @JvmStatic
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val defaultClient: OkHttpClient by lazy {
@@ -98,7 +157,7 @@ import com.squareup.moshi.adapter
     protected fun guessContentTypeFromByteArray(byteArray: ByteArray): String {
         val contentType = try {
             URLConnection.guessContentTypeFromStream(byteArray.inputStream())
-        } catch (io: IOException) {
+        } catch (_: IOException) {
             "application/octet-stream"
         }
         return contentType
@@ -137,7 +196,7 @@ import com.squareup.moshi.adapter
     /**
      * Adds a File to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
-     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is a File
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is a File
      *
      * @param name The field name to add in the request
      * @param headers The headers that are in the PartConfig
@@ -167,7 +226,7 @@ import com.squareup.moshi.adapter
         if (serializer != null) {
             return serializer(obj)
         }
-        
+
         return if (contentType?.contains("json") == true) {
             {{#moshi}}
             Serializer.moshi.adapter(Any::class.java).toJson(obj)
@@ -191,7 +250,7 @@ import com.squareup.moshi.adapter
     /**
      * Adds any type to a MultipartBody.Builder
      * Defined a helper in the requestBody method to not duplicate code
-     * It will be used when the content is a FormDataMediaType and the body of the PartConfig is not a File.
+     * It will be used when the content is a `FORM_DATA_MEDIA_TYPE` and the body of the PartConfig is not a File.
      *
      * @param name The field name to add in the request
      * @param headers The headers that are in the PartConfig
@@ -214,7 +273,7 @@ import com.squareup.moshi.adapter
         when {
             content is ByteArray -> content.toRequestBody((mediaType ?: guessContentTypeFromByteArray(content)).toMediaTypeOrNull())
             content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            mediaType == FormDataMediaType ->
+            mediaType == FORM_DATA_MEDIA_TYPE ->
                 MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .apply {
@@ -236,7 +295,7 @@ import com.squareup.moshi.adapter
                             }
                         }
                     }.build()
-            mediaType == FormUrlEncMediaType -> {
+            mediaType == FORM_URL_ENC_MEDIA_TYPE -> {
                 FormBody.Builder().apply {
                     // content's type *must* be Map<String, PartConfig<*>>
                     @Suppress("UNCHECKED_CAST")
@@ -261,11 +320,11 @@ import com.squareup.moshi.adapter
                     {{#kotlinx_serialization}}
                     Serializer.kotlinxSerializationJson.encodeToString(content)
                     {{/kotlinx_serialization}}
-                        .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
+                        .toRequestBody((mediaType ?: JSON_MEDIA_TYPE).toMediaTypeOrNull())
                 }
-            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == TextMediaType && content is String ->
-                content.toRequestBody(TextMediaType.toMediaTypeOrNull())
+            mediaType == XML_MEDIA_TYPE -> throw UnsupportedOperationException("xml not currently supported.")
+            mediaType == TEXT_MEDIA_TYPE && content is String ->
+                content.toRequestBody(TEXT_MEDIA_TYPE.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
             else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, text body, byte body and File body.")
         }
@@ -273,11 +332,10 @@ import com.squareup.moshi.adapter
     {{#moshi}}
     @OptIn(ExperimentalStdlibApi::class)
     {{/moshi}}
-    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JsonMediaType): T? {
+    protected inline fun <reified T: Any?> responseBody(response: Response, mediaType: String? = JSON_MEDIA_TYPE): T? {
         val body = response.body
-        if(body == null) {
-            return null
-        } else if (T::class.java == Unit::class.java) {
+
+        if (T::class.java == Unit::class.java) {
             // No need to parse the body when we're not interested in the body
             // Useful when API is returning other Content-Type
             return null
@@ -352,8 +410,8 @@ import com.squareup.moshi.adapter
                 }}{{#jackson}}Serializer.jacksonObjectMapper.readValue(bodyContent, object: TypeReference<T>() {}){{/jackson}}{{!
                 }}{{#kotlinx_serialization}}Serializer.kotlinxSerializationJson.decodeFromString<T>(bodyContent){{/kotlinx_serialization}}
             }
-            mediaType == OctetMediaType -> body.bytes() as? T
-            mediaType == TextMediaType -> body.string() as? T
+            mediaType == OCTET_MEDIA_TYPE -> body.bytes() as? T
+            mediaType == TEXT_MEDIA_TYPE -> body.string() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body, text body and byte body.")
         }
     }
@@ -394,26 +452,26 @@ import com.squareup.moshi.adapter
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             username?.let { username ->
                 password?.let { password ->
-                    requestConfig.headers[Authorization] = okhttp3.Credentials.basic(username, password)
+                    requestConfig.headers[AUTHORIZATION] = okhttp3.Credentials.basic(username, password)
                 }
             }
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken"
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken"
             }
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
+        if (requestConfig.headers[AUTHORIZATION].isNullOrEmpty()) {
             accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
+                requestConfig.headers[AUTHORIZATION] = "Bearer $accessToken "
             }
         }
         {{/isOAuth}}
@@ -440,21 +498,21 @@ import com.squareup.moshi.adapter
             }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers[ContentType] = JsonMediaType
+        if (requestConfig.body != null && requestConfig.headers[CONTENT_TYPE].isNullOrEmpty()) {
+            requestConfig.headers[CONTENT_TYPE] = JSON_MEDIA_TYPE
         }
-        if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers[Accept] = JsonMediaType
+        if (requestConfig.headers[ACCEPT].isNullOrEmpty()) {
+            requestConfig.headers[ACCEPT] = JSON_MEDIA_TYPE
         }
         val headers = requestConfig.headers
 
-        if (headers[Accept].isNullOrEmpty()) {
-            throw kotlin.IllegalStateException("Missing Accept header. This is required.")
+        if (headers[ACCEPT].isNullOrEmpty()) {
+            throw kotlin.IllegalStateException("Missing ACCEPT header. This is required.")
         }
 
-        val contentType = if (headers[ContentType] != null) {
+        val contentType = if (headers[CONTENT_TYPE] != null) {
             // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
+            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase(Locale.US)
         } else {
             null
         }
@@ -498,7 +556,7 @@ import com.squareup.moshi.adapter
         val response = client.newCall(request).execute()
         {{/useCoroutines}}
 
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")

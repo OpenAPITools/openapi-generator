@@ -146,6 +146,16 @@ impl serde_valid::validation::ValidateCompositedMinLength for {{{classname}}} {
         Ok(())
     }
 }
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for {{{classname}}} {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
 {{/hasConflictingModelNames}}
 {{#exts.x-to-string-support}}
 {{#exts.x-is-string}}
@@ -431,6 +441,28 @@ pub struct {{{classname}}} {
 
 {{/vars}}
 }
+
+{{^hasConflictingModelNames}}
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMinLength for {{{classname}}} {
+    fn validate_composited_min_length(
+        &self,
+        _min_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MinLengthError>> {
+        Ok(())
+    }
+}
+
+#[cfg(feature = "validate")]
+impl serde_valid::validation::ValidateCompositedMaxLength for {{{classname}}} {
+    fn validate_composited_max_length(
+        &self,
+        _max_length: usize,
+    ) -> Result<(), serde_valid::validation::Composited<serde_valid::validation::error::MaxLengthError>> {
+        Ok(())
+    }
+}
+{{/hasConflictingModelNames}}
 
 {{#vars}}
 {{#hasValidation}}

@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class FakeBigDecimalMap200ResponseDto {
 
   private @Nullable BigDecimal someId;
@@ -49,6 +49,7 @@ public class FakeBigDecimalMap200ResponseDto {
     return someId;
   }
 
+  @JsonProperty("someId")
   public void setSomeId(@Nullable BigDecimal someId) {
     this.someId = someId;
   }
@@ -77,6 +78,7 @@ public class FakeBigDecimalMap200ResponseDto {
     return someMap;
   }
 
+  @JsonProperty("someMap")
   public void setSomeMap(Map<String, BigDecimal> someMap) {
     this.someMap = someMap;
   }

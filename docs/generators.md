@@ -70,6 +70,7 @@ The following generators are available:
 * [swift-combine](generators/swift-combine.md)  
 * [swift5 (deprecated)](generators/swift5.md)  
 * [swift6](generators/swift6.md)  
+* [terraform-provider (experimental)](generators/terraform-provider.md)  
 * [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  

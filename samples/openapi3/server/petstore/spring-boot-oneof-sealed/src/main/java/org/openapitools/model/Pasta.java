@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Pasta extends Entity {
 
   private @Nullable String vendor;
@@ -56,6 +56,7 @@ public final class Pasta extends Entity {
     return vendor;
   }
 
+  @JsonProperty("vendor")
   public void setVendor(@Nullable String vendor) {
     this.vendor = vendor;
   }

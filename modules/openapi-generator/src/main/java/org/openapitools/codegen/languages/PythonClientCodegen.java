@@ -100,13 +100,13 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         typeMapping.put("set", "List");
         typeMapping.put("map", "Dict");
         typeMapping.put("decimal", "decimal.Decimal");
-        typeMapping.put("file", "bytearray");
-        typeMapping.put("binary", "bytearray");
-        typeMapping.put("ByteArray", "bytearray");
+        typeMapping.put("file", "bytes");
+        typeMapping.put("binary", "bytes");
+        typeMapping.put("ByteArray", "bytes");
 
         languageSpecificPrimitives.remove("file");
         languageSpecificPrimitives.add("decimal.Decimal");
-        languageSpecificPrimitives.add("bytearray");
+        languageSpecificPrimitives.add("bytes");
         languageSpecificPrimitives.add("none_type");
 
         supportsInheritance = true;

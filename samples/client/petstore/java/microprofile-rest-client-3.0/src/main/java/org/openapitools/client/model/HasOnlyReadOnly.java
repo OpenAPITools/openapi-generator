@@ -35,10 +35,10 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class HasOnlyReadOnly  {
   
   @JsonbProperty("bar")
-  private String bar;
+  protected String bar;
 
   @JsonbProperty("foo")
-  private String foo;
+  protected String foo;
 
 
   public HasOnlyReadOnly() {

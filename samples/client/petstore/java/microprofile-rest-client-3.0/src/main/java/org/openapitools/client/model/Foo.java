@@ -35,7 +35,7 @@ import jakarta.json.bind.annotation.JsonbCreator;
 public class Foo  {
   
   @JsonbProperty("bar")
-  private String bar = "bar";
+  protected String bar = "bar";
 
 
   /**

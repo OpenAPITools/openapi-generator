@@ -65,7 +65,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 @JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
 @JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
@@ -97,7 +97,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
         @Override
         public Quadrilateral deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            JsonNode tree = jp.readValueAsTree();
+            JsonNode tree = ctxt.readTree(jp);
             Object deserialized = null;
             Quadrilateral newQuadrilateral = new Quadrilateral();
             Map<String, Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});

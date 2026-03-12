@@ -5,7 +5,7 @@
 OpenAPI Petstore
 
 - API version: 1.0.0
-- Generator version: 7.20.0-SNAPSHOT
+- Generator version: 7.21.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -63,7 +63,7 @@ void Example::exampleFunction1(){
       connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
           loop.quit();
       });
-      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, const QString &error_str) {
           qDebug() << "Error happened while issuing request : " << error_str;
           loop.quit();
       });
@@ -74,7 +74,7 @@ void Example::exampleFunction1(){
       connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignal, [&]() {
           loop.quit();
       });
-      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+      connect(&apiInstance, &PFXFakeApi::getEnumInlineOrRefSignalE, [&](QNetworkReply::NetworkError, const QString &error_str) {
           qDebug() << "Error happened while issuing request : " << error_str;
           loop.quit();
       });

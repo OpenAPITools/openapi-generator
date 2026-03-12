@@ -19,7 +19,7 @@ import javax.annotation.Generated;
  * Cat
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Cat implements Animal {
 
   private @Nullable Boolean declawed;
@@ -40,6 +40,7 @@ public final class Cat implements Animal {
     return declawed;
   }
 
+  @JsonProperty("declawed")
   public void setDeclawed(@Nullable Boolean declawed) {
     this.declawed = declawed;
   }

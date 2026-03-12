@@ -1731,6 +1731,12 @@ components:
             type: object
             additionalProperties:
               type: string
+        map_of_array_integer:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:

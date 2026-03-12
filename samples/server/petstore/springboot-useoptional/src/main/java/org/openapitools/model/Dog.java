@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Dog extends Animal {
 
   private Optional<String> breed = Optional.empty();
@@ -57,6 +57,7 @@ public class Dog extends Animal {
     return breed;
   }
 
+  @JsonProperty("breed")
   public void setBreed(Optional<String> breed) {
     this.breed = breed;
   }

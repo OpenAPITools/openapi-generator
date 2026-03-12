@@ -80,6 +80,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/anotherXmlObject"
+  /query-example:
+    get:
+      summary: Test required query params with and without examples
+      operationId: queryExampleGet
+      parameters:
+        - name: required_no_example
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: required_with_example
+          in: query
+          required: true
+          example: 42
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
   /multiget:
     get:
       summary: Get some stuff.

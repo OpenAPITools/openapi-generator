@@ -32,10 +32,10 @@ import javax.json.bind.annotation.JsonbCreator;
 public class Animal  {
   
   @JsonbProperty("className")
-  private String className;
+  protected String className;
 
   @JsonbProperty("color")
-  private String color = "red";
+  protected String color = "red";
 
 
   /**

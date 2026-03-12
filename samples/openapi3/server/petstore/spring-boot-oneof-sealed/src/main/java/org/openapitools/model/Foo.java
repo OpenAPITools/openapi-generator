@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public final class Foo extends Entity implements FooRefOrValue {
 
   private @Nullable String fooPropA;
@@ -58,6 +58,7 @@ public final class Foo extends Entity implements FooRefOrValue {
     return fooPropA;
   }
 
+  @JsonProperty("fooPropA")
   public void setFooPropA(@Nullable String fooPropA) {
     this.fooPropA = fooPropA;
   }
@@ -78,6 +79,7 @@ public final class Foo extends Entity implements FooRefOrValue {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }

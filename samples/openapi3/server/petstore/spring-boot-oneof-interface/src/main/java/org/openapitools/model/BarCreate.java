@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 
 
 @JsonTypeName("Bar_Create")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class BarCreate extends Entity {
 
   private @Nullable String barPropA;
@@ -63,6 +63,7 @@ public class BarCreate extends Entity {
     return barPropA;
   }
 
+  @JsonProperty("barPropA")
   public void setBarPropA(@Nullable String barPropA) {
     this.barPropA = barPropA;
   }
@@ -83,6 +84,7 @@ public class BarCreate extends Entity {
     return fooPropB;
   }
 
+  @JsonProperty("fooPropB")
   public void setFooPropB(@Nullable String fooPropB) {
     this.fooPropB = fooPropB;
   }
@@ -103,6 +105,7 @@ public class BarCreate extends Entity {
     return foo;
   }
 
+  @JsonProperty("foo")
   public void setFoo(@Nullable FooRefOrValue foo) {
     this.foo = foo;
   }

@@ -41,7 +41,7 @@ public class ModelFile  {
   * Test capitalization
   */
   
-  private String sourceURI;
+  protected String sourceURI;
 
 
   /**

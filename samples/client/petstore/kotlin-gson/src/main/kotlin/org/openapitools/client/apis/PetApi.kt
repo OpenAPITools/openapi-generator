@@ -42,7 +42,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "http://petstore.swagger.io/v2")
+            System.getProperties().getProperty(ApiClient.BASE_URL_KEY, "http://petstore.swagger.io/v2")
         }
     }
 
@@ -50,20 +50,21 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
      * POST /pet
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store
-     * @return void
+     * @param pet Pet object that needs to be added to the store
+     * @return Pet
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addPet(body: Pet) : Unit {
-        val localVarResponse = addPetWithHttpInfo(body = body)
+    fun addPet(pet: Pet) : Pet {
+        val localVarResponse = addPetWithHttpInfo(pet = pet)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -81,16 +82,17 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
      * POST /pet
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store
-     * @return ApiResponse<Unit?>
+     * @param pet Pet object that needs to be added to the store
+     * @return ApiResponse<Pet?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun addPetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
-        val localVariableConfig = addPetRequestConfig(body = body)
+    fun addPetWithHttpInfo(pet: Pet) : ApiResponse<Pet?> {
+        val localVariableConfig = addPetRequestConfig(pet = pet)
 
-        return request<Pet, Unit>(
+        return request<Pet, Pet>(
             localVariableConfig
         )
     }
@@ -98,15 +100,16 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
     /**
      * To obtain the request config of the operation addPet
      *
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @return RequestConfig
      */
-    fun addPetRequestConfig(body: Pet) : RequestConfig<Pet> {
-        val localVariableBody = body
+    fun addPetRequestConfig(pet: Pet) : RequestConfig<Pet> {
+        val localVariableBody = pet
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
@@ -443,20 +446,21 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
      * PUT /pet
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store
-     * @return void
+     * @param pet Pet object that needs to be added to the store
+     * @return Pet
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      * @throws UnsupportedOperationException If the API returns an informational or redirection response
      * @throws ClientException If the API returns a client error response
      * @throws ServerException If the API returns a server error response
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePet(body: Pet) : Unit {
-        val localVarResponse = updatePetWithHttpInfo(body = body)
+    fun updatePet(pet: Pet) : Pet {
+        val localVarResponse = updatePetWithHttpInfo(pet = pet)
 
         return when (localVarResponse.responseType) {
-            ResponseType.Success -> Unit
+            ResponseType.Success -> (localVarResponse as Success<*>).data as Pet
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -474,16 +478,17 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
      * PUT /pet
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store
-     * @return ApiResponse<Unit?>
+     * @param pet Pet object that needs to be added to the store
+     * @return ApiResponse<Pet?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updatePetWithHttpInfo(body: Pet) : ApiResponse<Unit?> {
-        val localVariableConfig = updatePetRequestConfig(body = body)
+    fun updatePetWithHttpInfo(pet: Pet) : ApiResponse<Pet?> {
+        val localVariableConfig = updatePetRequestConfig(pet = pet)
 
-        return request<Pet, Unit>(
+        return request<Pet, Pet>(
             localVariableConfig
         )
     }
@@ -491,15 +496,16 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
     /**
      * To obtain the request config of the operation updatePet
      *
-     * @param body Pet object that needs to be added to the store
+     * @param pet Pet object that needs to be added to the store
      * @return RequestConfig
      */
-    fun updatePetRequestConfig(body: Pet) : RequestConfig<Pet> {
-        val localVariableBody = body
+    fun updatePetRequestConfig(pet: Pet) : RequestConfig<Pet> {
+        val localVariableBody = pet
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        
+        localVariableHeaders["Accept"] = "application/json"
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",

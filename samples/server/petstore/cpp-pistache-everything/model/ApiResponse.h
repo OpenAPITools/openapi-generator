@@ -32,7 +32,7 @@ class  ApiResponse
 {
 public:
     ApiResponse();
-    virtual ~ApiResponse() = default;
+    virtual ~ApiResponse();
 
 
     /// <summary>

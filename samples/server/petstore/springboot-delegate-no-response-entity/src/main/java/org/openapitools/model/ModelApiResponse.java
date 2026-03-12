@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 
 @ApiModel(description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private @Nullable Integer code;
@@ -48,6 +48,7 @@ public class ModelApiResponse {
     return code;
   }
 
+  @JsonProperty("code")
   public void setCode(@Nullable Integer code) {
     this.code = code;
   }
@@ -68,6 +69,7 @@ public class ModelApiResponse {
     return type;
   }
 
+  @JsonProperty("type")
   public void setType(@Nullable String type) {
     this.type = type;
   }
@@ -88,6 +90,7 @@ public class ModelApiResponse {
     return message;
   }
 
+  @JsonProperty("message")
   public void setMessage(@Nullable String message) {
     this.message = message;
   }

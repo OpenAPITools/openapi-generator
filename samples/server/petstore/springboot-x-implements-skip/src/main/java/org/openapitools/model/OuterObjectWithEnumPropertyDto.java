@@ -24,7 +24,7 @@ import javax.annotation.Generated;
  */
 
 @JsonTypeName("OuterObjectWithEnumProperty")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class OuterObjectWithEnumPropertyDto {
 
   private OuterEnumIntegerDto value;
@@ -56,6 +56,7 @@ public class OuterObjectWithEnumPropertyDto {
     return value;
   }
 
+  @JsonProperty("value")
   public void setValue(OuterEnumIntegerDto value) {
     this.value = value;
   }

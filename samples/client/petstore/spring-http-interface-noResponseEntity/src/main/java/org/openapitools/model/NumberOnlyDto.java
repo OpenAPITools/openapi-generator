@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("NumberOnly")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class NumberOnlyDto {
 
   private @Nullable BigDecimal justNumber;
@@ -40,6 +40,7 @@ public class NumberOnlyDto {
     return justNumber;
   }
 
+  @JsonProperty("JustNumber")
   public void setJustNumber(@Nullable BigDecimal justNumber) {
     this.justNumber = justNumber;
   }

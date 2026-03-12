@@ -23,7 +23,7 @@ import javax.annotation.Generated;
  * Banana
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.20.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class Banana implements Fruit {
 
   private Integer length;
@@ -58,6 +58,7 @@ public class Banana implements Fruit {
     return length;
   }
 
+  @JsonProperty("length")
   public void setLength(Integer length) {
     this.length = length;
   }
@@ -78,6 +79,7 @@ public class Banana implements Fruit {
     return fruitType;
   }
 
+  @JsonProperty("fruitType")
   public void setFruitType(FruitType fruitType) {
     this.fruitType = fruitType;
   }

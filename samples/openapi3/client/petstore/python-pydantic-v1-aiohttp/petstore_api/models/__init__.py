@@ -26,6 +26,7 @@ from petstore_api.models.any_of_pig import AnyOfPig
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.models.array_of_map_model import ArrayOfMapModel
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.base_discriminator import BaseDiscriminator
@@ -125,4 +126,5 @@ from petstore_api.models.unnamed_dict_with_additional_model_list_properties impo
 from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
 from petstore_api.models.upload_file_with_additional_properties_request_object import UploadFileWithAdditionalPropertiesRequestObject
 from petstore_api.models.user import User
+from petstore_api.models.uuid_with_pattern import UuidWithPattern
 from petstore_api.models.with_nested_one_of import WithNestedOneOf

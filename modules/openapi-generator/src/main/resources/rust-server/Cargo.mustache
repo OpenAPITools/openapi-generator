@@ -96,7 +96,7 @@ headers = "0.4.0"
 log = "0.4.27"
 
 mime = "0.3"
-mockall = { version = "0.13.1", optional = true }
+mockall = { version = "0.14", optional = true }
 {{#apiUsesByteArray}}
 lazy_static = "1.5"
 regex = "1.12"
@@ -191,11 +191,13 @@ openssl = "0.10"
 tokio-openssl = "0.6"
 
 [[example]]
-name = "client"
+name = "{{{packageName}}}-client"
+path = "examples/client/main.rs"
 required-features = ["client"]
 
 [[example]]
-name = "server"
+name = "{{{packageName}}}-server"
+path = "examples/server/main.rs"
 required-features = ["server"]
 
 [[bin]]
