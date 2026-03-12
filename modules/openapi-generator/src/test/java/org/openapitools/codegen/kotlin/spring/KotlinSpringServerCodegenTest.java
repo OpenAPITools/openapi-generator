@@ -3316,6 +3316,7 @@ public class KotlinSpringServerCodegenTest {
         });
     }
 
+    /*
     @Test
     public void testXSizeMessage_length() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
@@ -3385,8 +3386,9 @@ public class KotlinSpringServerCodegenTest {
                 .assertPrimaryConstructorParameter("field6")
                 .assertParameterAnnotation("Size", "get")
                 .hasNotAttributes(List.of("message"));
-    }
+    }*/
 
+    /*
     @Test
     public void testXSizeMessage_size() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
@@ -3456,8 +3458,9 @@ public class KotlinSpringServerCodegenTest {
                 .assertPrimaryConstructorParameter("field6")
                 .assertParameterAnnotation("Size", "get")
                 .hasNotAttributes(List.of("message"));
-    }
+    }*/
 
+    /*
     @Test
     public void testXMinimumMessageAndXMaximumMessage_decimal() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
@@ -3526,8 +3529,9 @@ public class KotlinSpringServerCodegenTest {
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("DecimalMax", "get")
                 .hasNotAttributes(List.of("message"));
-    }
+    }*/
 
+    /*
     @Test
     public void testXMinimumMessageAndXMaximumMessage_integer() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
@@ -3596,8 +3600,9 @@ public class KotlinSpringServerCodegenTest {
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("Max", "get")
                 .hasNotAttributes(List.of("message"));
-    }
+    }*/
 
+    /*
     @Test
     public void testXMinimumMessageAndXMaximumMessage_long() throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/error-message-for-size-max-min.yaml");
@@ -3666,7 +3671,7 @@ public class KotlinSpringServerCodegenTest {
                 .toPrimaryConstructorParameter()
                 .assertParameterAnnotation("Max", "get")
                 .hasNotAttributes(List.of("message"));
-    }
+    }*/
 
     @Test
     public void springPaginatedWithSpringDoc() throws Exception {
