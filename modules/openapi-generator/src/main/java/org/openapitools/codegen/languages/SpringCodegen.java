@@ -109,6 +109,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String JACKSON3_PACKAGE = "tools.jackson";
     public static final String JACKSON_PACKAGE = "jacksonPackage";
     public static final String ADDITIONAL_NOT_NULL_ANNOTATIONS = "additionalNotNullAnnotations";
+    public static final String USE_JSPECIFY = "useJSpecify";
 
     @Getter
     public enum RequestMappingMode {
@@ -183,6 +184,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useJackson3 = false;
     @Getter @Setter
     protected boolean additionalNotNullAnnotations = false;
+    @Getter @Setter
+    protected boolean useJSpecify = false;
 
     public SpringCodegen() {
         super();
@@ -330,6 +333,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ADDITIONAL_NOT_NULL_ANNOTATIONS,
                 "Add @NotNull to path variables (required by default) and requestBody.",
                 additionalNotNullAnnotations));
+        cliOptions.add(CliOption.newBoolean(USE_JSPECIFY,
+                "Use JSpecify's @Nullable (org.jspecify.annotations.Nullable) instead of Spring's @Nullable. " +
+                "Overrides any user-supplied importMapping for 'Nullable'.",
+                isUseJSpecify()));
 
     }
 
@@ -545,16 +552,21 @@ public class SpringCodegen extends AbstractJavaCodegen
         convertPropertyToStringAndWriteBack(RESOURCE_FOLDER, this::setResourceFolder);
 
         convertPropertyToBooleanAndWriteBack(ADDITIONAL_NOT_NULL_ANNOTATIONS, this::setAdditionalNotNullAnnotations);
+        convertPropertyToBooleanAndWriteBack(USE_JSPECIFY, this::setUseJSpecify);
 
         // override parent one
         importMapping.put("JsonDeserialize", (useJackson3 ? JACKSON3_PACKAGE : JACKSON2_PACKAGE) + ".databind.annotation.JsonDeserialize");
 
         typeMapping.put("file", "org.springframework.core.io.Resource");
-        importMapping.put("Nullable", "org.springframework.lang.Nullable");
         importMapping.put("org.springframework.core.io.Resource", "org.springframework.core.io.Resource");
         importMapping.put("DateTimeFormat", "org.springframework.format.annotation.DateTimeFormat");
         importMapping.put("ApiIgnore", "springfox.documentation.annotations.ApiIgnore");
         importMapping.put("ParameterObject", "org.springdoc.api.annotations.ParameterObject");
+        if (isUseJSpecify()) {
+            importMapping.put("Nullable", "org.jspecify.annotations.Nullable");
+        } else {
+            importMapping.put("Nullable", "org.springframework.lang.Nullable");
+        }
         if (isUseSpringBoot3() || isUseSpringBoot4()) {
             importMapping.put("ParameterObject", "org.springdoc.core.annotations.ParameterObject");
         }
@@ -1019,9 +1031,38 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    /**
+     * Returns true if the nullableAnnotation.mustache partial would emit {@code @Nullable}
+     * for this property.
+     */
+    private boolean willEmitNullableAnnotation(CodegenProperty property) {
+        if (property.required) return false;
+        if (property.defaultValue == null) {
+            if (useOptional) return false;
+            if (isOpenApiNullable()) return !property.isNullable;
+            return true;
+        } else {
+            if (isOpenApiNullable()) return false;
+            return property.isNullable;
+        }
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if (isUseJSpecify() && !property.isContainer && willEmitNullableAnnotation(property)) {
+            String datatype = property.datatypeWithEnum;
+            int lastDot = datatype.lastIndexOf('.');
+            if (lastDot >= 0) {
+                // Insert annotation between package path and simple class name: a.b.c.@Nullable TypeName
+                property.vendorExtensions.put("x-jspecify-annotated-type",
+                        datatype.substring(0, lastDot + 1) + "@Nullable " + datatype.substring(lastDot + 1));
+            } else {
+                // No package qualifier – annotation before type is still valid
+                property.vendorExtensions.put("x-jspecify-annotated-type", "@Nullable " + datatype);
+            }
+        }
 
         // add org.springframework.format.annotation.DateTimeFormat when needed
         if (property.isDate || property.isDateTime) {

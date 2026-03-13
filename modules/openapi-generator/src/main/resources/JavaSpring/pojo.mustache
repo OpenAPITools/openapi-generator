@@ -70,7 +70,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   private {{>nullableAnnotation}}{{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}
   {{^openApiNullable}}
-  private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+  {{#vendorExtensions.x-jspecify-annotated-type}}private {{{vendorExtensions.x-jspecify-annotated-type}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vendorExtensions.x-jspecify-annotated-type}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{^isContainer}}
@@ -84,7 +84,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   private {{>nullableAnnotation}}{{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#useOptional}} = Optional.{{^defaultValue}}empty(){{/defaultValue}}{{#defaultValue}}of({{{.}}}){{/defaultValue}};{{/useOptional}}{{^useOptional}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/useOptional}}{{/isNullable}}{{/required}}{{^isNullable}}{{#required}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/required}}{{/isNullable}}
   {{/openApiNullable}}
   {{^openApiNullable}}
-  private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{#vendorExtensions.x-jspecify-annotated-type}}private {{{vendorExtensions.x-jspecify-annotated-type}}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};{{/vendorExtensions.x-jspecify-annotated-type}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
@@ -144,7 +144,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
-  public {{classname}} {{name}}({{>nullableAnnotation}}{{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}({{#vendorExtensions.x-jspecify-annotated-type}}{{{vendorExtensions.x-jspecify-annotated-type}}}{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}{{>nullableAnnotation}}{{{datatypeWithEnum}}}{{/vendorExtensions.x-jspecify-annotated-type}} {{name}}) {
     {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of{{#optionalAcceptNullable}}Nullable{{/optionalAcceptNullable}}({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
@@ -229,7 +229,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{getter}}() {
+{{#jackson}}{{>jackson_annotations}}{{/jackson}}{{#withXml}}{{>xmlAccessorAnnotation}}{{/withXml}}  public {{#vendorExtensions.x-jspecify-annotated-type}}{{{vendorExtensions.x-jspecify-annotated-type}}}{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}{{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}}{{/vendorExtensions.x-jspecify-annotated-type}} {{getter}}() {
     return {{name}};
   }
   {{/lombok.Getter}}
@@ -246,7 +246,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{>jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{>nullableAnnotation}}{{>nullableDataType}} {{name}}) {
+{{#jackson}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{>jackson_annotations}}{{/vendorExtensions.x-is-jackson-optional-nullable}}{{/jackson}}  public void {{setter}}({{#vendorExtensions.x-jspecify-annotated-type}}{{{vendorExtensions.x-jspecify-annotated-type}}}{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}{{>nullableAnnotation}}{{>nullableDataType}}{{/vendorExtensions.x-jspecify-annotated-type}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/lombok.Setter}}

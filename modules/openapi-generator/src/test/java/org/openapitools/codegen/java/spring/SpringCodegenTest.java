@@ -6637,4 +6637,35 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"))
                 .assertMethod("addPet").assertParameter("pet").assertParameterAnnotations().doesNotContainWithName("Parameter");
     }
+
+    @Test
+    public void testIssue23206() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        codegen.setLibrary(SPRING_BOOT);
+
+        codegen.schemaMapping().put("SchemaMappedDatatype", "a.b.c.SchemaMappedDatatype");
+
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(USE_SPRING_BOOT4, "true");
+        codegen.additionalProperties().put(USE_JACKSON_3, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(USE_JSPECIFY, "true");
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/issue_23206.yaml");
+        final var javaFileAssert = JavaFileAssert.assertThat(files.get("SchemaMappedWithTypeUseAnnotationDto.java"));
+        javaFileAssert
+                .hasImports("org.jspecify.annotations.Nullable")
+                .assertProperty("schemaMappedDatatype");
+
+        javaFileAssert.fileContains("private a.b.c.@Nullable SchemaMappedDatatype schemaMappedDatatype = null;");
+        javaFileAssert.fileContains("public a.b.c.@Nullable SchemaMappedDatatype getSchemaMappedDatatype() {");
+        javaFileAssert.fileContains("public void setSchemaMappedDatatype(a.b.c.@Nullable SchemaMappedDatatype schemaMappedDatatype) {");
+
+        javaFileAssert.fileContains("private @Nullable BigDecimal importedDatatype = null;");
+        javaFileAssert.fileContains("public @Nullable BigDecimal getImportedDatatype() {");
+        javaFileAssert.fileContains("public void setImportedDatatype(@Nullable BigDecimal importedDatatype) {");
+    }
 }

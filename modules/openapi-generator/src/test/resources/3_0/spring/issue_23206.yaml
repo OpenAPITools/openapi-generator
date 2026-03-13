@@ -1,0 +1,28 @@
+openapi: "3.0.3"
+info:
+  title: Move Annotations in Generated POJOs
+  description: "Test Placement of Annotations, to allow TYPE_USE Annotations to compile correctly. See #23206"
+  version: 1.0.0
+
+paths:
+  /some/endpoint:
+    get:
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    SchemaMappedWithTypeUseAnnotationDto:
+      type: object
+      properties:
+        schemaMappedDatatype:
+          $ref: '#/components/schemas/SchemaMappedDatatype'
+        importedDatatype:
+          $ref: '#/components/schemas/ImportedDatatype'
+    SchemaMappedDatatype:
+      nullable: true
+      type: number
+    ImportedDatatype:
+      nullable: true
+      type: number
