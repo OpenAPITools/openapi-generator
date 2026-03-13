@@ -839,6 +839,15 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
 
             // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
             property.isPrimitiveType = true;
+
+            // Propagate numeric type flags from the referenced enum model so templates
+            // can branch on isNumeric/isInteger/isLong/isFloat/isDouble/isDecimal.
+            property.isNumeric = refModel.isNumeric;
+            property.isInteger = refModel.isInteger;
+            property.isLong = refModel.isLong;
+            property.isFloat = refModel.isFloat;
+            property.isDouble = refModel.isDouble;
+            property.isDecimal = refModel.isDecimal;
         }
 
         this.patchPropertyIsInherited(model, property);

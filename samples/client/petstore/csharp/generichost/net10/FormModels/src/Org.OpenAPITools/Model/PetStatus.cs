@@ -163,6 +163,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override PetStatus? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string rawValue = reader.GetString();
 
             PetStatus? result = rawValue == null
@@ -183,7 +186,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, PetStatus? petStatus, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(petStatus.HasValue ? PetStatusValueConverter.ToJsonValue(petStatus.Value).ToString() : "null");
+            if (petStatus.HasValue)
+                writer.WriteStringValue(PetStatusValueConverter.ToJsonValue(petStatus.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

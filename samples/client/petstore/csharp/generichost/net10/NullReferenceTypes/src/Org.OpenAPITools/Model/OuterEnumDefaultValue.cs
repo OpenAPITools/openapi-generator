@@ -164,6 +164,9 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override OuterEnumDefaultValue? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             OuterEnumDefaultValue? result = rawValue == null
@@ -184,7 +187,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OuterEnumDefaultValue? outerEnumDefaultValue, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(outerEnumDefaultValue.HasValue ? OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value).ToString() : "null");
+            if (outerEnumDefaultValue.HasValue)
+                writer.WriteStringValue(OuterEnumDefaultValueValueConverter.ToJsonValue(outerEnumDefaultValue.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

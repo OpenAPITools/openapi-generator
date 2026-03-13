@@ -164,9 +164,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "code":
-                            string? codeRawValue = utf8JsonReader.GetString();
-                            if (codeRawValue != null)
-                                code = new Option<TestResultCode?>(TestResultCodeValueConverter.FromStringOrDefault(codeRawValue));
+                            code = new Option<TestResultCode?>(JsonSerializer.Deserialize<TestResultCode>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "data":
                             data = new Option<Dictionary<string, string>?>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions)!);

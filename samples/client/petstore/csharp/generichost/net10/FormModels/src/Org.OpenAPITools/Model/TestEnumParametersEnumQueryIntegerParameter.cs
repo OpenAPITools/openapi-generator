@@ -104,15 +104,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryIntegerParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
-
-            TestEnumParametersEnumQueryIntegerParameter? result = rawValue == null
-                ? null
-                : TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString();
+            TestEnumParametersEnumQueryIntegerParameter? result = TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -124,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryIntegerParameter testEnumParametersEnumQueryIntegerParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter).ToString());
+            writer.WriteNumberValue(TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter));
         }
     }
 
@@ -142,15 +137,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public override TestEnumParametersEnumQueryIntegerParameter? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            TestEnumParametersEnumQueryIntegerParameter? result = rawValue == null
-                ? null
-                : TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetInt32().ToString();
+            TestEnumParametersEnumQueryIntegerParameter? result = TestEnumParametersEnumQueryIntegerParameterValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -162,7 +155,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TestEnumParametersEnumQueryIntegerParameter? testEnumParametersEnumQueryIntegerParameter, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(testEnumParametersEnumQueryIntegerParameter.HasValue ? TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter.Value).ToString() : "null");
+            if (testEnumParametersEnumQueryIntegerParameter.HasValue)
+                writer.WriteNumberValue(TestEnumParametersEnumQueryIntegerParameterValueConverter.ToJsonValue(testEnumParametersEnumQueryIntegerParameter.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }

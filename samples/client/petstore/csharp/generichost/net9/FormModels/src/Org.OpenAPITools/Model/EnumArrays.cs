@@ -146,9 +146,7 @@ namespace Org.OpenAPITools.Model
                             arrayEnum = new Option<List<EnumArraysArrayEnumInner>>(JsonSerializer.Deserialize<List<EnumArraysArrayEnumInner>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "just_symbol":
-                            string justSymbolRawValue = utf8JsonReader.GetString();
-                            if (justSymbolRawValue != null)
-                                justSymbol = new Option<EnumArraysJustSymbol?>(EnumArraysJustSymbolValueConverter.FromStringOrDefault(justSymbolRawValue));
+                            justSymbol = new Option<EnumArraysJustSymbol?>(JsonSerializer.Deserialize<EnumArraysJustSymbol>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
