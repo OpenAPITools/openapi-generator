@@ -222,7 +222,7 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    return String.valueOf(o).replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

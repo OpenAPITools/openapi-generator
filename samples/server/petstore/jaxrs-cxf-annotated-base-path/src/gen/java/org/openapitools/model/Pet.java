@@ -249,7 +249,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * (except the first line).
    */
   private static String toIndentedString(Object o) {
-    return String.valueOf(o).replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }
 

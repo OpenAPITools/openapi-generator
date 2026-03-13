@@ -103,7 +103,7 @@ public class ReadOnlyFirst  implements Serializable {
    * (except the first line).
    */
   private String toIndentedString(Object o) {
-    return String.valueOf(o).replace("\n", "\n    ");
+    return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 
 
