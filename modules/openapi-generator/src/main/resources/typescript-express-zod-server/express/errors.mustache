@@ -1,0 +1,71 @@
+import type { ZodIssue } from "zod";
+
+import type * as types from "../types";
+
+export function methodNotAllowed(): MethodNotAllowedError {
+  return {
+    code: "METHOD_NOT_ALLOWED",
+    status: 405,
+    title: "Method Not Allowed",
+  };
+}
+
+export function isMethodNotAllowed(error: any): error is MethodNotAllowedError {
+  return error.code === "METHOD_NOT_ALLOWED";
+}
+
+export type MethodNotAllowedError = {
+  code: "METHOD_NOT_ALLOWED";
+  status: number;
+  title: string;
+};
+
+export function validationErrors(
+  status: 400 | 500,
+  errors: ZodIssue[],
+): ValidationErrorsError {
+  return { code: "VALIDATION_ERRORS", status, errors };
+}
+
+export function isValidationErrors(error: any): error is ValidationErrorsError {
+  return error.code === "VALIDATION_ERRORS";
+}
+
+export type ValidationErrorsError = {
+  code: "VALIDATION_ERRORS";
+  status: number;
+  errors: ZodIssue[];
+};
+
+export function handledException(
+  status: number,
+  errors: types.ModelError[],
+): HandledExceptionError {
+  return { code: "HANDLED_EXCEPTION", status, errors };
+}
+
+export function isHandledException(error: any): error is HandledExceptionError {
+  return error.code === "HANDLED_EXCEPTION";
+}
+
+export type HandledExceptionError = {
+  code: "HANDLED_EXCEPTION";
+  status: number;
+  errors: types.ModelError[];
+};
+
+export function unhandledException(exception: any): UnhandledExceptionError {
+  return { code: "UNHANDLED_EXCEPTION", status: 500, exception };
+}
+
+export function isUnhandledException(
+  error: any,
+): error is UnhandledExceptionError {
+  return error.code === "UNHANDLED_EXCEPTION";
+}
+
+export type UnhandledExceptionError = {
+  code: "UNHANDLED_EXCEPTION";
+  status: number;
+  exception: any;
+};
