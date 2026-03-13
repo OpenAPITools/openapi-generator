@@ -75,6 +75,7 @@ The following generators are available:
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  
 * [typescript-axios](generators/typescript-axios.md)  
+* [typescript-axios-slim](generators/typescript-axios-slim.md)  
 * [typescript-fetch](generators/typescript-fetch.md)  
 * [typescript-inversify](generators/typescript-inversify.md)  
 * [typescript-jquery](generators/typescript-jquery.md)  
