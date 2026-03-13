@@ -1586,6 +1586,10 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         parentNameCandidates.add("UNKNOWN_PARENT_NAME");
+                    } else if (isOneOfWrapperSchema(s)) {
+                        // Skip oneOf wrapper schemas (generate AbstractOpenApiSchema subclasses)
+                        hasAmbiguousParents = true;
+                        refedWithoutDiscriminator.add(parentName);
                     } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         parentNameCandidates.add(parentName);
@@ -1652,6 +1656,8 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         names.add("UNKNOWN_PARENT_NAME");
+                    } else if (isOneOfWrapperSchema(s)) {
+                        // Skip oneOf wrapper schemas - properties will be inlined
                     } else if (hasOrInheritsDiscriminator(s, allSchemas, new ArrayList<Schema>())) {
                         // discriminator.propertyName is used or x-parent is used
                         names.add(parentName);
@@ -2151,6 +2157,24 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns true if the schema is a oneOf wrapper (has oneOf + properties/discriminator).
+     * Such schemas generate AbstractOpenApiSchema subclasses and cannot be used as parents.
+     *
+     * @param schema the schema
+     * @return true if the schema is a oneOf wrapper
+     */
+    public static boolean isOneOfWrapperSchema(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+        boolean hasOneOf = schema.getOneOf() != null && !schema.getOneOf().isEmpty();
+        boolean hasDiscriminator = schema.getDiscriminator() != null && 
+                schema.getDiscriminator().getPropertyName() != null;
+        boolean hasProperties = schema.getProperties() != null && !schema.getProperties().isEmpty();
+        return hasOneOf && (hasDiscriminator || hasProperties);
     }
 
     /**

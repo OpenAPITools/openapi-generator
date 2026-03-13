@@ -105,6 +105,12 @@ public class Name {
   }
 
 
+  /**
+   * Protected setter for snakeCase (readOnly property, used by subclasses' @JsonCreator).
+   */
+  protected void setSnakeCase(@javax.annotation.Nullable Integer snakeCase) {
+    this.snakeCase = snakeCase;
+  }
 
 
   public Name property(@javax.annotation.Nullable String property) {
@@ -143,6 +149,12 @@ public class Name {
   }
 
 
+  /**
+   * Protected setter for _123number (readOnly property, used by subclasses' @JsonCreator).
+   */
+  protected void set123number(@javax.annotation.Nullable Integer _123number) {
+    this._123number = _123number;
+  }
 
 
   /**

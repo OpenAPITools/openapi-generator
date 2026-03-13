@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Test API for oneOf wrapper schema inheritance fix (WITHOUT discriminator)
+  version: 1.0.0
+  description: |
+    This spec demonstrates the oneOf wrapper fix works without requiring a discriminator.
+    A oneOf wrapper schema (oneOf + properties, without discriminator) cannot be used as 
+    a parent class. Instead, its properties should be inlined into child schemas.
+paths: {}
+components:
+  schemas:
+    # This schema has oneOf AND properties but NO discriminator - it's still a "oneOf wrapper"
+    # It should NOT be used as a parent class for inheritance
+    EventWrapper:
+      oneOf:
+        - $ref: '#/components/schemas/ClickEvent'
+        - $ref: '#/components/schemas/ScrollEvent'
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        userId:
+          type: string
+        sessionId:
+          type: string
+      required:
+        - timestamp
+        - userId
+    
+    # This schema uses allOf to reference the oneOf wrapper
+    # Properties from EventWrapper should be inlined, not inherited
+    ClickEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventWrapper'
+        - type: object
+          properties:
+            elementId:
+              type: string
+            clickX:
+              type: integer
+            clickY:
+              type: integer
+          required:
+            - elementId
+    
+    ScrollEvent:
+      allOf:
+        - $ref: '#/components/schemas/EventWrapper'
+        - type: object
+          properties:
+            scrollDepth:
+              type: integer
+            direction:
+              type: string
+              enum: [up, down, left, right]
+          required:
+            - scrollDepth
