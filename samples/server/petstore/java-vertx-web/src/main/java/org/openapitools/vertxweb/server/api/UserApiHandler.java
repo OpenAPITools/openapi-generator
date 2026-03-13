@@ -57,11 +57,7 @@ public class UserApiHandler {
         api.createUser(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -80,11 +76,7 @@ public class UserApiHandler {
         api.createUsersWithArrayInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -103,11 +95,7 @@ public class UserApiHandler {
         api.createUsersWithListInput(user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -125,11 +113,7 @@ public class UserApiHandler {
         api.deleteUser(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -147,11 +131,7 @@ public class UserApiHandler {
         api.getUserByName(username)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -171,11 +151,7 @@ public class UserApiHandler {
         api.loginUser(username, password)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -191,11 +167,7 @@ public class UserApiHandler {
         api.logoutUser()
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -216,11 +188,7 @@ public class UserApiHandler {
         api.updateUser(username, user)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
