@@ -25,7 +25,7 @@ import { type {{modelName}}, {{modelName}}FromJSONTyped, {{modelName}}ToJSON, {{
 export function instanceOf{{classname}}(value: object): value is {{classname}} {
     {{#vars}}
     {{#required}}
-    if (!('{{name}}' in value) || value['{{name}}'] === undefined) return false;
+    if (!('{{baseName}}' in value) || value['{{baseName}}'] === undefined) return false;
     {{/required}}
     {{/vars}}
     return true;
