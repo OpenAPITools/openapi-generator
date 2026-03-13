@@ -25,8 +25,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen.*;
@@ -676,7 +674,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("TestHeadersApi.java"))
                 .assertMethod("headersTest")
@@ -747,7 +745,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ComplexObject.java"))
                 .fileContains("private @Valid List<LocalDate> dates")
@@ -938,7 +936,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("ReadonlyAndRequiredProperties.java"))
                 .assertProperty("requiredYesReadonlyYes")
@@ -1185,7 +1183,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("return UNKNOWN_DEFAULT_OPEN_API");
@@ -1208,7 +1206,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Color.java"))
                 .assertMethod("fromValue").bodyContainsLines("throw new IllegalArgumentException(\"Unexpected value '\" + value + \"'\");");
@@ -1232,7 +1230,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         assertFileNotContains(files.get("RequiredProperties.java").toPath(), "@JsonCreator");
     }

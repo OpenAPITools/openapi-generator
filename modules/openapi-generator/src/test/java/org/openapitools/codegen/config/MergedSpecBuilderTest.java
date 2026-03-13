@@ -15,9 +15,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 import static org.openapitools.codegen.languages.SpringCodegen.*;
 
 public class MergedSpecBuilderTest {
@@ -66,7 +65,7 @@ public class MergedSpecBuilderTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         JavaFileAssert.assertThat(files.get("Spec1Api.java"))
                 .assertMethod("spec1Operation").hasReturnType("ResponseEntity<Spec1Model>")

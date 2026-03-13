@@ -34,8 +34,8 @@ import java.nio.file.Files;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.TestUtils.collectToCaseInsensitiveOrderedCaseSensitiveKeyMap;
 
 public class JavaValidationArrayPrimitivesTest {
     private static Consumer<Map<String, File>> assertWithValidationWithoutJsonNullable() {
@@ -225,7 +225,7 @@ public class JavaValidationArrayPrimitivesTest {
 
         final DefaultGenerator generator = new DefaultGenerator();
         final Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         asserts.accept(files);
     }
@@ -408,7 +408,7 @@ public class JavaValidationArrayPrimitivesTest {
 
         final DefaultGenerator generator = new DefaultGenerator();
         final Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         asserts.accept(files);
     }
@@ -445,7 +445,7 @@ public class JavaValidationArrayPrimitivesTest {
         input.config(codegen);
         final DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         String arrayMapping = typeMappings.getOrDefault("array", "List");
         // @Valid@Size(min = 5) is not nice, but not related to this fix

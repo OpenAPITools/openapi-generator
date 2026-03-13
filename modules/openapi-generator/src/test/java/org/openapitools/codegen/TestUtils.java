@@ -15,6 +15,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -24,12 +25,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
 
@@ -351,5 +352,23 @@ public class TestUtils {
         tempDir.toFile().deleteOnExit();
 
         return tempDir;
+    }
+
+
+    /**
+     * Returns a collector that collects files into a {@link TreeMap} sorted by file name,
+     * using case-insensitive ordering (but accepting both keys - e.g. "application" and "Application").
+     * This is used to have files sorted by name (case-insensitive) to simplify lookup during test debugging.
+     */
+    @NotNull
+    public static Collector<File, ?, TreeMap<String, File>> collectToCaseInsensitiveOrderedCaseSensitiveKeyMap() {
+        return Collectors.toMap(
+                File::getName,
+                Function.identity(),
+                (existing, replacement) -> {
+                    throw new IllegalStateException("Duplicate key: " + existing);
+                },
+                () -> new TreeMap<>(Comparator.<String, String>comparing(s -> s.toLowerCase(Locale.ROOT))
+                        .thenComparing(Comparator.naturalOrder())));
     }
 }

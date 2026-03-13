@@ -17,11 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.TestUtils.assertFileContains;
-import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.TestUtils.*;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.JACKSON;
 
 public abstract class JavaJaxrsBaseTest {
@@ -318,7 +315,7 @@ public abstract class JavaJaxrsBaseTest {
         DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input)
                 .generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
+                .collect(collectToCaseInsensitiveOrderedCaseSensitiveKeyMap());
 
         // Assert that the base class does not call super.equals() or super.hashCode()
         JavaFileAssert.assertThat(files.get("BaseClass.java")).assertMethod("equals").bodyNotContainsLines("super");
