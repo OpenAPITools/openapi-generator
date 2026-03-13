@@ -484,4 +484,102 @@ public class GoClientCodegenTest {
         // Verify that quotes are properly escaped in email parameter examples
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
     }
+
+    @Test(description = "anyOf default behaviour: return on the first successful schema match")
+    public void testAnyOfUnmarshalDefaultBehaviorReturnOnFirstMatch() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/anyof_multiple_matches.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_contact.go");
+        // Default unmarshal: return on the first match (does not try remaining schemas)
+        TestUtils.assertFileContains(modelFile, "return on the first match");
+        TestUtils.assertFileNotContains(modelFile, "match++");
+        TestUtils.assertFileNotContains(modelFile, "match >= 1");
+        // Default marshal: return on the first non-nil field
+        TestUtils.assertFileNotContains(modelFile, "merged := make(map[string]interface{})");
+        TestUtils.assertFileNotContains(modelFile, "firstNonObjectJSON");
+    }
+
+    @Test(description = "anyOf with useAnyOfAllMatches=true: tries all schemas, populates all matching fields, and merges them on re-serialization")
+    public void testAnyOfUnmarshalAllMatchesPopulatesAllSchemas() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .addAdditionalProperty(GoClientCodegen.USE_ANYOF_ALL_MATCHES, true)
+                .setInputSpec("src/test/resources/3_0/go/anyof_multiple_matches.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_contact.go");
+        // Unmarshal: all schemas are tried, match count checked
+        TestUtils.assertFileContains(modelFile, "match++");
+        TestUtils.assertFileContains(modelFile, "match >= 1");
+        // Should NOT return early on first unmarshal match
+        TestUtils.assertFileNotContains(modelFile, "return on the first match");
+        // Marshal: merge all non-nil object schema fields; fall back to first non-object if no objects
+        TestUtils.assertFileContains(modelFile, "merged := make(map[string]interface{})");
+        TestUtils.assertFileContains(modelFile, "merged[k] = v");
+        TestUtils.assertFileContains(modelFile, "json.Marshal(merged)");
+        TestUtils.assertFileContains(modelFile, "firstNonObjectJSON");
+        TestUtils.assertFileContains(modelFile, "return firstNonObjectJSON, nil");
+    }
+
+    @Test(description = "anyOf with useAnyOfAllMatches=true and primitive schemas: MarshalJSON must not return nil for non-object variants")
+    public void testAnyOfAllMatchesPrimitiveFallbackNotNil() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .addAdditionalProperty(GoClientCodegen.USE_ANYOF_ALL_MATCHES, true)
+                .setInputSpec("src/test/resources/3_0/go/anyof_primitive_schemas.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_string_or_integer.go");
+        // Primitive anyOf: no object fields, so the fallback path must be present
+        TestUtils.assertFileContains(modelFile, "firstNonObjectJSON");
+        TestUtils.assertFileContains(modelFile, "return firstNonObjectJSON, nil");
+        // The nil guard — ensures we don't return nil when a primitive was matched
+        TestUtils.assertFileContains(modelFile, "if firstNonObjectJSON != nil");
+    }
+
+    @Test
+    public void testAnyOfMarshalConflictingKeysReturnsError() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .addAdditionalProperty(GoClientCodegen.USE_ANYOF_ALL_MATCHES, true)
+                .setInputSpec("src/test/resources/3_0/go/anyof_clashing_fields.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelFile = Paths.get(output + "/model_contact.go");
+        // Conflict detection: if two object schemas produce different values for the same key,
+        // MarshalJSON should return an error rather than silently overwriting.
+        TestUtils.assertFileContains(modelFile, "conflicting values for key");
+        TestUtils.assertFileContains(modelFile, "return nil, fmt.Errorf");
+    }
 }

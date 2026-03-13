@@ -1,0 +1,13 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: anyOf primitive schemas test
+paths: {}
+components:
+  schemas:
+    # A schema whose anyOf variants are primitives (string or integer).
+    # When useAnyOfAllMatches=true, MarshalJSON must NOT return nil for these.
+    StringOrInteger:
+      anyOf:
+        - type: string
+        - type: integer
