@@ -667,6 +667,7 @@ public class InlineModelResolver {
                         listIterator.set(schema);
                     } else {
                         Schema schema = new Schema().$ref(existing);
+                        schema.addExtension("x-alias-name", applyInlineSchemaNameMapping(innerModelName));
                         schema.setRequired(component.getRequired());
                         listIterator.set(schema);
                     }
@@ -826,6 +827,7 @@ public class InlineModelResolver {
                 String existing = matchGenerated(model);
                 if (existing != null) {
                     Schema schema = new Schema().$ref(existing);
+                    schema.addExtension("x-alias-name", applyInlineSchemaNameMapping(modelName));
                     schema.setRequired(op.getRequired());
                     propsToUpdate.put(key, schema);
                 } else {
@@ -846,6 +848,7 @@ public class InlineModelResolver {
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
+                            schema.addExtension("x-alias-name", applyInlineSchemaNameMapping(modelName));
                             schema.setRequired(op.getRequired());
                             property.setItems(schema);
                         } else {
@@ -876,6 +879,7 @@ public class InlineModelResolver {
                         String existing = matchGenerated(innerModel);
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
+                            schema.addExtension("x-alias-name", applyInlineSchemaNameMapping(modelName));
                             schema.setRequired(op.getRequired());
                             property.setAdditionalProperties(schema);
                         } else {
@@ -986,6 +990,19 @@ public class InlineModelResolver {
     }
 
     /**
+     * Apply inlineSchemaNameMapping if configured.
+     *
+     * @param name the inline schema name to map
+     * @return the mapped name if mapping exists, otherwise the original name
+     */
+    private String applyInlineSchemaNameMapping(String name) {
+        if (inlineSchemaNameMapping.containsKey(name)) {
+            return inlineSchemaNameMapping.get(name);
+        }
+        return name;
+    }
+
+    /**
      * Move schema to components (if new) and return $ref to schema or
      * existing schema.
      *
@@ -998,6 +1015,7 @@ public class InlineModelResolver {
         Schema refSchema;
         if (existing != null) {
             refSchema = new Schema().$ref(existing);
+            refSchema.addExtension("x-alias-name", applyInlineSchemaNameMapping(name));
         } else {
             if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
                 LOGGER.warn("Model " + name + " promoted to its own schema due to resolveInlineEnums=true");
@@ -1035,6 +1053,10 @@ public class InlineModelResolver {
             return;
         }
         for (String extName : vendorExtensions.keySet()) {
+            // Don't overwrite x-alias-name that was set during deduplication
+            if ("x-alias-name".equals(extName) && target.getExtensions() != null && target.getExtensions().containsKey("x-alias-name")) {
+                continue;
+            }
             target.addExtension(extName, vendorExtensions.get(extName));
         }
     }
