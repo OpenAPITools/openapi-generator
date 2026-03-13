@@ -45,6 +45,11 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
     protected String providerAddress = "registry.terraform.io/example/example";
     protected String providerVersion = "0.1.0";
 
+    // Track which tags qualify as resources vs data sources so we can
+    // delete non-qualifying files in postProcessFile.
+    private final Set<String> resourceNames = new HashSet<>();
+    private final Set<String> dataSourceNames = new HashSet<>();
+
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -121,6 +126,9 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // Enable postProcessFile so we can delete non-qualifying API files
+        this.setEnablePostProcessFile(true);
 
         if (additionalProperties.containsKey(PROVIDER_NAME)) {
             providerName = additionalProperties.get(PROVIDER_NAME).toString();
@@ -272,6 +280,14 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
         objectMap.put("hasDelete", deleteOp != null);
         objectMap.put("hasList", listOp != null);
 
+        // A tag qualifies as a Terraform resource only if it has a create
+        // operation; without one the resource cannot be instantiated.
+        // A tag qualifies as a data source if it has a read (show) operation.
+        boolean isResource = (createOp != null);
+        boolean isDataSource = (readOp != null);
+        objectMap.put("isResource", isResource);
+        objectMap.put("isDataSource", isDataSource);
+
         // Store CRUD operation details at tag level for simplified template access
         if (createOp != null) {
             objectMap.put("createMethod", createOp.vendorExtensions.get("x-terraform-http-method"));
@@ -311,6 +327,13 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
         }
         objectMap.put("resourceName", resourceName);
         objectMap.put("resourceClassName", camelize(resourceName));
+
+        if (isResource) {
+            resourceNames.add(resourceName);
+        }
+        if (isDataSource) {
+            dataSourceNames.add(resourceName);
+        }
 
         // Detect ID field from read operation path params
         String idField = "id";
@@ -354,7 +377,7 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
                         attr.put("goType", prop.dataType);
                         attr.put("terraformType", goTypeToTerraformType(prop.dataType));
                         attr.put("terraformAttrType", goTypeToTerraformAttrType(prop.dataType, prop));
-                        attr.put("isRequired", prop.required);
+                        attr.put("isRequired", prop.required && !prop.isReadOnly);
                         attr.put("isComputed", prop.isReadOnly);
                         attr.put("isOptional", !prop.required && !prop.isReadOnly);
                         attr.put("description", prop.description != null ? prop.description : "");
@@ -407,9 +430,17 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
                             if ("id".equalsIgnoreCase(prop.baseName)) {
                                 idModelGoName = camelize(prop.baseName);
                                 idModelGoType = prop.dataType;
+                                idResolved = true;
                                 break;
                             }
                         }
+                    }
+
+                    if (!idResolved) {
+                        LOGGER.warn("Could not resolve ID field '{}' in response model '{}' for resource '{}'. "
+                                + "The generated code will not compile. Add an '{}' property to the response "
+                                + "schema or use x-terraform-id-field to specify the correct property.",
+                                idField, responseModel, resourceName, idField);
                     }
 
                     break;
@@ -480,6 +511,42 @@ public class TerraformProviderCodegen extends AbstractGoCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+        if (file == null || !file.exists() || !"api".equals(fileType)) {
+            return;
+        }
+
+        String fileName = file.getName();
+
+        if (fileName.endsWith("_resource.go")) {
+            String tag = fileName.substring(0, fileName.length() - "_resource.go".length());
+            if (!resourceNames.contains(tag)) {
+                LOGGER.info("Skipping non-resource file: {}", file.getAbsolutePath());
+                file.delete();
+                return;
+            }
+        }
+
+        if (fileName.endsWith("_data_source.go")) {
+            String tag = fileName.substring(0, fileName.length() - "_data_source.go".length());
+            if (!dataSourceNames.contains(tag)) {
+                LOGGER.info("Skipping non-data-source file: {}", file.getAbsolutePath());
+                file.delete();
+                return;
+            }
+        }
+
+        if (fileName.endsWith("_model.go")) {
+            String tag = fileName.substring(0, fileName.length() - "_model.go".length());
+            if (!resourceNames.contains(tag) && !dataSourceNames.contains(tag)) {
+                LOGGER.info("Skipping unused model file: {}", file.getAbsolutePath());
+                file.delete();
+            }
+        }
     }
 
     private String goTypeToTerraformType(String goType) {
