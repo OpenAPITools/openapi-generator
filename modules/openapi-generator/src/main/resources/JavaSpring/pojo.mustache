@@ -70,7 +70,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   private {{>nullableAnnotation}}{{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}
   {{^openApiNullable}}
-  {{#vendorExtensions.x-jspecify-annotated-type}}private {{{vendorExtensions.x-jspecify-annotated-type}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vendorExtensions.x-jspecify-annotated-type}}
+  private {{#vendorExtensions.x-jspecify-annotated-type}}{{{.}}}{{/vendorExtensions.x-jspecify-annotated-type}}{{^vendorExtensions.x-jspecify-annotated-type}}{{>nullableAnnotation}}{{>nullableDataType}}{{/vendorExtensions.x-jspecify-annotated-type}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/openApiNullable}}
   {{/isContainer}}
   {{^isContainer}}
