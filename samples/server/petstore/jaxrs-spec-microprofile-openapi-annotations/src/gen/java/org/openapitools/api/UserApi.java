@@ -69,7 +69,9 @@ public class UserApi {
                 
             })
         })
-    public Response createUser(@Valid @NotNull User body) {
+    public Response createUser(
+
+  @Valid @NotNull User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -83,7 +85,9 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithArrayInput(
+
+  @Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -97,7 +101,9 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body) {
+    public Response createUsersWithListInput(
+
+  @Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -114,7 +120,9 @@ public class UserApi {
                 
             })
         })
-    public Response deleteUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be deleted") String username) {
+    public Response deleteUser(
+@PathParam("username")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be deleted") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -138,7 +146,9 @@ public class UserApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response getUserByName(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be fetched. Use user1 for testing.") String username) {
+    public Response getUserByName(
+@PathParam("username")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The name that needs to be fetched. Use user1 for testing.") String username
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -161,7 +171,11 @@ public class UserApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response loginUser(@QueryParam("username") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The user name for login")  String username,@QueryParam("password") @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The password for login in clear text")  String password) {
+    public Response loginUser(@QueryParam("username")   @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The user name for login")  String username
+
+,@QueryParam("password")   @NotNull  @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="The password for login in clear text")  String password
+
+) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -192,7 +206,11 @@ public class UserApi {
                 
             })
         })
-    public Response updateUser(@PathParam("username") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username,@Valid @NotNull User body) {
+    public Response updateUser(
+@PathParam("username")   @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="name that need to be deleted") String username
+,
+
+  @Valid @NotNull User body) {
         return Response.ok().entity("magic!").build();
     }
 }
