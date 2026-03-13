@@ -58,7 +58,7 @@ import org.hibernate.validator.constraints.*;
 {{#model}}
 {{#oneOf}}
 {{#-first}}
-import com.fasterxml.jackson.core.type.TypeReference;
+import {{jacksonPackage}}.core.type.TypeReference;
 {{/-first}}
 {{/oneOf}}
 

@@ -82,7 +82,7 @@ No authorization required
 
 ## deleteOrderWithHttpInfo
 
-> ApiResponse<Void> deleteOrder deleteOrderWithHttpInfo(orderId)
+> ApiResponse<Void> deleteOrderWithHttpInfo(orderId)
 
 Delete purchase order by ID
 
@@ -219,7 +219,7 @@ This endpoint does not need any parameter.
 
 ## getInventoryWithHttpInfo
 
-> ApiResponse<Map<String, Integer>> getInventory getInventoryWithHttpInfo()
+> ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo()
 
 Returns pet inventories by status
 
@@ -358,7 +358,7 @@ No authorization required
 
 ## getOrderByIdWithHttpInfo
 
-> ApiResponse<Order> getOrderById getOrderByIdWithHttpInfo(orderId)
+> ApiResponse<Order> getOrderByIdWithHttpInfo(orderId)
 
 Find purchase order by ID
 
@@ -495,7 +495,7 @@ No authorization required
 
 ## placeOrderWithHttpInfo
 
-> ApiResponse<Order> placeOrder placeOrderWithHttpInfo(order)
+> ApiResponse<Order> placeOrderWithHttpInfo(order)
 
 Place an order for a pet
 

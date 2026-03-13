@@ -1,21 +1,30 @@
+{{^useJackson3}}
 import java.io.IOException;
+{{/useJackson3}}
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonParser;
+{{^useJackson3}}
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.SerializationContext;
+{{/useJackson3}}
+import {{jacksonPackage}}.core.JsonGenerator;
+import {{jacksonPackage}}.core.JsonParser;
+import {{jacksonPackage}}.databind.DeserializationContext;
+import {{jacksonPackage}}.databind.JsonNode;
+import {{jacksonPackage}}.databind.annotation.JsonDeserialize;
+import {{jacksonPackage}}.databind.annotation.JsonSerialize;
+import {{jacksonPackage}}.databind.deser.std.StdDeserializer;
+import {{jacksonPackage}}.databind.ser.std.StdSerializer;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.JSON;
 
@@ -35,8 +44,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+        public void serialize({{classname}} value, JsonGenerator jgen, {{^useJackson3}}SerializerProvider provider{{/useJackson3}}{{#useJackson3}}SerializationContext serializationContext{{/useJackson3}}) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
+{{^useJackson3}}
             jgen.writeObject(value.getActualInstance());
+{{/useJackson3}}
+{{#useJackson3}}
+            serializationContext.writeValue(jgen, value.getActualInstance());
+{{/useJackson3}}
         }
     }
 
@@ -50,7 +64,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         }
 
         @Override
-        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws {{^useJackson3}}IOException, JsonProcessingException{{/useJackson3}}{{#useJackson3}}JacksonException{{/useJackson3}} {
             JsonNode tree = ctxt.readTree(jp);
 
             Object deserialized = null;
@@ -60,7 +74,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.
                 // Get the discriminator mapping value to get the class.
+{{^useJackson3}}
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+{{/useJackson3}}
+{{#useJackson3}}
+                deserialized = ctxt.readTreeAsValue(tree, ctxt.constructType(cls));
+{{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -69,7 +88,12 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#anyOf}}
             // deserialize {{{.}}}
             try {
+{{^useJackson3}}
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+{{/useJackson3}}
+{{#useJackson3}}
+                deserialized = ctxt.readTreeAsValue(tree, {{{.}}}.class);
+{{/useJackson3}}
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
                 return ret;
@@ -79,19 +103,34 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             }
 
             {{/anyOf}}
+{{^useJackson3}}
             throw new IOException("Failed deserialization for {{classname}}: no match found");
+{{/useJackson3}}
+{{#useJackson3}}
+            throw DatabindException.from(jp, "Failed deserialization for {{classname}}: no match found");
+{{/useJackson3}}
         }
 
         /**
          * Handle deserialization of the 'null' value.
          */
         @Override
+{{^useJackson3}}
         public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+{{/useJackson3}}
+{{#useJackson3}}
+        public {{classname}} getNullValue(DeserializationContext ctxt) {
+{{/useJackson3}}
         {{#isNullable}}
             return null;
         {{/isNullable}}
         {{^isNullable}}
+{{^useJackson3}}
             throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
+{{#useJackson3}}
+            throw DatabindException.from(ctxt.getParser(), "{{classname}} cannot be null");
+{{/useJackson3}}
         {{/isNullable}}
         }
     }
