@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: Test anyOf with string and array
+  version: 1.0.0
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyValuePair'
+components:
+  schemas:
+    KeyValuePair:
+      properties:
+        key:
+          type: string
+        value:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: string
+      type: object
