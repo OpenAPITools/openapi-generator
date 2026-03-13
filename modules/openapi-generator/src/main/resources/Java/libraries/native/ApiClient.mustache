@@ -2,13 +2,20 @@
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import {{jacksonPackage}}.databind.DeserializationFeature;
+import {{jacksonPackage}}.databind.ObjectMapper;
+{{^useJackson3}}
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
 {{/openApiNullable}}
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.cfg.EnumFeature;
+import tools.jackson.databind.json.JsonMapper;
+{{/useJackson3}}
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -205,6 +212,7 @@ public class ApiClient {
   }
 
   public static ObjectMapper createDefaultObjectMapper() {
+{{^useJackson3}}
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -219,6 +227,19 @@ public class ApiClient {
     {{/openApiNullable}}
     mapper.registerModule(new RFC3339JavaTimeModule());
     return mapper;
+{{/useJackson3}}
+{{#useJackson3}}
+    return JsonMapper.builder()
+        .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+        .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .enable(EnumFeature.WRITE_ENUMS_USING_TO_STRING)
+        .enable(EnumFeature.READ_ENUMS_USING_TO_STRING)
+        .disable(DateTimeFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+        .addModule(new RFC3339JavaTimeModule())
+        .build();
+{{/useJackson3}}
   }
 
   protected final String getDefaultBaseUri() {
@@ -273,12 +294,17 @@ public class ApiClient {
   }
 
   /**
-   * Get a copy of the current {@link ObjectMapper}.
+   * Get {{^useJackson3}}a copy of {{/useJackson3}}the current {@link ObjectMapper}.
    *
-   * @return A copy of the current object mapper.
+   * @return {{^useJackson3}}A copy of the current{{/useJackson3}}{{#useJackson3}}The current{{/useJackson3}} object mapper.
    */
   public ObjectMapper getObjectMapper() {
+{{^useJackson3}}
     return mapper.copy();
+{{/useJackson3}}
+{{#useJackson3}}
+    return mapper;
+{{/useJackson3}}
   }
 
   /**

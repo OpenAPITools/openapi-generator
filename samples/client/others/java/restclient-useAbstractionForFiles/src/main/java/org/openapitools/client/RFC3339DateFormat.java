@@ -12,8 +12,6 @@
 
 package org.openapitools.client;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
-
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
@@ -21,6 +19,7 @@ import java.util.Date;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.21.0-SNAPSHOT")
 public class RFC3339DateFormat extends DateFormat {
