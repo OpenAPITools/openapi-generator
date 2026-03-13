@@ -76,6 +76,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#isDiscriminator}}protected{{/isDiscriminator}}{{^isDiscriminator}}private{{/isDiscriminator}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 
   {{/vars}}
+  {{^lombok.RequiredArgsConstructor}}
   public {{classname}}() {
     {{#parent}}
     {{#parcelableModel}}
@@ -93,6 +94,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
     {{/discriminator.isEnum}}
     {{/discriminator}}
   }
+  {{/lombok.RequiredArgsConstructor}}
   {{#vendorExtensions.x-has-readonly-properties}}
   {{^withXml}}
 
