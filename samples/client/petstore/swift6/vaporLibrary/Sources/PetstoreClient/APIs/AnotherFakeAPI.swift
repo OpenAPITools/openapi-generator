@@ -18,7 +18,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `ClientResponse` 
      */
-    open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
+    open class func call123testSpecialTagsRaw(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<ClientResponse> {
         let localVariablePath = "/another-fake/dummy"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
 
@@ -51,7 +51,7 @@ open class AnotherFakeAPI {
      - parameter body: (body) client model 
      - returns: `EventLoopFuture` of `Call123testSpecialTags` 
      */
-    open class func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
+    open class func call123testSpecialTags(uuidTest: UUID, body: Client, headers: HTTPHeaders? = nil, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared, beforeSend: @Sendable (inout ClientRequest) throws -> () = { _ in }) -> EventLoopFuture<Call123testSpecialTags> {
         return call123testSpecialTagsRaw(uuidTest: uuidTest, body: body, headers: headers, apiConfiguration: apiConfiguration, beforeSend: beforeSend).flatMapThrowing { response -> Call123testSpecialTags in
             switch response.status.code {
             case 200:

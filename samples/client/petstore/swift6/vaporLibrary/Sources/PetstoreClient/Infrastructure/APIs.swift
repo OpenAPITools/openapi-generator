@@ -11,11 +11,47 @@ import FoundationNetworking
 import Vapor
 
 open class PetstoreClientAPIConfiguration: @unchecked Sendable {
-    public var basePath: String
-    public var customHeaders: HTTPHeaders
-    public var apiClient: Vapor.Client?
-    public var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
-    public var contentConfiguration: ContentConfiguration
+
+    // MARK: - Private state
+
+    private struct State {
+        var basePath: String
+        var customHeaders: HTTPHeaders
+        var apiClient: Vapor.Client?
+        var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> ()
+        var contentConfiguration: ContentConfiguration
+    }
+
+    private let _state: OpenAPIMutex<State>
+
+    // MARK: - Public interface
+
+    public var basePath: String {
+        get { _state.value.basePath }
+        set { _state.withValue { $0.basePath = newValue } }
+    }
+
+    public var customHeaders: HTTPHeaders {
+        get { _state.value.customHeaders }
+        set { _state.withValue { $0.customHeaders = newValue } }
+    }
+
+    public var apiClient: Vapor.Client? {
+        get { _state.value.apiClient }
+        set { _state.withValue { $0.apiClient = newValue } }
+    }
+
+    public var apiWrapper: @Sendable (inout Vapor.ClientRequest) throws -> () {
+        get { _state.value.apiWrapper }
+        set { _state.withValue { $0.apiWrapper = newValue } }
+    }
+
+    public var contentConfiguration: ContentConfiguration {
+        get { _state.value.contentConfiguration }
+        set { _state.withValue { $0.contentConfiguration = newValue } }
+    }
+
+    // MARK: - Init
 
     public init(
         basePath: String = "http://petstore.swagger.io:80/v2",
@@ -24,11 +60,13 @@ open class PetstoreClientAPIConfiguration: @unchecked Sendable {
         apiWrapper: @escaping @Sendable (inout Vapor.ClientRequest) throws -> () = { _ in },
         contentConfiguration: ContentConfiguration = ContentConfiguration.default()
     ) {
-        self.basePath = basePath
-        self.customHeaders = customHeaders
-        self.apiClient = apiClient
-        self.apiWrapper = apiWrapper
-        self.contentConfiguration = contentConfiguration
+        _state = OpenAPIMutex(State(
+            basePath: basePath,
+            customHeaders: customHeaders,
+            apiClient: apiClient,
+            apiWrapper: apiWrapper,
+            contentConfiguration: contentConfiguration
+        ))
     }
 
     public static let shared = PetstoreClientAPIConfiguration()

@@ -8,37 +8,56 @@
 import Foundation
 
 internal class CodableHelper: @unchecked Sendable {
+
+    // MARK: - Private state
+
+    private struct State {
+        var customDateFormatter: DateFormatter?
+        var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
+
+        var customJSONDecoder: JSONDecoder?
+        var defaultJSONDecoder: JSONDecoder = JSONDecoder()
+
+        var customJSONEncoder: JSONEncoder?
+        var defaultJSONEncoder: JSONEncoder = JSONEncoder()
+
+        init() {
+            defaultJSONEncoder.outputFormatting = .prettyPrinted
+            rebuildDefaultCoders()
+        }
+
+        mutating func rebuildDefaultCoders() {
+            defaultJSONDecoder.dateDecodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+            defaultJSONEncoder.dateEncodingStrategy = .formatted(customDateFormatter ?? defaultDateFormatter)
+        }
+    }
+
+    private let _state = OpenAPIMutex(State())
+
+    // MARK: - Init
+
     internal init() {}
 
-    private var customDateFormatter: DateFormatter?
-    private var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()
-
-    private var customJSONDecoder: JSONDecoder?
-    private lazy var defaultJSONDecoder: JSONDecoder = {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        return decoder
-    }()
-
-    private var customJSONEncoder: JSONEncoder?
-    private lazy var defaultJSONEncoder: JSONEncoder = {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .formatted(dateFormatter)
-        encoder.outputFormatting = .prettyPrinted
-        return encoder
-    }()
+    // MARK: - Public interface
 
     internal var dateFormatter: DateFormatter {
-        get { return customDateFormatter ?? defaultDateFormatter }
-        set { customDateFormatter = newValue }
+        get { _state.withValue { $0.customDateFormatter ?? $0.defaultDateFormatter } }
+        set {
+            _state.withValue { state in
+                state.customDateFormatter = newValue
+                state.rebuildDefaultCoders()
+            }
+        }
     }
+
     internal var jsonDecoder: JSONDecoder {
-        get { return customJSONDecoder ?? defaultJSONDecoder }
-        set { customJSONDecoder = newValue }
+        get { _state.withValue { $0.customJSONDecoder ?? $0.defaultJSONDecoder } }
+        set { _state.withValue { $0.customJSONDecoder = newValue } }
     }
+
     internal var jsonEncoder: JSONEncoder {
-        get { return customJSONEncoder ?? defaultJSONEncoder }
-        set { customJSONEncoder = newValue }
+        get { _state.withValue { $0.customJSONEncoder ?? $0.defaultJSONEncoder } }
+        set { _state.withValue { $0.customJSONEncoder = newValue } }
     }
 
     internal func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error> where T: Decodable {

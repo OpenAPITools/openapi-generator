@@ -673,6 +673,9 @@ public class Swift6ClientCodegen extends DefaultCodegen implements CodegenConfig
                     infrastructureFolder,
                     "OpenAPIDateWithoutTime.swift"));
         }
+        supportingFiles.add(new SupportingFile("OpenAPIMutex.mustache",
+                infrastructureFolder,
+                "OpenAPIMutex.swift"));
         supportingFiles.add(new SupportingFile("APIs.mustache",
                 infrastructureFolder,
                 "APIs.swift"));
