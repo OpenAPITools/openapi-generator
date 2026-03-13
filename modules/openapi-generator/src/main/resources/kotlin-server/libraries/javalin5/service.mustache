@@ -27,7 +27,7 @@ interface {{classname}}Service {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{/isArray}}{{/reactive}}{{/isBodyParam}}{{^-last}}, {{/-last}}{{/allParams}}): {{>returnTypes}}
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{{paramName}}}: {{^isBodyParam}}{{>optionalDataType}}{{/isBodyParam}}{{#isBodyParam}}{{^reactive}}{{>optionalDataType}}{{/reactive}}{{#reactive}}{{^isArray}}{{>optionalDataType}}{{/isArray}}{{#isArray}}Flow<{{{baseType}}}>{{^required}}{{^defaultValue}}?{{/defaultValue}}{{/required}}{{/isArray}}{{/reactive}}{{/isBodyParam}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{^defaultValue}}{{^required}} = null{{/required}}{{/defaultValue}}{{^-last}}, {{/-last}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}

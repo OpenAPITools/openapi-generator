@@ -92,6 +92,23 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testOptionalParamsHaveDefaultNullJvmKtor() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File petApi = files.stream().filter(file -> file.getName().equals("PetApi.kt")).findAny().orElseThrow();
+
+        assertFileContains(petApi.toPath(), "apiKey: kotlin.String? = null");
+    }
+
+    @Test
     public void testEnumDefaultForReferencedSchemaParameterJvmOkhttp4() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/enum-default-query.yaml");
 
