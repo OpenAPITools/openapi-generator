@@ -92,6 +92,14 @@
             <version>3.0.2</version>
             {{/parentOverridden}}
         </dependency>
+        {{#useJSpecify}}
+        <!-- JSpecify @Nullable annotation -->
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        {{/useJSpecify}}
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
