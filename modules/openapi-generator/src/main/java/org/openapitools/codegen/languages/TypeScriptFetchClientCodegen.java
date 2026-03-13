@@ -483,6 +483,41 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
             }
         }
+
+        // Detect if discriminator variants already declare the discriminator property.
+        // When they do, the union type should use simple unions (e.g., ApiKey | Basic)
+        // instead of intersection wrappers (e.g., { type: 'APIKEY' } & ApiKey), because
+        // the intersection of a string literal with a string enum evaluates to `never`
+        // in TypeScript when stringEnums is enabled.
+        for (ExtendedCodegenModel rootModel : allModels) {
+            CodegenDiscriminator discriminator = rootModel.discriminator;
+            boolean hasDiscriminator = discriminator != null;
+            boolean hasMappedModels = hasDiscriminator
+                    && discriminator.getMappedModels() != null
+                    && !discriminator.getMappedModels().isEmpty();
+            if (!hasMappedModels) {
+                continue;
+            }
+            String discPropBaseName = discriminator.getPropertyBaseName();
+            boolean allVariantsHaveDiscriminator = true;
+            for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+                boolean variantDeclaresDiscriminatorProperty = allModels.stream()
+                        .filter(model -> model.classname.equals(mm.getModelName()))
+                        .findFirst()
+                        .map(model -> model.vars.stream()
+                                .anyMatch(v -> v.baseName.equals(discPropBaseName)))
+                        .orElse(false);
+                if (!variantDeclaresDiscriminatorProperty) {
+                    allVariantsHaveDiscriminator = false;
+                    break;
+                }
+            }
+            if (allVariantsHaveDiscriminator) {
+                discriminator.getVendorExtensions()
+                        .put("x-variants-have-discriminator", true);
+            }
+        }
+
         return result;
     }
 
