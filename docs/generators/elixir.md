@@ -45,8 +45,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## LANGUAGE PRIMITIVES
 
 <ul class="column-ul">
-<li>Date.t</li>
-<li>DateTime.t</li>
 <li>String.t</li>
 <li>any()</li>
 <li>binary()</li>
