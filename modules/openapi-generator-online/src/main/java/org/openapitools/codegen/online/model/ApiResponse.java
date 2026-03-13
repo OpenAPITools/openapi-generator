@@ -17,13 +17,15 @@
 
 package org.openapitools.codegen.online.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 @Setter
-@javax.xml.bind.annotation.XmlRootElement
+@jakarta.xml.bind.annotation.XmlRootElement
+@Schema(description = "API response object")
 public class ApiResponse {
     public static final int ERROR = 1;
     public static final int WARNING = 2;
@@ -31,9 +33,16 @@ public class ApiResponse {
     public static final int OK = 4;
     public static final int TOO_BUSY = 5;
 
+    @Schema(description = "Response code", example = "4")
     int code;
-    @Getter String type;
-    @Getter String message;
+    
+    @Getter 
+    @Schema(description = "Response type", example = "ok")
+    String type;
+    
+    @Getter 
+    @Schema(description = "Response message", example = "Operation completed successfully")
+    String message;
 
     public ApiResponse() {
     }
