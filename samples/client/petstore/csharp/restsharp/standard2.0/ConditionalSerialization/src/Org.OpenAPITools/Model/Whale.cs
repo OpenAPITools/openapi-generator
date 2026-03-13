@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasBaleen
         /// </summary>
         [DataMember(Name = "hasBaleen", EmitDefaultValue = true)]
-        public bool HasBaleen
+        public bool? HasBaleen
         {
             get{ return _HasBaleen;}
             set
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
                 _flagHasBaleen = true;
             }
         }
-        private bool _HasBaleen;
+        private bool? _HasBaleen;
         private bool _flagHasBaleen;
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasTeeth
         /// </summary>
         [DataMember(Name = "hasTeeth", EmitDefaultValue = true)]
-        public bool HasTeeth
+        public bool? HasTeeth
         {
             get{ return _HasTeeth;}
             set
@@ -104,7 +104,7 @@ namespace Org.OpenAPITools.Model
                 _flagHasTeeth = true;
             }
         }
-        private bool _HasTeeth;
+        private bool? _HasTeeth;
         private bool _flagHasTeeth;
 
         /// <summary>
@@ -199,8 +199,14 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
-                hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
+                if (this.HasBaleen != null)
+                {
+                    hashCode = (hashCode * 59) + this.HasBaleen.GetHashCode();
+                }
+                if (this.HasTeeth != null)
+                {
+                    hashCode = (hashCode * 59) + this.HasTeeth.GetHashCode();
+                }
                 if (this.ClassName != null)
                 {
                     hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
