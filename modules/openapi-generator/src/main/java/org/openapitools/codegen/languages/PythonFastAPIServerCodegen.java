@@ -340,4 +340,14 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         return "var_" + name;
     }
+
+    @Override
+    protected void updateParameterForNumber(CodegenParameter codegenParameter, Schema parameterSchema) {
+        mapNumberTo = "float";
+        if (ModelUtils.isNumberSchema(parameterSchema) || (ModelUtils.isFloatSchema(parameterSchema))) { // Number or float is a float
+            codegenParameter.isFloat = true;
+        } else if (ModelUtils.isDoubleSchema(parameterSchema)) { // double
+            codegenParameter.isDouble = true;
+        }
+    }
 }
