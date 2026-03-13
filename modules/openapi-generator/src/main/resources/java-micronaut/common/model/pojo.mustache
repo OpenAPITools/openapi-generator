@@ -292,7 +292,7 @@ Declare the class with extends and implements
      * (except the first line).
      */
     private{{#jsonb}} static{{/jsonb}} String toIndentedString(Object o) {
-        return String.valueOf(o).replace("\n", "\n    ");
+        return o == null ? "null" : o.toString().replace("\n", "\n    ");
     }
 
     {{#parcelableModel}}
